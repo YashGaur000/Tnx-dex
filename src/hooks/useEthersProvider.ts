@@ -1,15 +1,14 @@
 import { Web3Provider } from '@ethersproject/providers';
-import { Chain as ChainInterface } from 'wagmi/chains';
 
 import { useMemo } from 'react';
 import type { Client, Transport } from 'viem';
 import { useClient, useConnectorClient } from 'wagmi';
-import { AllowedChainId } from '../constants/chain';
+import { AllowedChainId, SupportedInterfaceChain } from '../constants/chain';
 
 const providers = new WeakMap<Client, Web3Provider>();
 
 function clientToProvider(
-  client?: Client<Transport, ChainInterface>,
+  client?: Client<Transport, SupportedInterfaceChain>,
   chainId?: number
 ) {
   if (!client) {
