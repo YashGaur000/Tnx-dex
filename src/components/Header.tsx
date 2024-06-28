@@ -1,5 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import logoImage from '../assets/logo.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -10,10 +13,9 @@ const HeaderContainer = styled.header`
   border-bottom: 1px solid #1c1c1e;
 `;
 
-const Logo = styled.div`
-  font-size: 24px;
-  font-weight: bold;
-  color: ${({ theme }) => theme.colors.text};
+const Logo = styled.img`
+  height: 40px; /* Adjust the size as needed */
+  margin-right: 10px;
 `;
 
 const Nav = styled.nav`
@@ -25,17 +27,12 @@ const NavLink = styled.a`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 
   &:hover {
     text-decoration: underline;
-  }
-
-  &:after {
-    content: '▼';
-    font-size: 10px;
-    position: absolute;
-    right: -10px;
-    top: 2px;
   }
 `;
 
@@ -55,16 +52,25 @@ const Button = styled.button`
 
 const Header: React.FC = () => (
   <HeaderContainer>
-    <Logo>TenEx</Logo>
+    <Logo src={logoImage} alt="TenEx Logo" />
     <Nav>
-      <NavLink href="#">Trade</NavLink>
-      <NavLink href="#">Liquidity</NavLink>
-      <NavLink href="#">Governance</NavLink>
-      <NavLink href="#">Rewards</NavLink>
-      <NavLink href="#">Tools</NavLink>
+      <NavLink href="#">
+        Trade <FontAwesomeIcon icon={faChevronDown} />
+      </NavLink>
+      <NavLink href="#">
+        Liquidity <FontAwesomeIcon icon={faChevronDown} />
+      </NavLink>
+      <NavLink href="#">
+        Governance <FontAwesomeIcon icon={faChevronDown} />
+      </NavLink>
+      <NavLink href="#">
+        Rewards <FontAwesomeIcon icon={faChevronDown} />
+      </NavLink>
+      <NavLink href="#">
+        Tools <FontAwesomeIcon icon={faChevronDown} />
+      </NavLink>
     </Nav>
     <Button>Connect Wallet</Button>
   </HeaderContainer>
 );
-
 export default Header;

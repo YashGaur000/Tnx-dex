@@ -5,21 +5,21 @@ const FeaturesContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  padding: 40px 180px;
-  background-color: ${({ theme }) => theme.colors.background};
+  padding: 0px 180px;
+  padding-bottom: 50px;
+  background-color: ${({ theme }) => theme.colors.card};
 `;
 
 const Card = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  padding: 60px;
+  border-radius: 16px;
+  padding: 24px;
   text-align: center;
-  color: ${({ theme }) => theme.colors.card};
+  background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const CardText = styled.p`
-  font-size: 1em;
+  font-size: 1.3em;
   line-height: 1.5;
 `;
 

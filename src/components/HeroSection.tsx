@@ -24,6 +24,11 @@ const Title = styled.h1`
 `;
 
 const GradientText = styled.span`
+  font-family: Kanit;
+  font-size: 65px;
+  font-weight: 600;
+  line-height: 40px;
+  letter-spacing: 0.02em;
   background: linear-gradient(
     90deg,
     rgba(71, 255, 153, 1) 0%,
@@ -35,14 +40,8 @@ const GradientText = styled.span`
   text-fill-color: transparent;
 `;
 
-const Subtitle = styled.h2`
-  font-size: 2em;
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 0.5em;
-`;
-
 const Description = styled.p`
-  font-size: 1em;
+  font-size: 1.2em;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 40px;
 `;
@@ -85,8 +84,13 @@ const ImageContainer = styled.div`
 `;
 
 const Image = styled.img`
-  width: 80%;
-  height: auto;
+  width: 810px;
+  height: 742px;
+  top: 206px;
+  left: 762px;
+  border-radius: 20px 0px 0px 0px;
+  opacity: 0px;
+  height: fit-content;
 `;
 
 const HeroSection: React.FC = () => (
@@ -96,8 +100,9 @@ const HeroSection: React.FC = () => (
         Navigating the Future of{' '}
         <GradientText>Decentralized Finance</GradientText>
       </Title>
-      <Subtitle>Premier Trading and Liquidity Market Place of DeFi</Subtitle>
-      <Description>High APR%, Capital Efficiency, veTENEX, Ve 3,3</Description>
+      <Description>
+        Premier Trading and Liquidity Market Place of DeFi
+      </Description>
       <Button>Launch dApp</Button>
     </TextContainer>
     <ImageContainer>

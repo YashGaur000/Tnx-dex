@@ -9,10 +9,14 @@ const theme = {
       'linear-gradient(90deg, rgba(9,173,251,1) 0%, rgba(0,242,150,1) 100%)',
     buttonHover:
       'linear-gradient(90deg, rgba(0,242,150,1) 0%, rgba(9,173,251,1) 100%)',
-    card: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%);',
+    card: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
+    cardLight: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%);',
+    title:
+      'linear-gradient(90deg,rgba(71, 255, 153, 1) 0%,rgba(62, 172, 252, 1) 100%)',
+    grey: 'rgba(204, 204, 204, 1)',
   },
   fonts: {
-    main: 'Helvetica, Arial, sans-serif',
+    main: 'Kanit, sans-serif',
   },
 };
 
