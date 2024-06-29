@@ -1,15 +1,14 @@
-import { useDisconnect, useEnsAvatar, useEnsName } from 'wagmi';
+import { useDisconnect } from 'wagmi';
 import { useEthersWeb3Provider } from '../../hooks/useEthersProvider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getProvider } from '../../constants/provider';
 import { useAccount } from '../../hooks/useAccount';
-import { TOKEN_LIST } from '../../constants/tokens';
 
 export function Account() {
   const { address, chainId } = useAccount();
   const { disconnect } = useDisconnect();
-  const { data: ensName } = useEnsName({ address });
-  const { data: ensAvatar } = useEnsAvatar({ name: ensName! });
+
+  const [balance, setBalance] = useState(0);
 
   const provider = useEthersWeb3Provider();
   const provider2 = chainId ? getProvider(chainId) : undefined;
@@ -18,10 +17,11 @@ export function Account() {
 
   useEffect(() => {
     const fetchBalance = async () => {
-      if (provider && address) {
+      if (provider2 && address) {
         try {
-          const balance = await provider.getBalance(address);
-          console.log('Balance --------', balance.toString());
+          const balance = await provider2.getBalance(address);
+
+          setBalance(Number(balance.toString()) / 10 ** 18);
         } catch (error) {
           console.error('Error fetching balance:', error);
         }
@@ -33,20 +33,13 @@ export function Account() {
     return () => {
       // Cleanup function, if needed
     };
-  }, [provider, address]);
+  }, [provider2, address]);
 
   return (
     <div>
-      {ensAvatar && <img alt="ENS Avatar" src={ensAvatar} />}
-      {address && <div>{ensName ? `${ensName} (${address})` : address}</div>}
+      <p>{address}</p>
+      <p>Balance : {balance.toFixed(5)}</p>
       <button onClick={() => disconnect()}>Disconnect</button>
-      <div>
-        {TOKEN_LIST.map((token) => (
-          <>
-            <img src={token.logoURI} />
-          </>
-        ))}
-      </div>
     </div>
   );
 }
