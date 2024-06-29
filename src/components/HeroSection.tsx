@@ -18,15 +18,19 @@ const TextContainer = styled.div`
 `;
 
 const Title = styled.h1`
-  font-size: 3em;
+  font-size: 48px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: 71.76px;
+  letter-spacing: 0.02em;
+  text-align: left;
+
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 0.5em;
 `;
 
 const GradientText = styled.span`
-  font-family: Kanit;
   font-size: 65px;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 40px;
   letter-spacing: 0.02em;
   background: linear-gradient(
@@ -41,38 +45,52 @@ const GradientText = styled.span`
 `;
 
 const Description = styled.p`
-  font-size: 1.2em;
+  font-size: 24px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: 35.88px;
+  text-align: left;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 40px;
 `;
 
 const Button = styled.button`
-  background: none;
-  color: ${({ theme }) => theme.colors.text};
-  padding: 15px 30px;
-  border: 2px solid;
-  border-image: linear-gradient(
-    90deg,
-    rgba(71, 255, 153, 1) 0%,
-    rgba(62, 172, 252, 1) 100%
-  );
-  border-image-slice: 1;
-  border-radius: 4px;
-  font-size: 1em;
+  padding: 12px 31.5px 12px 31.5px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.background},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
   cursor: pointer;
-  font-weight: bold;
+  font-size: 20px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 29.9px;
+  letter-spacing: 0.02em;
+  text-align: center;
   transition:
     background-color 0.3s,
     color 0.3s;
 
   &:hover {
-    background: linear-gradient(
-      90deg,
-      rgba(71, 255, 153, 1) 0%,
-      rgba(62, 172, 252, 1) 100%
-    );
+    background: ${({ theme }) => theme.colors.buttonBackground};
     color: ${({ theme }) => theme.colors.text};
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
   }
+
+  &:hover span {
+    background: white;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+`;
+
+const GradientSpan = styled.span`
+  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  transition: background 0.3s ease;
 `;
 
 const ImageContainer = styled.div`
@@ -103,7 +121,9 @@ const HeroSection: React.FC = () => (
       <Description>
         Premier Trading and Liquidity Market Place of DeFi
       </Description>
-      <Button>Launch dApp</Button>
+      <Button>
+        <GradientSpan>Launch dApp</GradientSpan>
+      </Button>
     </TextContainer>
     <ImageContainer>
       <Image src={BackgroundImage} alt="Background" />

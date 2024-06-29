@@ -5,12 +5,16 @@ const FeaturesContainer = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  padding: 0px 180px;
   padding-bottom: 50px;
+  padding: 0px 50px;
   background-color: ${({ theme }) => theme.colors.card};
 `;
 
 const Card = styled.div`
+  width: 400px;
+  height: 136px;
+  left: 204px;
+
   border-radius: 16px;
   padding: 24px;
   text-align: center;
@@ -19,8 +23,9 @@ const Card = styled.div`
 `;
 
 const CardText = styled.p`
-  font-size: 1.3em;
-  line-height: 1.5;
+  font-size: 26px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: 41.86px;
 `;
 
 const FeaturesSection: React.FC = () => (

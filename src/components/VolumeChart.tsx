@@ -59,7 +59,7 @@ const ChartContainer = styled.section`
 
 const Title = styled.h2`
   font-size: 48px;
-  font-weight: 300;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
   text-align: center;
   margin-bottom: 20px;

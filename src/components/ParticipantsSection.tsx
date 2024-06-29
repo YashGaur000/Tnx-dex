@@ -15,7 +15,7 @@ const ParticipantsContainer = styled.section`
 
 const ParticipantsTitle = styled.h2`
   font-size: 48px;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
   text-align: left;
 
@@ -48,7 +48,7 @@ const Card = styled.div`
 
 const CardTitle = styled.h3`
   font-size: 24px;
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   text-align: left;
   margin-bottom: 10px;
@@ -57,7 +57,7 @@ const CardTitle = styled.h3`
 
 const CardText = styled.p`
   font-size: 16px;
-  font-weight: 200;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 23.92px;
   text-align: left;
 `;
@@ -77,7 +77,7 @@ const Stat = styled.div`
 
 const StatValue = styled.h4`
   font-size: 64px;
-  font-weight: 500;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 95.68px;
   text-align: center;
   margin-bottom: 10px;
@@ -85,7 +85,7 @@ const StatValue = styled.h4`
 
 const StatLabel = styled.p`
   font-size: 24px;
-  font-weight: 400;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   text-align: center;
   color: ${({ theme }) => theme.colors.grey};

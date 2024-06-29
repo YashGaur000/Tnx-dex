@@ -10,11 +10,10 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
-  border-bottom: 1px solid #1c1c1e;
 `;
 
 const Logo = styled.img`
-  height: 40px; /* Adjust the size as needed */
+  height: 40px;
   margin-right: 10px;
 `;
 
@@ -37,13 +36,18 @@ const NavLink = styled.a`
 `;
 
 const Button = styled.button`
+  width: Hug (188px) px;
+  height: Hug (54px) px;
+  padding: 12px 24px 12px 24px;
+  font-size: 20px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: 29.9px;
   background: ${({ theme }) => theme.colors.buttonBackground};
   color: ${({ theme }) => theme.colors.text};
   padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 12px;
   cursor: pointer;
-  font-weight: bold;
 
   &:hover {
     background: ${({ theme }) => theme.colors.buttonHover};

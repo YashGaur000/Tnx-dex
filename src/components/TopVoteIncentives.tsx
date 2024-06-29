@@ -13,7 +13,7 @@ const TopVoteIncentivesContainer = styled.section`
 
 const TopVoteIncentivesTitle = styled.h2`
   font-size: 48px;
-  font-weight: 600;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
   text-align: left;
 
@@ -27,7 +27,7 @@ const TopVoteIncentivesTitle = styled.h2`
 
 const Subtitle = styled.p`
   font-size: 24px;
-  font-weight: 400;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   text-align: left;
 
@@ -54,7 +54,7 @@ const Card = styled.div`
 
 const CardAmount = styled.div`
   font-size: 1.5em;
-  font-weight: bold;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 10px;
 `;
 

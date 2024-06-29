@@ -7,6 +7,9 @@ import ParticipantsSection from './components/ParticipantsSection';
 import TopVoteIncentives from './components/TopVoteIncentives';
 import VolumeChart from './components/VolumeChart';
 import CoreSection from './components/CoreSection';
+import EmissionsSchedule from './components/EmissionsSchedule';
+import TopPairs from './components/TopPairs';
+import Footer from './components/Footer';
 
 const App: React.FC = () => (
   <ThemeProvider>
@@ -17,6 +20,9 @@ const App: React.FC = () => (
     <TopVoteIncentives />
     <VolumeChart />
     <CoreSection />
+    <EmissionsSchedule />
+    <TopPairs />
+    <Footer />
   </ThemeProvider>
 );
 

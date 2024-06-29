@@ -74,7 +74,7 @@ const Button = styled.button`
   border-radius: 20px;
   cursor: pointer;
   font-size: 1em;
-  font-weight: bold;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   width: 100%;
 `;
 
