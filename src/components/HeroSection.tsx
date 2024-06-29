@@ -9,12 +9,38 @@ const HeroContainer = styled.section`
   height: 100vh;
   padding: 0 40px;
   background-color: ${({ theme }) => theme.colors.background};
+
+  @media (max-width: 1200px) {
+    padding: 30px;
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 20px;
+  }
 `;
 
 const TextContainer = styled.div`
   flex: 1;
   padding: 20px;
   max-width: 50%;
+
+  @media (max-width: 1200px) {
+    padding: 0px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0px 20px;
+    max-width: 100%;
+    text-align: center;
+  }
 `;
 
 const Title = styled.h1`
@@ -51,6 +77,10 @@ const Description = styled.p`
   text-align: left;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 40px;
+
+  @media (max-width: 1200px) {
+    font-size: 20px;
+  }
 `;
 
 const Button = styled.button`
@@ -83,6 +113,11 @@ const Button = styled.button`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  @media (max-width: 768px) {
+    padding: 10px 30px;
+    font-size: 18px;
+  }
 `;
 
 const GradientSpan = styled.span`
@@ -99,6 +134,13 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 50%;
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const Image = styled.img`
@@ -109,6 +151,18 @@ const Image = styled.img`
   border-radius: 20px 0px 0px 0px;
   opacity: 0px;
   height: fit-content;
+
+  @media (max-width: 1200px) {
+    width: 700px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 600px;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+  }
 `;
 
 const HeroSection: React.FC = () => (
