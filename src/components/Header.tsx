@@ -86,7 +86,7 @@ const Button = styled.button`
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 29.9px;
 
