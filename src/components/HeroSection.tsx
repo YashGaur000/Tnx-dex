@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BackgroundImage from '../assets/banner.png'; // Ensure this path is correct or replace with your image path
+import BackgroundImage from '../assets/banner.svg'; // Ensure this path is correct or replace with your image path
 
 const HeroContainer = styled.section`
   display: flex;
@@ -59,11 +59,7 @@ const GradientText = styled.span`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 40px;
   letter-spacing: 0.02em;
-  background: linear-gradient(
-    90deg,
-    rgba(71, 255, 153, 1) 0%,
-    rgba(62, 172, 252, 1) 100%
-  );
+  background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -121,6 +117,7 @@ const Button = styled.button`
 `;
 
 const GradientSpan = styled.span`
+  font-family: ${({ theme }) => theme.fonts.main};
   background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -169,8 +166,9 @@ const HeroSection: React.FC = () => (
   <HeroContainer>
     <TextContainer>
       <Title>
-        Navigating the Future of{' '}
-        <GradientText>Decentralized Finance</GradientText>
+        Navigating the Future of <GradientText>Decentralized</GradientText>
+        <br />
+        <GradientText>Finance</GradientText>
       </Title>
       <Description>
         Premier Trading and Liquidity Market Place of DeFi

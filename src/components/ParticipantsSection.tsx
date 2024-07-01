@@ -35,6 +35,10 @@ const CardsContainer = styled.div`
   width: 100%;
   max-width: 1200px;
   margin-bottom: 110px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Card = styled.div`
@@ -68,6 +72,10 @@ const StatsContainer = styled.div`
   gap: 20px;
   width: 100%;
   max-width: 1200px;
+
+  @media (max-width: 900px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 `;
 
 const Stat = styled.div`
@@ -81,6 +89,14 @@ const StatValue = styled.h4`
   line-height: 95.68px;
   text-align: center;
   margin-bottom: 10px;
+
+  @media (max-width: 1200px) {
+    font-size: 54px;
+  }
+
+  @media (max-width: 1024px) {
+    font-size: 44px;
+  }
 `;
 
 const StatLabel = styled.p`

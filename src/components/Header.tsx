@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import logoImage from '../assets/logo.png';
+import logoImage from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -80,6 +80,7 @@ const NavLink = styled.a`
 `;
 
 const Button = styled.button`
+  font-family: ${({ theme }) => theme.fonts.main};
   background: ${({ theme }) => theme.colors.buttonBackground};
   color: ${({ theme }) => theme.colors.text};
   padding: 10px 20px;
