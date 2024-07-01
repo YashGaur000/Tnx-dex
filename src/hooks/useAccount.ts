@@ -3,7 +3,6 @@ import {
   getNetworkConfig,
 } from '../constants/chain';
 import { useMemo } from 'react';
-// eslint-disable-next-line @typescript-eslint/no-restricted-imports
 import {
   UseAccountReturnType as UseAccountReturnTypeWagmi,
   useAccount as useAccountWagmi,
