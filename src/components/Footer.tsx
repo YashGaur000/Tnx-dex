@@ -10,6 +10,14 @@ const FooterContainer = styled.footer`
   padding: 140px 20px;
   background-color: ${({ theme }) => theme.colors.background};
   text-align: center;
+
+  @media (max-width: 1200px) {
+    padding: 30px 15px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px 10px;
+  }
 `;
 
 const IconsContainer = styled.div`
@@ -18,16 +26,29 @@ const IconsContainer = styled.div`
   align-items: center;
   gap: 20px;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+  }
 `;
 
 const Icon = styled.img`
   width: 30px;
   height: 30px;
+
+  @media (max-width: 768px) {
+    width: 25px;
+    height: 25px;
+  }
 `;
 
 const BuiltBy = styled.div`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.text};
+
+  @media (max-width: 768px) {
+    font-size: 0.9em;
+  }
 `;
 
 const Footer: React.FC = () => (

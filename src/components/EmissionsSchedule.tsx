@@ -31,6 +31,14 @@ const EmissionsContainer = styled.section`
   padding: 40px 20px;
   background-color: ${({ theme }) => theme.colors.background};
   text-align: center;
+
+  @media (max-width: 1200px) {
+    padding: 30px 15px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 20px 10px;
+  }
 `;
 
 const Title = styled.h2`
@@ -48,6 +56,14 @@ const Title = styled.h2`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 20px;
+
+  @media (max-width: 1200px) {
+    font-size: 2em;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1.8em;
+  }
 `;
 
 const Description = styled.p`
@@ -58,6 +74,16 @@ const Description = styled.p`
   text-align: center;
 
   margin-bottom: 40px;
+
+  @media (max-width: 1200px) {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 1em;
+    margin-bottom: 20px;
+  }
 `;
 
 const EmissionsSchedule: React.FC = () => (

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import BackgroundImage from '../assets/banner.png'; // Ensure this path is correct or replace with your image path
+import BackgroundImage from '../assets/banner.svg'; // Ensure this path is correct or replace with your image path
 
 const HeroContainer = styled.section`
   display: flex;
@@ -9,12 +9,38 @@ const HeroContainer = styled.section`
   height: 100vh;
   padding: 0 40px;
   background-color: ${({ theme }) => theme.colors.background};
+
+  @media (max-width: 1200px) {
+    padding: 30px;
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 20px;
+  }
 `;
 
 const TextContainer = styled.div`
   flex: 1;
   padding: 20px;
   max-width: 50%;
+
+  @media (max-width: 1200px) {
+    padding: 0px;
+    max-width: 100%;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0px 20px;
+    max-width: 100%;
+    text-align: center;
+  }
 `;
 
 const Title = styled.h1`
@@ -33,11 +59,7 @@ const GradientText = styled.span`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 40px;
   letter-spacing: 0.02em;
-  background: linear-gradient(
-    90deg,
-    rgba(71, 255, 153, 1) 0%,
-    rgba(62, 172, 252, 1) 100%
-  );
+  background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -51,6 +73,10 @@ const Description = styled.p`
   text-align: left;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 40px;
+
+  @media (max-width: 1200px) {
+    font-size: 20px;
+  }
 `;
 
 const Button = styled.button`
@@ -83,9 +109,15 @@ const Button = styled.button`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
+
+  @media (max-width: 768px) {
+    padding: 10px 30px;
+    font-size: 18px;
+  }
 `;
 
 const GradientSpan = styled.span`
+  font-family: ${({ theme }) => theme.fonts.main};
   background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -99,6 +131,13 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 50%;
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+  }
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 
 const Image = styled.img`
@@ -109,14 +148,27 @@ const Image = styled.img`
   border-radius: 20px 0px 0px 0px;
   opacity: 0px;
   height: fit-content;
+
+  @media (max-width: 1200px) {
+    width: 700px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 600px;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 100%;
+  }
 `;
 
 const HeroSection: React.FC = () => (
   <HeroContainer>
     <TextContainer>
       <Title>
-        Navigating the Future of{' '}
-        <GradientText>Decentralized Finance</GradientText>
+        Navigating the Future of <GradientText>Decentralized</GradientText>
+        <br />
+        <GradientText>Finance</GradientText>
       </Title>
       <Description>
         Premier Trading and Liquidity Market Place of DeFi

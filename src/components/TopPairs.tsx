@@ -4,13 +4,24 @@ import solLogo from '../assets/sol-logo.png'; // Replace with the actual path to
 import suiLogo from '../assets/sui-logo.png'; // Replace with the actual path to your image
 
 const TopPairsContainer = styled.section`
-  padding: 60px 20px;
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
-  margin: 0 -50px;
+  margin: 0 -57px;
   text-align: center;
   padding: 100px 227px;
+
+  @media (max-width: 1400px) {
+    padding: 100px 200px;
+  }
+
+  @media (max-width: 1300px) {
+    padding: 100px 100px;
+  }
+
+  @media (max-width: 1200px) {
+    padding: 100px 80px;
+  }
 `;
 
 const Title = styled.h2`
@@ -26,6 +37,10 @@ const Title = styled.h2`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   margin-bottom: 20px;
+
+  @media (max-width: 1024px) {
+    font-size: 44px;
+  }
 `;
 
 const Description = styled.p`
@@ -37,11 +52,16 @@ const Description = styled.p`
 `;
 
 const CardsContainer = styled.div`
-  display: flex;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 53.82px;
   text-align: center;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: none;
+    justify-content: center;
+  }
 `;
 
 const Card = styled.div`
@@ -50,6 +70,15 @@ const Card = styled.div`
   border-radius: 20px;
   width: 300px;
   text-align: center;
+
+  @media (max-width: 1200px) {
+    width: 250px;
+  }
+
+  @media (max-width: 1024px) {
+    width: 210px;
+    margin: 10px 0;
+  }
 `;
 
 const CardValue = styled.div`

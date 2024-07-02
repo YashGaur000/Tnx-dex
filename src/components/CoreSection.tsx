@@ -6,7 +6,7 @@ const CoreSectionContainer = styled.section`
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
-  margin: 0 -50px;
+  margin: 0 -57px;
   text-align: center;
 `;
 
@@ -63,6 +63,7 @@ const CardDescription = styled.p`
 `;
 
 const Button = styled.button`
+  font-family: ${({ theme }) => theme.fonts.main};
   background: linear-gradient(
     90deg,
     rgba(71, 255, 153, 1),

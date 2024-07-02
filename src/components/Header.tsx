@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import React from 'react';
 import styled from 'styled-components';
-import logoImage from '../assets/logo.png';
+import logoImage from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { ConnectWallet } from './ConnectWallet';
@@ -13,16 +13,60 @@ const HeaderContainer = styled.header`
   align-items: center;
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
+
+  @media (max-width: 1200px) {
+    padding: 15px 30px;
+  }
+
+  @media (max-width: 1024px) {
+    padding: 10px 20px;
+  }
+
+  @media (max-width: 900px) {
+    padding: 8px 10px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 10px 20px;
+  }
 `;
 
 const Logo = styled.img`
   height: 40px;
   margin-right: 10px;
+
+  @media (max-width: 768px) {
+    height: 30px;
+  }
 `;
 
 const Nav = styled.nav`
   display: flex;
   gap: 70px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  @media (max-width: 1200px) {
+    gap: 50px;
+  }
+
+  @media (max-width: 1024px) {
+    gap: 40px;
+  }
+
+  @media (max-width: 900px) {
+    gap: 15px;
+  }
+
+  @media (max-width: 768px) {
+    gap: 32px;
+  }
 `;
 
 const NavLink = styled.a`
@@ -39,21 +83,40 @@ const NavLink = styled.a`
 `;
 
 export const Button = styled.button`
-  width: Hug (188px) px;
-  height: Hug (54px) px;
-  padding: 12px 24px 12px 24px;
-  font-size: 20px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 29.9px;
+  font-family: ${({ theme }) => theme.fonts.main};
   background: ${({ theme }) => theme.colors.buttonBackground};
   color: ${({ theme }) => theme.colors.text};
   padding: 10px 20px;
   border: none;
   border-radius: 12px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: 29.9px;
 
   &:hover {
     background: ${({ theme }) => theme.colors.buttonHover};
+  }
+
+  @media (max-width: 1200px) {
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 1024px) {
+    padding: 6px 12px;
+    font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 6px 12px;
+    font-size: 16px;
+    margin-top: 10px;
   }
 `;
 
@@ -80,4 +143,5 @@ const Header: React.FC = () => (
     <ConnectWallet />
   </HeaderContainer>
 );
+
 export default Header;
