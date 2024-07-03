@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../assets/banner.svg'; // Ensure this path is correct or replace with your image path
+import { useAccount } from '../hooks/useAccount';
 
 const HeroContainer = styled.section`
   display: flex;
@@ -79,12 +80,14 @@ const Description = styled.p`
   }
 `;
 
-const Button = styled.button`
+const StyledButton = styled.button<{ isConnected: boolean }>`
   padding: 12px 31.5px 12px 31.5px;
   border: 2px solid transparent;
   border-radius: 12px;
-  background: ${({ theme }) => theme.colors.background},
-    ${({ theme }) => theme.colors.buttonBackground};
+  background: ${({ theme, isConnected }) =>
+      isConnected ? theme.colors.buttonBackground : theme.colors.background},
+    ${({ theme, isConnected }) =>
+      isConnected ? theme.colors.background : theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   cursor: pointer;
@@ -93,6 +96,8 @@ const Button = styled.button`
   line-height: 29.9px;
   letter-spacing: 0.02em;
   text-align: center;
+  color: ${({ theme, isConnected }) =>
+    isConnected ? theme.colors.text : theme.colors.buttonBackground};
   transition:
     background-color 0.3s,
     color 0.3s;
@@ -116,9 +121,10 @@ const Button = styled.button`
   }
 `;
 
-const GradientSpan = styled.span`
+const GradientSpan = styled.span<{ isConnected: boolean }>`
   font-family: ${({ theme }) => theme.fonts.main};
-  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
+  background: ${({ theme, isConnected }) =>
+    isConnected ? theme.colors.text : theme.colors.buttonBackground};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -162,25 +168,30 @@ const Image = styled.img`
   }
 `;
 
-const HeroSection: React.FC = () => (
-  <HeroContainer>
-    <TextContainer>
-      <Title>
-        Navigating the Future of <GradientText>Decentralized</GradientText>
-        <br />
-        <GradientText>Finance</GradientText>
-      </Title>
-      <Description>
-        Premier Trading and Liquidity Market Place of DeFi
-      </Description>
-      <Button>
-        <GradientSpan>Launch dApp</GradientSpan>
-      </Button>
-    </TextContainer>
-    <ImageContainer>
-      <Image src={BackgroundImage} alt="Background" />
-    </ImageContainer>
-  </HeroContainer>
-);
+const HeroSection: React.FC = () => {
+  const { address } = useAccount();
+  const isConnected = Boolean(address);
+
+  return (
+    <HeroContainer>
+      <TextContainer>
+        <Title>
+          Navigating the Future of <GradientText>Decentralized</GradientText>
+          <br />
+          <GradientText>Finance</GradientText>
+        </Title>
+        <Description>
+          Premier Trading and Liquidity Market Place of DeFi
+        </Description>
+        <StyledButton isConnected={isConnected}>
+          <GradientSpan isConnected={isConnected}>Launch dApp</GradientSpan>
+        </StyledButton>
+      </TextContainer>
+      <ImageContainer>
+        <Image src={BackgroundImage} alt="Background" />
+      </ImageContainer>
+    </HeroContainer>
+  );
+};
 
 export default HeroSection;

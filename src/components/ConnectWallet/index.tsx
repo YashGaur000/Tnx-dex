@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import styled from 'styled-components';
 import { Button } from '../Header';
 import { useAccount } from '../../hooks/useAccount';
+import { text } from '../../../node_modules/@fortawesome/fontawesome-svg-core/index';
 
 interface ChainProps {
   hasIcon: boolean;
@@ -10,6 +12,47 @@ interface ChainProps {
   name?: string;
   unsupported: boolean;
 }
+
+const Container = styled.div`
+  ${({ ready }: { ready: boolean }) =>
+    !ready &&
+    `
+    aria-hidden: true;
+    opacity: 0;
+    pointer-events: none;
+    user-select: none;
+  `}
+`;
+
+const IconContainer = styled.div<{ background: string }>`
+  width: 35px;
+  height: 30px;
+  border-radius: 999px;
+  overflow: hidden;
+  margin-right: 4px;
+  background: ${({ background }) => background};
+`;
+
+const FlexContainer = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const ChainButton = styled.button<{ padding: string }>`
+  display: flex;
+  align-items: center;
+  padding: ${({ padding }) => padding};
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: ${({ theme }) => theme.colors.background},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.text};
+`;
+
+const AddressButton = styled.button``;
 
 export const ConnectWallet = () => {
   const { address } = useAccount();
@@ -31,16 +74,7 @@ export const ConnectWallet = () => {
           (!authenticationStatus || authenticationStatus === 'authenticated');
 
         return (
-          <div
-            {...(!ready && {
-              'aria-hidden': true,
-              style: {
-                opacity: 0,
-                pointerEvents: 'none',
-                userSelect: 'none',
-              },
-            })}
-          >
+          <Container ready={ready}>
             {(() => {
               if (!connected) {
                 return (
@@ -57,22 +91,15 @@ export const ConnectWallet = () => {
               }
 
               return (
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <button
+                <FlexContainer>
+                  <ChainButton
                     onClick={openChainModal}
-                    style={{ display: 'flex', alignItems: 'center' }}
                     type="button"
+                    padding="11px 20px"
                   >
                     {(chain as ChainProps).hasIcon && (
-                      <div
-                        style={{
-                          //background: chain.iconBackground,
-                          width: 35,
-                          height: 30,
-                          borderRadius: 999,
-                          overflow: 'hidden',
-                          marginRight: 4,
-                        }}
+                      <IconContainer
+                        background={(chain as ChainProps).iconBackground}
                       >
                         {(chain as ChainProps).iconUrl && (
                           <img
@@ -81,17 +108,17 @@ export const ConnectWallet = () => {
                             style={{ width: 30, height: 30 }}
                           />
                         )}
-                      </div>
+                      </IconContainer>
                     )}
-                  </button>
+                  </ChainButton>
 
-                  <button onClick={openAccountModal} type="button">
+                  <ChainButton onClick={openAccountModal} padding="12px 20px">
                     {address.substring(0, 6)}
-                  </button>
-                </div>
+                  </ChainButton>
+                </FlexContainer>
               );
             })()}
-          </div>
+          </Container>
         );
       }}
     </ConnectButton.Custom>
