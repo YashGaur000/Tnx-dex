@@ -82,7 +82,7 @@ const Footer: React.FC = () => (
         <Icon src={telegramLogo} alt="Telegram Logo" />
       </IconLink>
       <IconLink
-        href="https://www.linkedin.com/company/teblox-labs/"
+        href="https://www.youtube.com/@TenExOfficial"
         target="_blank"
         rel="noopener noreferrer nofollow"
       >
