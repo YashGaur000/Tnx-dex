@@ -14,8 +14,8 @@ import {
   SUPPORTED_TESTNET_CHAINS,
   TRANSPORT_CHAINID,
 } from '../../constants/chain';
+import { envConfig } from '../../config';
 
-//const projectId = '<WALLETCONNECT_PROJECT_ID>';
 declare module 'wagmi' {
   interface Register {
     config: typeof wagmiConfig;
@@ -35,7 +35,7 @@ const connectors = connectorsForWallets(
       ],
     },
   ],
-  { appName: 'Tenex App', projectId: 'YOUR_PROJECT_ID' }
+  { appName: 'tenex', projectId: envConfig.wallectConnectProjectId }
 );
 
 export const wagmiConfig = createConfig({
