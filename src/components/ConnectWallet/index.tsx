@@ -3,7 +3,6 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import styled from 'styled-components';
 import { Button } from '../Header';
 import { useAccount } from '../../hooks/useAccount';
-import { text } from '../../../node_modules/@fortawesome/fontawesome-svg-core/index';
 
 interface ChainProps {
   hasIcon: boolean;
