@@ -26,8 +26,9 @@ const SubTabsContainer = styled.div`
 
 const SubTabItemContainer = styled.div`
   padding: 10px;
+  border-radius: 4px;
   &:hover {
-    background-color: ${({ theme }) => theme.colors.primaryLight};
+    background-color: ${({ theme }) => theme.colors.hover};
   }
 `;
 

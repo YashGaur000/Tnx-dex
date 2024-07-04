@@ -78,7 +78,7 @@ const NavLink = styled.a`
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 0px 4px;
+  padding: 2px 4px;
   border-radius: 4px;
 
   &:hover {
@@ -141,6 +141,7 @@ const Header: React.FC = () => {
   const [showTradeSubTabs, setShowTradeSubTabs] = useState(false);
   const [showLiquiditySubTabs, setShowLiquiditySubTabs] = useState(false);
   const [showGovernanceSubTabs, setShowGovernanceSubTabs] = useState(false);
+  const [showToolsSubTabs, setShowToolsSubTabs] = useState(false);
 
   const handleMouseEnter = (
     setShow: React.Dispatch<React.SetStateAction<boolean>>
@@ -211,7 +212,7 @@ const Header: React.FC = () => {
           onMouseEnter={() => handleMouseEnter(setShowGovernanceSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
         >
-          <NavLink to="#">
+          <NavLink to="/governance">
             Governance <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showGovernanceSubTabs && (
@@ -238,9 +239,35 @@ const Header: React.FC = () => {
         </NavItem>
 
         <NavLink href="/rewards">Rewards</NavLink>
-        <NavLink href="/tools">
-          Tools <FontAwesomeIcon icon={faChevronDown} />
-        </NavLink>
+        <NavItem
+          onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
+          onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
+        >
+          <NavLink to="/tools">
+            Tools <FontAwesomeIcon icon={faChevronDown} />
+          </NavLink>
+          {showToolsSubTabs && (
+            <SubTabs
+              items={[
+                {
+                  to: '/analytics',
+                  label: 'Analytics',
+                  description: 'Deep dive into TenEx',
+                },
+                {
+                  to: '/documentation',
+                  label: 'Documentation',
+                  description: 'Get the low-down in our docs',
+                },
+                {
+                  to: '/bridge',
+                  label: 'Bridge',
+                  description: 'Bridge tokens to and from other chain',
+                },
+              ]}
+            />
+          )}
+        </NavItem>
       </Nav>
       <ConnectWallet />
     </HeaderContainer>
