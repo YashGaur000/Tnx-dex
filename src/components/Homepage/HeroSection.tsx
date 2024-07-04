@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import BackgroundImage from '../assets/banner.svg'; // Ensure this path is correct or replace with your image path
-import { useAccount } from '../hooks/useAccount';
+import BackgroundImage from '../../assets/banner.svg'; // Ensure this path is correct or replace with your image path
+import { useAccount } from '../../hooks/useAccount';
 
 const HeroContainer = styled.section`
   display: flex;

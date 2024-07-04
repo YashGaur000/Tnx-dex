@@ -17,6 +17,7 @@ interface Colorpallate {
   cardDark: string;
   title: string;
   grey: string;
+  hover: string;
 }
 
 interface FontType {
@@ -43,6 +44,7 @@ const theme: DefaultTheme = {
     cardDark: 'rgba(16, 28, 59, 1)',
     title: 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
     grey: 'rgba(204, 204, 204, 1)',
+    hover: '#ffffff5e',
   },
   fonts: {
     main: 'Kanit, sans-serif',

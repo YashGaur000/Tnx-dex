@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import solLogo from '../assets/sol-logo.png'; // Replace with the actual path to your image
-import suiLogo from '../assets/sui-logo.png'; // Replace with the actual path to your image
+import solLogo from '../../assets/sol-logo.png'; // Replace with the actual path to your image
+import suiLogo from '../../assets/sui-logo.png'; // Replace with the actual path to your image
 
 const TopPairsContainer = styled.section`
   background: ${({ theme }) => theme.colors.card};

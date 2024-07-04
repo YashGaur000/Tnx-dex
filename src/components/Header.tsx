@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { ConnectWallet } from './ConnectWallet';
+import SubTabs from './SubTabsComponent';
+import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -76,8 +78,11 @@ const NavLink = styled.a`
   display: flex;
   align-items: center;
   gap: 4px;
+  padding: 0px 4px;
+  border-radius: 4px;
 
   &:hover {
+    background: ${({ theme }) => theme.colors.hover};
     text-decoration: underline;
   }
 `;
@@ -120,28 +125,126 @@ export const Button = styled.button`
   }
 `;
 
-const Header: React.FC = () => (
-  <HeaderContainer>
-    <Logo src={logoImage} alt="TenEx Logo" />
-    <Nav>
-      <NavLink href="#">
-        Trade <FontAwesomeIcon icon={faChevronDown} />
+const Navigation = styled.nav`
+  margin-left: auto;
+  display: flex;
+  gap: 20px;
+  position: relative;
+`;
+
+const NavItem = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const Header: React.FC = () => {
+  const [showTradeSubTabs, setShowTradeSubTabs] = useState(false);
+  const [showLiquiditySubTabs, setShowLiquiditySubTabs] = useState(false);
+  const [showGovernanceSubTabs, setShowGovernanceSubTabs] = useState(false);
+
+  const handleMouseEnter = (
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+  ) => setShow(true);
+  const handleMouseLeave = (
+    setShow: React.Dispatch<React.SetStateAction<boolean>>
+  ) => setShow(false);
+
+  return (
+    <HeaderContainer>
+      <NavLink href="/">
+        <Logo src={logoImage} alt="TenEx Logo" />
       </NavLink>
-      <NavLink href="#">
-        Liquidity <FontAwesomeIcon icon={faChevronDown} />
-      </NavLink>
-      <NavLink href="#">
-        Governance <FontAwesomeIcon icon={faChevronDown} />
-      </NavLink>
-      <NavLink href="#">
-        Rewards <FontAwesomeIcon icon={faChevronDown} />
-      </NavLink>
-      <NavLink href="#">
-        Tools <FontAwesomeIcon icon={faChevronDown} />
-      </NavLink>
-    </Nav>
-    <ConnectWallet />
-  </HeaderContainer>
-);
+
+      <Nav>
+        <NavItem
+          onMouseEnter={() => handleMouseEnter(setShowTradeSubTabs)}
+          onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
+        >
+          <NavLink to="#">
+            Trade <FontAwesomeIcon icon={faChevronDown} />
+          </NavLink>
+          {showTradeSubTabs && (
+            <SubTabs
+              items={[
+                {
+                  to: '/swap',
+                  label: 'Swap',
+                  description:
+                    'Equalizer Meta Aggregator swaps for efficient routing',
+                },
+                {
+                  to: '/cross-chain-swaps',
+                  label: 'Cross chain swaps',
+                  description:
+                    'Bridge and swap via Wormhole Axelar and LayerZero',
+                },
+              ]}
+            />
+          )}
+        </NavItem>
+        <NavItem
+          onMouseEnter={() => handleMouseEnter(setShowLiquiditySubTabs)}
+          onMouseLeave={() => handleMouseLeave(setShowLiquiditySubTabs)}
+        >
+          <NavLink to="#">
+            Liquidity <FontAwesomeIcon icon={faChevronDown} />
+          </NavLink>
+          {showLiquiditySubTabs && (
+            <SubTabs
+              items={[
+                {
+                  to: '/liquidity',
+                  label: 'Liquidity',
+                  description: 'Provide liquidity and earn TENEX rewards',
+                },
+                {
+                  to: '/concentrated-liquidity-farms',
+                  label: 'Concentrated Liquidity Farms',
+                  description: 'Highly efficient CL farms for max fees',
+                },
+              ]}
+            />
+          )}
+        </NavItem>
+
+        <NavItem
+          onMouseEnter={() => handleMouseEnter(setShowGovernanceSubTabs)}
+          onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
+        >
+          <NavLink to="#">
+            Governance <FontAwesomeIcon icon={faChevronDown} />
+          </NavLink>
+          {showGovernanceSubTabs && (
+            <SubTabs
+              items={[
+                {
+                  to: '/manage-vetenex',
+                  label: 'Manage veTENEX',
+                  description: 'Lock TENEX into veTENEX to earn rewards',
+                },
+                {
+                  to: '/vote',
+                  label: 'Vote',
+                  description: 'Vote weekly to earn real yields',
+                },
+                {
+                  to: '/incentives',
+                  label: 'Incentives',
+                  description: 'Protocol liquidity incentivization',
+                },
+              ]}
+            />
+          )}
+        </NavItem>
+
+        <NavLink href="/rewards">Rewards</NavLink>
+        <NavLink href="/tools">
+          Tools <FontAwesomeIcon icon={faChevronDown} />
+        </NavLink>
+      </Nav>
+      <ConnectWallet />
+    </HeaderContainer>
+  );
+};
 
 export default Header;

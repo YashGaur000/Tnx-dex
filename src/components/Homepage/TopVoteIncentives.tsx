@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import incentiveIcon from '../assets/incentiveIcon.png'; // Replace with the correct path to your icon image
+import incentiveIcon from '../../assets/incentiveIcon.png'; // Replace with the correct path to your icon image
 
 const TopVoteIncentivesContainer = styled.section`
   display: flex;

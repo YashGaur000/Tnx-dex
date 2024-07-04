@@ -1,29 +1,31 @@
-import React from 'react';
+// src/App.tsx
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import ThemeProvider from './components/ThemeProvider';
 import Header from './components/Header';
-import HeroSection from './components/HeroSection';
-import FeaturesSection from './components/FeaturesSection';
-import ParticipantsSection from './components/ParticipantsSection';
-import TopVoteIncentives from './components/TopVoteIncentives';
-import VolumeChart from './components/VolumeChart';
-import CoreSection from './components/CoreSection';
-import EmissionsSchedule from './components/EmissionsSchedule';
-import TopPairs from './components/TopPairs';
 import Footer from './components/Footer';
+import HomePage from './pages/App/HomePage';
+import TradePage from './pages/swap/TradePage';
+import LiquidityPage from './pages/liquidity/LiquidityPage';
+import GovernancePage from './pages/governance/GovernancePage';
+import RewardsPage from './pages/rewards/RewardsPage';
+import ToolsPage from './pages/tools/ToolsPage';
 
-const App: React.FC = () => (
-  <ThemeProvider>
-    <Header />
-    <HeroSection />
-    <FeaturesSection />
-    <ParticipantsSection />
-    <TopVoteIncentives />
-    <VolumeChart />
-    <CoreSection />
-    <EmissionsSchedule />
-    <TopPairs />
-    <Footer />
-  </ThemeProvider>
-);
-
+function App() {
+  return (
+    <ThemeProvider>
+      <Router>
+        <Header />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/swap" element={<TradePage />} />
+          <Route path="/liquidity" element={<LiquidityPage />} />
+          <Route path="/governance" element={<GovernancePage />} />
+          <Route path="/rewards" element={<RewardsPage />} />
+          <Route path="/tools" element={<ToolsPage />} />
+        </Routes>
+        <Footer />
+      </Router>
+    </ThemeProvider>
+  );
+}
 export default App;

@@ -32,7 +32,8 @@ const IconsContainer = styled.div`
   }
 `;
 
-const Icon = styled.img`
+const IconLink = styled.a`
+  display: inline-block;
   width: 30px;
   height: 30px;
 
@@ -40,6 +41,11 @@ const Icon = styled.img`
     width: 25px;
     height: 25px;
   }
+`;
+
+const Icon = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 const BuiltBy = styled.div`
@@ -54,10 +60,34 @@ const BuiltBy = styled.div`
 const Footer: React.FC = () => (
   <FooterContainer>
     <IconsContainer>
-      <Icon src={twitterLogo} alt="Twitter Logo" />
-      <Icon src={discordLogo} alt="Discord Logo" />
-      <Icon src={telegramLogo} alt="Telegram Logo" />
-      <Icon src={youtubeLogo} alt="YouTube Logo" />
+      <IconLink
+        href="https://x.com/Teblox_Labs?s=08"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
+        <Icon src={twitterLogo} alt="Twitter Logo" />
+      </IconLink>
+      <IconLink
+        href="https://discord.gg/QHrq54qyb7"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
+        <Icon src={discordLogo} alt="Discord Logo" />
+      </IconLink>
+      <IconLink
+        href="https://telegram.org"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
+        <Icon src={telegramLogo} alt="Telegram Logo" />
+      </IconLink>
+      <IconLink
+        href="https://www.linkedin.com/company/teblox-labs/"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+      >
+        <Icon src={youtubeLogo} alt="YouTube Logo" />
+      </IconLink>
     </IconsContainer>
     <BuiltBy>Built by TeBlox Labs</BuiltBy>
   </FooterContainer>
