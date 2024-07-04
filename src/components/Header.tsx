@@ -4,10 +4,13 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import {
+  faChevronDown,
+  faBars,
+  faTimes,
+} from '@fortawesome/free-solid-svg-icons';
 import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
-import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -29,7 +32,7 @@ const HeaderContainer = styled.header`
   }
 
   @media (max-width: 768px) {
-    flex-direction: column;
+    flex-direction: row;
     padding: 10px 20px;
   }
 `;
@@ -52,6 +55,7 @@ const Nav = styled.nav`
     gap: 20px;
     align-items: center;
     margin-top: 10px;
+    display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   }
 
   @media (max-width: 1200px) {
@@ -84,6 +88,18 @@ const NavLink = styled.a`
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
     text-decoration: underline;
+  }
+`;
+
+const Toggler = styled.button`
+  display: none;
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 24px;
+
+  @media (max-width: 768px) {
+    display: block;
   }
 `;
 
@@ -125,13 +141,6 @@ export const Button = styled.button`
   }
 `;
 
-const Navigation = styled.nav`
-  margin-left: auto;
-  display: flex;
-  gap: 20px;
-  position: relative;
-`;
-
 const NavItem = styled.div`
   position: relative;
   display: inline-block;
@@ -142,6 +151,7 @@ const Header: React.FC = () => {
   const [showLiquiditySubTabs, setShowLiquiditySubTabs] = useState(false);
   const [showGovernanceSubTabs, setShowGovernanceSubTabs] = useState(false);
   const [showToolsSubTabs, setShowToolsSubTabs] = useState(false);
+  const [navOpen, setNavOpen] = useState(false);
 
   const handleMouseEnter = (
     setShow: React.Dispatch<React.SetStateAction<boolean>>
@@ -150,13 +160,19 @@ const Header: React.FC = () => {
     setShow: React.Dispatch<React.SetStateAction<boolean>>
   ) => setShow(false);
 
+  const toggleNav = () => setNavOpen(!navOpen);
+
   return (
     <HeaderContainer>
       <NavLink href="/">
         <Logo src={logoImage} alt="TenEx Logo" />
       </NavLink>
 
-      <Nav>
+      <Toggler onClick={toggleNav}>
+        <FontAwesomeIcon icon={navOpen ? faTimes : faBars} />
+      </Toggler>
+
+      <Nav isOpen={navOpen}>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowTradeSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
