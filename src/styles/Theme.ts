@@ -6,7 +6,6 @@ export interface DefaultTheme {
 
 interface Colorpallate {
   primary: string;
-
   secondary: string;
   background: string;
   text: string;
@@ -18,6 +17,7 @@ interface Colorpallate {
   title: string;
   grey: string;
   hover: string;
+  greyBorder: string;
 }
 
 interface FontType {
@@ -45,6 +45,7 @@ const theme: DefaultTheme = {
     title: 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
     grey: 'rgba(204, 204, 204, 1)',
     hover: '#ffffff5e',
+    greyBorder: '#B8B8B8',
   },
   fonts: {
     main: 'Kanit, sans-serif',

@@ -9,6 +9,7 @@ import LiquidityPage from './pages/liquidity/LiquidityPage';
 import GovernancePage from './pages/governance/GovernancePage';
 import RewardsPage from './pages/rewards/RewardsPage';
 import ToolsPage from './pages/tools/ToolsPage';
+import SwapPage from './pages/swap/SwapPage';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/swap" element={<TradePage />} />
+          <Route path="/swap" element={<SwapPage />} />
           <Route path="/liquidity" element={<LiquidityPage />} />
           <Route path="/governance" element={<GovernancePage />} />
           <Route path="/rewards" element={<RewardsPage />} />
