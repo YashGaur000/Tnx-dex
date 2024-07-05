@@ -83,9 +83,9 @@ export const ConnectWallet = () => {
 
               if ((chain as ChainProps)?.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <Button onClick={openChainModal} type="button">
                     Wrong network
-                  </button>
+                  </Button>
                 );
               }
 
