@@ -28,6 +28,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({
   handleToggle,
   onText,
   offText,
+  isDisabled,
 }) => {
   return (
     <SwitchWrapper>
@@ -43,7 +44,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({
         offHandleColor={theme.colors.redToggle}
         uncheckedIcon={false}
         checkedIcon={false}
-        disabled={true}
+        disabled={isDisabled}
       />
       <Text>{isChecked ? onText : offText}</Text>
     </SwitchWrapper>

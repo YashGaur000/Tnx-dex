@@ -78,7 +78,7 @@ const Button = styled.button`
   }
 `;
 
-const Text = styled.text`
+const Text = styled.div`
   width: 100%;
   font-size: 10px;
   line-height: 14.95px;
@@ -165,7 +165,7 @@ const SwapForm: React.FC = () => {
           handleToggle={handleToggleChange}
           onText="Connected"
           offText="Disconnected"
-          disabled={true}
+          isDisabled={true}
         />
       </WalletWrapper>
       <InputWrapper>
