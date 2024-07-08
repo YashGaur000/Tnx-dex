@@ -6,6 +6,8 @@ import {
   mainnet,
   optimism,
   sepolia,
+  blast,
+  blastSepolia,
 } from 'wagmi/chains';
 import { envConfig } from '../config';
 
@@ -14,9 +16,14 @@ export const SUPPORTED_MAINNET_CHAINS = [
   linea,
   mainnet,
   optimism,
+  blast,
 ] as const;
 
-export const SUPPORTED_TESTNET_CHAINS = [sepolia, lineaSepolia] as const;
+export const SUPPORTED_TESTNET_CHAINS = [
+  sepolia,
+  lineaSepolia,
+  blastSepolia,
+] as const;
 
 export const SUPPORTED_CHAINS = [
   ...SUPPORTED_MAINNET_CHAINS,
@@ -29,9 +36,11 @@ export const TRANSPORT_CHAINID = {
   [linea.id]: http(),
   [mainnet.id]: http(),
   [optimism.id]: http(),
+  [blast.id]: http(),
   //testnet
   [lineaSepolia.id]: http(),
   [sepolia.id]: http(),
+  [blastSepolia.id]: http(),
 };
 
 export type AllowedChainId =
@@ -84,6 +93,10 @@ export const NETWORK_CONFIGS: NetworkConfig = {
     ...optimism,
     RPC: [],
   },
+  [blast.id]: {
+    ...blast,
+    RPC: [],
+  },
 
   // Testnet
   [lineaSepolia.id]: {
@@ -93,6 +106,10 @@ export const NETWORK_CONFIGS: NetworkConfig = {
   [sepolia.id]: {
     ...sepolia,
     RPC: [envConfig.alchemySepoliaRpcUrl],
+  },
+  [blastSepolia.id]: {
+    ...blastSepolia,
+    RPC: [],
   },
 } as const;
 

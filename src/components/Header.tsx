@@ -11,6 +11,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
+import { Link } from 'react-router-dom';
 
 const HeaderContainer = styled.header`
   display: flex;
@@ -46,7 +47,7 @@ const Logo = styled.img`
   }
 `;
 
-const Nav = styled.nav`
+const Nav = styled.nav<{ isOpen: boolean }>`
   display: flex;
   gap: 70px;
 
@@ -75,7 +76,7 @@ const Nav = styled.nav`
   }
 `;
 
-const NavLink = styled.a`
+const NavLink = styled(Link)`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   position: relative;
@@ -164,7 +165,7 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer>
-      <NavLink href="/">
+      <NavLink to="/">
         <Logo src={logoImage} alt="TenEx Logo" />
       </NavLink>
 
@@ -254,7 +255,7 @@ const Header: React.FC = () => {
           )}
         </NavItem>
 
-        <NavLink href="/rewards">Rewards</NavLink>
+        <NavLink to="/rewards">Rewards</NavLink>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}

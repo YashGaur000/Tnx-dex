@@ -28,7 +28,6 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({
   handleToggle,
   onText,
   offText,
-  disabled,
 }) => {
   return (
     <SwitchWrapper>

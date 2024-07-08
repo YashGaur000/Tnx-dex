@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
-import { useAccount, useDisconnect } from 'wagmi';
+import { useAccount } from '../../hooks/useAccount';
 import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST } from './../../constants/tokens';
 
@@ -131,7 +131,6 @@ const WalletIcon = styled(FontAwesomeIcon)`
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
-  const { disconnect } = useDisconnect();
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
