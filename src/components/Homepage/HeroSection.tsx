@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BackgroundImage from '../../assets/banner.svg'; // Ensure this path is correct or replace with your image path
 import { useAccount } from '../../hooks/useAccount';
+import { useNavigate } from 'react-router-dom';
 
 const HeroContainer = styled.section`
   display: flex;
@@ -171,6 +172,11 @@ const Image = styled.img`
 const HeroSection: React.FC = () => {
   const { address } = useAccount();
   const isConnected = Boolean(address);
+  const navigate = useNavigate();
+
+  const handleButtonClick = () => {
+    navigate('/swap');
+  };
 
   return (
     <HeroContainer>
@@ -183,7 +189,7 @@ const HeroSection: React.FC = () => {
         <Description>
           Premier Trading and Liquidity Market Place of DeFi
         </Description>
-        <StyledButton isConnected={isConnected}>
+        <StyledButton isConnected={isConnected} onClick={handleButtonClick}>
           <GradientSpan isConnected={isConnected}>Launch dApp</GradientSpan>
         </StyledButton>
       </TextContainer>

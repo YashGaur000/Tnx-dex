@@ -20,7 +20,7 @@ interface SwitchComponentProps {
   handleToggle: () => void;
   onText: string;
   offText: string;
-  disabled: boolean;
+  isDisabled: boolean;
 }
 
 const SwitchComponent: React.FC<SwitchComponentProps> = ({
