@@ -4,7 +4,6 @@ import ThemeProvider from './components/ThemeProvider';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/App/HomePage';
-import TradePage from './pages/swap/TradePage';
 import LiquidityPage from './pages/liquidity/LiquidityPage';
 import GovernancePage from './pages/governance/GovernancePage';
 import RewardsPage from './pages/rewards/RewardsPage';

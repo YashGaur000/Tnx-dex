@@ -7,7 +7,7 @@ const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => (
   <StyledThemeProvider theme={theme}>
-    <GlobalStyles />
+    <GlobalStyles theme={theme} />
     {children}
   </StyledThemeProvider>
 );

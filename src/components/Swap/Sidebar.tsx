@@ -74,7 +74,7 @@ const SlippageWrapper = styled.div<{ display: string }>`
   border-radius: 20px;
   margin: 15px 0px;
 `;
-const Text = styled.div<{ fontsize: number }>`
+const Text = styled.div`
   font-size: 10px;
   color: ${({ theme }) => theme.colors.grey};
 `;
@@ -109,7 +109,7 @@ const Sidebar: React.FC = () => {
   };
   return (
     <SidebarContainer>
-      <SidebarTitle fontsize="36">Swap</SidebarTitle>
+      <SidebarTitle fontsize={36}>Swap</SidebarTitle>
       <SidebarList>
         <SidebarListItem>
           1. Start by selecting the token to swap from and the amount you want
@@ -126,8 +126,8 @@ const Sidebar: React.FC = () => {
           To change, please click below.
         </SidebarListItem>
       </SidebarList>
-      <SlippageWrapper>
-        <SidebarTitle fontsize="20">Slippage Tolerance</SidebarTitle>
+      <SlippageWrapper display="flow">
+        <SidebarTitle fontsize={20}>Slippage Tolerance</SidebarTitle>
         <ToleranceButtons>
           <ToleranceButton>0.1%</ToleranceButton>
           <ToleranceButton>0.5%</ToleranceButton>
@@ -136,9 +136,9 @@ const Sidebar: React.FC = () => {
           <ToleranceButton>5.0%</ToleranceButton>
         </ToleranceButtons>
       </SlippageWrapper>
-      <SlippageWrapper>
+      <SlippageWrapper display="flow">
         <Align>
-          <SidebarTitle fontsize="20">Transaction Deadline</SidebarTitle>
+          <SidebarTitle fontsize={20}>Transaction Deadline</SidebarTitle>
           <TimerButton>30 mins</TimerButton>
         </Align>
         <SliderContainer>
@@ -150,7 +150,7 @@ const Sidebar: React.FC = () => {
       </SlippageWrapper>
       <SlippageWrapper display="flex">
         <ContentWrapper>
-          <SidebarTitle fontsize="20">Allow unsafe trades</SidebarTitle>
+          <SidebarTitle fontsize={20}>Allow unsafe trades</SidebarTitle>
           <SidebarListItem>
             Enabling this will allow trading on high quotes with high price
             impact and could lead to loss of funds.
@@ -161,6 +161,7 @@ const Sidebar: React.FC = () => {
           handleToggle={handleToggleChange}
           onText=""
           offText=""
+          disabled={false}
         />
       </SlippageWrapper>
     </SidebarContainer>

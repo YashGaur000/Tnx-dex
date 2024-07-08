@@ -12,7 +12,7 @@ interface ChainProps {
   unsupported: boolean;
 }
 
-const Container = styled.div`
+const Container = styled.div<{ ready: boolean }>`
   ${({ ready }: { ready: boolean }) =>
     !ready &&
     `
@@ -50,8 +50,6 @@ const ChainButton = styled.button<{ padding: string }>`
   cursor: pointer;
   color: ${({ theme }) => theme.colors.text};
 `;
-
-const AddressButton = styled.button``;
 
 export const ConnectWallet = () => {
   const { address } = useAccount();
