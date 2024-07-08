@@ -81,14 +81,14 @@ const Description = styled.p`
   }
 `;
 
-const StyledButton = styled.button<{ isConnected: boolean }>`
+const StyledButton = styled.button<{ isconnected: boolean }>`
   padding: 12px 31.5px 12px 31.5px;
   border: 2px solid transparent;
   border-radius: 12px;
-  background: ${({ theme, isConnected }) =>
-      isConnected ? theme.colors.buttonBackground : theme.colors.background},
-    ${({ theme, isConnected }) =>
-      isConnected ? theme.colors.background : theme.colors.buttonBackground};
+  background: ${({ theme, isconnected }) =>
+      isconnected ? theme.colors.buttonBackground : theme.colors.background},
+    ${({ theme, isconnected }) =>
+      isconnected ? theme.colors.background : theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   cursor: pointer;
@@ -97,8 +97,8 @@ const StyledButton = styled.button<{ isConnected: boolean }>`
   line-height: 29.9px;
   letter-spacing: 0.02em;
   text-align: center;
-  color: ${({ theme, isConnected }) =>
-    isConnected ? theme.colors.text : theme.colors.buttonBackground};
+  color: ${({ theme, isconnected }) =>
+    isconnected ? theme.colors.text : theme.colors.buttonBackground};
   transition:
     background-color 0.3s,
     color 0.3s;
@@ -122,10 +122,10 @@ const StyledButton = styled.button<{ isConnected: boolean }>`
   }
 `;
 
-const GradientSpan = styled.span<{ isConnected: boolean }>`
+const GradientSpan = styled.span<{ isconnected: boolean }>`
   font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme, isConnected }) =>
-    isConnected ? theme.colors.text : theme.colors.buttonBackground};
+  background: ${({ theme, isconnected }) =>
+    isconnected ? theme.colors.text : theme.colors.buttonBackground};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -171,7 +171,7 @@ const Image = styled.img`
 
 const HeroSection: React.FC = () => {
   const { address } = useAccount();
-  const isConnected = Boolean(address);
+  const isconnected = Boolean(address);
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -189,8 +189,8 @@ const HeroSection: React.FC = () => {
         <Description>
           Premier Trading and Liquidity Market Place of DeFi
         </Description>
-        <StyledButton isConnected={isConnected} onClick={handleButtonClick}>
-          <GradientSpan isConnected={isConnected}>Launch dApp</GradientSpan>
+        <StyledButton isconnected={isconnected} onClick={handleButtonClick}>
+          <GradientSpan isconnected={isconnected}>Launch dApp</GradientSpan>
         </StyledButton>
       </TextContainer>
       <ImageContainer>

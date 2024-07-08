@@ -136,6 +136,10 @@ const WalletIcon = styled(FontAwesomeIcon)`
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
   const [isConnected, setIsConnected] = useState(false);
+  const [inputValue1, setInputValue1] = useState('');
+  const [inputValue2, setInputValue2] = useState('');
+  const [selectedToken1, setSelectedToken1] = useState(TOKEN_LIST[0].symbol);
+  const [selectedToken2, setSelectedToken2] = useState(TOKEN_LIST[1].symbol);
 
   useEffect(() => {
     setIsConnected(!!address);
@@ -148,6 +152,13 @@ const SwapForm: React.FC = () => {
       // logic to open wallet connect modal
     }
     setIsConnected(!isConnected);
+  };
+
+  const handleSwap = () => {
+    setSelectedToken1(selectedToken2);
+    setSelectedToken2(selectedToken1);
+    // setInputValue1(''); //to clear the input fields when we click on swap
+    // setInputValue2('');
   };
 
   return (
@@ -169,8 +180,16 @@ const SwapForm: React.FC = () => {
         />
       </WalletWrapper>
       <InputWrapper>
-        <Input type="number" placeholder="0" />
-        <TokenSelect>
+        <Input
+          type="number"
+          placeholder="0"
+          value={inputValue1}
+          onChange={(e) => setInputValue1(e.target.value)}
+        />
+        <TokenSelect
+          value={selectedToken1}
+          onChange={(e) => setSelectedToken1(e.target.value)}
+        >
           {TOKEN_LIST.map((token) => (
             <option key={token.symbol} value={token.symbol}>
               {token.symbol} - {token.name}
@@ -179,12 +198,20 @@ const SwapForm: React.FC = () => {
         </TokenSelect>
         <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
       </InputWrapper>
-      <SwitchButton>
+      <SwitchButton onClick={handleSwap}>
         <FontAwesomeIcon icon={faExchangeAlt} color="white" />
       </SwitchButton>
       <InputWrapper>
-        <Input type="number" placeholder="0" />
-        <TokenSelect>
+        <Input
+          type="number"
+          placeholder="0"
+          value={inputValue2}
+          onChange={(e) => setInputValue2(e.target.value)}
+        />
+        <TokenSelect
+          value={selectedToken2}
+          onChange={(e) => setSelectedToken2(e.target.value)}
+        >
           {TOKEN_LIST.map((token) => (
             <option key={token.symbol} value={token.symbol}>
               {token.symbol} - {token.name}
