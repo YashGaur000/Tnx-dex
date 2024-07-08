@@ -33,7 +33,7 @@ const Description = styled.p`
 `;
 
 const InputWrapper = styled.div`
-  border: 1px solid ${({ theme }) => theme.colors.greyBorder};
+  border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 10px;
@@ -47,6 +47,7 @@ const Input = styled.input`
   background: none;
   color: ${({ theme }) => theme.colors.text};
   font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-right: 1%;
 `;
 
@@ -57,6 +58,7 @@ const TokenSelect = styled.select`
   background: none;
   color: ${({ theme }) => theme.colors.text};
   font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
 const Button = styled.button`
@@ -67,6 +69,7 @@ const Button = styled.button`
   background: ${({ theme }) => theme.colors.buttonBackground};
   color: ${({ theme }) => theme.colors.text};
   font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
   margin-top: 10px;
 
@@ -117,6 +120,7 @@ const WalletButton = styled.button`
   background: ${({ theme }) => theme.colors.cardLight};
   color: ${({ theme }) => theme.colors.text};
   font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
   margin-right: 10px;
 
