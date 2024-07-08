@@ -76,7 +76,7 @@ const Footer: React.FC = () => (
         <Icon src={discordLogo} alt="Discord Logo" />
       </IconLink>
       <IconLink
-        href="https://telegram.org"
+        href="https://t.me/+Bq6Csh-d7pw1NzM9"
         target="_blank"
         rel="noopener noreferrer nofollow"
       >
