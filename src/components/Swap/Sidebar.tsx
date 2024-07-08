@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import SwitchComponent from './SwitchComponent';
+import { DefaultTheme } from '../../styles/Theme';
 
-const SidebarContainer = styled.div`
+const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
@@ -18,7 +19,7 @@ const SidebarContainer = styled.div`
   }
 `;
 
-const SidebarTitle = styled.h2<{ fontSize: number }>`
+const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
@@ -32,7 +33,7 @@ const SidebarList = styled.ul`
   margin: 0;
 `;
 
-const SidebarListItem = styled.p`
+const SidebarListItem = styled.p<{ theme: DefaultTheme }>`
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.greyDark};
@@ -45,7 +46,7 @@ const ToleranceButtons = styled.div`
   margin-bottom: 20px;
 `;
 
-const ToleranceButton = styled.button`
+const ToleranceButton = styled.button<{ theme: DefaultTheme }>`
   flex: 1;
   padding: 8px;
   background: transparent;
@@ -70,7 +71,7 @@ const Slider = styled.input`
   height: 2px;
 `;
 
-const SlippageWrapper = styled.div<{ display: string }>`
+const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.card};
   padding: 10px;
@@ -78,7 +79,7 @@ const SlippageWrapper = styled.div<{ display: string }>`
   border-radius: 20px;
   margin: 15px 0px;
 `;
-const Text = styled.div`
+const Text = styled.div<{ theme: DefaultTheme }>`
   font-size: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.greyDark};
@@ -89,7 +90,7 @@ const Align = styled.div`
   justify-content: space-between;
 `;
 
-const TimerButton = styled.button`
+const TimerButton = styled.button<{ theme: DefaultTheme }>`
   width: 74px;
   height: 32px;
   padding: 8px;

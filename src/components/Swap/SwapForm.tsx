@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useAccount } from '../../hooks/useAccount';
 import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST } from './../../constants/tokens';
+import { DefaultTheme } from '../../styles/Theme';
 
-const SwapBox = styled.div`
+const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
@@ -16,14 +17,14 @@ const SwapBox = styled.div`
   width: 100%;
 `;
 
-const Title = styled.h1`
+const Title = styled.h1<{ theme: DefaultTheme }>`
   font-size: 48px;
   margin-bottom: 10px;
   text-align: center;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
-const Description = styled.p`
+const Description = styled.p<{ theme: DefaultTheme }>`
   text-align: center;
   margin-bottom: 20px;
   font-size: 0.9rem;
@@ -32,14 +33,14 @@ const Description = styled.p`
   color: ${({ theme }) => theme.colors.grey};
 `;
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
   padding: 10px;
   margin-bottom: 10px;
 `;
 
-const Input = styled.input`
+const Input = styled.input<{ theme: DefaultTheme }>`
   border-color: ${({ theme }) => theme.colors.greyBorder};
   width: 75%;
   padding: 10px;
@@ -51,7 +52,7 @@ const Input = styled.input`
   margin-right: 1%;
 `;
 
-const TokenSelect = styled.select`
+const TokenSelect = styled.select<{ theme: DefaultTheme }>`
   width: 22%;
   padding: 10px;
   border: none;
@@ -61,7 +62,7 @@ const TokenSelect = styled.select`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
-const Button = styled.button`
+const Button = styled.button<{ theme: DefaultTheme }>`
   width: 100%;
   padding: 15px;
   border-radius: 10px;
@@ -78,7 +79,7 @@ const Button = styled.button`
   }
 `;
 
-const Text = styled.div`
+const Text = styled.div<{ theme: DefaultTheme }>`
   width: 100%;
   font-size: 10px;
   line-height: 14.95px;
@@ -87,7 +88,7 @@ const Text = styled.div`
   color: ${({ theme }) => theme.colors.grey};
 `;
 
-const SwitchButton = styled.div`
+const SwitchButton = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,7 +112,7 @@ const WalletWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const WalletButton = styled.button`
+const WalletButton = styled.button<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   padding: 5px 10px;
@@ -222,7 +223,7 @@ const SwapForm: React.FC = () => {
       </InputWrapper>
       <Button>Swap</Button>
       <Description>
-        TenEx's Meta Aggregator sources quotes from TenEx pools and Odos
+        TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
       </Description>
     </SwapBox>
   );
