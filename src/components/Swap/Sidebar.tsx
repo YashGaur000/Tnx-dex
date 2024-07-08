@@ -69,6 +69,7 @@ const SliderContainer = styled.div`
 const Slider = styled.input`
   width: 100%;
   height: 2px;
+  accent-color: darkcyan;
 `;
 
 const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
