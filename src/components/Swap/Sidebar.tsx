@@ -20,9 +20,10 @@ const SidebarContainer = styled.div`
 
 const SidebarTitle = styled.h2<{ fontsize: number }>`
   font-size: ${({ fontsize }) => fontsize}px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.grey};
+  color: ${({ theme }) => theme.colors.greyDark};
 `;
 
 const SidebarList = styled.ul`
@@ -33,7 +34,8 @@ const SidebarList = styled.ul`
 
 const SidebarListItem = styled.p`
   font-size: 12px;
-  color: #7a8aa0;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.greyDark};
   margin-bottom: 10px;
 `;
 
@@ -46,14 +48,16 @@ const ToleranceButtons = styled.div`
 const ToleranceButton = styled.button`
   flex: 1;
   padding: 8px;
-  background: ${({ theme }) => theme.colors.card};
-  color: ${({ theme }) => theme.colors.grey};
-  border: 1px solid #2d3e50;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.greyDark};
+  border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
   cursor: pointer;
 
   &:hover {
-    background-color: #2d3e50;
+    color: ${({ theme }) => theme.colors.text};
+    border: 1px solid ${({ theme }) => theme.colors.text};
+    background: ${({ theme }) => theme.colors.hover};
   }
 `;
 
@@ -76,7 +80,8 @@ const SlippageWrapper = styled.div<{ display: string }>`
 `;
 const Text = styled.div`
   font-size: 10px;
-  color: ${({ theme }) => theme.colors.grey};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.greyDark};
 `;
 
 const Align = styled.div`
@@ -88,14 +93,18 @@ const TimerButton = styled.button`
   width: 74px;
   height: 32px;
   padding: 8px;
-  background: ${({ theme }) => theme.colors.card};
-  color: ${({ theme }) => theme.colors.grey};
-  border: 1px solid #2d3e50;
+  background: transparent;
+  color: ${({ theme }) => theme.colors.greyDark};
+  border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
   cursor: pointer;
 
   &:hover {
-    background-color: #2d3e50;
+    &:hover {
+      color: ${({ theme }) => theme.colors.text};
+      border: 1px solid ${({ theme }) => theme.colors.text};
+      background: ${({ theme }) => theme.colors.hover};
+    }
   }
 `;
 
