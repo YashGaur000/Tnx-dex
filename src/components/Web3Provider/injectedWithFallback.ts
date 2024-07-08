@@ -15,7 +15,6 @@ export function injectedWithFallback() {
       },
 
       get name() {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         return !window.ethereum
           ? 'Install MetaMask'
           : // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import incentiveIcon from '../../assets/incentiveIcon.png'; // Replace with the correct path to your icon image
+import { DefaultTheme } from '../../styles/Theme';
 
-const TopVoteIncentivesContainer = styled.section`
+const TopVoteIncentivesContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,7 +12,7 @@ const TopVoteIncentivesContainer = styled.section`
   margin-top: 70px;
 `;
 
-const TopVoteIncentivesTitle = styled.h2`
+const TopVoteIncentivesTitle = styled.h2<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -25,7 +26,7 @@ const TopVoteIncentivesTitle = styled.h2`
   margin-bottom: 10px;
 `;
 
-const Subtitle = styled.p`
+const Subtitle = styled.p<{ theme: DefaultTheme }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
@@ -43,7 +44,7 @@ const CardsContainer = styled.div`
   max-width: 1200px;
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   border-radius: 10px;
   padding: 20px;
@@ -52,7 +53,7 @@ const Card = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const CardAmount = styled.div`
+const CardAmount = styled.div<{ theme: DefaultTheme }>`
   font-size: 1.5em;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 10px;
@@ -63,7 +64,7 @@ const CardIcon = styled.img`
   margin-bottom: 10px;
 `;
 
-const CardText = styled.div`
+const CardText = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   margin-bottom: 10px;
   color: ${({ theme }) => theme.colors.grey};

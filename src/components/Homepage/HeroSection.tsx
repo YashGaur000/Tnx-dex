@@ -3,8 +3,9 @@ import styled from 'styled-components';
 import BackgroundImage from '../../assets/banner.svg'; // Ensure this path is correct or replace with your image path
 import { useAccount } from '../../hooks/useAccount';
 import { useNavigate } from 'react-router-dom';
+import { DefaultTheme } from '../../styles/Theme';
 
-const HeroContainer = styled.section`
+const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,7 +46,7 @@ const TextContainer = styled.div`
   }
 `;
 
-const Title = styled.h1`
+const Title = styled.h1<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -56,7 +57,7 @@ const Title = styled.h1`
   margin-bottom: 0.5em;
 `;
 
-const GradientText = styled.span`
+const GradientText = styled.span<{ theme: DefaultTheme }>`
   font-size: 65px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 40px;
@@ -68,7 +69,7 @@ const GradientText = styled.span`
   text-fill-color: transparent;
 `;
 
-const Description = styled.p`
+const Description = styled.p<{ theme: DefaultTheme }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
@@ -81,14 +82,21 @@ const Description = styled.p`
   }
 `;
 
-const StyledButton = styled.button<{ isconnected: boolean }>`
+const StyledButton = styled.button<{
+  isconnected: string;
+  theme: DefaultTheme;
+}>`
   padding: 12px 31.5px 12px 31.5px;
   border: 2px solid transparent;
   border-radius: 12px;
   background: ${({ theme, isconnected }) =>
-      isconnected ? theme.colors.buttonBackground : theme.colors.background},
+      isconnected === 'true'
+        ? theme.colors.buttonBackground
+        : theme.colors.background},
     ${({ theme, isconnected }) =>
-      isconnected ? theme.colors.background : theme.colors.buttonBackground};
+      isconnected === 'true'
+        ? theme.colors.background
+        : theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   cursor: pointer;
@@ -98,7 +106,7 @@ const StyledButton = styled.button<{ isconnected: boolean }>`
   letter-spacing: 0.02em;
   text-align: center;
   color: ${({ theme, isconnected }) =>
-    isconnected ? theme.colors.text : theme.colors.buttonBackground};
+    isconnected === 'true' ? theme.colors.text : theme.colors.buttonBackground};
   transition:
     background-color 0.3s,
     color 0.3s;
@@ -122,10 +130,10 @@ const StyledButton = styled.button<{ isconnected: boolean }>`
   }
 `;
 
-const GradientSpan = styled.span<{ isconnected: boolean }>`
+const GradientSpan = styled.span<{ isconnected: string; theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   background: ${({ theme, isconnected }) =>
-    isconnected ? theme.colors.text : theme.colors.buttonBackground};
+    isconnected === 'true' ? theme.colors.text : theme.colors.buttonBackground};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
@@ -170,8 +178,8 @@ const Image = styled.img`
 `;
 
 const HeroSection: React.FC = () => {
-  const { address } = useAccount();
-  const isconnected = Boolean(address);
+  const { isConnected } = useAccount();
+  const isconnected = isConnected;
   const navigate = useNavigate();
 
   const handleButtonClick = () => {
@@ -189,8 +197,13 @@ const HeroSection: React.FC = () => {
         <Description>
           Premier Trading and Liquidity Market Place of DeFi
         </Description>
-        <StyledButton isconnected={isconnected} onClick={handleButtonClick}>
-          <GradientSpan isconnected={isconnected}>Launch dApp</GradientSpan>
+        <StyledButton
+          isconnected={isconnected.toString()}
+          onClick={handleButtonClick}
+        >
+          <GradientSpan isconnected={isconnected.toString()}>
+            Launch dApp
+          </GradientSpan>
         </StyledButton>
       </TextContainer>
       <ImageContainer>

@@ -10,6 +10,7 @@ import {
   Area,
   Legend,
 } from 'recharts';
+import { DefaultTheme } from '../../styles/Theme';
 
 const data = [
   { epoch: 1, emissions: 50000, reducedEmissions: 0 },
@@ -24,7 +25,7 @@ const data = [
   { epoch: 161, emissions: 500, reducedEmissions: 29500 },
 ];
 
-const EmissionsContainer = styled.section`
+const EmissionsContainer = styled.section<{ theme: DefaultTheme }>`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -41,7 +42,7 @@ const EmissionsContainer = styled.section`
   }
 `;
 
-const Title = styled.h2`
+const Title = styled.h2<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -66,7 +67,7 @@ const Title = styled.h2`
   }
 `;
 
-const Description = styled.p`
+const Description = styled.p<{ theme: DefaultTheme }>`
   color: rgba(255, 255, 255, 0.7);
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};

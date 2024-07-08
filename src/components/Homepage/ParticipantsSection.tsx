@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { DefaultTheme } from '../../styles/Theme';
 
-const ParticipantsContainer = styled.section`
+const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +14,7 @@ const ParticipantsContainer = styled.section`
   margin-right: -50px;
 `;
 
-const ParticipantsTitle = styled.h2`
+const ParticipantsTitle = styled.h2<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -41,7 +42,7 @@ const CardsContainer = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ theme: DefaultTheme }>`
   border-radius: 10px;
   padding: 20px;
   text-align: center;
@@ -50,7 +51,7 @@ const Card = styled.div`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
-const CardTitle = styled.h3`
+const CardTitle = styled.h3<{ theme: DefaultTheme }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
@@ -59,7 +60,7 @@ const CardTitle = styled.h3`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const CardText = styled.p`
+const CardText = styled.p<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 23.92px;
@@ -78,12 +79,12 @@ const StatsContainer = styled.div`
   }
 `;
 
-const Stat = styled.div`
+const Stat = styled.div<{ theme: DefaultTheme }>`
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const StatValue = styled.h4`
+const StatValue = styled.h4<{ theme: DefaultTheme }>`
   font-size: 64px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 95.68px;
@@ -99,7 +100,7 @@ const StatValue = styled.h4`
   }
 `;
 
-const StatLabel = styled.p`
+const StatLabel = styled.p<{ theme: DefaultTheme }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;

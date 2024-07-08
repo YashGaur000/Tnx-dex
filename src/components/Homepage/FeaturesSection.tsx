@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
+import { DefaultTheme } from '../../styles/Theme';
 
-const FeaturesContainer = styled.section`
+const FeaturesContainer = styled.section<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
@@ -23,7 +24,7 @@ const FeaturesContainer = styled.section`
   }
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ theme: DefaultTheme }>`
   width: 100%;
   height: 136px;
   float: left;
@@ -44,7 +45,7 @@ const Card = styled.div`
   }
 `;
 
-const CardText = styled.p`
+const CardText = styled.p<{ theme: DefaultTheme }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 41.86px;

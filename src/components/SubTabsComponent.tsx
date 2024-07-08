@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { DefaultTheme } from '../styles/Theme';
 
 interface SubTabItem {
   to: string;
@@ -12,7 +13,7 @@ interface SubTabsProps {
   items: SubTabItem[];
 }
 
-const SubTabsContainer = styled.div`
+const SubTabsContainer = styled.div<{ theme: DefaultTheme }>`
   position: absolute;
   top: 100%;
   left: 0;
@@ -24,7 +25,7 @@ const SubTabsContainer = styled.div`
   padding: 10px;
 `;
 
-const SubTabItemContainer = styled.div`
+const SubTabItemContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 10px;
   border-radius: 4px;
   &:hover {
@@ -32,7 +33,7 @@ const SubTabItemContainer = styled.div`
   }
 `;
 
-const SubTabLink = styled(Link)`
+const SubTabLink = styled(Link)<{ theme: DefaultTheme }>`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.text};
 `;

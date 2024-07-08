@@ -47,7 +47,7 @@ const Logo = styled.img`
   }
 `;
 
-const Nav = styled.nav<{ isopen: boolean }>`
+const Nav = styled.nav<{ isopen: string }>`
   display: flex;
   gap: 70px;
 
@@ -56,7 +56,7 @@ const Nav = styled.nav<{ isopen: boolean }>`
     gap: 20px;
     align-items: center;
     margin-top: 10px;
-    display: ${({ isopen }) => (isopen ? 'flex' : 'none')};
+    display: ${({ isopen }) => (isopen === 'true' ? 'flex' : 'none')};
   }
 
   @media (max-width: 1200px) {
@@ -173,7 +173,7 @@ const Header: React.FC = () => {
         <FontAwesomeIcon icon={navOpen ? faTimes : faBars} />
       </Toggler>
 
-      <Nav isopen={navOpen}>
+      <Nav isopen={navOpen.toString()}>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowTradeSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}

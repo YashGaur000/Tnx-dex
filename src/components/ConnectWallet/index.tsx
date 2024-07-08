@@ -1,8 +1,8 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import styled from 'styled-components';
 import { Button } from '../Header';
 import { useAccount } from '../../hooks/useAccount';
+import { DefaultTheme } from '../../styles/Theme';
 
 interface ChainProps {
   hasIcon: boolean;
@@ -12,9 +12,9 @@ interface ChainProps {
   unsupported: boolean;
 }
 
-const Container = styled.div<{ ready: boolean }>`
-  ${({ ready }: { ready: boolean }) =>
-    !ready &&
+const Container = styled.div<{ ready: string }>`
+  ${({ ready }) =>
+    ready === 'false' &&
     `
     aria-hidden: true;
     opacity: 0;
@@ -37,7 +37,7 @@ const FlexContainer = styled.div`
   gap: 12px;
 `;
 
-const ChainButton = styled.button<{ padding: string }>`
+const ChainButton = styled.button<{ padding: string; theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   padding: ${({ padding }) => padding};
@@ -71,7 +71,7 @@ export const ConnectWallet = () => {
           (!authenticationStatus || authenticationStatus === 'authenticated');
 
         return (
-          <Container ready={ready}>
+          <Container ready={ready.toString()}>
             {(() => {
               if (!connected) {
                 return (

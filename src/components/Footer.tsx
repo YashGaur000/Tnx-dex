@@ -4,8 +4,9 @@ import twitterLogo from '../assets/twitter-logo.png'; // Replace with the actual
 import discordLogo from '../assets/discord-logo.png'; // Replace with the actual path to your image
 import telegramLogo from '../assets/telegram-logo.png'; // Replace with the actual path to your image
 import youtubeLogo from '../assets/youtube-logo.png'; // Replace with the actual path to your image
+import { DefaultTheme } from '../styles/Theme';
 
-const FooterContainer = styled.footer`
+const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
   padding: 140px 20px;
   background-color: ${({ theme }) => theme.colors.background};
@@ -48,7 +49,7 @@ const Icon = styled.img`
   height: 100%;
 `;
 
-const BuiltBy = styled.div`
+const BuiltBy = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.text};
 

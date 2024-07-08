@@ -2,8 +2,9 @@ import React from 'react';
 import styled from 'styled-components';
 import solLogo from '../../assets/sol-logo.png'; // Replace with the actual path to your image
 import suiLogo from '../../assets/sui-logo.png'; // Replace with the actual path to your image
+import { DefaultTheme } from '../../styles/Theme';
 
-const TopPairsContainer = styled.section`
+const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
@@ -24,7 +25,7 @@ const TopPairsContainer = styled.section`
   }
 `;
 
-const Title = styled.h2`
+const Title = styled.h2<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -43,7 +44,7 @@ const Title = styled.h2`
   }
 `;
 
-const Description = styled.p`
+const Description = styled.p<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.grey};
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -51,7 +52,7 @@ const Description = styled.p`
   margin-bottom: 40px;
 `;
 
-const CardsContainer = styled.div`
+const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -64,7 +65,7 @@ const CardsContainer = styled.div`
   }
 `;
 
-const Card = styled.div`
+const Card = styled.div<{ theme: DefaultTheme }>`
   background-color: ${({ theme }) => theme.colors.cardDark};
   padding: 20px;
   border-radius: 20px;
@@ -81,7 +82,7 @@ const Card = styled.div`
   }
 `;
 
-const CardValue = styled.div`
+const CardValue = styled.div<{ theme: DefaultTheme }>`
   font-size: 36px;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
@@ -105,19 +106,19 @@ const CardIcon = styled.img`
   }
 `;
 
-const CardTitle = styled.div`
+const CardTitle = styled.div<{ theme: DefaultTheme }>`
   font-size: 1.2em;
   color: ${({ theme }) => theme.colors.grey};
   margin-bottom: 5px;
 `;
 
-const CardDescription = styled.div`
+const CardDescription = styled.div<{ theme: DefaultTheme }>`
   font-size: 0.9em;
   color: ${({ theme }) => theme.colors.grey};
   margin-bottom: 5px;
 `;
 
-const CardPercentage = styled.div`
+const CardPercentage = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.grey};
 `;
@@ -129,7 +130,7 @@ const TopPairs: React.FC = () => (
       veTENEX holders vote on pairs to determine next epochs emissions.
     </Description>
     <CardsContainer>
-      {[...Array(3)].map((_, index) => (
+      {[1, 2, 3].map((_, index) => (
         <Card key={index}>
           <CardValue>$8,402.24</CardValue>
           <CardIcons>

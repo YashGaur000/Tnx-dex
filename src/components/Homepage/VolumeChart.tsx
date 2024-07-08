@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts';
+import { DefaultTheme } from '../../styles/Theme';
 
 const data = [
   { date: '24/04/2024', TENEX: 2000000, veTENEX: 2000000 },
@@ -49,7 +50,7 @@ const data = [
   { date: '06/05/2024', TENEX: 1700000, veTENEX: 2190000 },
 ];
 
-const ChartContainer = styled.section`
+const ChartContainer = styled.section<{ theme: DefaultTheme }>`
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
@@ -57,7 +58,7 @@ const ChartContainer = styled.section`
   background-color: ${({ theme }) => theme.colors.background};
 `;
 
-const Title = styled.h2`
+const Title = styled.h2<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -86,7 +87,7 @@ const VolumeChart: React.FC = () => (
         />
         <XAxis dataKey="date" tick={{ fontSize: 12, fill: '#ffffff' }} />
         <YAxis
-          tickFormatter={(tick) => `${tick.toLocaleString()}`}
+          tickFormatter={(tick: number) => `${tick.toLocaleString()}`}
           tick={{ fontSize: 12, fill: '#ffffff' }} // Adjust font size and color
           axisLine={false}
         />
