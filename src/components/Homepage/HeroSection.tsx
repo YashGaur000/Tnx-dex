@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import BackgroundImage from '../../assets/banner.svg'; // Ensure this path is correct or replace with your image path
+// import BackgroundImage from '../../assets/banner.svg';
 import { useAccount } from '../../hooks/useAccount';
 import { useNavigate } from 'react-router-dom';
 import { DefaultTheme } from '../../styles/Theme';
+import Lottie from 'lottie-react';
+import animationData from '../../assets/animation.json';
 
 const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -188,27 +190,27 @@ const ImageContainer = styled.div`
   }
 `;
 
-const Image = styled.img`
-  width: 810px;
-  height: 742px;
-  top: 206px;
-  left: 762px;
-  border-radius: 20px 0px 0px 0px;
-  opacity: 0px;
-  height: fit-content;
+// const Image = styled.img`
+//   width: 810px;
+//   height: 742px;
+//   top: 206px;
+//   left: 762px;
+//   border-radius: 20px 0px 0px 0px;
+//   opacity: 0px;
+//   height: fit-content;
 
-  @media (max-width: 1200px) {
-    width: 700px;
-  }
+//   @media (max-width: 1200px) {
+//     width: 700px;
+//   }
 
-  @media (max-width: 1024px) {
-    width: 600px;
-  }
+//   @media (max-width: 1024px) {
+//     width: 600px;
+//   }
 
-  @media (max-width: 900px) {
-    max-width: 100%;
-  }
-`;
+//   @media (max-width: 900px) {
+//     max-width: 100%;
+//   }
+// `;
 
 const HeroSection: React.FC = () => {
   const { isConnected } = useAccount();
@@ -239,8 +241,11 @@ const HeroSection: React.FC = () => {
           </GradientSpan>
         </StyledButton>
       </TextContainer>
-      <ImageContainer>
+      {/* <ImageContainer>
         <Image src={BackgroundImage} alt="Background" />
+      </ImageContainer> */}
+      <ImageContainer>
+        <Lottie animationData={animationData} loop={true} />
       </ImageContainer>
     </HeroContainer>
   );
