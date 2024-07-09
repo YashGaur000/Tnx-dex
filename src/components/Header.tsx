@@ -157,7 +157,7 @@ const Header: React.FC = () => {
                     'Equalizer Meta Aggregator swaps for efficient routing',
                 },
                 {
-                  to: '/cross-chain-swaps',
+                  to: '/cross-chain-swap',
                   label: 'Cross chain swaps',
                   description:
                     'Bridge and swap via Wormhole Axelar and LayerZero',
@@ -202,7 +202,7 @@ const Header: React.FC = () => {
             <SubTabs
               items={[
                 {
-                  to: '/manage-vetenex',
+                  to: '/governance',
                   label: 'Manage veTENEX',
                   description: 'Lock TENEX into veTENEX to earn rewards',
                 },
@@ -226,7 +226,7 @@ const Header: React.FC = () => {
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
         >
-          <NavLink to="/tools">
+          <NavLink to="/documentation">
             Tools <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showToolsSubTabs && (

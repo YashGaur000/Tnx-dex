@@ -6,7 +6,7 @@ const TextWrapper = styled.div`
   padding: 200px;
 `;
 
-const RewardsPage: React.FC = () => {
+const CrossChainSwap: React.FC = () => {
   return (
     <>
       <TextWrapper>
@@ -16,4 +16,4 @@ const RewardsPage: React.FC = () => {
   );
 };
 
-export default RewardsPage;
+export default CrossChainSwap;
