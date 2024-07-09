@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../assets/logo.svg';
@@ -12,28 +10,16 @@ import {
 import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
 import { Link } from 'react-router-dom';
+import { DefaultTheme } from '../styles/Theme';
 
-const HeaderContainer = styled.header`
+const HeaderContainer = styled.header<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
 
-  @media (max-width: 1200px) {
-    padding: 15px 30px;
-  }
-
-  @media (max-width: 1024px) {
-    padding: 10px 20px;
-  }
-
-  @media (max-width: 900px) {
-    padding: 8px 10px;
-  }
-
   @media (max-width: 768px) {
-    flex-direction: row;
     padding: 10px 20px;
   }
 `;
@@ -47,36 +33,26 @@ const Logo = styled.img`
   }
 `;
 
-const Nav = styled.nav<{ isopen: string }>`
+const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
   display: flex;
   gap: 70px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     flex-direction: column;
     gap: 20px;
     align-items: center;
     margin-top: 10px;
     display: ${({ isopen }) => (isopen === 'true' ? 'flex' : 'none')};
-  }
-
-  @media (max-width: 1200px) {
-    gap: 50px;
-  }
-
-  @media (max-width: 1024px) {
-    gap: 40px;
-  }
-
-  @media (max-width: 900px) {
-    gap: 15px;
-  }
-
-  @media (max-width: 768px) {
-    gap: 32px;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    background: ${({ theme }) => theme.colors.card};
+    padding: 20px 0;
   }
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled(Link)<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   position: relative;
@@ -92,19 +68,23 @@ const NavLink = styled(Link)`
   }
 `;
 
-const Toggler = styled.button`
+const Toggler = styled.button<{ theme: DefaultTheme }>`
   display: none;
   background: none;
   border: none;
   color: ${({ theme }) => theme.colors.text};
   font-size: 24px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     display: block;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    z-index: 999;
   }
 `;
 
-export const Button = styled.button`
+export const Button = styled.button<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   background: ${({ theme }) => theme.colors.buttonBackground};
   color: ${({ theme }) => theme.colors.text};
@@ -118,21 +98,6 @@ export const Button = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.colors.buttonHover};
-  }
-
-  @media (max-width: 1200px) {
-    padding: 8px 16px;
-    font-size: 16px;
-  }
-
-  @media (max-width: 1024px) {
-    padding: 6px 12px;
-    font-size: 16px;
-  }
-
-  @media (max-width: 900px) {
-    padding: 6px 12px;
-    font-size: 14px;
   }
 
   @media (max-width: 768px) {
@@ -157,6 +122,7 @@ const Header: React.FC = () => {
   const handleMouseEnter = (
     setShow: React.Dispatch<React.SetStateAction<boolean>>
   ) => setShow(true);
+
   const handleMouseLeave = (
     setShow: React.Dispatch<React.SetStateAction<boolean>>
   ) => setShow(false);
