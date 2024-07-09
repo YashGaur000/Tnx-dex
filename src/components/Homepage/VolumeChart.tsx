@@ -56,6 +56,10 @@ const ChartContainer = styled.section<{ theme: DefaultTheme }>`
   margin: 0 auto;
   padding: 40px 20px;
   background-color: ${({ theme }) => theme.colors.background};
+
+  @media (max-width: 768px) {
+    padding: 40px 0px;
+  }
 `;
 
 const Title = styled.h2<{ theme: DefaultTheme }>`
@@ -73,6 +77,10 @@ const Title = styled.h2<{ theme: DefaultTheme }>`
 
 const ResponsiveWrapper = styled(ResponsiveContainer)`
   padding: 20px;
+
+  @media (max-width: 768px) {
+    padding: 20px 0px;
+  }
 `;
 
 const VolumeChart: React.FC = () => (

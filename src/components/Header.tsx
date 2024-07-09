@@ -37,6 +37,11 @@ const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
   display: flex;
   gap: 70px;
 
+  @media (max-width: 1200px) {
+    gap: 30px;
+    padding: 20px 10px;
+  }
+
   @media (max-width: 900px) {
     flex-direction: column;
     gap: 20px;

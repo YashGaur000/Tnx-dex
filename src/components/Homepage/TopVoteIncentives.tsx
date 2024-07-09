@@ -42,6 +42,16 @@ const CardsContainer = styled.div`
   gap: 20px;
   width: 100%;
   max-width: 1200px;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+  }
+
+  @media (max-width: 1024px) {
+    grid-template-columns: none;
+    justify-content: center;
+  }
 `;
 
 const Card = styled.div<{ theme: DefaultTheme }>`

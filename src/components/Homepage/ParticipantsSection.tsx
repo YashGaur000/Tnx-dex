@@ -93,10 +93,12 @@ const StatValue = styled.h4<{ theme: DefaultTheme }>`
 
   @media (max-width: 1200px) {
     font-size: 54px;
+    line-height: 1.3;
   }
 
   @media (max-width: 1024px) {
     font-size: 44px;
+    line-height: 1.3;
   }
 `;
 

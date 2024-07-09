@@ -14,7 +14,7 @@ const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   background-color: ${({ theme }) => theme.colors.background};
 
   @media (max-width: 1200px) {
-    padding: 30px;
+    padding: 20px;
   }
 
   @media (max-width: 900px) {
@@ -34,6 +34,12 @@ const TextContainer = styled.div`
   max-width: 50%;
 
   @media (max-width: 1200px) {
+    padding: 0px;
+    max-width: 30%;
+    text-align: center;
+  }
+
+  @media (max-width: 900px) {
     padding: 0px;
     max-width: 100%;
     text-align: center;
@@ -55,6 +61,17 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
 
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 0.5em;
+
+  @media (max-width: 1200px) {
+    font-size: 38px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 40px;
+  }
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
 `;
 
 const GradientText = styled.span<{ theme: DefaultTheme }>`
@@ -67,6 +84,18 @@ const GradientText = styled.span<{ theme: DefaultTheme }>`
   -webkit-text-fill-color: transparent;
   background-clip: text;
   text-fill-color: transparent;
+
+  @media (max-width: 1200px) {
+    font-size: 50px;
+  }
+
+  @media (max-width: 900px) {
+    font-size: 55px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 43px;
+  }
 `;
 
 const Description = styled.p<{ theme: DefaultTheme }>`
@@ -78,7 +107,7 @@ const Description = styled.p<{ theme: DefaultTheme }>`
   margin-bottom: 40px;
 
   @media (max-width: 1200px) {
-    font-size: 20px;
+    font-size: 18px;
   }
 `;
 
@@ -146,6 +175,10 @@ const ImageContainer = styled.div`
   justify-content: center;
   align-items: center;
   max-width: 50%;
+
+  @media (max-width: 1200px) {
+    max-width: 100%;
+  }
 
   @media (max-width: 900px) {
     max-width: 100%;
