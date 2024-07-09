@@ -12,9 +12,9 @@ const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 40px;
   color: ${({ theme }) => theme.colors.text};
   height: 100vh;
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
+  @media (max-width: 900px) {
+    display: inline;
+    text-align: -webkit-center;
   }
 `;
 

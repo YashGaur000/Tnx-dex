@@ -7,6 +7,10 @@ import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST } from './../../constants/tokens';
 import { DefaultTheme } from '../../styles/Theme';
 
+const SwapBoxWrapper = styled.div`
+  margin-bottom: 20px;
+`;
+
 const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -163,69 +167,71 @@ const SwapForm: React.FC = () => {
   };
 
   return (
-    <SwapBox>
-      <Title>Swap</Title>
-      <Description>
-        Our unique engine automatically chooses the best route for your trade
-      </Description>
-      <WalletWrapper>
-        <WalletButton>
-          <WalletIcon icon={faWallet} />
-        </WalletButton>
-        <SwitchComponent
-          isChecked={isConnected}
-          handleToggle={handleToggleChange}
-          onText="Connected"
-          offText="Disconnected"
-          isDisabled={true}
-        />
-      </WalletWrapper>
-      <InputWrapper>
-        <Input
-          type="number"
-          placeholder="0"
-          value={inputValue1}
-          onChange={(e) => setInputValue1(e.target.value)}
-        />
-        <TokenSelect
-          value={selectedToken1}
-          onChange={(e) => setSelectedToken1(e.target.value)}
-        >
-          {TOKEN_LIST.map((token) => (
-            <option key={token.symbol} value={token.symbol}>
-              {token.symbol} - {token.name}
-            </option>
-          ))}
-        </TokenSelect>
-        <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
-      </InputWrapper>
-      <SwitchButton onClick={handleSwap}>
-        <FontAwesomeIcon icon={faExchangeAlt} color="white" />
-      </SwitchButton>
-      <InputWrapper>
-        <Input
-          type="number"
-          placeholder="0"
-          value={inputValue2}
-          onChange={(e) => setInputValue2(e.target.value)}
-        />
-        <TokenSelect
-          value={selectedToken2}
-          onChange={(e) => setSelectedToken2(e.target.value)}
-        >
-          {TOKEN_LIST.map((token) => (
-            <option key={token.symbol} value={token.symbol}>
-              {token.symbol} - {token.name}
-            </option>
-          ))}
-        </TokenSelect>
-        <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
-      </InputWrapper>
-      <Button>Swap</Button>
-      <Description>
-        TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
-      </Description>
-    </SwapBox>
+    <SwapBoxWrapper>
+      <SwapBox>
+        <Title>Swap</Title>
+        <Description>
+          Our unique engine automatically chooses the best route for your trade
+        </Description>
+        <WalletWrapper>
+          <WalletButton>
+            <WalletIcon icon={faWallet} />
+          </WalletButton>
+          <SwitchComponent
+            isChecked={isConnected}
+            handleToggle={handleToggleChange}
+            onText="Connected"
+            offText="Disconnected"
+            isDisabled={true}
+          />
+        </WalletWrapper>
+        <InputWrapper>
+          <Input
+            type="number"
+            placeholder="0"
+            value={inputValue1}
+            onChange={(e) => setInputValue1(e.target.value)}
+          />
+          <TokenSelect
+            value={selectedToken1}
+            onChange={(e) => setSelectedToken1(e.target.value)}
+          >
+            {TOKEN_LIST.map((token) => (
+              <option key={token.symbol} value={token.symbol}>
+                {token.symbol} - {token.name}
+              </option>
+            ))}
+          </TokenSelect>
+          <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
+        </InputWrapper>
+        <SwitchButton onClick={handleSwap}>
+          <FontAwesomeIcon icon={faExchangeAlt} color="white" />
+        </SwitchButton>
+        <InputWrapper>
+          <Input
+            type="number"
+            placeholder="0"
+            value={inputValue2}
+            onChange={(e) => setInputValue2(e.target.value)}
+          />
+          <TokenSelect
+            value={selectedToken2}
+            onChange={(e) => setSelectedToken2(e.target.value)}
+          >
+            {TOKEN_LIST.map((token) => (
+              <option key={token.symbol} value={token.symbol}>
+                {token.symbol} - {token.name}
+              </option>
+            ))}
+          </TokenSelect>
+          <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
+        </InputWrapper>
+        <Button>Swap</Button>
+        <Description>
+          TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
+        </Description>
+      </SwapBox>
+    </SwapBoxWrapper>
   );
 };
 
