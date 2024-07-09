@@ -24,7 +24,7 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme }>`
   }
 `;
 
-const Logo = styled.img`
+export const Logo = styled.img`
   height: 40px;
   margin-right: 10px;
 
@@ -226,7 +226,7 @@ const Header: React.FC = () => {
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
         >
-          <NavLink to="/documentation">
+          <NavLink to="/documentation/introduction/tenex">
             Tools <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showToolsSubTabs && (
@@ -238,7 +238,7 @@ const Header: React.FC = () => {
                   description: 'Deep dive into TenEx',
                 },
                 {
-                  to: '/documentation',
+                  to: '/documentation/introduction/tenex',
                   label: 'Documentation',
                   description: 'Get the low-down in our docs',
                 },

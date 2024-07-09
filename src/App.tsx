@@ -12,7 +12,9 @@ import SwapPage from './pages/swap/SwapPage';
 import CrossChainSwap from './pages/swap/CrossChainSwap';
 import ConcentratedLiquidityPage from './pages/liquidity/ConcentratedLiquidityPage';
 import ManageveTenex from './pages/governance/ManageveTenex';
-import Documentation from './pages/tools/Documentation';
+import Documentation from './pages/tools/documents/Documentation';
+import ContentData from './pages/tools/documents/Content';
+import { DOCS_DATA } from './pages/tools/documents/data/docsData';
 
 function App() {
   return (
@@ -33,7 +35,37 @@ function App() {
           <Route path="/incentives" element={<GovernancePage />} />
           <Route path="/rewards" element={<RewardsPage />} />
           <Route path="/analytics" element={<ToolsPage />} />
-          <Route path="/documentation" element={<Documentation />} />
+          <Route path="/documentation" element={<Documentation />}>
+            <Route path="introduction">
+              <Route
+                path="tenex"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.whatIsTenex.title}
+                    content={DOCS_DATA.whatIsTenex.content}
+                  />
+                }
+              />
+              <Route
+                path="fundamentals"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.ve3.title}
+                    content={DOCS_DATA.ve3.content}
+                  />
+                }
+              />
+              <Route
+                path="analytics"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.analytics.title}
+                    content={DOCS_DATA.analytics.content}
+                  />
+                }
+              />
+            </Route>
+          </Route>
           <Route path="/bridge" element={<ToolsPage />} />
         </Routes>
         <Footer />
