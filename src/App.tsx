@@ -47,6 +47,15 @@ function App() {
                 }
               />
               <Route
+                path="core"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.core.title}
+                    content={DOCS_DATA.core.content}
+                  />
+                }
+              />
+              <Route
                 path="fundamentals"
                 element={
                   <ContentData
@@ -56,11 +65,105 @@ function App() {
                 }
               />
               <Route
+                path="glossary"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.glossary.title}
+                    content={DOCS_DATA.glossary.content}
+                  />
+                }
+              />
+              <Route
+                path="veTenex"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.veTenex.title}
+                    content={DOCS_DATA.veTenex.content}
+                  />
+                }
+              />
+              <Route
+                path="swap"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.tenexSwap.title}
+                    content={DOCS_DATA.tenexSwap.content}
+                  />
+                }
+              />
+              <Route
+                path="revenue"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.revenue.title}
+                    content={DOCS_DATA.revenue.content}
+                  />
+                }
+              />
+              <Route
                 path="analytics"
                 element={
                   <ContentData
                     title={DOCS_DATA.analytics.title}
                     content={DOCS_DATA.analytics.content}
+                  />
+                }
+              />
+            </Route>
+            <Route path="tokenomics">
+              <Route
+                path="distribution"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.distribution.title}
+                    content={DOCS_DATA.distribution.content}
+                  />
+                }
+              />
+              <Route
+                path="emissions-schedule"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.emissions.title}
+                    content={DOCS_DATA.emissions.content}
+                  />
+                }
+              />
+              <Route
+                path="elastic-emissions"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.elasticEmissions.title}
+                    content={DOCS_DATA.elasticEmissions.content}
+                  />
+                }
+              />
+              <Route
+                path="tge"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.tge.title}
+                    content={DOCS_DATA.tge.content}
+                  />
+                }
+              />
+              <Route
+                path="price"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.priceDetermination.title}
+                    content={DOCS_DATA.priceDetermination.content}
+                  />
+                }
+              />
+            </Route>
+            <Route path="security">
+              <Route
+                path="legal"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.security.title}
+                    content={DOCS_DATA.security.content}
                   />
                 }
               />
