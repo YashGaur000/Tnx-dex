@@ -18,7 +18,7 @@ const HeaderContainer = styled.header<{
   isSticky: boolean;
 }>`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
@@ -129,6 +129,23 @@ export const Button = styled.button<{ theme: DefaultTheme }>`
     padding: 6px 12px;
     font-size: 16px;
     margin-top: 10px;
+  }
+`;
+
+const MobileConnectWallet = styled.div`
+  display: none;
+
+  @media (max-width: 900px) {
+    display: block;
+    margin-top: 10px;
+  }
+`;
+
+const DesktopConnectWallet = styled.div`
+  display: block;
+
+  @media (max-width: 900px) {
+    display: none;
   }
 `;
 
@@ -281,10 +298,13 @@ const Header: React.FC = () => {
             />
           )}
         </NavItem>
-        <NavItem>
+        <MobileConnectWallet>
           <ConnectWallet />
-        </NavItem>
+        </MobileConnectWallet>
       </Nav>
+      <DesktopConnectWallet>
+        <ConnectWallet />
+      </DesktopConnectWallet>
     </HeaderContainer>
   );
 };
