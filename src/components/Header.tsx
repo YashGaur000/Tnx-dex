@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useLocation } from 'react-router-dom';
 import logoImage from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -12,21 +13,39 @@ import SubTabs from './SubTabsComponent';
 import { Link } from 'react-router-dom';
 import { DefaultTheme } from '../styles/Theme';
 
-const HeaderContainer = styled.header<{ theme: DefaultTheme }>`
+const HeaderContainer = styled.header<{
+  theme: DefaultTheme;
+  isSticky: boolean;
+}>`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
+  ${({ isSticky }) =>
+    isSticky &&
+    `
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #0F1B3B;
+  `}
+
+  @media (max-width: 900px) {
+    display: block;
+  }
 
   @media (max-width: 768px) {
     padding: 10px 20px;
+    display: block;
   }
 `;
 
-export const Logo = styled.img`
+export const Logo = styled.img<{ theme: DefaultTheme }>`
   height: 40px;
   margin-right: 10px;
+  font-size: 20px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 768px) {
     height: 30px;
@@ -64,12 +83,11 @@ const NavLink = styled(Link)<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 2px 4px;
+  padding: 4px 6px;
   border-radius: 4px;
 
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
-    text-decoration: underline;
   }
 `;
 
@@ -116,7 +134,7 @@ export const Button = styled.button<{ theme: DefaultTheme }>`
 
 const NavItem = styled.div`
   position: relative;
-  display: inline-block;
+  display: flex;
 `;
 
 const Header: React.FC = () => {
@@ -125,6 +143,9 @@ const Header: React.FC = () => {
   const [showGovernanceSubTabs, setShowGovernanceSubTabs] = useState(false);
   const [showToolsSubTabs, setShowToolsSubTabs] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+
+  const location = useLocation();
+  const isSticky = location.pathname.includes('/documentation');
 
   const handleMouseEnter = (
     setShow: React.Dispatch<React.SetStateAction<boolean>>
@@ -137,7 +158,7 @@ const Header: React.FC = () => {
   const toggleNav = () => setNavOpen(!navOpen);
 
   return (
-    <HeaderContainer>
+    <HeaderContainer isSticky={isSticky}>
       <NavLink to="/">
         <Logo src={logoImage} alt="TenEx Logo" />
       </NavLink>
@@ -228,7 +249,9 @@ const Header: React.FC = () => {
           )}
         </NavItem>
 
-        <NavLink to="/rewards">Rewards</NavLink>
+        <NavItem>
+          <NavLink to="/rewards">Rewards</NavLink>
+        </NavItem>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
@@ -258,8 +281,10 @@ const Header: React.FC = () => {
             />
           )}
         </NavItem>
+        <NavItem>
+          <ConnectWallet />
+        </NavItem>
       </Nav>
-      <ConnectWallet />
     </HeaderContainer>
   );
 };

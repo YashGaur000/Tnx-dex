@@ -17,6 +17,11 @@ const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
     width: 70%;
     margin-top: 20px;
   }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    margin-top: 20px;
+  }
 `;
 
 const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`

@@ -22,6 +22,7 @@ interface Colorpallate {
   redToggle: string;
   green: string;
   greyDark: string;
+  navtoggle: string;
 }
 
 interface FontType {
@@ -48,13 +49,14 @@ const theme: DefaultTheme = {
     cardDark: 'rgba(16, 28, 59, 1)',
     title: 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
     grey: 'rgba(204, 204, 204, 1)',
-    hover: '#ffffff5e',
+    hover: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
     greyBorder: '#B8B8B8',
     swapIconBackground:
       'linear-gradient(97.67deg, #0F1B3B 2.6%, #232938 94.56%)',
     redToggle: '#EB5540',
     green: '#16C062',
     greyDark: '#B8B8B8CC',
+    navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
   },
   fonts: {
     main: 'Kanit, sans-serif',

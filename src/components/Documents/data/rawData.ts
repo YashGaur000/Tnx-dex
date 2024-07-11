@@ -5,12 +5,12 @@ export const RAW_DATA = {
       <div>
       <p>TenEx is a next-generation AMM (Automated Market Maker) that integrates the strengths of Curve, Convex, Uniswap, specifically designed to be the central liquidity hub for the Cronos chain. It combines the proven security of Uniswap v4 with an innovative incentive engine, vote-lock governance model, and an enhanced user experience.</p>
   
-      <h2>What is the innovative feature of TenEx?</h2>
+      <span>What is the innovative feature of TenEx?</span>
       <ul>
           <li><strong>Capital-Efficient Liquidity:</strong> The TenEx flywheel mechanism allows protocols to build deep liquidity efficiently by directing $TENEX emissions to their pools.</li>
       </ul>
   
-      <h2>What we aim to achieve?</h2>
+      <span>What we aim to achieve?</span>
       <ul>
           <li><strong>Central Liquidity Hub:</strong> Establish a central liquidity hub for the Aptos ecosystem. TenEx is designed to facilitate token swaps and generate fees from traders by attracting liquidity, offering traders low-cost swaps, providing liquidity providers with a sustainable and consistent yield, and enabling protocols to efficiently build and maintain liquidity for their tokens.</li>
           <li><strong>Sustainable Yields for Liquidity Providers:</strong> Each epoch, liquidity providers (LPs) receive $TENEX token emissions based on the votes their pools accumulate. Only staked liquidity within the protocol gauges qualifies for these emissions, ensuring a fair distribution of sustainable yields.</li>
@@ -20,7 +20,7 @@ export const RAW_DATA = {
           <li><strong>Open-Source and Modular:</strong> The protocol is entirely open-source and modular, removing integration barriers and encouraging widespread adoption within the Aptos ecosystem.</li>
       </ul>
   
-      <h2>Mission Statement</h2>
+      <span>Mission Statement</span>
       <p>TenEx is dedicated to creating a central liquidity hub for the Aptos ecosystem, offering low-cost swaps for traders, sustainable yields for liquidity providers, and cost-effective liquidity solutions for protocols. By supporting new protocols and fostering long-term growth, TenEx aims to benefit both the Aptos ecosystem and its own community. The open-source, modular design ensures easy integration and broad adoption, driving innovation and sustainable development.</p>
   </div>
       `,
@@ -29,18 +29,18 @@ export const RAW_DATA = {
     title: 'Core Functionalities',
     content: `
       <div class="core-section">
-      <h2>Swap</h2>
+      <span>Swap</span>
       <p>On TenEX, like other decentralized exchanges (DEXs), users can swap one token for another. The platform designates certain administrative bodies and automated bots to regularly scan whether arbitrage activities have balanced the pools to reflect the current market rate.</p>
   </div>
   
   <div class="core-section">
-      <h2>LP Liquidity Pool Staking (Legos)</h2>
+      <span>LP Liquidity Pool Staking (Legos)</span>
       <p>In the TenEX model, Liquidity Providers (LPs) are those users with veTENEX tokens. To further encourage participation, staking gauges are used. LP token holders can vote to provide LP tokens and earn Administrative Proposal Tokens (APTs).</p>
       <p>The percentage of dedicated tokens for each daily period determines the amount of TENEX received through the balancing report. The more votes a pool receives, the higher the TENEX rewards will be for that gauge.</p>
   </div>
   
   <div class="core-section">
-      <h2>Voting</h2>
+      <span>Voting</span>
       <p>The primary function of veTENEX NFTs is to direct emissions to LP token pairs through voting. Emissions are distributed proportionally based on the total percentage of votes each pair receives in gauges.</p>
       <p>The expected emissions can be calculated with the following formula:</p>
       <p>Base emission: 4% of total veTENEX supply</p>
@@ -49,9 +49,9 @@ export const RAW_DATA = {
   </div>
   
   <div class="core-section">
-      <h2>Lock (veTENEX/Maxxenger)</h2>
+      <span>Lock (veTENEX/Maxxenger)</span>
       <p>Maxxenger or veTENEX (voting escrow) (ve) position is a vital aspect of the TenEx model. Regular locking for a specific period can help to get participants, whether dedicated to providing LP services, actively participating in protocol governance, or in some cases may wish to just vote with locking escrow positions.</p>
-      <h3>Functions Available on the Voting Page</h3>
+      <span>Functions Available on the Voting Page</span>
       <ul>
           <li>Convert Lock to enhance veTENEX positions.</li>
           <li>Merge Lock & Aged amount to veTENEX positions.</li>
@@ -62,11 +62,11 @@ export const RAW_DATA = {
   </div>
   
   <div class="core-section">
-      <h2>Incentives</h2>
+      <span>Incentives</span>
       <p>The ve3D3CR model's foundation rests on two key incentive structures:</p>
-      <h3>Vote Incentives</h3>
+      <span>Vote Incentives</span>
       <p>Users can place bids on their favorite infrastructure. Users receiving emissions in these pools are paid in certain fees. Fees and tokens derived after the incentive allocation get auto-distributed. These incentives can further sustain participants staking in these pools.</p>
-      <h3>Gauge Incentives</h3>
+      <span>Gauge Incentives</span>
       <p>Gauge incentives: Some users could direct emissions towards the base gauges to incentivize the network, encouraging more liquidity by higher staking & larger gains. This concept involves regular balance adjustments based on governance, emissions, staking, and other essential activities associated with the gauge.</p>
       <p>The protocol team encourages users and participants to actively participate and engage in this mechanism. Incentives will get auto-distributed to users. This engagement ensures a balanced reward system for regular contributors to sustain continuous growth and development.</p>
   </div>
@@ -83,18 +83,18 @@ export const RAW_DATA = {
           </ul>
           <p>It’s a sophisticated tokenomics design that enhances long-term participation and aligns protocol incentives with fee generation. The model addresses issues in traditional liquidity mining by tying token emissions to fee generation and locking mechanisms. It uses dynamic emissions and NFT tokenization to create a sustainable and efficient DeFi ecosystem.</p>
   
-          <h2>Why ve(3,3)?</h2>
+          <span>Why ve(3,3)?</span>
           <p>Ve(3,3) was created to fix issues seen in models like Curve Finance. The problem with those models is that users’ money gets stuck (when it’s locked in the LP) and can’t move around easily, which lowers how effectively capital is used. Ve(3,3) aims to solve these problems and Andre thinks it’ll revolutionize how tokens are made in the future.</p>
   
-          <h2>Key Mechanism</h2>
-          <h3>Token Locking and veTokens</h3>
+          <span>Key Mechanism</span>
+          <span>Token Locking and veTokens</span>
           <ul>
               <li><strong>ve Tokens:</strong> Users lock base tokens (e.g., $VELO (velodrome-finance native token is $VELO)) to receive veTokens (e.g., $veVELO), which grant voting power and access to rewards.</li>
               <li><strong>Lock Period:</strong> Ranges from 1 week to 4 years. Longer locks provide more voting power and rewards.</li>
               <li><strong>Decay:</strong> veTokens decay over time, reducing voting power and rewards as the lock period progresses.</li>
           </ul>
   
-          <h3>Rewards</h3>
+          <span>Rewards</span>
           <p>There are 3 forms of rewards in DeX(3,3) based on ve(3,3) protocol:</p>
           <ul>
               <li>Emissions</li>
@@ -102,7 +102,7 @@ export const RAW_DATA = {
               <li>Bribes</li>
           </ul>
   
-          <h3>Emissions:</h3>
+          <span>Emissions:</span>
           <ul>
               <li><strong>Dynamic Emission Adjustment:</strong></li>
               <ul>
@@ -117,40 +117,40 @@ export const RAW_DATA = {
               </ul>
           </ul>
   
-          <h3>Trading Fees:</h3>
+          <span>Trading Fees:</span>
           <p>Trading fees originate from swap transactions associated with the Liquidity Pool. You can earn these fees by voting for any gauge you desire a share of. These fees are distributed at the beginning of each epoch. The rewards are provided in the same tokens as the LP-Tokens, for eg.</p>
           <p><em>Rewards for LP with a pair of $BTC/$ETH will be in both $BTC and $ETH</em></p>
   
-          <h3>Bribes:</h3>
+          <span>Bribes:</span>
           <p>Bribes are a form of supplementary incentives distributed by the protocol or partners (VCs), to the liquidity providers. You have the opportunity to vote and earn in any gauge that is currently offering bribes. Bribes are given out every epoch, just like other incentives. Payment depends on the tokens offered as bribes in each gauge.</p>
           <div>
-          <h2>NFT Integration:</h2>
+          <span>NFT Integration:</span>
           <ul>
               <li><strong>Tokenization:</strong> Lock positions are represented as NFTs, allowing trading and borrowing against locked tokens, adding liquidity.</li>
               <li><strong>Multiple Locks:</strong> Users can own multiple veNFTs, managing different lock periods and amounts.</li>
           </ul>
       </div>
       <div >
-          <h2>Fee Distribution:</h2>
+          <span>Fee Distribution:</span>
           <ul>
               <li>Protocol Fees: veToken holders earn fees generated by the protocol. Fees are typically distributed in the assets accrued, not the native token, to avoid correlation and volatility issues.</li>
           </ul>
       </div>
       <div>
-          <h2>Types of Liquidity Pools:</h2>
-          <h3>Volatile Pools</h3>
+          <span>Types of Liquidity Pools:</span>
+          <span>Volatile Pools</span>
           <p>Volatile pools are defined as assets that have no direct correlation in price, examples are Chainlink <code>LINK</code> and Ethereum <code>ETH</code>. The price of <code>ETH</code> has no relation to the price of <code>LINK</code>.</p>
           <p>Volatiles pairs use the following formula to determine the price:</p>
           <p class="formula">x * y = k</p>
-          <h3>Stable Pools</h3>
+          <span>Stable Pools</span>
           <p>Stable pools are defined as assets that have a direct correlation to each other. Examples are USDC/USDT, wBTC/renBTC, fraxETH/wETH etc. The price of the 2 assets will trade very close to each other and thus a different approach can be taken to allow for much higher volume at low slippage.</p>
           <p>Stable pairs use the following formula to determine the price:</p>
-          <p>x * y + y * x = k</p>
+          <p class="formula">x * y + y * x = k</p>
       </div>
       <div >
-          <h2>Practical Applications:</h2>
-          <h3>Solidly</h3>
-          <h3>Iy's Implementation:</h3>
+          <span>Practical Applications:</span>
+          <span>Solidly</span>
+          <span>Iy's Implementation:</span>
           <ul>
               <li><strong>New AMM Design:</strong> Supports swaps between both correlated and uncorrelated assets, and integrates Uniswap v2 compatible interfaces.</li>
               <li><strong>Fee Incentives:</strong> Emphasizes trading fee generation over liquidity incentives. veSOLID holders earn fees and can receive bribes to vote for specific pools.</li>
@@ -158,14 +158,14 @@ export const RAW_DATA = {
           </ul>
       </div>
       <div >
-          <h2>Advantages and Disadvantages:</h2>
-          <h3>Advantages:</h3>
+          <span>Advantages and Disadvantages:</span>
+          <span>Advantages:</span>
           <ul>
               <li><strong>Incentivizes Long-Term Participation:</strong> Encourages users to lock tokens, aligning interests with protocol longevity.</li>
               <li><strong>Sustainable Emissions:</strong> Adjustments ensure emissions do not lead to unsustainable inflation.</li>
               <li><strong>Capital Efficiency:</strong> NFT integration provides liquidity and secondary market trading options for locked tokens.</li>
           </ul>
-          <h3>Disadvantages:</h3>
+          <span>Disadvantages:</span>
           <ul>
               <li><strong>Complexity:</strong> Requires understanding of advanced tokenomics and game theory.</li>
               <li><strong>Liquidity Lockup:</strong> Locked tokens reduce immediate liquidity.</li>
@@ -179,27 +179,27 @@ export const RAW_DATA = {
     title: 'Glossary',
     content: `
       <div >
-      <h2>Bribes</h2>
+      <span>Bribes</span>
       <p>Incentives offered to veToken holders to vote in favor of specific pools or proposals. Bribes can be in the form of additional tokens or rewards, encouraging strategic voting that aligns with the interests of the bribing party.</p>
   </div>
   <div >
-      <h2>Concentrated Liquidity</h2>
+      <span>Concentrated Liquidity</span>
       <p>A concept in DeFi that allows LPs to allocate their capital within a specific price range rather than across the entire price spectrum. This means LPs can concentrate their liquidity where they expect the most trading activity to occur, increasing the efficiency of their capital.</p>
   </div>
   <div >
-      <h2>Dilution</h2>
+      <span>Dilution</span>
       <p>Typically refers to the reduction in the value of existing tokens due to the introduction of more tokens into circulation.</p>
   </div>
   <div>
-      <h2>Emissions</h2>
+      <span>Emissions</span>
       <p>Release of new tokens into circulation by a protocol, often used as rewards for participants who provide liquidity or other services to support the network/ecosystem. They can be controlled to manage inflation and incentivize desired behaviors.</p>
   </div>
   <div>
-      <h2>Epoch</h2>
+      <span>Epoch</span>
       <p>A metric to define a time-period, usually 1 epoch = 1 week.</p>
   </div>
   <div>
-      <h2>Impermanent Loss</h2>
+      <span>Impermanent Loss</span>
       <p>Impermanent Loss: Imagine you deposit 1 ETH (worth $2,000) and 2,000 USDC into a 50/50 ETH/USDC liquidity pool. The total value of your deposit is $4,000.</p>
       <ul>
           <li><strong>Price Change:</strong> The price of ETH increases from $2,000 to $3,000.</li>
@@ -210,19 +210,19 @@ export const RAW_DATA = {
       </ul>
   </div>
   <div>
-      <h2>Protocol Fees</h2>
+      <span>Protocol Fees</span>
       <p>Mechanisms used by a protocol to encourage participation and align the interests of its users. Fees collected from transactions or other activities are often redistributed as incentives to users who contribute to the protocol's success, such as liquidity providers or stakers.</p>
   </div>
   <div>
-      <h2>Liquidity Mining</h2>
+      <span>Liquidity Mining</span>
       <p>A process where users provide liquidity to a DeFi protocol (such as a DEX) in exchange for rewards. These rewards typically come in the form of newly minted tokens or protocol fees, incentivizing users to supply liquidity and increase the platform's overall liquidity.</p>
   </div>
   <div>
-      <h2>Vote Escrow (the ve in ve(3,3))</h2>
+      <span>Vote Escrow (the ve in ve(3,3))</span>
       <p>Vote Escrow is the mechanism of locking tokens for pre-set periods. The disadvantage of this mechanism is low liquidity.</p>
   </div>
   <div>
-      <h2>(3,3)</h2>
+      <span>(3,3)</span>
       <p>This is a model by Olympus Dao, (3,3) encouraging people to stake OHM as much as possible. The weaknesses of this model is still the reward mechanism; the more OHM tokens minted, their value decreases.</p>
   </div>
   `,
@@ -255,10 +255,10 @@ export const RAW_DATA = {
     title: 'Voters Revenue Distribution Schedule',
     content: `
       <div>
-      <h2>Vote Incentives:</h2>
+      <span>Vote Incentives:</span>
       <p>Participants can claim voting incentives as soon as the epoch ends. To illustrate, if a single pair receives a 1000 USDC incentive and you’re the only voter, you're entitled to the entire 1000 USDC. This incentive becomes available for collection starting at 0 UTC on Thursday.</p>
   
-      <h2>Swap Fees:</h2>
+      <span>Swap Fees:</span>
       <p>Throughout the week, voters continuously accumulate trading fees in real-time. These earnings are derived from the pool(s) they supported with their votes before the epoch's conclusion. This mechanism ensures that participants receive ongoing compensation for their role in enhancing liquidity.</p>
       <p>This dual incentive structure encourages active participation and strategic voting, while providing both immediate and continuous benefits to TenEx users.</p>
       </div>
@@ -288,18 +288,42 @@ export const RAW_DATA = {
         <p>Legacy pools refer to the traditional Uni-V2 and Stableswap pools that have been in existence </p>
         <p><strong>Volatile : </strong> Uni-V2 pools</p>
         <p><strong>Correlated : </strong> Stableswap pools</p>
-        <h2>Volatile Pools (UniV2-Style):</h2>
+        <span>Volatile Pools (UniV2-Style):</span>
     <ul>
         <li>These are basic pools where tokens are paired with equal dollar value weights.</li>
         <li>The volatile swap curve facilitates trades within these pools, adapting to token price changes.</li>
-        <li>The volatile swap curve used is: <code>x * y = k</code></li>
+        <li>The volatile swap curve used is: <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+            <mi>x</mi>
+            <mo>&#x2219;</mo> <!-- Dot operator -->
+            <mi>y</mi>
+            <mo>=</mo>
+            <mi>k</mi>
+        </mrow>
+    </math></li>
         <li>The balance between TokenA and TokenB in the pool will always be equivalent in value to each other. For instance, in a volatile ETH-USDC pool where ETH is priced at 3500 USDC, the pool will maintain a ratio of 1 ETH per 3500 USDC.</li>
     </ul>
-    <h2>Correlated Pools (Andre-Style):</h2>
+    <span>Correlated Pools (Andre-Style):</span>
     <ul>
         <li>Utilizing a stable swap curve, these pools offer enhanced trading efficiency compared to other DEXs.</li>
         <li>The stable swap curve, originally devised by Andre, is designed to minimize slippage, providing nearly zero slippage for stable swaps.</li>
-        <li>The stable swap curve used is: <code>x^3y + y^3x=k</code></li>
+        <li>The stable swap curve used is: <math xmlns="http://www.w3.org/1998/Math/MathML">
+        <mrow>
+            <msup>
+                <mi>x</mi>
+                <mn>3</mn>
+            </msup>
+            <mi>y</mi>
+            <mo>+</mo>
+            <msup>
+                <mi>y</mi>
+                <mn>3</mn>
+            </msup>
+            <mi>x</mi>
+            <mo>=</mo>
+            <mi>k</mi>
+        </mrow>
+    </math></li>
         <li>The balance between TokenA and TokenB in the pool will fluctuate depending on their current positions along the price curve. When the prices of both assets are similar, the pool will tend to maintain a ratio close to 50/50.</li>
     </ul>
     </div>
@@ -311,10 +335,10 @@ export const RAW_DATA = {
     <div>
     <p><strong>Legacy LP tokens</strong> need to be staked in their respective gauges in order to earn incentives. Fees are auto-compounded into the LP position regardless of staking status.</p>
 
-    <h2>Auto-Compounding Fees</h2>
+    <span>Auto-Compounding Fees</span>
     <p>LPs appreciate in value over-time as each swap compounds ~40% of the earned fees back into the pool.</p>
 
-    <h2>Gauge Incentives</h2>
+    <span>Gauge Incentives</span>
     <p>Staked LP tokens earn emissions and/or external LP incentives, proportional to their share of the total staked.</p>
     </div>
     `,
@@ -323,7 +347,7 @@ export const RAW_DATA = {
     title: 'Swap Curves',
     content: `
     <div>
-        <h2>Graphical Representation of the ve(3,3) Swap Curves :</h2>
+        <span>Graphical Representation of the ve(3,3) Swap Curves :</span>
         <p>The graph below illustrates the variance between 0 and 100, highlighting the differences in slippage between the two swap curves. The Green (Correlated) curve demonstrates less slippage from the mean as the K value fluctuates, compared to the other curves. This visualization effectively shows how the Correlated curve maintains stability and efficiency in trades.<p>
     </div>
     `,
@@ -338,13 +362,13 @@ export const RAW_DATA = {
           <li><strong>veTENEX:</strong> An ERC-721 governance token in the form of a non-fungible token (NFT).</li>
       </ul>
   
-      <h2>Distribution and Use</h2>
+      <span>Distribution and Use</span>
       <ul>
           <li><strong>TENEX:</strong> Distributed to liquidity providers through emissions.</li> 
           <li><strong>veTENEX  </strong> is used for governance. Any TENEX holder can lock their tokens and receive veTENEX at any time. veTENEX is a transferable NFT representing voting power. Additional tokens can be added to the veTENEX NFT at any time.</li>
       </ul>
   
-      <h2>Lock Period</h2>
+      <span>Lock Period</span>
       <ul>
           <li>The lock period, also known as the vote-escrowed period (hence the “ve” prefix), can last up to 2 years.</li>
           <li>The conversion follows the linear exchange rate:
@@ -356,7 +380,7 @@ export const RAW_DATA = {
           </li>
       </ul>
   
-      <h2>Permanent Lock Option</h2>
+      <span>Permanent Lock Option</span>
       <ul>
           <li>The Lock (perPET) can be set to a permanent maximum lock time.</li>
           <li>This permanent Lock (perPET) is always directly tied to the production being locked for the maximum duration of 2 years, and the voting power does not decay.</li>
@@ -389,7 +413,7 @@ export const RAW_DATA = {
   </div>
   
   <div>
-      <h2>The total token supply distribution of TENEX is:</h2>
+      <span>The total token supply distribution of TENEX is:</span>
       <table>
           <tr>
               <th>Initial Supply</th>
@@ -405,7 +429,7 @@ export const RAW_DATA = {
   </div>
   
   <div>
-      <h2>The total token supply allocation of TENEX is:</h2>
+      <span>The total token supply allocation of TENEX is:</span>
       <table>
           <tr>
               <th>Category</th>
@@ -546,7 +570,7 @@ export const RAW_DATA = {
       <div>
       <p>8,000,000 TENEX tokens will be available for the sale. You can contribute ETH in exchange for TENEX tokens, which can be claimed after the sale ends. All participants will receive tokens with the same value per dollar.</p>
       
-      <h2>Initial Seeding of Liquidity</h2>
+      <span>Initial Seeding of Liquidity</span>
       <p>The initial seeding price of liquidity will be determined as follows:</p>
       <ul>
           <li><strong>P<sub>i</sub> = Initial Price</strong></li>
@@ -568,27 +592,27 @@ export const RAW_DATA = {
     title: 'Risk and Legal Disclosures',
     content: `
   <div>
-  <h2>LEGAL DISCLAIMER</h2>
+  <span>LEGAL DISCLAIMER</span>
   <p>Please carefully read this disclaimer before using TENEX (the protocol) or any names directly or indirectly associated with the protocol. By using the protocol, you acknowledge your acceptance of this legal disclaimer and agree to adhere to its terms of service. If you do not agree, please refrain from using the protocol.</p>
   </div>
   
   <div>
-  <h2>INFORMATION NOT ADVICE</h2>
+  <span>INFORMATION NOT ADVICE</span>
   <p>The information provided on the protocol is not intended as investment advice, financial advice, trading advice, or any other form of advice. Our team provides the protocol as a public service and disclaims all liabilities arising from disputes or the use of information on the protocol, despite efforts made to periodically update the information. (Accuracy, completeness, and timeliness are not guaranteed.)</p>
   </div>
   
   <div>
-  <h2>USAGE AND INVESTMENT RISK</h2>
+  <span>USAGE AND INVESTMENT RISK</span>
   <p>The protocol is not liable for losses, damages, or claims resulting from user errors, software issues, technical failures, security problems, or activities of third parties. It is crucial to note that TENEX does not regulate, control, or promise the monetary value of the TENEX token. The value of the TENEX token can fluctuate based on various factors, and holding or using the token carries no guarantees of returns or specific benefits. Users should understand that TENEX does not create an investment contract or any obligation for users based on expected returns or benefits. Investing in cryptocurrencies involves risks, and the information on the protocol does not assure protection against financial loss. Users must understand and assess these risks and make informed decisions when using the protocol.</p>
   </div>
   
   <div>
-  <h2>COMPLIANCE WITH TAX OBLIGATIONS</h2>
+  <span>COMPLIANCE WITH TAX OBLIGATIONS</span>
   <p>Users are solely responsible for determining their tax obligations related to cryptocurrency holdings. The protocol and its contributors are not responsible for determining users' tax liabilities arising from transactions. Always ensure compliance with local laws and regulations in your jurisdiction before making any purchases and conduct your own research on tax regulations. It is your responsibility to determine whether taxes apply to any transactions you initiate or receive and, if so, to report and/or remit the correct tax to the appropriate tax authority.</p>
   </div>
   
   <div>
-  <h2>SECURITY</h2>
+  <span>SECURITY</span>
   <p>Security audits do not eliminate all risks. The protocol is not guaranteed to be secure or free from bugs or viruses. We implement and maintain reasonable administrative, physical, and technical security measures, and other applicable laws, to protect unauthorized access, disclosure, alteration, or destruction of the data we collect. The protocol disclaims all liabilities for any issues, including the security of your blockchain network addresses, cryptocurrency wallets, and cryptographic keys.</p>
   </div>
   `,

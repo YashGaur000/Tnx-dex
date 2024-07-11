@@ -6,10 +6,15 @@ import logoImage from '../../assets/logo.svg';
 import { Outlet } from 'react-router-dom';
 
 const MainContentContainer = styled.main`
-  margin-left: 20%;
   padding: 20px;
+  margin-left: 22%;
   margin-bottom: 15%;
-  width: 100%;
+  width: 80%;
+
+  @media (max-width: 900px) {
+    margin-left: 0;
+    width: 100%;
+  }
 `;
 
 const Banner = styled.div<{ theme: DefaultTheme }>`

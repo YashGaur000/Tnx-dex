@@ -6,22 +6,38 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.text};
   padding: 4%;
   line-height: 35.88px;
+  font-size: 34px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   font-family: ${({ theme }) => theme.fonts.main};
 
   h1 {
-    font-size: 40px;
+    font-size: 36px;
+    font-weight: ${({ theme }) => theme.fontWeights.regular};
     margin-bottom: 30px;
   }
 
-  h2 {
-    font-size: 30px;
+  span {
+    font-size: 20px;
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
   }
-  ul,
+
   p {
     margin: 1rem 0;
-    font-size: 20px;
+    font-size: 18px;
+    padding-left: 10px;
     font-weight: ${({ theme }) => theme.fontWeights.regular};
+  }
+
+  strong {
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+  }
+
+  ul {
+    margin: 1rem 0;
+    font-size: 18px;
+    font-weight: ${({ theme }) => theme.fontWeights.regular};
+    padding-left: 40px;
   }
   ,
   table {
@@ -29,11 +45,26 @@ const Content = styled.div<{ theme: DefaultTheme }>`
     border-collapse: collapse;
     margin: 20px 0;
   }
-  th,
+  th {
+    padding: 8px 12px;
+    border: 1px solid;
+    text-align: center;
+    font-size: 20px;
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+  }
   td {
     padding: 8px 12px;
     border: 1px solid;
     text-align: left;
+    font-size: 20px;
+    font-weight: ${({ theme }) => theme.fontWeights.regular};
+  }
+
+  .formula {
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    text-align: center;
+    font-size: 26px;
+    padding: 10px;
   }
 
   .core-section {
@@ -43,6 +74,12 @@ const Content = styled.div<{ theme: DefaultTheme }>`
     border-radius: 5px;
     ul {
       padding: 10px;
+    }
+
+    math {
+      font-weight: ${({ theme }) => theme.fontWeights.bold};
+      text-align: center;
+      font-size: 26px;
     }
   }
 `;

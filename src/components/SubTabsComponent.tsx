@@ -18,7 +18,7 @@ const SubTabsContainer = styled.div<{ theme: DefaultTheme }>`
   top: 100%;
   left: 0;
   width: 250px;
-  background: ${({ theme }) => theme.colors.card};
+  background: ${({ theme }) => theme.colors.navtoggle};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   z-index: 1000;
@@ -29,7 +29,7 @@ const SubTabItemContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 10px;
   border-radius: 4px;
   &:hover {
-    background-color: ${({ theme }) => theme.colors.hover};
+    background: ${({ theme }) => theme.colors.hover};
   }
 `;
 
