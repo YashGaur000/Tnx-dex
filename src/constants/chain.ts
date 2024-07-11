@@ -9,7 +9,6 @@ import {
   blast,
   blastSepolia,
 } from 'wagmi/chains';
-import { envConfig } from '../config';
 
 export const SUPPORTED_MAINNET_CHAINS = [
   boba,
@@ -105,7 +104,7 @@ export const NETWORK_CONFIGS: NetworkConfig = {
   },
   [sepolia.id]: {
     ...sepolia,
-    RPC: [envConfig.alchemySepoliaRpcUrl],
+    RPC: [],
   },
   [blastSepolia.id]: {
     ...blastSepolia,
