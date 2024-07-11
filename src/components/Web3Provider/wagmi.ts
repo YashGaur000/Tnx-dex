@@ -35,7 +35,7 @@ const connectors = connectorsForWallets(
       ],
     },
   ],
-  { appName: 'tenex', projectId: envConfig.wallectConnectProjectId }
+  { appName: 'Tenex Exchange', projectId: envConfig.wallectConnectProjectId }
 );
 
 export const wagmiConfig = createConfig({
