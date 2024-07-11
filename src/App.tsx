@@ -1,5 +1,6 @@
 // src/App.tsx
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
 import ThemeProvider from './components/ThemeProvider';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -13,13 +14,15 @@ import CrossChainSwap from './pages/swap/CrossChainSwap';
 import ConcentratedLiquidityPage from './pages/liquidity/ConcentratedLiquidityPage';
 import ManageveTenex from './pages/governance/ManageveTenex';
 import Documentation from './pages/tools/documents/Documentation';
-import ContentData from './pages/tools/documents/Content';
 import { DOCS_DATA } from './pages/tools/documents/data/docsData';
+
+const ContentData = lazy(() => import('./pages/tools/documents/Content'));
 
 function App() {
   return (
     <ThemeProvider>
       <Router>
+        <Suspense fallback={<div>Loading...</div>} />
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -106,6 +109,35 @@ function App() {
                   <ContentData
                     title={DOCS_DATA.analytics.title}
                     content={DOCS_DATA.analytics.content}
+                  />
+                }
+              />
+            </Route>
+            <Route path="liquidity">
+              <Route
+                path="pools"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.legacyPools.title}
+                    content={DOCS_DATA.legacyPools.content}
+                  />
+                }
+              />
+              <Route
+                path="rewards"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.rewards.title}
+                    content={DOCS_DATA.rewards.content}
+                  />
+                }
+              />
+              <Route
+                path="curves"
+                element={
+                  <ContentData
+                    title={DOCS_DATA.curves.title}
+                    content={DOCS_DATA.curves.content}
                   />
                 }
               />
