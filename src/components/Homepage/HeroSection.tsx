@@ -100,11 +100,11 @@ const GradientText = styled.span<{ theme: DefaultTheme }>`
   }
 `;
 
-const Description = styled.p<{ theme: DefaultTheme }>`
+export const Description = styled.p<{ theme: DefaultTheme; align: string }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
-  text-align: left;
+  text-align: ${({ align }) => align};
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 40px;
 
@@ -229,7 +229,7 @@ const HeroSection: React.FC = () => {
           <br />
           <GradientText>Finance</GradientText>
         </Title>
-        <Description>
+        <Description align="left">
           Premier Trading and Liquidity Market Place of DeFi
         </Description>
         <StyledButton
