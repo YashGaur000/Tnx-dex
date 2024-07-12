@@ -5,11 +5,12 @@ import { Logo } from '../Header';
 import logoImage from '../../assets/logo.svg';
 import { Outlet } from 'react-router-dom';
 
-const MainContentContainer = styled.main`
+const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   padding: 20px;
   margin-left: 22%;
   margin-bottom: 15%;
   width: 80%;
+  border-left: 1px solid ${({ theme }) => theme.colors.grey};
 
   @media (max-width: 900px) {
     margin-left: 0;

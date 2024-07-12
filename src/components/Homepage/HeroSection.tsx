@@ -11,8 +11,8 @@ const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 100vh;
-  padding: 0 40px;
+  height: 90vh;
+  padding: 0px 40px;
   background-color: ${({ theme }) => theme.colors.background};
 
   @media (max-width: 1200px) {

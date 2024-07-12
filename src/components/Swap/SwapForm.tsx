@@ -15,14 +15,14 @@ const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
-  padding: 20px;
+  padding: 40px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   max-width: 500px;
   width: 100%;
 `;
 
 const Title = styled.h1<{ theme: DefaultTheme }>`
-  font-size: 48px;
+  font-size: 36px;
   margin-bottom: 10px;
   text-align: center;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -31,7 +31,7 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
 const Description = styled.p<{ theme: DefaultTheme }>`
   text-align: center;
   margin-bottom: 20px;
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   padding-top: 10px;
   color: ${({ theme }) => theme.colors.grey};

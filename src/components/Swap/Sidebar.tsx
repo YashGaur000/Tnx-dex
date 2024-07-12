@@ -125,7 +125,7 @@ const Sidebar: React.FC = () => {
   };
   return (
     <SidebarContainer>
-      <SidebarTitle fontSize={36}>Swap</SidebarTitle>
+      <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
       <SidebarList>
         <SidebarListItem>
           1. Start by selecting the token to swap from and the amount you want
@@ -143,7 +143,7 @@ const Sidebar: React.FC = () => {
         </SidebarListItem>
       </SidebarList>
       <SlippageWrapper display="flow">
-        <SidebarTitle fontSize={20}>Slippage Tolerance</SidebarTitle>
+        <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
         <ToleranceButtons>
           <ToleranceButton>0.1%</ToleranceButton>
           <ToleranceButton>0.5%</ToleranceButton>
@@ -154,7 +154,7 @@ const Sidebar: React.FC = () => {
       </SlippageWrapper>
       <SlippageWrapper display="flow">
         <Align>
-          <SidebarTitle fontSize={20}>Transaction Deadline</SidebarTitle>
+          <SidebarTitle fontSize={16}>Transaction Deadline</SidebarTitle>
           <TimerButton>30 mins</TimerButton>
         </Align>
         <SliderContainer>
@@ -166,7 +166,7 @@ const Sidebar: React.FC = () => {
       </SlippageWrapper>
       <SlippageWrapper display="flex">
         <ContentWrapper>
-          <SidebarTitle fontSize={20}>Allow unsafe trades</SidebarTitle>
+          <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
           <SidebarListItem>
             Enabling this will allow trading on high quotes with high price
             impact and could lead to loss of funds.
