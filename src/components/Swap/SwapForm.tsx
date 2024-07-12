@@ -76,6 +76,9 @@ const TokenSelect = styled.select<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
+const TokenOption = styled.option<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.card};
+`;
 
 const Button = styled.button<{ theme: DefaultTheme }>`
   width: 100%;
@@ -209,9 +212,9 @@ const SwapForm: React.FC = () => {
             onChange={(e) => setSelectedToken1(e.target.value)}
           >
             {TOKEN_LIST.map((token) => (
-              <option key={token.symbol} value={token.symbol}>
+              <TokenOption key={token.symbol} value={token.symbol}>
                 {token.symbol}
-              </option>
+              </TokenOption>
             ))}
           </TokenSelect>
           <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
@@ -232,9 +235,9 @@ const SwapForm: React.FC = () => {
             onChange={(e) => setSelectedToken2(e.target.value)}
           >
             {TOKEN_LIST.map((token) => (
-              <option key={token.symbol} value={token.symbol}>
+              <TokenOption key={token.symbol} value={token.symbol}>
                 {token.symbol}
-              </option>
+              </TokenOption>
             ))}
           </TokenSelect>
           <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>

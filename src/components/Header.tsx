@@ -300,7 +300,7 @@ const Header: React.FC = () => {
               setShowToolsSubTabs(!showToolsSubTabs);
             }}
           >
-            Tools <FontAwesomeIcon icon={faChevronDown} />
+            Resources <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showToolsSubTabs && (
             <SubTabs
