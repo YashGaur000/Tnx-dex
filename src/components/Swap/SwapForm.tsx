@@ -30,7 +30,7 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
 
 const Description = styled.p<{ theme: DefaultTheme }>`
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   padding-top: 10px;
@@ -54,6 +54,16 @@ const Input = styled.input<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-right: 1%;
+
+  /* Hide spin buttons */
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield; /* Chrome, Safari, Edge */
+  /* Remove inner padding and search cancel button */
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 const TokenSelect = styled.select<{ theme: DefaultTheme }>`
@@ -76,7 +86,7 @@ const Button = styled.button<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
-  margin-top: 10px;
+  margin: 20px 0px;
 
   &:hover {
     background: ${({ theme }) => theme.colors.buttonHover};
@@ -180,8 +190,8 @@ const SwapForm: React.FC = () => {
           <SwitchComponent
             isChecked={isConnected}
             handleToggle={handleToggleChange}
-            onText="Connected"
-            offText="Disconnected"
+            onText=""
+            offText=""
             isDisabled={true}
           />
         </WalletWrapper>
@@ -210,6 +220,7 @@ const SwapForm: React.FC = () => {
         <InputWrapper>
           <Input
             type="number"
+            inputMode="numeric"
             placeholder="0"
             value={inputValue2}
             onChange={(e) => setInputValue2(e.target.value)}

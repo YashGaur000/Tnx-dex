@@ -28,6 +28,9 @@ const Banner = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
   gap: 20px;
   border-radius: 20px;
+  // position: sticky;
+  // top: 10px;
+  // z-index: 100;
 `;
 
 const MainContent: React.FC = () => {
