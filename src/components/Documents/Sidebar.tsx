@@ -19,6 +19,13 @@ const SidebarContainer = styled.aside<{ theme: DefaultTheme; isopen: string }>`
   overflow-y: auto;
   padding-bottom: 20px;
   display: fixed;
+  // border-right: 1px solid ${({ theme }) => theme.colors.grey};
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
 
   @media (max-width: 900px) {
     width: 50%;
@@ -36,11 +43,19 @@ const Section = styled.div`
   margin-bottom: 20px;
 `;
 
-const SectionTitle = styled.h3<{ theme: DefaultTheme }>`
+const SectionTitle = styled.h3<{ theme: DefaultTheme; isOpen: boolean }>`
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.hover};
+  }
 `;
 
 const SectionLink = styled(Link)<{ theme: DefaultTheme }>`
@@ -50,10 +65,17 @@ const SectionLink = styled(Link)<{ theme: DefaultTheme }>`
   margin-bottom: 5px;
   margin-left: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: 16px;
+  font-size: 14px;
+  width: fit-content;
+  padding: 7px;
+  border-radius: 4px;
 
   &:hover {
-    text-decoration: underline;
+    background: ${({ theme }) => theme.colors.hover};
+  }
+
+  &.active {
+    background: ${({ theme }) => theme.colors.hover};
   }
 `;
 
@@ -80,8 +102,14 @@ const HamburgerIcon = styled.div<{ theme: DefaultTheme }>`
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [visibleSections, setVisibleSections] = useState<Record<string, boolean>>({
+  const [visibleSections, setVisibleSections] = useState<
+    Record<string, boolean>
+  >({
+    introduction: true,
     fundamentals: false,
+    liquidity: false,
+    tokenomics: false,
+    security: false,
     liquidityEvent: false,
   });
 
@@ -105,62 +133,112 @@ const Sidebar: React.FC = () => {
       </HamburgerIcon>
       <SidebarContainer isopen={isOpen.toString()}>
         <Section>
-          <SectionTitle>Introduction to TENEX</SectionTitle>
-          <SectionLink to="introduction/tenex">What is TENEX</SectionLink>
-          <SectionLink to="introduction/core">Core Functionalities</SectionLink>
-          <SectionLink
-            to="introduction/fundamentals"
-            onClick={() => toggleSection('fundamentals')}
+          <SectionTitle
+            onClick={() => toggleSection('introduction')}
+            isOpen={visibleSections.introduction}
           >
-            ve(3,3) Fundamentals &nbsp;
+            Introduction to TENEX
             <FontAwesomeIcon
-              icon={visibleSections.fundamentals ? faChevronUp : faChevronDown}
+              icon={visibleSections.introduction ? faChevronUp : faChevronDown}
             />
-          </SectionLink>
-          <NestedSectionLinks isVisible={visibleSections.fundamentals}>
-            <SectionLink to="introduction/glossary">Glossary</SectionLink>
-            <SectionLink to="introduction/veTenex">veTENEX(veNFT)</SectionLink>
-          </NestedSectionLinks>
-          <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
-          <SectionLink to="introduction/revenue">
-            Voters Revenue Distribution Schedule
-          </SectionLink>
-          <SectionLink to="introduction/analytics">TENEX Analytics</SectionLink>
-        </Section>
-        <Section>
-          <SectionTitle>Liquidity Provisioning</SectionTitle>
-          <SectionLink to="liquidity/pools">Legacy Pools(LP)</SectionLink>
-          <SectionLink to="liquidity/rewards">Rewards</SectionLink>
-          <SectionLink to="liquidity/curves">Swap Curves</SectionLink>
-        </Section>
-        <Section>
-          <SectionTitle>TENEX Tokenomics</SectionTitle>
-          <SectionLink to="tokenomics/distribution">
-            TENEX Token Distribution
-          </SectionLink>
-          <SectionLink to="tokenomics/emissions-schedule">
-            Emissions Schedule
-          </SectionLink>
-          <SectionLink
-            to="tokenomics/tge"
-            onClick={() => toggleSection('liquidityEvent')}
-          >
-            TENEX LGE - Liquidity Generation Event &nbsp;
-            <FontAwesomeIcon
-              icon={
-                visibleSections.liquidityEvent ? faChevronUp : faChevronDown
-              }
-            />
-          </SectionLink>
-          <NestedSectionLinks isVisible={visibleSections.liquidityEvent}>
-            <SectionLink to="tokenomics/price">Price Determination</SectionLink>
+          </SectionTitle>
+          <NestedSectionLinks isVisible={visibleSections.introduction}>
+            <SectionLink to="introduction/tenex">What is TENEX</SectionLink>
+            <SectionLink to="introduction/core">
+              Core Functionalities
+            </SectionLink>
+            <SectionLink
+              to="introduction/fundamentals"
+              onClick={() => toggleSection('fundamentals')}
+            >
+              ve(3,3) Fundamentals &nbsp;
+              <FontAwesomeIcon
+                icon={
+                  visibleSections.fundamentals ? faChevronUp : faChevronDown
+                }
+              />
+            </SectionLink>
+            <NestedSectionLinks isVisible={visibleSections.fundamentals}>
+              <SectionLink to="introduction/glossary">Glossary</SectionLink>
+              <SectionLink to="introduction/veTenex">
+                veTENEX(veNFT)
+              </SectionLink>
+            </NestedSectionLinks>
+            <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
+            <SectionLink to="introduction/revenue">
+              Voters Revenue Distribution Schedule
+            </SectionLink>
+            <SectionLink to="introduction/analytics">
+              TENEX Analytics
+            </SectionLink>
           </NestedSectionLinks>
         </Section>
         <Section>
-          <SectionTitle>Security And Legal Considerations</SectionTitle>
-          <SectionLink to="security/legal">
-            Risk and Legal Disclosures
-          </SectionLink>
+          <SectionTitle
+            onClick={() => toggleSection('liquidity')}
+            isOpen={visibleSections.liquidity}
+          >
+            Liquidity Provisioning
+            <FontAwesomeIcon
+              icon={visibleSections.liquidity ? faChevronUp : faChevronDown}
+            />
+          </SectionTitle>
+          <NestedSectionLinks isVisible={visibleSections.liquidity}>
+            <SectionLink to="liquidity/pools">Legacy Pools(LP)</SectionLink>
+            <SectionLink to="liquidity/rewards">Rewards</SectionLink>
+            <SectionLink to="liquidity/curves">Swap Curves</SectionLink>
+          </NestedSectionLinks>
+        </Section>
+        <Section>
+          <SectionTitle
+            onClick={() => toggleSection('tokenomics')}
+            isOpen={visibleSections.tokenomics}
+          >
+            TENEX Tokenomics
+            <FontAwesomeIcon
+              icon={visibleSections.tokenomics ? faChevronUp : faChevronDown}
+            />
+          </SectionTitle>
+          <NestedSectionLinks isVisible={visibleSections.tokenomics}>
+            <SectionLink to="tokenomics/distribution">
+              TENEX Token Distribution
+            </SectionLink>
+            <SectionLink to="tokenomics/emissions-schedule">
+              Emissions Schedule
+            </SectionLink>
+            <SectionLink
+              to="tokenomics/tge"
+              onClick={() => toggleSection('liquidityEvent')}
+            >
+              TENEX LGE - Liquidity Generation Event &nbsp;
+              <FontAwesomeIcon
+                icon={
+                  visibleSections.liquidityEvent ? faChevronUp : faChevronDown
+                }
+              />
+            </SectionLink>
+            <NestedSectionLinks isVisible={visibleSections.liquidityEvent}>
+              <SectionLink to="tokenomics/price">
+                Price Determination
+              </SectionLink>
+            </NestedSectionLinks>
+          </NestedSectionLinks>
+        </Section>
+        <Section>
+          <SectionTitle
+            onClick={() => toggleSection('security')}
+            isOpen={visibleSections.security}
+          >
+            Security And Legal Considerations
+            <FontAwesomeIcon
+              icon={visibleSections.security ? faChevronUp : faChevronDown}
+            />
+          </SectionTitle>
+          <NestedSectionLinks isVisible={visibleSections.security}>
+            <SectionLink to="security/legal">
+              Risk and Legal Disclosures
+            </SectionLink>
+          </NestedSectionLinks>
         </Section>
       </SidebarContainer>
     </>
