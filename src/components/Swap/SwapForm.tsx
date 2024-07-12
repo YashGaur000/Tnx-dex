@@ -6,6 +6,7 @@ import { useAccount } from '../../hooks/useAccount';
 import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST } from './../../constants/tokens';
 import { DefaultTheme } from '../../styles/Theme';
+import BalanceDisplay from './BalanceDisplay';
 
 const SwapBoxWrapper = styled.div`
   margin-bottom: 20px;
@@ -186,6 +187,7 @@ const SwapForm: React.FC = () => {
         <WalletWrapper>
           <WalletButton>
             <WalletIcon icon={faWallet} />
+            <BalanceDisplay address={address!} />
           </WalletButton>
           <SwitchComponent
             isChecked={isConnected}
@@ -208,7 +210,7 @@ const SwapForm: React.FC = () => {
           >
             {TOKEN_LIST.map((token) => (
               <option key={token.symbol} value={token.symbol}>
-                {token.symbol} - {token.name}
+                {token.symbol}
               </option>
             ))}
           </TokenSelect>
@@ -231,7 +233,7 @@ const SwapForm: React.FC = () => {
           >
             {TOKEN_LIST.map((token) => (
               <option key={token.symbol} value={token.symbol}>
-                {token.symbol} - {token.name}
+                {token.symbol}
               </option>
             ))}
           </TokenSelect>
