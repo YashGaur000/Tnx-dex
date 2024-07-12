@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { DefaultTheme } from '../styles/Theme';
 
@@ -11,6 +11,9 @@ interface SubTabItem {
 
 interface SubTabsProps {
   items: SubTabItem[];
+  showTabs: boolean;
+  setShowTabs: (showTabs: boolean) => void;
+  setNavOpen: (navOpen: boolean) => void;
 }
 
 const SubTabsContainer = styled.div<{ theme: DefaultTheme }>`
@@ -33,7 +36,7 @@ const SubTabItemContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const SubTabLink = styled(Link)<{ theme: DefaultTheme }>`
+const SubTabLink = styled.div<{ theme: DefaultTheme }>`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.text};
 `;
@@ -46,17 +49,33 @@ const SubTabDescription = styled.div`
   font-size: 14px;
 `;
 
-const SubTabs: React.FC<SubTabsProps> = ({ items }) => (
-  <SubTabsContainer>
-    {items.map((item, index) => (
-      <SubTabItemContainer key={index}>
-        <SubTabLink to={item.to}>
-          <SubTabLabel>{item.label}</SubTabLabel>
-          <SubTabDescription>{item.description}</SubTabDescription>
-        </SubTabLink>
-      </SubTabItemContainer>
-    ))}
-  </SubTabsContainer>
-);
+const SubTabs: React.FC<SubTabsProps> = ({
+  items,
+  showTabs,
+  setShowTabs,
+  setNavOpen,
+}) => {
+  const navigate = useNavigate();
+
+  if (showTabs)
+    return (
+      <SubTabsContainer>
+        {items.map((item, index) => (
+          <SubTabItemContainer key={index}>
+            <SubTabLink
+              onClick={() => {
+                navigate(item.to);
+                setShowTabs(!showTabs);
+                setNavOpen(false);
+              }}
+            >
+              <SubTabLabel>{item.label}</SubTabLabel>
+              <SubTabDescription>{item.description}</SubTabDescription>
+            </SubTabLink>
+          </SubTabItemContainer>
+        ))}
+      </SubTabsContainer>
+    );
+};
 
 export default SubTabs;

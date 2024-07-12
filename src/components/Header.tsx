@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/logo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -10,7 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
-import { Link } from 'react-router-dom';
 import { DefaultTheme } from '../styles/Theme';
 
 const HeaderContainer = styled.header<{
@@ -73,10 +72,11 @@ const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
     width: 100%;
     background: ${({ theme }) => theme.colors.card};
     padding: 20px 0;
+    z-index: 1;
   }
 `;
 
-const NavLink = styled(Link)<{ theme: DefaultTheme }>`
+const NavLink = styled.div<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.text};
   text-decoration: none;
   position: relative;
@@ -161,6 +161,8 @@ const Header: React.FC = () => {
   const [showToolsSubTabs, setShowToolsSubTabs] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const location = useLocation();
   const isSticky = location.pathname.includes('/documentation');
 
@@ -176,9 +178,7 @@ const Header: React.FC = () => {
 
   return (
     <HeaderContainer isSticky={isSticky}>
-      <NavLink to="/">
-        <Logo src={logoImage} alt="TenEx Logo" />
-      </NavLink>
+      <Logo src={logoImage} alt="TenEx Logo" onClick={() => navigate('/')} />
 
       <Toggler onClick={toggleNav}>
         <FontAwesomeIcon icon={navOpen ? faTimes : faBars} />
@@ -189,7 +189,11 @@ const Header: React.FC = () => {
           onMouseEnter={() => handleMouseEnter(setShowTradeSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
         >
-          <NavLink to="#">
+          <NavLink
+            onClick={() => {
+              setShowTradeSubTabs(!showTradeSubTabs);
+            }}
+          >
             Trade <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showTradeSubTabs && (
@@ -208,6 +212,9 @@ const Header: React.FC = () => {
                     'Bridge and swap via Wormhole Axelar and LayerZero',
                 },
               ]}
+              showTabs={showTradeSubTabs}
+              setShowTabs={setShowTradeSubTabs}
+              setNavOpen={setNavOpen}
             />
           )}
         </NavItem>
@@ -215,7 +222,11 @@ const Header: React.FC = () => {
           onMouseEnter={() => handleMouseEnter(setShowLiquiditySubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowLiquiditySubTabs)}
         >
-          <NavLink to="#">
+          <NavLink
+            onClick={() => {
+              setShowLiquiditySubTabs(!showLiquiditySubTabs);
+            }}
+          >
             Liquidity <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showLiquiditySubTabs && (
@@ -232,6 +243,9 @@ const Header: React.FC = () => {
                   description: 'Highly efficient CL farms for max fees',
                 },
               ]}
+              showTabs={showLiquiditySubTabs}
+              setShowTabs={setShowLiquiditySubTabs}
+              setNavOpen={setNavOpen}
             />
           )}
         </NavItem>
@@ -240,7 +254,11 @@ const Header: React.FC = () => {
           onMouseEnter={() => handleMouseEnter(setShowGovernanceSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
         >
-          <NavLink to="/governance">
+          <NavLink
+            onClick={() => {
+              setShowGovernanceSubTabs(!showGovernanceSubTabs);
+            }}
+          >
             Governance <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showGovernanceSubTabs && (
@@ -262,18 +280,25 @@ const Header: React.FC = () => {
                   description: 'Protocol liquidity incentivization',
                 },
               ]}
+              showTabs={showGovernanceSubTabs}
+              setShowTabs={setShowGovernanceSubTabs}
+              setNavOpen={setNavOpen}
             />
           )}
         </NavItem>
 
         <NavItem>
-          <NavLink to="/rewards">Rewards</NavLink>
+          <NavLink onClick={() => navigate('/rewards')}>Rewards</NavLink>
         </NavItem>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
         >
-          <NavLink to="/documentation/introduction/tenex">
+          <NavLink
+            onClick={() => {
+              setShowToolsSubTabs(!showToolsSubTabs);
+            }}
+          >
             Tools <FontAwesomeIcon icon={faChevronDown} />
           </NavLink>
           {showToolsSubTabs && (
@@ -295,6 +320,9 @@ const Header: React.FC = () => {
                   description: 'Bridge tokens to and from other chain',
                 },
               ]}
+              showTabs={showToolsSubTabs}
+              setShowTabs={setShowToolsSubTabs}
+              setNavOpen={setNavOpen}
             />
           )}
         </NavItem>
