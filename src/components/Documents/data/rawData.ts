@@ -141,11 +141,31 @@ export const RAW_DATA = {
           <span>Volatile Pools</span>
           <p>Volatile pools are defined as assets that have no direct correlation in price, examples are Chainlink <code>LINK</code> and Ethereum <code>ETH</code>. The price of <code>ETH</code> has no relation to the price of <code>LINK</code>.</p>
           <p>Volatiles pairs use the following formula to determine the price:</p>
-          <p class="formula">x * y = k</p>
+          <p class="formula"><math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi>x</mi>
+            <mo>&#x22C5;</mo> <!-- dot operator -->
+            <mi>y</mi>
+            <mo>=</mo>
+            <mi>k</mi>
+          </mrow>
+        </math></p>
           <span>Stable Pools</span>
           <p>Stable pools are defined as assets that have a direct correlation to each other. Examples are USDC/USDT, wBTC/renBTC, fraxETH/wETH etc. The price of the 2 assets will trade very close to each other and thus a different approach can be taken to allow for much higher volume at low slippage.</p>
           <p>Stable pairs use the following formula to determine the price:</p>
-          <p class="formula">x * y + y * x = k</p>
+          <p class="formula"><math xmlns="http://www.w3.org/1998/Math/MathML">
+          <mrow>
+            <mi>x</mi>
+            <mo>&#x22C5;</mo> <!-- dot operator -->
+            <mi>y</mi>
+            <mo>+</mo>
+            <mi>y</mi>
+            <mo>&#x22C5;</mo> <!-- dot operator -->
+            <mi>x</mi>
+            <mo>=</mo>
+            <mi>k</mi>
+          </mrow>
+        </math></p>
       </div>
       <div >
           <span>Practical Applications:</span>
@@ -495,7 +515,18 @@ export const RAW_DATA = {
       <p>Emissions will occur weekly, starting at the beginning of each EPOCH. From Epoch 0 to Epoch 25, known as the "bootstrapping period," emissions will start at 2,250,000 tokens with a decline rate of 0.75% each week, barring any elastic interventions.</p>
       <p>There will be no gradual reduction period to avoid token dilution and price drops. Instead, emissions will decline slowly and steadily to balance liquidity incentives and fees for $veTENEX holders.</p>
       <p>Common Ratio in a G.P can be calculated as such, where decay rate, d = 0.75%</p>
-      <p class="formula">r = (1 - d/100) = .9925</p>
+      <p class="formula"><math xmlns="http://www.w3.org/1998/Math/MathML">
+      <mrow>
+        <mi>r</mi>
+        <mo>=</mo>
+        <mn>1</mn>
+        <mo>-</mo>
+        <mfrac>
+          <mi>d</mi>
+          <mn>100</mn>
+        </mfrac>
+      </mrow>
+    </math></p>
       <table>
           <thead>
               <tr>
