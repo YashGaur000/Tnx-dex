@@ -22,6 +22,15 @@ const HeaderContainer = styled.header<{
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
 
+  ${({ isSticky }) =>
+    isSticky &&
+    `
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: #0F1B3B;
+  `}
+
   @media (max-width: 900px) {
     display: block;
   }

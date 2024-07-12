@@ -31,7 +31,7 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
 const Description = styled.p<{ theme: DefaultTheme }>`
   text-align: center;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   padding-top: 10px;
   color: ${({ theme }) => theme.colors.grey};
