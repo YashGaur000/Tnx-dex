@@ -90,7 +90,7 @@ const Footer: React.FC = () => (
         <Icon src={youtubeLogo} alt="YouTube Logo" />
       </IconLink>
     </IconsContainer>
-    <BuiltBy>Built by TeBlox Labs</BuiltBy>
+    <BuiltBy>Built by Tenex Core Team</BuiltBy>
   </FooterContainer>
 );
 
