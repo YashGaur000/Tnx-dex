@@ -190,7 +190,7 @@ const SwapForm: React.FC = () => {
         <WalletWrapper>
           <WalletButton>
             <WalletIcon icon={faWallet} />
-            <BalanceDisplay address={address!} />
+            {address && <BalanceDisplay address={address} />}
           </WalletButton>
           <SwitchComponent
             isChecked={isConnected}
