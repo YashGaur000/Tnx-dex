@@ -185,7 +185,7 @@ const Sidebar: React.FC = () => {
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.liquidity}>
             <SectionLink to="liquidity/pools">Legacy Pools(LP)</SectionLink>
-            <SectionLink to="liquidity/rewards">Rewards</SectionLink>
+            <SectionLink to="liquidity/fee">Fee Distribution</SectionLink>
             <SectionLink to="liquidity/curves">Swap Curves</SectionLink>
           </NestedSectionLinks>
         </Section>

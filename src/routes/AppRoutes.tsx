@@ -127,11 +127,11 @@ const AppRoutes: React.FC = () => {
                   }
                 />
                 <Route
-                  path="rewards"
+                  path="fee"
                   element={
                     <ContentData
-                      title={DOCS_DATA.rewards.title}
-                      content={DOCS_DATA.rewards.content}
+                      title={DOCS_DATA.feeDistribution.title}
+                      content={DOCS_DATA.feeDistribution.content}
                     />
                   }
                 />

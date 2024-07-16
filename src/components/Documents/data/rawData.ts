@@ -349,8 +349,8 @@ export const RAW_DATA = {
     </div>
     `,
   },
-  rewards: {
-    title: 'Rewards',
+  feeDistribution: {
+    title: 'Fee Distribution',
     content: `
     <div>
     <p><strong>Legacy LP tokens</strong> need to be staked in their respective gauges in order to earn incentives. Fees are auto-compounded into the LP position regardless of staking status.</p>

@@ -62,7 +62,7 @@ const Footer: React.FC = () => (
   <FooterContainer>
     <IconsContainer>
       <IconLink
-        href="https://x.com/Teblox_Labs?s=08"
+        href="https://x.com/TenEx_Official"
         target="_blank"
         rel="noopener noreferrer nofollow"
       >

@@ -38,9 +38,9 @@ export const DOCS_DATA = {
     title: RAW_DATA.legacyPools.title,
     content: DOMPurify.sanitize(RAW_DATA.legacyPools.content),
   },
-  rewards: {
-    title: RAW_DATA.rewards.title,
-    content: DOMPurify.sanitize(RAW_DATA.rewards.content),
+  feeDistribution: {
+    title: RAW_DATA.feeDistribution.title,
+    content: DOMPurify.sanitize(RAW_DATA.feeDistribution.content),
   },
   curves: {
     title: RAW_DATA.curves.title,
