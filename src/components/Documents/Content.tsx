@@ -33,7 +33,8 @@ const Content = styled.div<{ theme: DefaultTheme }>`
     font-weight: ${({ theme }) => theme.fontWeights.bold};
   }
 
-  ul {
+  ul,
+  ol {
     margin: 1rem 0;
     font-size: 18px;
     font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -81,6 +82,36 @@ const Content = styled.div<{ theme: DefaultTheme }>`
       text-align: center;
       font-size: 26px;
     }
+  }
+
+  .highlight {
+    color: rgb(211, 61, 61);
+  }
+
+  .note {
+    border: 1px solid #ffffff21;
+    background-color: #ffffff21;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 20px;
+
+    p {
+      font-size: 15px;
+    }
+  }
+
+  .info-box {
+    display: flex;
+    align-items: center;
+    background-color: #e6f7ff2b;
+    border-left: 4px solid #3dacf7;
+    margin-bottom: 20px;
+    border-radius: 4px;
+  }
+
+  .info-icon {
+    font-size: 24px;
+    margin-right: 10px;
   }
 `;
 

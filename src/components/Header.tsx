@@ -79,6 +79,7 @@ const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
 
 const NavLink = styled.div<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.text};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   text-decoration: none;
   position: relative;
   display: flex;

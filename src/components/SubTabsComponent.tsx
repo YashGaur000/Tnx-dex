@@ -41,12 +41,13 @@ const SubTabLink = styled.div<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const SubTabLabel = styled.div`
-  font-weight: bold;
+const SubTabLabel = styled.div<{ theme: DefaultTheme }>`
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
-const SubTabDescription = styled.div`
+const SubTabDescription = styled.div<{ theme: DefaultTheme }>`
   font-size: 14px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
 const SubTabs: React.FC<SubTabsProps> = ({

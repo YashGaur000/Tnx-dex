@@ -110,6 +110,10 @@ const Sidebar: React.FC = () => {
     liquidity: false,
     tokenomics: false,
     security: false,
+    v2: false,
+    functionalitiesUpgrade: false,
+    liquidityProvisioning: false,
+    liquidityConcentrated: false,
     liquidityEvent: false,
   });
 
@@ -164,6 +168,7 @@ const Sidebar: React.FC = () => {
                 veTENEX(veNFT)
               </SectionLink>
             </NestedSectionLinks>
+            <SectionLink to="introduction/rewards">Rewards</SectionLink>
             <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
             <SectionLink to="introduction/revenue">
               Voters Revenue Distribution Schedule
@@ -224,6 +229,118 @@ const Sidebar: React.FC = () => {
             </NestedSectionLinks>
           </NestedSectionLinks>
         </Section>
+
+        <Section>
+          <SectionTitle
+            onClick={() => toggleSection('v2')}
+            isOpen={visibleSections.v2}
+          >
+            TENEX V2.0 - TO DO
+            <FontAwesomeIcon
+              icon={visibleSections.v2 ? faChevronUp : faChevronDown}
+            />
+          </SectionTitle>
+          <NestedSectionLinks isVisible={visibleSections.v2}>
+            <SectionLink to="v2/v2">V2.0</SectionLink>
+            <SectionLink
+              to="v2/functionalitiesUpgrade"
+              onClick={() => toggleSection('functionalitiesUpgrade')}
+            >
+              Functionalities Upgrade &nbsp;
+              <FontAwesomeIcon
+                icon={
+                  visibleSections.fundamentals ? faChevronUp : faChevronDown
+                }
+              />
+            </SectionLink>
+            <NestedSectionLinks
+              isVisible={visibleSections.functionalitiesUpgrade}
+            >
+              <SectionLink to="v2/functionalitiesUpgrade/swap">
+                Swap
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/liquidityPool">
+                Liquidity Pool
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/voting">
+                Voting
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/lock">
+                Lock
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/incentives">
+                Incentives
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/mintTokens">
+                Mint Tokens
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/launchpad">
+                Launchpad
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/chat">
+                Chat
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/whitelisting">
+                Whitelisting
+              </SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/ads">Ads</SectionLink>
+              <SectionLink to="v2/functionalitiesUpgrade/lendBorrow">
+                Lending & Borrowing Platform
+              </SectionLink>
+            </NestedSectionLinks>
+            <SectionLink
+              to="v2/liquidityProvisioning"
+              onClick={() => toggleSection('liquidityProvisioning')}
+            >
+              Liquidity Provisioning &nbsp;
+              <FontAwesomeIcon
+                icon={
+                  visibleSections.fundamentals ? faChevronUp : faChevronDown
+                }
+              />
+            </SectionLink>
+            <NestedSectionLinks
+              isVisible={visibleSections.liquidityProvisioning}
+            >
+              <SectionLink to="v2/liquidityProvisioning/multiAssetsPool">
+                Multi Assets Pools
+              </SectionLink>
+              <SectionLink
+                to="v2/liquidityProvisioning/liquidityConcentrated"
+                onClick={() => toggleSection('liquidityConcentrated')}
+              >
+                Concentrated Liquidity &nbsp;
+                <FontAwesomeIcon
+                  icon={
+                    visibleSections.liquidityConcentrated
+                      ? faChevronUp
+                      : faChevronDown
+                  }
+                />
+              </SectionLink>
+
+              <NestedSectionLinks
+                isVisible={visibleSections.liquidityConcentrated}
+              >
+                <SectionLink to="v2/liquidityProvisioning/liquidityConcentrated/clGauges">
+                  CL Gauges
+                </SectionLink>
+                <SectionLink to="v2/liquidityProvisioning/liquidityConcentrated/tickspacing">
+                  Default Fee Tiers/Tickspacing
+                </SectionLink>
+                <SectionLink to="v2/liquidityProvisioning/liquidityConcentrated/feeDistribution">
+                  Fee Distribution
+                </SectionLink>
+              </NestedSectionLinks>
+            </NestedSectionLinks>
+
+            <SectionLink to="v2/roadAhead">Road Ahead</SectionLink>
+            <SectionLink to="v2/fullMigration">
+              Full Migration to V2.0
+            </SectionLink>
+          </NestedSectionLinks>
+        </Section>
+
         <Section>
           <SectionTitle
             onClick={() => toggleSection('security')}
