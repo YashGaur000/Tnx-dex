@@ -205,7 +205,7 @@ const Header: React.FC = () => {
                   to: '/swap',
                   label: 'Swap',
                   description:
-                    'Equalizer Meta Aggregator swaps for efficient routing',
+                    'Tenex Meta Aggregator swaps for efficient routing',
                 },
                 {
                   to: '/cross-chain-swap',
