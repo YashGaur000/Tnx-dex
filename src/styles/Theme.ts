@@ -17,6 +17,7 @@ interface Colorpallate {
   title: string;
   grey: string;
   hover: string;
+  whiteBorder: string;
   greyBorder: string;
   swapIconBackground: string;
   redToggle: string;
@@ -51,6 +52,7 @@ const theme: DefaultTheme = {
     grey: 'rgba(204, 204, 204, 1)',
     hover: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
     greyBorder: '#B8B8B8',
+    whiteBorder: '#FFFFFF',
     swapIconBackground:
       'linear-gradient(97.67deg, #0F1B3B 2.6%, #232938 94.56%)',
     redToggle: '#EB5540',

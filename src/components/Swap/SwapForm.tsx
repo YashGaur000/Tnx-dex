@@ -23,6 +23,7 @@ const SwapBox = styled.div<{ theme: DefaultTheme }>`
 `;
 
 const Title = styled.h1<{ theme: DefaultTheme }>`
+  font-family: 'Kanit', sans-serif;
   font-size: 36px;
   margin-bottom: 10px;
   text-align: center;
@@ -30,6 +31,7 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
 `;
 
 const Description = styled.p<{ theme: DefaultTheme }>`
+  font-family: 'Kanit', sans-serif;
   text-align: center;
   margin-bottom: 10px;
   font-size: 13px;
@@ -68,6 +70,7 @@ const Input = styled.input<{ theme: DefaultTheme }>`
 `;
 
 const TokenSelect = styled.select<{ theme: DefaultTheme }>`
+  font-family: 'Kanit', sans-serif;
   width: 22%;
   padding: 10px;
   border: none;
@@ -98,6 +101,7 @@ const Button = styled.button<{ theme: DefaultTheme }>`
 `;
 
 const Text = styled.div<{ theme: DefaultTheme }>`
+  font-family: 'Kanit', sans-serif;
   width: 100%;
   font-size: 10px;
   line-height: 14.95px;

@@ -1,121 +1,88 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
-import SwitchComponent from './SwitchComponent';
 import { DefaultTheme } from '../../styles/Theme';
+import TransactionDeadline from './TransactionDeadline';
+import SlippageTolerance from './SlippageTolerance';
+import AllowUnsafeTrades from './AllowUnsafeTrades';
 
 const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   padding: 20px;
-  width: 350px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  width: 440px;
+  margin-left: 24px;
+  height: 840px;
 
   @media (max-width: 900px) {
-    width: 70%;
-    margin-top: 20px;
+    width: 100%;
+    margin-top: 40px;
   }
 
   @media (max-width: 768px) {
-    width: 90%;
-    margin-top: 20px;
+    width: 100%;
+    margin-top: 40px;
+    margin-left: 0px;
   }
 `;
 
 const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
+  font-family: 'Kanit', sans-serif;
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
+  color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-const SidebarList = styled.ul`
+const SidebarList = styled.ol`
   list-style: none;
   padding: 0;
   margin: 0;
+  counter-reset: step-counter;
 `;
 
-const SidebarListItem = styled.p<{ theme: DefaultTheme }>`
-  font-size: 12px;
+const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
+  font-family: 'Kanit', sans-serif;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
-  margin-bottom: 10px;
-`;
-
-const ToleranceButtons = styled.div`
-  display: flex;
-  gap: 10px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
   margin-bottom: 20px;
-`;
+  position: relative;
+  padding-left: 30px;
+  weight: 300;
+  line-height: 20.93px;
 
-const ToleranceButton = styled.button<{ theme: DefaultTheme }>`
-  flex: 1;
-  padding: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
-  border: 1px solid ${({ theme }) => theme.colors.greyDark};
-  border-radius: 10px;
-  cursor: pointer;
+  &:before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: ${({ theme }) => theme.colors.background};
+  }
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
+  &:not(:last-child):after {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 22px;
+    width: 1px;
+    height: calc(100% - 0px);
+    background-image: linear-gradient(
+      ${({ theme }) => theme.colors.greyDark} 50%,
+      transparent 50%
+    );
+    background-size: 1px 5px;
   }
 `;
-
-const SliderContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-const Slider = styled.input`
-  width: 100%;
-  height: 2px;
-  accent-color: darkcyan;
-`;
-
-const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
-  display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
-  padding: 10px;
-  width: 100%;
-  border-radius: 20px;
-  margin: 15px 0px;
-`;
-const Text = styled.div<{ theme: DefaultTheme }>`
-  font-size: 10px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
-`;
-
-const Align = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const TimerButton = styled.button<{ theme: DefaultTheme }>`
-  width: 74px;
-  height: 32px;
-  padding: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
-  border: 1px solid ${({ theme }) => theme.colors.greyDark};
-  border-radius: 10px;
-  cursor: pointer;
-
-  &:hover {
-    &:hover {
-      color: ${({ theme }) => theme.colors.text};
-      border: 1px solid ${({ theme }) => theme.colors.text};
-      background: ${({ theme }) => theme.colors.hover};
-    }
-  }
-`;
-
-const ContentWrapper = styled.div``;
 
 const Sidebar: React.FC = () => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
@@ -123,63 +90,30 @@ const Sidebar: React.FC = () => {
   const handleToggleChange = () => {
     setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
   };
+
   return (
     <SidebarContainer>
       <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
       <SidebarList>
         <SidebarListItem>
-          1. Start by selecting the token to swap from and the amount you want
-          to exchange.
+          Start by selecting the token to swap from and the amount you want to
+          exchange.
         </SidebarListItem>
         <SidebarListItem>
-          2. Pick the token you want to exchange for.
+          Pick the token you want to exchange for.
         </SidebarListItem>
+        <SidebarListItem>The quote will be ready in a moment!</SidebarListItem>
         <SidebarListItem>
-          3. The quote will be ready in a moment!
-        </SidebarListItem>
-        <SidebarListItem>
-          4. Slippage tolerance 0.5% and transaction deadline 30 mins are set.
-          To change, please click below.
+          Slippage tolerance 0.5% and transaction deadline 30 mins are set. To
+          change, please click below.
         </SidebarListItem>
       </SidebarList>
-      <SlippageWrapper display="flow">
-        <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
-        <ToleranceButtons>
-          <ToleranceButton>0.1%</ToleranceButton>
-          <ToleranceButton>0.5%</ToleranceButton>
-          <ToleranceButton>1.0%</ToleranceButton>
-          <ToleranceButton>2.0%</ToleranceButton>
-          <ToleranceButton>5.0%</ToleranceButton>
-        </ToleranceButtons>
-      </SlippageWrapper>
-      <SlippageWrapper display="flow">
-        <Align>
-          <SidebarTitle fontSize={16}>Transaction Deadline</SidebarTitle>
-          <TimerButton>30 mins</TimerButton>
-        </Align>
-        <SliderContainer>
-          <Slider type="range" min="0" max="60" />
-        </SliderContainer>
-        <Text>
-          <FontAwesomeIcon icon={faInfoCircle} /> Max: 1 hour
-        </Text>
-      </SlippageWrapper>
-      <SlippageWrapper display="flex">
-        <ContentWrapper>
-          <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
-          <SidebarListItem>
-            Enabling this will allow trading on high quotes with high price
-            impact and could lead to loss of funds.
-          </SidebarListItem>
-        </ContentWrapper>
-        <SwitchComponent
-          isChecked={isUnsafeTradesAllowed}
-          handleToggle={handleToggleChange}
-          onText=""
-          offText=""
-          isDisabled={false}
-        />
-      </SlippageWrapper>
+      <SlippageTolerance />
+      <TransactionDeadline />
+      <AllowUnsafeTrades
+        isChecked={isUnsafeTradesAllowed}
+        handleToggle={handleToggleChange}
+      />
     </SidebarContainer>
   );
 };
