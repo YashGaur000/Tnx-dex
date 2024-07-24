@@ -42,6 +42,7 @@ export const TRANSPORT_CHAINID = {
   [lineaSepolia.id]: http(),
   [sepolia.id]: http(),
   [blastSepolia.id]: http(),
+  [bobaSepolia.id]: http(),
 };
 
 export type AllowedChainId =
