@@ -246,7 +246,7 @@ const HeroSection: React.FC = () => {
         <Image src={BackgroundImage} alt="Background" />
       </ImageContainer> */}
       <ImageContainer>
-        <CircleGradient top="0px" left="0px" />
+        <CircleGradient top="0px" left="18%" />
         <Lottie animationData={animationData} loop={true} />
       </ImageContainer>
     </HeroContainer>
