@@ -55,7 +55,7 @@ const CreateNewLiquidity = () => {
       <ImgWithTokenContainer>
         <ContentImg src={InformationIcon} />
         <ContentLabel>
-          You are about to create a new volatile liquidity Pool...
+          {`You'r about to create a new volatile liquidity Pool...`}
         </ContentLabel>
       </ImgWithTokenContainer>
       <Button>Change</Button>
