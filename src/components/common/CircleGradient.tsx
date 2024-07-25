@@ -12,6 +12,9 @@ const ImageWrapper = styled.img<ImageWrapperProps>`
   position: absolute;
   top: ${({ top }) => top};
   left: ${({ left }) => left};
+  // height: 800px;
+  // width: 800px;
+  // object-fit: contain;
 `;
 
 interface CircleGradientProps {

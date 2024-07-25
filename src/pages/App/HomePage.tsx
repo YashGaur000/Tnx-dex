@@ -6,12 +6,10 @@ import VolumeChart from '../../components/Homepage/VolumeChart';
 import CoreSection from '../../components/Homepage/CoreSection';
 import EmissionsSchedule from '../../components/Homepage/EmissionsSchedule';
 import TopPairs from '../../components/Homepage/TopPairs';
-import CircleGradient from '../../components/common/CircleGradient';
 
 function HomePage() {
   return (
     <>
-      <CircleGradient top="-20px" left="200px" />
       <HeroSection />
       <FeaturesSection />
       <ParticipantsSection />
