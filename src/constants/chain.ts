@@ -1,6 +1,7 @@
 import { http } from 'wagmi';
 import {
   boba,
+  bobaSepolia,
   linea,
   lineaSepolia,
   mainnet,
@@ -22,6 +23,7 @@ export const SUPPORTED_TESTNET_CHAINS = [
   sepolia,
   lineaSepolia,
   blastSepolia,
+  bobaSepolia,
 ] as const;
 
 export const SUPPORTED_CHAINS = [
@@ -40,6 +42,7 @@ export const TRANSPORT_CHAINID = {
   [lineaSepolia.id]: http(),
   [sepolia.id]: http(),
   [blastSepolia.id]: http(),
+  [bobaSepolia.id]: http(),
 };
 
 export type AllowedChainId =
@@ -108,6 +111,10 @@ export const NETWORK_CONFIGS: NetworkConfig = {
   },
   [blastSepolia.id]: {
     ...blastSepolia,
+    RPC: [],
+  },
+  [bobaSepolia.id]: {
+    ...bobaSepolia,
     RPC: [],
   },
 } as const;
