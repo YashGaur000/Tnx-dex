@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-// import InformationIcon from '../../assets/information.png';
+import InformationIcon from '../../assets/information.png';
 import { DefaultTheme } from '../../styles/Theme';
 const Selecttoken = styled.div`
   display: flex;
@@ -14,10 +14,10 @@ const Selecttoken = styled.div`
   border-radius: 16px;
 `;
 
-// const ContentImg = styled.img`
-//  width: 20px;
-//   height: 20px;
-// `;
+const ContentImg = styled.img`
+  width: 20px;
+  height: 20px;
+`;
 
 // const Label = styled.label`
 // font-size: 18px;
@@ -43,19 +43,19 @@ const Button = styled.button<{ theme: DefaultTheme }>`
   }
 `;
 
-// const ImgWithTokenContainer = styled.div`
-//   display:flex;
-//   align-items:center;
-//  gap:10px;
-// `;
+const ImgWithTokenContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
 
 const CreateNewLiquidity = () => {
   return (
     <Selecttoken>
-      {/* <ImgWithTokenContainer>
-         <ContentImg src={InformationIcon} />
-         <Label>You're about to create a new volatile liquidity Pool...</Label>
-      </ImgWithTokenContainer> */}
+      <ImgWithTokenContainer>
+        <ContentImg src={InformationIcon} />
+        {/* <Label>You're about to create a new volatile liquidity Pool...</Label> */}
+      </ImgWithTokenContainer>
       <Button>Change</Button>
     </Selecttoken>
   );
