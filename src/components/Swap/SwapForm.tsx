@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
@@ -7,6 +7,7 @@ import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST } from './../../constants/tokens';
 import { DefaultTheme } from '../../styles/Theme';
 import BalanceDisplay from './BalanceDisplay';
+import TokenSelectModal from '../model/TokenSelectModal';
 
 const SwapBoxWrapper = styled.div`
   margin-bottom: 20px;
@@ -31,7 +32,6 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
 `;
 
 const Description = styled.p<{ theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   text-align: center;
   margin-bottom: 10px;
   font-size: 13px;
@@ -69,18 +69,23 @@ const Input = styled.input<{ theme: DefaultTheme }>`
   }
 `;
 
-const TokenSelect = styled.select<{ theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
-  width: 22%;
-  padding: 10px;
+const TokenSelect = styled.div<{ theme: DefaultTheme }>`
+  width: 72px;
+  height: 24px;
+  padding: 6px;
   border: none;
   background: none;
   color: ${({ theme }) => theme.colors.text};
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-`;
-const TokenOption = styled.option<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.card};
+  cursor: pointer;
+  display: inline-block;
+  margin-left: 19px;
+  img {
+    width: 8px;
+    height: 4px;
+    margin-top: 9px;
+  }
 `;
 
 const Button = styled.button<{ theme: DefaultTheme }>`
@@ -101,7 +106,6 @@ const Button = styled.button<{ theme: DefaultTheme }>`
 `;
 
 const Text = styled.div<{ theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   width: 100%;
   font-size: 10px;
   line-height: 14.95px;
@@ -163,6 +167,10 @@ const SwapForm: React.FC = () => {
   const [inputValue2, setInputValue2] = useState('');
   const [selectedToken1, setSelectedToken1] = useState(TOKEN_LIST[0].symbol);
   const [selectedToken2, setSelectedToken2] = useState(TOKEN_LIST[1].symbol);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tokenSelectTarget, setTokenSelectTarget] = useState<
+    'token1' | 'token2'
+  >('token1');
 
   useEffect(() => {
     setIsConnected(!!address);
@@ -182,6 +190,19 @@ const SwapForm: React.FC = () => {
     setSelectedToken2(selectedToken1);
     // setInputValue1(''); //to clear the input fields when we click on swap
     // setInputValue2('');
+  };
+
+  const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
+    setTokenSelectTarget(target);
+    setIsModalOpen(true);
+  };
+
+  const handleTokenSelect = (token: string) => {
+    if (tokenSelectTarget === 'token1') {
+      setSelectedToken1(token);
+    } else {
+      setSelectedToken2(token);
+    }
   };
 
   return (
@@ -211,15 +232,8 @@ const SwapForm: React.FC = () => {
             value={inputValue1}
             onChange={(e) => setInputValue1(e.target.value)}
           />
-          <TokenSelect
-            value={selectedToken1}
-            onChange={(e) => setSelectedToken1(e.target.value)}
-          >
-            {TOKEN_LIST.map((token) => (
-              <TokenOption key={token.symbol} value={token.symbol}>
-                {token.symbol}
-              </TokenOption>
-            ))}
+          <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+            {selectedToken1} <img src="src/assets/select.png" />
           </TokenSelect>
           <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
         </InputWrapper>
@@ -234,15 +248,8 @@ const SwapForm: React.FC = () => {
             value={inputValue2}
             onChange={(e) => setInputValue2(e.target.value)}
           />
-          <TokenSelect
-            value={selectedToken2}
-            onChange={(e) => setSelectedToken2(e.target.value)}
-          >
-            {TOKEN_LIST.map((token) => (
-              <TokenOption key={token.symbol} value={token.symbol}>
-                {token.symbol}
-              </TokenOption>
-            ))}
+          <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+            {selectedToken2} <img src="src/assets/select.png" />
           </TokenSelect>
           <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
         </InputWrapper>
@@ -250,6 +257,11 @@ const SwapForm: React.FC = () => {
         <Description>
           TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
         </Description>
+        <TokenSelectModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSelect={handleTokenSelect}
+        />
       </SwapBox>
     </SwapBoxWrapper>
   );

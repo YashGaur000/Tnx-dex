@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
 
-const LiquityContainer = styled.div<{ display: string; theme: DefaultTheme }>`
+const LiquityContainer = styled.div<{ theme: DefaultTheme }>`
   background: linear-gradient(90deg, #18264C 0%, #1F305F 100%);
   border-radius: 24px;
   padding: 40px;
@@ -23,7 +23,6 @@ const LiquityTitle = styled.h2`
   text-align: left;
   width: 100%;
   padding-left: 20px;
-  flex-wrap: wrap;
 `;
 
 const StepperContainer = styled.div`
@@ -105,6 +104,7 @@ const LiquityRouting = () => {
             Concentrated
           </StepLabel>
         </Step>
+
         <StepCommon>
           <StepImage src="src/assets/Group393.png" alt="Icon 5" />
         </StepCommon>
