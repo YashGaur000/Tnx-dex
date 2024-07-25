@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
+import { Card, CardTitle } from '../common';
 
 const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -40,24 +41,6 @@ const CardsContainer = styled.div`
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
-`;
-
-const Card = styled.div<{ theme: DefaultTheme }>`
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  background: ${({ theme }) => theme.colors.cardLight};
-  color: ${({ theme }) => theme.colors.text};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const CardTitle = styled.h3<{ theme: DefaultTheme }>`
-  font-size: 24px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 35.88px;
-  text-align: left;
-  margin-bottom: 10px;
-  color: ${({ theme }) => theme.colors.text};
 `;
 
 const CardText = styled.p<{ theme: DefaultTheme }>`

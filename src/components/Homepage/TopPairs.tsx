@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import solLogo from '../../assets/sol-logo.png'; // Replace with the actual path to your image
 import suiLogo from '../../assets/sui-logo.png'; // Replace with the actual path to your image
 import { DefaultTheme } from '../../styles/Theme';
+import { Card, CardTitle } from '../common';
 
 const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
@@ -65,23 +66,6 @@ const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const Card = styled.div<{ theme: DefaultTheme }>`
-  background-color: ${({ theme }) => theme.colors.cardDark};
-  padding: 20px;
-  border-radius: 20px;
-  width: 300px;
-  text-align: center;
-
-  @media (max-width: 1200px) {
-    width: 250px;
-  }
-
-  @media (max-width: 1024px) {
-    width: 210px;
-    margin: 10px 0;
-  }
-`;
-
 const CardValue = styled.div<{ theme: DefaultTheme }>`
   font-size: 36px;
   color: ${({ theme }) => theme.colors.text};
@@ -106,12 +90,6 @@ const CardIcon = styled.img`
   }
 `;
 
-const CardTitle = styled.div<{ theme: DefaultTheme }>`
-  font-size: 1.2em;
-  color: ${({ theme }) => theme.colors.grey};
-  margin-bottom: 5px;
-`;
-
 const CardDescription = styled.div<{ theme: DefaultTheme }>`
   font-size: 0.9em;
   color: ${({ theme }) => theme.colors.grey};
@@ -131,13 +109,13 @@ const TopPairs: React.FC = () => (
     </Description>
     <CardsContainer>
       {[1, 2, 3].map((_, index) => (
-        <Card key={index}>
+        <Card key={index} tag="top" width="300px">
           <CardValue>$8,402.24</CardValue>
           <CardIcons>
             <CardIcon src={solLogo} alt="SOL Logo" />
             <CardIcon src={suiLogo} alt="SUI Logo" />
           </CardIcons>
-          <CardTitle>SOL/SUI</CardTitle>
+          <CardTitle tag="top">SOL/SUI</CardTitle>
           <CardDescription>Classic Constant Product AMM</CardDescription>
           <CardPercentage>20.54%</CardPercentage>
         </Card>

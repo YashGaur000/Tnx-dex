@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-import { DefaultTheme } from '../../styles/Theme';
+
 import {
   faArrowAltCircleLeft,
   faArrowAltCircleRight,
@@ -9,96 +7,14 @@ import {
   faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const SidebarContainer = styled.aside<{ theme: DefaultTheme; isopen: string }>`
-  width: 20%;
-  padding-top: 10px;
-  padding-right: 10px;
-  height: 700px;
-  position: fixed;
-  overflow-y: auto;
-  padding-bottom: 20px;
-  display: fixed;
-  // border-right: 1px solid ${({ theme }) => theme.colors.grey};
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-  &::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-  }
-
-  @media (max-width: 900px) {
-    width: 50%;
-    padding: 20px;
-    background: ${({ theme, isopen }) =>
-      isopen === 'true' ? theme.colors.card : 'transparent'};
-    transition:
-      transform 0.3s ease-in-out,
-      background-color 0.3s ease-in-out;
-    display: ${({ isopen }) => (isopen === 'true' ? 'block' : 'none')};
-  }
-`;
-
-const Section = styled.div`
-  margin-bottom: 20px;
-`;
-
-const SectionTitle = styled.h3<{ theme: DefaultTheme; isOpen: boolean }>`
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 10px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.hover};
-  }
-`;
-
-const SectionLink = styled(Link)<{ theme: DefaultTheme }>`
-  display: block;
-  color: ${({ theme }) => theme.colors.text};
-  text-decoration: none;
-  margin-bottom: 5px;
-  margin-left: 12px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: 14px;
-  width: fit-content;
-  padding: 7px;
-  border-radius: 4px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.hover};
-  }
-
-  &.active {
-    background: ${({ theme }) => theme.colors.hover};
-  }
-`;
-
-const NestedSectionLinks = styled.div<{ isVisible: boolean }>`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
-  margin-left: 20px;
-`;
-
-const HamburgerIcon = styled.div<{ theme: DefaultTheme }>`
-  display: none;
-  font-size: 30px;
-  color: ${({ theme }) => theme.colors.text};
-  position: fixed;
-  top: 50%;
-  left: 20px;
-  z-index: 1000;
-  cursor: pointer;
-  transform: translateY(-50%);
-
-  @media (max-width: 900px) {
-    display: block;
-  }
-`;
+import {
+  HamburgerIcon,
+  NestedSectionLinks,
+  Section,
+  SectionLink,
+  SectionTitle,
+  SidebarContainer,
+} from './style';
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);

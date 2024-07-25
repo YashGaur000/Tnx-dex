@@ -6,7 +6,7 @@ import VolumeChart from '../../components/Homepage/VolumeChart';
 import CoreSection from '../../components/Homepage/CoreSection';
 import EmissionsSchedule from '../../components/Homepage/EmissionsSchedule';
 import TopPairs from '../../components/Homepage/TopPairs';
-import CircleGradient from '../../components/common/CircleGradient';
+import { CircleGradient } from '../../components/common';
 
 function HomePage() {
   return (

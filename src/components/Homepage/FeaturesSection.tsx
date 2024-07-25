@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
+import { Card } from '../common';
 
 const FeaturesContainer = styled.section<{ theme: DefaultTheme }>`
   display: grid;
@@ -24,27 +25,6 @@ const FeaturesContainer = styled.section<{ theme: DefaultTheme }>`
   }
 `;
 
-const Card = styled.div<{ theme: DefaultTheme }>`
-  width: 100%;
-  height: 136px;
-  float: left;
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  background: ${({ theme }) => theme.colors.card};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  @media (max-width: 1024px) {
-    width: 350px;
-  }
-
-  @media (max-width: 900px) {
-    margin-top: 10px;
-    grid-template-columns: none;
-    justify-content: center;
-  }
-`;
-
 const CardText = styled.p<{ theme: DefaultTheme }>`
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -63,22 +43,22 @@ const CardText = styled.p<{ theme: DefaultTheme }>`
 
 const FeaturesSection: React.FC = () => (
   <FeaturesContainer>
-    <Card>
+    <Card height="136px">
       <CardText>Stable and Volatile trading for low fees</CardText>
     </Card>
-    <Card>
+    <Card height="136px">
       <CardText>Autonomous Liquidity Cycle</CardText>
     </Card>
-    <Card>
+    <Card height="136px">
       <CardText>All Protocol Incentives, fees distributed to Voters</CardText>
     </Card>
-    <Card>
+    <Card height="136px">
       <CardText>NFT-Based Liquid Locked Positions</CardText>
     </Card>
-    <Card>
+    <Card height="136px">
       <CardText>Capital Efficient Model</CardText>
     </Card>
-    <Card>
+    <Card height="136px">
       <CardText>Permissionless Pools, Gauges, and Incentives</CardText>
     </Card>
   </FeaturesContainer>

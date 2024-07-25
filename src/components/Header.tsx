@@ -111,28 +111,28 @@ const Toggler = styled.button<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Button = styled.button<{ theme: DefaultTheme }>`
-  font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme }) => theme.colors.buttonBackground};
-  color: ${({ theme }) => theme.colors.text};
-  padding: 10px 20px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 29.9px;
+// export const Button = styled.button<{ theme: DefaultTheme }>`
+//   font-family: ${({ theme }) => theme.fonts.main};
+//   background: ${({ theme }) => theme.colors.buttonBackground};
+//   color: ${({ theme }) => theme.colors.text};
+//   padding: 10px 20px;
+//   border: none;
+//   border-radius: 12px;
+//   cursor: pointer;
+//   font-size: 16px;
+//   font-weight: ${({ theme }) => theme.fontWeights.regular};
+//   line-height: 29.9px;
 
-  &:hover {
-    background: ${({ theme }) => theme.colors.buttonHover};
-  }
+//   &:hover {
+//     background: ${({ theme }) => theme.colors.buttonHover};
+//   }
 
-  @media (max-width: 768px) {
-    padding: 6px 12px;
-    font-size: 16px;
-    margin-top: 10px;
-  }
-`;
+//   @media (max-width: 768px) {
+//     padding: 6px 12px;
+//     font-size: 16px;
+//     margin-top: 10px;
+//   }
+// `;
 
 const MobileConnectWallet = styled.div`
   display: none;
