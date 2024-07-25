@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 // import InformationIcon from '../../assets/information.png';
-// import { DefaultTheme } from '../../styles/Theme';
+import { DefaultTheme } from '../../styles/Theme';
 const Selecttoken = styled.div`
   display: flex;
   align-items: center;
@@ -29,19 +29,19 @@ const Selecttoken = styled.div`
 //   -webkit-text-fill-color: transparent;
 //   background-clip: text;
 // `;
-// const Button = styled.button<{ theme: DefaultTheme }>`
-//   padding: 10px 20px;
-//   border-radius: 10px;
-//   border: none;
-//   background: ${({ theme }) => theme.colors.buttonBackground};
-//   color: ${({ theme }) => theme.colors.text};
-//   font-size: 16px;
-//   font-weight: ${({ theme }) => theme.fontWeights.regular};
-//   cursor: pointer;
-//   &:hover {
-//     background: ${({ theme }) => theme.colors.buttonHover};
-//   }
-// `;
+const Button = styled.button<{ theme: DefaultTheme }>`
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  background: ${({ theme }) => theme.colors.buttonBackground};
+  color: ${({ theme }) => theme.colors.text};
+  font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors.buttonHover};
+  }
+`;
 
 // const ImgWithTokenContainer = styled.div`
 //   display:flex;
@@ -55,8 +55,8 @@ const CreateNewLiquidity = () => {
       {/* <ImgWithTokenContainer>
          <ContentImg src={InformationIcon} />
          <Label>You're about to create a new volatile liquidity Pool...</Label>
-      </ImgWithTokenContainer>
-      <Button>Change</Button> */}
+      </ImgWithTokenContainer> */}
+      <Button>Change</Button>
     </Selecttoken>
   );
 };
