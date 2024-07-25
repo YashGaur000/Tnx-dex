@@ -25,6 +25,7 @@
     "recharts": "^2.12.7",
     "styled-components": "^6.1.11"
   },
+  
   "devDependencies": {
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
