@@ -8,6 +8,7 @@ interface Colorpallate {
   primary: string;
   secondary: string;
   background: string;
+  backgroundHome: string;
   text: string;
   buttonBackground: string;
   buttonHover: string;
@@ -40,6 +41,12 @@ const theme: DefaultTheme = {
     secondary: '#1c1c1e',
     background:
       'linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)',
+    backgroundHome: `radial-gradient(circle at 80% 8%,#47ff9945 0%, transparent 10%),
+                     radial-gradient(circle at -10% 23%,#47ff9945 0%, transparent 15%),
+                     radial-gradient(circle at 97% 36%,#47ff9945 0%, transparent 15%),
+                     radial-gradient(circle at -10% 64%,#47ff9945 0%, transparent 15%),
+                     radial-gradient(circle at 97% 84%,#47ff9945 0%, transparent 12%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',
     buttonBackground:
       'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',

@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { DefaultTheme } from '../../styles/Theme';
 import Lottie from 'lottie-react';
 import animationData from '../../assets/animation.json';
-import CircleGradient from '../common/CircleGradient';
 
 const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -246,7 +245,6 @@ const HeroSection: React.FC = () => {
         <Image src={BackgroundImage} alt="Background" />
       </ImageContainer> */}
       <ImageContainer>
-        <CircleGradient top="0px" left="18%" />
         <Lottie animationData={animationData} loop={true} />
       </ImageContainer>
     </HeroContainer>
