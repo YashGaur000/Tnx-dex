@@ -1,18 +1,18 @@
-// import styled from 'styled-components';
+import styled from 'styled-components';
 // import InformationIcon from '../../assets/information.png';
 // import { DefaultTheme } from '../../styles/Theme';
-// const Selecttoken = styled.div`
-//  display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   align-items:center;
-//   gap: 15px;
-//   padding-left: 20px;
-//   padding-right: 20px;
-//   height: 70px;
-//   background: linear-gradient(180deg, #18264C 0%, #1F305F 100%);
-//  border-radius: 16px;
-// `;
+const Selecttoken = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  height: 70px;
+  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
+  border-radius: 16px;
+`;
 
 // const ContentImg = styled.img`
 //  width: 20px;
@@ -49,22 +49,16 @@
 //  gap:10px;
 // `;
 
-// const CreateNewLiquidity = () => {
-//   return (
-//     <Selecttoken>
-//       <ImgWithTokenContainer>
-//          <ContentImg src={InformationIcon} />
-//          <Label>You're about to create a new volatile liquidity Pool...</Label>
-//       </ImgWithTokenContainer>
-//       <Button>Change</Button>
-//     </Selecttoken>
-//   );
-// };
-
-// export default CreateNewLiquidity;
-
 const CreateNewLiquidity = () => {
-  return <div>CreateNewLiquidity</div>;
+  return (
+    <Selecttoken>
+      {/* <ImgWithTokenContainer>
+         <ContentImg src={InformationIcon} />
+         <Label>You're about to create a new volatile liquidity Pool...</Label>
+      </ImgWithTokenContainer>
+      <Button>Change</Button> */}
+    </Selecttoken>
+  );
 };
 
 export default CreateNewLiquidity;
