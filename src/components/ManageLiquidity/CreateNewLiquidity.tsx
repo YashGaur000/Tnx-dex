@@ -19,10 +19,16 @@ const ContentImg = styled.img`
   height: 20px;
 `;
 
-// const ContentLabel = styled.div`
-// font-size: 18px;
-
-// `;
+const ContentLabel = styled.div`
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 20.9px;
+  text-align: left;
+  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+`;
 const Button = styled.button<{ theme: DefaultTheme }>`
   padding: 10px 20px;
   border-radius: 10px;
@@ -48,7 +54,9 @@ const CreateNewLiquidity = () => {
     <Selecttoken>
       <ImgWithTokenContainer>
         <ContentImg src={InformationIcon} />
-        {/* <ContentLabel>You're about to create a new volatile liquidity Pool</ContentLabel> */}
+        <ContentLabel>
+          You are about to create a new volatile liquidity Pool...
+        </ContentLabel>
       </ImgWithTokenContainer>
       <Button>Change</Button>
     </Selecttoken>
