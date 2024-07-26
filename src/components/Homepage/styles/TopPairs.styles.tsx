@@ -1,11 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import solLogo from '../../assets/sol-logo.png'; // Replace with the actual path to your image
-import suiLogo from '../../assets/sui-logo.png'; // Replace with the actual path to your image
-import { DefaultTheme } from '../../styles/Theme';
-import { Card, CardTitle } from '../common';
+import { styled } from 'styled-components';
+import { DefaultTheme } from '../../../styles/Theme';
 
-const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
+export const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
@@ -26,7 +22,7 @@ const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
   }
 `;
 
-const Title = styled.h2<{ theme: DefaultTheme }>`
+export const Title = styled.h2<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -45,7 +41,7 @@ const Title = styled.h2<{ theme: DefaultTheme }>`
   }
 `;
 
-const Description = styled.p<{ theme: DefaultTheme }>`
+export const Description = styled.p<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.grey};
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -53,7 +49,7 @@ const Description = styled.p<{ theme: DefaultTheme }>`
   margin-bottom: 40px;
 `;
 
-const CardsContainer = styled.div<{ theme: DefaultTheme }>`
+export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -66,20 +62,20 @@ const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const CardValue = styled.div<{ theme: DefaultTheme }>`
+export const CardValue = styled.div<{ theme: DefaultTheme }>`
   font-size: 36px;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
 `;
 
-const CardIcons = styled.div`
+export const CardIcons = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-bottom: 10px;
 `;
 
-const CardIcon = styled.img`
+export const CardIcon = styled.img`
   width: 30px;
   height: 30px;
   &:first-child {
@@ -90,38 +86,13 @@ const CardIcon = styled.img`
   }
 `;
 
-const CardDescription = styled.div<{ theme: DefaultTheme }>`
+export const CardDescription = styled.div<{ theme: DefaultTheme }>`
   font-size: 0.9em;
   color: ${({ theme }) => theme.colors.grey};
   margin-bottom: 5px;
 `;
 
-const CardPercentage = styled.div<{ theme: DefaultTheme }>`
+export const CardPercentage = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.grey};
 `;
-
-const TopPairs: React.FC = () => (
-  <TopPairsContainer>
-    <Title>Top Pairs</Title>
-    <Description>
-      veTENEX holders vote on pairs to determine next epochs emissions.
-    </Description>
-    <CardsContainer>
-      {[1, 2, 3].map((_, index) => (
-        <Card key={index} tag="top" width="300px">
-          <CardValue>$8,402.24</CardValue>
-          <CardIcons>
-            <CardIcon src={solLogo} alt="SOL Logo" />
-            <CardIcon src={suiLogo} alt="SUI Logo" />
-          </CardIcons>
-          <CardTitle tag="top">SOL/SUI</CardTitle>
-          <CardDescription>Classic Constant Product AMM</CardDescription>
-          <CardPercentage>20.54%</CardPercentage>
-        </Card>
-      ))}
-    </CardsContainer>
-  </TopPairsContainer>
-);
-
-export default TopPairs;

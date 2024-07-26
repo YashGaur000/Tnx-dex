@@ -115,8 +115,6 @@ const TimerButton = styled.button<{ theme: DefaultTheme }>`
   }
 `;
 
-const ContentWrapper = styled.div``;
-
 const Sidebar: React.FC = () => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
 
@@ -165,13 +163,12 @@ const Sidebar: React.FC = () => {
         </Text>
       </SlippageWrapper>
       <SlippageWrapper display="flex">
-        <ContentWrapper>
-          <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
-          <SidebarListItem>
-            Enabling this will allow trading on high quotes with high price
-            impact and could lead to loss of funds.
-          </SidebarListItem>
-        </ContentWrapper>
+        <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
+        <SidebarListItem>
+          Enabling this will allow trading on high quotes with high price impact
+          and could lead to loss of funds.
+        </SidebarListItem>
+
         <SwitchComponent
           isChecked={isUnsafeTradesAllowed}
           handleToggle={handleToggleChange}
