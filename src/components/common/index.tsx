@@ -1,4 +1,3 @@
-export { CircleGradient } from './CircleGradient';
 export { ComingSoon } from './ComingSoon';
 export { GradientButton } from './Buttons/GradientButton';
 export { Card, CardTitle, CardDescription, CardRow } from './Card';
