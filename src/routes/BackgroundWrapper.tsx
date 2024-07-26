@@ -16,8 +16,18 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
     case '/':
       background = theme.colors.backgroundHome;
       break;
+    case '/swap':
+      background = theme.colors.backgroundSwap;
+      break;
+    case '/documentation':
+      background = theme.colors.backgroundDocs;
+      break;
     default:
-      background = theme.colors.background; // Fallback background
+      if (location.pathname.startsWith('/documentation')) {
+        background = theme.colors.backgroundDocs;
+      } else {
+        background = theme.colors.background; // Fallback background
+      }
   }
 
   return (
