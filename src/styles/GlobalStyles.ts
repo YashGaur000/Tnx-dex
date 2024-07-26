@@ -1,7 +1,10 @@
 import { createGlobalStyle } from 'styled-components';
 import { DefaultTheme } from './Theme';
 
-const GlobalStyles = createGlobalStyle<{ theme: DefaultTheme }>`
+const GlobalStyles = createGlobalStyle<{
+  theme: DefaultTheme;
+  background: string;
+}>`
    * {
     margin: 0;
     padding: 0;
@@ -9,7 +12,7 @@ const GlobalStyles = createGlobalStyle<{ theme: DefaultTheme }>`
   }
   
   body {
-    background : linear-gradient(97.67deg, #0F1B3B 2.6%, #232938 94.56%);    ;
+    background: ${({ background }) => background}; 
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
     font-family: 'Kanit', sans-serif;
