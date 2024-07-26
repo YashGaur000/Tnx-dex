@@ -7,7 +7,7 @@ import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST } from './../../constants/tokens';
 import { DefaultTheme } from '../../styles/Theme';
 import BalanceDisplay from './BalanceDisplay';
-import TokenSelectModal from '../model/TokenSelectModal';
+import TokenSelectModal from '../modal/TokenSelectModal';
 
 const SwapBoxWrapper = styled.div`
   margin-bottom: 20px;
@@ -19,15 +19,17 @@ const SwapBox = styled.div<{ theme: DefaultTheme }>`
   border-radius: 20px;
   padding: 40px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
-  max-width: 500px;
+  max-width: 600px;
+  height: 538px;
   width: 100%;
 `;
 
 const Title = styled.h1<{ theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   font-size: 36px;
   margin-bottom: 10px;
+  line-height: 53.82px;
   text-align: center;
+  color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
@@ -36,8 +38,7 @@ const Description = styled.p<{ theme: DefaultTheme }>`
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  padding-top: 10px;
-  color: ${({ theme }) => theme.colors.grey};
+  color: ${({ theme }) => theme.colors.textGreyColor};
 `;
 
 const InputWrapper = styled.div<{ theme: DefaultTheme }>`
@@ -111,7 +112,7 @@ const Text = styled.div<{ theme: DefaultTheme }>`
   line-height: 14.95px;
   padding: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.grey};
+  color: ${({ theme }) => theme.colors.textGreyColor};
 `;
 
 const SwitchButton = styled.div<{ theme: DefaultTheme }>`
@@ -145,7 +146,7 @@ const WalletButton = styled.button<{ theme: DefaultTheme }>`
   border-radius: 10px;
   border: 1px solid ${({ theme }) => theme.colors.greyBorder};
   background: ${({ theme }) => theme.colors.cardLight};
-  color: ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.textGreyColor};
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
@@ -254,9 +255,7 @@ const SwapForm: React.FC = () => {
           <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
         </InputWrapper>
         <Button>Swap</Button>
-        <Description>
-          TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
-        </Description>
+
         <TokenSelectModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}

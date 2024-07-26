@@ -12,7 +12,7 @@ const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 20px;
   width: 440px;
   margin-left: 24px;
-  height: 840px;
+  height: 786px;
 
   @media (max-width: 900px) {
     width: 100%;
@@ -27,11 +27,10 @@ const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
 `;
 
 const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
-  color: ${({ theme }) => theme.colors.whiteBorder};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 const SidebarList = styled.ol`
@@ -42,14 +41,12 @@ const SidebarList = styled.ol`
 `;
 
 const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.whiteBorder};
+  color: ${({ theme }) => theme.colors.textGreyColor};
   margin-bottom: 20px;
   position: relative;
   padding-left: 30px;
-  weight: 300;
   line-height: 20.93px;
 
   &:before {

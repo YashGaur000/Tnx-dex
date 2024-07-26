@@ -9,7 +9,7 @@ const GlobalStyles = createGlobalStyle<{ theme: DefaultTheme }>`
   }
   
   body {
-    background : linear-gradient(97.67deg, #0F1B3B 2.6%, #232938 94.56%);    ;
+    background : linear-gradient(97.67deg, #0F1B3B 100%, #232938 100%);    ;
     background-color: ${({ theme }) => theme.colors.background};
     color: ${({ theme }) => theme.colors.text};
     font-family: 'Kanit', sans-serif;

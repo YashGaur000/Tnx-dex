@@ -16,7 +16,6 @@ const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
 `;
 
 const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;

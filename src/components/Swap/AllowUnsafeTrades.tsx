@@ -13,20 +13,18 @@ const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
 `;
 
 const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
-  color: ${({ theme }) => theme.colors.whiteBorder};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
 const ContentWrapper = styled.div``;
 
 const SidebarListDes = styled.div<{ theme: DefaultTheme }>`
-  font-family: 'Kanit', sans-serif;
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.whiteBorder};
+  color: ${({ theme }) => theme.colors.textGreyColor};
   margin-bottom: 20px;
   position: relative;
   padding-left: 30px;

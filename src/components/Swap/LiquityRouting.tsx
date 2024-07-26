@@ -14,10 +14,10 @@ const LiquityContainer = styled.div<{ theme: DefaultTheme }>`
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 `;
 
-const LiquityTitle = styled.h2`
-  font-family: 'Kanit', sans-serif;
+const LiquityTitle = styled.h2<{ theme: DefaultTheme }>`
   font-size: 24px;
-  font-weight: 300;
+  color: ${({ theme }) => theme.colors.textGreyColor};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   margin-bottom: 15px;
   text-align: left;
@@ -25,7 +25,7 @@ const LiquityTitle = styled.h2`
   padding-left: 20px;
 `;
 
-const StepperContainer = styled.div`
+const StepperContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -34,7 +34,7 @@ const StepperContainer = styled.div`
   position: relative;
 `;
 
-const Step = styled.div`
+const Step = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,7 +42,7 @@ const Step = styled.div`
   flex: 1 1 81px;
   margin: 0 10px;
 `;
-const StepCommon = styled.div`
+const StepCommon = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,16 +57,16 @@ const StepImage = styled.img`
   z-index: 10;
 `;
 
-const StepLabel = styled.div`
-  font-family: 'Kanit', sans-serif;
-  font-weight: 300;
+const StepLabel = styled.div<{ theme: DefaultTheme }>`
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 20.93px;
+  color: ${({ theme }) => theme.colors.textGreyColor};
   margin-top: 8px;
   font-size: 14px;
   text-align: center;
 `;
 
-const StepLine = styled.div`
+const StepLine = styled.div<{ theme: DefaultTheme }>`
   position: absolute;
   top: 16%;
   left: 10%;
@@ -82,11 +82,11 @@ const LiquityRouting = () => {
       <LiquityTitle>Liquidity Routing</LiquityTitle>
       <StepperContainer>
         <StepCommon>
-          <StepImage src="src/assets/Group392.png" alt="Icon 1" />
+          <StepImage src="src/assets/sui-logo.png" alt="Icon 1" />
         </StepCommon>
         <StepLine />
         <Step>
-          <StepImage src="src/assets/Group922.png" alt="Icon 2" />
+          <StepImage src="src/assets/fwd-arrow.png" alt="Icon 2" />
           <StepLabel>
             1.0%
             <br />
@@ -94,19 +94,18 @@ const LiquityRouting = () => {
           </StepLabel>
         </Step>
         <StepCommon>
-          <StepImage src="src/assets/Vector.png" alt="Icon 3" />
+          <StepImage src="src/assets/tether.png" alt="Icon 3" />
         </StepCommon>
         <Step>
-          <StepImage src="src/assets/Group922.png" alt="Icon 4" />
+          <StepImage src="src/assets/fwd-arrow.png" alt="Icon 4" />
           <StepLabel>
             0.5%
             <br />
             Concentrated
           </StepLabel>
         </Step>
-
         <StepCommon>
-          <StepImage src="src/assets/Group393.png" alt="Icon 5" />
+          <StepImage src="src/assets/sol-logo.png" alt="Icon 5" />
         </StepCommon>
       </StepperContainer>
     </LiquityContainer>
