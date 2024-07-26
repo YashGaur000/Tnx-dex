@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { DefaultTheme } from '../../styles/Theme';
 import Lottie from 'lottie-react';
 import animationData from '../../assets/animation.json';
+import { LaunchDappButton, LaunchDappSpan } from '../common';
 
 const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -113,64 +114,6 @@ export const Description = styled.p<{ theme: DefaultTheme; align: string }>`
   }
 `;
 
-const StyledButton = styled.button<{
-  isconnected: string;
-  theme: DefaultTheme;
-}>`
-  padding: 12px 31.5px 12px 31.5px;
-  border: 2px solid transparent;
-  border-radius: 12px;
-  background: ${({ theme, isconnected }) =>
-      isconnected === 'true'
-        ? theme.colors.buttonBackground
-        : theme.colors.background},
-    ${({ theme, isconnected }) =>
-      isconnected === 'true'
-        ? theme.colors.background
-        : theme.colors.buttonBackground};
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  line-height: 29.9px;
-  letter-spacing: 0.02em;
-  text-align: center;
-  color: ${({ theme, isconnected }) =>
-    isconnected === 'true' ? theme.colors.text : theme.colors.buttonBackground};
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.buttonBackground};
-    color: ${({ theme }) => theme.colors.text};
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
-  }
-
-  &:hover span {
-    background: white;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  @media (max-width: 768px) {
-    padding: 10px 30px;
-    font-size: 18px;
-  }
-`;
-
-const GradientSpan = styled.span<{ isconnected: string; theme: DefaultTheme }>`
-  font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme, isconnected }) =>
-    isconnected === 'true' ? theme.colors.text : theme.colors.buttonBackground};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  transition: background 0.3s ease;
-`;
-
 const ImageContainer = styled.div`
   flex: 1;
   display: flex;
@@ -184,7 +127,9 @@ const ImageContainer = styled.div`
 
   @media (max-width: 900px) {
     max-width: 100%;
+    margin-top: 20px;
   }
+
   @media (max-width: 768px) {
     max-width: 100%;
   }
@@ -232,14 +177,14 @@ const HeroSection: React.FC = () => {
         <Description align="left">
           Premier Trading and Liquidity Market Place of DeFi
         </Description>
-        <StyledButton
+        <LaunchDappButton
           isconnected={isconnected.toString()}
           onClick={handleButtonClick}
         >
-          <GradientSpan isconnected={isconnected.toString()}>
+          <LaunchDappSpan isconnected={isconnected.toString()}>
             Launch dApp
-          </GradientSpan>
-        </StyledButton>
+          </LaunchDappSpan>
+        </LaunchDappButton>
       </TextContainer>
       {/* <ImageContainer>
         <Image src={BackgroundImage} alt="Background" />

@@ -8,6 +8,7 @@ import { TOKEN_LIST } from './../../constants/tokens';
 import { DefaultTheme } from '../../styles/Theme';
 import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../modal/TokenSelectModal';
+import { GlobalButton } from '../common';
 
 const SwapBoxWrapper = styled.div`
   margin-bottom: 20px;
@@ -86,23 +87,6 @@ const TokenSelect = styled.div<{ theme: DefaultTheme }>`
     width: 8px;
     height: 4px;
     margin-top: 9px;
-  }
-`;
-
-const Button = styled.button<{ theme: DefaultTheme }>`
-  width: 100%;
-  padding: 15px;
-  border-radius: 10px;
-  border: none;
-  background: ${({ theme }) => theme.colors.buttonBackground};
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 16px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  cursor: pointer;
-  margin: 20px 0px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.buttonHover};
   }
 `;
 
@@ -254,13 +238,15 @@ const SwapForm: React.FC = () => {
           </TokenSelect>
           <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
         </InputWrapper>
-        <Button>Swap</Button>
-
         <TokenSelectModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           onSelect={handleTokenSelect}
         />
+        <GlobalButton padding="15px">Swap</GlobalButton>
+        <Description>
+          TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
+        </Description>
       </SwapBox>
     </SwapBoxWrapper>
   );

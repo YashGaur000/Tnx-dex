@@ -1,8 +1,7 @@
 import { ConnectButton } from '@rainbow-me/rainbowkit';
-import styled from 'styled-components';
-import { Button } from '../Header';
 import { useAccount } from '../../hooks/useAccount';
-import { DefaultTheme } from '../../styles/Theme';
+import { ChainButton, GlobalButton } from '../common';
+import { Container, FlexContainer, IconContainer } from './style';
 
 interface ChainProps {
   hasIcon: boolean;
@@ -11,45 +10,6 @@ interface ChainProps {
   name?: string;
   unsupported: boolean;
 }
-
-const Container = styled.div<{ ready: string }>`
-  ${({ ready }) =>
-    ready === 'false' &&
-    `
-    aria-hidden: true;
-    opacity: 0;
-    pointer-events: none;
-    user-select: none;
-  `}
-`;
-
-const IconContainer = styled.div<{ background: string }>`
-  width: 35px;
-  height: 30px;
-  border-radius: 999px;
-  overflow: hidden;
-  margin-right: 4px;
-  background: ${({ background }) => background};
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  gap: 12px;
-`;
-
-const ChainButton = styled.button<{ padding: string; theme: DefaultTheme }>`
-  display: flex;
-  align-items: center;
-  padding: ${({ padding }) => padding};
-  border: 2px solid transparent;
-  border-radius: 12px;
-  background: ${({ theme }) => theme.colors.background},
-    ${({ theme }) => theme.colors.buttonBackground};
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
-  cursor: pointer;
-  color: ${({ theme }) => theme.colors.text};
-`;
 
 export const ConnectWallet = () => {
   const { address } = useAccount();
@@ -75,25 +35,27 @@ export const ConnectWallet = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal}>Connect Wallet</Button>
+                  <GlobalButton padding="10px 20px" onClick={openConnectModal}>
+                    Connect Wallet
+                  </GlobalButton>
                 );
               }
 
               if ((chain as ChainProps)?.unsupported) {
                 return (
-                  <Button onClick={openChainModal} type="button">
+                  <GlobalButton
+                    padding="10px 20px"
+                    onClick={openChainModal}
+                    type="button"
+                  >
                     Wrong network
-                  </Button>
+                  </GlobalButton>
                 );
               }
 
               return (
                 <FlexContainer>
-                  <ChainButton
-                    onClick={openChainModal}
-                    type="button"
-                    padding="11px 20px"
-                  >
+                  <ChainButton onClick={openChainModal} padding="11px 20px">
                     {(chain as ChainProps).hasIcon && (
                       <IconContainer
                         background={(chain as ChainProps).iconBackground}

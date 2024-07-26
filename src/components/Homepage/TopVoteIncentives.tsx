@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import incentiveIcon from '../../assets/incentiveIcon.png'; // Replace with the correct path to your icon image
 import { DefaultTheme } from '../../styles/Theme';
+import { Card } from '../common';
 
 const TopVoteIncentivesContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -52,15 +53,6 @@ const CardsContainer = styled.div`
     grid-template-columns: none;
     justify-content: center;
   }
-`;
-
-const Card = styled.div<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.card};
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.text};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const CardAmount = styled.div<{ theme: DefaultTheme }>`

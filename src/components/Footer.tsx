@@ -9,7 +9,13 @@ import { DefaultTheme } from '../styles/Theme';
 const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
   padding: 140px 20px;
-  background-color: ${({ theme }) => theme.colors.background};
+  /* background-color: ${({ theme }) => theme.colors.backgroundDocs};*/
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  /* background-color: red; */
+  background: linear-gradient(180deg, #273762 0%, #2a3e75 100%);
   text-align: center;
 
   @media (max-width: 1200px) {

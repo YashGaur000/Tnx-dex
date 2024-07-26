@@ -1,10 +1,10 @@
 import React from 'react';
-import CommingSoonComponent from '../../components/ComingsoonComponent';
+import { ComingSoon } from '../../components/common';
 
 const LiquidityPage: React.FC = () => {
   return (
     <>
-      <CommingSoonComponent />
+      <ComingSoon />
     </>
   );
 };

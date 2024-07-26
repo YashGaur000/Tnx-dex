@@ -48,6 +48,11 @@ const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
   position: relative;
   padding-left: 30px;
   line-height: 20.93px;
+  text-align: left;
+
+  @media (max-width: 768px) {
+    display: grid;
+  }
 
   &:before {
     content: counter(step-counter);

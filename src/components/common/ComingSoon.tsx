@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Lottie from 'lottie-react';
-import animationData from '../assets/animation.json';
+import animationData from '../../assets/animation.json';
 
 const TextWrapper = styled.div`
   text-align: center;
@@ -18,7 +18,7 @@ const AnimationWrapper = styled.div`
   margin: 0 auto;
 `;
 
-const CommingSoonComponent: React.FC = () => {
+const CommingSoon: React.FC = () => {
   return (
     <>
       <TextWrapper>
@@ -31,4 +31,4 @@ const CommingSoonComponent: React.FC = () => {
   );
 };
 
-export default CommingSoonComponent;
+export default CommingSoon;

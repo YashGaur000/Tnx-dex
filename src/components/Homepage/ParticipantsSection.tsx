@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
+import { Card, CardTitle } from '../common';
 
 const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -9,9 +10,8 @@ const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   padding: 50px 20px;
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 -57px;
   margin-top: 70px;
-  margin-left: -50px;
-  margin-right: -50px;
 `;
 
 const ParticipantsTitle = styled.h2<{ theme: DefaultTheme }>`
@@ -40,24 +40,9 @@ const CardsContainer = styled.div`
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
-`;
-
-const Card = styled.div<{ theme: DefaultTheme }>`
-  border-radius: 10px;
-  padding: 20px;
-  text-align: center;
-  background: ${({ theme }) => theme.colors.cardLight};
-  color: ${({ theme }) => theme.colors.text};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-`;
-
-const CardTitle = styled.h3<{ theme: DefaultTheme }>`
-  font-size: 24px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 35.88px;
-  text-align: left;
-  margin-bottom: 10px;
-  color: ${({ theme }) => theme.colors.text};
+  @media (max-width: 768px) {
+    grid-template-columns: none;
+  }
 `;
 
 const CardText = styled.p<{ theme: DefaultTheme }>`

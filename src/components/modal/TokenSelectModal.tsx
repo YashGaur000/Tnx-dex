@@ -27,7 +27,7 @@ const ModalContent = styled.div<{ theme: DefaultTheme }>`
   max-height: 80vh;
 `;
 
-const SearchInput = styled.input`
+const SearchInput = styled.input<{ theme: DefaultTheme }>`
   width: 95%;
   padding: 8px;
   margin-bottom: 10px;
@@ -35,6 +35,10 @@ const SearchInput = styled.input`
   border-radius: 21px;
   color: grey;
   background: linear-gradient(90deg, #18264c 0%, #1f305f 100%);
+  background-image: url('searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  padding: 12px 20px 12px 40px;
 `;
 
 const TokenList = styled.ul<{ theme: DefaultTheme }>`
@@ -42,6 +46,7 @@ const TokenList = styled.ul<{ theme: DefaultTheme }>`
   padding: 0;
   margin: 0;
   max-height: 60vh;
+  text-align: left;
   overflow-y: auto;
   scrollbar-width: thin; /* For Firefox */
   scrollbar-color: green black; /* For Firefox */
@@ -68,8 +73,8 @@ const TokenItem = styled.li<{ theme: DefaultTheme }>`
   align-items: center;
   padding: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
-
+  Line-height:23.92px
+  color: ${({ theme }) => theme.colors.textGreyColor};
   &:hover {
     background: grey;
   }
@@ -89,7 +94,7 @@ const SearchWrapper = styled.div<{ theme: DefaultTheme }>`
 const SearchIcon = styled(FontAwesomeIcon)`
   position: absolute;
   top: 42%;
-  left: 13px;
+  left: 20px;
   transform: translateY(-50%);
   color: #888;
 `;

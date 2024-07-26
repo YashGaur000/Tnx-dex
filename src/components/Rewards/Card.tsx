@@ -1,21 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
-import GradientButton from './GradientButton';
+import { GlobalButton, GradientButton, Card as CardContainer } from '../common';
 
-const CardContainer = styled.div<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.cardLight};
-  border-radius: 12px;
-  padding: 20px;
-  width: 400px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: left;
-`;
+// const CardContainer = styled.div<{ theme: DefaultTheme }>`
+//   background: ${({ theme }) => theme.colors.cardLight};
+//   border-radius: 12px;
+//   padding: 20px;
+//   width: 400px;
+//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   text-align: left;
+// `;
 
-const CardTitle = styled.h2<{ theme: DefaultTheme }>`
+const CardTitle = styled.h3<{ theme: DefaultTheme }>`
   font-size: 26px;
   margin-bottom: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -30,25 +30,6 @@ const CardRow = styled.div<{ theme: DefaultTheme }>`
 
   span {
     font-weight: ${({ theme }) => theme.fontWeights.regular};
-  }
-`;
-
-const Button = styled.button<{ theme: DefaultTheme }>`
-  width: 100px;
-  height: 38px;
-  padding: 10px;
-  border-radius: 10px;
-  border: none;
-  background: ${({ theme }) => theme.colors.buttonBackground};
-  color: ${({ theme }) => theme.colors.text};
-  font-size: 14px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  cursor: pointer;
-  letter-spacing: 0.02em;
-  margin-top: 15px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.buttonHover};
   }
 `;
 
@@ -68,7 +49,7 @@ const Card: React.FC<CardProps> = ({
   valueValue,
 }) => {
   return (
-    <CardContainer>
+    <CardContainer width="400px">
       <CardTitle>{title}</CardTitle>
       <CardRow>
         <span>{positionLabel}</span>
@@ -93,7 +74,9 @@ const Card: React.FC<CardProps> = ({
         >
           Claim
         </GradientButton>
-        <Button>Lock</Button>
+        <GlobalButton padding="0px" width="100px" height="38px">
+          Lock
+        </GlobalButton>
       </CardRow>
     </CardContainer>
   );

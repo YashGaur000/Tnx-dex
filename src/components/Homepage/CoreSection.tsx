@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
+import { CardTitle, GlobalButton } from '../common';
 
 const CoreSectionContainer = styled.section<{ theme: DefaultTheme }>`
   padding: 60px 20px;
@@ -49,31 +50,11 @@ const Card = styled.div`
   text-align: left;
 `;
 
-const CardTitle = styled.h3<{ theme: DefaultTheme }>`
-  font-size: 1.5em;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.text};
-  margin-bottom: 10px;
-`;
-
 const CardDescription = styled.p<{ theme: DefaultTheme }>`
   font-size: 1em;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 20px;
-`;
-
-const Button = styled.button<{ theme: DefaultTheme }>`
-  font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme }) => theme.colors.buttonBackground};
-  color: ${({ theme }) => theme.colors.text};
-  padding: 10px 20px;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-  font-size: 1em;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  width: 100%;
 `;
 
 const CoreSection: React.FC = () => (
@@ -90,7 +71,7 @@ const CoreSection: React.FC = () => (
           TENEX is the beating heart of our Ecosystem, it can be bought, farmed,
           staked, locked and earned.
         </CardDescription>
-        <Button>Buy TENEX</Button>
+        <GlobalButton padding="10px 20px">Buy TENEX</GlobalButton>
       </Card>
       <Card>
         <CardTitle>veTENEX</CardTitle>
@@ -98,7 +79,7 @@ const CoreSection: React.FC = () => (
           veTENEX holders earn 100% of trading fees across both of our
           platforms.
         </CardDescription>
-        <Button>Create veTENEX</Button>
+        <GlobalButton padding="10px 20px">Create veTENEX</GlobalButton>
       </Card>
     </ContentContainer>
   </CoreSectionContainer>
