@@ -15,6 +15,7 @@ import {
   Align,
   Text,
 } from '../../common';
+import { ContentWrapper } from '../../common/index';
 
 const Sidebar: React.FC = () => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
@@ -54,7 +55,7 @@ const Sidebar: React.FC = () => {
       <SlippageWrapper display="flow">
         <Align>
           <SidebarTitle fontSize={16}>Transaction Deadline</SidebarTitle>
-          <InfoButton>30 mins</InfoButton>
+          <InfoButton width="74px">30 mins</InfoButton>
         </Align>
         <SliderContainer>
           <Slider type="range" min="0" max="60" />
@@ -64,11 +65,13 @@ const Sidebar: React.FC = () => {
         </Text>
       </SlippageWrapper>
       <SlippageWrapper display="flex">
-        <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
-        <SidebarListItem>
-          Enabling this will allow trading on high quotes with high price impact
-          and could lead to loss of funds.
-        </SidebarListItem>
+        <ContentWrapper>
+          <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
+          <SidebarListItem>
+            Enabling this will allow trading on high quotes with high price
+            impact and could lead to loss of funds.
+          </SidebarListItem>
+        </ContentWrapper>
 
         <SwitchComponent
           isChecked={isUnsafeTradesAllowed}

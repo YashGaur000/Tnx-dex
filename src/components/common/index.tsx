@@ -1,5 +1,7 @@
-export { ComingSoon } from './ComingSoon';
-export { GradientButton } from './Buttons/GradientButton';
+import ComingSoon from './ComingSoon';
+export { ComingSoon };
+import GradientButton from './Buttons/GradientButton';
+export { GradientButton };
 export { Card, CardTitle, CardDescription, CardRow } from './Card';
 export {
   GlobalButton,
@@ -22,4 +24,5 @@ export {
   InfoButton,
   Align,
   Text,
+  ContentWrapper,
 } from './Sidebar';

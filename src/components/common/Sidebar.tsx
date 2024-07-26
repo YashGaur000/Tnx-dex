@@ -48,10 +48,17 @@ export const ToleranceButtons = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    display: grid;
+  }
 `;
 
-export const InfoButton = styled.button<{ theme: DefaultTheme }>`
-  width: 74px;
+export const InfoButton = styled.button<{
+  theme: DefaultTheme;
+  width?: string;
+}>`
+  width: ${({ width }) => (width ? width : '')};
   height: 32px;
   padding: 8px;
   background: transparent;
@@ -99,3 +106,5 @@ export const Align = styled.div`
   display: flex;
   justify-content: space-between;
 `;
+
+export const ContentWrapper = styled.div``;

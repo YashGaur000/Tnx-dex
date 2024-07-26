@@ -18,7 +18,7 @@ const AnimationWrapper = styled.div`
   margin: 0 auto;
 `;
 
-export const ComingSoon: React.FC = () => {
+const ComingSoon: React.FC = () => {
   return (
     <>
       <TextWrapper>
@@ -30,3 +30,5 @@ export const ComingSoon: React.FC = () => {
     </>
   );
 };
+
+export default ComingSoon;

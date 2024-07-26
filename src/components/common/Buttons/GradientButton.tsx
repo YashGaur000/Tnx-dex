@@ -55,8 +55,8 @@ const StyledButton = styled.button<
   }
 
   @media (max-width: 768px) {
-    padding: 10px 30px;
     font-size: 18px;
+    margin: 10px;
   }
 `;
 
@@ -69,7 +69,7 @@ const GradientSpan = styled.span<{ theme: DefaultTheme }>`
   transition: background 0.3s ease;
 `;
 
-export const GradientButton: React.FC<GradientButtonProps> = ({
+const GradientButton: React.FC<GradientButtonProps> = ({
   width,
   height,
   padding,
@@ -99,3 +99,5 @@ export const GradientButton: React.FC<GradientButtonProps> = ({
     </StyledButton>
   );
 };
+
+export default GradientButton;

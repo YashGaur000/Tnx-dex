@@ -8,9 +8,8 @@ export const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   padding: 50px 20px;
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin: 0 -57px;
   margin-top: 70px;
-  margin-left: -50px;
-  margin-right: -50px;
 `;
 
 export const ParticipantsTitle = styled.h2<{ theme: DefaultTheme }>`
