@@ -32,7 +32,26 @@ export const CardTitle = styled.h3<{ theme: DefaultTheme; tag?: string }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   text-align: ${({ tag }) => (tag === 'top' ? 'center' : 'left')};
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   color: ${({ theme, tag }) =>
-    tag === 'top' ? theme.colors.grey : theme.colors.grey};
+    tag === 'top' ? theme.colors.grey : theme.colors.title};
+`;
+
+export const CardRow = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 10px;
+  font-size: 14px;
+
+  span {
+    font-weight: ${({ theme }) => theme.fontWeights.regular};
+  }
+`;
+
+export const CardDescription = styled.p<{ theme: DefaultTheme }>`
+  font-size: 1em;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.greyLight};
+  margin-bottom: 20px;
 `;

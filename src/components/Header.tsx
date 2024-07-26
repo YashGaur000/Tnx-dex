@@ -14,7 +14,7 @@ import { DefaultTheme } from '../styles/Theme';
 
 const HeaderContainer = styled.header<{
   theme: DefaultTheme;
-  isSticky: boolean;
+  sticky: string;
 }>`
   display: flex;
   justify-content: space-between;
@@ -22,8 +22,8 @@ const HeaderContainer = styled.header<{
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
 
-  ${({ isSticky }) =>
-    isSticky &&
+  ${({ sticky }) =>
+    sticky === 'true' &&
     `
     position: sticky;
     top: 0;
@@ -156,7 +156,7 @@ const Header: React.FC = () => {
   const toggleNav = () => setNavOpen(!navOpen);
 
   return (
-    <HeaderContainer isSticky={isSticky}>
+    <HeaderContainer sticky={isSticky.toString()}>
       <Logo src={logoImage} alt="TenEx Logo" onClick={() => navigate('/')} />
 
       <Toggler onClick={toggleNav}>

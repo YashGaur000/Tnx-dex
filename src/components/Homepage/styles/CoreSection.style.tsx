@@ -11,7 +11,7 @@ export const CoreSectionContainer = styled.section<{ theme: DefaultTheme }>`
 `;
 
 export const SubTitle = styled.h3<{ theme: DefaultTheme }>`
-  color: rgba(255, 255, 255, 0.7);
+  color: ${({ theme }) => theme.colors.greyLight};
   font-size: 1.5em;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 10px;
@@ -28,7 +28,7 @@ export const Title = styled.h2<{ theme: DefaultTheme }>`
 `;
 
 export const Description = styled.p<{ theme: DefaultTheme }>`
-  color: rgba(255, 255, 255, 0.7);
+  color: ${({ theme }) => theme.colors.greyLight};
   font-size: 1.2em;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 40px;
@@ -46,11 +46,4 @@ export const Card = styled.div`
   border-radius: 10px;
   width: 300px;
   text-align: left;
-`;
-
-export const CardDescription = styled.p<{ theme: DefaultTheme }>`
-  font-size: 1em;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 20px;
 `;

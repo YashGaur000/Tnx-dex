@@ -1,13 +1,12 @@
 import React from 'react';
 import solLogo from '../../../assets/sol-logo.png'; // Replace with the actual path to your image
 import suiLogo from '../../../assets/sui-logo.png'; // Replace with the actual path to your image
-import { Card, CardTitle } from '../../common';
+import { Card, CardTitle, CardDescription } from '../../common';
 import {
   TopPairsContainer,
   Title,
   Description,
   CardsContainer,
-  CardDescription,
   CardIcons,
   CardIcon,
   CardPercentage,

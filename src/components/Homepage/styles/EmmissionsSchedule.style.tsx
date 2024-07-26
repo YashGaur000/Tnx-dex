@@ -44,7 +44,7 @@ export const Title = styled.h2<{ theme: DefaultTheme }>`
 `;
 
 export const Description = styled.p<{ theme: DefaultTheme }>`
-  color: rgba(255, 255, 255, 0.7);
+  color: ${({ theme }) => theme.colors.greyLight};
   font-size: 24px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;

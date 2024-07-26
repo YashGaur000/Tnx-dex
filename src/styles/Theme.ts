@@ -16,6 +16,7 @@ interface Colorpallate {
   cardDark: string;
   title: string;
   grey: string;
+  greyLight: string;
   hover: string;
   greyBorder: string;
   swapIconBackground: string;
@@ -49,6 +50,7 @@ const theme: DefaultTheme = {
     cardDark: 'rgba(16, 28, 59, 1)',
     title: 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
     grey: 'rgba(204, 204, 204, 1)',
+    greyLight: 'rgba(255, 255, 255, 0.7)',
     hover: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
     greyBorder: '#B8B8B8',
     swapIconBackground:

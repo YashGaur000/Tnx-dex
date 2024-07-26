@@ -1,8 +1,7 @@
 import React from 'react';
-import { CardTitle, GlobalButton } from '../../common';
+import { CardTitle, GlobalButton, CardDescription } from '../../common';
 import {
   Card,
-  CardDescription,
   ContentContainer,
   CoreSectionContainer,
   Description,

@@ -1,37 +1,11 @@
 import React from 'react';
-import styled from 'styled-components';
-import { DefaultTheme } from '../../styles/Theme';
-import { GlobalButton, GradientButton, Card as CardContainer } from '../common';
-
-// const CardContainer = styled.div<{ theme: DefaultTheme }>`
-//   background: ${({ theme }) => theme.colors.cardLight};
-//   border-radius: 12px;
-//   padding: 20px;
-//   width: 400px;
-//   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   text-align: left;
-// `;
-
-const CardTitle = styled.h3<{ theme: DefaultTheme }>`
-  font-size: 26px;
-  margin-bottom: 20px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-`;
-
-const CardRow = styled.div<{ theme: DefaultTheme }>`
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 10px;
-  font-size: 14px;
-
-  span {
-    font-weight: ${({ theme }) => theme.fontWeights.regular};
-  }
-`;
+import {
+  GlobalButton,
+  GradientButton,
+  Card as CardContainer,
+  CardTitle,
+  CardRow,
+} from '../common';
 
 interface CardProps {
   title: string;
@@ -41,7 +15,7 @@ interface CardProps {
   valueValue: string;
 }
 
-const Card: React.FC<CardProps> = ({
+const RewardCard: React.FC<CardProps> = ({
   title,
   positionLabel,
   positionValue,
@@ -82,4 +56,4 @@ const Card: React.FC<CardProps> = ({
   );
 };
 
-export default Card;
+export default RewardCard;

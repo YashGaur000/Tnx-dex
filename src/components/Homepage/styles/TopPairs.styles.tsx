@@ -86,12 +86,6 @@ export const CardIcon = styled.img`
   }
 `;
 
-export const CardDescription = styled.div<{ theme: DefaultTheme }>`
-  font-size: 0.9em;
-  color: ${({ theme }) => theme.colors.grey};
-  margin-bottom: 5px;
-`;
-
 export const CardPercentage = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.grey};

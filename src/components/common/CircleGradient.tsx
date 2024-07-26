@@ -19,8 +19,9 @@ interface CircleGradientProps {
   left: string;
 }
 
-const CircleGradient: React.FC<CircleGradientProps> = ({ top, left }) => {
+export const CircleGradient: React.FC<CircleGradientProps> = ({
+  top,
+  left,
+}) => {
   return <ImageWrapper src={circle} alt="gradient" top={top} left={left} />;
 };
-
-export default CircleGradient;
