@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import SwapForm from '../../components/Swap/SwapForm';
-import Sidebar from '../../components/Swap/Sidebar';
+import SwapForm from '../../components/Swap/modules/SwapForm';
+import Sidebar from '../../components/Swap/modules/Sidebar';
 import { DefaultTheme } from '../../styles/Theme';
 
 const SwapContainer = styled.div<{ theme: DefaultTheme }>`

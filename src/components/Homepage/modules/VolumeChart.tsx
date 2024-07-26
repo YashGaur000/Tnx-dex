@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components';
 import {
   BarChart,
   Bar,
@@ -8,9 +7,12 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from 'recharts';
-import { DefaultTheme } from '../../styles/Theme';
+import {
+  ChartContainer,
+  ResponsiveWrapper,
+  Title,
+} from '../styles/VolumeChart.style';
 
 const data = [
   { date: '24/04/2024', TENEX: 2000000, veTENEX: 2000000 },
@@ -49,39 +51,6 @@ const data = [
   { date: '30/04/2024', TENEX: 1500000, veTENEX: 2500000 },
   { date: '06/05/2024', TENEX: 1700000, veTENEX: 2190000 },
 ];
-
-const ChartContainer = styled.section<{ theme: DefaultTheme }>`
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px;
-  background-color: ${({ theme }) => theme.colors.background};
-
-  @media (max-width: 768px) {
-    padding: 40px 0px;
-  }
-`;
-
-const Title = styled.h2<{ theme: DefaultTheme }>`
-  font-size: 48px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 71.76px;
-  text-align: center;
-  margin-bottom: 20px;
-  background: ${({ theme }) => theme.colors.title};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  text-fill-color: transparent;
-`;
-
-const ResponsiveWrapper = styled(ResponsiveContainer)`
-  padding: 20px;
-
-  @media (max-width: 768px) {
-    padding: 20px 0px;
-  }
-`;
 
 const VolumeChart: React.FC = () => (
   <ChartContainer>

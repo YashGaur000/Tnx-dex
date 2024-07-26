@@ -1,14 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-// import BackgroundImage from '../../assets/banner.svg';
-import { useAccount } from '../../hooks/useAccount';
-import { useNavigate } from 'react-router-dom';
-import { DefaultTheme } from '../../styles/Theme';
-import Lottie from 'lottie-react';
-import animationData from '../../assets/animation.json';
-import { LaunchDappButton, LaunchDappSpan } from '../common';
+import { styled } from 'styled-components';
+import { DefaultTheme } from '../../../styles/Theme';
 
-const HeroContainer = styled.section<{ theme: DefaultTheme }>`
+export const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,7 +24,7 @@ const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   }
 `;
 
-const TextContainer = styled.div`
+export const TextContainer = styled.div`
   flex: 1;
   padding: 20px;
   max-width: 50%;
@@ -55,7 +48,7 @@ const TextContainer = styled.div`
   }
 `;
 
-const Title = styled.h1<{ theme: DefaultTheme }>`
+export const Title = styled.h1<{ theme: DefaultTheme }>`
   font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 71.76px;
@@ -77,7 +70,7 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
   }
 `;
 
-const GradientText = styled.span<{ theme: DefaultTheme }>`
+export const GradientText = styled.span<{ theme: DefaultTheme }>`
   font-size: 65px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 40px;
@@ -114,7 +107,7 @@ export const Description = styled.p<{ theme: DefaultTheme; align: string }>`
   }
 `;
 
-const ImageContainer = styled.div`
+export const ImageContainer = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
@@ -134,66 +127,3 @@ const ImageContainer = styled.div`
     max-width: 100%;
   }
 `;
-
-// const Image = styled.img`
-//   width: 810px;
-//   height: 742px;
-//   top: 206px;
-//   left: 762px;
-//   border-radius: 20px 0px 0px 0px;
-//   opacity: 0px;
-//   height: fit-content;
-
-//   @media (max-width: 1200px) {
-//     width: 700px;
-//   }
-
-//   @media (max-width: 1024px) {
-//     width: 600px;
-//   }
-
-//   @media (max-width: 900px) {
-//     max-width: 100%;
-//   }
-// `;
-
-const HeroSection: React.FC = () => {
-  const { isConnected } = useAccount();
-  const isconnected = isConnected;
-  const navigate = useNavigate();
-
-  const handleButtonClick = () => {
-    navigate('/swap');
-  };
-
-  return (
-    <HeroContainer>
-      <TextContainer>
-        <Title>
-          Navigating the Future of <GradientText>Decentralized</GradientText>
-          <br />
-          <GradientText>Finance</GradientText>
-        </Title>
-        <Description align="left">
-          Premier Trading and Liquidity Market Place of DeFi
-        </Description>
-        <LaunchDappButton
-          isconnected={isconnected.toString()}
-          onClick={handleButtonClick}
-        >
-          <LaunchDappSpan isconnected={isconnected.toString()}>
-            Launch dApp
-          </LaunchDappSpan>
-        </LaunchDappButton>
-      </TextContainer>
-      {/* <ImageContainer>
-        <Image src={BackgroundImage} alt="Background" />
-      </ImageContainer> */}
-      <ImageContainer>
-        <Lottie animationData={animationData} loop={true} />
-      </ImageContainer>
-    </HeroContainer>
-  );
-};
-
-export default HeroSection;
