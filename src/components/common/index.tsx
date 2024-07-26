@@ -1,4 +1,3 @@
-import CircleGradient from './CircleGradient';
 import ComingSoon from './ComingSoon';
 import GradientButton from './Buttons/GradientButton';
 import { Card, CardTitle } from './Card';
@@ -11,7 +10,6 @@ import {
 
 export {
   ComingSoon,
-  CircleGradient,
   GradientButton,
   GlobalButton,
   ChainButton,
