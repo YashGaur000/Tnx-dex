@@ -11,7 +11,7 @@ const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
-  margin-left: -50px;
+  margin-left: -60px;
   margin-right: -50px;
 `;
 
@@ -40,6 +40,9 @@ const CardsContainer = styled.div`
 
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
+  }
+  @media (max-width: 768px) {
+    grid-template-columns: none;
   }
 `;
 

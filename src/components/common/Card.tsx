@@ -25,6 +25,12 @@ export const Card = styled.div<{
     grid-template-columns: none;
     justify-content: center;
   }
+
+  @media (max-width: 768px) {
+    margin-top: 10px;
+    grid-template-columns: none;
+    justify-content: center;
+  }
 `;
 
 export const CardTitle = styled.h3<{ theme: DefaultTheme; tag?: string }>`

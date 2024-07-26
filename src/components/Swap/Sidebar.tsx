@@ -49,6 +49,10 @@ const ToleranceButtons = styled.div`
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    display: grid;
+  }
 `;
 
 const ToleranceButton = styled.button<{ theme: DefaultTheme }>`

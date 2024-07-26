@@ -16,7 +16,7 @@ const FeaturesContainer = styled.section<{ theme: DefaultTheme }>`
   }
 
   @media (max-width: 900px) {
-    margin-top: 150px;
+    margin-top: 180px;
     grid-template-columns: none;
     justify-content: center;
   }
