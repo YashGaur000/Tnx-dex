@@ -26,7 +26,7 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
       if (location.pathname.startsWith('/documentation')) {
         background = theme.colors.backgroundDocs;
       } else {
-        background = theme.colors.background; // Fallback background
+        background = theme.colors.backgroundSwap; // Fallback background
       }
   }
 

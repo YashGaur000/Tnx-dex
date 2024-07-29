@@ -1,12 +1,10 @@
 import React from 'react';
-//import styled from 'styled-components';
-//import SwapForm from '../../components/Swap/modules/SwapForm';
-//import Sidebar from '../../components/Swap/modules/Sidebar';
-//import { DefaultTheme } from '../../styles/Theme';
-//import LiquityRouting from '../../components/Swap/modules/LiquityRouting';
-import { ComingSoon } from '../../components/common';
+import styled from 'styled-components';
+import SwapForm from '../../components/Swap/modules/SwapForm';
+import Sidebar from '../../components/Swap/modules/Sidebar';
+import { DefaultTheme } from '../../styles/Theme';
 
-/*const SwapContainer = styled.div<{ theme: DefaultTheme }>`
+const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -20,16 +18,19 @@ import { ComingSoon } from '../../components/common';
   }
 `;
 
-const SwapFormContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;*/
+// const SwapFormContainer = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+// `;
 
 const SwapPage: React.FC = () => {
   return (
     <>
-      <ComingSoon />
+      <SwapContainer>
+        <SwapForm />
+        <Sidebar />
+      </SwapContainer>
     </>
   );
 };
