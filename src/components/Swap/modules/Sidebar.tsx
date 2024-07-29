@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import SwitchComponent from './SwitchComponent';
+import { SidebarContainer } from '../../common';
 import {
-  SidebarContainer,
   SidebarTitle,
   SidebarList,
   SidebarListItem,
@@ -14,8 +14,8 @@ import {
   InfoButton,
   Align,
   Text,
-} from '../../common';
-import { ContentWrapper } from '../../common/index';
+  ContentWrapper,
+} from '../styles/Sidebar.style';
 
 const Sidebar: React.FC = () => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);

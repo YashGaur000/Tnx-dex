@@ -12,17 +12,4 @@ export {
 
 export { InputWrapper, Input } from './Input';
 
-export {
-  SidebarContainer,
-  SidebarTitle,
-  SidebarList,
-  SidebarListItem,
-  SlippageWrapper,
-  SliderContainer,
-  Slider,
-  ToleranceButtons,
-  InfoButton,
-  Align,
-  Text,
-  ContentWrapper,
-} from './Sidebar';
+export { SidebarContainer } from './Sidebar';
