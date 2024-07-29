@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SwapForm from '../../components/Swap/modules/SwapForm';
 import Sidebar from '../../components/Swap/modules/Sidebar';
 import { DefaultTheme } from '../../styles/Theme';
+import { ComingSoon } from '../../components/common';
 
 const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
