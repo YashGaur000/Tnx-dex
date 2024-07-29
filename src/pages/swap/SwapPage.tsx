@@ -24,7 +24,9 @@ const SwapPage: React.FC = () => {
       <ComingSoon />
     </>
   );
-}; /*{
+}; 
+
+/*{
   return (
     <SwapContainer>
       <SwapForm />
