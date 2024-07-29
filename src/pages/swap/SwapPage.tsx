@@ -20,11 +20,17 @@ const SwapContainer = styled.div<{ theme: DefaultTheme }>`
 
 const SwapPage: React.FC = () => {
   return (
+    <>
+      <ComingSoon />
+    </>
+  );
+}; /*{
+  return (
     <SwapContainer>
       <SwapForm />
       <Sidebar />
     </SwapContainer>
   );
-};
+};*/
 
 export default SwapPage;
