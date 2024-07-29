@@ -5,7 +5,7 @@ import LiquidityPage from '../pages/liquidity/LiquidityPage';
 import GovernancePage from '../pages/governance/ManageveTenex';
 // import RewardsPage from '../pages/rewards/RewardsPage';
 import ToolsPage from '../pages/tools/ToolsPage';
-// import SwapPage from '../pages/swap/SwapPage';
+import SwapPage from '../pages/swap/SwapPage';
 import CrossChainSwap from '../pages/swap/CrossChainSwap';
 import ConcentratedLiquidityPage from '../pages/liquidity/ConcentratedLiquidityPage';
 import ManageveTenex from '../pages/governance/ManageveTenex';
@@ -32,8 +32,7 @@ const AppRoutes: React.FC = () => {
           <BackgroundWrapper>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              {/* <Route path="/swap" element={<SwapPage />} /> */}
-              <Route path="/swap" element={<ComingSoon />} />
+              <Route path="/swap" element={<SwapPage />} />
               <Route path="/cross-chain-swap" element={<CrossChainSwap />} />
               <Route path="/liquidity" element={<LiquidityPage />} />
               <Route
