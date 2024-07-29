@@ -3,16 +3,15 @@ import { Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/App/HomePage';
 import LiquidityPage from '../pages/liquidity/LiquidityPage';
 import GovernancePage from '../pages/governance/ManageveTenex';
-// import RewardsPage from '../pages/rewards/RewardsPage';
+import RewardsPage from '../pages/rewards/RewardsPage';
 import ToolsPage from '../pages/tools/ToolsPage';
-// import SwapPage from '../pages/swap/SwapPage';
+import SwapPage from '../pages/swap/SwapPage';
 import CrossChainSwap from '../pages/swap/CrossChainSwap';
 import ConcentratedLiquidityPage from '../pages/liquidity/ConcentratedLiquidityPage';
 import ManageveTenex from '../pages/governance/ManageveTenex';
 import Documentation from '../pages/tools/Documentation';
 import { DOCS_DATA } from '../components/Documents/data/docsData';
 import BackgroundWrapper from './BackgroundWrapper';
-import ComingSoon from '../components/common/ComingSoon';
 
 const ContentData = lazy(() => import('../components/Documents/Content'));
 
@@ -32,8 +31,7 @@ const AppRoutes: React.FC = () => {
           <BackgroundWrapper>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              {/* <Route path="/swap" element={<SwapPage />} /> */}
-              <Route path="/swap" element={<ComingSoon />} />
+              <Route path="/swap" element={<SwapPage />} />
               <Route path="/cross-chain-swap" element={<CrossChainSwap />} />
               <Route path="/liquidity" element={<LiquidityPage />} />
               <Route
@@ -43,8 +41,7 @@ const AppRoutes: React.FC = () => {
               <Route path="/governance" element={<ManageveTenex />} />
               <Route path="/vote" element={<GovernancePage />} />
               <Route path="/incentives" element={<GovernancePage />} />
-              {/* <Route path="/rewards" element={<RewardsPage />} /> */}
-              <Route path="/rewards" element={<ComingSoon />} />
+              <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/analytics" element={<ToolsPage />} />
               <Route path="/documentation" element={<Documentation />}>
                 <Route path="introduction">
