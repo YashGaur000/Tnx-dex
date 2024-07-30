@@ -1,23 +1,28 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useAccount } from '../../../hooks/useAccount';
 import SwitchComponent from './SwitchComponent';
-import { TOKEN_LIST } from '../../../constants/tokens';
+import { TOKEN_LIST, TokenInfo } from './../../../constants/tokens';
 import BalanceDisplay from './BalanceDisplay';
-import { GlobalButton, Input, InputWrapper } from '../../common';
+import TokenSelectModal from '../../modal/TokenSelectModal';
+import { GlobalButton } from '../../common';
+import SelectIcon from '../../../assets/select.png';
 import {
-  SwapBoxWrapper,
-  SwapBox,
-  Title,
   Description,
-  TokenSelect,
-  TokenOption,
-  Text,
+  Input,
+  InputWrapper,
+  SwapBox,
+  SwapBoxWrapper,
   SwitchButton,
-  WalletWrapper,
+  Title,
+  TokenSelect,
+  TokenSelectAlign,
+  TokenSelectAlignSelect,
   WalletButton,
   WalletIcon,
+  WalletText,
+  WalletWrapper,
 } from '../styles/SwapForm.style.';
 
 const SwapForm: React.FC = () => {
@@ -25,8 +30,16 @@ const SwapForm: React.FC = () => {
   const [isConnected, setIsConnected] = useState(false);
   const [inputValue1, setInputValue1] = useState('');
   const [inputValue2, setInputValue2] = useState('');
-  const [selectedToken1, setSelectedToken1] = useState(TOKEN_LIST[0].symbol);
-  const [selectedToken2, setSelectedToken2] = useState(TOKEN_LIST[1].symbol);
+  const [selectedToken1, setSelectedToken1] = useState<TokenInfo>(
+    TOKEN_LIST[0]
+  );
+  const [selectedToken2, setSelectedToken2] = useState<TokenInfo>(
+    TOKEN_LIST[1]
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tokenSelectTarget, setTokenSelectTarget] = useState<
+    'token1' | 'token2'
+  >('token1');
 
   useEffect(() => {
     setIsConnected(!!address);
@@ -46,6 +59,19 @@ const SwapForm: React.FC = () => {
     setSelectedToken2(selectedToken1);
     // setInputValue1(''); //to clear the input fields when we click on swap
     // setInputValue2('');
+  };
+
+  const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
+    setTokenSelectTarget(target);
+    setIsModalOpen(true);
+  };
+
+  const handleTokenSelect = (token: TokenInfo) => {
+    if (tokenSelectTarget === 'token1') {
+      setSelectedToken1(token);
+    } else {
+      setSelectedToken2(token);
+    }
   };
 
   return (
@@ -75,17 +101,21 @@ const SwapForm: React.FC = () => {
             value={inputValue1}
             onChange={(e) => setInputValue1(e.target.value)}
           />
-          <TokenSelect
-            value={selectedToken1}
-            onChange={(e) => setSelectedToken1(e.target.value)}
-          >
-            {TOKEN_LIST.map((token) => (
-              <TokenOption key={token.symbol} value={token.symbol}>
-                {token.symbol}
-              </TokenOption>
-            ))}
+          <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+            <TokenSelectAlign>
+              <img
+                src={selectedToken1.logoURI}
+                width={21}
+                height={22}
+                alt={selectedToken1.logoURI}
+              />
+            </TokenSelectAlign>
+            <TokenSelectAlign>{selectedToken1.symbol}</TokenSelectAlign>
+            <TokenSelectAlignSelect>
+              <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+            </TokenSelectAlignSelect>
           </TokenSelect>
-          <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
+          <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
         </InputWrapper>
         <SwitchButton onClick={handleSwap}>
           <FontAwesomeIcon icon={faExchangeAlt} color="white" />
@@ -98,18 +128,32 @@ const SwapForm: React.FC = () => {
             value={inputValue2}
             onChange={(e) => setInputValue2(e.target.value)}
           />
-          <TokenSelect
-            value={selectedToken2}
-            onChange={(e) => setSelectedToken2(e.target.value)}
-          >
-            {TOKEN_LIST.map((token) => (
-              <TokenOption key={token.symbol} value={token.symbol}>
-                {token.symbol}
-              </TokenOption>
-            ))}
+          <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+            <TokenSelectAlign>
+              <img
+                src={selectedToken2.logoURI}
+                width={20}
+                height={20}
+                alt={selectedToken2.logoURI}
+              />
+            </TokenSelectAlign>
+            <TokenSelectAlign>{selectedToken2.symbol}</TokenSelectAlign>
+            <TokenSelectAlign>
+              <img
+                src={SelectIcon}
+                width={8}
+                height={4}
+                alt="src/assets/select.png"
+              />
+            </TokenSelectAlign>
           </TokenSelect>
-          <Text>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</Text>
+          <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
         </InputWrapper>
+        <TokenSelectModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          onSelect={handleTokenSelect}
+        />
         <GlobalButton padding="15px">Swap</GlobalButton>
         <Description>
           TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos

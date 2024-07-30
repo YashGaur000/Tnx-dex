@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
-import twitterLogo from '../assets/twitter-logo.png'; // Replace with the actual path to your image
-import discordLogo from '../assets/discord-logo.png'; // Replace with the actual path to your image
-import telegramLogo from '../assets/telegram-logo.png'; // Replace with the actual path to your image
-import youtubeLogo from '../assets/youtube-logo.png'; // Replace with the actual path to your image
+import twitterLogo from '../assets/twitter-logo.png';
+import discordLogo from '../assets/discord-logo.png';
+import telegramLogo from '../assets/telegram-logo.png';
+import youtubeLogo from '../assets/youtube-logo.png';
 import { DefaultTheme } from '../styles/Theme';
 
 const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
-  padding: 140px 20px;
-  background-color: ${({ theme }) => theme.colors.background};
+
+  left: 0;
+  bottom: 0;
+
   text-align: center;
 
   @media (max-width: 1200px) {
@@ -21,12 +23,12 @@ const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   }
 `;
 
-const IconsContainer = styled.div`
+const IconsContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 15px;
 
   @media (max-width: 768px) {
     gap: 10px;
@@ -35,8 +37,8 @@ const IconsContainer = styled.div`
 
 const IconLink = styled.a`
   display: inline-block;
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
 
   @media (max-width: 768px) {
     width: 25px;
