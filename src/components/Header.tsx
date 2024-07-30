@@ -14,7 +14,7 @@ import { DefaultTheme } from '../styles/Theme';
 
 const HeaderContainer = styled.header<{
   theme: DefaultTheme;
-  isSticky: boolean;
+  sticky: string;
 }>`
   display: flex;
   justify-content: space-between;
@@ -22,8 +22,8 @@ const HeaderContainer = styled.header<{
   padding: 20px 40px;
   background-color: ${({ theme }) => theme.colors.background};
 
-  ${({ isSticky }) =>
-    isSticky &&
+  ${({ sticky }) =>
+    sticky === 'true' &&
     `
     position: sticky;
     top: 0;
@@ -93,7 +93,7 @@ const NavLink = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const Toggler = styled.button<{ theme: DefaultTheme }>`
+export const Toggler = styled.button<{ theme: DefaultTheme }>`
   display: none;
   background: none;
   border: none;
@@ -105,32 +105,9 @@ const Toggler = styled.button<{ theme: DefaultTheme }>`
     position: absolute;
     top: 15px;
     right: 20px;
-    margin-top: 10px;
+    // margin-top: 10px;
 
     z-index: 999;
-  }
-`;
-
-export const Button = styled.button<{ theme: DefaultTheme }>`
-  font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme }) => theme.colors.buttonBackground};
-  color: ${({ theme }) => theme.colors.text};
-  padding: 10px 20px;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  font-size: 16px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 29.9px;
-
-  &:hover {
-    background: ${({ theme }) => theme.colors.buttonHover};
-  }
-
-  @media (max-width: 768px) {
-    padding: 6px 12px;
-    font-size: 16px;
-    margin-top: 10px;
   }
 `;
 
@@ -179,7 +156,7 @@ const Header: React.FC = () => {
   const toggleNav = () => setNavOpen(!navOpen);
 
   return (
-    <HeaderContainer isSticky={isSticky}>
+    <HeaderContainer sticky={isSticky.toString()}>
       <Logo src={logoImage} alt="TenEx Logo" onClick={() => navigate('/')} />
 
       <Toggler onClick={toggleNav}>

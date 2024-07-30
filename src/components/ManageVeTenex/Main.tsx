@@ -1,7 +1,8 @@
 import styled from 'styled-components';
-// import QuestionIcon from '../../assets/questionMark.png';
+//import TenexIcon from '../../assets/Tenex.png'
 import { DefaultTheme } from '../../styles/Theme';
 import TableContainer from './TableContainer';
+
 const H1 = styled.h4`
   font-size: 2.4em;
   font-weight: 300;

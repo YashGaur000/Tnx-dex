@@ -52,7 +52,7 @@ const Description = styled.p<{ theme: DefaultTheme }>`
   margin-bottom: 40px;
 `;
 
-const CardsContainer = styled.div<{ theme: DefaultTheme }>`
+export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -65,7 +65,7 @@ const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const Card = styled.div<{ theme: DefaultTheme }>`
+export const Card = styled.div<{ theme: DefaultTheme }>`
   background-color: ${({ theme }) => theme.colors.cardDark};
   padding: 20px;
   border-radius: 20px;
@@ -82,20 +82,20 @@ const Card = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const CardValue = styled.div<{ theme: DefaultTheme }>`
+export const CardValue = styled.div<{ theme: DefaultTheme }>`
   font-size: 36px;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
 `;
 
-const CardIcons = styled.div`
+export const CardIcons = styled.div`
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-bottom: 10px;
 `;
 
-const CardIcon = styled.img`
+export const CardIcon = styled.img`
   width: 30px;
   height: 30px;
   &:first-child {
@@ -106,19 +106,19 @@ const CardIcon = styled.img`
   }
 `;
 
-const CardTitle = styled.div<{ theme: DefaultTheme }>`
+export const CardTitle = styled.div<{ theme: DefaultTheme }>`
   font-size: 1.2em;
   color: ${({ theme }) => theme.colors.grey};
   margin-bottom: 5px;
 `;
 
-const CardDescription = styled.div<{ theme: DefaultTheme }>`
+export const CardDescription = styled.div<{ theme: DefaultTheme }>`
   font-size: 0.9em;
   color: ${({ theme }) => theme.colors.grey};
   margin-bottom: 5px;
 `;
 
-const CardPercentage = styled.div<{ theme: DefaultTheme }>`
+export const CardPercentage = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.grey};
 `;

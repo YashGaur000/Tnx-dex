@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { DefaultTheme } from '../../styles/Theme';
 import Lottie from 'lottie-react';
 import animationData from '../../assets/animation.json';
-import CircleGradient from '../common/CircleGradient';
 
 const HeroContainer = styled.section<{ theme: DefaultTheme }>`
   display: flex;
@@ -77,8 +76,11 @@ const Title = styled.h1<{ theme: DefaultTheme }>`
   }
 `;
 
-const GradientText = styled.span<{ theme: DefaultTheme }>`
-  font-size: 65px;
+export const GradientText = styled.span<{
+  fontSize: number;
+  theme: DefaultTheme;
+}>`
+  font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 40px;
   letter-spacing: 0.02em;
@@ -114,8 +116,8 @@ export const Description = styled.p<{ theme: DefaultTheme; align: string }>`
   }
 `;
 
-const StyledButton = styled.button<{
-  isconnected: string;
+export const StyledButton = styled.button<{
+  isconnected?: string;
   theme: DefaultTheme;
 }>`
   padding: 12px 31.5px 12px 31.5px;
@@ -162,7 +164,12 @@ const StyledButton = styled.button<{
   }
 `;
 
-const GradientSpan = styled.span<{ isconnected: string; theme: DefaultTheme }>`
+export const GradientSpan = styled.span<{
+  fontSize?: number;
+  isconnected?: string;
+  theme: DefaultTheme;
+}>`
+  font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ theme }) => theme.fonts.main};
   background: ${({ theme, isconnected }) =>
     isconnected === 'true' ? theme.colors.text : theme.colors.buttonBackground};
@@ -226,9 +233,10 @@ const HeroSection: React.FC = () => {
     <HeroContainer>
       <TextContainer>
         <Title>
-          Navigating the Future of <GradientText>Decentralized</GradientText>
+          Navigating the Future of{' '}
+          <GradientText fontSize={65}>Decentralized</GradientText>
           <br />
-          <GradientText>Finance</GradientText>
+          <GradientText fontSize={65}>Finance</GradientText>
         </Title>
         <Description align="left">
           Premier Trading and Liquidity Market Place of DeFi
@@ -246,7 +254,6 @@ const HeroSection: React.FC = () => {
         <Image src={BackgroundImage} alt="Background" />
       </ImageContainer> */}
       <ImageContainer>
-        <CircleGradient top="0px" left="18%" />
         <Lottie animationData={animationData} loop={true} />
       </ImageContainer>
     </HeroContainer>

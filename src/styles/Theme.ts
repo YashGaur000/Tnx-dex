@@ -8,6 +8,9 @@ interface Colorpallate {
   primary: string;
   secondary: string;
   background: string;
+  backgroundHome: string;
+  backgroundSwap: string;
+  backgroundDocs: string;
   text: string;
   buttonBackground: string;
   buttonHover: string;
@@ -16,6 +19,7 @@ interface Colorpallate {
   cardDark: string;
   title: string;
   grey: string;
+  greyLight: string;
   hover: string;
   greyBorder: string;
   swapIconBackground: string;
@@ -40,6 +44,17 @@ const theme: DefaultTheme = {
     secondary: '#1c1c1e',
     background:
       'linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)',
+    backgroundHome: `radial-gradient(circle at 80% 8%,#43d6cd7a 0%, transparent 10%),
+                     radial-gradient(circle at -10% 23%,#43d6cd7a 0%, transparent 15%),
+                     radial-gradient(circle at 97% 36%,#43d6cd7a 0%, transparent 15%),
+                     radial-gradient(circle at -10% 64%,#43d6cd7a 0%, transparent 15%),
+                     radial-gradient(circle at 97% 84%,#43d6cd7a 0%, transparent 12%),
+                     radial-gradient(circle at 50% 91%,#43d6cd7a 0%, transparent 12%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundSwap: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 40%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',
     buttonBackground:
       'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
@@ -49,6 +64,7 @@ const theme: DefaultTheme = {
     cardDark: 'rgba(16, 28, 59, 1)',
     title: 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
     grey: 'rgba(204, 204, 204, 1)',
+    greyLight: 'rgba(255, 255, 255, 0.7)',
     hover: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
     greyBorder: '#B8B8B8',
     swapIconBackground:
