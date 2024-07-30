@@ -67,7 +67,7 @@ const Sidebar: React.FC = () => {
             <SectionLink to="introduction/core">
               Core Functionalities
             </SectionLink>
-            <SectionLink
+            {/* <SectionLink
               to="introduction/fundamentals"
               onClick={() => toggleSection('fundamentals')}
             >
@@ -83,15 +83,17 @@ const Sidebar: React.FC = () => {
               <SectionLink to="introduction/veTenex">
                 veTENEX(veNFT)
               </SectionLink>
-            </NestedSectionLinks>
+            </NestedSectionLinks> */}
+            <SectionLink to="introduction/veTenex">veTENEX(veNFT)</SectionLink>
             <SectionLink to="introduction/rewards">Rewards</SectionLink>
-            <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
-            <SectionLink to="introduction/revenue">
-              Voters Revenue Distribution Schedule
-            </SectionLink>
             <SectionLink to="introduction/analytics">
               TENEX Analytics
             </SectionLink>
+            <SectionLink to="introduction/glossary">Glossary</SectionLink>
+            {/* <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
+            <SectionLink to="introduction/revenue">
+              Voters Revenue Distribution Schedule
+            </SectionLink> */}
           </NestedSectionLinks>
         </Section>
         <Section>
@@ -106,7 +108,7 @@ const Sidebar: React.FC = () => {
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.liquidity}>
             <SectionLink to="liquidity/pools">Legacy Pools(LP)</SectionLink>
-            <SectionLink to="liquidity/fee">Fee Distribution</SectionLink>
+            <SectionLink to="liquidity/fee">Rewards Distribution</SectionLink>
             <SectionLink to="liquidity/curves">Swap Curves</SectionLink>
           </NestedSectionLinks>
         </Section>
@@ -125,7 +127,7 @@ const Sidebar: React.FC = () => {
               TENEX Token Distribution
             </SectionLink>
             <SectionLink to="tokenomics/emissions-schedule">
-              Emissions Schedule
+              Emissions Schedule / Bootstrapping Period
             </SectionLink>
             <SectionLink
               to="tokenomics/tge"
