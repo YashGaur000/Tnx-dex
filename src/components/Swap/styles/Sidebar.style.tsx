@@ -1,5 +1,26 @@
-import { styled } from 'styled-components';
+import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
+
+export const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.cardLight};
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+  width: 440px;
+  margin-left: 24px;
+  height: 786px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 40px;
+    margin-left: 0px;
+  }
+`;
 
 export const SidebarTitle = styled.h2<{
   fontSize: number;
@@ -8,84 +29,58 @@ export const SidebarTitle = styled.h2<{
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
+  color: ${({ theme }) => theme.colors.text};
 `;
 
-export const SidebarList = styled.ul`
+export const SidebarList = styled.ol`
   list-style: none;
   padding: 0;
   margin: 0;
+  counter-reset: step-counter;
 `;
 
-export const SidebarListItem = styled.p<{ theme: DefaultTheme }>`
-  font-size: 12px;
+export const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
-  margin-bottom: 10px;
-`;
-
-export const ToleranceButtons = styled.div`
-  display: flex;
-  gap: 10px;
+  color: ${({ theme }) => theme.colors.textGreyColor};
   margin-bottom: 20px;
+  position: relative;
+  padding-left: 30px;
+  line-height: 20.93px;
+  text-align: left;
 
   @media (max-width: 768px) {
     display: grid;
   }
-`;
 
-export const InfoButton = styled.button<{
-  theme: DefaultTheme;
-  width?: string;
-}>`
-  width: ${({ width }) => (width ? width : '')};
-  height: 32px;
-  padding: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
-  border: 1px solid ${({ theme }) => theme.colors.greyDark};
-  border-radius: 10px;
-  cursor: pointer;
+  &:before {
+    content: counter(step-counter);
+    counter-increment: step-counter;
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 14px;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: ${({ theme }) => theme.colors.background};
+  }
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
+  &:not(:last-child):after {
+    content: '';
+    position: absolute;
+    left: 11px;
+    top: 22px;
+    width: 1px;
+    height: calc(100% - 0px);
+    background-image: linear-gradient(
+      ${({ theme }) => theme.colors.greyDark} 50%,
+      transparent 50%
+    );
+    background-size: 1px 5px;
   }
 `;
-
-export const SliderContainer = styled.div`
-  margin-bottom: 20px;
-`;
-
-export const Slider = styled.input`
-  width: 100%;
-  height: 2px;
-  accent-color: darkcyan;
-`;
-
-export const SlippageWrapper = styled.div<{
-  display: string;
-  theme: DefaultTheme;
-}>`
-  display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
-  padding: 10px;
-  width: 100%;
-  border-radius: 20px;
-  margin: 15px 0px;
-`;
-
-export const Text = styled.div<{ theme: DefaultTheme }>`
-  font-size: 10px;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
-`;
-
-export const Align = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-export const ContentWrapper = styled.div``;

@@ -21,12 +21,14 @@ interface Colorpallate {
   grey: string;
   greyLight: string;
   hover: string;
+  whiteBorder: string;
   greyBorder: string;
   swapIconBackground: string;
   redToggle: string;
   green: string;
   greyDark: string;
   navtoggle: string;
+  textGreyColor: string;
 }
 
 interface FontType {
@@ -67,6 +69,8 @@ const theme: DefaultTheme = {
     greyLight: 'rgba(255, 255, 255, 0.7)',
     hover: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
     greyBorder: '#B8B8B8',
+    textGreyColor: '#DBDBDB',
+    whiteBorder: '#FFFFFF',
     swapIconBackground:
       'linear-gradient(97.67deg, #0F1B3B 2.6%, #232938 94.56%)',
     redToggle: '#EB5540',
