@@ -15,7 +15,7 @@ const Section = styled.section<{ theme: DefaultTheme }>`
     background: none;
   }
 `;
-const Table = styled.table`
+const Table = styled.table<{ theme: DefaultTheme }>`
   width: 90%;
   border-collapse: collapse;
   margin-left: 10px;
@@ -65,7 +65,7 @@ const Table = styled.table`
       padding: 20px;
       margin-top: 20px;
       border-radius: 10px;
-      /**/
+      background: ${({ theme }) => theme.colors.card};
     }
 
     td {
