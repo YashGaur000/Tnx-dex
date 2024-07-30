@@ -7,6 +7,7 @@ import { TOKEN_LIST, TokenInfo } from './../../../constants/tokens';
 import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import { GlobalButton } from '../../common';
+import SelectIcon from '../../../assets/select.png';
 import {
   Description,
   Input,
@@ -111,12 +112,7 @@ const SwapForm: React.FC = () => {
             </TokenSelectAlign>
             <TokenSelectAlign>{selectedToken1.symbol}</TokenSelectAlign>
             <TokenSelectAlignSelect>
-              <img
-                src="src/assets/select.png"
-                width={8}
-                height={4}
-                alt="src/assets/select.png"
-              />
+              <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
             </TokenSelectAlignSelect>
           </TokenSelect>
           <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
@@ -144,7 +140,7 @@ const SwapForm: React.FC = () => {
             <TokenSelectAlign>{selectedToken2.symbol}</TokenSelectAlign>
             <TokenSelectAlign>
               <img
-                src="src/assets/select.png"
+                src={SelectIcon}
                 width={8}
                 height={4}
                 alt="src/assets/select.png"

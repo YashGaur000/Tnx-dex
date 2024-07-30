@@ -72,7 +72,7 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   border: none;
   background: none;
   color: ${({ theme }) => theme.colors.text};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
   display: inline-block;
@@ -142,7 +142,7 @@ export const TokenSelectAlignSelect = styled.div`
   align-content: center;
   
   img {
-    transform: rotate(-363deg);
+    color:white;
     position: relative;
     margin-bottom: 6px;
     display: block;

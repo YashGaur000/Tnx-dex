@@ -1,11 +1,26 @@
 import React from 'react';
-import { ComingSoon } from '../../components/common';
+import { DefaultTheme } from '../../styles/Theme';
+import styled from 'styled-components';
+import Main from '../../components/ManageVeTenex/Main';
 
+const ManageVeTenexContainer = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 40px;
+  color: ${({ theme }) => theme.colors.text};
+  height: 100vh;
+  @media (max-width: 900px) {
+    display: inline;
+    text-align: -webkit-center;
+  }
+`;
 const ManageveTenex: React.FC = () => {
   return (
-    <>
-      <ComingSoon />
-    </>
+    <ManageVeTenexContainer>
+      <Main />
+    </ManageVeTenexContainer>
   );
 };
 

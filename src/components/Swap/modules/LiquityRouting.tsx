@@ -8,18 +8,21 @@ import {
   StepLine,
   StepperContainer,
 } from '../styles/LiquityRouting.style';
-
+import SuiIcon from '../../../assets/sui-logo.png';
+import FwdIcon from '../../../assets/fwd-arrow.png';
+import TetherIcon from '../../../assets/tether.png';
+import SoloIcon from '../../../assets/sol.png';
 const LiquityRouting = () => {
   return (
     <LiquityContainer>
       <LiquityTitle>Liquidity Routing</LiquityTitle>
       <StepperContainer>
         <StepCommon>
-          <StepImage src="src/assets/sui-logo.png" alt="Icon 1" />
+          <StepImage src={SuiIcon} alt="Icon 1" />
         </StepCommon>
         <StepLine />
         <Step>
-          <StepImage src="src/assets/fwd-arrow.png" alt="Icon 2" />
+          <StepImage src={FwdIcon} alt="Icon 2" />
           <StepLabel>
             1.0%
             <br />
@@ -27,10 +30,10 @@ const LiquityRouting = () => {
           </StepLabel>
         </Step>
         <StepCommon>
-          <StepImage src="src/assets/tether.png" alt="Icon 3" />
+          <StepImage src={TetherIcon} alt="Icon 3" />
         </StepCommon>
         <Step>
-          <StepImage src="src/assets/fwd-arrow.png" alt="Icon 4" />
+          <StepImage src={FwdIcon} alt="Icon 4" />
           <StepLabel>
             0.5%
             <br />
@@ -38,7 +41,7 @@ const LiquityRouting = () => {
           </StepLabel>
         </Step>
         <StepCommon>
-          <StepImage src="src/assets/sol-logo.png" alt="Icon 5" />
+          <StepImage src={SoloIcon} alt="Icon 5" />
         </StepCommon>
       </StepperContainer>
     </LiquityContainer>

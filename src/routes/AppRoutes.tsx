@@ -12,6 +12,7 @@ import ManageveTenex from '../pages/governance/ManageveTenex';
 import Documentation from '../pages/tools/Documentation';
 import { DOCS_DATA } from '../components/Documents/data/docsData';
 import BackgroundWrapper from './BackgroundWrapper';
+import Vote from '../pages/governance/Vote';
 
 const ContentData = lazy(() => import('../components/Documents/Content'));
 
@@ -39,7 +40,7 @@ const AppRoutes: React.FC = () => {
                 element={<ConcentratedLiquidityPage />}
               />
               <Route path="/governance" element={<ManageveTenex />} />
-              <Route path="/vote" element={<GovernancePage />} />
+              <Route path="/vote" element={<Vote />} />
               <Route path="/incentives" element={<GovernancePage />} />
               <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/analytics" element={<ToolsPage />} />

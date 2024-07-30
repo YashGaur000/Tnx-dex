@@ -13,7 +13,7 @@ interface SubTabsProps {
   items: SubTabItem[];
   showTabs: boolean;
   setShowTabs: (showTabs: boolean) => void;
-  setNavOpen: (navOpen: boolean) => void;
+  setNavOpen?: (navOpen: boolean) => void;
 }
 
 const SubTabsContainer = styled.div<{ theme: DefaultTheme }>`
@@ -67,7 +67,7 @@ const SubTabs: React.FC<SubTabsProps> = ({
               onClick={() => {
                 navigate(item.to);
                 setShowTabs(!showTabs);
-                setNavOpen(false);
+                if (setNavOpen) setNavOpen(false);
               }}
             >
               <SubTabLabel>{item.label}</SubTabLabel>
