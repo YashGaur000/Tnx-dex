@@ -5,7 +5,7 @@ import { DefaultTheme } from '../../styles/Theme';
 // import SubTabs from '../SubTabsComponent';
 // import { SlippageWrapper } from '../Swap/Sidebar';
 import { GradientText } from '../Homepage/HeroSection';
-import questionmark from '../../assets/question-mark.png';
+import Questionmark from '../../assets/question-mark.png';
 
 const LiquidityBoxWrapper = styled.div`
   display: block;
@@ -245,7 +245,7 @@ const LiquidityHeader: React.FC = () => {
         <LiquidityDescription>
           <Description fontSize={24}>
             Liquidity Providers (LPs) make low-slippage swaps possible.
-            <Tooltip src={questionmark} alt="QuestionMark Logo" />
+            <Tooltip src={Questionmark} alt="QuestionMark Logo" />
             <br />
             Deposit and Stake liquidity to earn TENEX
             <Descriptions fontSize={16}>

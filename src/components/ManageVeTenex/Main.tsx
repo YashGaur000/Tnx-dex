@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-//import TenexIcon from '../../assets/Tenex.png'
+import TenexIcon from '../../assets/Tenex.png';
 import { DefaultTheme } from '../../styles/Theme';
 import TableContainer from './TableContainer';
 
@@ -26,11 +26,11 @@ const Label = styled.label`
   text-align: left;
 `;
 
-// const Img = styled.img`
-//   width: 1.125em;
-//   height: 1.125em;
-//   margin-left: 20px;
-// `;
+const Img = styled.img`
+  width: 1.125em;
+  height: 1.125em;
+  margin-left: 20px;
+`;
 
 const Button = styled.button`
   background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
@@ -260,7 +260,9 @@ const Main = () => {
           <MoneyShowerSection>
             <MoneySection>
               <TitleStyle>Locked TENEX</TitleStyle>
-              <label>4,376,987.82</label>
+              <label>
+                4,376,987.82 <Img src={TenexIcon} />
+              </label>
             </MoneySection>
             <MoneySection>
               <TitleStyle>Total Voting power</TitleStyle>
