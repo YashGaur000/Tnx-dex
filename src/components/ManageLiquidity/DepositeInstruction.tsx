@@ -4,41 +4,49 @@ const StepperContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: 5px;
+  margin-top: 15px;
 `;
 const Step = styled.div`
-  padding: 15px;
-
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
 `;
 
 const VerticalStep = styled.div`
-  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
 `;
 const Circle = styled.div`
   border-radius: 100%;
-  width: 20px;
-  height: 20px;
-  display: inline-block;
+  width: 25px;
+  height: 25px;
+  display: flex;
   visibility: visible;
-  text-align: center;
-  padding: 2px;
+  justify-content: center;
+  align-items: center;
+
   background-color: rgb(1, 6, 8);
+
   border: 0px;
 `;
 
 const Line = styled.div`
-  height: 120px;
   height: 100%;
-  left: 12px;
-  position: absolute;
+
   border-left: 2px dotted rgb(64, 120, 146);
 `;
 const Content = styled.div`
   margin-left: 20px;
   display: inline-block;
+  margin-bottom: 15px;
+  color: #cccccc;
+  font-family: Kanit;
+  font-size: 15px;
+  font-weight: 300;
+  line-height: 23.92px;
+  text-align: left;
 `;
 
 const DepositeInstruction = () => {

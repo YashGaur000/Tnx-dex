@@ -11,6 +11,7 @@ const LiquidityContainer = styled.div<{ theme: DefaultTheme }>`
   align-items: flex-start;
   gap: 20px;
   padding: 40px;
+  padding-top: 30px;
   color: ${({ theme }) => theme.colors.text};
   height: 100vh;
   @media (max-width: 900px) {

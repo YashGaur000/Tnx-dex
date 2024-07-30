@@ -120,7 +120,6 @@ interface ContentDataProps {
   content: string;
 }
 
-// eslint-disable-next-line react/prop-types
 const ContentData: React.FC<ContentDataProps> = memo(({ title, content }) => {
   return (
     <Content>

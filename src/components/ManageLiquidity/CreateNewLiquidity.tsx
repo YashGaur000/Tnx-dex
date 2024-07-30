@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import InformationIcon from '../../assets/information.png';
 import { DefaultTheme } from '../../styles/Theme';
+
 const Selecttoken = styled.div`
   display: flex;
   align-items: center;
@@ -28,6 +29,15 @@ const ContentLabel = styled.div`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  @media only screen and (max-width: 1100px) {
+    font-size: 14px;
+  }
+  @media only screen and (max-width: 900px) {
+    font-size: 18px;
+  }
+  @media only screen and (max-width: 500px) {
+    font-size: 14px;
+  }
 `;
 const Button = styled.button<{ theme: DefaultTheme }>`
   padding: 10px 20px;
