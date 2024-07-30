@@ -1,11 +1,7 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
-import { DefaultTheme } from '../../styles/Theme';
-import TransactionDeadline from './TransactionDeadline';
-import SlippageTolerance from './SlippageTolerance';
-import AllowUnsafeTrades from './AllowUnsafeTrades';
+import { DefaultTheme } from '../../../styles/Theme';
 
-const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
+export const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 20px;
@@ -26,21 +22,24 @@ const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
+export const SidebarTitle = styled.h2<{
+  fontSize: number;
+  theme: DefaultTheme;
+}>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text};
 `;
 
-const SidebarList = styled.ol`
+export const SidebarList = styled.ol`
   list-style: none;
   padding: 0;
   margin: 0;
   counter-reset: step-counter;
 `;
 
-const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
+export const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.textGreyColor};
@@ -85,39 +84,3 @@ const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
     background-size: 1px 5px;
   }
 `;
-
-const Sidebar: React.FC = () => {
-  const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
-
-  const handleToggleChange = () => {
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  };
-
-  return (
-    <SidebarContainer>
-      <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
-      <SidebarList>
-        <SidebarListItem>
-          Start by selecting the token to swap from and the amount you want to
-          exchange.
-        </SidebarListItem>
-        <SidebarListItem>
-          Pick the token you want to exchange for.
-        </SidebarListItem>
-        <SidebarListItem>The quote will be ready in a moment!</SidebarListItem>
-        <SidebarListItem>
-          Slippage tolerance 0.5% and transaction deadline 30 mins are set. To
-          change, please click below.
-        </SidebarListItem>
-      </SidebarList>
-      <SlippageTolerance />
-      <TransactionDeadline />
-      <AllowUnsafeTrades
-        isChecked={isUnsafeTradesAllowed}
-        handleToggle={handleToggleChange}
-      />
-    </SidebarContainer>
-  );
-};
-
-export default Sidebar;

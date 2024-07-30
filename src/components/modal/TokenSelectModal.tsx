@@ -1,113 +1,23 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { TOKEN_LIST } from '../../constants/tokens';
-import { DefaultTheme } from '../../styles/Theme';
+import { TOKEN_LIST, TokenInfo } from '../../constants/tokens';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-const ModalWrapper = styled.div<{ theme: DefaultTheme }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  display: flex;
-`;
-
-const ModalContent = styled.div<{ theme: DefaultTheme }>`
-  background: linear-gradient(90deg, #18264c 0%, #1f305f 100%);
-  border-radius: 10px;
-  padding: 20px;
-  width: 500px;
-  max-height: 80vh;
-`;
-
-const SearchInput = styled.input<{ theme: DefaultTheme }>`
-  width: 95%;
-  padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid grey;
-  border-radius: 21px;
-  color: grey;
-  background: linear-gradient(90deg, #18264c 0%, #1f305f 100%);
-  background-image: url('searchicon.png');
-  background-position: 10px 10px;
-  background-repeat: no-repeat;
-  padding: 12px 20px 12px 40px;
-`;
-
-const TokenList = styled.ul<{ theme: DefaultTheme }>`
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 60vh;
-  text-align: left;
-  overflow-y: auto;
-  scrollbar-width: thin; /* For Firefox */
-  scrollbar-color: green black; /* For Firefox */
-
-  /* Webkit browsers (Chrome, Safari) */
-  &::-webkit-scrollbar {
-    width: 8px;
-    border-radius: 21px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: #000;
-    border-radius: 21px;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #16c062 0%, #3eacfc 100%);
-    border-radius: 10px;
-  }
-`;
-
-const TokenItem = styled.li<{ theme: DefaultTheme }>`
-  display: flex;
-  align-items: center;
-  padding: 10px;
-  cursor: pointer;
-  Line-height:23.92px
-  color: ${({ theme }) => theme.colors.textGreyColor};
-  &:hover {
-    background: grey;
-  }
-
-  img {
-    width: 35px;
-    height: 36px;
-    border-radius: 30px;
-    padding: 7px;
-    object-fit: cover;
-  }
-`;
-const SearchWrapper = styled.div<{ theme: DefaultTheme }>`
-  position: relative;
-  margin-bottom: 10px;
-`;
-const SearchIcon = styled(FontAwesomeIcon)`
-  position: absolute;
-  top: 42%;
-  left: 20px;
-  transform: translateY(-50%);
-  color: #888;
-`;
-const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>``;
-const HeaderLeftContent = styled.span<{ theme: DefaultTheme }>``;
-const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
-  margin-left: 300px;
-`;
+import {
+  HeaderLeftContent,
+  HeaderRightContent,
+  HeaderTokenContent,
+  ModalContent,
+  ModalWrapper,
+  SearchIcon,
+  SearchInput,
+  SearchWrapper,
+  TokenItem,
+  TokenList,
+} from './styles/TokenSelectModal.style';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (token: string) => void;
+  onSelect: (token: TokenInfo) => void;
 }
 
 const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
@@ -121,16 +31,18 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
     return null;
   }
 
-  const handleSelectToken = (token: string) => {
+  const handleSelectToken = (token: TokenInfo) => {
     onSelect(token);
     onClose();
   };
+
   const truncateString = (str: string): string => {
     if (str.length <= 15) {
       return str;
     }
     return `${str.slice(0, 6)}...${str.slice(-9)}`;
   };
+
   const filteredTokens = TOKEN_LIST.filter((token) =>
     token.symbol.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -157,15 +69,15 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
           {filteredTokens.map((token) => (
             <TokenItem
               key={token.symbol}
-              onClick={() => handleSelectToken(token.symbol)}
+              onClick={() => handleSelectToken(token)}
             >
               <img
                 src={token.logoURI}
                 width={21}
                 height={22}
-                alt={token.logoURI}
+                alt={token.symbol}
               />
-              {token.symbol} <br></br> {truncateString(token.address)}
+              {token.symbol} <br /> {truncateString(token.address)}
             </TokenItem>
           ))}
         </TokenList>

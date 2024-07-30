@@ -1,20 +1,7 @@
-// SwitchComponent.tsx
 import React from 'react';
-import styled from 'styled-components';
 import Switch from 'react-switch';
-import theme from '../../styles/Theme'; // Ensure the path is correct
-import { DefaultTheme } from '../../styles/Theme';
-
-const SwitchWrapper = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const Text = styled.span<{ theme: DefaultTheme }>`
-  font-size: 10px;
-  padding-left: 10px;
-  color: ${({ theme }) => theme.colors.grey};
-`;
+import { SwitchText, SwitchWrapper } from '../styles/SwitchComponent.style';
+import theme from '../../../styles/Theme';
 
 interface SwitchComponentProps {
   isChecked: boolean;
@@ -47,7 +34,7 @@ const SwitchComponent: React.FC<SwitchComponentProps> = ({
         checkedIcon={false}
         disabled={isDisabled}
       />
-      <Text>{isChecked ? onText : offText}</Text>
+      <SwitchText>{isChecked ? onText : offText}</SwitchText>
     </SwitchWrapper>
   );
 };

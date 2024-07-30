@@ -1,8 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { DefaultTheme } from '../../styles/Theme';
+import { styled } from 'styled-components';
+import { DefaultTheme } from '../../../styles/Theme';
 
-const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
+export const SlippageWrapper = styled.div<{
+  display: string;
+  theme: DefaultTheme;
+}>`
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.card};
   padding: 10px;
@@ -15,20 +17,23 @@ const SlippageWrapper = styled.div<{ display: string; theme: DefaultTheme }>`
   }
 `;
 
-const SidebarTitle = styled.h2<{ fontSize: number; theme: DefaultTheme }>`
+export const SidebarTitle = styled.h2<{
+  fontSize: number;
+  theme: DefaultTheme;
+}>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-const ToleranceButtons = styled.div`
+export const ToleranceButtons = styled.div`
   display: flex;
   gap: 6px;
   margin-bottom: 20px;
 `;
 
-const ToleranceButton = styled.button<{ theme: DefaultTheme }>`
+export const ToleranceButton = styled.button<{ theme: DefaultTheme }>`
   flex: 1;
   padding: 8px;
   background: transparent;
@@ -43,18 +48,3 @@ const ToleranceButton = styled.button<{ theme: DefaultTheme }>`
     background: ${({ theme }) => theme.colors.hover};
   }
 `;
-
-const SlippageTolerance: React.FC = () => (
-  <SlippageWrapper display="flow">
-    <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
-    <ToleranceButtons>
-      <ToleranceButton>0.1%</ToleranceButton>
-      <ToleranceButton>0.5%</ToleranceButton>
-      <ToleranceButton>1.0%</ToleranceButton>
-      <ToleranceButton>2.0%</ToleranceButton>
-      <ToleranceButton>5.0%</ToleranceButton>
-    </ToleranceButtons>
-  </SlippageWrapper>
-);
-
-export default SlippageTolerance;
