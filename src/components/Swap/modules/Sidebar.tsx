@@ -15,7 +15,6 @@ const Sidebar: React.FC = () => {
   const handleToggleChange = () => {
     setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
   };
-
   return (
     <SidebarContainer>
       <SidebarTitle fontSize={24}>Instructions</SidebarTitle>

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
-import Card from './../../components/Rewards/Card'; // Adjust the import path based on your project structure
+import RewardCard from '../../components/Rewards/RewardCard'; // Adjust the import path based on your project structure
 
 const RewardsContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 40px 20px;
@@ -37,21 +37,21 @@ const RewardsPage: React.FC = () => {
         your voted pools.
       </Description>
       <CardContainer>
-        <Card
+        <RewardCard
           title="Emissions"
           positionLabel="LP Position"
           positionValue="0.00"
           valueLabel="Value Earned"
           valueValue="0.00"
         />
-        <Card
+        <RewardCard
           title="Fees"
           positionLabel="Tokens Earned"
           positionValue="0.00"
           valueLabel="Value Earned"
           valueValue="0.00"
         />
-        <Card
+        <RewardCard
           title="Incentives"
           positionLabel="Tokens Earned"
           positionValue="0.00"

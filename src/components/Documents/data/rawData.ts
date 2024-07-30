@@ -12,16 +12,16 @@ export const RAW_DATA = {
   
       <span>What we aim to achieve?</span>
       <ul>
-          <li><strong>Central Liquidity Hub:</strong> Establish a central liquidity hub for the Aptos ecosystem. TenEx is designed to facilitate token swaps and generate fees from traders by attracting liquidity, offering traders low-cost swaps, providing liquidity providers with a sustainable and consistent yield, and enabling protocols to efficiently build and maintain liquidity for their tokens.</li>
+          <li><strong>Central Liquidity Hub:</strong> TenEx is designed to facilitate token swaps and generate fees from traders by attracting liquidity, offering traders low-cost swaps, providing liquidity providers with a sustainable and consistent yield, and enabling protocols to efficiently build and maintain liquidity for their tokens.</li>
           <li><strong>Provide Sustainable Yields to Liquidity Providers:</strong> Each epoch, liquidity providers (LPs) receive $TENEX token emissions based on the votes their pools accumulate. Only staked liquidity within the protocol gauges qualifies for these emissions, ensuring a fair distribution of sustainable yields.</li>
           <li><strong>Cost-Effective Solution for Protocols:</strong> Participants can lock their $TENEX to vote on the next epoch's emission distribution, becoming veTENEX voters. This system allows protocols to build liquidity for their tokens without causing hyper-inflation.</li>
           <li><strong>Incentivized Governance:</strong> veTENEX voters are rewarded for their votes with 100% of the protocol trading fees from the previous epoch, plus any additional voter incentives from the current epoch. Rewards are proportional to the amount of $TENEX locked.</li>
-          <li><strong>Supporting New Protocols:</strong> TenEx provides the necessary tools for new protocols launching on Aptos to bootstrap liquidity and sustain growth, fostering the continuous expansion of the Aptos ecosystem.</li>
-          <li><strong>Open-Source and Modular:</strong> The protocol is entirely open-source and modular, removing integration barriers and encouraging widespread adoption within the Aptos ecosystem.</li>
+          <li><strong>Supporting New Protocols:</strong> TenEx provides the necessary tools for new protocols launching to bootstrap liquidity and sustain growth, fostering the continuous expansion of the De-Fi ecosystem.</li>
+          <li><strong>Open-Source and Modular:</strong> The protocol is entirely open-source and modular, removing integration barriers and encouraging widespread adoption within the De-Fi ecosystem.</li>
       </ul>
   
       <span>Mission Statement</span>
-      <p>TenEx is dedicated to creating a central liquidity hub for the Aptos ecosystem, offering low-cost swaps for traders, sustainable yields for liquidity providers, and cost-effective liquidity solutions for protocols. By supporting new protocols and fostering long-term growth, TenEx aims to benefit both the Aptos ecosystem and its own community. The open-source, modular design ensures easy integration and broad adoption, driving innovation and sustainable development.</p>
+      <p>TenEx is dedicated to become a central liquidity hub, offering low-cost swaps for traders, sustainable yields for liquidity providers, and cost-effective liquidity solutions for protocols. By supporting new protocols and fostering long-term growth, TenEx aims to benefit both the De-Fi ecosystem and its own community. The open-source, modular design ensures easy integration and broad adoption, driving innovation and sustainable development.</p>
   </div>
       `,
   },
@@ -49,8 +49,8 @@ export const RAW_DATA = {
   </div>
   
   <div class="core-section">
-      <span>Lock (veTENEX/Maxxenger)</span>
-      <p>Maxxenger or veTENEX (voting escrow) (ve) position is a vital aspect of the TenEx model. Regular locking for a specific period can help to get participants, whether dedicated to providing LP services, actively participating in protocol governance, or in some cases may wish to just vote with locking escrow positions.</p>
+      <span>Lock (veTENEX Management)</span>
+      <p>Managing or veTENEX (voting escrow) (ve) position is a vital aspect of the TenEx model. Regular locking for a specific period can help to get participants, whether dedicated to providing LP services, actively participating in protocol governance, or in some cases may wish to just vote with locking escrow positions.</p>
       <span>Functions Available on the Voting Page</span>
       <ul>
           <li>Convert Lock to enhance veTENEX positions.</li>
@@ -63,7 +63,7 @@ export const RAW_DATA = {
   
   <div class="core-section">
       <span>Incentives</span>
-      <p>The ve3D3CR model's foundation rests on two key incentive structures:</p>
+      <p>The ve(3,3) model's foundation rests on two key incentive structures:</p>
       <span>Vote Incentives</span>
       <p>Users can place bids on their favorite infrastructure. Users receiving emissions in these pools are paid in certain fees. Fees and tokens derived after the incentive allocation get auto-distributed. These incentives can further sustain participants staking in these pools.</p>
       <span>Gauge Incentives</span>

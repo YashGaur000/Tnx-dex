@@ -95,6 +95,8 @@ export const HamburgerIcon = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
+// Main Content
+
 export const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   padding: 20px;
   margin-left: 22%;

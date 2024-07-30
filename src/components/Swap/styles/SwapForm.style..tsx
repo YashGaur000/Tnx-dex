@@ -147,7 +147,5 @@ export const TokenSelectAlignSelect = styled.div`
     margin-bottom: 6px;
     display: block;
 }
-  
   }
- 
-  `;
+`;
