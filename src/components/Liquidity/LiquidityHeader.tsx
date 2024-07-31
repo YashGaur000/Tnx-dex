@@ -4,7 +4,7 @@ import { DefaultTheme } from '../../styles/Theme';
 // import { Link } from 'react-router-dom';
 // import SubTabs from '../SubTabsComponent';
 // import { SlippageWrapper } from '../Swap/Sidebar';
-import { GradientText } from '../Homepage/HeroSection';
+import { GradientText } from '../Homepage/styles/HeroSection.style';
 import Questionmark from '../../assets/question-mark.png';
 
 const LiquidityBoxWrapper = styled.div`
@@ -65,14 +65,14 @@ const LiquidityDescription = styled.div<{ theme: DefaultTheme }>`
   width: 65%;
 `;
 
-const Descriptions = styled.p<{ fontSize: number; theme: DefaultTheme }>`
+const Descriptions = styled.p<{ theme: DefaultTheme }>`
   display: flex;
   direction: flex-column;
-  font-size: ${({ fontSize }) => fontSize}px;
+
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-top: 50px;
 `;
-
+//font-size: ${({ fontSize }) => fontSize}px;
 const LiquidityCreatePool = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
@@ -248,7 +248,7 @@ const LiquidityHeader: React.FC = () => {
             <Tooltip src={Questionmark} alt="QuestionMark Logo" />
             <br />
             Deposit and Stake liquidity to earn TENEX
-            <Descriptions fontSize={16}>
+            <Descriptions>
               There are currently 100 tokens listed. See all tokens or request a
               new token listing
             </Descriptions>
@@ -259,7 +259,7 @@ const LiquidityHeader: React.FC = () => {
           <PoolInfo>
             <StatBox>
               <StatTitle>
-                <GradientText fontSize={16}>
+                <GradientText>
                   TVL
                   <br />
                 </GradientText>
@@ -268,7 +268,7 @@ const LiquidityHeader: React.FC = () => {
             </StatBox>
             <StatBox>
               <StatTitle>
-                <GradientText fontSize={16}>
+                <GradientText>
                   Fees
                   <br />
                 </GradientText>
@@ -277,7 +277,7 @@ const LiquidityHeader: React.FC = () => {
             </StatBox>
             <StatBox>
               <StatTitle>
-                <GradientText fontSize={16}>
+                <GradientText>
                   24H Volume
                   <br />
                 </GradientText>
