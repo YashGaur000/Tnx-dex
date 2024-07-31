@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import twitterLogo from '../assets/twitter-logo.png'; // Replace with the actual path to your image
-import discordLogo from '../assets/discord-logo.png'; // Replace with the actual path to your image
-import telegramLogo from '../assets/telegram-logo.png'; // Replace with the actual path to your image
-import youtubeLogo from '../assets/youtube-logo.png'; // Replace with the actual path to your image
+import twitterLogo from '../assets/twitter-logo.png';
+import discordLogo from '../assets/discord-logo.png';
+import telegramLogo from '../assets/telegram-logo.png';
+import youtubeLogo from '../assets/youtube-logo.png';
 import { DefaultTheme } from '../styles/Theme';
 
 const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
