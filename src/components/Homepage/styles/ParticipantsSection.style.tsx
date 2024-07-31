@@ -6,8 +6,6 @@ export const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   flex-direction: column;
   align-items: center;
   padding: 50px 20px;
-  background: ${({ theme }) => theme.colors.card};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 0 -57px;
   margin-top: 70px;
 `;
