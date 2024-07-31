@@ -222,6 +222,15 @@ const AppRoutes: React.FC = () => {
                     }
                   />
                   <Route
+                    path="rebasing"
+                    element={
+                      <ContentData
+                        title={DOCS_DATA.rebasing.title}
+                        content={DOCS_DATA.rebasing.content}
+                      />
+                    }
+                  />
+                  <Route
                     path="tge"
                     element={
                       <ContentData

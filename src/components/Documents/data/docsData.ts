@@ -82,6 +82,10 @@ export const DOCS_DATA = {
     title: TOKENOMICS_RAW_DATA.elasticEmissions.title,
     content: DOMPurify.sanitize(TOKENOMICS_RAW_DATA.elasticEmissions.content),
   },
+  rebasing: {
+    title: TOKENOMICS_RAW_DATA.rebasing.title,
+    content: DOMPurify.sanitize(TOKENOMICS_RAW_DATA.rebasing.content),
+  },
   tge: {
     title: TOKENOMICS_RAW_DATA.tge.title,
     content: DOMPurify.sanitize(TOKENOMICS_RAW_DATA.tge.content),
