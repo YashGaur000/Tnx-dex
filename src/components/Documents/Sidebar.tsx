@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   faArrowAltCircleLeft,
@@ -51,6 +51,11 @@ const Sidebar: React.FC = () => {
   const handleTabClick = (path: string) => {
     setActiveTab(path);
   };
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+  }, [activeTab]);
 
   return (
     <>
@@ -261,6 +266,20 @@ const Sidebar: React.FC = () => {
               onClick={() => handleTabClick('/emissions-schedule')}
             >
               Emissions Schedule / Bootstrapping Period
+            </SectionLink>
+            <SectionLink
+              to="tokenomics/elastic-emissions"
+              className={activeTab === '/elastic-emissions' ? 'active' : ''}
+              onClick={() => handleTabClick('/elastic-emissions')}
+            >
+              Elastic Emissions
+            </SectionLink>
+            <SectionLink
+              to="tokenomics/rebasing"
+              className={activeTab === '/rebasing' ? 'active' : ''}
+              onClick={() => handleTabClick('/rebasing')}
+            >
+              Rebasing
             </SectionLink>
             <SectionLink
               to="tokenomics/tge"
