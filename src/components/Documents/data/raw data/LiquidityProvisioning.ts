@@ -132,7 +132,7 @@ export const LP_RAW_DATA = {
         <li>Collaboration: The license encourages collaboration by allowing authorized forking. It provides a framework for potential users or teams to engage with the codebase and work together on improvements or modifications.</li>
         <li>Legal clarity: The BUSL-1.1 license provides a legally recognized framework for the distribution and use of the code. It establishes clear terms and conditions that govern the rights and responsibilities of both the original code creators and any users or forking parties.</li>
         </ol>
-        Overall, the BUSL-1.1 license promotes transparency, protects intellectual property, and facilitates collaboration while ensuring that the codebase's integrity and security are maintained.
+        <p>Overall, the BUSL-1.1 license promotes transparency, protects intellectual property, and facilitates collaboration while ensuring that the codebase's integrity and security are maintained.</p>
         </div>
         `,
   },
