@@ -36,6 +36,10 @@ export const CardsContainer = styled.div`
   @media (max-width: 900px) {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  @media (max-width: 768px) {
+    grid-template-columns: none;
+  }
 `;
 
 export const CardText = styled.p<{ theme: DefaultTheme }>`
