@@ -18,6 +18,7 @@ export const SidebarTitle = styled.h2<{
   theme: DefaultTheme;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
+  text-align: justify;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.whiteBorder};
@@ -57,6 +58,7 @@ export const Slider = styled.input`
 
 export const TdText = styled.div<{ theme: DefaultTheme }>`
   font-size: 10px;
+  text-align: justify;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.greyDark};
 `;

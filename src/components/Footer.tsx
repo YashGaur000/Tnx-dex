@@ -6,12 +6,10 @@ import telegramLogo from '../assets/telegram-logo.png';
 import youtubeLogo from '../assets/youtube-logo.png';
 import { DefaultTheme } from '../styles/Theme';
 
-const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
+export const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
-
   left: 0;
   bottom: 0;
-
   text-align: center;
 
   @media (max-width: 1200px) {
@@ -20,6 +18,11 @@ const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     padding: 20px 10px;
+  }
+
+  @media (max-width: 375px) {
+    /* For smaller iPhones */
+    padding: 15px 5px;
   }
 `;
 
@@ -31,7 +34,13 @@ const IconsContainer = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 15px;
 
   @media (max-width: 768px) {
-    gap: 10px;
+    gap: 8px;
+  }
+
+  @media (max-width: 375px) {
+    /* For smaller iPhones */
+    gap: 5px;
+    margin-bottom: 10px;
   }
 `;
 
@@ -43,6 +52,12 @@ const IconLink = styled.a`
   @media (max-width: 768px) {
     width: 25px;
     height: 25px;
+  }
+
+  @media (max-width: 375px) {
+    /* For smaller iPhones */
+    width: 22px;
+    height: 22px;
   }
 `;
 
@@ -57,6 +72,11 @@ const BuiltBy = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     font-size: 0.9em;
+  }
+
+  @media (max-width: 375px) {
+    /* For smaller iPhones */
+    font-size: 0.8em;
   }
 `;
 

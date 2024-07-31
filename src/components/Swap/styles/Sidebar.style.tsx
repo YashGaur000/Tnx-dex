@@ -27,6 +27,7 @@ export const SidebarTitle = styled.h2<{
   theme: DefaultTheme;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
+  text-align: justify;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text};
@@ -59,8 +60,7 @@ export const SidebarListItem = styled.li<{ theme: DefaultTheme }>`
     position: absolute;
     left: 0;
     top: 0;
-    font-size: 14px;
-    font-weight: bold;
+    font-size: 13px;
     width: 20px;
     height: 20px;
     border-radius: 50%;
