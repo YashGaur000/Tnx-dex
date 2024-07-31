@@ -27,6 +27,7 @@ export const SidebarTitle = styled.h2<{
   theme: DefaultTheme;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
+  text-align: justify;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text};

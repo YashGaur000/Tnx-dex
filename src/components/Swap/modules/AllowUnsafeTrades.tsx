@@ -1,32 +1,39 @@
 import React from 'react';
 import SwitchComponent from './SwitchComponent';
 import {
+  AllowUnsafeAlign,
+  AllowUnsafeListDes,
+  AllowUnsafeWrapper,
   ContentWrapper,
-  SidebarListDes,
+  SelectToggleUnsafe,
   SidebarTitle,
-  SlippageWrapper,
 } from '../styles/AllowUnsafeTrades.style';
 
 const AllowUnsafeTrades: React.FC<{
   isChecked: boolean;
   handleToggle: () => void;
 }> = ({ isChecked, handleToggle }) => (
-  <SlippageWrapper display="flex">
+  <AllowUnsafeWrapper display="flex">
     <ContentWrapper>
-      <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
-      <SidebarListDes>
+      <AllowUnsafeAlign>
+        <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
+        <SelectToggleUnsafe>
+          {' '}
+          <SwitchComponent
+            isChecked={isChecked}
+            handleToggle={handleToggle}
+            onText=""
+            offText=""
+            isDisabled={false}
+          />
+        </SelectToggleUnsafe>
+      </AllowUnsafeAlign>
+      <AllowUnsafeListDes>
         Enabling this will allow trading on high quotes with high price impact
         and could lead to loss of funds.
-      </SidebarListDes>
+      </AllowUnsafeListDes>
     </ContentWrapper>
-    <SwitchComponent
-      isChecked={isChecked}
-      handleToggle={handleToggle}
-      onText=""
-      offText=""
-      isDisabled={false}
-    />
-  </SlippageWrapper>
+  </AllowUnsafeWrapper>
 );
 
 export default AllowUnsafeTrades;
