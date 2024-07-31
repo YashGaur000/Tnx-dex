@@ -1,7 +1,7 @@
 import React from 'react';
 import { DefaultTheme } from '../../styles/Theme';
 import styled from 'styled-components';
-import Main from '../../components/ManageVeTenex/Main';
+import Main from '../../components/ManageVeTenex/Modules/Main';
 
 const ManageVeTenexContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;

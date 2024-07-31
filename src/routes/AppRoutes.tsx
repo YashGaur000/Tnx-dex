@@ -13,6 +13,11 @@ import Documentation from '../pages/tools/Documentation';
 import { DOCS_DATA } from '../components/Documents/data/docsData';
 import BackgroundWrapper from './BackgroundWrapper';
 import Vote from '../pages/governance/Vote';
+import CreatePool from '../components/Liquidity/CreatePool/Modules/CreatePool';
+import Createlock from '../components/ManageVeTenex/Modules/CreateLockScreen/Createlock';
+const ManagePool = lazy(
+  () => import('../components/Liquidity/ManageLiquidity/ManagePool')
+);
 
 const ContentData = lazy(() => import('../components/Documents/Content'));
 
@@ -35,11 +40,15 @@ const AppRoutes: React.FC = () => {
               <Route path="/swap" element={<SwapPage />} />
               <Route path="/cross-chain-swap" element={<CrossChainSwap />} />
               <Route path="/liquidity" element={<LiquidityPage />} />
+              <Route path="/liquidity/manage" element={<ManagePool />} />
+              <Route path="/liquidity/create" element={<CreatePool />} />
+
               <Route
                 path="/concentrated-liquidity-farms"
                 element={<ConcentratedLiquidityPage />}
               />
               <Route path="/governance" element={<ManageveTenex />} />
+              <Route path="/governance/create" element={<Createlock />} />
               <Route path="/vote" element={<Vote />} />
               <Route path="/incentives" element={<GovernancePage />} />
               <Route path="/rewards" element={<RewardsPage />} />

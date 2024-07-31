@@ -1,24 +1,26 @@
 import styled from 'styled-components';
-
-import { DefaultTheme } from '../../styles/Theme';
-import LiquidityForm from './LiquidityForm';
-import DepositeComponent from './DepositeComponent';
-import { useState } from 'react';
-import TokenDeposite from './TokenDeposite';
-const ManagePoolContainer = styled.section<{ theme: DefaultTheme }>`
+import { Card } from '../../../common';
+const CreateLockContainer = styled.div`
   width: 100%;
+  padding: 40px;
+
+  @media only screen and (max-width: 900px) {
+    padding: 20px;
+  }
+  @media only screen and (max-width: 600px) {
+    padding: 5px;
+  }
   display: flex;
 
   flex-direction: column;
 `;
-const H1 = styled.h4`
+const H1 = styled.div`
   font-size: 38px;
   font-weight: 300;
   line-height: 71.76px;
   text-align: left;
 `;
-
-const P = styled.p`
+const P = styled.div`
   font-size: 18px;
   font-weight: 300;
   line-height: 35.88px;
@@ -56,32 +58,21 @@ const FormContainer = styled.div`
   }
 `;
 
-const ManagePool = () => {
-  const [tokenValue, setTokenValue] = useState<number>(0);
-
-  const handleTokenValueChange = (value: number) => {
-    setTokenValue(value);
-  };
+const Createlock = () => {
   return (
-    <ManagePoolContainer>
+    <CreateLockContainer>
       <header>
-        <H1>Manage Pool</H1>
-        <P>Manage your position</P>
+        <H1>Lock</H1>
+        <P>Lock your tokens for veTENEX voting power</P>
       </header>
 
       <MainContainer>
         <FormContainer>
-          <TokenDeposite />
-          <LiquidityForm
-            tokenValue={tokenValue}
-            onTokenValueChange={handleTokenValueChange}
-          />
+          <Card>abc</Card>
         </FormContainer>
-
-        <DepositeComponent tokenValue={tokenValue} />
       </MainContainer>
-    </ManagePoolContainer>
+    </CreateLockContainer>
   );
 };
 
-export default ManagePool;
+export default Createlock;

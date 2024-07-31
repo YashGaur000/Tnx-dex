@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import SwapIcon from '../../assets/swap.png';
-import UsdtIcon from '../../assets/usdt.png';
-import FtmIcon from '../../assets/ftm.png';
+import SwapIcon from '../../../assets/swap.png';
+import UsdtIcon from '../../../assets/usdt.png';
+import FtmIcon from '../../../assets/ftm.png';
 import { ChangeEvent, FC } from 'react';
 
 const FormSection = styled.form`
