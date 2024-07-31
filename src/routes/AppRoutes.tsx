@@ -139,6 +139,24 @@ const AppRoutes: React.FC = () => {
                     }
                   />
                   <Route
+                    path="volatile"
+                    element={
+                      <ContentData
+                        title={DOCS_DATA.volatile.title}
+                        content={DOCS_DATA.volatile.content}
+                      />
+                    }
+                  />
+                  <Route
+                    path="correlated"
+                    element={
+                      <ContentData
+                        title={DOCS_DATA.correlated.title}
+                        content={DOCS_DATA.correlated.content}
+                      />
+                    }
+                  />
+                  <Route
                     path="fee"
                     element={
                       <ContentData
@@ -153,6 +171,24 @@ const AppRoutes: React.FC = () => {
                       <ContentData
                         title={DOCS_DATA.curves.title}
                         content={DOCS_DATA.curves.content}
+                      />
+                    }
+                  />
+                  <Route
+                    path="busl"
+                    element={
+                      <ContentData
+                        title={DOCS_DATA.busl.title}
+                        content={DOCS_DATA.busl.content}
+                      />
+                    }
+                  />
+                  <Route
+                    path="protected-contracts"
+                    element={
+                      <ContentData
+                        title={DOCS_DATA.protected.title}
+                        content={DOCS_DATA.protected.content}
                       />
                     }
                   />

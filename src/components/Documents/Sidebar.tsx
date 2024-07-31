@@ -31,6 +31,9 @@ const Sidebar: React.FC = () => {
     liquidityProvisioning: false,
     liquidityConcentrated: false,
     liquidityEvent: false,
+    veTenex: false,
+    pools: false,
+    busl: false,
   });
 
   const toggleSidebar = () => {
@@ -84,7 +87,21 @@ const Sidebar: React.FC = () => {
                 veTENEX(veNFT)
               </SectionLink>
             </NestedSectionLinks> */}
-            <SectionLink to="introduction/veTenex">veTENEX(veNFT)</SectionLink>
+            <SectionLink
+              to="introduction/veTenex"
+              onClick={() => toggleSection('veTenex')}
+            >
+              veTENEX(veNFT) &nbsp;
+              <FontAwesomeIcon
+                icon={visibleSections.veTenex ? faChevronUp : faChevronDown}
+              />
+            </SectionLink>
+            <NestedSectionLinks isVisible={visibleSections.veTenex}>
+              <SectionLink to="introduction/revenue">
+                Voters Revenue Distribution Schedule
+              </SectionLink>
+              <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
+            </NestedSectionLinks>
             <SectionLink to="introduction/rewards">Rewards</SectionLink>
             <SectionLink to="introduction/analytics">
               TENEX Analytics
@@ -107,9 +124,36 @@ const Sidebar: React.FC = () => {
             />
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.liquidity}>
-            <SectionLink to="liquidity/pools">Legacy Pools(LP)</SectionLink>
-            <SectionLink to="liquidity/fee">Rewards Distribution</SectionLink>
+            <SectionLink
+              to="liquidity/pools"
+              onClick={() => toggleSection('pools')}
+            >
+              veTENEX(veNFT) &nbsp;
+              <FontAwesomeIcon
+                icon={visibleSections.pools ? faChevronUp : faChevronDown}
+              />
+            </SectionLink>
+            <NestedSectionLinks isVisible={visibleSections.pools}>
+              <SectionLink to="liquidity/volatile">Volatile</SectionLink>
+              <SectionLink to="liquidity/correlated">Correlated</SectionLink>
+              <SectionLink to="liquidity/fee">Rewards Distribution</SectionLink>
+            </NestedSectionLinks>
+            {/* <SectionLink to="liquidity/fee">Rewards Distribution</SectionLink> */}
             <SectionLink to="liquidity/curves">Swap Curves</SectionLink>
+            <SectionLink
+              to="liquidity/busl"
+              onClick={() => toggleSection('busl')}
+            >
+              BUSL - 1.1 License &nbsp;
+              <FontAwesomeIcon
+                icon={visibleSections.busl ? faChevronUp : faChevronDown}
+              />
+            </SectionLink>
+            <NestedSectionLinks isVisible={visibleSections.busl}>
+              <SectionLink to="liquidity/protected-contracts">
+                Protected Contracts
+              </SectionLink>
+            </NestedSectionLinks>
           </NestedSectionLinks>
         </Section>
         <Section>
