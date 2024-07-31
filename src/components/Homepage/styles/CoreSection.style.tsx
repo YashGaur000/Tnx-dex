@@ -3,8 +3,6 @@ import { DefaultTheme } from '../../../styles/Theme';
 
 export const CoreSectionContainer = styled.section<{ theme: DefaultTheme }>`
   padding: 60px 20px;
-  background: ${({ theme }) => theme.colors.card};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
   margin: 0 -57px;
   text-align: center;

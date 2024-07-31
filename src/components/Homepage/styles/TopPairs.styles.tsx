@@ -2,8 +2,6 @@ import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.card};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin-top: 70px;
   margin: 0 -57px;
   text-align: center;
