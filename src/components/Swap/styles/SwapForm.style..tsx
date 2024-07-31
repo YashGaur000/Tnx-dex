@@ -76,6 +76,12 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
   display: inline-block;
+  img {
+    color: white;
+    position: relative;
+    margin-bottom: 2px;
+    display: block;
+  }
 `;
 
 export const WalletText = styled.div<{ theme: DefaultTheme }>`
@@ -141,11 +147,6 @@ export const TokenSelectAlignSelect = styled.div`
   display: table-cell;
   align-content: center;
   
-  img {
-    color:white;
-    position: relative;
-    margin-bottom: 6px;
-    display: block;
-}
+  
   }
 `;
