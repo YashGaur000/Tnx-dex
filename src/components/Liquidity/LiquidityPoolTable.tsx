@@ -1,6 +1,6 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import { GradientSpan } from '../Homepage/HeroSection';
+import { GradientSpan } from '../common/Buttons/GradientButton';
 import { DefaultTheme } from '../../styles/Theme';
 // import theme from '../../styles/Theme';
 

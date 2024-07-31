@@ -12,7 +12,7 @@ const VotingContainer = styled.div<{ theme: DefaultTheme }>`
   gap: 20px;
   padding: 40px;
   color: ${({ theme }) => theme.colors.text};
-  height: 100vh;
+  height: 165vh;
   @media (max-width: 900px) {
     display: inline;
     text-align: -webkit-center;

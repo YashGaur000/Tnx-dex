@@ -8,14 +8,11 @@ import { DefaultTheme } from '../styles/Theme';
 
 const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
-  padding: 140px 20px;
   background-color: ${({ theme }) => theme.colors.background};
   text-align: center;
-
   @media (max-width: 1200px) {
     padding: 30px 15px;
   }
-
   @media (max-width: 768px) {
     padding: 20px 10px;
   }

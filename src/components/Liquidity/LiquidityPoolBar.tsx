@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { GradientSpan } from '../Homepage/HeroSection';
+import { GradientSpan } from '../common/Buttons/GradientButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../SearchBar';
@@ -107,24 +107,24 @@ const LiquidityPoolBar: React.FC = () => {
       <LiquidityBarBox>
         <LiquidityTabBar>
           <LiquidityAllPoolsTabs Width={12}>
-            <GradientSpan fontSize={16}>All Pools</GradientSpan>
+            <GradientSpan>All Pools</GradientSpan>
           </LiquidityAllPoolsTabs>
           <LiquidityAllPoolsTabs Width={12}>
-            <GradientSpan fontSize={16}>Stable</GradientSpan>
+            <GradientSpan>Stable</GradientSpan>
           </LiquidityAllPoolsTabs>
           <LiquidityAllPoolsTabs Width={12}>
-            <GradientSpan fontSize={16}>Volatile</GradientSpan>
+            <GradientSpan>Volatile</GradientSpan>
           </LiquidityAllPoolsTabs>
           <LiquidityAllPoolsTabs Width={15}>
-            <GradientSpan fontSize={16}>Concentrated</GradientSpan>
+            <GradientSpan>Concentrated</GradientSpan>
           </LiquidityAllPoolsTabs>
           <LiquidityAllPoolsTabs Width={12}>
-            <GradientSpan fontSize={16}>Low TVL</GradientSpan>
+            <GradientSpan>Low TVL</GradientSpan>
           </LiquidityAllPoolsTabs>
         </LiquidityTabBar>
         <LiquidityTabBar2>
           <LiquidityAllPoolsTabs Width={15}>
-            <GradientSpan fontSize={16}>
+            <GradientSpan>
               Active <FontAwesomeIcon icon={faChevronDown} />
             </GradientSpan>
           </LiquidityAllPoolsTabs>
