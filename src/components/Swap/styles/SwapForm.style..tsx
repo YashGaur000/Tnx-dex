@@ -11,10 +11,16 @@ export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 40px;
+  box-sizing: border-box;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   max-width: 600px;
   height: 538px;
-  width: 100%;
+  width: 600px;
+  @media only screen and (max-width: 600px) {
+    width: 100%;
+    padding: 20px;
+    height: auto;
+  }
 `;
 
 export const Title = styled.h1<{ theme: DefaultTheme }>`
@@ -24,6 +30,10 @@ export const Title = styled.h1<{ theme: DefaultTheme }>`
   text-align: center;
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  @media only screen and (max-width: 600px) {
+    font-size: 28px;
+    line-height: 42px;
+  }
 `;
 
 export const Description = styled.p<{ theme: DefaultTheme }>`
@@ -32,13 +42,21 @@ export const Description = styled.p<{ theme: DefaultTheme }>`
   font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.textGreyColor};
+  @media only screen and (max-width: 600px) {
+    font-size: 12px;
+  }
 `;
 
 export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
   padding: 10px;
+  box-sizing: border-box;
   margin-bottom: 10px;
+  @media only screen and (max-width: 600px) {
+    width: 72%;
+    padding: 8px;
+  }
 `;
 
 export const Input = styled.input<{ theme: DefaultTheme }>`
@@ -61,13 +79,19 @@ export const Input = styled.input<{ theme: DefaultTheme }>`
     -webkit-appearance: none;
     margin: 0;
   }
+
+  @media only screen and (max-width: 600px) {
+    width: 72%;
+    padding: 8px;
+    font-size: 14px;
+  }
 `;
 
 export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   width: 90px;
   height: 24px;
   display: table;
-  table-layout: fixed; /*Optional*/
+  table-layout: fixed; /* Optional */
   border-spacing: 3px;
   border: none;
   background: none;
@@ -75,7 +99,20 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
+  margin-left: 28px;
   display: inline-block;
+  img {
+    color: ${({ theme }) => theme.colors.text};
+    position: relative;
+    z-index: 10;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  @media only screen and (max-width: 600px) {
+    width: 70px;
+    font-size: 12px;
+  }
 `;
 
 export const WalletText = styled.div<{ theme: DefaultTheme }>`
@@ -85,6 +122,10 @@ export const WalletText = styled.div<{ theme: DefaultTheme }>`
   padding: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.textGreyColor};
+  @media only screen and (max-width: 600px) {
+    font-size: 9px;
+    padding: 8px;
+  }
 `;
 
 export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
@@ -102,6 +143,12 @@ export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
   }
+
+  @media only screen and (max-width: 600px) {
+    width: 24px;
+    height: 24px;
+    margin: 8px auto;
+  }
 `;
 
 export const WalletWrapper = styled.div`
@@ -109,6 +156,10 @@ export const WalletWrapper = styled.div`
   justify-content: right;
   align-items: center;
   margin-bottom: 10px;
+  @media only screen and (max-width: 600px) {
+    justify-content: center;
+    margin-bottom: 8px;
+  }
 `;
 
 export const WalletButton = styled.button<{ theme: DefaultTheme }>`
@@ -127,25 +178,27 @@ export const WalletButton = styled.button<{ theme: DefaultTheme }>`
   &:hover {
     background: ${({ theme }) => theme.colors.buttonHover};
   }
+
+  @media only screen and (max-width: 600px) {
+    font-size: 14px;
+    padding: 4px 8px;
+    margin-right: 8px;
+  }
 `;
 
 export const WalletIcon = styled(FontAwesomeIcon)`
   margin-right: 10px;
+  @media only screen and (max-width: 600px) {
+    margin-right: 8px;
+  }
 `;
 
 export const TokenSelectAlign = styled.div`
   display: table-cell;
   align-content: center;
 `;
+
 export const TokenSelectAlignSelect = styled.div`
   display: table-cell;
   align-content: center;
-  
-  img {
-    color:white;
-    position: relative;
-    margin-bottom: 6px;
-    display: block;
-}
-  }
 `;
