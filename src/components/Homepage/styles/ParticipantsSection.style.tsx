@@ -45,6 +45,7 @@ export const CardsContainer = styled.div`
 export const CardText = styled.p<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.grey};
   line-height: 23.92px;
   text-align: left;
 `;
