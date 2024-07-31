@@ -9,7 +9,7 @@ export const SidebarContainer = styled.aside<{
   width: 20%;
   padding-top: 10px;
   padding-right: 10px;
-  height: 700px;
+  height: 650px;
   position: fixed;
   overflow-y: auto;
   padding-bottom: 20px;
