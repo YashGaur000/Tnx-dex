@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-import TenexIcon from '../../assets/Tenex.png';
-import { DefaultTheme } from '../../styles/Theme';
+import TenexIcon from '../../../assets/Tenex.png';
+import { DefaultTheme } from '../../../styles/Theme';
 import TableContainer from './TableContainer';
-
+import { GlobalButton } from '../../common';
+import { useNavigate } from 'react-router-dom';
 const H1 = styled.h4`
   font-size: 2.4em;
   font-weight: 300;
@@ -30,21 +31,6 @@ const Img = styled.img`
   width: 1.125em;
   height: 1.125em;
   margin-left: 20px;
-`;
-
-const Button = styled.button`
-  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
-  height: 40px;
-  color: white;
-  border-radius: 14px;
-  border: none;
-  width: 150px;
-  font-size: 1.0625em;
-  font-weight: 300;
-  @media (max-width: 500px) {
-    width: 90%;
-    margin: auto;
-  }
 `;
 
 const TitleStyle = styled.label`
@@ -161,8 +147,15 @@ const MoneySection = styled.div`
     font-size: 0.875em;
   }
 `;
-
+const AmountWithImg = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const Main = () => {
+  const Navigate = useNavigate();
+  function handleCreateLock() {
+    Navigate('/governance/create');
+  }
   const data = [
     {
       'ID + Status': '243687214231',
@@ -255,14 +248,20 @@ const Main = () => {
 
         <AsideSection>
           <ButtonConatainer>
-            <Button>Create Lock</Button>
+            <GlobalButton
+              width="150px"
+              height="40px"
+              onClick={handleCreateLock}
+            >
+              Create Lock
+            </GlobalButton>
           </ButtonConatainer>
           <MoneyShowerSection>
             <MoneySection>
               <TitleStyle>Locked TENEX</TitleStyle>
-              <label>
+              <AmountWithImg>
                 4,376,987.82 <Img src={TenexIcon} />
-              </label>
+              </AmountWithImg>
             </MoneySection>
             <MoneySection>
               <TitleStyle>Total Voting power</TitleStyle>

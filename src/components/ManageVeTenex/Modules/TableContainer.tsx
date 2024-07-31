@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { DefaultTheme } from '../../styles/Theme';
-import Table from '../common/TableStyled';
-
+import { DefaultTheme } from '../../../styles/Theme';
+import Table from '../../common/TableStyled';
+import TenexIcon from '../../../assets/Tenex.png';
 interface TableProps {
   data: Record<string, string | number | string[]>[];
 }
@@ -34,6 +34,17 @@ const Button = styled.button`
   border-radius: 5px;
 `;
 
+const Img = styled.img`
+  width: 1.125em;
+  height: 1.125em;
+  margin-left: 20px;
+`;
+
+const AmountWithImg = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
 const TableContainer: React.FC<TableProps> = ({ data }) => {
   if (data.length === 0) return null;
 
@@ -53,11 +64,18 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
             <tr key={rowIndex}>
               {headers.map((header) => (
                 <td key={header} data-label={header}>
-                  {Array.isArray(row[header])
-                    ? row[header].map((item, index) => (
-                        <Button key={index}>{item}</Button>
-                      ))
-                    : row[header]}
+                  {Array.isArray(row[header]) ? (
+                    row[header].map((item, index) => (
+                      <Button key={index}>{item}</Button>
+                    ))
+                  ) : header == 'Locked Amount ' ? (
+                    <AmountWithImg>
+                      {' '}
+                      <label>{row[header]}</label> <Img src={TenexIcon} />{' '}
+                    </AmountWithImg>
+                  ) : (
+                    row[header]
+                  )}
                 </td>
               ))}
             </tr>
