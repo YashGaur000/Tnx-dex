@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+// src/components/Header.tsx
+import React from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/logo.svg';
@@ -11,11 +12,9 @@ import {
 import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
 import { DefaultTheme } from '../styles/Theme';
+import { useHeaderStore } from '../store/root';
 
-const HeaderContainer = styled.header<{
-  theme: DefaultTheme;
-  sticky: string;
-}>`
+const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -77,7 +76,7 @@ const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
   }
 `;
 
-const NavLink = styled.div<{ theme: DefaultTheme }>`
+const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   text-decoration: none;
@@ -87,6 +86,8 @@ const NavLink = styled.div<{ theme: DefaultTheme }>`
   gap: 4px;
   padding: 4px 6px;
   border-radius: 4px;
+  background: ${({ isActive, theme }) =>
+    isActive ? theme.colors.hover : 'transparent'};
 
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
@@ -105,8 +106,6 @@ const Toggler = styled.button<{ theme: DefaultTheme }>`
     position: absolute;
     top: 15px;
     right: 20px;
-    // margin-top: 10px;
-
     z-index: 999;
   }
 `;
@@ -134,30 +133,42 @@ const NavItem = styled.div`
 `;
 
 const Header: React.FC = () => {
-  const [showTradeSubTabs, setShowTradeSubTabs] = useState(false);
-  const [showLiquiditySubTabs, setShowLiquiditySubTabs] = useState(false);
-  const [showGovernanceSubTabs, setShowGovernanceSubTabs] = useState(false);
-  const [showToolsSubTabs, setShowToolsSubTabs] = useState(false);
-  const [navOpen, setNavOpen] = useState(false);
+  const {
+    showTradeSubTabs,
+    showLiquiditySubTabs,
+    showGovernanceSubTabs,
+    showToolsSubTabs,
+    navOpen,
+    activeMainTab,
+    setShowTradeSubTabs,
+    setShowLiquiditySubTabs,
+    setShowGovernanceSubTabs,
+    setShowToolsSubTabs,
+    setNavOpen,
+    setActiveMainTab,
+  } = useHeaderStore();
 
   const navigate = useNavigate();
-
   const location = useLocation();
   const isSticky = location.pathname.includes('/documentation');
 
-  const handleMouseEnter = (
-    setShow: React.Dispatch<React.SetStateAction<boolean>>
-  ) => setShow(true);
+  const handleMouseEnter = (setShow: (value: boolean) => void) => setShow(true);
 
-  const handleMouseLeave = (
-    setShow: React.Dispatch<React.SetStateAction<boolean>>
-  ) => setShow(false);
+  const handleMouseLeave = (setShow: (value: boolean) => void) =>
+    setShow(false);
 
   const toggleNav = () => setNavOpen(!navOpen);
 
   return (
     <HeaderContainer sticky={isSticky.toString()}>
-      <Logo src={logoImage} alt="TenEx Logo" onClick={() => navigate('/')} />
+      <Logo
+        src={logoImage}
+        alt="TenEx Logo"
+        onClick={() => {
+          setActiveMainTab('');
+          navigate('/');
+        }}
+      />
 
       <Toggler onClick={toggleNav}>
         <FontAwesomeIcon icon={navOpen ? faTimes : faBars} />
@@ -169,8 +180,12 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
         >
           <NavLink
+            isActive={activeMainTab === 'Trade' ? true : false}
             onClick={() => {
               setShowTradeSubTabs(!showTradeSubTabs);
+              {
+                console.log(activeMainTab);
+              }
             }}
           >
             Trade <FontAwesomeIcon icon={faChevronDown} />
@@ -179,12 +194,14 @@ const Header: React.FC = () => {
             <SubTabs
               items={[
                 {
+                  main: 'Trade',
                   to: '/swap',
                   label: 'Swap',
                   description:
                     'Tenex Meta Aggregator swaps for efficient routing',
                 },
                 {
+                  main: 'Trade',
                   to: '/cross-chain-swap',
                   label: 'Cross chain swaps',
                   description:
@@ -202,6 +219,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowLiquiditySubTabs)}
         >
           <NavLink
+            isActive={activeMainTab === 'Liquidity' ? true : false}
             onClick={() => {
               setShowLiquiditySubTabs(!showLiquiditySubTabs);
             }}
@@ -212,11 +230,13 @@ const Header: React.FC = () => {
             <SubTabs
               items={[
                 {
+                  main: 'Liquidity',
                   to: '/liquidity',
                   label: 'Liquidity',
                   description: 'Provide liquidity and earn TENEX rewards',
                 },
                 {
+                  main: 'Liquidity',
                   to: '/concentrated-liquidity-farms',
                   label: 'Concentrated Liquidity Farms',
                   description: 'Highly efficient CL farms for max fees',
@@ -234,6 +254,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
         >
           <NavLink
+            isActive={activeMainTab === 'Governance' ? true : false}
             onClick={() => {
               setShowGovernanceSubTabs(!showGovernanceSubTabs);
             }}
@@ -244,16 +265,19 @@ const Header: React.FC = () => {
             <SubTabs
               items={[
                 {
+                  main: 'Governance',
                   to: '/governance',
                   label: 'Manage veTENEX',
                   description: 'Lock TENEX into veTENEX to earn rewards',
                 },
                 {
+                  main: 'Governance',
                   to: '/vote',
                   label: 'Vote',
                   description: 'Vote weekly to earn real yields',
                 },
                 {
+                  main: 'Governance',
                   to: '/incentives',
                   label: 'Incentives',
                   description: 'Protocol liquidity incentivization',
@@ -267,13 +291,22 @@ const Header: React.FC = () => {
         </NavItem>
 
         <NavItem>
-          <NavLink onClick={() => navigate('/rewards')}>Rewards</NavLink>
+          <NavLink
+            isActive={activeMainTab === 'Rewards' ? true : false}
+            onClick={() => {
+              navigate('/rewards');
+              setActiveMainTab('Rewards');
+            }}
+          >
+            Rewards
+          </NavLink>
         </NavItem>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
         >
           <NavLink
+            isActive={activeMainTab === 'Resources' ? true : false}
             onClick={() => {
               setShowToolsSubTabs(!showToolsSubTabs);
             }}
@@ -284,16 +317,19 @@ const Header: React.FC = () => {
             <SubTabs
               items={[
                 {
+                  main: 'Resources',
                   to: '/analytics',
                   label: 'Analytics',
                   description: 'Deep dive into TenEx',
                 },
                 {
+                  main: 'Resources',
                   to: '/documentation/introduction/tenex',
                   label: 'Documentation',
                   description: 'Get the low-down in our docs',
                 },
                 {
+                  main: 'Resources',
                   to: '/bridge',
                   label: 'Bridge',
                   description: 'Bridge tokens to and from other chain',

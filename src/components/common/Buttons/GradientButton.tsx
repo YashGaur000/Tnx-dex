@@ -81,7 +81,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   cursor,
   marginTop,
   children,
-}) => {
+}: GradientButtonProps) => {
   return (
     <StyledButton
       width={width}
