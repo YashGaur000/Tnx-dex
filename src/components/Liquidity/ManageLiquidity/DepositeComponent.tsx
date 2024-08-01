@@ -19,7 +19,7 @@ const H1 = styled.section`
 // Styled container for Deposit
 const StyledDepositContainer = styled.div`
   background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
-  border: 1px solid;
+
   width: 40%;
   border-radius: 15px;
   padding: 20px;

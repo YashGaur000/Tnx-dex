@@ -1,34 +1,50 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
 
-const Table = styled.table<{ theme: DefaultTheme }>`
-  width: 90%;
+interface TableProps {
+  theme: DefaultTheme;
+  width?: string;
+  marginLeft?: string;
+  fontSize?: string;
+  fontWeight?: number;
+  lineHeight?: string;
+  color?: string;
+  padding?: string;
+  background?: string;
+  borderRadius?: string;
+}
+
+const Table = styled.table<TableProps>`
+  width: ${({ width }) => width ?? '90%'};
   border-collapse: collapse;
-  margin-left: 10px;
+  margin-left: ${({ marginLeft }) => marginLeft ?? '10px'};
 
   font-family: Kanit;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 29.9px;
-  color: #ffffff;
+  font-size: ${({ fontSize }) => fontSize ?? '15px'};
+  font-weight: ${({ fontWeight }) => fontWeight ?? 300};
+  line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
+  color: ${({ color }) => color ?? '#ffffff'};
 
   td {
-    padding: 10px 0px;
+    padding: ${({ padding }) => padding ?? '10px 0px'};
     text-align: right;
   }
 
   th {
-    background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
+    background: ${({ background }) =>
+      background ?? 'linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%)'};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     text-align: right;
 
-    padding: 30px 0px;
+    padding: ${({ padding }) => padding ?? '30px 0px'};
   }
+
   @media screen and (max-width: 1000px) {
-    font-size: 14px;
+    font-size: ${({ fontSize }) => fontSize ?? '14px'};
   }
+
   @media screen and (max-width: 800px) {
     &,
     thead,
@@ -37,7 +53,7 @@ const Table = styled.table<{ theme: DefaultTheme }>`
     td,
     tr {
       display: block;
-      font-size: 17px;
+      font-size: ${({ fontSize }) => fontSize ?? '17px'};
       width: 100%;
     }
 
@@ -48,15 +64,14 @@ const Table = styled.table<{ theme: DefaultTheme }>`
     }
 
     tr {
-      padding: 20px;
+      padding: ${({ padding }) => padding ?? '20px'};
       margin-top: 20px;
-      border-radius: 10px;
-      background: ${({ theme }) => theme.colors.card};
+      border-radius: ${({ borderRadius }) => borderRadius ?? '10px'};
+      background: ${({ theme, background }) => background ?? theme.colors.card};
     }
 
     td {
       border: none;
-
       position: relative;
       padding-left: 50%;
     }
@@ -67,7 +82,9 @@ const Table = styled.table<{ theme: DefaultTheme }>`
       left: 10px;
       transform: translateY(-50%);
       content: attr(data-label);
-      background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
+      background: ${({ background }) =>
+        background ??
+        'linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%)'};
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -75,7 +92,7 @@ const Table = styled.table<{ theme: DefaultTheme }>`
   }
 
   @media screen and (max-width: 500px) {
-    font-size: 13px;
+    font-size: ${({ fontSize }) => fontSize ?? '13px'};
   }
 `;
 
