@@ -1,9 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useHeaderStore } from '../store/root';
 import { DefaultTheme } from '../styles/Theme';
 
 interface SubTabItem {
+  main: string;
   to: string;
   label: string;
   description: string;
@@ -39,6 +41,7 @@ const SubTabItemContainer = styled.div<{ theme: DefaultTheme }>`
 const SubTabLink = styled.div<{ theme: DefaultTheme }>`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.text};
+  cursor: pointer;
 `;
 
 const SubTabLabel = styled.div<{ theme: DefaultTheme }>`
@@ -55,28 +58,31 @@ const SubTabs: React.FC<SubTabsProps> = ({
   showTabs,
   setShowTabs,
   setNavOpen,
-}) => {
+}: SubTabsProps) => {
   const navigate = useNavigate();
+  const { setActiveMainTab } = useHeaderStore();
 
-  if (showTabs)
-    return (
-      <SubTabsContainer>
-        {items.map((item, index) => (
-          <SubTabItemContainer key={index}>
-            <SubTabLink
-              onClick={() => {
-                navigate(item.to);
-                setShowTabs(!showTabs);
-                if (setNavOpen) setNavOpen(false);
-              }}
-            >
-              <SubTabLabel>{item.label}</SubTabLabel>
-              <SubTabDescription>{item.description}</SubTabDescription>
-            </SubTabLink>
-          </SubTabItemContainer>
-        ))}
-      </SubTabsContainer>
-    );
+  if (!showTabs) return null;
+
+  return (
+    <SubTabsContainer>
+      {items.map((item: SubTabItem, index: number) => (
+        <SubTabItemContainer key={index}>
+          <SubTabLink
+            onClick={() => {
+              navigate(item.to);
+              setShowTabs(false);
+              if (setNavOpen) setNavOpen(false);
+              setActiveMainTab(item.main);
+            }}
+          >
+            <SubTabLabel>{item.label}</SubTabLabel>
+            <SubTabDescription>{item.description}</SubTabDescription>
+          </SubTabLink>
+        </SubTabItemContainer>
+      ))}
+    </SubTabsContainer>
+  );
 };
 
 export default SubTabs;
