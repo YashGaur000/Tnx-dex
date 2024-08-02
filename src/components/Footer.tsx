@@ -11,7 +11,7 @@ export const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   left: 0;
   bottom: 0;
   text-align: center;
-  margin-top: 1000px;
+  margin-top: 600px;
   @media (max-width: 1200px) {
     padding: 30px 15px;
   }

@@ -11,6 +11,7 @@ interface Colorpallate {
   backgroundHome: string;
   backgroundSwap: string;
   backgroundDocs: string;
+  backgroundLiquidity: string;
   text: string;
   buttonBackground: string;
   buttonHover: string;
@@ -55,6 +56,8 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundSwap: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundLiquidity: `radial-gradient(circle at 50% 30%,#09403f 0%, transparent 30%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 90%)`,
     backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',

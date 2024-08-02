@@ -1,4 +1,15 @@
+import React from 'react';
 import styled from 'styled-components';
+
+// Define the type for the data prop
+interface Data {
+  step: number;
+  descriptions: string[];
+}
+
+interface DepositeInstructionProps {
+  data: Data[];
+}
 
 const StepperContainer = styled.div`
   display: flex;
@@ -6,6 +17,7 @@ const StepperContainer = styled.div`
   gap: 2px;
   margin-top: 15px;
 `;
+
 const Step = styled.div`
   display: flex;
   flex-direction: row;
@@ -15,28 +27,26 @@ const Step = styled.div`
 const VerticalStep = styled.div`
   display: flex;
   flex-direction: column;
-
   align-items: center;
 `;
+
 const Circle = styled.div`
   border-radius: 100%;
   width: 25px;
   height: 25px;
   display: flex;
-  visibility: visible;
   justify-content: center;
   align-items: center;
-
   background-color: rgb(1, 6, 8);
-
   border: 0px;
+  color: white;
 `;
 
 const Line = styled.div`
   height: 100%;
-
   border-left: 2px dotted rgb(64, 120, 146);
 `;
+
 const Content = styled.div`
   margin-left: 20px;
   display: inline-block;
@@ -49,53 +59,22 @@ const Content = styled.div`
   text-align: left;
 `;
 
-const DepositeInstruction = () => {
+const DepositeInstruction: React.FC<DepositeInstructionProps> = ({ data }) => {
   return (
     <StepperContainer>
-      <Step>
-        <VerticalStep>
-          <Circle>1</Circle>
-          <Line></Line>
-        </VerticalStep>
-
-        <Content>
-          <label>
-            You are depositing liquidity into a Basic pool Also known as the
-            constant product pool or AMM the liquidity in these pools is added
-            over the ful price range (0 to ∞) and requires little to no
-            maintenance.
-          </label>
-          <p>
-            The pool liquidity is kept in balance using the formula x*y + y³x ≥
-            k
-          </p>
-        </Content>
-      </Step>
-
-      <Step>
-        <VerticalStep>
-          <Circle>2</Circle>
-          <Line></Line>
-        </VerticalStep>
-
-        <Content>
-          <label>
-            Fill-in the deposit amounts. We calculate the deposit amounts to
-            match the liquidity reserves in the pool. Pools without liquidity
-            willuse yourdeposit for iital pool price.
-          </label>
-        </Content>
-      </Step>
-
-      <Step>
-        <VerticalStep>
-          <Circle>3</Circle>
-        </VerticalStep>
-
-        <Content>
-          <label>After you deposit you can stake the liquidity</label>
-        </Content>
-      </Step>
+      {data.map((item, index) => (
+        <Step key={index}>
+          <VerticalStep>
+            <Circle>{item.step}</Circle>
+            {index < data.length - 1 && <Line />}
+          </VerticalStep>
+          <Content>
+            {item.descriptions.map((desc, idx) => (
+              <p key={idx}>{desc}</p>
+            ))}
+          </Content>
+        </Step>
+      ))}
     </StepperContainer>
   );
 };

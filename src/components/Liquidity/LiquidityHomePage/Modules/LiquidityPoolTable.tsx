@@ -1,4 +1,4 @@
-import Table from '../../../common/TableStyled';
+import Table, { TableContainerStyle } from '../../../common/TableStyled';
 import Teth from '../../../../assets/Tether.svg';
 import BTC from '../../../../assets/Btc.svg';
 import SOL from '../../../../assets/sol.png';
@@ -80,28 +80,30 @@ const LiquidityPoolTable = () => {
   ];
 
   return (
-    <Table
-      padding="20px 30px "
-      borderRadius="20px"
-      textAlign="center"
-      width="100%"
-      margin="20px 0px"
-    >
-      <thead>
-        <tr>
-          <th>Liquidity Pool </th>
-          <th>APR</th>
-          <th>Volume</th>
-          <th>Fees</th>
-          <th>Pool Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        {poolData.map((item, key) => (
-          <LiquidityPoolCard key={key} data={item} />
-        ))}
-      </tbody>
-    </Table>
+    <TableContainerStyle>
+      <Table
+        padding="20px 30px "
+        borderRadius="20px"
+        textAlign="center"
+        width="100%"
+        margin="20px 0px"
+      >
+        <thead>
+          <tr>
+            <th>Liquidity Pool </th>
+            <th>APR</th>
+            <th>Volume</th>
+            <th>Fees</th>
+            <th>Pool Balance</th>
+          </tr>
+        </thead>
+        <tbody>
+          {poolData.map((item, key) => (
+            <LiquidityPoolCard key={key} data={item} />
+          ))}
+        </tbody>
+      </Table>
+    </TableContainerStyle>
   );
 };
 
