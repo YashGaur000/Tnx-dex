@@ -6,44 +6,6 @@ export const LP_RAW_DATA = {
             <p>Legacy pools refer to the traditional Uni-V2 and Stableswap pools that have been in existence </p>
             <p><strong>Volatile : </strong> Uni-V2 pools</p>
             <p><strong>Correlated : </strong> Stableswap pools</p>
-            <span>Volatile Pools (UniV2-Style):</span>
-        <ul>
-            <li>These are basic pools where tokens are paired with equal dollar value weights.</li>
-            <li>The volatile swap curve facilitates trades within these pools, adapting to token price changes.</li>
-            <li>The volatile swap curve used is: <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <mrow>
-                <mi>x</mi>
-                <mo>&#x2219;</mo> <!-- Dot operator -->
-                <mi>y</mi>
-                <mo>=</mo>
-                <mi>k</mi>
-            </mrow>
-        </math></li>
-            <li>The balance between TokenA and TokenB in the pool will always be equivalent in value to each other. For instance, in a volatile ETH-USDC pool where ETH is priced at 3500 USDC, the pool will maintain a ratio of 1 ETH per 3500 USDC.</li>
-        </ul>
-        <span>Correlated Pools (Andre-Style):</span>
-        <ul>
-            <li>Utilizing a stable swap curve, these pools offer enhanced trading efficiency compared to other DEXs.</li>
-            <li>The stable swap curve, originally devised by Andre, is designed to minimize slippage, providing nearly zero slippage for stable swaps.</li>
-            <li>The stable swap curve used is: <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <mrow>
-                <msup>
-                    <mi>x</mi>
-                    <mn>3</mn>
-                </msup>
-                <mi>y</mi>
-                <mo>+</mo>
-                <msup>
-                    <mi>y</mi>
-                    <mn>3</mn>
-                </msup>
-                <mi>x</mi>
-                <mo>=</mo>
-                <mi>k</mi>
-            </mrow>
-        </math></li>
-            <li>The balance between TokenA and TokenB in the pool will fluctuate depending on their current positions along the price curve. When the prices of both assets are similar, the pool will tend to maintain a ratio close to 50/50.</li>
-        </ul>
         </div>
         `,
   },

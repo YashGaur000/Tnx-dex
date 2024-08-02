@@ -125,8 +125,8 @@ interface ContentDataProps {
 // eslint-disable-next-line react/prop-types
 const ContentData: React.FC<ContentDataProps> = memo(({ title, content }) => {
   return (
-    <Content>
-      <h1>{title}</h1>
+    <Content id="content">
+      <h1 id="title">{title}</h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </Content>
   );
