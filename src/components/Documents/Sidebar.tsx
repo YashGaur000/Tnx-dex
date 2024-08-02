@@ -55,6 +55,10 @@ const Sidebar: React.FC = () => {
   useEffect(() => {
     // Scroll to the top when the component mounts
     window.scrollTo(0, 0);
+    const element = document.getElementById('content');
+    if (element) {
+      element.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }, [activeTab]);
 
   return (
