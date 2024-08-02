@@ -104,7 +104,7 @@ const Pool = () => {
           <Label>
             <Span> stable </Span> 0.00% <Img src={ImpImage} />
           </Label>
-        </div>{' '}
+        </div>
       </GroupImg>
       <Tvlstyle>
         <label>TVL</label>

@@ -15,7 +15,8 @@ const Main = styled.main`
 const Button = styled.button`
   background: transparent;
   color: #ffffff;
-
+  display: inline-block;
+  white-space: nowrap;
   border: 1px solid #b8b8b899;
   padding: 6px 15px;
   border-radius: 10px;
@@ -24,13 +25,32 @@ const Button = styled.button`
   font-weight: 300;
   line-height: 23.92px;
 `;
+
 const ButtonContainer = styled.div`
   display: flex;
   gap: 10px;
-  @media (max-width: 1200px){
-    overflow-x:scroll
-   
-}
+  padding-top: 10px;
+  width: 50%;
+
+  overflow-x: scroll;
+  padding-bottom: 10px;
+  &::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #b8b8b899;
+    border-radius: 10px;
+    min-height: 10px;
+  }
+
+  @media screen and (max-width: 1000px) {
+    width: 30%;
   }
 `;
 const Select = styled.select`

@@ -43,7 +43,7 @@ const Img = styled.img`
 const AmountWithImg = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
 `;
 const TableContainer: React.FC<TableProps> = ({ data }) => {
   if (data.length === 0) return null;
@@ -51,7 +51,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
   const headers = Object.keys(data[0]);
   return (
     <Section>
-      <Table>
+      <Table padding="20px">
         <thead>
           <tr>
             {headers.map((header) => (
@@ -70,8 +70,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                     ))
                   ) : header == 'Locked Amount ' ? (
                     <AmountWithImg>
-                      {' '}
-                      <label>{row[header]}</label> <Img src={TenexIcon} />{' '}
+                      <label>{row[header]}</label> <Img src={TenexIcon} />
                     </AmountWithImg>
                   ) : (
                     row[header]

@@ -4,7 +4,7 @@ import { DefaultTheme } from '../../styles/Theme';
 interface TableProps {
   theme: DefaultTheme;
   width?: string;
-  marginLeft?: string;
+  margin?: string;
   fontSize?: string;
   fontWeight?: number;
   lineHeight?: string;
@@ -12,22 +12,24 @@ interface TableProps {
   padding?: string;
   background?: string;
   borderRadius?: string;
+  textAlign?: string;
 }
 
 const Table = styled.table<TableProps>`
-  width: ${({ width }) => width ?? '90%'};
+  width: ${({ width }) => width ?? '100%'};
   border-collapse: collapse;
-  margin-left: ${({ marginLeft }) => marginLeft ?? '10px'};
-
+  margin: ${({ margin }) => margin ?? ' 10px 0px 10px 0px'};
+  height: auto;
   font-family: Kanit;
   font-size: ${({ fontSize }) => fontSize ?? '15px'};
   font-weight: ${({ fontWeight }) => fontWeight ?? 300};
   line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
   color: ${({ color }) => color ?? '#ffffff'};
-
+  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
+  border-radius: 20px;
   td {
     padding: ${({ padding }) => padding ?? '10px 0px'};
-    text-align: right;
+    text-align: center;
   }
 
   th {
@@ -36,9 +38,9 @@ const Table = styled.table<TableProps>`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-align: right;
 
     padding: ${({ padding }) => padding ?? '30px 0px'};
+    text-align: ${({ textAlign }) => textAlign ?? 'center'};
   }
 
   @media screen and (max-width: 1000px) {
@@ -55,6 +57,7 @@ const Table = styled.table<TableProps>`
       display: block;
       font-size: ${({ fontSize }) => fontSize ?? '17px'};
       width: 100%;
+      background: none;
     }
 
     thead tr {
@@ -67,7 +70,7 @@ const Table = styled.table<TableProps>`
       padding: ${({ padding }) => padding ?? '20px'};
       margin-top: 20px;
       border-radius: ${({ borderRadius }) => borderRadius ?? '10px'};
-      background: ${({ theme, background }) => background ?? theme.colors.card};
+      background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
     }
 
     td {
@@ -80,6 +83,7 @@ const Table = styled.table<TableProps>`
       position: absolute;
       top: 50%;
       left: 10px;
+
       transform: translateY(-50%);
       content: attr(data-label);
       background: ${({ background }) =>
