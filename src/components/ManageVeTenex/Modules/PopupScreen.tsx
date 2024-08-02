@@ -25,6 +25,9 @@ const ModalContent = styled.div<{ theme: DefaultTheme }>`
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1001;
+  @media (max-width: 700px) {
+    width: 350px;
+  }
 `;
 
 const CloseButton = styled.button`
@@ -32,6 +35,7 @@ const CloseButton = styled.button`
   top: 10px;
   right: 10px;
   background: none;
+  text-align: left;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
