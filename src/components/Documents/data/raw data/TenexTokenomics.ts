@@ -213,7 +213,7 @@ export const TOKENOMICS_RAW_DATA = {
           <p>$veTENEX holders receive a rebase proportional to epoch LP emissions and the ratio of $veTENEX to $TENEX supply, thus reducing vote power dilution for $veTENEX!</p>
 
           <p>The weekly rebase amount is calculated with the following formula:</p>
-          <span>veTENEX.totalSupply ÷ TENEX.totalsupply)³ × 0.5 × Emissions</span>
+          <span>(veTENEX.totalSupply ÷ TENEX.totalsupply)³ × 0.5 × Emissions</span>
           </div>
           `,
   },
