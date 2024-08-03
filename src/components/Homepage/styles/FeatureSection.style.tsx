@@ -14,12 +14,12 @@ export const FeaturesContainer = styled.section<{ theme: DefaultTheme }>`
   }
 
   @media (max-width: 900px) {
-    margin-top: 150px;
+    margin-top: 50px;
     grid-template-columns: none;
     justify-content: center;
   }
   @media (max-width: 768px) {
-    margin-top: 200px;
+    margin-top: 50px;
   }
 `;
 

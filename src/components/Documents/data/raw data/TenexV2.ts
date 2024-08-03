@@ -77,6 +77,7 @@ export const V2_RAW_DATA = {
         <p>Volatile pools are defined as assets that have no direct correlation in price, examples are Chainlink <code>LINK</code> and Ethereum <code>ETH</code>. The price of <code>ETH</code> has no relation to the price of <code>LINK</code>.</p>
         
         <p>Volatiles pairs use the following formula to determine the price:</p>
+        <p>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
       <mrow>
         <mi>x</mi>
@@ -86,6 +87,7 @@ export const V2_RAW_DATA = {
         <mi>k</mi>
       </mrow>
     </math>
+    </p>
         
         <ul>
             <li><strong>Stable Pools</strong></li>
@@ -94,6 +96,7 @@ export const V2_RAW_DATA = {
         <p>Stable pools are defined as assets that have a direct correlation to each other. Examples are USDC/USDT, wBTC/multiBTC, frxETH/wETH etc. The price of the 2 assets will trade very close to each other and thus a different approach can be taken to allow for much higher volume at low slippage.</p>
         
         <p>Stable pairs use the following formula to determine the price:</p>
+        <p>
         <math xmlns="http://www.w3.org/1998/Math/MathML">
       <mrow>
         <msup>
@@ -111,6 +114,7 @@ export const V2_RAW_DATA = {
         <mi>k</mi>
       </mrow>
     </math>
+    </p>
         
         <ul>
             <li><strong>Concentrated Pools</strong></li>
@@ -140,6 +144,46 @@ export const V2_RAW_DATA = {
             <li><strong>Rebalancing:</strong> The pool automatically rebalances as trades occur to maintain the predefined weights, ensuring consistent exposure to each asset.</li>
             <li><strong>Flexibility:</strong> Weighted pools can support various asset allocations, providing flexibility in liquidity provision and exposure management.</li>
         </ul>
+
+        <span>Example:</span>
+        <p><strong>Balancer Pools:</strong> Support multiple assets with customizable weights (e.g., 50/50, 80/20, 60/20/20) allowing LPs to create diversified and balanced portfolios.</p>
+        <ul><li>Boosted Pools</li></ul>
+        <p>Multi-asset pools, also known as index pools, contain more than two assets, offering diversified exposure and reducing risk for LPs.</p>
+        <span>How It Works:</span>
+        <ul>
+          <li><strong>Diverse Asset Composition:</strong> These pools can include a wide range of assets, providing LPs with a diversified investment portfolio within a single pool.</li>
+          <li><strong>Complex Balancing:</strong> Uses more complex algorithms to maintain balance among multiple assets, ensuring proportional exposure and efficient trading.</li>
+          <li><strong>Risk Management:</strong> Diversification across multiple assets helps mitigate risk, as the performance of one asset can be offset by others in the pool.</li>
+        </ul>
+        <span>Example:</span>
+        <ul><li><strong> Balancer and Curve Pools:</strong> Support pools with multiple assets, such as a pool containing ETH, DAI, and BTC, allowing LPs to benefit from diversified exposure and reduced risk.</li></ul>
+        <span>Key Differences and Benefits</span>
+        <span>Concentrated Pools:</span>
+        <ul>
+        <li>Efficiency: Higher capital efficiency due to liquidity concentration within specific price ranges.</li>
+        <li>Customization: LPs have more control over where their capital is deployed.</li>
+        <li>Higher Returns: Potential for higher fee earnings due to deeper liquidity within active trading ranges.</li>
+        </ul>
+        <span>Weighted Pools:</span>
+        <ul>
+        <li>Flexibility: Customizable asset weights provide tailored exposure and risk management.</li>
+        <li>Rebalancing: Automatic rebalancing maintains target weights and ensures consistent asset allocation.</li>
+        <li>Diverse Strategies: Suitable for a variety of investment strategies and portfolio compositions.</li>
+        </ul>
+        <span>Multi-Asset Pools:</span>
+        <ul>
+          <li>Diversification: Reduced risk through exposure to multiple assets within a single pool.</li>
+          <li>Comprehensive Coverage: Ability to support a broad range of assets, offering more extensive market participation.</li>
+          <li>Complex Algorithms: Advanced balancing mechanisms ensure efficient and proportional exposure to each asset.</li>
+        </ul>
+        <span>Use Cases</span>
+        <ul>
+      <li>Concentrated Pools: Ideal for assets with high trading volumes within certain price ranges, maximizing capital efficiency and fee generation.</li>
+      <li>Weighted Pools: Suitable for LPs seeking specific asset allocations, such as balanced portfolios or custom exposure to certain asset classes.</li>
+      <li>Multi-Asset Pools: Best for those looking to diversify their holdings and reduce risk by spreading capital across multiple assets.</li>
+    </ul>
+      <p>Understanding these different types of liquidity pools allows DeFi participants to select the best options for their trading and liquidity provision strategies, optimizing their returns and managing risks effectively.</p>
+       
       `,
     },
     voting: {

@@ -244,7 +244,6 @@ export const INTRO_RAW_DATA = {
                         </ul>
                     </li>
                     <li>The allocation of these emissions to specific LPs is based on the proportion of votes each LP (gauge) receives.</li>
-                    <li><strong>Proportional Increase:</strong> veToken holders’ balances increase proportionally with emissions to prevent dilution, this phenomenon is called rebasing (rebase), basically adjusting the value of tokens so that it’s not affected by the inflation when new token is minted.</li>
                 </ul>
             </ul>
     

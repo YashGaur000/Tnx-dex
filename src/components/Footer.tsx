@@ -6,62 +6,42 @@ import telegramLogo from '../assets/telegram-logo.png';
 import youtubeLogo from '../assets/youtube-logo.png';
 import { DefaultTheme } from '../styles/Theme';
 
-export const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
+const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
-  left: 0;
-  bottom: 0;
+  background-color: ${({ theme }) => theme.colors.background};
   text-align: center;
-  margin-top: 600px;
   @media (max-width: 1200px) {
     padding: 30px 15px;
   }
-
   @media (max-width: 768px) {
     padding: 20px 10px;
   }
-
-  @media (max-width: 375px) {
-    /* For smaller iPhones */
-    padding: 15px 5px;
-  }
 `;
 
-const IconsContainer = styled.div<{ theme: DefaultTheme }>`
+const IconsContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
+  gap: 20px;
+  margin-bottom: 20px;
 
   @media (max-width: 768px) {
-    gap: 8px;
-  }
-
-  @media (max-width: 375px) {
-    /* For smaller iPhones */
-    gap: 5px;
-    margin-bottom: 10px;
+    gap: 10px;
   }
 `;
 
 const IconLink = styled.a`
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
 
   @media (max-width: 768px) {
     width: 25px;
     height: 25px;
   }
-
-  @media (max-width: 375px) {
-    /* For smaller iPhones */
-    width: 22px;
-    height: 22px;
-  }
 `;
 
-export const Icon = styled.img`
+const Icon = styled.img`
   width: 100%;
   height: 100%;
 `;
@@ -72,11 +52,6 @@ const BuiltBy = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     font-size: 0.9em;
-  }
-
-  @media (max-width: 375px) {
-    /* For smaller iPhones */
-    font-size: 0.8em;
   }
 `;
 

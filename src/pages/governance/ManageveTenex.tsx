@@ -5,13 +5,13 @@ import Main from '../../components/ManageVeTenex/Modules/Main';
 
 const ManageVeTenexContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: flex-start;
   gap: 20px;
   padding: 40px;
   color: ${({ theme }) => theme.colors.text};
-  height: 100vh;
-  @media (max-width: 900px) {
+  height: auto;
+  @media (max-width: 1024px) {
     display: inline;
     text-align: -webkit-center;
   }

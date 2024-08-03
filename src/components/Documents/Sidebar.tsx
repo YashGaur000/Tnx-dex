@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import {
   faArrowAltCircleLeft,
@@ -18,6 +18,7 @@ import {
 
 const Sidebar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState(location.pathname);
   const [visibleSections, setVisibleSections] = useState<
     Record<string, boolean>
   >({
@@ -47,6 +48,19 @@ const Sidebar: React.FC = () => {
     }));
   };
 
+  const handleTabClick = (path: string) => {
+    setActiveTab(path);
+  };
+
+  useEffect(() => {
+    // Scroll to the top when the component mounts
+    window.scrollTo(0, 0);
+    const element = document.getElementById('content');
+    if (element) {
+      element.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [activeTab]);
+
   return (
     <>
       <HamburgerIcon onClick={toggleSidebar}>
@@ -66,8 +80,18 @@ const Sidebar: React.FC = () => {
             />
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.introduction}>
-            <SectionLink to="introduction/tenex">What is TENEX</SectionLink>
-            <SectionLink to="introduction/core">
+            <SectionLink
+              className={activeTab === '/tenex' ? 'active' : ''}
+              to="introduction/tenex"
+              onClick={() => handleTabClick('/tenex')}
+            >
+              What is TENEX V1.0 ?
+            </SectionLink>
+            <SectionLink
+              className={activeTab === '/core' ? 'active' : ''}
+              to="introduction/core"
+              onClick={() => handleTabClick('/core')}
+            >
               Core Functionalities
             </SectionLink>
             {/* <SectionLink
@@ -89,7 +113,11 @@ const Sidebar: React.FC = () => {
             </NestedSectionLinks> */}
             <SectionLink
               to="introduction/veTenex"
-              onClick={() => toggleSection('veTenex')}
+              className={activeTab === '/veTenex' ? 'active' : ''}
+              onClick={() => {
+                handleTabClick('/veTenex');
+                toggleSection('veTenex');
+              }}
             >
               veTENEX(veNFT) &nbsp;
               <FontAwesomeIcon
@@ -97,16 +125,42 @@ const Sidebar: React.FC = () => {
               />
             </SectionLink>
             <NestedSectionLinks isVisible={visibleSections.veTenex}>
-              <SectionLink to="introduction/revenue">
+              <SectionLink
+                to="introduction/revenue"
+                className={activeTab === '/revenue' ? 'active' : ''}
+                onClick={() => handleTabClick('/revenue')}
+              >
                 Voters Revenue Distribution Schedule
               </SectionLink>
-              <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
+              <SectionLink
+                to="introduction/swap"
+                className={activeTab === '/swap' ? 'active' : ''}
+                onClick={() => handleTabClick('/swap')}
+              >
+                TENEX Swap
+              </SectionLink>
             </NestedSectionLinks>
-            <SectionLink to="introduction/rewards">Rewards</SectionLink>
-            <SectionLink to="introduction/analytics">
+            <SectionLink
+              className={activeTab === '/rewards' ? 'active' : ''}
+              to="introduction/rewards"
+              onClick={() => handleTabClick('/rewards')}
+            >
+              Rewards
+            </SectionLink>
+            <SectionLink
+              className={activeTab === '/analytics' ? 'active' : ''}
+              to="introduction/analytics"
+              onClick={() => handleTabClick('/analytics')}
+            >
               TENEX Analytics
             </SectionLink>
-            <SectionLink to="introduction/glossary">Glossary</SectionLink>
+            <SectionLink
+              className={activeTab === '/glossary' ? 'active' : ''}
+              to="introduction/glossary"
+              onClick={() => handleTabClick('/glossary')}
+            >
+              Defi-Glossary
+            </SectionLink>
             {/* <SectionLink to="introduction/swap">TENEX Swap</SectionLink>
             <SectionLink to="introduction/revenue">
               Voters Revenue Distribution Schedule
@@ -126,23 +180,55 @@ const Sidebar: React.FC = () => {
           <NestedSectionLinks isVisible={visibleSections.liquidity}>
             <SectionLink
               to="liquidity/pools"
-              onClick={() => toggleSection('pools')}
+              className={activeTab === '/pools' ? 'active' : ''}
+              onClick={() => {
+                toggleSection('pools');
+                handleTabClick('/pools');
+              }}
             >
-              veTENEX(veNFT) &nbsp;
+              Legacy Pools (LP) &nbsp;
               <FontAwesomeIcon
                 icon={visibleSections.pools ? faChevronUp : faChevronDown}
               />
             </SectionLink>
             <NestedSectionLinks isVisible={visibleSections.pools}>
-              <SectionLink to="liquidity/volatile">Volatile</SectionLink>
-              <SectionLink to="liquidity/correlated">Correlated</SectionLink>
-              <SectionLink to="liquidity/fee">Rewards Distribution</SectionLink>
+              <SectionLink
+                to="liquidity/volatile"
+                className={activeTab === '/volatile' ? 'active' : ''}
+                onClick={() => handleTabClick('/volatile')}
+              >
+                Volatile
+              </SectionLink>
+              <SectionLink
+                to="liquidity/correlated"
+                className={activeTab === '/correlated' ? 'active' : ''}
+                onClick={() => handleTabClick('/correlated')}
+              >
+                Correlated
+              </SectionLink>
+              <SectionLink
+                to="liquidity/fee"
+                className={activeTab === '/fee' ? 'active' : ''}
+                onClick={() => handleTabClick('/fee')}
+              >
+                Rewards Distribution
+              </SectionLink>
             </NestedSectionLinks>
             {/* <SectionLink to="liquidity/fee">Rewards Distribution</SectionLink> */}
-            <SectionLink to="liquidity/curves">Swap Curves</SectionLink>
+            <SectionLink
+              to="liquidity/curves"
+              className={activeTab === '/curves' ? 'active' : ''}
+              onClick={() => handleTabClick('/curves')}
+            >
+              Swap Curves
+            </SectionLink>
             <SectionLink
               to="liquidity/busl"
-              onClick={() => toggleSection('busl')}
+              className={activeTab === '/busl' ? 'active' : ''}
+              onClick={() => {
+                toggleSection('busl');
+                handleTabClick('/busl');
+              }}
             >
               BUSL - 1.1 License &nbsp;
               <FontAwesomeIcon
@@ -150,7 +236,11 @@ const Sidebar: React.FC = () => {
               />
             </SectionLink>
             <NestedSectionLinks isVisible={visibleSections.busl}>
-              <SectionLink to="liquidity/protected-contracts">
+              <SectionLink
+                to="liquidity/protected-contracts"
+                className={activeTab === '/protected-contract' ? 'active' : ''}
+                onClick={() => handleTabClick('/protected-contract')}
+              >
                 Protected Contracts
               </SectionLink>
             </NestedSectionLinks>
@@ -167,15 +257,41 @@ const Sidebar: React.FC = () => {
             />
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.tokenomics}>
-            <SectionLink to="tokenomics/distribution">
+            <SectionLink
+              to="tokenomics/distribution"
+              className={activeTab === '/distribution' ? 'active' : ''}
+              onClick={() => handleTabClick('/distribution')}
+            >
               TENEX Token Distribution
             </SectionLink>
-            <SectionLink to="tokenomics/emissions-schedule">
+            <SectionLink
+              to="tokenomics/emissions-schedule"
+              className={activeTab === '/emissions-schedule' ? 'active' : ''}
+              onClick={() => handleTabClick('/emissions-schedule')}
+            >
               Emissions Schedule / Bootstrapping Period
             </SectionLink>
             <SectionLink
+              to="tokenomics/elastic-emissions"
+              className={activeTab === '/elastic-emissions' ? 'active' : ''}
+              onClick={() => handleTabClick('/elastic-emissions')}
+            >
+              Elastic Emissions
+            </SectionLink>
+            <SectionLink
+              to="tokenomics/rebasing"
+              className={activeTab === '/rebasing' ? 'active' : ''}
+              onClick={() => handleTabClick('/rebasing')}
+            >
+              Rebasing
+            </SectionLink>
+            <SectionLink
               to="tokenomics/tge"
-              onClick={() => toggleSection('liquidityEvent')}
+              className={activeTab === '/tge' ? 'active' : ''}
+              onClick={() => {
+                toggleSection('liquidityEvent');
+                handleTabClick('/tge');
+              }}
             >
               TENEX LGE - Liquidity Generation Event &nbsp;
               <FontAwesomeIcon
@@ -185,7 +301,11 @@ const Sidebar: React.FC = () => {
               />
             </SectionLink>
             <NestedSectionLinks isVisible={visibleSections.liquidityEvent}>
-              <SectionLink to="tokenomics/price">
+              <SectionLink
+                to="tokenomics/price"
+                className={activeTab === '/price' ? 'active' : ''}
+                onClick={() => handleTabClick('/price')}
+              >
                 Price Determination
               </SectionLink>
             </NestedSectionLinks>
@@ -203,10 +323,22 @@ const Sidebar: React.FC = () => {
             />
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.v2}>
-            <SectionLink to="v2/v2">V2.0</SectionLink>
+            <SectionLink
+              to="v2/v2"
+              className={activeTab === '/v2' ? 'active' : ''}
+              onClick={() => handleTabClick('/v2')}
+            >
+              V2.0
+            </SectionLink>
             <SectionLink
               to="v2/functionalitiesUpgrade"
-              onClick={() => toggleSection('functionalitiesUpgrade')}
+              className={
+                activeTab === '/functionalitiesUpgrade' ? 'active' : ''
+              }
+              onClick={() => {
+                toggleSection('functionalitiesUpgrade');
+                handleTabClick('/functionalitiesUpgrade');
+              }}
             >
               Functionalities Upgrade &nbsp;
               <FontAwesomeIcon
@@ -218,41 +350,91 @@ const Sidebar: React.FC = () => {
             <NestedSectionLinks
               isVisible={visibleSections.functionalitiesUpgrade}
             >
-              <SectionLink to="v2/functionalitiesUpgrade/swap">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/swap"
+                className={activeTab === '/swap' ? 'active' : ''}
+                onClick={() => handleTabClick('/swap')}
+              >
                 Swap
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/liquidityPool">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/liquidityPool"
+                className={activeTab === '/liquidityPool' ? 'active' : ''}
+                onClick={() => handleTabClick('/liquidityPool')}
+              >
                 Liquidity Pool
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/voting">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/voting"
+                className={activeTab === '/voting' ? 'active' : ''}
+                onClick={() => handleTabClick('/voting')}
+              >
                 Voting
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/lock">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/lock"
+                className={activeTab === '/lock' ? 'active' : ''}
+                onClick={() => handleTabClick('/lock')}
+              >
                 Lock
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/incentives">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/incentives"
+                className={activeTab === '/incentives' ? 'active' : ''}
+                onClick={() => handleTabClick('/incentives')}
+              >
                 Incentives
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/mintTokens">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/mintTokens"
+                className={activeTab === '/mintTokens' ? 'active' : ''}
+                onClick={() => handleTabClick('/mintTokens')}
+              >
                 Mint Tokens
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/launchpad">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/launchpad"
+                className={activeTab === '/launchpad' ? 'active' : ''}
+                onClick={() => handleTabClick('/launchpad')}
+              >
                 Launchpad
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/chat">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/chat"
+                className={activeTab === '/chat' ? 'active' : ''}
+                onClick={() => handleTabClick('/chat')}
+              >
                 Chat
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/whitelisting">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/whitelisting"
+                className={activeTab === '/whitelisting' ? 'active' : ''}
+                onClick={() => handleTabClick('/whitelisting')}
+              >
                 Whitelisting
               </SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/ads">Ads</SectionLink>
-              <SectionLink to="v2/functionalitiesUpgrade/lendBorrow">
+              <SectionLink
+                to="v2/functionalitiesUpgrade/ads"
+                className={activeTab === '/ads' ? 'active' : ''}
+                onClick={() => handleTabClick('/ads')}
+              >
+                Ads
+              </SectionLink>
+              <SectionLink
+                to="v2/functionalitiesUpgrade/lendBorrow"
+                className={activeTab === '/lendBorrow' ? 'active' : ''}
+                onClick={() => handleTabClick('/lendBorrow')}
+              >
                 Lending & Borrowing Platform
               </SectionLink>
             </NestedSectionLinks>
             <SectionLink
               to="v2/liquidityProvisioning"
-              onClick={() => toggleSection('liquidityProvisioning')}
+              className={activeTab === '/liquidityProvisioning' ? 'active' : ''}
+              onClick={() => {
+                toggleSection('liquidityProvisioning');
+                handleTabClick('/liquidityProvisioning');
+              }}
             >
               Liquidity Provisioning &nbsp;
               <FontAwesomeIcon
@@ -264,12 +446,22 @@ const Sidebar: React.FC = () => {
             <NestedSectionLinks
               isVisible={visibleSections.liquidityProvisioning}
             >
-              <SectionLink to="v2/liquidityProvisioning/multiAssetsPool">
+              <SectionLink
+                to="v2/liquidityProvisioning/multiAssetsPool"
+                className={activeTab === '/multiAssetsPool' ? 'active' : ''}
+                onClick={() => handleTabClick('/multiAssetsPool')}
+              >
                 Multi Assets Pools
               </SectionLink>
               <SectionLink
                 to="v2/liquidityProvisioning/liquidityConcentrated"
-                onClick={() => toggleSection('liquidityConcentrated')}
+                className={
+                  activeTab === '/liquidityConcentrated' ? 'active' : ''
+                }
+                onClick={() => {
+                  toggleSection('liquidityConcentrated');
+                  handleTabClick('/liquidityConcentrated');
+                }}
               >
                 Concentrated Liquidity &nbsp;
                 <FontAwesomeIcon
@@ -284,20 +476,60 @@ const Sidebar: React.FC = () => {
               <NestedSectionLinks
                 isVisible={visibleSections.liquidityConcentrated}
               >
-                <SectionLink to="v2/liquidityProvisioning/liquidityConcentrated/clGauges">
+                <SectionLink
+                  to="v2/liquidityProvisioning/liquidityConcentrated/clGauges"
+                  className={
+                    activeTab === '/liquidityConcentrated/clGauges'
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() =>
+                    handleTabClick('/liquidityConcentrated/clGauges')
+                  }
+                >
                   CL Gauges
                 </SectionLink>
-                <SectionLink to="v2/liquidityProvisioning/liquidityConcentrated/tickspacing">
+                <SectionLink
+                  to="v2/liquidityProvisioning/liquidityConcentrated/tickspacing"
+                  className={
+                    activeTab === '/liquidityConcentrated/tickspacing'
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() =>
+                    handleTabClick('/liquidityConcentrated/tickspacing')
+                  }
+                >
                   Default Fee Tiers/Tickspacing
                 </SectionLink>
-                <SectionLink to="v2/liquidityProvisioning/liquidityConcentrated/feeDistribution">
+                <SectionLink
+                  to="v2/liquidityProvisioning/liquidityConcentrated/feeDistribution"
+                  className={
+                    activeTab === '/liquidityConcentrated/feeDistribution'
+                      ? 'active'
+                      : ''
+                  }
+                  onClick={() =>
+                    handleTabClick('/liquidityConcentrated/feeDistribution')
+                  }
+                >
                   Fee Distribution
                 </SectionLink>
               </NestedSectionLinks>
             </NestedSectionLinks>
 
-            <SectionLink to="v2/roadAhead">Road Ahead</SectionLink>
-            <SectionLink to="v2/fullMigration">
+            <SectionLink
+              to="v2/roadAhead"
+              className={activeTab === '/roadAhead' ? 'active' : ''}
+              onClick={() => handleTabClick('/roadAhead')}
+            >
+              Road Ahead
+            </SectionLink>
+            <SectionLink
+              to="v2/fullMigration"
+              className={activeTab === '/fullMigration' ? 'active' : ''}
+              onClick={() => handleTabClick('/fullMigration')}
+            >
               Full Migration to V2.0
             </SectionLink>
           </NestedSectionLinks>
@@ -314,7 +546,11 @@ const Sidebar: React.FC = () => {
             />
           </SectionTitle>
           <NestedSectionLinks isVisible={visibleSections.security}>
-            <SectionLink to="security/legal">
+            <SectionLink
+              to="security/legal"
+              className={activeTab === '/legal' ? 'active' : ''}
+              onClick={() => handleTabClick('/legal')}
+            >
               Risk and Legal Disclosures
             </SectionLink>
           </NestedSectionLinks>

@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
 
 const Content = styled.div<{ theme: DefaultTheme }>`
+  height: 550px;
+  overflow-y: auto;
   color: ${({ theme }) => theme.colors.text};
   padding: 4%;
   line-height: 35.88px;
@@ -122,8 +124,8 @@ interface ContentDataProps {
 
 const ContentData: React.FC<ContentDataProps> = memo(({ title, content }) => {
   return (
-    <Content>
-      <h1>{title}</h1>
+    <Content id="content">
+      <h1 id="title">{title}</h1>
       <div dangerouslySetInnerHTML={{ __html: content }} />
     </Content>
   );

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faQuestionCircle } from '@fortawesome/free-solid-svg-icons';
 import { DefaultTheme } from '../../styles/Theme';
-import { GradientSpan } from '../Homepage/HeroSection';
+import { GradientSpan } from '../common/Buttons/GradientButton';
 import SearchBar from '../SearchBar';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -122,18 +122,18 @@ const VotingPoolBar: React.FC = () => {
       <VotingBarBox>
         <VotingTabBar>
           <VotingAllPoolsTabs Width={16}>
-            <GradientSpan fontSize={16}>Most Rewarded</GradientSpan>
+            <GradientSpan>Most Rewarded</GradientSpan>
           </VotingAllPoolsTabs>
           <VotingAllPoolsTabs Width={16}>
-            <GradientSpan fontSize={16}>Least Rewarded</GradientSpan>
+            <GradientSpan>Least Rewarded</GradientSpan>
           </VotingAllPoolsTabs>
           <VotingAllPoolsTabs Width={12}>
-            <GradientSpan fontSize={16}>All Pools</GradientSpan>
+            <GradientSpan>All Pools</GradientSpan>
           </VotingAllPoolsTabs>
         </VotingTabBar>
         <VotingTabBar2>
           <VotingAllPoolsTabs Width={15}>
-            <GradientSpan fontSize={16}>
+            <GradientSpan>
               Active <FontAwesomeIcon icon={faChevronDown} />
             </GradientSpan>
           </VotingAllPoolsTabs>

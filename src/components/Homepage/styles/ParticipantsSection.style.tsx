@@ -6,8 +6,6 @@ export const ParticipantsContainer = styled.section<{ theme: DefaultTheme }>`
   flex-direction: column;
   align-items: center;
   padding: 50px 20px;
-  background: ${({ theme }) => theme.colors.card};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   margin: 0 -57px;
   margin-top: 70px;
 `;
@@ -26,7 +24,7 @@ export const ParticipantsTitle = styled.h2<{ theme: DefaultTheme }>`
   margin-bottom: 70px;
 `;
 
-export const CardsContainer = styled.div`
+export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
@@ -35,30 +33,38 @@ export const CardsContainer = styled.div`
   max-width: 1200px;
   margin-bottom: 110px;
 
-  @media (max-width: 900px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
+    justify-items: center;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (max-width: ${({ theme }) => theme.screenSizes.custom900}) {
+    justify-items: center;
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 768px) {
     grid-template-columns: none;
+    justify-content: center;
   }
 `;
 
 export const CardText = styled.p<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.grey};
   line-height: 23.92px;
   text-align: left;
 `;
 
-export const StatsContainer = styled.div`
+export const StatsContainer = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   width: 100%;
-  max-width: 1200px;
+  max-width: ${({ theme }) => theme.screenSizes.extraLarge};
 
-  @media (max-width: 900px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.custom900}) {
     grid-template-columns: repeat(2, 1fr);
   }
 `;
@@ -75,7 +81,7 @@ export const StatValue = styled.h4<{ theme: DefaultTheme }>`
   text-align: center;
   margin-bottom: 10px;
 
-  @media (max-width: 1200px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     font-size: 54px;
     line-height: 1.3;
   }
