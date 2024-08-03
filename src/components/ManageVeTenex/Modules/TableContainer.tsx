@@ -6,6 +6,8 @@ import { GradientButton } from '../../common';
 import SplitScreen from './SplitScreen';
 import PopupScreen from './PopupScreen';
 import MergeLockScreen from './MergeLockScreen';
+import Pagination from './Pagination';
+import { Card } from '../../common';
 
 interface TableProps {
   data: Record<string, string | number | string[]>[];
@@ -51,47 +53,49 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
   const headers = Object.keys(data[0]);
   return (
     <>
-      <TableContainerStyle>
-        <Table padding="20px" margin="30px 0px">
-          <thead>
-            <tr>
-              {headers.map((header, index) => (
-                <th key={index}>{header}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {headers.map((header, colIndex) => (
-                  <td key={`${rowIndex}-${colIndex}`} data-label={header}>
-                    {Array.isArray(row[header]) ? (
-                      row[header].map((item, index) => (
-                        <ButtonContain
-                          key={index}
-                          onClick={() => handleButton(item)}
-                        >
-                          <GradientButton padding="0px 10px" fontSize="13">
-                            {item}
-                          </GradientButton>
-                          <span> &nbsp;&nbsp;</span>
-                        </ButtonContain>
-                      ))
-                    ) : header === 'Locked Amount ' ? (
-                      <AmountWithImg key={header}>
-                        <label>{row[header]}</label> <Img src={TenexIcon} />
-                      </AmountWithImg>
-                    ) : (
-                      row[header]
-                    )}
-                  </td>
+      <Card margin={'20px 0px'} height="1000px">
+        <TableContainerStyle>
+          <Table padding="20px" margin="0px 0px">
+            <thead>
+              <tr>
+                {headers.map((header, index) => (
+                  <th key={index}>{header}</th>
                 ))}
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </TableContainerStyle>
-
+            </thead>
+            <tbody>
+              {data.map((row, rowIndex) => (
+                <tr key={rowIndex}>
+                  {headers.map((header, colIndex) => (
+                    <td key={`${rowIndex}-${colIndex}`} data-label={header}>
+                      {Array.isArray(row[header]) ? (
+                        row[header].map((item, index) => (
+                          <ButtonContain
+                            key={index}
+                            onClick={() => handleButton(item)}
+                          >
+                            <GradientButton padding="0px 10px" fontSize="13">
+                              {item}
+                            </GradientButton>
+                            <span> &nbsp;&nbsp;</span>
+                          </ButtonContain>
+                        ))
+                      ) : header === 'Locked Amount ' ? (
+                        <AmountWithImg key={header}>
+                          <label>{row[header]}</label> <Img src={TenexIcon} />
+                        </AmountWithImg>
+                      ) : (
+                        row[header]
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableContainerStyle>
+        <Pagination />
+      </Card>
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
         {isMergeVisible ? <MergeLockScreen /> : <SplitScreen />}
       </PopupScreen>

@@ -30,6 +30,7 @@ interface Colorpallate {
   greyDark: string;
   navtoggle: string;
   textGreyColor: string;
+  bordercolor: string;
 }
 
 interface FontType {
@@ -80,6 +81,7 @@ const theme: DefaultTheme = {
     green: '#16C062',
     greyDark: '#B8B8B8CC',
     navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
+    bordercolor: 'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
   },
   fonts: {
     main: 'Kanit, sans-serif',

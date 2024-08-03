@@ -6,11 +6,13 @@ export const Card = styled.div<{
   height?: string;
   width?: string;
   tag?: string;
+  margin?: string;
 }>`
   background: ${({ theme, tag }) =>
     tag === 'top' ? theme.colors.cardDark : theme.colors.card};
   border-radius: 10px;
   padding: 20px;
+  margin: ${({ margin }) => (margin ? margin : '0px')};
   width: ${({ width }) => (width ? width : '100%')};
   height: ${({ height }) => (height ? height : '')};
   text-align: center;
