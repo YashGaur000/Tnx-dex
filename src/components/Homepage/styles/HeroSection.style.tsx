@@ -13,14 +13,15 @@ export const HeroContainer = styled.section<{ theme: DefaultTheme }>`
     padding: 20px;
   }
 
-  @media (max-width: 900px) {
-    flex-direction: column;
-    padding: 20px;
+  @media (max-width: 1000px) {
+    flex-direction: column-reverse;
+    padding-top: 20px;
+    margin-top: 20%;
   }
 
   @media (max-width: 768px) {
-    flex-direction: column;
-    padding: 20px;
+    flex-direction: column-reverse;
+    margin-top: 50%;
   }
 `;
 
@@ -35,7 +36,7 @@ export const TextContainer = styled.div`
     text-align: center;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     padding: 0px;
     max-width: 100%;
     text-align: center;
@@ -62,11 +63,13 @@ export const Title = styled.h1<{ theme: DefaultTheme }>`
     font-size: 38px;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     font-size: 40px;
+    text-align: center;
   }
   @media (max-width: 768px) {
     font-size: 30px;
+    text-align: center;
   }
 `;
 
@@ -85,12 +88,14 @@ export const GradientText = styled.span<{ theme: DefaultTheme }>`
     font-size: 50px;
   }
 
-  @media (max-width: 900px) {
+  @media (max-width: 1000px) {
     font-size: 55px;
+    text-align: center;
   }
 
   @media (max-width: 768px) {
     font-size: 43px;
+    text-align: center;
   }
 `;
 
@@ -104,6 +109,11 @@ export const Description = styled.p<{ theme: DefaultTheme; align: string }>`
 
   @media (max-width: 1200px) {
     font-size: 18px;
+  }
+
+  @media (max-width: 1000px) {
+    font-size: 18px;
+    text-align: center;
   }
 `;
 

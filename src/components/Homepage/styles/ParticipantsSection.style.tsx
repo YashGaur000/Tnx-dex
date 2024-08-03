@@ -33,12 +33,19 @@ export const CardsContainer = styled.div`
   max-width: 1200px;
   margin-bottom: 110px;
 
+  @media (max-width: 1200px) {
+    justify-items: center;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
   @media (max-width: 900px) {
+    justify-items: center;
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (max-width: 768px) {
     grid-template-columns: none;
+    justify-content: center;
   }
 `;
 
