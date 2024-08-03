@@ -1,28 +1,13 @@
-import styled from 'styled-components';
 import { HeaderTitle } from '../Styles/ManageVetenex.style';
 import SplitCard from './SplitCard';
-import { DefaultTheme } from '../../../styles/Theme';
+
 import { GlobalButton } from '../../common';
+import {
+  SplitCardContainer,
+  SplitContainer,
+  SplitDatacontain,
+} from '../Styles/SplitAndMergelockScreen.style';
 
-const SplitContainer = styled.div<{ theme: DefaultTheme }>`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-
-  margin-top: 20px;
-  font-family: ${({ theme }) => theme.fonts.main};
-`;
-const SplitDatacontain = styled.div<{ theme: DefaultTheme }>`
-  display: block;
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-`;
-const SplitCardContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  margin-top: 10px;
-  gap: 10px;
-`;
 const SplitScreen = () => {
   return (
     <SplitContainer>

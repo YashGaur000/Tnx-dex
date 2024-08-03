@@ -5,6 +5,7 @@ import TenexIcon from '../../../assets/Tenex.png';
 import { GradientButton } from '../../common';
 import SplitScreen from './SplitScreen';
 import PopupScreen from './PopupScreen';
+import MergeLockScreen from './MergeLockScreen';
 
 interface TableProps {
   data: Record<string, string | number | string[]>[];
@@ -27,16 +28,24 @@ const ButtonContain = styled.div`
 `;
 
 const TableContainer: React.FC<TableProps> = ({ data }) => {
-  const [isModalVisible, setModalVisible] = useState(false);
+  const [isPopUpVisible, setPopUpVisible] = useState(false);
+  const [isMergeVisible, setIsMergeVisible] = useState(false);
 
   if (data.length === 0) return null;
 
-  function handleMerge() {
-    setModalVisible(true);
+  function handleButton(data: string) {
+    if (data === 'Merge') {
+      setPopUpVisible(true);
+      setIsMergeVisible(true);
+    } else {
+      setPopUpVisible(true);
+      setIsMergeVisible(false);
+    }
   }
 
   const closeModal = () => {
-    setModalVisible(false);
+    setPopUpVisible(false);
+    setIsMergeVisible(false);
   };
 
   const headers = Object.keys(data[0]);
@@ -58,7 +67,10 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                   <td key={`${rowIndex}-${colIndex}`} data-label={header}>
                     {Array.isArray(row[header]) ? (
                       row[header].map((item, index) => (
-                        <ButtonContain key={index} onClick={handleMerge}>
+                        <ButtonContain
+                          key={index}
+                          onClick={() => handleButton(item)}
+                        >
                           <GradientButton padding="0px 10px" fontSize="13">
                             {item}
                           </GradientButton>
@@ -80,8 +92,8 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
         </Table>
       </TableContainerStyle>
 
-      <PopupScreen isVisible={isModalVisible} onClose={closeModal}>
-        <SplitScreen />
+      <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
+        {isMergeVisible ? <MergeLockScreen /> : <SplitScreen />}
       </PopupScreen>
     </>
   );

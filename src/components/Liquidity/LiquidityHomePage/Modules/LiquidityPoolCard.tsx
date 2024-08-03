@@ -29,13 +29,9 @@ const CardContainer = styled.div`
   gap: 15px;
 
   justify-content: center;
-  margin: auto;
+  margin-left: 30px;
 
   width: 200px;
-
-  @media screen and (max-width: 800px) {
-    width: 100%;
-  }
 `;
 
 const GroupImg = styled.div`
@@ -151,7 +147,7 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
           <div onClick={handleDepositeButton}>
             <GradientButton
               width="90px"
-              fontSize="16px"
+              fontSize="13px"
               padding="0px 5px"
               marginTop="10px"
             >

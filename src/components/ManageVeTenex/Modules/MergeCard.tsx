@@ -1,19 +1,23 @@
-import InformIcon from '../../../assets/information.png';
-import TenexIcon from '../../../assets/Tenex.png';
-import { useState } from 'react';
-import LockScreenHover from './LockScreenHover';
 import {
   CardContainsLockScreen,
   TokenDate,
   Tokenstyle,
   Labeltoken,
   ImgStyleSplit,
+  CheckBoxMerge,
+  CheckBoxContainer,
 } from '../Styles/SplitAndMergelockScreen.style';
-const SplitCard: React.FC = () => {
+import InformIcon from '../../../assets/information.png';
+import TenexIcon from '../../../assets/Tenex.png';
+import { useState } from 'react';
+import LockScreenHover from './LockScreenHover';
+const MergeCard = () => {
   const [isHovered, setIsHovered] = useState(false);
-
   return (
     <CardContainsLockScreen>
+      <CheckBoxContainer>
+        <CheckBoxMerge type="checkbox" />
+      </CheckBoxContainer>
       <Tokenstyle>
         <Labeltoken fontSize={15}>2462545368625</Labeltoken>
         <TokenDate fontSize={12}>
@@ -41,4 +45,4 @@ const SplitCard: React.FC = () => {
   );
 };
 
-export default SplitCard;
+export default MergeCard;
