@@ -2,8 +2,16 @@ export interface DefaultTheme {
   colors: Colorpallate;
   fonts: FontType;
   fontWeights: FontWeight;
+  screenSizes: ScreenSizes;
 }
 
+interface ScreenSizes {
+  small: string;
+  medium: string;
+  custom900: string;
+  large: string;
+  extraLarge: string;
+}
 interface Colorpallate {
   primary: string;
   secondary: string;
@@ -84,6 +92,13 @@ const theme: DefaultTheme = {
   fontWeights: {
     regular: 300,
     bold: 400,
+  },
+  screenSizes: {
+    small: '480px',
+    medium: '768px',
+    custom900: '900px',
+    large: '1024px',
+    extraLarge: '1200px',
   },
 };
 
