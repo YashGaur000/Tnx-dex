@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import DepositeInstruction from '../../../Liquidity/ManageLiquidity/DepositeInstruction';
+import DepositeInstruction from '../../../Liquidity/ManageLiquidity/modules/DepositeInstruction';
 
 interface Data {
   step: number;

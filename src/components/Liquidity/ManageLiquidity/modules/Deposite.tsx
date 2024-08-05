@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import CalIcon from '../../../assets/phone.png';
-import PlusIcon from '../../../assets/plusminus.png';
-import UnLockIcon from '../../../assets/unlock.png';
-import SearchIcon from '../../../assets/search.png';
-import LockIcon from '../../../assets/lock.png';
-import { DefaultTheme } from '../../../styles/Theme';
+import CalIcon from '../../../../assets/phone.png';
+import PlusIcon from '../../../../assets/plusminus.png';
+import UnLockIcon from '../../../../assets/unlock.png';
+import SearchIcon from '../../../../assets/search.png';
+import LockIcon from '../../../../assets/lock.png';
+import { DefaultTheme } from '../../../../styles/Theme';
 
 const StepperContainer = styled.div`
   display: flex;

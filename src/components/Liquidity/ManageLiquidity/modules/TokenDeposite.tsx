@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import GroupTokenIcon from '../../../assets/Groupcoin.png';
-import InformIcon from '../../../assets/information.png';
+import GroupTokenIcon from '../../../../assets/Groupcoin.png';
+import InformIcon from '../../../../assets/information.png';
 const Section = styled.div`
   width: 100%;
   display: flex;

@@ -1,24 +1,10 @@
 import styled from 'styled-components';
 
-import { DefaultTheme } from '../../../styles/Theme';
 import LiquidityForm from './LiquidityForm';
 import DepositeComponent from './DepositeComponent';
 import { useState } from 'react';
 import TokenDeposite from './TokenDeposite';
-const ManagePoolContainer = styled.section<{ theme: DefaultTheme }>`
-  width: 100%;
-  padding: 40px;
 
-  @media only screen and (max-width: 900px) {
-    padding: 20px;
-  }
-  @media only screen and (max-width: 600px) {
-    padding: 5px;
-  }
-  display: flex;
-
-  flex-direction: column;
-`;
 const H1 = styled.h4`
   font-size: 38px;
   font-weight: 300;
@@ -34,7 +20,7 @@ const P = styled.p`
   color: rgba(204, 204, 204, 1);
 `;
 
-const MainContainer = styled.div`
+const ManageLiquidityContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -48,6 +34,7 @@ const MainContainer = styled.div`
     gap: 15px;
   }
 `;
+
 const FormContainer = styled.div`
   width: 55%;
   display: flex;
@@ -71,13 +58,13 @@ const ManagePool = () => {
     setTokenValue(value);
   };
   return (
-    <ManagePoolContainer>
+    <>
       <header>
         <H1>Manage Pool</H1>
         <P>Manage your position</P>
       </header>
 
-      <MainContainer>
+      <ManageLiquidityContainer>
         <FormContainer>
           <TokenDeposite />
           <LiquidityForm
@@ -87,8 +74,8 @@ const ManagePool = () => {
         </FormContainer>
 
         <DepositeComponent tokenValue={tokenValue} />
-      </MainContainer>
-    </ManagePoolContainer>
+      </ManageLiquidityContainer>
+    </>
   );
 };
 

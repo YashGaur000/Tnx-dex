@@ -15,10 +15,11 @@ interface TableProps {
   textAlign?: string;
 }
 
-export const TableContainerStyle = styled.div`
+export const TableContainerStyle = styled.div<{ theme: DefaultTheme }>`
   overflow-x: scroll;
   padding-bottom: 10px;
-
+  background: ${({ theme }) => theme.colors.card};
+  width: 100%;
   &::-webkit-scrollbar {
     height: 3px;
   }
