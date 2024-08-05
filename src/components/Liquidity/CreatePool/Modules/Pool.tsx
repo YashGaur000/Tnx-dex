@@ -2,6 +2,7 @@ import GroupCoin from '../../../../assets/Groupcoin.png';
 import ImpImage from '../../../../assets/information.png';
 import styled from 'styled-components';
 import { GradientButton } from '../../../common';
+import { useNavigate } from 'react-router-dom';
 const IMG = styled.img`
   width: 55px;
   height: 30px;
@@ -90,6 +91,10 @@ const TraidingSyleLabel = styled.label`
   gap: 5px;
 `;
 const Pool = () => {
+  const Navigate = useNavigate();
+  function handleDeposite() {
+    Navigate('/liquidity/manage');
+  }
   return (
     <Poolsstyle>
       <GroupImg>
@@ -99,7 +104,7 @@ const Pool = () => {
           <Label>
             <Span> stable </Span> 0.00% <Img src={ImpImage} />
           </Label>
-        </div>{' '}
+        </div>
       </GroupImg>
       <Tvlstyle>
         <label>TVL</label>
@@ -109,7 +114,7 @@ const Pool = () => {
         <label>APR</label>
         <label>0.000%</label>
       </AprStyle>
-      <PoolButton>
+      <PoolButton onClick={handleDeposite}>
         <GradientButton height="40px" padding="5px" fontSize="16px">
           Deposit
         </GradientButton>

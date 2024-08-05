@@ -1,11 +1,21 @@
 import React, { useState, useRef, useEffect } from 'react';
 import UpwardIcon from '../../../../assets/fwd-arrow.png';
 import styled from 'styled-components';
+import SearchIcon from '../../../../assets/search-icon.png';
+import { Input } from '../../../common';
 
 const CustomSelect = styled.div`
   position: relative;
 
   width: 100%;
+`;
+const InputBoxWrap = styled.div`
+  display: flex;
+  align-items: center;
+  border: 1px solid #b8b8b899;
+  padding: 0px 10px;
+  gap: 10px;
+  border-radius: 20px;
 `;
 
 const SelectSelectedItem = styled.div`
@@ -30,7 +40,7 @@ const SelectItem = styled.div`
   right: 0;
   z-index: 99;
   background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
-
+  padding: 20px;
   border-radius: 16px;
   display: block;
 `;
@@ -136,9 +146,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       </SelectSelectedItem>
       {isOpen && (
         <SelectItem>
-          <div>
-            <input type="text" />
-          </div>
+          <InputBoxWrap>
+            <img src={SearchIcon} />
+            <Input type="text" width={100} />
+          </InputBoxWrap>
           {options.map((option) => (
             <OptionConataner
               key={option.id}

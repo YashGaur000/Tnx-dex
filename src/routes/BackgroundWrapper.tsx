@@ -22,6 +22,21 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
     case '/documentation':
       background = theme.colors.backgroundDocs;
       break;
+    case '/liquidity':
+      background = theme.colors.backgroundLiquidity;
+      break;
+    case '/liquidity/manage':
+      background = theme.colors.backgroundLiquidity;
+      break;
+    case '/liquidity/create':
+      background = theme.colors.backgroundLiquidity;
+      break;
+    case '/governance':
+      background = theme.colors.backgroundLiquidity;
+      break;
+    case '/governance/create':
+      background = theme.colors.backgroundLiquidity;
+      break;
     default:
       if (location.pathname.startsWith('/documentation')) {
         background = theme.colors.backgroundDocs;

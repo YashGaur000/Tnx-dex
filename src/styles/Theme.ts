@@ -19,6 +19,7 @@ interface Colorpallate {
   backgroundHome: string;
   backgroundSwap: string;
   backgroundDocs: string;
+  backgroundLiquidity: string;
   text: string;
   buttonBackground: string;
   buttonHover: string;
@@ -37,6 +38,7 @@ interface Colorpallate {
   greyDark: string;
   navtoggle: string;
   textGreyColor: string;
+  bordercolor: string;
 }
 
 interface FontType {
@@ -63,6 +65,8 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundSwap: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundLiquidity: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 30%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',
@@ -85,6 +89,7 @@ const theme: DefaultTheme = {
     green: '#16C062',
     greyDark: '#B8B8B8CC',
     navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
+    bordercolor: 'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
   },
   fonts: {
     main: 'Kanit, sans-serif',

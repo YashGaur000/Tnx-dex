@@ -11,7 +11,7 @@ const LiquidityContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 40px;
 
   color: ${({ theme }) => theme.colors.text};
-  height: 155vh;
+  height: 180vh;
   @media (max-width: 900px) {
     display: inline;
     text-align: -webkit-center;
