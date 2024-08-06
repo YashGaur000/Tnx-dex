@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import DepositeInstruction from '../../../Liquidity/ManageLiquidity/modules/DepositeInstruction';
+
+import Stepper from '../../../common/Stepper';
 
 interface Data {
   step: number;
@@ -54,7 +55,7 @@ const LockDeposite = () => {
   return (
     <StyledDepositContainer>
       <H1>New Deposit</H1>
-      <DepositeInstruction data={data} />
+      <Stepper data={data} />
     </StyledDepositContainer>
   );
 };

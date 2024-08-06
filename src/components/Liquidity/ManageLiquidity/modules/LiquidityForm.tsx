@@ -1,78 +1,17 @@
-import styled from 'styled-components';
 import SwapIcon from '../../../../assets/swap.png';
 import UsdtIcon from '../../../../assets/usdt.png';
 import FtmIcon from '../../../../assets/ftm.png';
 import { ChangeEvent, FC } from 'react';
-
-const FormSection = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
-  border-radius: 15px;
-  padding: 10px;
-`;
-
-const FormFieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  height: 130px;
-  padding: 10px;
-`;
-
-const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-family: Kanit;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 23.92px;
-  text-align: left;
-`;
-
-const Progress = styled.span`
-  display: flex;
-  justify-content: end;
-  padding-right: 5px;
-  gap: 10px;
-  font-size: 12px;
-  color: silver;
-`;
-
-interface InputBoxProps {
-  isInvalid: boolean;
-}
-
-const InputBox = styled.input<InputBoxProps>`
-  // Use InputBoxProps for typing
-  width: 99%;
-  height: 47px;
-  border-radius: 10px;
-  background: transparent;
-  border: 1px solid #b8b8b899;
-  color: ${(props) => (props.isInvalid ? 'red' : 'white')};
-  padding-left: 20px;
-  font-weight: 300;
-`;
-
-const Swap = styled.div`
-  display: block;
-  margin: auto;
-`;
-
-const Img = styled.img`
-  width: 17px;
-  height: 17px;
-  margin: auto;
-  margin-right: 7px;
-`;
-
-const ImageWithTitle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
+import {
+  ManageLiquidityFormSection,
+  FormFieldContainer,
+  FormRowWrapper,
+  ImageWithTitleWrap,
+  TokenImgLiquidity,
+  LiquidityInputBox,
+  LiquidityProgress,
+  SwapImgConatiner,
+} from '../styles/LiquidityForm.style';
 
 interface FormComponentProps {
   tokenValue: number;
@@ -89,17 +28,17 @@ const LiquidityForm: FC<FormComponentProps> = ({
   };
 
   return (
-    <FormSection>
+    <ManageLiquidityFormSection>
       <FormFieldContainer>
-        <Title>
-          <ImageWithTitle>
-            <Img src={UsdtIcon} alt="USDT logo" />
+        <FormRowWrapper>
+          <ImageWithTitleWrap>
+            <TokenImgLiquidity src={UsdtIcon} alt="USDT logo" />
             <label>USDT</label>
-          </ImageWithTitle>
+          </ImageWithTitleWrap>
           <label>Available 0000</label>
-        </Title>
+        </FormRowWrapper>
         <div>
-          <InputBox
+          <LiquidityInputBox
             type="text"
             name="usdt"
             value={tokenValue === 0 ? '' : tokenValue?.toString() || ''}
@@ -107,27 +46,27 @@ const LiquidityForm: FC<FormComponentProps> = ({
             onChange={handleChange}
           />
         </div>
-        <Progress>
+        <LiquidityProgress>
           <label>0%</label>
           <label>25%</label>
           <label>50%</label>
           <label>75%</label>
           <label>MAX</label>
-        </Progress>
+        </LiquidityProgress>
       </FormFieldContainer>
-      <Swap>
+      <SwapImgConatiner>
         <img src={SwapIcon} alt="Swap logo" />
-      </Swap>
+      </SwapImgConatiner>
       <FormFieldContainer>
-        <Title>
-          <ImageWithTitle>
-            <Img src={FtmIcon} alt="FTM logo" />
+        <FormRowWrapper>
+          <ImageWithTitleWrap>
+            <TokenImgLiquidity src={FtmIcon} alt="FTM logo" />
             <label>FTM</label>
-          </ImageWithTitle>
+          </ImageWithTitleWrap>
           <label>Available 0000</label>
-        </Title>
+        </FormRowWrapper>
         <div>
-          <InputBox
+          <LiquidityInputBox
             type="text"
             name="ftm"
             value={tokenValue === 0 ? '' : tokenValue?.toString() || ''}
@@ -135,15 +74,15 @@ const LiquidityForm: FC<FormComponentProps> = ({
             readOnly
           />
         </div>
-        <Progress>
+        <LiquidityProgress>
           <label>0%</label>
           <label>25%</label>
           <label>50%</label>
           <label>75%</label>
           <label>MAX</label>
-        </Progress>
+        </LiquidityProgress>
       </FormFieldContainer>
-    </FormSection>
+    </ManageLiquidityFormSection>
   );
 };
 
