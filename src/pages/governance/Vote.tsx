@@ -1,10 +1,9 @@
 import React from 'react';
 import { styled } from 'styled-components';
-import VoteBanner from '../../components/Voting/VoteBanner';
-import VotePool from '../../components/Voting/VotePool';
-import VotingPoolBar from '../../components/Voting/VotingPoolBar';
 import { DefaultTheme } from '../../styles/Theme';
-import VotePoolTable from '../../components/Voting/VotePool';
+import VotingPoolBar from '../../components/Voting/modules/VotingPoolBar';
+import VoteBanner from '../../components/Voting/modules/VoteBanner';
+import VotePoolTable from '../../components/Voting/modules/VotePoolTable';
 
 const VotingContainer = styled.div<{ theme: DefaultTheme }>`
   justify-content: center;
@@ -24,7 +23,6 @@ const Vote: React.FC = () => {
     <VotingContainer>
       <VoteBanner />
       <VotingPoolBar />
-      <VotePool />
       <VotePoolTable />
     </VotingContainer>
   );
