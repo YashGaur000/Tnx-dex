@@ -50,7 +50,12 @@ const Main = () => {
               <StatsCardtitle fontSize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
                 4,376,987.82{' '}
-                <ImgIconStyle width={'15'} height={'15'} src={TenexIcon} />
+                <ImgIconStyle
+                  width={'15'}
+                  height={'15'}
+                  margin={'0px 10px'}
+                  src={TenexIcon}
+                />
               </AmountWithImg>
             </MetricDisplay>
             <MetricDisplay>

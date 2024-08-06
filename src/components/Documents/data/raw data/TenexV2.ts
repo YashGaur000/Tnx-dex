@@ -43,20 +43,21 @@ export const V2_RAW_DATA = {
     swap: {
       title: 'Swap',
       content: `
-          <span>Additional elements on the swap screen include -</span>
+          <p>In our next release, we aim to transform the DeFi trading experience by incorporating a wealth of customizable options and advanced features. Traders will be able to tailor their trading environment to suit their specific needs, with enhanced tools and functionalities that provide greater flexibility, control, and efficiency. Our goal is to offer a more personalized and enriched trading platform that caters to both novice and experienced users, making DeFi trading more intuitive, secure, and effective than ever before.</p>
+          <span>Types of order available for user - </span>
         <ul>
-            <li>Slippage</li>
-            <li>Transaction Fees</li>
-            <li>Transaction Deadline</li>
-            <li>Types of order (Market, Limit and TWAP)</li>
-            <li>Chart with multiple time intervals on basis of tokens selection (Settings such as - Candlestick patterns, scaling of chart, and style such as line or bars)</li>
-            <li>Add a Token pair as Favourites</li>
-            <li>Advance Trading analytics with indicators</li>
-            <li>Alerts - Receive a notification when last traded price trends higher or lower than the alert price. Repeated alerts are supported.</li>
-            <li>Trading metrics (Total Volume, 24hr Volume, High Price, Low Price)</li>
-            <li>Switch to Derivatives</li>
-            <li>Past Trades with respect to token selection.</li>
+            <li>Market Order</li>
+            <li>Limit Order</li>
+            <li>TWAP (Time Weighted Average Price)</li>
         </ul>
+        <p>Display chart of a token pair with multiple time intervals.
+        <p><b>Chart settings such as </b>- Candlestick patterns, scaling of chart, and style such as line or bars</p>
+        <p>Add a Token pair as Favourites</p>
+        <p>Advance Trading analytics with indicators</p>
+        <p><b>Alerts -</b> Receive a notification when last traded price trends higher or lower than the alert price. Repeated alerts are supported.</p>
+        <p>Trading metrics(Total Volume, 24hr Volume, High Price, Low Price)</p>
+        <p>Switch to Derivatives</p>
+        <p>Past Trade History with respect to tokens selection.</p>
         <p><b>Listing Page</b> to show popular token pairs, their relative price against each other and associated trading metrics (Volume, 24 hr change). Also includes a divided section to show favorites. User can search specific token pairs as well.</p>
         <p>Have a sort/filter to show new/trending tokens and liquidity pools listed on the Dex.</p>
       `,
@@ -64,125 +65,87 @@ export const V2_RAW_DATA = {
     liquidityPool: {
       title: 'Liquidity Pool',
       content: `
-          <p>In the TenEX model, Liquidity Providers (LPs) share swap fees with veTENEX holders. To further encourage participation, staking gauges are utilized, incentivizing users to provide LP tokens and earn attractive Annual Percentage Rates (APRs).</p>
-        
-        <p>The number of votes allocated to a specific pair directly determines the amount of TENEX emitted to that gauge in the subsequent epoch. The more votes a pair receives, the higher the TENEX rewards will be for that gauge.</p>
+          <p>In our next release, we are excited to introduce several innovative features designed to enhance the DeFi Liquidity Provisioning experience. These include:</p>
+          <ol>
+          <li> <b>Concentrated Liquidity:</b> This feature will allow liquidity providers to allocate their capital more efficiently by concentrating it within specific price ranges. This results in better liquidity utilization and potentially higher returns for liquidity providers.</li>
+          <li><b> Weighted Pools:</b> Weighted pools will enable users to create pools with varying token weights, allowing for more flexible and customized trading pairs. This will provide traders with more control over their liquidity positions and the ability to create unique trading strategies.</li>
+          <li><b> Multi-Asset Pools:</b> These pools will support multiple assets within a single pool, offering a diversified and versatile trading environment. Traders will be able to swap between a wider range of assets within the same pool, improving trading efficiency and expanding the possibilities for portfolio management.</li>
+          </ol>
         
         <span>Types of Liquidity Pools:</span>
-        
-        <ul>
-            <li><strong>Volatile Pools</strong></li>
-        </ul>
-        
-        <p>Volatile pools are defined as assets that have no direct correlation in price, examples are Chainlink <code>LINK</code> and Ethereum <code>ETH</code>. The price of <code>ETH</code> has no relation to the price of <code>LINK</code>.</p>
-        
-        <p>Volatiles pairs use the following formula to determine the price:</p>
-        <p>
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-      <mrow>
-        <mi>x</mi>
-        <mo>&middot;</mo>
-        <mi>y</mi>
-        <mo>&#x2265;</mo>
-        <mi>k</mi>
-      </mrow>
-    </math>
-    </p>
-        
-        <ul>
-            <li><strong>Stable Pools</strong></li>
-        </ul>
-        
-        <p>Stable pools are defined as assets that have a direct correlation to each other. Examples are USDC/USDT, wBTC/multiBTC, frxETH/wETH etc. The price of the 2 assets will trade very close to each other and thus a different approach can be taken to allow for much higher volume at low slippage.</p>
-        
-        <p>Stable pairs use the following formula to determine the price:</p>
-        <p>
-        <math xmlns="http://www.w3.org/1998/Math/MathML">
-      <mrow>
-        <msup>
-          <mi>x</mi>
-          <mn>3</mn>
-        </msup>
-        <mi>y</mi>
-        <mo>+</mo>
-        <msup>
-          <mi>y</mi>
-          <mn>3</mn>
-        </msup>
-        <mi>x</mi>
-        <mo>&#x2265;</mo>
-        <mi>k</mi>
-      </mrow>
-    </math>
-    </p>
         
         <ul>
             <li><strong>Concentrated Pools</strong></li>
         </ul>
         
         <p>Concentrated liquidity pools allow liquidity providers (LPs) to allocate their capital within specific price ranges, making liquidity provision more efficient and targeted.</p>
-        
-        <span>How It Works:</span>
-        <ul>
-            <li><strong>Price Range Selection:</strong> LPs choose the price range within which they want to provide liquidity. This means their capital is only active and earning fees within this selected range.</li>
-            <li><strong>Capital Efficiency:</strong> By concentrating liquidity within narrower price bands, these pools provide deeper liquidity and reduce slippage for trades that occur within those bands.</li>
-            <li><strong>Dynamic Adjustments:</strong> LPs can adjust their positions as market prices fluctuate, ensuring their liquidity remains within active trading ranges.</li>
-        </ul>
-        
-        <p><strong>Example:</strong></p>
-        <p>Uniswap V3: Allows LPs to provide liquidity in a more capital-efficient manner by focusing their liquidity within specific price ranges, resulting in higher fee earnings and better trade execution</p>
+
+        <p><strong>How It Works:</strong></p>
+<p><b>Price Range Selection:</b> LPs choose the price range within which they want to provide liquidity. This means their capital is only active and earning fees within this selected range.</p>
+
+<p><strong>Capital Efficiency:</strong> By concentrating liquidity within narrower price bands, these pools provide deeper liquidity and reduce slippage for trades that occur within those bands.</p>
+<p><strong>Dynamic Adjustments:</strong> LPs can adjust their positions as market prices fluctuate, ensuring their liquidity remains within active trading ranges.</p>
+<p><strong>Example:</strong></p>
+<p><strong>Uniswap V3:</strong> Allows LPs to provide liquidity in a more capital-efficient manner by focusing their liquidity within specific price ranges, resulting in higher fee earnings and better trade execution.</p>
         
         <ul>
             <li><strong>Weighted Pools</strong></li>
         </ul>
         
         <p>Weighted pools contain multiple assets, each with a specific weight that determines its proportion within the pool. This allows for customizable exposure to different assets.</p>
-        
-        <span>How It Works:</span>
-        <ul>
-            <li><strong>Custom Weights:</strong> LPs can set different weights for each asset in the pool, which determines how much of each asset is required to balance the pool.</li>
-            <li><strong>Rebalancing:</strong> The pool automatically rebalances as trades occur to maintain the predefined weights, ensuring consistent exposure to each asset.</li>
-            <li><strong>Flexibility:</strong> Weighted pools can support various asset allocations, providing flexibility in liquidity provision and exposure management.</li>
-        </ul>
+<p><strong>How It Works:</strong></p>
+<p><b>Custom Weights:</b> LPs can set different weights for each asset in the pool, which determines how much of each asset is required to balance the pool.
+Rebalancing: The pool automatically rebalances as trades occur to maintain the predefined weights, ensuring consistent exposure to each asset.</p>
+<p><b>Flexibility:</b> Weighted pools can support various asset allocations, providing flexibility in liquidity provision and exposure management.</p>
+<p><b>Example:</b></p>
+<p><b>Balancer Pools:</b> Support multiple assets with customizable weights (e.g., 50/50, 80/20, 60/20/20) allowing LPs to create diversified and balanced portfolios.</p>
+<ul><li><strong>Boosted Pools</strong></li>
+</ul>
+<p>Multi-asset pools, also known as index pools, contain more than two assets, offering diversified exposure and reducing risk for LPs.</p>
+<p><strong>How It Works:</strong></p>
+<ul>
+<li><p><b>Diverse Asset Composition:</b> These pools can include a wide range of assets, providing LPs with a diversified investment portfolio within a single pool.</p></li>
+<li><p><b>Complex Balancing:</b> Uses more complex algorithms to maintain balance among multiple assets, ensuring proportional exposure and efficient trading.</p></li>
+<li><p><b>Risk Management:</b> Diversification across multiple assets helps mitigate risk, as the performance of one asset can be offset by others in the pool.</p></li>
+</ul>
+<p><b>Example:</b></p>
 
-        <span>Example:</span>
-        <p><strong>Balancer Pools:</strong> Support multiple assets with customizable weights (e.g., 50/50, 80/20, 60/20/20) allowing LPs to create diversified and balanced portfolios.</p>
-        <ul><li>Boosted Pools</li></ul>
-        <p>Multi-asset pools, also known as index pools, contain more than two assets, offering diversified exposure and reducing risk for LPs.</p>
-        <span>How It Works:</span>
-        <ul>
-          <li><strong>Diverse Asset Composition:</strong> These pools can include a wide range of assets, providing LPs with a diversified investment portfolio within a single pool.</li>
-          <li><strong>Complex Balancing:</strong> Uses more complex algorithms to maintain balance among multiple assets, ensuring proportional exposure and efficient trading.</li>
-          <li><strong>Risk Management:</strong> Diversification across multiple assets helps mitigate risk, as the performance of one asset can be offset by others in the pool.</li>
-        </ul>
-        <span>Example:</span>
-        <ul><li><strong> Balancer and Curve Pools:</strong> Support pools with multiple assets, such as a pool containing ETH, DAI, and BTC, allowing LPs to benefit from diversified exposure and reduced risk.</li></ul>
-        <span>Key Differences and Benefits</span>
-        <span>Concentrated Pools:</span>
-        <ul>
-        <li>Efficiency: Higher capital efficiency due to liquidity concentration within specific price ranges.</li>
-        <li>Customization: LPs have more control over where their capital is deployed.</li>
-        <li>Higher Returns: Potential for higher fee earnings due to deeper liquidity within active trading ranges.</li>
-        </ul>
-        <span>Weighted Pools:</span>
-        <ul>
-        <li>Flexibility: Customizable asset weights provide tailored exposure and risk management.</li>
-        <li>Rebalancing: Automatic rebalancing maintains target weights and ensures consistent asset allocation.</li>
-        <li>Diverse Strategies: Suitable for a variety of investment strategies and portfolio compositions.</li>
-        </ul>
-        <span>Multi-Asset Pools:</span>
-        <ul>
-          <li>Diversification: Reduced risk through exposure to multiple assets within a single pool.</li>
-          <li>Comprehensive Coverage: Ability to support a broad range of assets, offering more extensive market participation.</li>
-          <li>Complex Algorithms: Advanced balancing mechanisms ensure efficient and proportional exposure to each asset.</li>
-        </ul>
-        <span>Use Cases</span>
-        <ul>
-      <li>Concentrated Pools: Ideal for assets with high trading volumes within certain price ranges, maximizing capital efficiency and fee generation.</li>
-      <li>Weighted Pools: Suitable for LPs seeking specific asset allocations, such as balanced portfolios or custom exposure to certain asset classes.</li>
-      <li>Multi-Asset Pools: Best for those looking to diversify their holdings and reduce risk by spreading capital across multiple assets.</li>
-    </ul>
-      <p>Understanding these different types of liquidity pools allows DeFi participants to select the best options for their trading and liquidity provision strategies, optimizing their returns and managing risks effectively.</p>
+<ul><li><p><b>Balancer and Curve Pools:</b> Support pools with multiple assets, such as a pool containing ETH, DAI, and BTC, allowing LPs to benefit from diversified exposure and reduced risk.</p></li></ul>
+
+<p><b>Key Differences and Benefits</b></p>
+
+<p><b>Concentrated Pools:</b></p>
+<ul>
+<li>
+<p><b>Efficiency:</b> Higher capital efficiency due to liquidity concentration within specific price ranges.<p></li>
+<li><p><b>Customization:</b> LPs have more control over where their capital is deployed.</p></li>
+<li><p><b>Higher Returns:</b> Potential for higher fee earnings due to deeper liquidity within active trading ranges.</p>
+</li>
+</ul>
+<p><b>Weighted Pools:</b></p>
+<ul>
+<li>
+<p><b>Flexibility:</b> Customizable asset weights provide tailored exposure and risk management.</p></li>
+<li><p><b>Rebalancing:</b> Automatic rebalancing maintains target weights and ensures consistent asset allocation.</p></li>
+<li><p><b>Diverse Strategies:</b> Suitable for a variety of investment strategies and portfolio compositions.</p></li>
+</ul>
+<p><b>Multi-Asset Pools:</b></p>
+
+<ul>
+<li><p><b>Diversification:</b> Reduced risk through exposure to multiple assets within a single pool.</p></li>
+<li><p><b>Comprehensive Coverage:</b> Ability to support a broad range of assets, offering more extensive market participation.</p></li>
+<li><p><b>Complex Algorithms:</b> Advanced balancing mechanisms ensure efficient and proportional exposure to each asset.</p></li>
+</ul>
+
+<p><b>Use Cases</b></p>
+<ul>
+<li><p><b>Concentrated Pools:</b> Ideal for assets with high trading volumes within certain price ranges, maximizing capital efficiency and fee generation.</p></li>
+<li><p><b>Weighted Pools:</b> Suitable for LPs seeking specific asset allocations, such as balanced portfolios or custom exposure to certain asset classes.</p></li>
+<li><p><b>Multi-Asset Pools:</b> Best for those looking to diversify their holdings and reduce risk by spreading capital across multiple assets.</p></li>
+</ul>
+<p>Understanding these different types of liquidity pools allows DeFi participants to select the best options for their trading and liquidity provision strategies, optimizing their returns and managing risks effectively.</p>
+        
+        
        
       `,
     },

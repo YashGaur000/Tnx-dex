@@ -20,7 +20,7 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   }
 
   span {
-    font-size: 20px;
+    font-size: 21px;
     font-weight: ${({ theme }) => theme.fontWeights.bold};
   }
 
