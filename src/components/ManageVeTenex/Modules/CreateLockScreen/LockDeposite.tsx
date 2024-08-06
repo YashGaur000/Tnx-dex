@@ -1,35 +1,11 @@
-import styled from 'styled-components';
-
 import Stepper from '../../../common/Stepper';
+import { StyledDepositContainer } from '../../../Liquidity/ManageLiquidity/styles/LiquidityDeposit.style';
+import { LockHeaderTitle } from '../../Styles/ManageVetenex.style';
 
 interface Data {
   step: number;
   descriptions: string[];
 }
-
-const H1 = styled.section`
-  font-family: Kanit;
-  font-size: 30px;
-  font-weight: 300;
-  line-height: 53.82px;
-  text-align: left;
-`;
-
-const StyledDepositContainer = styled.div`
-  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
-  width: 40%;
-  border-radius: 15px;
-  padding: 20px;
-
-  @media only screen and (max-width: 1100px) {
-    width: 40%;
-    gap: 10px;
-  }
-
-  @media only screen and (max-width: 900px) {
-    width: 100%;
-  }
-`;
 
 const LockDeposite = () => {
   const data: Data[] = [
@@ -54,7 +30,7 @@ const LockDeposite = () => {
   ];
   return (
     <StyledDepositContainer>
-      <H1>New Deposit</H1>
+      <LockHeaderTitle fontSize={36}>New Deposit</LockHeaderTitle>
       <Stepper data={data} />
     </StyledDepositContainer>
   );

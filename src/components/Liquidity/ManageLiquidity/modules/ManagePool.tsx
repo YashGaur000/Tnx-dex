@@ -6,8 +6,8 @@ import { MainContainerStyle } from '../../../common/MainContainerStyle';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
-  LiquidityFormContainer,
-  ManageLiquidityContainer,
+  CreateFormWrapper,
+  CreateMainContainer,
 } from '../styles/Managepool.style';
 
 const ManagePool = () => {
@@ -23,18 +23,18 @@ const ManagePool = () => {
         <LiquidityTitle fontSize={16}>Manage your position</LiquidityTitle>
       </header>
 
-      <ManageLiquidityContainer>
-        <LiquidityFormContainer>
+      <CreateMainContainer>
+        <CreateFormWrapper>
           <TokenDeposite />
-
+          {/* <CreateNewLiquidity/> */}
           <LiquidityForm
             tokenValue={tokenValue}
             onTokenValueChange={handleTokenValueChange}
           />
-        </LiquidityFormContainer>
+        </CreateFormWrapper>
 
         <DepositeComponent tokenValue={tokenValue} />
-      </ManageLiquidityContainer>
+      </CreateMainContainer>
     </MainContainerStyle>
   );
 };

@@ -2,14 +2,14 @@ import QuestionIcon from '../../../../assets/questionMark.png';
 import { GlobalButton } from '../../../common';
 import { useNavigate } from 'react-router-dom';
 import {
-  LiquidityAsideSection,
+  AsideSectionContains,
   LiquidityDespcriptionWrap,
-  LiquidityMetricDisplay,
+  MetricDisplay,
   LiquidityTitle,
   CreateLiquidityButtonWrapper,
   LiquidityHeroSectionContent,
   LiquidityHeroSectionMain,
-  LiquiditymetricDisplayWrapper,
+  MetricDisplayWrapper,
   StatsCardtitle,
   InformImageStye,
 } from '../styles/LiquidityHeroSection.style';
@@ -54,7 +54,7 @@ const LiquidityHeroSection = () => {
             <u>request a new token listing.</u>
           </LiquidityTitle>
         </LiquidityHeroSectionContent>
-        <LiquidityAsideSection>
+        <AsideSectionContains>
           <CreateLiquidityButtonWrapper>
             <GlobalButton
               width="130px"
@@ -64,21 +64,21 @@ const LiquidityHeroSection = () => {
               Create Pool
             </GlobalButton>
           </CreateLiquidityButtonWrapper>
-          <LiquiditymetricDisplayWrapper>
-            <LiquidityMetricDisplay>
+          <MetricDisplayWrapper>
+            <MetricDisplay>
               <StatsCardtitle fontSize={16}>TVL</StatsCardtitle>
               <label>$1,547,658,000.28</label>
-            </LiquidityMetricDisplay>
-            <LiquidityMetricDisplay>
+            </MetricDisplay>
+            <MetricDisplay>
               <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
               <label>$1,547,658,000.28</label>
-            </LiquidityMetricDisplay>
-            <LiquidityMetricDisplay>
+            </MetricDisplay>
+            <MetricDisplay>
               <StatsCardtitle fontSize={16}>24H Volume</StatsCardtitle>
               <label>$1,547,658,000.28</label>
-            </LiquidityMetricDisplay>
-          </LiquiditymetricDisplayWrapper>
-        </LiquidityAsideSection>
+            </MetricDisplay>
+          </MetricDisplayWrapper>
+        </AsideSectionContains>
       </LiquidityHeroSectionMain>
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>

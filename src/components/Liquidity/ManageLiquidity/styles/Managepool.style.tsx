@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ManageLiquidityContainer = styled.div`
+export const CreateMainContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -15,7 +15,7 @@ export const ManageLiquidityContainer = styled.div`
   }
 `;
 
-export const LiquidityFormContainer = styled.div`
+export const CreateFormWrapper = styled.div`
   width: 55%;
   display: flex;
   flex-direction: column;

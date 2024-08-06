@@ -19,8 +19,10 @@ export const TableContainerStyle = styled.div<{ theme: DefaultTheme }>`
   overflow-x: scroll;
   padding-bottom: 10px;
   border-radius: 20px;
+
   background: ${({ theme }) => theme.colors.card};
   width: 100%;
+
   &::-webkit-scrollbar {
     height: 3px;
   }

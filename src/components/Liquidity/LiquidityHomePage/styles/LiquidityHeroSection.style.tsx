@@ -72,7 +72,7 @@ export const LiquidityHeroSectionContent = styled.article<{
     flex-direction: column;
   }
 `;
-export const LiquidityAsideSection = styled.div`
+export const AsideSectionContains = styled.div`
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -92,7 +92,7 @@ export const CreateLiquidityButtonWrapper = styled.div`
   display: flex;
   justify-content: end;
 `;
-export const LiquiditymetricDisplayWrapper = styled.div<{
+export const MetricDisplayWrapper = styled.div<{
   theme: DefaultTheme;
 }>`
   display: flex;
@@ -117,7 +117,7 @@ export const LiquiditymetricDisplayWrapper = styled.div<{
     gap: 5px;
   }
 `;
-export const LiquidityMetricDisplay = styled.div<{ theme: DefaultTheme }>`
+export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.card};
@@ -161,4 +161,9 @@ export const LiquidityMetricDisplay = styled.div<{ theme: DefaultTheme }>`
     height: 35px;
     width: 100%;
   }
+`;
+
+export const LiquidityImgStyle = styled.img<{ width: string; height: string }>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
 `;

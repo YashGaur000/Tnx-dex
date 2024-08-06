@@ -1,4 +1,4 @@
-import { HeaderTitle } from '../Styles/ManageVetenex.style';
+import { LockHeaderTitle } from '../Styles/ManageVetenex.style';
 import SplitCard from './SplitCard';
 
 import { GlobalButton } from '../../common';
@@ -12,14 +12,14 @@ const SplitScreen = () => {
   return (
     <SplitContainer>
       <SplitDatacontain>
-        <HeaderTitle fontSize={23}>Split Your NFT</HeaderTitle>
+        <LockHeaderTitle fontSize={23}>Split Your NFT</LockHeaderTitle>
 
         <SplitCardContainer>
           <SplitCard />
         </SplitCardContainer>
       </SplitDatacontain>
       <SplitDatacontain>
-        <HeaderTitle fontSize={23}>New Split Your NFT</HeaderTitle>
+        <LockHeaderTitle fontSize={23}>New Split Your NFT</LockHeaderTitle>
 
         <SplitCardContainer>
           <SplitCard />

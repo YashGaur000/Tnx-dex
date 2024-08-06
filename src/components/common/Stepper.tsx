@@ -48,6 +48,7 @@ const Circle = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
   background-color: ${({ theme }) => theme.colors.stepperColor};
   border: 0px;
+  flex-shrink: 0;
   color: white;
   overflow: hidden;
 `;
@@ -100,16 +101,16 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
               <p key={idx}>{desc}</p>
             ))}
             {item.buttons?.map((button, idx) => (
-                <GlobalButton
-                  key={idx}
-                  padding="8px "
-                  tabIndex={idx}
-                  onClick={button.onClick}
-                >
-                  {button.label}
-                  <ButtonIcon src={button.icon} alt={`${button.label} icon`} />
-                </GlobalButton>
-              ))}
+              <GlobalButton
+                key={idx}
+                padding="8px "
+                tabIndex={idx}
+                onClick={button.onClick}
+              >
+                {button.label}
+                <ButtonIcon src={button.icon} alt={`${button.label} icon`} />
+              </GlobalButton>
+            ))}
           </Content>
         </Step>
       ))}
