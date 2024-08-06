@@ -2,10 +2,13 @@ import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const SwapBoxWrapper = styled.div`
+export const SwapBoxWrapper = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 20px;
 `;
-
+export const SwapFormContainer = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  gap: 20px;
+`;
 export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

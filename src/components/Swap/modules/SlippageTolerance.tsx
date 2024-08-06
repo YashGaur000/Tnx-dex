@@ -1,25 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  SelectSlippage,
   SidebarTitle,
   SlippageAlign,
+  SlippageInput,
   SlippageWrapper,
   ToleranceButton,
   ToleranceButtons,
 } from '../styles/SlippageTolerance.style';
+import { useSwapStore } from '../../../store/swap/useSwapStore';
 
 const SlippageTolerance: React.FC = () => {
-  const [selectedTolerance, setSelectedTolerance] = useState('0.5%');
+  const {
+    selectedTolerance,
+    customTolerance,
+    setSelectedTolerance,
+    setCustomTolerance,
+  } = useSwapStore();
 
   const handleToleranceChange = (tolerance: string) => {
     setSelectedTolerance(tolerance);
+    setCustomTolerance(''); // Reset custom tolerance when a button is clicked
+  };
+
+  const handleCustomToleranceChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCustomTolerance(event.target.value);
+    setSelectedTolerance(event.target.value + '%');
   };
 
   return (
     <SlippageWrapper display="flow">
       <SlippageAlign>
         <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
-        <SelectSlippage>{selectedTolerance}</SelectSlippage>
+
+        <SlippageInput
+          type="text"
+          value={customTolerance}
+          onChange={handleCustomToleranceChange}
+          placeholder={selectedTolerance}
+          style={{ width: '50px', textAlign: 'center' }}
+        />
       </SlippageAlign>
       <ToleranceButtons>
         <ToleranceButton onClick={() => handleToleranceChange('0.1%')}>
