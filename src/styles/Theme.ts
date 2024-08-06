@@ -39,6 +39,7 @@ interface Colorpallate {
   navtoggle: string;
   textGreyColor: string;
   bordercolor: string;
+  backgroundAnalytics: string;
 }
 
 interface FontType {
@@ -69,6 +70,14 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundAnalytics: `radial-gradient(circle at 50% 2%,#43d6cd7a 0%, transparent 8%),
+                         radial-gradient(circle at -25% 23%,#43d6cd7a 0%, transparent 12%),
+                         radial-gradient(circle at 79% 40%,#43d6cd7a 0%, transparent 12%),
+                         radial-gradient(circle at -10% 23%,#43d6cd7a 0%, transparent 15%),
+                         radial-gradient(circle at -13% 54%,#43d6cd7a -3%, transparent 15%),
+                         radial-gradient(circle at 97% 0%,#43d6cd7a 0%, transparent 0%),
+                         radial-gradient(circle at 50% 100%,#43d6cd7a -10%, transparent 9%),
+                         linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',
     buttonBackground:
       'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
