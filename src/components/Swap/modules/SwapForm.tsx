@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExchangeAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useAccount } from '../../../hooks/useAccount';
 import SwitchComponent from './SwitchComponent';
-import { TOKEN_LIST, TokenInfo } from '../../../constants/tokens';
+import { TOKEN_LIST, TokenInfo } from './../../../constants/tokens';
 import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import { GlobalButton } from '../../common';
@@ -51,7 +51,7 @@ const SwapForm: React.FC = () => {
 
   const handleToggleChange = () => {
     if (isConnected) {
-      // disconnect();
+      //disconnect();
     } else {
       // logic to open wallet connect modal
     }
@@ -61,8 +61,8 @@ const SwapForm: React.FC = () => {
   const handleSwap = () => {
     setSelectedToken1(selectedToken2);
     setSelectedToken2(selectedToken1);
-    setInputValue1('');
-    setInputValue2('');
+    // setInputValue1(''); //to clear the input fields when we click on swap
+    // setInputValue2('');
   };
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
@@ -162,10 +162,10 @@ const SwapForm: React.FC = () => {
           />
           <GlobalButton padding="15px">Swap</GlobalButton>
           <Description>
-            TenEx&#39;s Meta Aggregator sources quotes from TenEx pools and Odos
+            TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
           </Description>
         </SwapBox>
-        {inputValue1 && inputValue2 && <LiquityRouting />}
+        {(inputValue1 || inputValue2) && <LiquityRouting />}
       </SwapBoxWrapper>
       <Sidebar />
     </SwapFormContainer>
