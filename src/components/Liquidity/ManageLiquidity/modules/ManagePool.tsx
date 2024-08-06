@@ -1,55 +1,14 @@
-import styled from 'styled-components';
-
 import LiquidityForm from './LiquidityForm';
 import DepositeComponent from './DepositeComponent';
 import { useState } from 'react';
 import TokenDeposite from './TokenDeposite';
-
-const H1 = styled.h4`
-  font-size: 38px;
-  font-weight: 300;
-  line-height: 71.76px;
-  text-align: left;
-`;
-
-const P = styled.p`
-  font-size: 18px;
-  font-weight: 300;
-  line-height: 35.88px;
-  text-align: left;
-  color: rgba(204, 204, 204, 1);
-`;
-
-const ManageLiquidityContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-
-  margin-top: 40px;
-
-  @media only screen and (max-width: 900px) {
-    flex-direction: column;
-
-    gap: 15px;
-  }
-`;
-
-const FormContainer = styled.div`
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-
-  gap: 15px;
-
-  @media only screen and (max-width: 1100px) {
-    width: 45%;
-    gap: 20px;
-  }
-  @media only screen and (max-width: 900px) {
-    width: 100%;
-  }
-`;
+import { MainContainerStyle } from '../../../common/MainContainerStyle';
+import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
+import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import {
+  LiquidityFormContainer,
+  ManageLiquidityContainer,
+} from '../styles/Managepool.style';
 
 const ManagePool = () => {
   const [tokenValue, setTokenValue] = useState<number>(0);
@@ -58,24 +17,25 @@ const ManagePool = () => {
     setTokenValue(value);
   };
   return (
-    <>
+    <MainContainerStyle>
       <header>
-        <H1>Manage Pool</H1>
-        <P>Manage your position</P>
+        <LiquidityHeaderTitle fontSize={36}>Manage Pool</LiquidityHeaderTitle>
+        <LiquidityTitle fontSize={16}>Manage your position</LiquidityTitle>
       </header>
 
       <ManageLiquidityContainer>
-        <FormContainer>
+        <LiquidityFormContainer>
           <TokenDeposite />
+
           <LiquidityForm
             tokenValue={tokenValue}
             onTokenValueChange={handleTokenValueChange}
           />
-        </FormContainer>
+        </LiquidityFormContainer>
 
         <DepositeComponent tokenValue={tokenValue} />
       </ManageLiquidityContainer>
-    </>
+    </MainContainerStyle>
   );
 };
 

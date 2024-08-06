@@ -74,6 +74,7 @@ export const FilterWithSearchStyle = styled.div`
   align-items: center;
   gap: 10px;
 `;
+
 export const SearchBoxContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   border: 1px solid;
