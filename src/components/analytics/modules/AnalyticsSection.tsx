@@ -1,7 +1,8 @@
 import React from 'react';
-import { Card } from '../../common';
+
 import {
-  AnlyticsContainer,
+  AnalyticsCard,
+  AnalyticsContainer,
   CardText,
   ChartTitle,
   SmallText,
@@ -24,10 +25,10 @@ import PoolTwoLiquidity from './AnalyticsCharts/PoolTwoLiquidityChart';
 import MarketCapitalization from './AnalyticsCharts/MarketCapitalizationChart';
 
 const AnlyticsSection: React.FC = () => (
-  <AnlyticsContainer>
-    <Card height="102px" width="1050px" Radius="20px">
+  <AnalyticsContainer>
+    <AnalyticsCard height="102px" width="1000px" Radius="20px">
       <CardText>TENEX Analytics</CardText>
-    </Card>
+    </AnalyticsCard>
     <SmallText>Best Decentralized Exchange in the Market</SmallText>
     <ChartContainer>
       <ChartTitle>Supply Classification</ChartTitle>
@@ -95,7 +96,7 @@ const AnlyticsSection: React.FC = () => (
       <ChartTitle>Market Capitalization in $USD</ChartTitle>
       <MarketCapitalization />
     </ChartContainer>
-  </AnlyticsContainer>
+  </AnalyticsContainer>
 );
 
 export default AnlyticsSection;

@@ -75,6 +75,7 @@ export const ClasificationTitle = styled.h2<{ theme: DefaultTheme }>`
 
 export const ClasificationSection = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 20px;
+  text-align: left;
   margin-left: 54px;
 `;
 
