@@ -10,18 +10,19 @@ export const LockTitle = styled.p<{ theme: DefaultTheme; fontSize: number }>`
   margin-top: 30px;
 `;
 
-export const MainContainer = styled.div`
+export const CreateLockFirstSection = styled.div`
+  width: 55%;
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
+  flex-direction: column;
 
-  margin-top: 40px;
+  gap: 15px;
 
+  @media only screen and (max-width: 1100px) {
+    width: 45%;
+    gap: 20px;
+  }
   @media only screen and (max-width: 900px) {
-    flex-direction: column;
-
-    gap: 15px;
+    width: 100%;
   }
 `;
 
@@ -40,7 +41,7 @@ export const LoaderStatus = styled.p<{ theme: DefaultTheme; fontSize: number }>`
   text-align: center;
   margin-left: 85%;
   @media only screen and (max-width: 1000px) {
-    margin-left: 70%;
+    margin-left: 80%;
   }
 `;
 
@@ -62,22 +63,30 @@ font-weight:${({ theme }) => theme.fontWeights.regular}
 export const LockScreenInstruction = styled.div`
   display: flex;
   gap: 10px;
-  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  align-items: flex-start;
-  @media only screen and (max-width: 1100px) {
-    font-size: 14px;
-  }
-  @media only screen and (max-width: 900px) {
-    font-size: 18px;
-  }
-  @media only screen and (max-width: 500px) {
-    font-size: 14px;
-  }
 `;
 export const InformImg = styled.img`
   width: 20px;
   height: 20px;
+`;
+
+export const LockInputBox = styled.input<{ theme: DefaultTheme }>`
+  width: 99%;
+  height: 47px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid;
+  border-color: ${({ theme }) => theme.colors.greyBorder};
+  color: ${({ theme }) => theme.colors.text};
+  padding-left: 20px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
+
+export const LockProgressStyle = styled.span`
+  display: flex;
+  justify-content: end;
+  padding-right: 5px;
+  gap: 10px;
+  font-size: 12px;
+  color: silver;
 `;

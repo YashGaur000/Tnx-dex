@@ -1,0 +1,53 @@
+[
+    {
+        "id": "1",
+        "pair": "USDT-BTC",
+        "icon1": "https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000003.png",
+        "icon2": "https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x0B4d0ee29857c3961b380d4ec138EA5814E346b9.png",
+        "stablePercentage": 0.01,
+        "tvl": "~$7,428,176,4",
+        "apr": 226.18,
+        "volume": "~$101,804,848",
+        "volumeDesc": "0.5643 USDT",
+        "volumeSubDesc": "0.003 BTC",
+        "fees": "~$10,180",
+        "feesDesc": "0.5643 USDT",
+        "feesSubDesc": "0.003 BTC",
+        "poolBalance": "2,428.64 USDT",
+        "balanceDesc": "0.5643 USDT"
+    },
+    {
+        "id": "2",
+        "pair": "USDT-SOL",
+        "icon1": "https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000004.png",
+        "icon2": "https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x891c9B37177Bdf8Edc891119C9d8aEefDa9A5246.png",
+        "stablePercentage": 0.01,
+        "tvl": "~$7,428,176,4",
+        "apr": 47.74,
+        "volume": "~$101,804,848",
+        "volumeDesc": "0.5643 USDT",
+        "volumeSubDesc": "0.003 SOL",
+        "fees": "~$10,180",
+        "feesDesc": "0.5643 USDT",
+        "feesSubDesc": "0.003 SOL",
+        "poolBalance": "2,428.64 USDT",
+        "balanceDesc": "0.5643 USDT"
+    },
+    {
+        "id": "3",
+        "pair": "USDT-SOL",
+        "icon1": "https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x891c9B37177Bdf8Edc891119C9d8aEefDa9A5246.png",
+        "icon2": "https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000003.png",
+        "stablePercentage": 0.01,
+        "tvl": "~$7,428,176,4",
+        "apr": 47.74,
+        "volume": "~$101,804,848",
+        "volumeDesc": "0.5643 USDT",
+        "volumeSubDesc": "0.003 SOL",
+        "fees": "~$10,180",
+        "feesDesc": "0.5643 USDT",
+        "feesSubDesc": "0.003 SOL",
+        "poolBalance": "2,428.64 USDT",
+        "balanceDesc": "0.5643 USDT"
+    }
+]

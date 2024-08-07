@@ -1,4 +1,4 @@
-import { HeaderTitle } from '../Styles/ManageVetenex.style';
+import { LockHeaderTitle } from '../Styles/ManageVetenex.style';
 import {
   SplitCardContainer,
   SplitContainer,
@@ -11,7 +11,7 @@ const MergeLockScreen = () => {
     <>
       <SplitContainer>
         <SplitDatacontain>
-          <HeaderTitle fontSize={23}>Select NFTs to merge</HeaderTitle>
+          <LockHeaderTitle fontSize={23}>Select NFTs to merge</LockHeaderTitle>
 
           <SplitCardContainer>
             <MergeCard />

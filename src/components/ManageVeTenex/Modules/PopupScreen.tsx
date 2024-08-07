@@ -16,7 +16,8 @@ const ModalBackground = styled.div<{ isVisible: boolean; theme: DefaultTheme }>`
 const ModalContent = styled.div<{ theme: DefaultTheme }>`
   position: fixed;
   width: 500px;
-  height: auto;
+  height: 500px;
+  overflow-y: scroll;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -27,6 +28,26 @@ const ModalContent = styled.div<{ theme: DefaultTheme }>`
   z-index: 1001;
   @media (max-width: 700px) {
     width: 350px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 5px;
+    padding-right: 25px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    width: 5px;
+    margin: 5px;
+    background: black;
+    margin-right: 5px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.bordercolor};
+    border-radius: 10px;
+    margin-right: 5px;
   }
 `;
 
@@ -39,6 +60,10 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+`;
+const CloseImg = styled.img`
+  width: 20px;
+  height: 20px;
 `;
 
 interface PopUpProps {
@@ -53,10 +78,10 @@ const PopupScreen: React.FC<PopUpProps> = ({
   children,
 }) => {
   return (
-    <ModalBackground isVisible={isVisible}>
+    <ModalBackground isVisible={isVisible} onClick={onClose}>
       <ModalContent>
         <CloseButton onClick={onClose}>
-          <img src={CloseIcon} />
+          <CloseImg src={CloseIcon} />
         </CloseButton>
         {children}
       </ModalContent>
