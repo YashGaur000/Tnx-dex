@@ -1,6 +1,5 @@
 import React from 'react';
-
-import LiquidityPool from '../../components/Liquidity/LiquidityHomePage/modules/LiquidityPool';
+import LiquidityPool from '../../components/Liquidity/LiquidityHomePage/Modules/LiquidityPool';
 import { MainContainerStyle } from '../../components/common/MainContainerStyle';
 
 const LiquidityPage: React.FC = () => {

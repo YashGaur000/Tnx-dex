@@ -7,7 +7,7 @@ import SelectIcon from '../../../../assets/select.png';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
-import LiquidityToolTips from '../../LiquidityHomePage/modules/LiquidityToolTips';
+import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import {
   TokenSelectAlign,
   TokenSelectAlignSelect,
