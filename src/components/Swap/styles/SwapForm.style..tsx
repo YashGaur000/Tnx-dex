@@ -8,6 +8,23 @@ export const SwapBoxWrapper = styled.div<{ theme: DefaultTheme }>`
 export const SwapFormContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   gap: 20px;
+
+  @media (max-width: 900px) {
+    display: flex;
+    gap: 20px;
+  }
+
+  @media (max-width: 780px) {
+    display: flex;
+    gap: 20px;
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+    gap: 20px;
+    display: block;
+  }
 `;
 export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
@@ -20,6 +37,11 @@ export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   height: 538px;
   width: 600px;
   @media only screen and (max-width: 600px) {
+    width: 100%;
+    padding: 20px;
+    height: auto;
+  }
+  @media only screen and (max-width: 900px) {
     width: 100%;
     padding: 20px;
     height: auto;
