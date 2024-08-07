@@ -1,10 +1,10 @@
 import React from 'react';
-import { ComingSoon } from '../../components/common';
+import AnalyticsSection from '../../components/analytics/modules/AnalyticsSection';
 
 const ToolsPage: React.FC = () => {
   return (
     <>
-      <ComingSoon />
+      <AnalyticsSection />
     </>
   );
 };

@@ -2,10 +2,30 @@ import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-export const SwapBoxWrapper = styled.div`
+export const SwapBoxWrapper = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 20px;
 `;
+export const SwapFormContainer = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  gap: 20px;
 
+  @media (max-width: 900px) {
+    display: flex;
+    gap: 20px;
+  }
+
+  @media (max-width: 780px) {
+    display: flex;
+    gap: 20px;
+    display: block;
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+    gap: 20px;
+    display: block;
+  }
+`;
 export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.cardLight};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -17,6 +37,11 @@ export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   height: 538px;
   width: 600px;
   @media only screen and (max-width: 600px) {
+    width: 100%;
+    padding: 20px;
+    height: auto;
+  }
+  @media only screen and (max-width: 900px) {
     width: 100%;
     padding: 20px;
     height: auto;

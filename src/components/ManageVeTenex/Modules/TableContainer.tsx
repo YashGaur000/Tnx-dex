@@ -7,7 +7,7 @@ import SplitScreen from './SplitScreen';
 import PopupScreen from './PopupScreen';
 import MergeLockScreen from './MergeLockScreen';
 import Pagination from './Pagination';
-import { DefaultTheme } from '../../../styles/Theme';
+import { LockTableContains } from '../Styles/ManageVetenex.style';
 
 interface TableProps {
   data: Record<string, string | number | string[]>[];
@@ -28,13 +28,7 @@ const AmountWithImg = styled.div`
 const ButtonContain = styled.div`
   display: inline;
 `;
-const TableContains = styled.div<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.card};
-  margin-top: 20px;
 
-  height: autopx;
-  border-radius: 15px;
-`;
 const TableContainer: React.FC<TableProps> = ({ data }) => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
   const [isMergeVisible, setIsMergeVisible] = useState(false);
@@ -58,7 +52,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
 
   const headers = Object.keys(data[0]);
   return (
-    <TableContains>
+    <LockTableContains>
       <TableContainerStyle>
         <Table padding="20px" margin="0px 0px">
           <thead>
@@ -104,7 +98,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
         {isMergeVisible ? <MergeLockScreen /> : <SplitScreen />}
       </PopupScreen>
-    </TableContains>
+    </LockTableContains>
   );
 };
 

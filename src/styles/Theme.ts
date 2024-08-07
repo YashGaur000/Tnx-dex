@@ -3,6 +3,7 @@ export interface DefaultTheme {
   fonts: FontType;
   fontWeights: FontWeight;
   screenSizes: ScreenSizes;
+  fontSize: FontSize;
 }
 
 interface ScreenSizes {
@@ -39,6 +40,10 @@ interface Colorpallate {
   navtoggle: string;
   textGreyColor: string;
   bordercolor: string;
+  titleColor: string;
+  stepperColor: string;
+  backgroundAnalytics: string;
+  separator: string;
 }
 
 interface FontType {
@@ -48,6 +53,11 @@ interface FontType {
 interface FontWeight {
   regular: number;
   bold: number;
+}
+interface FontSize {
+  large: string;
+  medium: string;
+  small: string;
 }
 
 const theme: DefaultTheme = {
@@ -69,6 +79,14 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundAnalytics: `radial-gradient(circle at 50% 2%,#43d6cd7a 0%, transparent 8%),
+                         radial-gradient(circle at -25% 23%,#43d6cd7a 0%, transparent 12%),
+                         radial-gradient(circle at 79% 40%,#43d6cd7a 0%, transparent 12%),
+                         radial-gradient(circle at -10% 23%,#43d6cd7a 0%, transparent 15%),
+                         radial-gradient(circle at -13% 54%,#43d6cd7a -3%, transparent 15%),
+                         radial-gradient(circle at 97% 0%,#43d6cd7a 0%, transparent 0%),
+                         radial-gradient(circle at 50% 100%,#43d6cd7a -10%, transparent 9%),
+                         linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',
     buttonBackground:
       'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
@@ -88,8 +106,12 @@ const theme: DefaultTheme = {
     redToggle: '#EB5540',
     green: '#16C062',
     greyDark: '#B8B8B8CC',
+    titleColor: '#CCCCCC',
     navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
     bordercolor: 'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
+    stepperColor: '#101C3B',
+    separator:
+      'linear-gradient(90deg, rgba(219, 219, 219, 0.04) 0%, rgba(219, 219, 219, 0.16) 50%, rgba(219, 219, 219, 0.04) 100%)',
   },
   fonts: {
     main: 'Kanit, sans-serif',
@@ -104,6 +126,11 @@ const theme: DefaultTheme = {
     custom900: '900px',
     large: '1024px',
     extraLarge: '1200px',
+  },
+  fontSize: {
+    large: '36px',
+    medium: '16px',
+    small: '12px',
   },
 };
 
