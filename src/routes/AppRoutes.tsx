@@ -16,7 +16,7 @@ import Vote from '../pages/governance/Vote';
 import CreatePool from '../components/Liquidity/CreatePool/Modules/CreatePool';
 import Createlock from '../components/ManageVeTenex/Modules/CreateLockScreen/Createlock';
 const ManagePool = lazy(
-  () => import('../components/Liquidity/ManageLiquidity/ManagePool')
+  () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
 );
 
 const ContentData = lazy(() => import('../components/Documents/Content'));

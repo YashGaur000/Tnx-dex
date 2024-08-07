@@ -1,12 +1,9 @@
-import styled from 'styled-components';
-
 import UsdtIcon from '../../../../assets/usdt.png';
 import InformIcon from '../../../../assets/information.png';
 import {
-  DescriptonTitle,
-  LockScreenContainer,
-  HeaderTitle,
-  Cardstyle,
+  LockDescriptonTitle,
+  LockHeaderTitle,
+  LockCardstyle,
 } from '../../Styles/ManageVetenex.style';
 import {
   Slider,
@@ -14,114 +11,60 @@ import {
 } from '../../../Swap/styles/TransactionDeadline.style';
 import {
   LockTitle,
-  MainContainer,
+  CreateLockFirstSection,
   LockLoaderContainer,
   LoaderStatus,
   LoaderStyle,
   SliderDeadlineStyle,
   LockScreenInstruction,
   InformImg,
+  LockProgressStyle,
+  LockInputBox,
 } from '../../Styles/CreateLock.style';
 import LockDeposite from './LockDeposite';
-
-const FormContainer = styled.div`
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-
-  gap: 15px;
-
-  @media only screen and (max-width: 1100px) {
-    width: 50%;
-    gap: 20px;
-  }
-  @media only screen and (max-width: 900px) {
-    width: 100%;
-  }
-`;
-const FormFieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  height: 130px;
-  padding: 10px;
-`;
-
-const Title = styled.div`
-  display: flex;
-  justify-content: space-between;
-  font-family: Kanit;
-  font-size: 15px;
-  font-weight: 300;
-  line-height: 23.92px;
-  text-align: left;
-`;
-
-const Progress = styled.span`
-  display: flex;
-  justify-content: end;
-  padding-right: 5px;
-  gap: 10px;
-  font-size: 12px;
-  color: silver;
-`;
-
-const ImageWithTitle = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const InputBox = styled.input`
-  // Use InputBoxProps for typing
-  width: 99%;
-  height: 47px;
-  border-radius: 10px;
-  background: transparent;
-  border: 1px solid #b8b8b899;
-  color: white;
-  padding-left: 20px;
-  font-weight: 300;
-`;
-const Img = styled.img`
-  width: 17px;
-  height: 17px;
-  margin: auto;
-  margin-right: 7px;
-`;
+import { StatsCardtitle } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import { MainContainerStyle } from '../../../common/MainContainerStyle';
+import { CreateMainContainer } from '../../../Liquidity/ManageLiquidity/styles/Managepool.style';
+import {
+  FormFieldContainer,
+  FormRowWrapper,
+  ImageWithTitleWrap,
+  TokenImgLiquidity,
+} from '../../../Liquidity/ManageLiquidity/styles/LiquidityForm.style';
 
 const Createlock = () => {
   return (
-    <LockScreenContainer>
+    <MainContainerStyle>
       <header>
-        <HeaderTitle fontSize={36}>Lock</HeaderTitle>
-        <DescriptonTitle fontSize={16}>
+        <LockHeaderTitle fontSize={36}>Lock</LockHeaderTitle>
+        <LockDescriptonTitle fontSize={16}>
           Lock your tokens for veTENEX voting power
-        </DescriptonTitle>
+        </LockDescriptonTitle>
       </header>
 
-      <MainContainer>
-        <FormContainer>
-          <Cardstyle>
+      <CreateMainContainer>
+        <CreateLockFirstSection>
+          <LockCardstyle>
             <FormFieldContainer>
-              <Title>
-                <ImageWithTitle>
-                  <Img src={UsdtIcon} alt="USDT logo" />
+              <FormRowWrapper>
+                <ImageWithTitleWrap>
+                  <TokenImgLiquidity src={UsdtIcon} alt="USDT logo" />
                   <label>USDT</label>
-                </ImageWithTitle>
+                </ImageWithTitleWrap>
                 <label>Available 0000</label>
-              </Title>
+              </FormRowWrapper>
               <div>
-                <InputBox type="text" name="usdt" />
+                <LockInputBox type="text" name="usdt" />
               </div>
-              <Progress>
+              <LockProgressStyle>
                 <label>0%</label>
                 <label>25%</label>
                 <label>50%</label>
                 <label>75%</label>
                 <label>MAX</label>
-              </Progress>
+              </LockProgressStyle>
             </FormFieldContainer>
+
             <LockTitle fontSize={17}>
               Locking your TENEX tokens for veTENEX voting power
             </LockTitle>
@@ -141,21 +84,22 @@ const Createlock = () => {
                 <label>3 years</label>
               </SliderDeadlineStyle>
             </LockLoaderContainer>
-          </Cardstyle>
-          <Cardstyle>
+          </LockCardstyle>
+
+          <LockCardstyle>
             <LockScreenInstruction>
               <InformImg src={InformIcon} />
-              <p>
+              <StatsCardtitle fontSize={14}>
                 Locking will give you an NFT, referred to as a veNFT. You can
                 increase the Lock amount or extend the Lock time at any point
                 after.
-              </p>
+              </StatsCardtitle>
             </LockScreenInstruction>
-          </Cardstyle>
-        </FormContainer>
+          </LockCardstyle>
+        </CreateLockFirstSection>
         <LockDeposite />
-      </MainContainer>
-    </LockScreenContainer>
+      </CreateMainContainer>
+    </MainContainerStyle>
   );
 };
 

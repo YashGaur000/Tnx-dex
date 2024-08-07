@@ -3,6 +3,7 @@ export interface DefaultTheme {
   fonts: FontType;
   fontWeights: FontWeight;
   screenSizes: ScreenSizes;
+  fontSize: FontSize;
 }
 
 interface ScreenSizes {
@@ -39,6 +40,8 @@ interface Colorpallate {
   navtoggle: string;
   textGreyColor: string;
   bordercolor: string;
+  titleColor: string;
+  stepperColor: string;
   backgroundAnalytics: string;
 }
 
@@ -49,6 +52,11 @@ interface FontType {
 interface FontWeight {
   regular: number;
   bold: number;
+}
+interface FontSize {
+  large: string;
+  medium: string;
+  small: string;
 }
 
 const theme: DefaultTheme = {
@@ -97,8 +105,10 @@ const theme: DefaultTheme = {
     redToggle: '#EB5540',
     green: '#16C062',
     greyDark: '#B8B8B8CC',
+    titleColor: '#CCCCCC',
     navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
     bordercolor: 'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
+    stepperColor: '#101C3B',
   },
   fonts: {
     main: 'Kanit, sans-serif',
@@ -113,6 +123,11 @@ const theme: DefaultTheme = {
     custom900: '900px',
     large: '1024px',
     extraLarge: '1200px',
+  },
+  fontSize: {
+    large: '36px',
+    medium: '16px',
+    small: '12px',
   },
 };
 
