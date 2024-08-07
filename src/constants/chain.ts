@@ -10,6 +10,7 @@ import {
   blast,
   blastSepolia,
 } from 'wagmi/chains';
+import { envConfig } from '../config';
 
 export const SUPPORTED_MAINNET_CHAINS = [
   boba,
@@ -52,6 +53,8 @@ export type AllowedChainId =
   | 59141
   | 10
   | 11155111
+  | 168587773
+  | 81457
   | undefined;
 
 // have to check
@@ -111,7 +114,7 @@ export const NETWORK_CONFIGS: NetworkConfig = {
   },
   [blastSepolia.id]: {
     ...blastSepolia,
-    RPC: [],
+    RPC: [envConfig.rpcUrl],
   },
   [bobaSepolia.id]: {
     ...bobaSepolia,
