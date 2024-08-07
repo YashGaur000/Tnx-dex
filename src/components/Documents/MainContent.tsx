@@ -10,7 +10,7 @@ const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   margin-left: 22%;
   margin-bottom: 15%;
   width: 80%;
-  border-left: 1px solid ${({ theme }) => theme.colors.grey};
+  // border-left: 1px solid ${({ theme }) => theme.colors.grey};
 
   @media (max-width: 900px) {
     margin-left: 0;
