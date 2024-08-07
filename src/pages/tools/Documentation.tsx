@@ -13,7 +13,7 @@ function Documentation() {
       <Sidebar />
       <Separator
         top="1vm"
-        left="24%"
+        left="18%"
         width="1px"
         height="80%"
         leftLarge="25%"

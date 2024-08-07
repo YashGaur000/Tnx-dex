@@ -7,9 +7,9 @@ import { Outlet } from 'react-router-dom';
 
 const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   padding: 10px;
-  margin-left: 22%;
+  margin-left: 15%;
   margin-bottom: 15%;
-  width: 80%;
+  width: 90%;
   // border-left: 1px solid ${({ theme }) => theme.colors.grey};
 
   @media (max-width: 900px) {
