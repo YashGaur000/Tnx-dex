@@ -13,7 +13,8 @@ export const Separator = styled.div<{
 }>`
   height: ${({ height }) => height};
   width: ${({ width }) => width};
-  background: ${({ theme }) => theme.colors.separator};
+  // background: ${({ theme }) => theme.colors.separator};
+  background: ${({ theme }) => theme.colors.grey};
   top: ${({ top }) => top};
   bottom: 0;
   position: absolute;
