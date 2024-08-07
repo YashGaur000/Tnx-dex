@@ -6,7 +6,7 @@ export const SidebarContainer = styled.aside<{
   theme: DefaultTheme;
   isopen: string;
 }>`
-  width: 20%;
+  width: 13%;
   padding-top: 10px;
   padding-right: 10px;
   height: 650px;

@@ -94,7 +94,7 @@ const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
   }
 `;
 
-const Toggler = styled.button<{ theme: DefaultTheme }>`
+export const Toggler = styled.button<{ theme: DefaultTheme }>`
   display: none;
   background: none;
   border: none;

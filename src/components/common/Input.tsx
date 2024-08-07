@@ -1,6 +1,12 @@
 import { styled } from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
 
+interface InputProps {
+  theme: DefaultTheme;
+  width?: string;
+  height?: string;
+}
+
 export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
@@ -8,9 +14,10 @@ export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 10px;
 `;
 
-export const Input = styled.input<{ theme: DefaultTheme }>`
+export const Input = styled.input<InputProps>`
   border-color: ${({ theme }) => theme.colors.greyBorder};
-  width: 75%;
+  width: ${({ width }) => width ?? '75%'};
+  height: ${({ height }) => height ?? 'auto'};
   padding: 10px;
   border: none;
   background: none;
@@ -27,5 +34,8 @@ export const Input = styled.input<{ theme: DefaultTheme }>`
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
+  }
+  &::placeholder {
+    font-size: 14px;
   }
 `;

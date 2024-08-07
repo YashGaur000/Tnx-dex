@@ -1,11 +1,12 @@
 import React from 'react';
-import { ComingSoon } from '../../components/common';
+import LiquidityPool from '../../components/Liquidity/LiquidityHomePage/Modules/LiquidityPool';
+import { MainContainerStyle } from '../../components/common/MainContainerStyle';
 
 const LiquidityPage: React.FC = () => {
   return (
-    <>
-      <ComingSoon />
-    </>
+    <MainContainerStyle>
+      <LiquidityPool />
+    </MainContainerStyle>
   );
 };
 

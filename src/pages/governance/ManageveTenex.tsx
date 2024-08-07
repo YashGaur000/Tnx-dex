@@ -1,11 +1,13 @@
 import React from 'react';
-import { ComingSoon } from '../../components/common';
+
+import Main from '../../components/ManageVeTenex/Modules/Main';
+import { MainContainerStyle } from '../../components/common/MainContainerStyle';
 
 const ManageveTenex: React.FC = () => {
   return (
-    <>
-      <ComingSoon />
-    </>
+    <MainContainerStyle>
+      <Main />
+    </MainContainerStyle>
   );
 };
 

@@ -84,8 +84,6 @@ export const LP_RAW_DATA = {
     title: 'BUSL - 1.1 License',
     content: `
         <div>
-        <p>We fortified our CL implementation with a BUSL-1.1 license. This approach allows users to easily review our code and understand the nature of their interactions, while also providing protection against potential malicious forking and intellectual property theft.</p>
-        <p><strong>Authorized Forking:</strong> The TENEX team is open to providing authorized forking of the codebase, based on our discretion. Any team that wishes to use our CL model is free to reach out to us, and we can work on reaching an amicable agreement on the terms.</p>
         <p><strong>Benefits of a BUSL-1.1 License for unique solidity contracts:</strong></p>
         <ol>
         <li>Transparency: The license allows users to review the code and understand how it functions. This transparency promotes trust and confidence in the codebase.</li>
@@ -103,16 +101,13 @@ export const LP_RAW_DATA = {
     content: `
         <div>
         <span>Licensing</span>
-        <p>The TENEX CL CORE, while adapted from the Uniswap v3 codebase, has a plethora of unique changes to the overall model (with regards to integrations of ve(3,3)). Due to the competitive and oversaturated landscape in this model, we have decided to employ a BUSL-1.1 license for the novel gauge contracts, which include, but are not limited to:</p>
+        <p>Due to the competitive and oversaturated landscape in this model, we have decided to employ a BUSL-1.1 license for the novel gauge contracts, which include, but are not limited to:</p>
         
         <ul>
         <li>GaugeV2.sol & any relevant interfaces</li>
         <li>FeeCollector.sol & any relevant interfaces</li>
         <li>Any contracts designated with the BUSL-1.1 header.</li>
         </ul>
-        <span>Authorized Forks</span>
-        <p>If you wish to be an authorized TENEX fork, and have a license to use our CL architecture, please go to the TENEX discord https://discord.gg/QHrq54qyb7 and create a partnership ticket.</p>
-        </div>
         `,
   },
 };

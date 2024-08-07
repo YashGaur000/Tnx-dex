@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import twitterLogo from '../assets/twitter-logo.png'; // Replace with the actual path to your image
-import discordLogo from '../assets/discord-logo.png'; // Replace with the actual path to your image
-import telegramLogo from '../assets/telegram-logo.png'; // Replace with the actual path to your image
-import youtubeLogo from '../assets/youtube-logo.png'; // Replace with the actual path to your image
+import twitterLogo from '../assets/twitter-logo.png';
+import discordLogo from '../assets/discord-logo.png';
+import telegramLogo from '../assets/telegram-logo.png';
+import youtubeLogo from '../assets/youtube-logo.png';
 import { DefaultTheme } from '../styles/Theme';
 
 const FooterContainer = styled.footer<{ theme: DefaultTheme }>`
   width: 100%;
-  padding: 140px 20px;
+  padding: 100px 20px;
   background-color: ${({ theme }) => theme.colors.background};
   text-align: center;
 
@@ -58,40 +58,42 @@ const BuiltBy = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const Footer: React.FC = () => (
-  <FooterContainer>
-    <IconsContainer>
-      <IconLink
-        href="https://x.com/TenEx_Official"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-      >
-        <Icon src={twitterLogo} alt="Twitter Logo" />
-      </IconLink>
-      <IconLink
-        href="https://discord.gg/QHrq54qyb7"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-      >
-        <Icon src={discordLogo} alt="Discord Logo" />
-      </IconLink>
-      <IconLink
-        href="https://t.me/+Bq6Csh-d7pw1NzM9"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-      >
-        <Icon src={telegramLogo} alt="Telegram Logo" />
-      </IconLink>
-      <IconLink
-        href="https://www.youtube.com/@TenExOfficial"
-        target="_blank"
-        rel="noopener noreferrer nofollow"
-      >
-        <Icon src={youtubeLogo} alt="YouTube Logo" />
-      </IconLink>
-    </IconsContainer>
-    <BuiltBy>Built by Tenex Finance</BuiltBy>
-  </FooterContainer>
-);
+const Footer: React.FC = () => {
+  return (
+    <FooterContainer>
+      <IconsContainer>
+        <IconLink
+          href="https://x.com/TenEx_Official"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          <Icon src={twitterLogo} alt="Twitter Logo" />
+        </IconLink>
+        <IconLink
+          href="https://discord.gg/QHrq54qyb7"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          <Icon src={discordLogo} alt="Discord Logo" />
+        </IconLink>
+        <IconLink
+          href="https://t.me/+Bq6Csh-d7pw1NzM9"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          <Icon src={telegramLogo} alt="Telegram Logo" />
+        </IconLink>
+        <IconLink
+          href="https://www.youtube.com/@TenExOfficial"
+          target="_blank"
+          rel="noopener noreferrer nofollow"
+        >
+          <Icon src={youtubeLogo} alt="YouTube Logo" />
+        </IconLink>
+      </IconsContainer>
+      <BuiltBy>Built by Tenex Finance</BuiltBy>
+    </FooterContainer>
+  );
+};
 
 export default Footer;

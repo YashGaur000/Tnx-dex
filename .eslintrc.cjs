@@ -1,5 +1,10 @@
 module.exports = {
   root: true,
+  settings: {
+    react: {
+     version: "detect",
+    },
+  },
   env: { browser: true, es2020: true },
   extends: [
     'eslint:recommended',
@@ -27,5 +32,7 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react/require-default-props':0,
+    "react/prop-types": "off",
   },
 };

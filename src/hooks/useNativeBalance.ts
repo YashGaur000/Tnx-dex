@@ -13,7 +13,6 @@ export const useNativeBalance = (address: Address) => {
       setLoading(true);
       try {
         const balance = await getNativeBalance(address);
-        console.log(balance);
         setBalance(balance);
       } catch (error) {
         setError('Failed to fetch balance');

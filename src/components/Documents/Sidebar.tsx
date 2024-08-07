@@ -110,7 +110,7 @@ const Sidebar: React.FC = () => {
               <SectionLink to="introduction/veTenex">
                 veTENEX(veNFT)
               </SectionLink>
-            </NestedSectionLinks>  */}
+            </NestedSectionLinks> */}
             <SectionLink
               to="introduction/veTenex"
               className={activeTab === '/veTenex' ? 'active' : ''}
@@ -540,7 +540,7 @@ const Sidebar: React.FC = () => {
             onClick={() => toggleSection('security')}
             isOpen={visibleSections.security}
           >
-            Security And Legal Considerations
+            Security And Legal
             <FontAwesomeIcon
               icon={visibleSections.security ? faChevronUp : faChevronDown}
             />

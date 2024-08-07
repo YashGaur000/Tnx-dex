@@ -60,7 +60,11 @@ const StyledButton = styled.button<
   }
 `;
 
-const GradientSpan = styled.span<{ theme: DefaultTheme }>`
+export const GradientSpan = styled.span<{
+  fontSize?: number;
+  theme: DefaultTheme;
+}>`
+  font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ theme }) => theme.fonts.main};
   background: ${({ theme }) => theme.colors.buttonBackground};
   -webkit-background-clip: text;

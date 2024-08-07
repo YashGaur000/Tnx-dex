@@ -15,7 +15,7 @@ interface SubTabsProps {
   items: SubTabItem[];
   showTabs: boolean;
   setShowTabs: (showTabs: boolean) => void;
-  setNavOpen: (navOpen: boolean) => void;
+  setNavOpen?: (navOpen: boolean) => void;
 }
 
 const SubTabsContainer = styled.div<{ theme: DefaultTheme }>`

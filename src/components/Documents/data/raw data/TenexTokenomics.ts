@@ -12,18 +12,18 @@ export const TOKENOMICS_RAW_DATA = {
           <span>Distribution and Use</span>
           <ul>
               <li><strong>TENEX:</strong> Distributed to liquidity providers through emissions.</li> 
-              <li><strong>veTENEX  </strong> is used for governance. Any TENEX holder can lock their tokens and receive veTENEX at any time. veTENEX is a transferable NFT representing voting power. Additional tokens can be added to the veTENEX NFT at any time.</li>
+              <li><strong>veTENEX  </strong> is used for governance. Any TENEX holder can lock their tokens and receive a veTENEX (also known as Lock or veNFT) in exchange. Additional tokens can be added to the veTENEX NFT at any time.</li>
           </ul>
       
           <span>Lock Period</span>
           <ul>
-              <li>The lock period, also known as the vote-escrowed period (hence the “ve” prefix), can last up to 2 years.</li>
-              <li>The conversion follows the linear exchange rate:
+              <li>The lock period, also known as the vote-escrowed period (hence the “ve” prefix), can last up to 4 years.</li>
+              <li>The conversion follows the linear relationship:
                   <ul>
-                      <li>100 TENEX locked for 2 years becomes 100 veTENEX.</li>
-                      <li>100 TENEX locked for 0.5 year becomes 25 veTENEX.</li>
-                      <li>The longer the lock period, the greater the voting power.</li>
+                      <li>100 TENEX locked for 4 years becomes 100 veTENEX.</li>
+                      <li>100 TENEX locked for 1 year becomes 25 veTENEX.</li>
                   </ul>
+                <li>The longer the lock period, the greater the voting power.</li>
               </li>
           </ul>
       
@@ -85,13 +85,13 @@ export const TOKENOMICS_RAW_DATA = {
               </tr>
               <tr>
                   <td>Protocol NFT (veTENEX)</td>
-                  <td>8%</td>
-                  <td>32,000,000</td>
+                  <td>7%</td>
+                  <td>28,000,000</td>
               </tr>
               <tr>
                   <td>Partner (TENEX/veTENEX)</td>
-                  <td>4%</td>
-                  <td>16,000,000</td>
+                  <td>3.5%</td>
+                  <td>14,000,000</td>
               </tr>
               <tr>
                   <td>Development Team (TENEX/veTENEX)</td>
@@ -105,8 +105,8 @@ export const TOKENOMICS_RAW_DATA = {
               </tr>
               <tr>
                   <td>Treasury (veTENEX)</td>
-                  <td>1.5%</td>
-                  <td>6,000,000</td>
+                  <td>2.5%</td>
+                  <td>10,000,000</td>
               </tr>
               <tr>
                   <td>Ecosystem Incentives (Gauge and Vote)</td>
@@ -115,8 +115,8 @@ export const TOKENOMICS_RAW_DATA = {
               </tr>
               <tr>
                   <td>LGE (TENEX)</td>
-                  <td>1.5%</td>
-                  <td>6,000,000</td>
+                  <td>2%</td>
+                  <td>8,000,000</td>
               </tr>
               <tr>
                   <td>Initial Investor/Private Sale(TENEX)</td>
@@ -230,9 +230,9 @@ export const TOKENOMICS_RAW_DATA = {
               <li>Simple Design & UX: The FairAuction model features an "up-only" graphical chart depicting the price discovery of the TENEX token. Prices start low and rise proportionally as more collateral is provided, moving only upward until the capped amount, with no selling until tokens are distributed at the LGE's end.</li>
           </ul>
           </div>
-          <p>LGE Week - 7th Aug 2024 to 13th Aug 2024</p>
+          <p>LGE Week - </p>
           <p>Time - ?</p>
-          <p>Max Cap - 300 ETH or equivalent CRO token ?</p>
+          <p>Max Cap - 300 ETH or equivalent BLAST token </p>
           
           `,
   },
