@@ -540,7 +540,7 @@ const Sidebar: React.FC = () => {
             onClick={() => toggleSection('security')}
             isOpen={visibleSections.security}
           >
-            Security And Legal Considerations
+            Security And Legal
             <FontAwesomeIcon
               icon={visibleSections.security ? faChevronUp : faChevronDown}
             />
