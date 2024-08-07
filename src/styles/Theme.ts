@@ -43,6 +43,7 @@ interface Colorpallate {
   titleColor: string;
   stepperColor: string;
   backgroundAnalytics: string;
+  separator: string;
 }
 
 interface FontType {
@@ -109,6 +110,8 @@ const theme: DefaultTheme = {
     navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
     bordercolor: 'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
     stepperColor: '#101C3B',
+    separator:
+      'linear-gradient(90deg, rgba(219, 219, 219, 0.04) 0%, rgba(219, 219, 219, 0.16) 50%, rgba(219, 219, 219, 0.04) 100%)',
   },
   fonts: {
     main: 'Kanit, sans-serif',
