@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
+
 // import { Logo } from '../Header';
 // import logoImage from '../../assets/logo.svg';
 import { Outlet } from 'react-router-dom';
@@ -12,11 +13,13 @@ const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   width: 90%;
   // border-left: 1px solid ${({ theme }) => theme.colors.grey};
 
+
   @media (max-width: 900px) {
     margin-left: 0;
     width: 100%;
   }
 `;
+
 
 // const Banner = styled.div<{ theme: DefaultTheme }>`
 //   background: ${({ theme }) => theme.colors.card};
@@ -32,6 +35,7 @@ const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
 //   // top: 10px;
 //   // z-index: 100;
 // `;
+
 
 const MainContent: React.FC = () => {
   return (

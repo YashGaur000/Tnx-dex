@@ -183,6 +183,9 @@ const Header: React.FC = () => {
             isActive={activeMainTab === 'Trade' ? true : false}
             onClick={() => {
               setShowTradeSubTabs(!showTradeSubTabs);
+              {
+                console.log(activeMainTab);
+              }
             }}
           >
             Trade <FontAwesomeIcon icon={faChevronDown} />

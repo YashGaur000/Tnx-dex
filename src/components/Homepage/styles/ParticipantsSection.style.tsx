@@ -38,6 +38,7 @@ export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
     grid-template-columns: repeat(2, 1fr);
   }
 
+
   @media (max-width: ${({ theme }) => theme.screenSizes.custom900}) {
     justify-items: center;
     grid-template-columns: repeat(2, 1fr);
@@ -46,6 +47,7 @@ export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   @media (max-width: 768px) {
     grid-template-columns: none;
     justify-content: center;
+
   }
 `;
 
