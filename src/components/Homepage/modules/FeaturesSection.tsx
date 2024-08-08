@@ -5,7 +5,7 @@ import { FeaturesContainer, CardText } from '../styles/FeatureSection.style';
 const FeaturesSection: React.FC = () => (
   <FeaturesContainer>
     <Card height="136px">
-      <CardText>Stable and Volatile trading for low fees</CardText>
+      <CardText>Minimal Slippage trades for low fees</CardText>
     </Card>
     <Card height="136px">
       <CardText>Autonomous Liquidity Cycle</CardText>

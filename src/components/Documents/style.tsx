@@ -6,7 +6,7 @@ export const SidebarContainer = styled.aside<{
   theme: DefaultTheme;
   isopen: string;
 }>`
-  width: 20%;
+  width: 13%;
   padding-top: 10px;
   padding-right: 10px;
   height: 650px;
@@ -42,7 +42,7 @@ export const SectionTitle = styled.h3<{ theme: DefaultTheme; isOpen: boolean }>`
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: 20px;
+  font-size: 16px;
   line-height: 29.9px;
   cursor: pointer;
   display: flex;

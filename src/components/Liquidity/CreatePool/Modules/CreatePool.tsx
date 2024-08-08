@@ -8,6 +8,7 @@ import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
 
+import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import {
   TokenSelectAlign,
   TokenSelectAlignSelect,
@@ -27,7 +28,11 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
-import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
+
+import { getContract } from '../../../../utils/contract/getContract';
+import address from '../../../../constants/contract-address/address.json';
+import routerAbi from '../../../../constants/artifacts/contracts/Router.json';
+import { useAccount } from '../../../../hooks/useAccount';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -57,6 +62,12 @@ const CreatePool = () => {
   const closeModal = () => {
     setPopUpVisible(false);
   };
+
+  const routerAddress: string = address.Router;
+  const { chainId } = useAccount();
+  // console.log(chainId, routerAddress, typeof chainId);
+  console.log(getContract(routerAddress, routerAbi.abi, chainId));
+
   return (
     <>
       <MainContainerStyle>

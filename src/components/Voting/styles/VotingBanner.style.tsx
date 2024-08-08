@@ -2,51 +2,52 @@ import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const VoteBoxWrapper = styled.div<{ theme: DefaultTheme }>`
-  margin-bottom: 1.25rem;
-  padding: 1.25rem;
+  margin-bottom: 20px;
+  padding: 20px;
 
   @media (max-width: 768px) {
-    padding: 0.625rem;
+    padding: 10px;
   }
 `;
 
 export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  line-height: 4.5rem;
-  margin-bottom: 1.5rem;
+  line-height: 72px;
+  margin-bottom: 24px;
 
   @media (max-width: 768px) {
-    justify-content: center;
-    line-height: 2.5rem;
+    justify-content: left;
+    line-height: 40px;
   }
 `;
 
 export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
-  font-size: ${({ fontSize }) => fontSize / 16}rem;
+  font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 768px) {
-    font-size: ${({ fontSize }) => (fontSize * 0.7) / 16}rem;
+    font-size: 36px;
+    text-align: left;
   }
 `;
 
 export const VoteDescBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  line-height: 2.25rem;
+  line-height: 36px;
 
   @media (max-width: 768px) {
     justify-content: center;
-    text-align: center;
-    line-height: 1.75rem;
+    text-align: left;
+    line-height: 28px;
   }
 `;
 
 export const VoteDesc = styled.p<{ theme: DefaultTheme }>`
-  font-size: 1.5rem;
+  font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 768px) {
-    font-size: 1.125rem;
+    font-size: 16px;
   }
 `;
 
@@ -54,21 +55,21 @@ export const VoteInfo = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-size: 2.25rem;
-  margin-top: 2.25rem;
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
+  font-size: 36px;
+  margin-top: 36px;
+  margin-left: 40px;
+  margin-right: 40px;
 
   @media (max-width: 768px) {
-    font-size: 1.5rem;
-    margin: 1.25rem;
+    font-size: 24px;
+    margin: 20px;
   }
 `;
 
 export const VoteInfoValues = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 1.25rem;
+  gap: 20px;
   text-align: center;
 
   @media (max-width: 1024px) {
@@ -77,7 +78,7 @@ export const VoteInfoValues = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.625rem;
+    gap: 10px;
   }
 
   @media (max-width: 480px) {
@@ -86,12 +87,11 @@ export const VoteInfoValues = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const VoteInfoSubtitle = styled.div<{ theme: DefaultTheme }>`
-  // display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 1.25rem;
+  gap: 20px;
   justify-content: center;
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 1024px) {
@@ -100,8 +100,8 @@ export const VoteInfoSubtitle = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.625rem;
-    font-size: 0.875rem;
+    gap: 10px;
+    font-size: 14px;
   }
 
   @media (max-width: 480px) {
@@ -113,5 +113,10 @@ export const InfoItem = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
+  font-size: 24px;
+
+  @media (max-width: 900px) {
+    font-size: 16px;
+  }
 `;

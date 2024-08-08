@@ -1,6 +1,7 @@
 import ComingSoon from './ComingSoon';
 export { ComingSoon };
 import GradientButton from './Buttons/GradientButton';
+// import { fromPairs } from '../../../node_modules/cypress/types/lodash/index';
 export { GradientButton };
 export { Card, CardTitle, CardDescription, CardRow } from './Card';
 export {
@@ -13,3 +14,5 @@ export {
 export { InputWrapper, Input } from './Input';
 
 export { SidebarContainer } from './Sidebar';
+
+export { Separator } from './Separator';

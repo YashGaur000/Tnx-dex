@@ -7,26 +7,26 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   overflow-y: auto;
   color: ${({ theme }) => theme.colors.text};
   padding: 4%;
-  line-height: 35.88px;
+  line-height: 20.93px;
   font-size: 34px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   font-family: ${({ theme }) => theme.fonts.main};
 
   h1 {
-    font-size: 36px;
+    font-size: 24px;
     font-weight: ${({ theme }) => theme.fontWeights.regular};
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 
   span {
-    font-size: 21px;
+    font-size: 20px;
     font-weight: ${({ theme }) => theme.fontWeights.bold};
   }
 
   p {
     margin: 1rem 0;
-    font-size: 18px;
+    font-size: 14px;
     padding-left: 10px;
     font-weight: ${({ theme }) => theme.fontWeights.regular};
   }
@@ -38,7 +38,7 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   ul,
   ol {
     margin: 1rem 0;
-    font-size: 18px;
+    font-size: 14px;
     font-weight: ${({ theme }) => theme.fontWeights.regular};
     padding-left: 40px;
   }

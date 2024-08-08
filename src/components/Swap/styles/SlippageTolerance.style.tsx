@@ -82,7 +82,7 @@ export const SlippageAlign = styled.div`
   justify-content: space-between;
 `;
 
-export const SelectSlippage = styled.button<{ theme: DefaultTheme }>`
+export const SlippageInput = styled.input<{ theme: DefaultTheme }>`
   width: 74px;
   height: 32px;
   padding: 8px;
@@ -90,7 +90,7 @@ export const SelectSlippage = styled.button<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.greyDark};
   border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
   border-radius: 10px;
-  cursor: pointer;
+  text-align: center;
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};

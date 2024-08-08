@@ -1,16 +1,23 @@
 import React from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
-import { Logo } from '../Header';
-import logoImage from '../../assets/logo.svg';
+
+// import { Logo } from '../Header';
+// import logoImage from '../../assets/logo.svg';
 import { Outlet } from 'react-router-dom';
 
 const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
-  padding: 20px;
-  margin-left: 22%;
+  padding: 10px;
+  margin-top: -2%;
+  margin-left: 15%;
   margin-bottom: 15%;
-  width: 80%;
-  border-left: 1px solid ${({ theme }) => theme.colors.grey};
+  width: 90%;
+  // border-left: 1px solid ${({ theme }) => theme.colors.grey};
+
+  @media (max-width: 1200px) {
+    margin-left: 24%;
+    width: 80%;
+  }
 
   @media (max-width: 900px) {
     margin-left: 0;
@@ -18,28 +25,28 @@ const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   }
 `;
 
-const Banner = styled.div<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.card};
-  color: ${({ theme }) => theme.colors.text};
-  padding: 20px;
-  text-align: center;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  border-radius: 20px;
-  // position: sticky;
-  // top: 10px;
-  // z-index: 100;
-`;
+// const Banner = styled.div<{ theme: DefaultTheme }>`
+//   background: ${({ theme }) => theme.colors.card};
+//   color: ${({ theme }) => theme.colors.text};
+//   padding: 20px;
+//   text-align: center;
+//   margin-bottom: 20px;
+//   display: flex;
+//   flex-direction: column;
+//   gap: 20px;
+//   border-radius: 20px;
+//   // position: sticky;
+//   // top: 10px;
+//   // z-index: 100;
+// `;
 
 const MainContent: React.FC = () => {
   return (
     <MainContentContainer>
-      <Banner>
+      {/* <Banner>
         <Logo src={logoImage} />
         Premier Trading and Liquidity Market Place of DeFi
-      </Banner>
+      </Banner> */}
       <Outlet />
     </MainContentContainer>
   );

@@ -29,7 +29,7 @@ const VotingPoolBar: React.FC = () => {
   return (
     <VotingPoolContainer>
       <PoolTitleBox>
-        <Title fontSize="24px">Voting Pools</Title>
+        <Title fontSize="20px">Voting Pools</Title>
         <TooltipContainerHover>
           <TriggerElement>
             <VotingPoolsTooltip src={questionmark} alt="QuestionMark Logo" />
@@ -37,8 +37,8 @@ const VotingPoolBar: React.FC = () => {
           <TooltipBox>
             <VotingTimelineBox>
               <TooltipsQuadrant1>
-                <TooltipText fontSize="24px">Voting</TooltipText>
-                <TooltipText fontSize="16px">
+                <TooltipText fontSize="20px">Voting</TooltipText>
+                <TooltipText fontSize="12px">
                   veTENEX holders decide which liquidity pools receive $TENEX
                   emissions. In return, voters receive 100% of the trading fees
                   and incentives collected from the liquidity pool they vote
@@ -46,8 +46,8 @@ const VotingPoolBar: React.FC = () => {
                 </TooltipText>
               </TooltipsQuadrant1>
               <TooltipsQuadrant2>
-                <TooltipText fontSize="24px">Timeline</TooltipText>
-                <TooltipText fontSize="16px">
+                <TooltipText fontSize="20px">Timeline</TooltipText>
+                <TooltipText fontSize="12px">
                   <p>
                     Votes for the next epoch are due by Wednesday at 23:00 UTC,
                     1 hour before the next epoch begins. During the following
@@ -59,8 +59,8 @@ const VotingPoolBar: React.FC = () => {
             </VotingTimelineBox>
             <InstructionRewardsBox>
               <TooltipsQuadrant3>
-                <TooltipText fontSize="24px">Instructions</TooltipText>
-                <TooltipText fontSize="16px">
+                <TooltipText fontSize="20px">Instructions</TooltipText>
+                <TooltipText fontSize="12px">
                   Distribute 100% of your Locks (veNFT) vote-power
                   <br /> among your preferred pools and cast your vote. Repeat
                   <br /> for each of your Locks (veNFTs). Unallocated vote-power
@@ -72,8 +72,8 @@ const VotingPoolBar: React.FC = () => {
                 </TooltipText>
               </TooltipsQuadrant3>
               <TooltipsQuadrant4>
-                <TooltipText fontSize="24px">Rewards</TooltipText>
-                <TooltipText fontSize="16px">
+                <TooltipText fontSize="20px">Rewards</TooltipText>
+                <TooltipText fontSize="12px">
                   Voting rewards for a given epoch will appear in your Dashboard
                   after the epoch change on Thursday at 00:00 UTC. Rebase
                   rewards for new locks will appear after the second epoch
@@ -86,19 +86,19 @@ const VotingPoolBar: React.FC = () => {
       </PoolTitleBox>
       <VotingBarBox>
         <VotingTabBar>
-          <VotingAllPoolsTabs Width={16}>
-            <GradientSpan fontSize={16}>Most Rewarded</GradientSpan>
+          <VotingAllPoolsTabs Width="14">
+            <GradientSpan fontSize={14}>Most Rewarded</GradientSpan>
           </VotingAllPoolsTabs>
-          <VotingAllPoolsTabs Width={16}>
-            <GradientSpan fontSize={16}>Least Rewarded</GradientSpan>
+          <VotingAllPoolsTabs Width="14">
+            <GradientSpan fontSize={14}>Least Rewarded</GradientSpan>
           </VotingAllPoolsTabs>
-          <VotingAllPoolsTabs Width={12}>
-            <GradientSpan fontSize={16}>All Pools</GradientSpan>
+          <VotingAllPoolsTabs Width="14">
+            <GradientSpan fontSize={14}>All Pools</GradientSpan>
           </VotingAllPoolsTabs>
         </VotingTabBar>
         <VotingTabBar2>
-          <VotingAllPoolsTabs Width={15}>
-            <GradientSpan fontSize={16}>
+          <VotingAllPoolsTabs Width="14">
+            <GradientSpan fontSize={14}>
               Active <FontAwesomeIcon icon={faChevronDown} />
             </GradientSpan>
           </VotingAllPoolsTabs>
