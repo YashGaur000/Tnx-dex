@@ -14,7 +14,9 @@ export const PoolTitleBox = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
 
   @media (max-width: 768px) {
-    justify-content: center;
+    justify-content: left;
+    font-size: 16px;
+    margin-top: -25px;
   }
 `;
 
@@ -43,7 +45,7 @@ export const VotingTabBar = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    justify-content: left;
+    justify-content: center;
   }
 `;
 
@@ -122,11 +124,10 @@ export const VotingPoolsTooltip = styled.img`
 
 export const SearchBarWrapper = styled.div`
   flex-grow: 1;
-  max-width: 300px;
 
   @media (max-width: 768px) {
     width: 50%;
-    max-width: none;
+    max-width: 100%;
   }
 `;
 
