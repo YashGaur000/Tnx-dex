@@ -67,3 +67,7 @@ export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: ${({ theme }) => theme.fontSize.small};
 `;
+export const LiquidityHeaderColumn = styled.th`
+  float: left;
+  margin-left: 55px;
+`;

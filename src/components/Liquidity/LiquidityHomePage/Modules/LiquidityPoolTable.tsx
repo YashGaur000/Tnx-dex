@@ -2,6 +2,7 @@ import Table, { TableContainerStyle } from '../../../common/TableStyled';
 import PoolData from '../../../../constants/PoolData.json';
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
 import ShortIcon from '../../../../assets/short.png';
+import { LiquidityHeaderColumn } from '../styles/LiquidityTable.style.tsx';
 
 const LiquidityPoolTable = () => {
   return (
@@ -15,7 +16,7 @@ const LiquidityPoolTable = () => {
       >
         <thead>
           <tr>
-            <th>Liquidity Pool </th>
+            <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
             <th>
               APR <img src={ShortIcon} />
             </th>
