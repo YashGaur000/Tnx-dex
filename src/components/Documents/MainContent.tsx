@@ -8,18 +8,22 @@ import { Outlet } from 'react-router-dom';
 
 const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
   padding: 10px;
+  margin-top: -2%;
   margin-left: 15%;
   margin-bottom: 15%;
   width: 90%;
   // border-left: 1px solid ${({ theme }) => theme.colors.grey};
 
+  @media (max-width: 1200px) {
+    margin-left: 24%;
+    width: 80%;
+  }
 
   @media (max-width: 900px) {
     margin-left: 0;
     width: 100%;
   }
 `;
-
 
 // const Banner = styled.div<{ theme: DefaultTheme }>`
 //   background: ${({ theme }) => theme.colors.card};
@@ -35,7 +39,6 @@ const MainContentContainer = styled.main<{ theme: DefaultTheme }>`
 //   // top: 10px;
 //   // z-index: 100;
 // `;
-
 
 const MainContent: React.FC = () => {
   return (
