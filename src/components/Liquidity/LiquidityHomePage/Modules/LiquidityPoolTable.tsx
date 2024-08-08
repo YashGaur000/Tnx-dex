@@ -1,7 +1,7 @@
 import Table, { TableContainerStyle } from '../../../common/TableStyled';
 import PoolData from '../../../../constants/PoolData.json';
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
-import ShortIcon from '../../../../assets/short.png';
+import SortIcon from '../../../../assets/sorting.png';
 
 const LiquidityPoolTable = () => {
   return (
@@ -17,16 +17,16 @@ const LiquidityPoolTable = () => {
           <tr>
             <th>Liquidity Pool </th>
             <th>
-              APR <img src={ShortIcon} />
+              APR <img src={SortIcon} />
             </th>
             <th>
-              Volume <img src={ShortIcon} />
+              Volume <img src={SortIcon} />
             </th>
             <th>
-              Fees <img src={ShortIcon} />
+              Fees <img src={SortIcon} />
             </th>
             <th>
-              Pool Balance <img src={ShortIcon} />
+              Pool Balance <img src={SortIcon} />
             </th>
           </tr>
         </thead>
