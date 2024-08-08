@@ -27,6 +27,7 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
+import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
@@ -187,6 +188,7 @@ const CreatePool = () => {
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
         {<LiquidityToolTips />}
+        <div>hey</div>
       </PopupScreen>
     </>
   );
