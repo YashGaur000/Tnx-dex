@@ -16,7 +16,7 @@ export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 24px;
 
   @media (max-width: 768px) {
-    justify-content: center;
+    justify-content: left;
     line-height: 40px;
   }
 `;
@@ -26,7 +26,8 @@ export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 768px) {
-    font-size: ${({ fontSize }) => fontSize * 0.7}px;
+    font-size: 36px;
+    text-align: left;
   }
 `;
 
@@ -36,7 +37,7 @@ export const VoteDescBox = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     justify-content: center;
-    text-align: center;
+    text-align: left;
     line-height: 28px;
   }
 `;
@@ -46,7 +47,7 @@ export const VoteDesc = styled.p<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 768px) {
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
@@ -114,4 +115,8 @@ export const InfoItem = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
   margin-bottom: 16px;
   font-size: 24px;
+
+  @media (max-width: 900px) {
+    font-size: 16px;
+  }
 `;
