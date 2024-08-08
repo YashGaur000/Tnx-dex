@@ -42,7 +42,7 @@ export const SectionTitle = styled.h3<{ theme: DefaultTheme; isOpen: boolean }>`
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: 20px;
+  font-size: 16px;
   line-height: 29.9px;
   cursor: pointer;
   display: flex;
