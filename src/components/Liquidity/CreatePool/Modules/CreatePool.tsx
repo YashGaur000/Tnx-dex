@@ -187,6 +187,7 @@ const CreatePool = () => {
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
         {<LiquidityToolTips />}
+        <div>hey</div>
       </PopupScreen>
     </>
   );
