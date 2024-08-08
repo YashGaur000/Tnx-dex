@@ -1,10 +1,12 @@
 import React from 'react';
-import { ComingSoon } from '../../components/common';
+import IncentiveBanner from '../../components/Incentives/IncentiveBanner';
+import IncentiveSection from '../../components/Incentives/IncentiveSection';
 
 const Incentives: React.FC = () => {
   return (
     <>
-      <ComingSoon />
+      <IncentiveBanner />
+      <IncentiveSection />
     </>
   );
 };
