@@ -27,7 +27,6 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
-import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
@@ -43,6 +42,7 @@ const CreatePool = () => {
     setSelectedToken2,
   } = useLiquidityStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { address } = useAccount();
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
   >('token1');
@@ -134,6 +134,7 @@ const CreatePool = () => {
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
               onSelect={handleTokenSelect}
+              account={address!}
             />
           </TokenSelectItem>
           <TokenSelectItem>
@@ -165,6 +166,7 @@ const CreatePool = () => {
               isOpen={isModalOpen}
               onClose={() => setIsModalOpen(false)}
               onSelect={handleTokenSelect}
+              account={address!}
             />
           </TokenSelectItem>
         </CreatePoolStyles>
