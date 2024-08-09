@@ -13,6 +13,7 @@ interface ChainProps {
 
 export const ConnectWallet = () => {
   const { address } = useAccount();
+
   return (
     <ConnectButton.Custom>
       {({

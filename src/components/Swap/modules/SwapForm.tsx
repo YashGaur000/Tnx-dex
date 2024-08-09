@@ -159,6 +159,7 @@ const SwapForm: React.FC = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSelect={handleTokenSelect}
+            account={address!}
           />
           <GlobalButton padding="15px">Swap</GlobalButton>
           <Description>
