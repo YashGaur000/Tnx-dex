@@ -79,8 +79,8 @@ const PopupScreen: React.FC<PopUpProps> = ({
 }) => {
   return (
     <ModalBackground isVisible={isVisible} onClick={onClose}>
-      <ModalContent>
-        <CloseButton onClick={(e) => e.stopPropagation()}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <CloseButton onClick={onClose}>
           <CloseImg src={CloseIcon} />
         </CloseButton>
         {children}

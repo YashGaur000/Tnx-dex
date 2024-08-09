@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import SearchIcon from '../../../../assets/search-icon.png';
 import { Input } from '../../../common';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
@@ -16,11 +16,19 @@ interface Option {
   id: number;
   label: string;
 }
+interface FilterContainerProps {
+  handleSelectedFilterItem: (item: string) => void;
+  handleSearchFeatures: (item: string) => void;
+}
 
-const FilterContainer: React.FC = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>('All Posts');
+const FilterContainer: React.FC<FilterContainerProps> = ({
+  handleSelectedFilterItem,
+  handleSearchFeatures,
+}) => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('All Pools');
+  const [InputData, setInputData] = useState('');
   const ButtonData: string[] = [
-    'All Posts',
+    'All Pools',
     'Stable',
     'Volatile',
     'Concentrated',
@@ -35,12 +43,17 @@ const FilterContainer: React.FC = () => {
   ];
 
   const handleFilterClick = (item: string): void => {
-    console.log(item);
     setSelectedFilter(item);
+    handleSelectedFilterItem(item);
   };
 
   const handleSelectOption = (option: Option): void => {
     console.log(option);
+  };
+
+  const handlePoolTabelSearchBox = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputData(e.target.value);
+    handleSearchFeatures(e.target.value);
   };
 
   return (
@@ -70,6 +83,8 @@ const FilterContainer: React.FC = () => {
               placeholder="Search by symbol or address"
               width="100%"
               height="30px"
+              value={InputData}
+              onChange={handlePoolTabelSearchBox}
             />
           </SearchBoxContainer>
         </FilterWithSearchStyle>

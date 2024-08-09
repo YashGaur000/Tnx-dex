@@ -22,7 +22,7 @@ export const FilterWrapper = styled.main`
 `;
 export const FilterButton = styled.button<FilterButtonProps>`
   background: transparent;
-  color: ${({ theme }) => theme.colors.titleColor};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   display: inline-block;
   white-space: nowrap;
 
@@ -46,7 +46,7 @@ export const FilterButton = styled.button<FilterButtonProps>`
     position: absolute;
     inset: 0;
     border-radius: 13px;
-
+    color: ${({ theme }) => theme.colors.whiteBorder};
     background: ${({ theme, selected }) =>
       selected ? theme.colors.buttonBackground : theme.colors.greyBorder};
     -webkit-mask:
@@ -104,7 +104,7 @@ export const FilterButtonContainer = styled.div`
 `;
 export const LiquidityFilterSelect = styled.select<{ theme: DefaultTheme }>`
   background: transparent;
-  color: white;
+  color: ${({ theme }) => theme.colors.whiteBorder};
   height: 38px;
   border-radius: 10px;
   padding: 10px;
@@ -138,6 +138,7 @@ export const FilterWithSearchStyle = styled.div`
 export const SearchBoxContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   border: 1px solid ${({ theme }) => theme.colors.greyBorder};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   height: 35px;
   border-radius: 10px;
   align-items: center;
