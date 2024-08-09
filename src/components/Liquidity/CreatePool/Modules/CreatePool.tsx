@@ -27,10 +27,8 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
-import { getContract } from '../../../../utils/contract/getContract';
-import address from '../../../../constants/contract-address/address.json';
-import routerAbi from '../../../../constants/artifacts/contracts/Router.json';
-import { useAccount } from '../../../../hooks/useAccount';
+// import { addLiquidity } from '../../../../services/Liquidity.service';
+// import { useAccount } from '../../../../hooks/useAccount';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -53,6 +51,7 @@ const CreatePool = () => {
       setSelectedToken2(token);
     }
   };
+
   function handleTooolTipShow() {
     setPopUpVisible(true);
   }
@@ -61,10 +60,28 @@ const CreatePool = () => {
     setPopUpVisible(false);
   };
 
-  const routerAddress: string = address.Router;
-  const { chainId } = useAccount();
-  // console.log(chainId, routerAddress, typeof chainId);
-  console.log(getContract(routerAddress, routerAbi.abi, chainId));
+  // const {
+  //   addLiquidityAction,
+  // } = useLiquidityStore();
+
+  // const tokenA: string="0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC";
+  // const tokenB: string='0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
+
+  // const { chainId, address: userAddress } = useAccount();
+
+  // console.log(addLiquidity({
+  //   tokenA: tokenA,
+  //   tokenB: tokenB,
+  //   stable: false,
+  //   amountADesired: 10,
+  //   amountBDesired: 12,
+  //   amountAMin: 5,
+  //   amountBMin: 6,
+  //   to: userAddress,
+  //   deadline: 1723113333,
+  //   userAddress: userAddress,
+  //   chainId: chainId
+  // },))
 
   return (
     <>
