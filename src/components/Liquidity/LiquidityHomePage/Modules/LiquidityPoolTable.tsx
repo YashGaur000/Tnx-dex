@@ -1,10 +1,28 @@
 import Table, { TableContainerStyle } from '../../../common/TableStyled';
-import PoolData from '../../../../constants/PoolData.json';
+
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
 import SortIcon from '../../../../assets/sorting.png';
-import { LiquidityHeaderColumn } from '../styles/LiquidityTable.style.tsx';
+import {
+  LiquidityHeaderColumn,
+  TableHeaderWrapper,
+} from '../styles/LiquidityTable.style.tsx';
+import { PoolDataProps } from './LiquidityPool.tsx';
 
-const LiquidityPoolTable = () => {
+type SortableKeys = keyof PoolDataProps;
+
+interface PoolTableProps {
+  handleSortedFeatures: (item: SortableKeys) => void;
+  sortedData: PoolDataProps[];
+}
+
+const LiquidityPoolTable: React.FC<PoolTableProps> = ({
+  handleSortedFeatures,
+  sortedData,
+}) => {
+  const handleSorting = (item: SortableKeys) => {
+    handleSortedFeatures(item);
+  };
+
   return (
     <TableContainerStyle>
       <Table
@@ -18,21 +36,32 @@ const LiquidityPoolTable = () => {
           <tr>
             <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
             <th>
-              APR <img src={SortIcon} />
+              <TableHeaderWrapper onClick={() => handleSorting('apr')}>
+                APR <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
             <th>
-              Volume <img src={SortIcon} />
+              <TableHeaderWrapper onClick={() => handleSorting('volume')}>
+                {' '}
+                Volume <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
             <th>
-              Fees <img src={SortIcon} />
+              <TableHeaderWrapper onClick={() => handleSorting('fees')}>
+                {' '}
+                Fees <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
             <th>
-              Pool Balance <img src={SortIcon} />
+              <TableHeaderWrapper onClick={() => handleSorting('poolBalance')}>
+                {' '}
+                Pool Balance <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
           </tr>
         </thead>
         <tbody>
-          {PoolData.map((item, key) => (
+          {sortedData.map((item, key) => (
             <LiquidityPoolCard key={key} data={item} />
           ))}
         </tbody>

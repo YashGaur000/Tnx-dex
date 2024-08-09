@@ -1,4 +1,3 @@
-import GroupTokenIcon from '../../../../assets/Groupcoin.png';
 import InformIcon from '../../../../assets/information.png';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import {
@@ -10,7 +9,6 @@ import {
   DepositeContentWrapper,
   DepositeStyle,
   DepositeTokenWithImage,
-  ImgTokenIcon,
   LiquidityCardSection,
   LiquidityStyleContainer,
   TokenContainer,
@@ -18,64 +16,90 @@ import {
   TokenStatus,
 } from '../styles/TokenDeposite.style';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import { useLocation } from 'react-router-dom';
+import {
+  GroupImgContains,
+  IMG1Contains,
+  IMG2Contains,
+  Imgstyle,
+} from '../../LiquidityHomePage/styles/LiquidityTable.style';
+import { PoolDataProps } from '../../LiquidityHomePage/Modules/LiquidityPool';
 
 const TokenDeposite = () => {
-  const { poolType, selectedToken1, selectedToken2 } = useLiquidityStore();
+  const location = useLocation();
+  const obj: PoolDataProps =
+    (location.state as PoolDataProps) || ({} as PoolDataProps);
 
-  if (selectedToken1 && selectedToken2) {
-    return (
-      <LiquidityCardSection>
-        <DepositeContentWrapper>
-          <DepositeTokenWithImage>
-            {/* todo: add separate icons for selected tokens */}
-            <ImgTokenIcon src={GroupTokenIcon} />
+    const { poolType, selectedToken1, selectedToken2 } = useLiquidityStore();
 
-            <TokenDescription>
-              <LiquidityHeaderTitle fontSize={20}>
-                {selectedToken1.symbol}-{selectedToken2.symbol}
-              </LiquidityHeaderTitle>
-              <TokenStatus>
-                <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
-                <label>0.01%</label>
-                <LiquidityImgStyle
-                  width={'15'}
-                  height={'15'}
-                  src={InformIcon}
-                />
-              </TokenStatus>
-            </TokenDescription>
-          </DepositeTokenWithImage>
-          <TokenContainer>
-            <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
-            <p>226.18%</p>
-          </TokenContainer>
-        </DepositeContentWrapper>
-        <DepositeContentWrapper>
-          <LiquidityStyleContainer>
-            <LiquidityHeaderTitle fontSize={16}>Liquidity</LiquidityHeaderTitle>
-            <LiquidityTitle fontSize={12}>
-              1,003,212.5643 <span>{selectedToken1.symbol}</span>
-            </LiquidityTitle>
-            <LiquidityTitle fontSize={12}>
-              2,783,860.003 <span>{selectedToken2.symbol}</span>
-            </LiquidityTitle>
-          </LiquidityStyleContainer>
-          <DepositeStyle>
-            <LiquidityHeaderTitle fontSize={16}>
-              Your Deposits
+    if (selectedToken1 && selectedToken2) {
+
+  return (
+    <LiquidityCardSection>
+      <DepositeContentWrapper>
+        <DepositeTokenWithImage>
+          <GroupImgContains>
+            <IMG1Contains Top={5} Left={0}>
+              <Imgstyle src={selectedToken1.logoURI}
+              // {obj.icon1}
+               />
+            </IMG1Contains>
+            <IMG2Contains Top={5} Left={26}>
+              <Imgstyle src={selectedToken2.logoURI}
+              // {obj.icon2}
+               />
+            </IMG2Contains>
+          </GroupImgContains>
+
+          <TokenDescription>
+            <LiquidityHeaderTitle fontSize={20}>
+              {/* {obj.pair} */}
+              {selectedToken1.symbol}-{selectedToken2.symbol}
             </LiquidityHeaderTitle>
-            <LiquidityTitle fontSize={12}>0.0 USDT</LiquidityTitle>
-            <LiquidityTitle fontSize={12}>0.0 FTM</LiquidityTitle>
-          </DepositeStyle>
-        </DepositeContentWrapper>
-      </LiquidityCardSection>
-    );
-  } else {
-    return (
-      <>
-        <h3>Error: Please select a token</h3>
-      </>
-    );
+            <TokenStatus>
+              <StatsCardtitle fontSize={12}>
+                {/* {obj.liquidityType} */}
+                {poolType}
+                </StatsCardtitle>
+              <label>0.01%{obj.stablePercentage}</label>
+              <LiquidityImgStyle width={'15'} height={'15'} src={InformIcon} />
+            </TokenStatus>
+          </TokenDescription>
+        </DepositeTokenWithImage>
+
+        <TokenContainer>
+          <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
+          <p>{obj.apr}</p>
+        </TokenContainer>
+      </DepositeContentWrapper>
+
+      <DepositeContentWrapper>
+        <LiquidityStyleContainer>
+          <LiquidityHeaderTitle fontSize={16}>Liquidity</LiquidityHeaderTitle>
+          <LiquidityTitle fontSize={12}>
+            {obj.feesDesc} 0{selectedToken1.symbol}
+            <span></span>
+          </LiquidityTitle>
+          <LiquidityTitle fontSize={12}>
+            {obj.feesSubDesc} 0{selectedToken2.symbol}
+            <span></span>
+          </LiquidityTitle>
+        </LiquidityStyleContainer>
+
+        <DepositeStyle>
+          <LiquidityHeaderTitle fontSize={16}>
+            Your Deposits
+          </LiquidityHeaderTitle>
+          <LiquidityTitle fontSize={12}>{obj.balanceDesc}{selectedToken1.symbol}</LiquidityTitle>
+          <LiquidityTitle fontSize={12}>{obj.volumeSubDesc}{selectedToken2.symbol}</LiquidityTitle>
+        </DepositeStyle>
+      </DepositeContentWrapper>
+    </LiquidityCardSection>
+  );}
+  else{
+    return (<>
+    <h3>Error: Please select tokens</h3>
+    </>);
   }
 };
 
