@@ -10,6 +10,8 @@ import {
   VolumeStyles,
   SuggestImg,
   TokenAmountTitle,
+  AprDataWrapper,
+  SugestImgWrapper,
 } from '../styles/LiquidityTable.style';
 import { GradientButton } from '../../../common';
 import { useNavigate } from 'react-router-dom';
@@ -33,12 +35,15 @@ interface DataProps {
   feesSubDesc: string;
   poolBalance: string;
   balanceDesc: string;
+  liquidityType: string;
 }
-
+import { useState } from 'react';
+import LiquidityInfo from './LiquidityInfo';
 const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
   const Navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
   function handleDepositeButton() {
-    Navigate('/liquidity/manage');
+    Navigate('/liquidity/manage', { state: data });
   }
 
   return (
@@ -49,15 +54,24 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
             <IMG1Contains Top={20} Left={0}>
               <Imgstyle src={data.icon1} />
             </IMG1Contains>
-            <IMG2Contains Top={20} Left={20}>
+            <IMG2Contains Top={20} Left={25}>
               <Imgstyle src={data.icon2} />
             </IMG2Contains>
           </GroupImgContains>
           <PairContain>
             <TraidingSyleLabel>{data.pair}</TraidingSyleLabel>
             <TokenAmountTitle>
-              <StatsCardtitle fontSize={12}>Stable</StatsCardtitle>{' '}
-              {data.stablePercentage}% <SuggestImg src={ImpIcon} />
+              <StatsCardtitle fontSize={12}>
+                {data.liquidityType}
+              </StatsCardtitle>
+              <p> {data.stablePercentage}%</p>{' '}
+              <SugestImgWrapper
+                onMouseEnter={() => setIsHovered(true)}
+                onMouseLeave={() => setIsHovered(false)}
+              >
+                <SuggestImg src={ImpIcon} />
+                {isHovered && <LiquidityInfo />}
+              </SugestImgWrapper>
             </TokenAmountTitle>
             <TokenAmountTitle>
               <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
@@ -66,7 +80,9 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
           </PairContain>
         </TokenCardContainer>
       </td>
-      <td>{data.apr}%</td>
+      <td>
+        <AprDataWrapper>{data.apr}%</AprDataWrapper>
+      </td>
       <td>
         <VolumeStyles>
           <label>{data.volume}</label>

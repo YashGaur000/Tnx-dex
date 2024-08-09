@@ -38,4 +38,8 @@ export const Input = styled.input<InputProps>`
   &::placeholder {
     font-size: 14px;
   }
+
+  &:focus {
+    outline: none;
+  }
 `;
