@@ -1,16 +1,20 @@
 import { StateCreator } from 'zustand';
 import { TokenInfo } from '../../constants/tokens';
-import { Abi, Address } from 'viem';
+import { Abi, Address, PublicClient } from 'viem';
 import { RootStore } from '../root';
 import { testErc20Abi } from '../../constants/abis/testErc20';
-import { multicallClient } from '../../components/Web3Provider/wagmi';
 import { wethAbi } from '../../constants/abis/weth';
+import { ethers } from 'ethers';
 
 export interface TokenBalancesSlice {
-  balances: Record<Address, string>; // Mapping of token address to balance
+  balances: Record<Address, ethers.Numeric>; // Mapping of token address to balance
   loading: boolean;
   error: string | null;
-  getTokenBalances: (tokens: TokenInfo[], account: Address) => Promise<void>;
+  getTokenBalances: (
+    multicallClient: PublicClient,
+    tokens: TokenInfo[],
+    account: Address
+  ) => Promise<void>;
 }
 
 export const createTokenBalancesSlice: StateCreator<
@@ -22,7 +26,7 @@ export const createTokenBalancesSlice: StateCreator<
   balances: {},
   loading: false,
   error: null,
-  getTokenBalances: async (tokens, account) => {
+  getTokenBalances: async (multicallClient, tokens, account) => {
     try {
       set({ loading: true, error: null });
 

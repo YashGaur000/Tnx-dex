@@ -96,7 +96,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                   marginLeft: '150px',
                 }}
               >
-                {balances[token.address]}
+                {account && balances[token.address as Address].toString()}
               </p>
             </TokenItem>
           ))}
