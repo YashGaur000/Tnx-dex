@@ -62,11 +62,15 @@ const StyledButton = styled.button<
 
 export const GradientSpan = styled.span<{
   fontSize?: number;
+  Color?: string;
+  isActive?: boolean;
   theme: DefaultTheme;
 }>`
+  color: ${({ Color }) => Color};
   font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme }) => theme.colors.buttonBackground};
+  background: ${({ isActive, theme }) =>
+    isActive ? 'black' : theme.colors.buttonBackground};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;

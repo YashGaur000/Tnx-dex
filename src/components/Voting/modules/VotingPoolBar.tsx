@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import questionmark from '../../../assets/question-mark.png';
@@ -15,6 +16,7 @@ import {
   TooltipsQuadrant4,
   TooltipText,
   TriggerElement,
+  VotingActiveTabs,
   VotingAllPoolsTabs,
   VotingBarBox,
   VotingPoolContainer,
@@ -26,6 +28,30 @@ import {
 import { GradientSpan } from '../../common/Buttons/GradientButton';
 
 const VotingPoolBar: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('Most Rewarded');
+
+  const handleTabClick = (tab: string) => {
+    setActiveTab(tab);
+  };
+
+  const renderTab = (tabName: string) => (
+    <VotingAllPoolsTabs
+      Width="14"
+      onClick={() => handleTabClick(tabName)}
+      style={{
+        color: activeTab === tabName ? 'black' : 'rgba(255, 255, 255, 0)',
+        border: '1px solid white',
+        background:
+          activeTab === tabName
+            ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)'
+            : 'transparent',
+      }}
+    >
+      <GradientSpan fontSize={14} isActive={activeTab === tabName}>
+        {tabName}
+      </GradientSpan>
+    </VotingAllPoolsTabs>
+  );
   return (
     <VotingPoolContainer>
       <PoolTitleBox>
@@ -38,8 +64,8 @@ const VotingPoolBar: React.FC = () => {
             <VotingTimelineBox>
               <TooltipsQuadrant1>
                 <TooltipText fontSize="20px">Voting</TooltipText>
-                <TooltipText fontSize="12px">
-                  veTENEX holders decide which liquidity pools receive $TENEX
+                <TooltipText fontSize="12px" lineHeight="23.92px">
+                  $veTENEX holders decide which liquidity pools receive $TENEX
                   emissions. In return, voters receive 100% of the trading fees
                   and incentives collected from the liquidity pool they vote
                   for.
@@ -86,22 +112,16 @@ const VotingPoolBar: React.FC = () => {
       </PoolTitleBox>
       <VotingBarBox>
         <VotingTabBar>
-          <VotingAllPoolsTabs Width="14">
-            <GradientSpan fontSize={14}>Most Rewarded</GradientSpan>
-          </VotingAllPoolsTabs>
-          <VotingAllPoolsTabs Width="14">
-            <GradientSpan fontSize={14}>Least Rewarded</GradientSpan>
-          </VotingAllPoolsTabs>
-          <VotingAllPoolsTabs Width="14">
-            <GradientSpan fontSize={14}>All Pools</GradientSpan>
-          </VotingAllPoolsTabs>
+          {renderTab('Most Rewarded')}
+          {renderTab('Least Rewarded')}
+          {renderTab('All Pools')}
         </VotingTabBar>
         <VotingTabBar2>
-          <VotingAllPoolsTabs Width="14">
+          <VotingActiveTabs Width="14">
             <GradientSpan fontSize={14}>
               Active <FontAwesomeIcon icon={faChevronDown} />
             </GradientSpan>
-          </VotingAllPoolsTabs>
+          </VotingActiveTabs>
           <SearchBarWrapper>
             <SearchBar />
           </SearchBarWrapper>

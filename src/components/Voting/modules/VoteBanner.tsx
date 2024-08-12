@@ -19,7 +19,7 @@ const VoteBanner: React.FC = () => {
       </VoteTitleBox>
       <VoteDescBox>
         <VoteDesc>
-          Vote weekly to earn Fees & Bribes from your veEQUAL NFT
+          Vote weekly to earn Fees & Bribes from your veTENEX NFT
         </VoteDesc>
       </VoteDescBox>
       <VoteInfo>

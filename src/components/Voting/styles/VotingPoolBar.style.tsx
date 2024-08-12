@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const VotingPoolContainer = styled.div<{ theme: DefaultTheme }>`
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -12,6 +12,7 @@ export const PoolTitleBox = styled.div<{ theme: DefaultTheme }>`
   margin-top: 1.25rem;
   display: flex;
   align-items: center;
+  line-height: 29.9px;
 
   @media (max-width: 768px) {
     justify-content: left;
@@ -23,6 +24,7 @@ export const PoolTitleBox = styled.div<{ theme: DefaultTheme }>`
 export const Title = styled.p<{ fontSize?: string; theme: DefaultTheme }>`
   font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
 
   @media (max-width: 768px) {
     font-size: ${({ fontSize }) => fontSize};
@@ -32,7 +34,6 @@ export const Title = styled.p<{ fontSize?: string; theme: DefaultTheme }>`
 export const VotingBarBox = styled.div<{ theme: DefaultTheme }>`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  padding: 5px;
 
   @media (max-width: 1024px) {
     grid-template-columns: 1fr;
@@ -63,6 +64,45 @@ export const VotingTabBar2 = styled(VotingTabBar)`
 `;
 
 export const VotingAllPoolsTabs = styled.button<{
+  isconnected?: string;
+  theme: DefaultTheme;
+  Width: string;
+}>`
+  padding: 4px 16px;
+  justify-content: center;
+  display: flex;
+  height: auto;
+  width: ${({ Width }) => Width};
+  border: 2px solid transparent;
+  border-radius: 12px;
+
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  line-height: 29.9px;
+  letter-spacing: 0.02em;
+  text-align: center;
+
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+
+  // &:hover span {
+  //   background: white;
+  //   -webkit-background-clip: text;
+  //   -webkit-text-fill-color: transparent;
+  // }
+
+  @media (max-width: 768px) {
+    width: 50%;
+    padding: 10px 30px;
+    font-size: 18px;
+  }
+`;
+
+export const VotingActiveTabs = styled.button<{
   isconnected?: string;
   theme: DefaultTheme;
   Width: string;
@@ -118,8 +158,8 @@ export const VotingAllPoolsTabs = styled.button<{
 export const VotingPoolsTooltip = styled.img`
   width: 20px;
   height: 20px;
-  margin-left: 10px;
-  margin-top: 7px;
+  margin-left: 1px;
+  margin-top: 10px;
 `;
 
 export const SearchBarWrapper = styled.div`
@@ -149,7 +189,7 @@ export const TooltipBox = styled.div<{ theme: DefaultTheme }>`
   // flex-template-rows: repeat(2, 1fr);
   visibility: hidden;
   width: 868px;
-  height: 400px;
+  height: auto;
   background: ${({ theme }) => theme.colors.card};
   color: #fff;
   text-align: left;
@@ -197,13 +237,16 @@ export const TooltipsQuadrant4 = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const TooltipText = styled.p<{
+  lineHeight?: string;
   fontSize?: string;
   fontWeight?: string;
   theme: DefaultTheme;
 }>`
+  line-height: ${({ lineHeight }) => lineHeight};
   font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  padding: 8px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  padding: 10px;
 
   @media (max-width: 768px) {
     font-size: ${({ fontSize }) => fontSize};
