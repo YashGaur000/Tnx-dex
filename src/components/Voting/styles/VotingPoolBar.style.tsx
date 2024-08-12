@@ -62,6 +62,45 @@ export const VotingTabBar2 = styled(VotingTabBar)`
   }
 `;
 
+// export const VotingAllPoolsTabs = styled.button<{
+//   isconnected?: string;
+//   theme: DefaultTheme;
+//   Width: string;
+// }>`
+//   padding: 4px 16px;
+//   justify-content: center;
+//   display: flex;
+//   height: auto;
+//   width: ${({ Width }) => Width};
+//   border: 2px solid transparent;
+//   border-radius: 12px;
+
+//   background-clip: padding-box, border-box;
+//   background-origin: padding-box, border-box;
+//   cursor: pointer;
+//   font-size: 16px;
+//   font-weight: ${({ theme }) => theme.fontWeights.bold};
+//   line-height: 29.9px;
+//   letter-spacing: 0.02em;
+//   text-align: center;
+
+//   transition:
+//     background-color 0.3s,
+//     color 0.3s;
+
+//   // &:hover span {
+//   //   background: white;
+//   //   -webkit-background-clip: text;
+//   //   -webkit-text-fill-color: transparent;
+//   // }
+
+//   @media (max-width: 768px) {
+//     width: 50%;
+//     padding: 10px 30px;
+//     font-size: 18px;
+//   }
+// `;
+
 export const VotingAllPoolsTabs = styled.button<{
   isconnected?: string;
   theme: DefaultTheme;
