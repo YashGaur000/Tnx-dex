@@ -15,8 +15,6 @@ import {
   TRANSPORT_CHAINID,
 } from '../../constants/chain';
 import { envConfig } from '../../config';
-import { createPublicClient, http } from 'viem';
-import { blastSepolia } from 'viem/chains';
 
 declare module 'wagmi' {
   interface Register {
@@ -47,8 +45,3 @@ export const wagmiConfig = createConfig({
 });
 
 export const queryClient = new QueryClient();
-
-export const multicallClient = createPublicClient({
-  chain: blastSepolia,
-  transport: http(),
-});
