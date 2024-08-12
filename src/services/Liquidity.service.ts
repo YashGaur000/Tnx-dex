@@ -1,65 +1,83 @@
-// import { Contract, ContractReceipt } from '@ethersproject/contracts';
-// import { ethers } from 'ethers';
-// import { getContract } from '../utils/contract/getContract';
-// import routerAbi from '../constants/artifacts/contracts/Router.json';
-// import address from '../constants/contract-address/address.json';
-// import { AddLiquidityParams, LiquidityResult } from '../types/Liquidity';
+import { ContractReceipt } from '@ethersproject/contracts';
+import { getContract } from '../utils/contract/getContract';
+import routerAbi from '../constants/artifacts/contracts/Router.json';
+import address from '../constants/contract-address/address.json';
+import {
+  // RouterContract,
+  AddLiquidityParams,
+  LiquidityResult,
+  RouterContract,
+} from '../types/Liquidity';
+import { SupportedInterfaceChainId } from '../constants/chain';
 
-// export const addLiquidity = async ({
-//   tokenA,
-//   tokenB,
-//   stable,
-//   amountADesired,
-//   amountBDesired,
-//   amountAMin,
-//   amountBMin,
-//   to,
-//   deadline,
-//   userAddress,
-//   chainId,
-// }: AddLiquidityParams & { userAddress: string; chainId: number }): Promise<LiquidityResult> => {
-//   try {
-//     const routerAddress: string = address.Router;
-//     const routerContract: Contract = getContract(userAddress, routerAddress, routerAbi.abi, chainId);
-//     to = userAddress;
+export const addLiquidity = async ({
+  tokenA,
+  tokenB,
+  stable,
+  amountADesired,
+  amountBDesired,
+  amountAMin,
+  amountBMin,
+  to,
+  deadline,
+  chainId,
+}: AddLiquidityParams & { chainId: SupportedInterfaceChainId }): Promise<
+  LiquidityResult | string
+> => {
+  try {
+    // Ensure that all required addresses are provided
+    if (!tokenA || !tokenB || !to) {
+      throw new Error('One or more addresses are undefined or invalid');
+    }
 
-//     console.log("user address ", to, tokenA, tokenB, stable);
+    const routerAddress: string = address.Router;
+    const routerContract = getContract(
+      to,
+      routerAddress,
+      routerAbi.abi,
+      chainId
+    ) as RouterContract;
 
-//     // Ensure that all required addresses are provided
-//     if (!tokenA || !tokenB || !to || !userAddress) {
-//       throw new Error("One or more addresses are undefined or invalid");
-//     }
+    console.log('user address ', to, tokenA, tokenB, stable);
 
-//     console.log(await routerContract.functions.factoryRegistry());
+    console.log(await routerContract.functions.factoryRegistry());
 
-//     const tx = await routerContract.functions.addLiquidity(
-//       tokenA,
-//       tokenB,
-//       stable,
-//       amountADesired,
-//       amountBDesired,
-//       amountAMin,
-//       amountBMin,
-//       to,
-//       deadline
-//     );
+    const tx = await routerContract.functions.addLiquidity(
+      tokenA,
+      tokenB,
+      stable,
+      amountADesired,
+      amountBDesired,
+      amountAMin,
+      amountBMin,
+      to,
+      deadline
+    );
 
-//     const receipt: ContractReceipt = await tx.wait();
-//     const eventArgs = receipt.events?.[0]?.args;
+    const receipt: ContractReceipt = await tx.wait();
+    const eventArgs = receipt.events?.[0]?.args;
 
-//     if (!eventArgs) {
-//       throw new Error("Failed to retrieve liquidity event arguments");
-//     }
+    console.log(eventArgs);
 
-//     const { amountA, amountB, liquidity } = eventArgs;
+    if (!eventArgs) {
+      throw new Error('Failed to retrieve liquidity event arguments');
+    }
 
-//     return {
-//       amountA: ethers.BigNumber.from(amountA),
-//       amountB: ethers.BigNumber.from(amountB),
-//       liquidity: ethers.BigNumber.from(liquidity),
-//     };
-//   } catch (error) {
-//     // console.error("Failed to add liquidity:", error);
-//     throw new Error(`Failed to add liquidity : ${error}`);
-//   }
-// };
+    // const { amountA, amountB, liquidity } = eventArgs[0];
+
+    // if (!(amountA && amountB && liquidity)) {
+    //   throw new Error("Invalid liquidity event arguments");
+    // }
+
+    // return {
+    //   amountA,
+    //   amountB,
+    //   liquidity,
+    // };
+
+    return 'Todo: fetch success add liquidity params';
+  } catch (err) {
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    throw new Error(`Failed to add liquidity: ${errorMessage}`);
+  }
+};

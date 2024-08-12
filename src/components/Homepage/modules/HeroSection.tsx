@@ -14,28 +14,6 @@ import {
   Title,
 } from '../styles/HeroSection.style';
 
-// const Image = styled.img`
-//   width: 810px;
-//   height: 742px;
-//   top: 206px;
-//   left: 762px;
-//   border-radius: 20px 0px 0px 0px;
-//   opacity: 0px;
-//   height: fit-content;
-
-//   @media (max-width: 1200px) {
-//     width: 700px;
-//   }
-
-//   @media (max-width: 1024px) {
-//     width: 600px;
-//   }
-
-//   @media (max-width: 900px) {
-//     max-width: 100%;
-//   }
-// `;
-
 const HeroSection: React.FC = () => {
   const { isConnected } = useAccount();
   const isconnected = isConnected;
