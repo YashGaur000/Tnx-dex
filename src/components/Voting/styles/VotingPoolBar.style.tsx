@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const VotingPoolContainer = styled.div<{ theme: DefaultTheme }>`
+  margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -13,7 +14,9 @@ export const PoolTitleBox = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
 
   @media (max-width: 768px) {
-    justify-content: center;
+    justify-content: left;
+    font-size: 16px;
+    margin-top: -25px;
   }
 `;
 
@@ -42,7 +45,7 @@ export const VotingTabBar = styled.div<{ theme: DefaultTheme }>`
 
   @media (max-width: 768px) {
     flex-direction: column;
-    justify-content: left;
+    justify-content: center;
   }
 `;
 
@@ -62,12 +65,13 @@ export const VotingTabBar2 = styled(VotingTabBar)`
 export const VotingAllPoolsTabs = styled.button<{
   isconnected?: string;
   theme: DefaultTheme;
-  Width: number;
+  Width: string;
 }>`
-  padding: 4px;
+  padding: 4px 16px;
   justify-content: center;
   display: flex;
-  width: ${({ Width }) => Width}%;
+  height: auto;
+  width: ${({ Width }) => Width};
   border: 2px solid transparent;
   border-radius: 12px;
   background: ${({ theme, isconnected }) =>
@@ -106,25 +110,24 @@ export const VotingAllPoolsTabs = styled.button<{
 
   @media (max-width: 768px) {
     width: 50%;
-    padding: 0.625rem 1.875rem;
-    font-size: 1.125rem;
+    padding: 10px 30px;
+    font-size: 18px;
   }
 `;
 
 export const VotingPoolsTooltip = styled.img`
-  width: 21.19px;
-  height: 21.19px;
-  margin-left: 15px;
+  width: 20px;
+  height: 20px;
+  margin-left: 10px;
   margin-top: 7px;
 `;
 
 export const SearchBarWrapper = styled.div`
   flex-grow: 1;
-  max-width: 300px;
 
   @media (max-width: 768px) {
     width: 50%;
-    max-width: none;
+    max-width: 100%;
   }
 `;
 
@@ -146,7 +149,7 @@ export const TooltipBox = styled.div<{ theme: DefaultTheme }>`
   // flex-template-rows: repeat(2, 1fr);
   visibility: hidden;
   width: 868px;
-  height: 500px;
+  height: 400px;
   background: ${({ theme }) => theme.colors.card};
   color: #fff;
   text-align: left;
@@ -155,33 +158,23 @@ export const TooltipBox = styled.div<{ theme: DefaultTheme }>`
   position: absolute;
   z-index: 1;
   // bottom: 100%; /* Position the tooltip above the trigger element */
-  top: 70%;
-  left: 860%;
+  top: 50%;
+  left: 480px;
   transform: translateX(-50%);
   opacity: 0;
   transition: opacity 0.3s;
-
-  // &:after {
-  //   content: '';
-  //   position: absolute;
-  //   // top: 100%;
-  //   top: -5px;
-  //   left: 50%;
-  //   margin-left: -5px;
-  //   border-width: 5px;
-  //   border-style: solid;
-  //   border-color: #1e2d3d transparent transparent transparent; /* Arrow pointing down */
-  // }
+  box-shadow: 5px 5px 5px rgba(19, 29, 60, 1);
 `;
 
 export const VotingTimelineBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  gap: -30px;
+  gap: 10px;
+  margin-bottom: 20px;
 `;
 
 export const InstructionRewardsBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  gap: -30px;
+  gap: 10px;
 `;
 
 export const TooltipContainerHover = styled(TooltipContainer)`

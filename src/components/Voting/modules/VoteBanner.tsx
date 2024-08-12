@@ -15,7 +15,7 @@ const VoteBanner: React.FC = () => {
   return (
     <VoteBoxWrapper>
       <VoteTitleBox>
-        <Title fontSize={48}>Vote</Title>
+        <Title fontSize={36}>Vote</Title>
       </VoteTitleBox>
       <VoteDescBox>
         <VoteDesc>

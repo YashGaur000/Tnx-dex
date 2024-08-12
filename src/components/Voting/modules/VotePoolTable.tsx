@@ -6,6 +6,7 @@ import SOL from '../../../assets/sol.png';
 import USDC from '../../../assets/usdc.png';
 import FTM from '../../../assets/ftm.png';
 import VotingPoolCard from './VotingPoolCard';
+import SortIcon from '../../../assets/sorting.png';
 
 interface voteData {
   id?: string;
@@ -92,11 +93,21 @@ const VotePoolTable: React.FC = () => {
         <thead>
           <tr>
             <th>Pool </th>
-            <th>Fees</th>
-            <th>Incentives</th>
-            <th>Total Rewards</th>
-            <th>vAPR</th>
-            <th>Vote Pool</th>
+            <th>
+              Fees <img src={SortIcon} />
+            </th>
+            <th>
+              Incentives <img src={SortIcon} />
+            </th>
+            <th>
+              Total Rewards <img src={SortIcon} />
+            </th>
+            <th>
+              vAPR <img src={SortIcon} />
+            </th>
+            <th>
+              Vote Pool <img src={SortIcon} />
+            </th>
           </tr>
         </thead>
         <tbody>

@@ -33,7 +33,7 @@ const SearchIconbox = styled.img`
 
 const SearchBar: React.FC = () => {
   return (
-    <InputWrapper Width="490px">
+    <InputWrapper>
       <SearchIconbox src={searchicon} alt="SearchIcon Logo" />
       <Input
         type="text"
