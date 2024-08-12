@@ -2,14 +2,13 @@ import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const VotingPoolContainer = styled.div<{ theme: DefaultTheme }>`
-  margin-bottom: 24px;
+  margin-bottom: 5px;
   display: flex;
   flex-direction: column;
   width: 100%;
 `;
 
 export const PoolTitleBox = styled.div<{ theme: DefaultTheme }>`
-  margin-top: 1.25rem;
   display: flex;
   align-items: center;
   line-height: 29.9px;
@@ -63,37 +62,82 @@ export const VotingTabBar2 = styled(VotingTabBar)`
   }
 `;
 
+// export const VotingAllPoolsTabs = styled.button<{
+//   isconnected?: string;
+//   theme: DefaultTheme;
+//   Width: string;
+// }>`
+//   padding: 4px 16px;
+//   justify-content: center;
+//   display: flex;
+//   height: auto;
+//   width: ${({ Width }) => Width};
+//   border: 2px solid transparent;
+//   border-radius: 12px;
+
+//   background-clip: padding-box, border-box;
+//   background-origin: padding-box, border-box;
+//   cursor: pointer;
+//   font-size: 16px;
+//   font-weight: ${({ theme }) => theme.fontWeights.bold};
+//   line-height: 29.9px;
+//   letter-spacing: 0.02em;
+//   text-align: center;
+
+//   transition:
+//     background-color 0.3s,
+//     color 0.3s;
+
+//   // &:hover span {
+//   //   background: white;
+//   //   -webkit-background-clip: text;
+//   //   -webkit-text-fill-color: transparent;
+//   // }
+
+//   @media (max-width: 768px) {
+//     width: 50%;
+//     padding: 10px 30px;
+//     font-size: 18px;
+//   }
+// `;
+
 export const VotingAllPoolsTabs = styled.button<{
   isconnected?: string;
   theme: DefaultTheme;
   Width: string;
+  isActive?: boolean;
 }>`
   padding: 4px 16px;
   justify-content: center;
   display: flex;
   height: auto;
   width: ${({ Width }) => Width};
-  border: 2px solid transparent;
+  border: 2px solid ${({ isActive }) => (isActive ? 'transparent' : 'white')};
   border-radius: 12px;
-
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
+  background: ${({ isActive }) =>
+    isActive
+      ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)'
+      : 'transparent'};
   cursor: pointer;
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   line-height: 29.9px;
   letter-spacing: 0.02em;
   text-align: center;
+  color: ${({ isActive }) => (isActive ? 'transparent' : 'white')};
+  background-clip: ${({ isActive }) => (isActive ? 'text' : 'border-box')};
+  -webkit-background-clip: ${({ isActive }) =>
+    isActive ? 'text' : 'border-box'};
+  -webkit-text-fill-color: ${({ isActive }) =>
+    isActive ? 'transparent' : 'white'};
+  transition: all 0.3s;
 
-  transition:
-    background-color 0.3s,
-    color 0.3s;
-
-  // &:hover span {
-  //   background: white;
-  //   -webkit-background-clip: text;
-  //   -webkit-text-fill-color: transparent;
-  // }
+  &:hover {
+    background: linear-gradient(188.32deg, #47ff99 -7.09%, #3eacfc 99.48%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border-color: transparent;
+  }
 
   @media (max-width: 768px) {
     width: 50%;

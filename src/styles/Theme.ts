@@ -36,6 +36,7 @@ interface Colorpallate {
   swapIconBackground: string;
   redToggle: string;
   black: string;
+  white: string;
   green: string;
   greyDark: string;
   navtoggle: string;
@@ -106,6 +107,7 @@ const theme: DefaultTheme = {
       'linear-gradient(97.67deg, #0F1B3B 2.6%, #232938 94.56%)',
     redToggle: '#EB5540',
     black: '#000000',
+    white: '#ffffff',
     green: '#16C062',
     greyDark: '#B8B8B8CC',
     titleColor: '#CCCCCC',
