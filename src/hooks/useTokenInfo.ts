@@ -1,4 +1,4 @@
-import { ERC20_TEST_TOKEN_LIST, TokenInfo } from '../constants/tokens'; // Adjust the import path accordingly
+import { ERC20_TEST_TOKEN_LIST, TokenInfo } from '../constants/tokens';
 
 export function findTokenByAddress(address: string): TokenInfo | undefined {
   return ERC20_TEST_TOKEN_LIST.find(
