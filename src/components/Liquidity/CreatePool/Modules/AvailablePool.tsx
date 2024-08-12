@@ -8,7 +8,7 @@ const AvailablePool = () => {
     <PoolSection>
       <LiquidityHeaderTitle fontSize={20}>Available Pools</LiquidityHeaderTitle>
       <div>
-        <Pool />
+        <Pool poolType="stable" />
       </div>
     </PoolSection>
   );
