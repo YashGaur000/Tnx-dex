@@ -5,16 +5,17 @@ import { getProvider } from '../../constants/provider';
 import { SupportedInterfaceChainId } from '../../constants/chain';
 
 export function getContract(
-  address: string,
+  userAddress: string,
+  contractAddress: string,
   ABI: ContractInterface,
   chainId: SupportedInterfaceChainId
 ): Contract {
-  if (!isAddress(address) || address === AddressZero) {
-    throw new Error(`Invalid 'address' parameter '${address}'.`);
+  if (!isAddress(contractAddress) || contractAddress === AddressZero) {
+    throw new Error(`Invalid 'address' parameter '${contractAddress}'.`);
   }
 
   const provider = getProvider(chainId);
-  const signer = provider.getSigner();
+  const signer = provider.getSigner(userAddress);
 
-  return new Contract(address, ABI, signer);
+  return new Contract(contractAddress, ABI, signer);
 }
