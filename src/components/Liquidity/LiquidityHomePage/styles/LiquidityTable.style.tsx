@@ -3,7 +3,7 @@ import { DefaultTheme } from '../../../../styles/Theme';
 
 export const TokenCardContainer = styled.div`
   display: flex;
-  gap: 15px;
+  gap: 25px;
 
   justify-content: center;
   margin-left: 30px;
@@ -36,8 +36,8 @@ export const IMG2Contains = styled.div<{ Top: number; Left: number }>`
   top: ${({ Top }) => Top}px;
 `;
 export const Imgstyle = styled.img`
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
 `;
 export const PairContain = styled.div`
   display: flex;
@@ -56,14 +56,35 @@ export const VolumeStyles = styled.div`
 export const SuggestImg = styled.img`
   width: 15px;
   height: 15px;
-  margin-left: 10px;
 `;
 export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
-  gap: 6px;
+
+  gap: 8px;
 
   margin-top: 5px;
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: ${({ theme }) => theme.fontSize.small};
+`;
+export const LiquidityHeaderColumn = styled.th`
+  float: left;
+  margin-left: 55px;
+`;
+
+export const TableHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+`;
+export const AprDataWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  height: 95px;
+`;
+
+export const SugestImgWrapper = styled.div`
+  position: relative;
+  overflow: visible;
 `;

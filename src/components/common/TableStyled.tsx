@@ -55,7 +55,7 @@ const Table = styled.table<TableProps>`
   td,
   th {
     white-space: nowrap;
-    overflow: hidden;
+
     text-overflow: ellipsis;
   }
 

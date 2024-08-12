@@ -7,6 +7,7 @@ import SelectIcon from '../../../../assets/select.png';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+
 import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import {
   TokenSelectAlign,
@@ -27,6 +28,7 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
+
 import { useAccount } from '../../../../hooks/useAccount';
 // import { addLiquidity } from '../../../../services/Liquidity.service';
 // import { useAccount } from '../../../../hooks/useAccount';
@@ -180,6 +182,7 @@ const CreatePool = () => {
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
         {<LiquidityToolTips />}
+        <div>hey</div>
       </PopupScreen>
     </>
   );
