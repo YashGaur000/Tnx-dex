@@ -1,4 +1,3 @@
-// src/store/slices/headerSlice.ts
 import create from 'zustand';
 
 interface HeaderState {
