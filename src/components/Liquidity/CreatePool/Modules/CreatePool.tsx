@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import InformIcon from '../../../../assets/information.png';
-import AvailablePool from './AvailablePool';
+// import AvailablePool from './AvailablePool';
 import LowLiquidityPool from './LowLiquidityPool';
 import QuestionIcon from '../../../../assets/questionMark.png';
 import SelectIcon from '../../../../assets/select.png';
@@ -27,13 +27,20 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
-// import { addLiquidity } from '../../../../services/Liquidity.service';
-// import { useAccount } from '../../../../hooks/useAccount';
+import { addLiquidity } from '../../../../services/Liquidity.service';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
-  const [selectedToken1, setSelectedToken1] = useState<TokenInfo>();
-  const [selectedToken2, setSelectedToken2] = useState<TokenInfo>();
+  // const [selectedToken1, setSelectedToken1] = useState<TokenInfo>();
+  // const [selectedToken2, setSelectedToken2] = useState<TokenInfo>();
+  const {
+    selectedToken1,
+    selectedToken2,
+    setSelectedToken1,
+    setSelectedToken2,
+  } = useLiquidityStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
@@ -64,24 +71,27 @@ const CreatePool = () => {
   //   addLiquidityAction,
   // } = useLiquidityStore();
 
-  // const tokenA: string="0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC";
-  // const tokenB: string='0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
+  const tokenA = '0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC';
+  const tokenB = '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
 
-  // const { chainId, address: userAddress } = useAccount();
+  const { chainId, address: userAddress } = useAccount();
 
-  // console.log(addLiquidity({
-  //   tokenA: tokenA,
-  //   tokenB: tokenB,
-  //   stable: false,
-  //   amountADesired: 10,
-  //   amountBDesired: 12,
-  //   amountAMin: 5,
-  //   amountBMin: 6,
-  //   to: userAddress,
-  //   deadline: 1723113333,
-  //   userAddress: userAddress,
-  //   chainId: chainId
-  // },))
+  if (userAddress) {
+    console.log(
+      addLiquidity({
+        tokenA: tokenA,
+        tokenB: tokenB,
+        stable: false,
+        amountADesired: 10,
+        amountBDesired: 12,
+        amountAMin: 5,
+        amountBMin: 6,
+        to: userAddress,
+        deadline: 1723113333,
+        chainId: chainId,
+      })
+    );
+  }
 
   return (
     <>
@@ -160,7 +170,8 @@ const CreatePool = () => {
 
         {selectedToken1 && selectedToken2 ? (
           <>
-            <AvailablePool />
+            {/* todo: add contract call to check if pool is available for selected token 
+            <AvailablePool /> */}
             <LowLiquidityPool />
           </>
         ) : (
