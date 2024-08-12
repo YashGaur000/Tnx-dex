@@ -15,7 +15,6 @@ import {
   TokenDescription,
   TokenStatus,
 } from '../styles/TokenDeposite.style';
-import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 import { useLocation } from 'react-router-dom';
 import {
   GroupImgContains,
@@ -24,13 +23,19 @@ import {
   Imgstyle,
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
 import { PoolDataProps } from '../../LiquidityHomePage/Modules/LiquidityPool';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 
 const TokenDeposite = () => {
   const location = useLocation();
   const obj: PoolDataProps =
     (location.state as PoolDataProps) || ({} as PoolDataProps);
 
-  const { poolType, selectedToken1, selectedToken2 } = useLiquidityStore();
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
+  const poolType = getParam('type') ? 'stable' : 'volatile';
 
   if (selectedToken1 && selectedToken2) {
     return (
