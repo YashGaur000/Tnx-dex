@@ -24,6 +24,7 @@ import {
   Imgstyle,
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
 import { PoolDataProps } from '../../LiquidityHomePage/Modules/LiquidityPool';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 
 const TokenDeposite = () => {
   const location = useLocation();
@@ -67,11 +68,11 @@ const TokenDeposite = () => {
           </TokenDescription>
         </DepositeTokenWithImage>
 
-        <TokenContainer>
-          <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
-          <p>{obj.apr}</p>
-        </TokenContainer>
-      </DepositeContentWrapper>
+          <TokenContainer>
+            <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
+            <p>{obj.apr}</p>
+          </TokenContainer>
+        </DepositeContentWrapper>
 
       <DepositeContentWrapper>
         <LiquidityStyleContainer>
