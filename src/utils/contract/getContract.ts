@@ -3,9 +3,10 @@ import { Contract, ContractInterface } from '@ethersproject/contracts';
 import { isAddress } from '../addresses/index';
 import { getProvider } from '../../constants/provider';
 import { SupportedInterfaceChainId } from '../../constants/chain';
+import { Address } from 'viem';
 
 export function getContract(
-  userAddress: string,
+  userAddress: Address,
   contractAddress: string,
   ABI: ContractInterface,
   chainId: SupportedInterfaceChainId

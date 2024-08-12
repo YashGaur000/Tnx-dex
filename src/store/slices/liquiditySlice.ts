@@ -1,4 +1,4 @@
-import create from 'zustand';
+import { create } from 'zustand';
 import { TokenInfo } from '../../constants/tokens';
 
 interface LiquidityState {
