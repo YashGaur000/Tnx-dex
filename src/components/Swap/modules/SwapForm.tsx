@@ -49,6 +49,11 @@ const SwapForm: React.FC = () => {
     setIsConnected(!!address);
   }, [address]);
 
+  useEffect(() => {
+    // Scroll to the top when the component is mounted
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleToggleChange = () => {
     if (isConnected) {
       //disconnect();
