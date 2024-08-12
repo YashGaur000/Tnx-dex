@@ -1,23 +1,35 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
-const HoverContainer = styled.div<{ theme: DefaultTheme }>`
+export const HoverContainer = styled.div<{
+  theme: DefaultTheme;
+  width?: string;
+  height?: string;
+  Top?: string;
+  Left?: string;
+}>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   display: block;
   align-items: center;
   position: absolute;
   text-align: center;
-  width: 200px;
-  height: 80px;
+  width: ${({ width }) => width ?? '200px'};
+  height: ${({ height }) => height ?? '80px'};
   padding: 20px;
   border-radius: 10px;
-  background: ${({ theme }) => theme.colors.cardDark};
+  overflow: visible;
+  background: ${({ theme }) => theme.colors.card};
   box-shadow: 0px 4px 11.4px 0px #131d3c;
-  left: 70px;
+  left: ${({ Left }) => Left ?? '100'};
+  top: ${({ Top }) => Top ?? '100'};
   color: ${({ theme }) => theme.colors.whiteBorder};
+  z-index: 99999;
 `;
 
-const HoverColorstyle = styled.span<{ theme: DefaultTheme; fontSize: number }>`
+export const HoverColorstyle = styled.span<{
+  theme: DefaultTheme;
+  fontSize: number;
+}>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   background: ${({ theme }) => theme.colors.title};

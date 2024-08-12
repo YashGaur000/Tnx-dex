@@ -49,6 +49,11 @@ const SwapForm: React.FC = () => {
     setIsConnected(!!address);
   }, [address]);
 
+  useEffect(() => {
+    // Scroll to the top when the component is mounted
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleToggleChange = () => {
     if (isConnected) {
       //disconnect();
@@ -159,6 +164,7 @@ const SwapForm: React.FC = () => {
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSelect={handleTokenSelect}
+            account={address!}
           />
           <GlobalButton padding="15px">Swap</GlobalButton>
           <Description>

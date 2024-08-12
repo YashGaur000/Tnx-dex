@@ -7,6 +7,71 @@ export interface TokenInfo {
   readonly logoURI?: string;
 }
 
+export const ERC20_TEST_TOKEN_LIST: TokenInfo[] = [
+  {
+    address: '0x4200000000000000000000000000000000000023',
+    name: 'WETH',
+    symbol: 'WETH',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000004.png',
+  },
+  {
+    address: '0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC',
+    name: 'Tenex Usdc',
+    symbol: 'tUSDC',
+    chainId: 168587773,
+    decimals: 6,
+    logoURI: '',
+  },
+  {
+    address: '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2',
+    name: 'Tenex Blast',
+    symbol: 'tBLAST',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0xB582Dc28968c725D2868130752aFa0c13EbF9b1a.png',
+  },
+  {
+    address: '0x9ae92510Aab56f5072eefF57f0Aa728ADCb0F81e',
+    name: 'Tenex Envio',
+    symbol: 'tENVIO',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000003.png',
+  },
+  {
+    address: '0x518b1F7d84dE67Fbe079E97Ec6792298AD126AAC',
+    name: 'Tenex Op',
+    symbol: 'tOP',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000004.png',
+  },
+  {
+    address: '0xfB014d75cEa6A4315264B0Ea8d254DEF6578dE15',
+    name: 'Tenex Aave',
+    symbol: 'tAAVE',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x20fE91f17ec9080E3caC2d688b4EcB48C5aC3a9C.png',
+  },
+  {
+    address: '0x520a37B99C199CDf9e8cb1c4Ae2f2CA3DE344b46',
+    name: 'Tenex Curve',
+    symbol: 'tCURVE',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x73c369F61c90f03eb0Dd172e95c90208A28dC5bc.png',
+  },
+];
+
 export const TOKEN_LIST: TokenInfo[] = [
   {
     address: '0x4300000000000000000000000000000000000004',
