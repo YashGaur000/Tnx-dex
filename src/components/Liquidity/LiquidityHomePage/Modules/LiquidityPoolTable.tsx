@@ -1,11 +1,12 @@
 import Table, { TableContainerStyle } from '../../../common/TableStyled';
 
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
-import SortIcon from '../../../../assets/sorting.png';
+
 import {
   LiquidityHeaderColumn,
   TableHeaderWrapper,
 } from '../styles/LiquidityTable.style.tsx';
+import SortIcon from '../../../../assets/sorting.png';
 import { PoolDataProps } from './LiquidityPool.tsx';
 
 type SortableKeys = keyof PoolDataProps;
