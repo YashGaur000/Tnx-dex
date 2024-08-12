@@ -41,8 +41,8 @@ const VerticalStep = styled.div`
 const Circle = styled.div<{ theme: DefaultTheme }>`
   border-radius: 50%;
 
-  width: 30px;
-  height: 30px;
+  width: 25px;
+  height: 25px;
   display: flex;
   justify-content: center;
   align-items: center;

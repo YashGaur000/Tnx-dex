@@ -32,19 +32,28 @@ export const LockLoaderContainer = styled.div`
 
   padding: 15px;
 `;
-export const LoaderStatus = styled.p<{ theme: DefaultTheme; fontSize: number }>`
-  background: ${({ theme }) => theme.colors.hover};
+export const LoaderStatusWrapper = styled.div<{
+  theme: DefaultTheme;
+  fontSize: number;
+}>`
   font-size: ${({ fontSize }) => fontSize}px;
-  border-radius: 10px;
-  padding: 10px;
-  width: 90px;
-  text-align: center;
-  margin-left: 85%;
-  @media only screen and (max-width: 1000px) {
-    margin-left: 80%;
-  }
-`;
 
+  padding: 10px;
+  width: 100%;
+
+  text-align: center;
+  display: block;
+`;
+export const LoaderStatus = styled.p<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.hover};
+  display: inline-block;
+
+  padding: 10px;
+  float: right;
+  border-radius: 10px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
 export const LoaderStyle = styled.div`
   width: 100%;
 `;
@@ -80,6 +89,10 @@ export const LockInputBox = styled.input<{ theme: DefaultTheme }>`
   padding-left: 20px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const LockProgressStyle = styled.span`
@@ -89,4 +102,10 @@ export const LockProgressStyle = styled.span`
   gap: 10px;
   font-size: 12px;
   color: silver;
+`;
+
+export const LockHeaderStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 `;
