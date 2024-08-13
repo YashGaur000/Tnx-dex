@@ -11,6 +11,7 @@ export const useTokenBalances = (tokens: TokenInfo[], account: Address) => {
   const multicallClient = useMultiCall();
 
   useEffect(() => {
+    // Fetch balances once when the component mounts
     async function fetchBalances() {
       if (multicallClient) {
         await getTokenBalances(
@@ -21,14 +22,16 @@ export const useTokenBalances = (tokens: TokenInfo[], account: Address) => {
       }
     }
     void fetchBalances();
-  }, [tokens, account, getTokenBalances, multicallClient]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Empty dependency array to ensure it runs only once on mount
 
   // Memoize the mapped balances
   const tokenBalances = useMemo(() => {
     return tokens.reduce(
       (acc, token) => {
-        acc[token.address as Address] = balances[token.address as Address]
-          ? balances[token.address as Address]
+        acc[token.address] = balances[token.address]
+          ? balances[token.address]
           : 0;
         return acc;
       },

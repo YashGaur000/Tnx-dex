@@ -23,9 +23,10 @@ import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 
 interface PoolProps {
   poolType: string;
+  exists: string;
 }
 
-const Pool: React.FC<PoolProps> = ({ poolType }) => {
+const Pool: React.FC<PoolProps> = ({ poolType, exists }) => {
   const Navigate = useNavigate();
 
   const getParam = useQueryParams();
@@ -39,7 +40,7 @@ const Pool: React.FC<PoolProps> = ({ poolType }) => {
 
     const typeValue = poolType === 'stable' ? '0' : '1';
     queryParams.set('type', typeValue.toString());
-
+    queryParams.set('exists', exists);
     // Navigate('/liquidity/manage');
     Navigate({
       pathname: '/liquidity/manage',

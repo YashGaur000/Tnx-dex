@@ -15,8 +15,8 @@ const LowLiquidityPool = () => {
         Low Liquidity Pools
       </LiquidityHeaderTitle>
       <LiquidityPoolStyle>
-        <Pool poolType="stable" />
-        <Pool poolType="volatile" />
+        <Pool poolType="stable" exists="false" />
+        <Pool poolType="volatile" exists="false" />
       </LiquidityPoolStyle>
     </PoolSection>
   );

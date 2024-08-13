@@ -39,81 +39,102 @@ interface DataProps {
 }
 import { useState } from 'react';
 import LiquidityInfo from './LiquidityInfo';
+// import Pool from '../../CreatePool/Modules/Pool';
+
 const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
   const Navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
   function handleDepositeButton() {
-    Navigate('/liquidity/manage', { state: data });
+    const queryParams = new URLSearchParams(location.search);
+    // const typeValue = poolType === 'stable' ? '0' : '1';
+
+    //todo: update with indexer query data, interface is created in liquidity.d.ts
+    const typeValue = 0;
+    const token1 = '0x4200000000000000000000000000000000000023';
+    const token2 = '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
+    console.log(token1, 'liq pool card', token2, typeValue);
+
+    queryParams.set('token1', token1);
+    queryParams.set('token2', token2);
+    queryParams.set('type', typeValue.toString());
+
+    // Navigate('/liquidity/manage', { state: data });
+    Navigate({
+      pathname: '/liquidity/manage',
+      search: `?${queryParams.toString()}`,
+    });
   }
 
   return (
-    <tr>
-      <td>
-        <TokenCardContainer>
-          <GroupImgContains>
-            <IMG1Contains Top={20} Left={0}>
-              <Imgstyle src={data.icon1} />
-            </IMG1Contains>
-            <IMG2Contains Top={20} Left={25}>
-              <Imgstyle src={data.icon2} />
-            </IMG2Contains>
-          </GroupImgContains>
-          <PairContain>
-            <TraidingSyleLabel>{data.pair}</TraidingSyleLabel>
-            <TokenAmountTitle>
-              <StatsCardtitle fontSize={12}>
-                {data.liquidityType}
-              </StatsCardtitle>
-              <p> {data.stablePercentage}%</p>{' '}
-              <SugestImgWrapper
-                onMouseEnter={() => setIsHovered(true)}
-                onMouseLeave={() => setIsHovered(false)}
+    <>
+      <tr>
+        <td>
+          <TokenCardContainer>
+            <GroupImgContains>
+              <IMG1Contains Top={20} Left={0}>
+                <Imgstyle src={data.icon1} />
+              </IMG1Contains>
+              <IMG2Contains Top={20} Left={25}>
+                <Imgstyle src={data.icon2} />
+              </IMG2Contains>
+            </GroupImgContains>
+            <PairContain>
+              <TraidingSyleLabel>{data.pair}</TraidingSyleLabel>
+              <TokenAmountTitle>
+                <StatsCardtitle fontSize={12}>
+                  {data.liquidityType}
+                </StatsCardtitle>
+                <p> {data.stablePercentage}%</p>{' '}
+                <SugestImgWrapper
+                  onMouseEnter={() => setIsHovered(true)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
+                  <SuggestImg src={ImpIcon} />
+                  {isHovered && <LiquidityInfo />}
+                </SugestImgWrapper>
+              </TokenAmountTitle>
+              <TokenAmountTitle>
+                <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
+                <label>{data.tvl}</label>
+              </TokenAmountTitle>
+            </PairContain>
+          </TokenCardContainer>
+        </td>
+        <td>
+          <AprDataWrapper>{data.apr}%</AprDataWrapper>
+        </td>
+        <td>
+          <VolumeStyles>
+            <label>{data.volume}</label>
+            <TokenAmountTitle>{data.volumeDesc}</TokenAmountTitle>
+            <TokenAmountTitle>{data.volumeSubDesc}</TokenAmountTitle>
+          </VolumeStyles>
+        </td>
+        <td>
+          <VolumeStyles>
+            <label>{data.fees}</label>
+            <TokenAmountTitle>{data.feesDesc}</TokenAmountTitle>
+            <TokenAmountTitle>{data.feesSubDesc}</TokenAmountTitle>
+          </VolumeStyles>
+        </td>
+        <td>
+          <VolumeStyles>
+            <label>{data.poolBalance}</label>
+            <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle>
+            <div onClick={handleDepositeButton}>
+              <GradientButton
+                width="90px"
+                fontSize="13px"
+                padding="0px 5px"
+                marginTop="10px"
               >
-                <SuggestImg src={ImpIcon} />
-                {isHovered && <LiquidityInfo />}
-              </SugestImgWrapper>
-            </TokenAmountTitle>
-            <TokenAmountTitle>
-              <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
-              <label>{data.tvl}</label>
-            </TokenAmountTitle>
-          </PairContain>
-        </TokenCardContainer>
-      </td>
-      <td>
-        <AprDataWrapper>{data.apr}%</AprDataWrapper>
-      </td>
-      <td>
-        <VolumeStyles>
-          <label>{data.volume}</label>
-          <TokenAmountTitle>{data.volumeDesc}</TokenAmountTitle>
-          <TokenAmountTitle>{data.volumeSubDesc}</TokenAmountTitle>
-        </VolumeStyles>
-      </td>
-      <td>
-        <VolumeStyles>
-          <label>{data.fees}</label>
-          <TokenAmountTitle>{data.feesDesc}</TokenAmountTitle>
-          <TokenAmountTitle>{data.feesSubDesc}</TokenAmountTitle>
-        </VolumeStyles>
-      </td>
-      <td>
-        <VolumeStyles>
-          <label>{data.poolBalance}</label>
-          <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle>
-          <div onClick={handleDepositeButton}>
-            <GradientButton
-              width="90px"
-              fontSize="13px"
-              padding="0px 5px"
-              marginTop="10px"
-            >
-              Deposit
-            </GradientButton>
-          </div>
-        </VolumeStyles>
-      </td>
-    </tr>
+                Deposit
+              </GradientButton>
+            </div>
+          </VolumeStyles>
+        </td>
+      </tr>
+    </>
   );
 };
 
