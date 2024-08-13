@@ -34,7 +34,7 @@ export const createTokenBalancesSlice: StateCreator<
         abi: token.symbol === 'WETH' ? (wethAbi as Abi) : (testErc20Abi as Abi),
         functionName: 'balanceOf',
         args: [account],
-        address: token.address as Address,
+        address: token.address,
       }));
 
       const results = await multicallClient.multicall({
