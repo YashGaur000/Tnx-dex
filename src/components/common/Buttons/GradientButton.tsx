@@ -35,7 +35,7 @@ const StyledButton = styled.button<
   line-height: 29.9px;
   letter-spacing: 0.02em;
   text-align: center;
-  color: ${({ theme }) => theme.colors.buttonBackground};
+  color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};
   margin-top: ${({ marginTop }) => marginTop ?? '0'};
   transition:
     background-color 0.3s,

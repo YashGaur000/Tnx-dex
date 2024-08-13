@@ -7,17 +7,12 @@ import SplitScreen from './SplitScreen';
 import PopupScreen from './PopupScreen';
 import MergeLockScreen from './MergeLockScreen';
 import Pagination from './Pagination';
-import { LockTableContains } from '../Styles/ManageVetenex.style';
-
+import { ImgIconStyle, LockTableContains } from '../Styles/ManageVetenex.style';
+import ShortIcon from '../../../assets/short.png';
+import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 interface TableProps {
   data: Record<string, string | number | string[]>[];
 }
-
-const Img = styled.img`
-  width: 1.125em;
-  height: 1.125em;
-  margin-left: 20px;
-`;
 
 const AmountWithImg = styled.div`
   display: flex;
@@ -57,9 +52,38 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
         <Table padding="20px" margin="0px 0px">
           <thead>
             <tr>
-              {headers.map((header, index) => (
-                <th key={index}>{header}</th>
-              ))}
+              <th>
+                {' '}
+                <TableHeaderWrapper>
+                  <label>ID + Status </label>
+                  <img src={ShortIcon} />
+                </TableHeaderWrapper>
+              </th>
+
+              <th>
+                <TableHeaderWrapper>
+                  Locked Amount <img src={ShortIcon} />
+                </TableHeaderWrapper>
+              </th>
+
+              <th>
+                <TableHeaderWrapper>
+                  {' '}
+                  Voting Power <img src={ShortIcon} />
+                </TableHeaderWrapper>
+              </th>
+              <th>
+                <TableHeaderWrapper> Voting For</TableHeaderWrapper>
+              </th>
+              <th>
+                <TableHeaderWrapper>
+                  {' '}
+                  Expiry Date <img src={ShortIcon} />
+                </TableHeaderWrapper>
+              </th>
+              <th>
+                <TableHeaderWrapper> Manage your Locks</TableHeaderWrapper>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -73,15 +97,28 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                           key={index}
                           onClick={() => handleButton(item)}
                         >
-                          <GradientButton padding="0px 10px" fontSize="13">
+                          <GradientButton
+                            borderRadius="6px"
+                            color="#ffffff"
+                            padding="0px 10px 30px"
+                            border="1px solid transparent"
+                            fontSize="12"
+                            height="22px"
+                          >
                             {item}
                           </GradientButton>
                           <span> &nbsp;&nbsp;</span>
                         </ButtonContain>
                       ))
-                    ) : header === 'Locked Amount ' ? (
+                    ) : header === 'Locked Amount' ? (
                       <AmountWithImg key={header}>
-                        <label>{row[header]}</label> <Img src={TenexIcon} />
+                        <label>{row[header]}</label>{' '}
+                        <ImgIconStyle
+                          width="15"
+                          height="15"
+                          margin="0px 0px 0px 10px"
+                          src={TenexIcon}
+                        />
                       </AmountWithImg>
                     ) : (
                       row[header]

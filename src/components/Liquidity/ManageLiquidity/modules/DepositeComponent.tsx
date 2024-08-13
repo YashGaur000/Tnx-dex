@@ -13,7 +13,7 @@ interface DepositComponentProps {
 const DepositeComponent: React.FC<DepositComponentProps> = ({ tokenValue }) => {
   return (
     <StyledDepositContainer>
-      <LiquidityHeaderTitle fontSize={36}>New Deposit</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontSize={24}>New Deposit</LiquidityHeaderTitle>
       {tokenValue > 100 ? <Deposite /> : <DepositeInstruction />}
     </StyledDepositContainer>
   );

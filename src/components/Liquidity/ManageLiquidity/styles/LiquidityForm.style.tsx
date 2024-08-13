@@ -25,6 +25,7 @@ export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSize.medium};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   text-align: left;
 `;
 

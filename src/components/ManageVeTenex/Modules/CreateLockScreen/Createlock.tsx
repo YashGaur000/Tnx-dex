@@ -38,6 +38,7 @@ import { ChangeEvent, useState } from 'react';
 
 const Createlock = () => {
   const [WeekValue, SetWeekValue] = useState(1);
+  const [LockTokenValue, setLockTokenValue] = useState<number>(0);
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
     SetWeekValue(Number(TotalWeeks));
@@ -52,6 +53,10 @@ const Createlock = () => {
     { value: 208, weeks: '4 year' },
   ];
 
+  const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+    setLockTokenValue(Number(e.target.value));
+  };
   return (
     <MainContainerStyle>
       <LockHeaderStyle>
@@ -73,7 +78,11 @@ const Createlock = () => {
                 <label>Available 0000</label>
               </FormRowWrapper>
               <div>
-                <LockInputBox type="number" name="usdt" />
+                <LockInputBox
+                  type="number"
+                  name="usdt"
+                  onChange={handleLockInputData}
+                />
               </div>
               <LockProgressStyle>
                 <label>0%</label>
@@ -124,7 +133,7 @@ const Createlock = () => {
             </LockScreenInstruction>
           </LockCardstyle>
         </CreateLockFirstSection>
-        <LockDeposite />
+        <LockDeposite LockTokenValue={LockTokenValue} />
       </CreateMainContainer>
     </MainContainerStyle>
   );

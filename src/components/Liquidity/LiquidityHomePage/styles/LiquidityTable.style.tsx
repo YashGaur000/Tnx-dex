@@ -76,6 +76,7 @@ export const TableHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 7px;
   cursor: pointer;
 `;
 export const AprDataWrapper = styled.div`
