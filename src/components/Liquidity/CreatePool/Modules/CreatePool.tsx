@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import InformIcon from '../../../../assets/information.png';
 // import AvailablePool from './AvailablePool';
 import LowLiquidityPool from './LowLiquidityPool';
@@ -30,23 +31,27 @@ import {
 } from '../Styles/CreatePool.style';
 import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
-import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
   // const [selectedToken1, setSelectedToken1] = useState<TokenInfo>();
   // const [selectedToken2, setSelectedToken2] = useState<TokenInfo>();
-  const {
-    selectedToken1,
-    selectedToken2,
-    setSelectedToken1,
-    setSelectedToken2,
-  } = useLiquidityStore();
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { address } = useAccount();
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
   >('token1');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
+  // const poolType = getParam('type') ? 'stable' : 'volatile';
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
@@ -54,11 +59,16 @@ const CreatePool = () => {
   };
 
   const handleTokenSelect = (token: TokenInfo) => {
+    const queryParams = new URLSearchParams(location.search);
     if (tokenSelectTarget === 'token1') {
-      setSelectedToken1(token);
+      queryParams.set('token1', token.address);
     } else {
-      setSelectedToken2(token);
+      queryParams.set('token2', token.address);
     }
+    navigate({
+      pathname: location.pathname,
+      search: `?${queryParams.toString()}`,
+    });
   };
 
   function handleTooolTipShow() {
