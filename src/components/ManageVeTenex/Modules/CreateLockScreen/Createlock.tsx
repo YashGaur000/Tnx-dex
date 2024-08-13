@@ -22,6 +22,7 @@ import {
   LockInputBox,
   LoaderStatusWrapper,
   LockHeaderStyle,
+  WeeksLabel,
 } from '../../Styles/CreateLock.style';
 import LockDeposite from './LockDeposite';
 import { StatsCardtitle } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
@@ -44,11 +45,11 @@ const Createlock = () => {
 
   const labels = [
     { value: 1, weeks: '1 week' },
-    { value: 26, weeks: '6 months' },
+
     { value: 52, weeks: '1 year' },
-    { value: 104, weeks: '2 years' },
-    { value: 156, weeks: '3 years' },
-    { value: 208, weeks: '4 years' },
+    { value: 104, weeks: '2 year' },
+    { value: 156, weeks: '3 year' },
+    { value: 208, weeks: '4 year' },
   ];
 
   return (
@@ -104,9 +105,9 @@ const Createlock = () => {
               </LoaderStyle>
               <SliderDeadlineStyle fontSize={10}>
                 {labels.map(({ value, weeks }) => (
-                  <label key={value} onClick={() => SetWeekValue(value)}>
+                  <WeeksLabel key={value} onClick={() => SetWeekValue(value)}>
                     {weeks}
-                  </label>
+                  </WeeksLabel>
                 ))}
               </SliderDeadlineStyle>
             </LockLoaderContainer>

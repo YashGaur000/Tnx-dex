@@ -93,6 +93,11 @@ export const LockInputBox = styled.input<{ theme: DefaultTheme }>`
   &:focus {
     outline: none;
   }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const LockProgressStyle = styled.span`
@@ -108,4 +113,8 @@ export const LockHeaderStyle = styled.div`
   display: flex;
   flex-direction: column;
   gap: 25px;
+`;
+
+export const WeeksLabel = styled.label`
+  cursor: pointer;
 `;
