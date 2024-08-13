@@ -10,7 +10,8 @@ import {
   LiquidityProgress,
   SwapImgConatiner,
 } from '../styles/LiquidityForm.style';
-import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import useQueryParams from '../../../../hooks/useQueryParams';
 
 interface FormComponentProps {
   tokenValue: number;
@@ -26,7 +27,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
     onTokenValueChange(value);
   };
 
-  const { selectedToken1, selectedToken2 } = useLiquidityStore();
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
+  // const poolType = getParam('type') ? 'stable' : 'volatile';
 
   // const logoName1= selectedToken1.name+"logo";
   // const logoName2= selectedToken2.name+"logo";

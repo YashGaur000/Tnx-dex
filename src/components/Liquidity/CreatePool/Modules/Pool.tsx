@@ -18,7 +18,8 @@ import {
   PoolButton,
   Tvlstyle,
 } from '../Styles/PoolCard.style';
-import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 
 interface PoolProps {
   poolType: string;
@@ -26,13 +27,24 @@ interface PoolProps {
 
 const Pool: React.FC<PoolProps> = ({ poolType }) => {
   const Navigate = useNavigate();
-  const { selectedToken1, selectedToken2, setPoolType } = useLiquidityStore();
-  console.log('token1:', selectedToken1, 'token2:', selectedToken2);
+
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
+  // const poolType = getParam('type') ? 'stable' : 'volatile';
 
   function handleDeposite() {
-    setPoolType(poolType);
-    console.log('pool type: set', poolType);
-    Navigate('/liquidity/manage');
+    const queryParams = new URLSearchParams(location.search);
+
+    const typeValue = poolType === 'stable' ? '0' : '1';
+    queryParams.set('type', typeValue.toString());
+
+    // Navigate('/liquidity/manage');
+    Navigate({
+      pathname: '/liquidity/manage',
+      search: `?${queryParams.toString()}`,
+    });
   }
 
   if (selectedToken1 && selectedToken2) {
