@@ -1,7 +1,26 @@
-import styled from 'styled-components';
 import ImpIcon from '../../../assets/information.png';
-// import { useNavigate } from 'react-router-dom';
-import { GradientButton } from '../../common';
+import {
+  CardContainer,
+  GroupImg,
+  Img,
+  IMG1,
+  IMG2,
+  Imgstyle,
+  Label,
+  PairContain,
+  Span,
+  StyledGradientButton,
+  TooltipContainer,
+  TooltipContent,
+  TooltipText,
+  TooltipTextBox,
+  TooltipValue,
+  TooltipValueBox,
+  TraidingSyleLabel,
+  VolumeStyles,
+  VoteButtonContainer,
+  VoteTooltip,
+} from '../styles/VotingPoolCard.style';
 
 interface TableProps {
   data: DataProps;
@@ -23,84 +42,8 @@ interface DataProps {
   poolBalance?: string;
   balanceDesc?: string;
 }
-const CardContainer = styled.div`
-  display: flex;
-  gap: 15px;
 
-  justify-content: center;
-  margin-left: 30px;
-
-  width: 200px;
-`;
-
-const GroupImg = styled.div`
-  display: block;
-  position: relative;
-
-  width: 60px;
-  height: 50px;
-`;
-const TraidingSyleLabel = styled.label`
-  display: flex;
-  flex-direction: column;
-
-  gap: 5px;
-`;
-
-const IMG1 = styled.div`
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 20px;
-`;
-const IMG2 = styled.div`
-  position: absolute;
-  left: 20px;
-  top: 20px;
-`;
-const Label = styled.label`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: #cccccc;
-  font-size: 12px;
-`;
-const Span = styled.span`
-  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  padding-right: 10px;
-`;
-const Img = styled.img`
-  width: 15px;
-  height: 15px;
-  margin-left: 10px;
-`;
-const Imgstyle = styled.img`
-  width: 35px;
-  height: 35px;
-`;
-const PairContain = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-`;
-
-const VolumeStyles = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  align-items: flex-end;
-
-  width: 60%;
-`;
 const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
-  //   const Navigate = useNavigate();
-  //   function handleDepositeButton() {
-  //     Navigate('/liquidity/manage');
-  //   }
-
   return (
     <tr>
       <td>
@@ -124,7 +67,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           </PairContain>
         </CardContainer>
       </td>
-      <td>{data.apr}%</td>
+      <td>{data.apr}% </td>
       <td>
         <VolumeStyles>
           <label>{data.volume}</label>
@@ -141,34 +84,45 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
       </td>
       <td>
         <VolumeStyles>
-          <label>{data.poolBalance}</label>
+          <TooltipContainer>
+            <label>
+              {data.poolBalance} <Img src={ImpIcon} />
+            </label>
+            <TooltipContent className="tooltip-content">
+              <TooltipValueBox>
+                <TooltipValue>3.65%</TooltipValue>
+                <TooltipTextBox>
+                  <TooltipText>Rebase APR</TooltipText>
+                </TooltipTextBox>
+              </TooltipValueBox>
+              <TooltipValueBox>
+                <TooltipValue>2.01%</TooltipValue>
+                <TooltipText>Fees + Incentives APR</TooltipText>
+              </TooltipValueBox>
+            </TooltipContent>
+          </TooltipContainer>
           <Label>{data.balanceDesc}</Label>
-          {/* <div onClick={handleDepositeButton}>
-            <GradientButton
+        </VolumeStyles>
+      </td>
+      <td>
+        <VolumeStyles>
+          <VoteButtonContainer>
+            <StyledGradientButton
               width="90px"
               fontSize="13px"
               padding="0px 5px"
               marginTop="10px"
             >
               Vote
-            </GradientButton>
-          </div> */}
-        </VolumeStyles>
-      </td>
-      <td>
-        <VolumeStyles>
-          {/* <label>{data.poolBalance}</label>
-          <Label>{data.balanceDesc}</Label> */}
-          {/* <div onClick={handleDepositeButton}> */}
-          <GradientButton
-            width="90px"
-            fontSize="13px"
-            padding="0px 5px"
-            marginTop="10px"
-          >
-            Vote
-          </GradientButton>
-          {/* </div> */}
+            </StyledGradientButton>
+            <VoteTooltip>
+              You need to create a Lock in
+              <br /> order to start voting. Locking
+              <br />
+              will give you an NFT, also
+              <br /> referred to as a veNFT
+            </VoteTooltip>
+          </VoteButtonContainer>
         </VolumeStyles>
       </td>
     </tr>

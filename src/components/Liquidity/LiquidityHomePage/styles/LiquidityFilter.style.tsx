@@ -10,9 +10,8 @@ interface FilterButtonProps {
 export const FilterWrapper = styled.main`
   display: flex;
   justify-content: space-between;
-
   align-items: center;
-  margin: 20px 0px;
+  margin: 5px 0px;
   width: 100%;
 
   @media screen and (max-width: 800px) {

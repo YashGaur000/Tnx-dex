@@ -7,6 +7,10 @@ import USDC from '../../../assets/usdc.png';
 import FTM from '../../../assets/ftm.png';
 import VotingPoolCard from './VotingPoolCard';
 import SortIcon from '../../../assets/sorting.png';
+import {
+  LiquidityHeaderColumn,
+  TableHeaderWrapper,
+} from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 
 interface voteData {
   id?: string;
@@ -92,21 +96,38 @@ const VotePoolTable: React.FC = () => {
       >
         <thead>
           <tr>
-            <th>Pool </th>
             <th>
-              Fees <img src={SortIcon} />
+              <LiquidityHeaderColumn>Pool</LiquidityHeaderColumn>
             </th>
             <th>
-              Incentives <img src={SortIcon} />
+              <TableHeaderWrapper>
+                {' '}
+                Fees <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
             <th>
-              Total Rewards <img src={SortIcon} />
+              <TableHeaderWrapper>
+                {' '}
+                Incentives <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
             <th>
-              vAPR <img src={SortIcon} />
+              <TableHeaderWrapper>
+                {' '}
+                Total Rewards <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
             <th>
-              Vote Pool <img src={SortIcon} />
+              <TableHeaderWrapper>
+                {' '}
+                vAPR <img src={SortIcon} />
+              </TableHeaderWrapper>
+            </th>
+            <th>
+              <TableHeaderWrapper>
+                {' '}
+                Vote Pool <img src={SortIcon} />
+              </TableHeaderWrapper>
             </th>
           </tr>
         </thead>
