@@ -60,17 +60,53 @@ const StyledButton = styled.button<
   }
 `;
 
+// export const GradientSpan = styled.span<{
+//   fontSize?: number;
+//   Color?: string;
+//   isActive?: boolean;
+//   theme: DefaultTheme;
+// }>`
+//   color: ${({ Color }) => Color};
+//   font-size: ${({ fontSize }) => fontSize}px;
+//   font-family: ${({ theme }) => theme.fonts.main};
+//   background: ${({ isActive, theme }) =>
+//     isActive ? 'black' : theme.colors.buttonBackground};
+//   -webkit-background-clip: text;
+//   -webkit-text-fill-color: transparent;
+//   display: inline-block;
+//   transition: background 0.3s ease;
+// `;
+
+// export const GradientSpan = styled.span<{
+//   fontSize?: number;
+//   isActive?: boolean;
+//   theme: DefaultTheme;
+// }>`
+//   font-size: ${({ fontSize }) => fontSize}px;
+//   font-family: ${({ theme }) => theme.fonts.main};
+//   border : ${({ isActive }) =>
+//     isActive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
+//   background: ${({ isActive }) =>
+//     isActive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
+//   -webkit-background-clip: text;
+//   // -webkit-text-fill-color: ${({ isActive }) => (isActive ? 'transparent' : 'white')};
+//   // background-clip: text; // For cross-browser support
+//   // -webkit-text-fill-color: ${({ isActive }) => (isActive ? 'transparent' : 'white')};
+//   // transition: background 0.3s ease;
+// `;
+
 export const GradientSpan = styled.span<{
   fontSize?: number;
-  theme: DefaultTheme;
+  isActive?: boolean;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-  font-family: ${({ theme }) => theme.fonts.main};
-  background: ${({ theme }) => theme.colors.buttonBackground};
+  background: ${({ isActive }) =>
+    isActive
+      ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)'
+      : 'white'};
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  transition: background 0.3s ease;
+  -webkit-text-fill-color: ${({ isActive }) =>
+    isActive ? 'transparent' : 'white'};
 `;
 
 const GradientButton: React.FC<GradientButtonProps> = ({
