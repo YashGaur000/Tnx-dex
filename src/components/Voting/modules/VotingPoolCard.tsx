@@ -44,11 +44,6 @@ interface DataProps {
 }
 
 const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
-  //   const Navigate = useNavigate();
-  //   function handleDepositeButton() {
-  //     Navigate('/liquidity/manage');
-  //   }
-
   return (
     <tr>
       <td>
@@ -109,28 +104,6 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           <Label>{data.balanceDesc}</Label>
         </VolumeStyles>
       </td>
-      {/* <td>
-        <VolumeStyles>
-          <GradientButton
-            width="90px"
-            fontSize="13px"
-            padding="0px 5px"
-            marginTop="10px"
-          >
-            Vote
-            <TooltipContainer>
-            <VoteTooltip>
-      You need to create a Lock <br/>
-      in order to start voting.<br/>
-       Locking will give you an NFT,<br/>
-        also referred to as a veNFT
-    </VoteTooltip>
-    </TooltipContainer>
-          </GradientButton>
-          
-        </VolumeStyles>
-      </td> */}
-
       <td>
         <VolumeStyles>
           <VoteButtonContainer>
