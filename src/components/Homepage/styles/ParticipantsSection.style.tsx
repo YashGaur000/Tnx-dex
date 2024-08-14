@@ -75,7 +75,7 @@ export const Stat = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const StatValue = styled.h4<{ theme: DefaultTheme }>`
-  font-size: 64px;
+  font-size: 48px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 95.68px;
   text-align: center;

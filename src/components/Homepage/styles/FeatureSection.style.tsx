@@ -24,7 +24,7 @@ export const FeaturesContainer = styled.section<{ theme: DefaultTheme }>`
 `;
 
 export const CardText = styled.p<{ theme: DefaultTheme }>`
-  font-size: 24px;
+  font-size: 28px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 41.86px;
 
