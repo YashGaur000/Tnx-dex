@@ -31,6 +31,7 @@ interface DataProps {
   icon1?: string;
   icon2?: string;
   stablePercentage?: number;
+  votes?: string;
   tvl?: string;
   apr?: number;
   volume?: string;
@@ -62,12 +63,17 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
               <Span>Stable</Span> {data.stablePercentage}% <Img src={ImpIcon} />
             </Label>
             <Label>
+              <Span>Votes</Span> <label>{data.votes}</label>
+            </Label>
+            <Label>
               <Span>TVL</Span> <label>{data.tvl}</label>
             </Label>
           </PairContain>
         </CardContainer>
       </td>
-      <td>{data.apr}% </td>
+      <td>
+        <label>{data.fees}</label>
+      </td>
       <td>
         <VolumeStyles>
           <label>{data.volume}</label>
