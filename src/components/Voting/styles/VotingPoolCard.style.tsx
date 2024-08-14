@@ -85,7 +85,8 @@ export const IMG2 = styled.div`
   }
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<{ theme: DefaultTheme }>`
+  margi
   display: flex;
   align-items: center;
   gap: 4px;
