@@ -25,6 +25,7 @@ export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSize.medium};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   text-align: left;
 `;
 
@@ -53,11 +54,22 @@ export const LiquidityInputBox = styled.input<InputBoxProps>`
   padding-left: 20px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const SwapImgConatiner = styled.div`
   display: block;
   margin: auto;
+  cursor: pointer;
 `;
 
 export const TokenImgLiquidity = styled.img`
