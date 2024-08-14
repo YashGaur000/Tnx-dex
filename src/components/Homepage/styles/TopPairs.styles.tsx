@@ -5,7 +5,7 @@ export const TopPairsContainer = styled.section<{ theme: DefaultTheme }>`
   margin-top: 70px;
   margin: 0 -57px;
   text-align: center;
-  padding: 100px 227px;
+  padding: 100px 400px;
 
   @media (max-width: 1400px) {
     padding: 100px 200px;
@@ -62,6 +62,7 @@ export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
 
 export const CardValue = styled.div<{ theme: DefaultTheme }>`
   font-size: 36px;
+  line-height: 53.82px;
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 10px;
 `;
@@ -87,4 +88,6 @@ export const CardIcon = styled.img`
 export const CardPercentage = styled.div<{ theme: DefaultTheme }>`
   font-size: 1em;
   color: ${({ theme }) => theme.colors.grey};
+  font-size: 2px;
+  line-height: 35.88px;
 `;

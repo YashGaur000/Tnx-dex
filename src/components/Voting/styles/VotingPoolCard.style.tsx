@@ -63,8 +63,7 @@ export const IMG1 = styled.div`
   @media (max-width: 768px) {
     top: 15px;
   }
-
-  @media (max-width: 480px) {
+  git @media (max-width: 480px) {
     top: 10px;
   }
 `;
