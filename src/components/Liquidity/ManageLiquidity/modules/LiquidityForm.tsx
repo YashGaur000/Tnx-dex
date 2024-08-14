@@ -12,6 +12,9 @@ import {
 } from '../styles/LiquidityForm.style';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import useQueryParams from '../../../../hooks/useQueryParams';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useTokenBalances } from '../../../../hooks/useTokenBalance';
+import { TokenInfo } from '../../../../constants/tokens';
 
 interface FormComponentProps {
   tokenValue: number;
@@ -28,13 +31,13 @@ const LiquidityForm: FC<FormComponentProps> = ({
   };
 
   const getParam = useQueryParams();
-
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
-  // const poolType = getParam('type') ? 'stable' : 'volatile';
 
-  // const logoName1= selectedToken1.name+"logo";
-  // const logoName2= selectedToken2.name+"logo";
+  const tokenList = [selectedToken1, selectedToken2];
+
+  const { address } = useAccount();
+  const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
 
   if (selectedToken1 && selectedToken2) {
     return (
@@ -45,7 +48,9 @@ const LiquidityForm: FC<FormComponentProps> = ({
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
               <label>{selectedToken1.symbol}</label>
             </ImageWithTitleWrap>
-            <label>Available 0000</label>
+            <label>
+              Available {selectedToken1 && (balances[selectedToken1.address]).toString()}
+            </label>
           </FormRowWrapper>
           <div>
             <LiquidityInputBox
@@ -73,7 +78,9 @@ const LiquidityForm: FC<FormComponentProps> = ({
               <TokenImgLiquidity src={selectedToken2.logoURI} alt="FTM logo" />
               <label>{selectedToken2.symbol}</label>
             </ImageWithTitleWrap>
-            <label>Available 0000</label>
+            <label>
+              Available {selectedToken2 && (balances[selectedToken2.address]).toString()}
+            </label>
           </FormRowWrapper>
           <div>
             <LiquidityInputBox

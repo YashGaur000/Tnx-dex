@@ -35,6 +35,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
   account,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  // console.log("actual rtoken list:",ERC20_TEST_TOKEN_LIST)
   const { balances, loading, error } = useTokenBalances(
     ERC20_TEST_TOKEN_LIST,
     account
@@ -96,7 +97,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                   marginLeft: '150px',
                 }}
               >
-                {account && balances[token.address as Address].toString()}
+                {account && balances[token.address].toString()}
               </p>
             </TokenItem>
           ))}
