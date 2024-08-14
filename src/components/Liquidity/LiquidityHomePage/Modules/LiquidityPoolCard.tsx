@@ -52,7 +52,6 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
     const typeValue = 0;
     const token1 = '0x4200000000000000000000000000000000000023';
     const token2 = '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
-    console.log(token1, 'liq pool card', token2, typeValue);
 
     queryParams.set('token1', token1);
     queryParams.set('token2', token2);

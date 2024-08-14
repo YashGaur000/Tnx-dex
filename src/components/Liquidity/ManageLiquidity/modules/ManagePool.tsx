@@ -10,9 +10,11 @@ import {
   CreateMainContainer,
 } from '../styles/Managepool.style';
 import CreateNewLiquidity from './CreateNewLiquidity';
+import { ethers } from 'ethers';
 
 const ManagePool = () => {
-  const [tokenValue, setTokenValue] = useState<number>(0);
+  const [token1Value, setToken1Value] = useState<ethers.Numeric>(0);
+  const [token2Value, setToken2Value] = useState<ethers.Numeric>(0);
 
   // const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -29,8 +31,12 @@ const ManagePool = () => {
     ? 'Manage your position'
     : 'Create your LP position';
 
-  const handleTokenValueChange = (value: number) => {
-    setTokenValue(value);
+  const handleTokenValueChange = (
+    token1: ethers.Numeric,
+    token2: ethers.Numeric
+  ) => {
+    setToken1Value(token1);
+    setToken2Value(token2);
   };
   return (
     <MainContainerStyle>
@@ -43,13 +49,13 @@ const ManagePool = () => {
         <CreateFormWrapper>
           {!exists && <CreateNewLiquidity />}
           <TokenDeposite />
-          <LiquidityForm
-            tokenValue={tokenValue}
-            onTokenValueChange={handleTokenValueChange}
-          />
+          <LiquidityForm onTokenValueChange={handleTokenValueChange} />
         </CreateFormWrapper>
 
-        <DepositeComponent tokenValue={tokenValue} />
+        <DepositeComponent
+          token1Value={token1Value}
+          token2Value={token2Value}
+        />
       </CreateMainContainer>
     </MainContainerStyle>
   );

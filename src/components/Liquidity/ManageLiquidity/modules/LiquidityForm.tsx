@@ -1,5 +1,5 @@
 import SwapIcon from '../../../../assets/swap.png';
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
 import {
   ManageLiquidityFormSection,
   FormFieldContainer,
@@ -15,19 +15,25 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo } from '../../../../constants/tokens';
+import { ethers } from 'ethers';
 
 interface FormComponentProps {
-  tokenValue: number;
-  onTokenValueChange: (value: number) => void;
+  onTokenValueChange: (token1: ethers.Numeric, token2: ethers.Numeric) => void;
 }
 
-const LiquidityForm: FC<FormComponentProps> = ({
-  tokenValue,
-  onTokenValueChange,
-}) => {
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(e.target.value);
-    onTokenValueChange(value);
+const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
+  const [token1Value, setToken1Amount] = useState<ethers.Numeric>(0);
+  const [token2Value, setToken2Amount] = useState<ethers.Numeric>(0);
+
+  const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    setToken1Amount(value);
+    onTokenValueChange(value, token2Value);
+  };
+  const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = Number(event.target.value);
+    setToken2Amount(value);
+    onTokenValueChange(token1Value, value);
   };
 
   const getParam = useQueryParams();
@@ -49,16 +55,20 @@ const LiquidityForm: FC<FormComponentProps> = ({
               <label>{selectedToken1.symbol}</label>
             </ImageWithTitleWrap>
             <label>
-              Available {selectedToken1 && (balances[selectedToken1.address]).toString()}
+              Available{' '}
+              {selectedToken1 && balances[selectedToken1.address].toString()}
             </label>
           </FormRowWrapper>
           <div>
             <LiquidityInputBox
               type="text"
-              name="usdt"
-              value={tokenValue === 0 ? '' : tokenValue?.toString() || ''}
-              isInvalid={tokenValue < 100}
-              onChange={handleChange}
+              name="token1"
+              value={token1Value === 0 ? '' : token1Value?.toString() || ''}
+              isInvalid={
+                Number(token1Value) >
+                Number(balances[selectedToken1.address].toString())
+              }
+              onChange={handleChangeToken1Value}
             />
           </div>
           <LiquidityProgress>
@@ -79,16 +89,22 @@ const LiquidityForm: FC<FormComponentProps> = ({
               <label>{selectedToken2.symbol}</label>
             </ImageWithTitleWrap>
             <label>
-              Available {selectedToken2 && (balances[selectedToken2.address]).toString()}
+              Available{' '}
+              {selectedToken2 && balances[selectedToken2.address].toString()}
             </label>
           </FormRowWrapper>
           <div>
             <LiquidityInputBox
               type="text"
-              name="ftm"
-              value={tokenValue === 0 ? '' : tokenValue?.toString() || ''}
-              isInvalid={tokenValue < 100}
-              readOnly
+              name="token2"
+              value={token2Value === 0 ? '' : token2Value?.toString() || ''}
+              isInvalid={
+                Number(token2Value) >
+                Number(
+                  selectedToken2 && balances[selectedToken2.address].toString()
+                )
+              }
+              onChange={handleChangeToken2Value}
             />
           </div>
           <LiquidityProgress>
