@@ -28,7 +28,12 @@ const DepositeComponent: React.FC<DepositComponentProps> = ({
     <StyledDepositContainer>
       <LiquidityHeaderTitle fontSize={36}>New Deposit</LiquidityHeaderTitle>
       {checkForToken1 || checkForToken2 ? (
-        <Deposite disabled1={!checkForToken1} disabled2={!checkForToken2} />
+        <Deposite
+          disabled1={!checkForToken1}
+          disabled2={!checkForToken2}
+          amount1={token1Value}
+          amount2={token2Value}
+        />
       ) : (
         <DepositeInstruction />
       )}
