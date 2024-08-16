@@ -48,7 +48,11 @@ const AppRoutes: React.FC = () => {
                 path="/concentrated-liquidity-farms"
                 element={<ConcentratedLiquidityPage />}
               />
-              <Route path="/governance" element={<ManageveTenex />} />
+              <Route path="/governance/" element={<ManageveTenex />} />
+              <Route
+                path="/governance/managevetenex"
+                element={<ManageveTenex />}
+              />
               <Route path="/governance/create" element={<Createlock />} />
               <Route
                 path="/governance/relay/create"
