@@ -38,9 +38,9 @@ export const addLiquidity = async ({
       chainId
     ) as RouterContract;
 
-    console.log('user address ', to, tokenA, tokenB, stable);
+    // console.log('user address ', to, tokenA, tokenB, stable);
 
-    console.log(await routerContract.functions.factoryRegistry());
+    // console.log(await routerContract.functions.factoryRegistry());
 
     const tx = await routerContract.functions.addLiquidity(
       tokenA,

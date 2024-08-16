@@ -37,8 +37,6 @@ import { ImgIconStyle } from '../../../ManageVeTenex/Styles/ManageVetenex.style'
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
-  // const [selectedToken1, setSelectedToken1] = useState<TokenInfo>();
-  // const [selectedToken2, setSelectedToken2] = useState<TokenInfo>();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { address } = useAccount();

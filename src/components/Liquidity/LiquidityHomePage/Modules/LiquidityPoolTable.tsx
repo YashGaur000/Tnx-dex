@@ -1,7 +1,5 @@
 import Table, { TableContainerStyle } from '../../../common/TableStyled';
 
-import LiquidityPoolCard from './LiquidityPoolCard.tsx';
-
 import {
   LiquidityHeaderColumn,
   TableHeaderWrapper,
@@ -10,6 +8,7 @@ import {
 import SortIcon from '../../../../assets/short.svg';
 import { PoolDataProps } from './LiquidityPool.tsx';
 import { ImgIconStyle } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
+import LiquidityPoolCard from './LiquidityPoolCard.tsx';
 
 type SortableKeys = keyof PoolDataProps;
 

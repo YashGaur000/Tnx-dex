@@ -1,5 +1,5 @@
 import InformationIcon from '../../../../assets/information.png';
-
+import useQueryParams from '../../../../hooks/useQueryParams';
 import { GlobalButton } from '../../../common';
 import {
   LiquidityImgStyle,
@@ -11,6 +11,9 @@ import {
 } from '../styles/TokenDeposite.style';
 
 const CreateNewLiquidity = () => {
+  const getParam = useQueryParams();
+
+  const poolType = getParam('type');
   return (
     <CreateVoliteLiquiditySection>
       <VolatileLiquidityWrapper>
@@ -20,7 +23,8 @@ const CreateNewLiquidity = () => {
           src={InformationIcon}
         />
         <StatsCardtitle fontSize={16}>
-          {`You'r about to create a new volatile liquidity Pool...`}
+          You&apos;r about to create a new {poolType ? 'stable' : 'volatile'}{' '}
+          liquidity Pool...
         </StatsCardtitle>
       </VolatileLiquidityWrapper>
       <GlobalButton width="90px" height="40px">

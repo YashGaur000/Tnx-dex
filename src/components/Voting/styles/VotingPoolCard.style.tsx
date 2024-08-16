@@ -63,8 +63,7 @@ export const IMG1 = styled.div`
   @media (max-width: 768px) {
     top: 15px;
   }
-
-  @media (max-width: 480px) {
+  git @media (max-width: 480px) {
     top: 10px;
   }
 `;
@@ -85,7 +84,8 @@ export const IMG2 = styled.div`
   }
 `;
 
-export const Label = styled.label`
+export const Label = styled.label<{ theme: DefaultTheme }>`
+  margi
   display: flex;
   align-items: center;
   gap: 4px;
