@@ -16,53 +16,38 @@ import {
 import { GradientButton } from '../../../common';
 import { useNavigate } from 'react-router-dom';
 import { StatsCardtitle } from '../styles/LiquidityHeroSection.style';
-interface TableProps {
-  data: DataProps;
-}
-interface DataProps {
-  id: string;
-  pair: string;
-  icon1: string;
-  icon2: string;
-  stablePercentage: number;
-  tvl: string;
-  apr: number;
-  volume: string;
-  volumeDesc: string;
-  volumeSubDesc: string;
-  fees: string;
-  feesDesc: string;
-  feesSubDesc: string;
-  poolBalance: string;
-  balanceDesc: string;
-  liquidityType: string;
-}
+
 import { useState } from 'react';
 import LiquidityInfo from './LiquidityInfo';
+import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
+import { getTokenLogo } from '../../../../utils/getTokenLogo';
 // import Pool from '../../CreatePool/Modules/Pool';
 
-const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
-  const Navigate = useNavigate();
+const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
+  const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
-  function handleDepositeButton() {
+  const handleDepositeButton = (
+    token0: string,
+    token1: string,
+    isStable: boolean
+  ) => {
     const queryParams = new URLSearchParams(location.search);
-    // const typeValue = poolType === 'stable' ? '0' : '1';
 
-    //todo: update with indexer query data, interface is created in liquidity.d.ts
-    const typeValue = 0;
-    const token1 = '0x4200000000000000000000000000000000000023';
-    const token2 = '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
+    const tokenA = token0.split('-');
+    const tokenB = token1.split('-');
 
-    queryParams.set('token1', token1);
-    queryParams.set('token2', token2);
-    queryParams.set('type', typeValue.toString());
+    const typeValue = isStable ? '0' : '1';
 
-    // Navigate('/liquidity/manage', { state: data });
-    Navigate({
+    queryParams.set('token1', tokenA[0]);
+    queryParams.set('token2', tokenB[0]);
+    queryParams.set('type', typeValue);
+    queryParams.set('exists', true.toString()); //@Todo need to handle properly and check routes of both manage and create new pool
+
+    navigate({
       pathname: '/liquidity/manage',
       search: `?${queryParams.toString()}`,
     });
-  }
+  };
 
   return (
     <>
@@ -71,19 +56,22 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
           <TokenCardContainer>
             <GroupImgContains>
               <IMG1Contains Top={20} Left={0}>
-                <Imgstyle src={data.icon1} />
+                <Imgstyle src={getTokenLogo(data.token0.symbol)} />
               </IMG1Contains>
               <IMG2Contains Top={20} Left={25}>
-                <Imgstyle src={data.icon2} />
+                <Imgstyle src={getTokenLogo(data.token1.symbol)} />
               </IMG2Contains>
             </GroupImgContains>
             <PairContain>
-              <TraidingSyleLabel>{data.pair}</TraidingSyleLabel>
+              <TraidingSyleLabel>
+                {data.token0.symbol}-{data.token1.symbol}
+              </TraidingSyleLabel>
               <TokenAmountTitle>
                 <StatsCardtitle fontSize={12}>
-                  {data.liquidityType}
+                  {data.isStable ? 'Stable' : 'Volatile'}
                 </StatsCardtitle>
-                <p> {data.stablePercentage}%</p>{' '}
+                {/* <p> {data.stablePercentage}%</p>{' '} */}
+                <p>{0.01} %</p>
                 <SugestImgWrapper
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
@@ -94,33 +82,54 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
               </TokenAmountTitle>
               <TokenAmountTitle>
                 <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
-                <label>{data.tvl}</label>
+                <label>{data.totalVolumeUSD.toString()}</label>
               </TokenAmountTitle>
             </PairContain>
           </TokenCardContainer>
         </td>
         <td>
-          <AprDataWrapper>{data.apr}%</AprDataWrapper>
+          <AprDataWrapper>{}%</AprDataWrapper>
         </td>
         <td>
           <VolumeStyles>
-            <label>{data.volume}</label>
-            <TokenAmountTitle>{data.volumeDesc}</TokenAmountTitle>
-            <TokenAmountTitle>{data.volumeSubDesc}</TokenAmountTitle>
+            <label>~$ {data.totalVolumeUSD.toString()}</label>
+            <TokenAmountTitle>
+              {data.totalVolume0.toString()} {data.token0.symbol}
+            </TokenAmountTitle>
+            <TokenAmountTitle>
+              {data.totalVolume1.toString()} {data.token1.symbol}
+            </TokenAmountTitle>
           </VolumeStyles>
         </td>
         <td>
           <VolumeStyles>
-            <label>{data.fees}</label>
-            <TokenAmountTitle>{data.feesDesc}</TokenAmountTitle>
-            <TokenAmountTitle>{data.feesSubDesc}</TokenAmountTitle>
+            <label>~$ {data.totalFeesUSD.toString()}</label>
+            <TokenAmountTitle>
+              {data.totalFees0.toString()} {data.token0.symbol}
+            </TokenAmountTitle>
+            <TokenAmountTitle>
+              {data.totalFees1.toString()} {data.token1.symbol}
+            </TokenAmountTitle>
           </VolumeStyles>
         </td>
         <td>
           <VolumeStyles>
-            <label>{data.poolBalance}</label>
-            <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle>
-            <div onClick={handleDepositeButton}>
+            <label>
+              {data.reserve0.toString()} {data.token0.symbol}
+            </label>
+            {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
+            <label>
+              {data.reserve1.toString()} {data.token1.symbol}
+            </label>
+            <div
+              onClick={() =>
+                handleDepositeButton(
+                  data.token0.id,
+                  data.token1.id,
+                  data.isStable
+                )
+              }
+            >
               <GradientButton
                 width="90px"
                 fontSize="13px"

@@ -7,22 +7,22 @@ import {
   TableHeaderWrapper,
 } from '../styles/LiquidityTable.style.tsx';
 import SortIcon from '../../../../assets/sorting.png';
-import { PoolDataProps } from './LiquidityPool.tsx';
+import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew.ts';
 
-type SortableKeys = keyof PoolDataProps;
+type SortableKeys = keyof LiquidityPoolNewType;
 
 interface PoolTableProps {
-  handleSortedFeatures: (item: SortableKeys) => void;
-  sortedData: PoolDataProps[];
+  handleSortedFeatures?: (item: SortableKeys) => void;
+  sortedData: LiquidityPoolNewType[];
 }
 
 const LiquidityPoolTable: React.FC<PoolTableProps> = ({
-  handleSortedFeatures,
+  //handleSortedFeatures,
   sortedData,
 }) => {
-  const handleSorting = (item: SortableKeys) => {
-    handleSortedFeatures(item);
-  };
+  // const handleSorting = (item: SortableKeys) => {
+  //   handleSortedFeatures(item);
+  // };
 
   return (
     <TableContainerStyle>
@@ -37,24 +37,24 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
           <tr>
             <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
             <th>
-              <TableHeaderWrapper onClick={() => handleSorting('apr')}>
+              <TableHeaderWrapper>
                 APR <img src={SortIcon} />
               </TableHeaderWrapper>
             </th>
             <th>
-              <TableHeaderWrapper onClick={() => handleSorting('volume')}>
+              <TableHeaderWrapper>
                 {' '}
                 Volume <img src={SortIcon} />
               </TableHeaderWrapper>
             </th>
             <th>
-              <TableHeaderWrapper onClick={() => handleSorting('fees')}>
+              <TableHeaderWrapper>
                 {' '}
                 Fees <img src={SortIcon} />
               </TableHeaderWrapper>
             </th>
             <th>
-              <TableHeaderWrapper onClick={() => handleSorting('poolBalance')}>
+              <TableHeaderWrapper>
                 {' '}
                 Pool Balance <img src={SortIcon} />
               </TableHeaderWrapper>
