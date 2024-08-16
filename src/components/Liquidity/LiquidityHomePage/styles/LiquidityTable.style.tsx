@@ -69,7 +69,7 @@ export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
 `;
 export const LiquidityHeaderColumn = styled.th`
   float: left;
-  margin-left: 55px;
+  margin-left: 40px;
 `;
 
 export const TableHeaderWrapper = styled.div`
@@ -88,4 +88,9 @@ export const AprDataWrapper = styled.div`
 export const SugestImgWrapper = styled.div`
   position: relative;
   overflow: visible;
+`;
+
+export const PoolTableContains = styled.div`
+  width: 100%;
+  display: flex;
 `;

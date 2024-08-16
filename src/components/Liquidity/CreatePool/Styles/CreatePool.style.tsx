@@ -49,11 +49,12 @@ export const TokenSelectAlignStyle = styled.div`
   align-items: center;
 `;
 
-export const TokenSelectCustom = styled.div`
+export const TokenSelectCustom = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  border: 1px solid gray;
+  border: 1px solid ${({ theme }) => theme.colors.greyBorder};
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
-  border-radius: 15px;
+  padding: 5px 15px;
+  height: 48px;
+  border-radius: 12px;
 `;

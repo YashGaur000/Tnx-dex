@@ -8,7 +8,7 @@ import PopupScreen from './PopupScreen';
 import MergeLockScreen from './MergeLockScreen';
 import Pagination from './Pagination';
 import { ImgIconStyle, LockTableContains } from '../Styles/ManageVetenex.style';
-import ShortIcon from '../../../assets/short.png';
+import ShortIcon from '../../../assets/short.svg';
 import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 interface TableProps {
   data: Record<string, string | number | string[]>[];
@@ -100,10 +100,11 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                           <GradientButton
                             borderRadius="6px"
                             color="#ffffff"
-                            padding="0px 10px 30px"
+                            padding="0px 12px 30px 12px"
                             border="1px solid transparent"
                             fontSize="12"
                             height="22px"
+                            width="80px"
                           >
                             {item}
                           </GradientButton>

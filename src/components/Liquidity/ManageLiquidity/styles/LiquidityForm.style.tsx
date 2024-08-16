@@ -16,7 +16,6 @@ export const FormFieldContainer = styled.div`
   flex-direction: column;
   gap: 12px;
   height: 130px;
-  padding: 10px;
 `;
 
 export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`

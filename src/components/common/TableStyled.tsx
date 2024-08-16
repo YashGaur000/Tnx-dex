@@ -44,9 +44,10 @@ const Table = styled.table<TableProps>`
   border-collapse: collapse;
   margin: ${({ margin }) => margin ?? '10px 0px'};
   height: auto;
-  font-family: Kanit, sans-serif;
-  font-size: ${({ fontSize }) => fontSize ?? '15px'};
-  font-weight: ${({ fontWeight }) => fontWeight ?? 300};
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-weight: ${({ fontWeight, theme }) =>
+    fontWeight ?? theme.fontWeights.regular};
   line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
   color: ${({ color }) => color ?? '#ffffff'};
   background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
@@ -55,13 +56,18 @@ const Table = styled.table<TableProps>`
   td,
   th {
     white-space: nowrap;
-
+    font-family: ${({ theme }) => theme.fonts.main};
+    font-size: ${({ fontSize }) => fontSize ?? '16px'};
+    font-weight: ${({ fontWeight, theme }) =>
+      fontWeight ?? theme.fontWeights.regular};
     text-overflow: ellipsis;
+    min-width: 100px;
   }
 
   td {
     padding: ${({ padding }) => padding ?? '10px 0px'};
     text-align: center;
+    font-size: ${({ fontSize }) => fontSize ?? '14px'};
   }
 
   th {
@@ -70,7 +76,7 @@ const Table = styled.table<TableProps>`
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    padding: ${({ padding }) => padding ?? '30px 0px'};
+    padding: ${({ padding }) => padding ?? '10px 0px'};
     text-align: ${({ textAlign }) => textAlign ?? 'center'};
   }
 

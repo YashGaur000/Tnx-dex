@@ -26,9 +26,12 @@ import {
   RelayStrategyContents,
   CheckBoxStyle,
   LockDropDownBox,
+  UnderLineStyle,
 } from '../../Styles/Relay.style';
 import SelectIcon from '../../../../assets/select.png';
 import RelayDeposit from './RelayDeposit';
+
+import { Link } from 'react-router-dom';
 
 const CreateLockRelay = () => {
   return (
@@ -47,9 +50,9 @@ const CreateLockRelay = () => {
               <FormRowWrapper>
                 <label>Select the Lock you want to deposit</label>
 
-                <LockDescriptonTitle fontSize={16}>
-                  Create New Lock
-                </LockDescriptonTitle>
+                <UnderLineStyle>
+                  <Link to={'/governance/create'}> Create New Lock </Link>
+                </UnderLineStyle>
               </FormRowWrapper>
               <div>
                 <LockDropDownBox>

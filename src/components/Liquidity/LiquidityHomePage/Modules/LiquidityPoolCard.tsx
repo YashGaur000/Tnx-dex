@@ -103,10 +103,13 @@ const LiquidityPoolCard: React.FC<TableProps> = ({ data }) => {
           <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle>
           <div onClick={handleDepositeButton}>
             <GradientButton
-              width="90px"
-              fontSize="13px"
-              padding="0px 5px"
-              marginTop="10px"
+              borderRadius="8px"
+              color="#ffffff"
+              padding="0px 20px 30px"
+              border="1px solid transparent"
+              fontSize="12"
+              width="81"
+              height="26px"
             >
               Deposit
             </GradientButton>

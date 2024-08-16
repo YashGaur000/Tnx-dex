@@ -4,7 +4,7 @@ import InformIcon from '../../../../assets/information.png';
 // import AvailablePool from './AvailablePool';
 import LowLiquidityPool from './LowLiquidityPool';
 import QuestionIcon from '../../../../assets/questionMark.png';
-import SelectIcon from '../../../../assets/select.png';
+import SelectIcon from '../../../../assets/select.svg';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
@@ -21,7 +21,7 @@ import {
   LiquidityTitle,
   StatsCardtitle,
 } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
-import { SuggestImg } from '../../LiquidityHomePage/styles/LiquidityTable.style';
+
 import {
   CreatePoolStyles,
   TokenSelectAlignStyle,
@@ -33,6 +33,7 @@ import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import { ImgIconStyle } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -74,7 +75,9 @@ const CreatePool = () => {
   function handleTooolTipShow() {
     setPopUpVisible(true);
   }
-
+  function handleTooltipHide() {
+    setPopUpVisible(false);
+  }
   const closeModal = () => {
     setPopUpVisible(false);
   };
@@ -137,7 +140,12 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+                <ImgIconStyle
+                  src={SelectIcon}
+                  alt={SelectIcon}
+                  width="9"
+                  height="4"
+                />
               </TokenSelectAlignSelect>
             </TokenSelectCustom>
 
@@ -169,7 +177,12 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+                <ImgIconStyle
+                  src={SelectIcon}
+                  width="8"
+                  height="8"
+                  alt={SelectIcon}
+                />
               </TokenSelectAlignSelect>
             </TokenSelectCustom>
 
@@ -190,7 +203,12 @@ const CreatePool = () => {
           </>
         ) : (
           <CreateSuggestContain>
-            <SuggestImg src={InformIcon} alt="Information Icon" />
+            <ImgIconStyle
+              src={InformIcon}
+              alt="Information Icon"
+              width="20"
+              height="20"
+            />
             <StatsCardtitle fontSize={16}>
               Start by selecting the tokens. The liquidity pools available for
               deposit will show up next.
@@ -200,7 +218,7 @@ const CreatePool = () => {
       </MainContainerStyle>
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
-        {<LiquidityToolTips />}
+        <div onMouseLeave={handleTooltipHide}>{<LiquidityToolTips />}</div>
       </PopupScreen>
     </>
   );

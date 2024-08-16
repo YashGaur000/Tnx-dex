@@ -95,7 +95,7 @@ export const LockheaderContentStyle = styled.div`
   display: flex;
   align-items: flex-start;
 
-  width: 95%;
+  width: 100%;
   gap: 10px;
 `;
 export const LockContainerWrapper = styled.div`

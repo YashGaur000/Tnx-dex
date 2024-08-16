@@ -36,6 +36,10 @@ const LiquidityForm: FC<FormComponentProps> = ({
   // const logoName1= selectedToken1.name+"logo";
   // const logoName2= selectedToken2.name+"logo";
 
+  function handleSwapFeatures() {
+    console.log('swap button');
+  }
+
   if (selectedToken1 && selectedToken2) {
     return (
       <ManageLiquidityFormSection>
@@ -64,7 +68,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
             <label>MAX</label>
           </LiquidityProgress>
         </FormFieldContainer>
-        <SwapImgConatiner>
+        <SwapImgConatiner onClick={handleSwapFeatures}>
           <img src={SwapIcon} alt="Swap logo" />
         </SwapImgConatiner>
         <FormFieldContainer>

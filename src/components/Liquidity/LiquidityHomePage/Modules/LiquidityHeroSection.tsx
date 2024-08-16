@@ -1,6 +1,7 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import QuestionIcon from '../../../../assets/questionMark.png';
 import { GlobalButton } from '../../../common';
-import { useNavigate } from 'react-router-dom';
 import {
   AsideSectionContains,
   LiquidityDespcriptionWrap,
@@ -13,25 +14,30 @@ import {
   StatsCardtitle,
   InformImageStye,
 } from '../styles/LiquidityHeroSection.style';
-import { useState } from 'react';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
 import LiquidityToolTips from './LiquidityToolTips';
-const LiquidityHeroSection = () => {
-  const [isPopUpVisible, setPopUpVisible] = useState(false);
 
-  const Navigate = useNavigate();
+const LiquidityHeroSection = () => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   function handleCreatePool() {
-    Navigate('/liquidity/create');
+    navigate('/liquidity/create');
   }
 
-  function handleTooolTipShow() {
-    setPopUpVisible(true);
+  function handleTooltipShow() {
+    setPopupVisible(true);
+  }
+
+  function handleTooltipHide() {
+    setPopupVisible(false);
   }
 
   const closeModal = () => {
-    setPopUpVisible(false);
+    setPopupVisible(false);
   };
+
   return (
     <>
       <LiquidityHeroSectionMain>
@@ -40,7 +46,7 @@ const LiquidityHeroSection = () => {
             <LiquidityDespcriptionWrap>
               <LiquidityTitle fontSize={16}>
                 Liquidity Providers (LPs) make low-slippage swaps possible.
-                <span onMouseEnter={handleTooolTipShow}>
+                <span onMouseEnter={handleTooltipShow}>
                   <InformImageStye src={QuestionIcon} />
                 </span>
               </LiquidityTitle>
@@ -81,9 +87,13 @@ const LiquidityHeroSection = () => {
         </AsideSectionContains>
       </LiquidityHeroSectionMain>
 
-      <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
-        {<LiquidityToolTips />}
-      </PopupScreen>
+      {isPopupVisible && (
+        <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
+          <div onMouseLeave={handleTooltipHide}>
+            <LiquidityToolTips />
+          </div>
+        </PopupScreen>
+      )}
     </>
   );
 };

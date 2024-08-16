@@ -24,12 +24,36 @@ import {
 } from '../Styles/ManageVetenex.style';
 
 import Relay from './Relaymodules/Relay';
+import PopupScreen from './PopupScreen';
+import LockToolTips from './LockToolTips';
+import { useState } from 'react';
+import RelayToolTips from './RelayToolTips';
 
 const Main = () => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [isToolTipActive, setToolTipActive] = useState(false);
   const Navigate = useNavigate();
   function handleCreateLock() {
     Navigate('/governance/create');
   }
+
+  function handleTooltipShow(option: string) {
+    if (option === 'lock') {
+      setToolTipActive(true);
+    } else {
+      setToolTipActive(false);
+    }
+
+    setPopupVisible(true);
+  }
+
+  function handleTooltipHide() {
+    setPopupVisible(false);
+  }
+
+  const closeModal = () => {
+    setPopupVisible(false);
+  };
 
   return (
     <>
@@ -41,12 +65,6 @@ const Main = () => {
               Maximize your voting power and boost rewards by locking more
               tokens for longer durations.
             </LockDescriptonTitle>
-            <ImgIconStyle
-              src={QuestionIcon}
-              width="20"
-              height="20"
-              margin="3px 0px"
-            />
           </LockheaderContentStyle>
         </LockHeroSectionContent>
 
@@ -88,11 +106,14 @@ const Main = () => {
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
-          <ImgIconStyle
-            width={'18'}
-            height={'18'}
-            src={QuestionIcon}
-          ></ImgIconStyle>
+          <span onMouseEnter={() => handleTooltipShow('lock')}>
+            <ImgIconStyle
+              width={'16px'}
+              height={'16px'}
+              margin="7px 0px 0px 0px"
+              src={QuestionIcon}
+            ></ImgIconStyle>
+          </span>
         </LockheaderWrapper>
 
         <TableContainer data={LockData} />
@@ -100,15 +121,26 @@ const Main = () => {
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
-          <ImgIconStyle
-            width={'18'}
-            height={'18'}
-            src={QuestionIcon}
-          ></ImgIconStyle>
+          <div onMouseEnter={() => handleTooltipShow('relay')}>
+            <ImgIconStyle
+              width={'16px'}
+              height={'16px'}
+              margin="7px 0px 0px 0px"
+              src={QuestionIcon}
+            ></ImgIconStyle>
+          </div>
         </LockheaderWrapper>
 
         <Relay />
       </LockContainerWrapper>
+
+      {isPopupVisible && (
+        <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
+          <div onMouseLeave={handleTooltipHide}>
+            {isToolTipActive ? <LockToolTips /> : <RelayToolTips />}
+          </div>
+        </PopupScreen>
+      )}
     </>
   );
 };

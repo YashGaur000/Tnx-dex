@@ -218,9 +218,14 @@ export const WalletIcon = styled(FontAwesomeIcon)`
   }
 `;
 
-export const TokenSelectAlign = styled.div`
+export const TokenSelectAlign = styled.div<{ theme: DefaultTheme }>`
   display: table-cell;
   align-content: center;
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-family: ${({ theme }) => theme.fonts.main};
+  color: #ffffff;
+
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
 export const TokenSelectAlignSelect = styled.div`

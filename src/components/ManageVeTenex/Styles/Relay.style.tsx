@@ -16,17 +16,13 @@ export const RelayScreenContainer = styled.div<{ theme: DefaultTheme }>`
   gap: 20px;
 `;
 
-export const RelaycardWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding: 10px;
-`;
 export const RelayCardSection = styled.div`
   display: flex;
   flex-direction: column;
 
+  width: 90%;
   gap: 10px;
+  margin: auto;
 `;
 export const RelayCardDataContains = styled.div<{ theme: DefaultTheme }>`
   display: flex;
@@ -117,4 +113,30 @@ export const LockDropDownBox = styled.div<{ theme: DefaultTheme }>`
   padding: 10px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
+
+export const RelayTableheader = styled.div`
+  display: flex;
+  margin-left: 30px;
+`;
+export const UnderLineStyle = styled.span<{ theme: DefaultTheme }>`
+  position: relative;
+  display: inline-block;
+  background: ${({ theme }) => theme.colors.bordercolor};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+
+    background: ${({ theme }) => theme.colors.bordercolor};
+
+    background-clip: border-box;
+  }
 `;
