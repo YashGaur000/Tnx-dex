@@ -12,6 +12,7 @@ interface Data {
     icon: string;
     onClick: () => void;
     tooltip?: string;
+    disabled?: boolean;
   }[];
 }
 
@@ -106,6 +107,7 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                 padding="8px "
                 tabIndex={idx}
                 onClick={button.onClick}
+                disabled={button.disabled}
               >
                 {button.label}
                 <ButtonIcon src={button.icon} alt={`${button.label} icon`} />

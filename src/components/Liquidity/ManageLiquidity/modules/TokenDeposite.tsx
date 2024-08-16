@@ -32,12 +32,10 @@ const TokenDeposite = () => {
     (location.state as PoolDataProps) || ({} as PoolDataProps);
 
   const getParam = useQueryParams();
-  console.log(getParam('token1'));
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const poolType = getParam('type') ? 'stable' : 'volatile';
-  console.log(selectedToken1, 'tokendeposit', selectedToken1, poolType);
 
   if (selectedToken1 && selectedToken2) {
     return (

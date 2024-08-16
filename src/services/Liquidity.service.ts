@@ -57,8 +57,6 @@ export const addLiquidity = async ({
     const receipt: ContractReceipt = await tx.wait();
     const eventArgs = receipt.events?.[0]?.args;
 
-    console.log(eventArgs);
-
     if (!eventArgs) {
       throw new Error('Failed to retrieve liquidity event arguments');
     }

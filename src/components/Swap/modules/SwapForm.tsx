@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faExchangeAlt, faWallet } from '@fortawesome/free-solid-svg-icons';
+
+import { faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useAccount } from '../../../hooks/useAccount';
 import SwitchComponent from './SwitchComponent';
 import { TOKEN_LIST, TokenInfo } from './../../../constants/tokens';
@@ -8,6 +8,7 @@ import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import { GlobalButton } from '../../common';
 import SelectIcon from '../../../assets/select.png';
+import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   Description,
   Input,
@@ -88,7 +89,7 @@ const SwapForm: React.FC = () => {
       <SwapBoxWrapper>
         <SwapBox>
           <Title>Swap</Title>
-          <Description>
+          <Description textAlign="center">
             Our unique engine automatically chooses the best route for your
             trade
           </Description>
@@ -129,7 +130,7 @@ const SwapForm: React.FC = () => {
             <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
           </InputWrapper>
           <SwitchButton onClick={handleSwap}>
-            <FontAwesomeIcon icon={faExchangeAlt} color="white" />
+            <img src={faSwitchAlt} />
           </SwitchButton>
           <InputWrapper>
             <Input
@@ -167,7 +168,7 @@ const SwapForm: React.FC = () => {
             account={address!}
           />
           <GlobalButton padding="15px">Swap</GlobalButton>
-          <Description>
+          <Description textAlign="left">
             TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
           </Description>
         </SwapBox>

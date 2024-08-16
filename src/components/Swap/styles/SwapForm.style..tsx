@@ -34,7 +34,7 @@ export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   box-sizing: border-box;
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   max-width: 600px;
-  height: 538px;
+  height: 575px;
   width: 600px;
   @media only screen and (max-width: 600px) {
     width: 100%;
@@ -61,8 +61,8 @@ export const Title = styled.h1<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Description = styled.p<{ theme: DefaultTheme }>`
-  text-align: center;
+export const Description = styled.p<{ textAlign: string; theme: DefaultTheme }>`
+  text-align: ${({ textAlign }) => textAlign};
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -164,6 +164,10 @@ export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
   margin: 10px auto;
   cursor: pointer;
   transform: rotate(90deg);
+
+  img {
+    transform: rotate(90deg);
+  }
 
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
