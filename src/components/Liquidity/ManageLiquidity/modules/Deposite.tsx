@@ -4,6 +4,9 @@ import UnLockIcon from '../../../../assets/unlock.png';
 import SearchIcon from '../../../../assets/search.png';
 import LockIcon from '../../../../assets/lock.png';
 import Stepper from '../../../common/Stepper';
+import React from 'react';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 
 interface Data {
   step: number;
@@ -14,16 +17,29 @@ interface Data {
     icon: string;
     onClick: () => void;
     tooltip?: string;
+    disabled?: boolean;
   }[];
 }
-const Deposite = () => {
-  function handleAllowUSDT() {
-    console.log('usdt button');
+
+interface DepositProps {
+  disabled1?: boolean;
+  disabled2?: boolean;
+}
+
+const Deposite: React.FC<DepositProps> = ({ disabled1, disabled2 }) => {
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
+
+  function handleAllowToken1() {
+    console.log('token1 button');
   }
 
-  function handleAllowFTM() {
-    console.log('ftm button');
+  function handleAllowToken2() {
+    console.log('token2 button');
   }
+
   const data: Data[] = [
     {
       step: 1,
@@ -38,26 +54,32 @@ const Deposite = () => {
     {
       step: 3,
       icon: UnLockIcon,
-      descriptions: ['Allowance not granted for USDT'],
+      descriptions: [
+        'Allowance ' + ' not granted for ' + selectedToken1?.symbol,
+      ],
       buttons: [
         {
-          label: 'Allow USDT',
+          label: 'Allow ' + selectedToken1?.symbol,
           icon: LockIcon,
-          onClick: handleAllowUSDT,
+          onClick: handleAllowToken1,
           tooltip: 'Click to allow USDT transactions',
+          disabled: disabled1,
         },
       ],
     },
     {
       step: 4,
       icon: UnLockIcon,
-      descriptions: ['Allowance not granted for USDT'],
+      descriptions: [
+        'Allowance' + ' not granted for ' + selectedToken1?.symbol,
+      ],
       buttons: [
         {
-          label: 'Allow FTM',
+          label: 'Allow ' + selectedToken2?.symbol,
           icon: LockIcon,
-          onClick: handleAllowFTM,
+          onClick: handleAllowToken2,
           tooltip: 'Click to allow FTM transactions',
+          disabled: disabled2,
         },
       ],
     },

@@ -18,22 +18,43 @@ import { TokenInfo } from '../../../../constants/tokens';
 import { ethers } from 'ethers';
 
 interface FormComponentProps {
-  onTokenValueChange: (token1: ethers.Numeric, token2: ethers.Numeric) => void;
+  totalBalanceToken1: ethers.Numeric;
+  totalBalanceToken2: ethers.Numeric;
+  onTokenValueChange: (
+    token1: ethers.Numeric,
+    token2: ethers.Numeric,
+    totalBalanceToken1: ethers.Numeric,
+    totalBalanceToken2: ethers.Numeric
+  ) => void;
 }
 
-const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
+const LiquidityForm: FC<FormComponentProps> = ({
+  totalBalanceToken1,
+  totalBalanceToken2,
+  onTokenValueChange,
+}) => {
   const [token1Value, setToken1Amount] = useState<ethers.Numeric>(0);
   const [token2Value, setToken2Amount] = useState<ethers.Numeric>(0);
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     setToken1Amount(value);
-    onTokenValueChange(value, token2Value);
+    onTokenValueChange(
+      value,
+      token2Value,
+      totalBalanceToken1,
+      totalBalanceToken2
+    );
   };
   const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     setToken2Amount(value);
-    onTokenValueChange(token1Value, value);
+    onTokenValueChange(
+      token1Value,
+      value,
+      totalBalanceToken1,
+      totalBalanceToken2
+    );
   };
 
   const getParam = useQueryParams();
@@ -44,6 +65,12 @@ const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
 
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
+  totalBalanceToken1 = Number(
+    selectedToken1 && balances[selectedToken1.address]
+  );
+  totalBalanceToken2 = Number(
+    selectedToken2 && balances[selectedToken2.address]
+  );
 
   if (selectedToken1 && selectedToken2) {
     return (
@@ -54,10 +81,7 @@ const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
               <label>{selectedToken1.symbol}</label>
             </ImageWithTitleWrap>
-            <label>
-              Available{' '}
-              {selectedToken1 && balances[selectedToken1.address].toString()}
-            </label>
+            <label>Available {totalBalanceToken1.toString()}</label>
           </FormRowWrapper>
           <div>
             <LiquidityInputBox
@@ -65,8 +89,7 @@ const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
               name="token1"
               value={token1Value === 0 ? '' : token1Value?.toString() || ''}
               isInvalid={
-                Number(token1Value) >
-                Number(balances[selectedToken1.address].toString())
+                Number(token1Value) > Number(totalBalanceToken1.toString())
               }
               onChange={handleChangeToken1Value}
             />
@@ -88,10 +111,7 @@ const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
               <TokenImgLiquidity src={selectedToken2.logoURI} alt="FTM logo" />
               <label>{selectedToken2.symbol}</label>
             </ImageWithTitleWrap>
-            <label>
-              Available{' '}
-              {selectedToken2 && balances[selectedToken2.address].toString()}
-            </label>
+            <label>Available {totalBalanceToken2.toString()}</label>
           </FormRowWrapper>
           <div>
             <LiquidityInputBox
@@ -99,10 +119,7 @@ const LiquidityForm: FC<FormComponentProps> = ({ onTokenValueChange }) => {
               name="token2"
               value={token2Value === 0 ? '' : token2Value?.toString() || ''}
               isInvalid={
-                Number(token2Value) >
-                Number(
-                  selectedToken2 && balances[selectedToken2.address].toString()
-                )
+                Number(token2Value) > Number(totalBalanceToken2.toString())
               }
               onChange={handleChangeToken2Value}
             />
