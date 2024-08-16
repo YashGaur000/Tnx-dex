@@ -8,7 +8,7 @@ export const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 20px;
   width: 440px;
   margin-left: 24px;
-  height: 786px;
+  height: 813px;
 
   @media (max-width: 900px) {
     width: 100%;
