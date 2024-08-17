@@ -7,15 +7,18 @@ import Stepper from '../../../common/Stepper';
 import React from 'react';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import { testErc20Abi } from './../../../../constants/abis/testErc20';
+import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
+import { ethers } from 'ethers';
 
-export interface Data {
+interface Data {
   step: number;
   icon?: string;
   descriptions: (string | string[])[];
   buttons?: {
     label: string;
     icon: string;
-    onClick: () => void;
+    onClick: () => Promise<void>;
     tooltip?: string;
     disabled?: boolean;
   }[];
@@ -24,21 +27,58 @@ export interface Data {
 interface DepositProps {
   disabled1?: boolean;
   disabled2?: boolean;
+  amount1?: ethers.Numeric;
+  amount2?: ethers.Numeric;
 }
 
-const Deposite: React.FC<DepositProps> = ({ disabled1, disabled2 }) => {
+const Deposite: React.FC<DepositProps> = ({
+  disabled1,
+  disabled2,
+  amount1,
+  amount2,
+}) => {
   const getParam = useQueryParams();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
 
-  function handleAllowToken1() {
-    console.log('token1 button');
-  }
+  const { approveAllowance: approveAllowance1 } = useTokenAllowance(
+    selectedToken1!.address,
+    testErc20Abi
+  );
 
-  function handleAllowToken2() {
-    console.log('token2 button');
-  }
+  const { approveAllowance: approveAllowance2 } = useTokenAllowance(
+    selectedToken2!.address,
+    testErc20Abi
+  );
+
+  const handleAllowToken1 = async () => {
+    try {
+      const amount1InWei = amount1 && ethers.parseEther(amount1.toString());
+      if (amount1InWei && selectedToken1?.address) {
+        await approveAllowance1(
+          selectedToken1?.address,
+          amount1InWei.toString()
+        );
+      }
+    } catch (error) {
+      console.error('Error during token approval', error);
+    }
+  };
+
+  const handleAllowToken2 = async () => {
+    try {
+      const amount2InWei = amount2 && ethers.parseEther(amount2.toString());
+      if (amount2InWei && selectedToken2?.address) {
+        await approveAllowance2(
+          selectedToken2?.address,
+          amount2InWei.toString()
+        );
+      }
+    } catch (error) {
+      console.error('Error during token approval', error);
+    }
+  };
 
   const data: Data[] = [
     {

@@ -15,21 +15,20 @@ import {
   TokenDescription,
   TokenStatus,
 } from '../styles/TokenDeposite.style';
-import { useLocation } from 'react-router-dom';
+//import { useLocation } from 'react-router-dom';
 import {
   GroupImgContains,
   IMG1Contains,
   IMG2Contains,
   Imgstyle,
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
-import { PoolDataProps } from '../../LiquidityHomePage/Modules/LiquidityPool';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 
 const TokenDeposite = () => {
-  const location = useLocation();
-  const obj: PoolDataProps =
-    (location.state as PoolDataProps) || ({} as PoolDataProps);
+  //const location = useLocation();
+  // const obj: PoolDataProps =
+  //   (location.state as PoolDataProps) || ({} as PoolDataProps);
 
   const getParam = useQueryParams();
 
@@ -67,7 +66,8 @@ const TokenDeposite = () => {
                   {/* {obj.liquidityType} */}
                   {poolType}
                 </StatsCardtitle>
-                <label>0.01%{obj.stablePercentage}</label>
+                {/* <label>0.01%{obj.stablePercentage}</label> */}
+                <label>0.01%</label>
                 <LiquidityImgStyle
                   width={'15'}
                   height={'15'}
@@ -79,7 +79,7 @@ const TokenDeposite = () => {
 
           <TokenContainer>
             <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
-            <p>{obj.apr}</p>
+            {/* <p>{obj.apr}</p> */}
           </TokenContainer>
         </DepositeContentWrapper>
 
@@ -87,11 +87,11 @@ const TokenDeposite = () => {
           <LiquidityStyleContainer>
             <LiquidityHeaderTitle fontSize={16}>Liquidity</LiquidityHeaderTitle>
             <LiquidityTitle fontSize={12}>
-              {obj.feesDesc} 0{selectedToken1.symbol}
+              {/* {obj.feesDesc}*/} 0 {selectedToken1.symbol}
               <span></span>
             </LiquidityTitle>
             <LiquidityTitle fontSize={12}>
-              {obj.feesSubDesc} 0{selectedToken2.symbol}
+              {/* {obj.feesSubDesc}*/} 0 {selectedToken2.symbol}
               <span></span>
             </LiquidityTitle>
           </LiquidityStyleContainer>
@@ -101,11 +101,11 @@ const TokenDeposite = () => {
               Your Deposits
             </LiquidityHeaderTitle>
             <LiquidityTitle fontSize={12}>
-              {obj.balanceDesc}
+              {/* {obj.balanceDesc} */}
               {selectedToken1.symbol}
             </LiquidityTitle>
             <LiquidityTitle fontSize={12}>
-              {obj.volumeSubDesc}
+              {/* {obj.volumeSubDesc} */}
               {selectedToken2.symbol}
             </LiquidityTitle>
           </DepositeStyle>

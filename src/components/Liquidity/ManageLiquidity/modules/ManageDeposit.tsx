@@ -1,5 +1,5 @@
 import Stepper from '../../../common/Stepper';
-import { Data } from './Deposite';
+
 import CalIcon from '../../../../assets/phone.png';
 import PlusIcon from '../../../../assets/plusminus.png';
 
@@ -11,10 +11,23 @@ import { useState } from 'react';
 import { GlobalButton } from '../../../common';
 import SucessPopup from '../../../common/SucessPopup';
 import CebrationIcon from '../../../../assets/celebration.svg';
+interface Data {
+  step: number;
+  icon?: string;
+  descriptions: (string | string[])[];
+  buttons?: {
+    label: string;
+    icon: string;
+    onClick: () => void;
+    tooltip?: string;
+    disabled?: boolean;
+  }[];
+}
 const ManageDeposit = () => {
   const [isAllowbutton2, setAllowbutton2] = useState(false);
   const [isAllowbutton1, setAllowbutton1] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+
   const data: Data[] = [
     {
       step: 1,
