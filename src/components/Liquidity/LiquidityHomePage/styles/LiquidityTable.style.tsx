@@ -89,8 +89,3 @@ export const SugestImgWrapper = styled.div`
   position: relative;
   overflow: visible;
 `;
-
-export const PoolTableContains = styled.div`
-  width: 100%;
-  display: flex;
-`;

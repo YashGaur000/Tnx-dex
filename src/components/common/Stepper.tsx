@@ -2,11 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
-
+import ArrowIcon from './../../assets/doubleHederArrow.svg';
 interface Data {
   step: number;
   icon?: string;
-  descriptions: string[];
+  descriptions: (string | string[])[];
   buttons?: {
     label: string;
     icon: string;
@@ -81,6 +81,18 @@ const ButtonIcon = styled.img`
   height: 15px;
   margin-left: 5px;
 `;
+const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  margin: 10px 0px;
+  gap: 10px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+`;
+const StepperTitle = styled.span<{ theme: DefaultTheme }>`
+  color: ${({ theme }) => theme.colors.titleColor};
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
 
 const Stepper: React.FC<StepperProps> = ({ data }) => {
   return (
@@ -98,9 +110,24 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
             {index < data.length - 1 && <Line />}
           </VerticalStep>
           <Content>
-            {item.descriptions.map((desc, idx) => (
-              <p key={idx}>{desc}</p>
-            ))}
+            {item.descriptions.map((desc, idx) =>
+              Array.isArray(desc) ? (
+                <BalanceShowWrapper key={idx}>
+                  <label>
+                    {desc[0]} <StepperTitle>msETH</StepperTitle>{' '}
+                  </label>
+                  <span>
+                    <img src={ArrowIcon} alt="Arrow" />
+                  </span>
+                  <label>
+                    {desc[1]} <StepperTitle>ETH</StepperTitle>
+                  </label>
+                </BalanceShowWrapper>
+              ) : (
+                <p key={idx}>{desc}</p>
+              )
+            )}
+
             {item.buttons?.map((button, idx) => (
               <GlobalButton
                 key={idx}

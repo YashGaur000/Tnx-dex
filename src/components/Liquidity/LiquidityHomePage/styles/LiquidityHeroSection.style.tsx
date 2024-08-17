@@ -4,6 +4,7 @@ import { DefaultTheme } from '../../../../styles/Theme';
 export const LiquidityTitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
+  margin?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
@@ -11,6 +12,7 @@ export const LiquidityTitle = styled.label<{
   line-height: 1.75;
   text-align: left;
   color: ${({ theme }) => theme.colors.titleColor};
+  margin: ${({ margin }) => margin};
 `;
 
 export const LiquidityDespcriptionWrap = styled.div`

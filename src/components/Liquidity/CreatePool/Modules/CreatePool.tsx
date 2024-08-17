@@ -110,7 +110,7 @@ const CreatePool = () => {
     <>
       <MainContainerStyle>
         <LiquidityHeaderTitle fontSize={36}>Create Pool</LiquidityHeaderTitle>
-        <LiquidityTitle fontSize={16}>
+        <LiquidityTitle fontSize={16} margin="15px 0px">
           Create your new pool{' '}
           <span onMouseEnter={handleTooolTipShow}>
             <InformImageStye src={QuestionIcon} />

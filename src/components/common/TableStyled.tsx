@@ -18,7 +18,7 @@ interface TableProps {
 export const TableContainerStyle = styled.div<{ theme: DefaultTheme }>`
   overflow-x: scroll;
   padding-bottom: 10px;
-  border-radius: 20px;
+  border-radius: 24px;
 
   background: ${({ theme }) => theme.colors.card};
   width: 100%;

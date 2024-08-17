@@ -7,15 +7,15 @@ export const ManageLiquidityFormSection = styled.form<{ theme: DefaultTheme }>`
   flex-direction: column;
   background: ${({ theme }) => theme.colors.card};
   border-radius: 15px;
-  padding: 10px;
+  padding: 40px;
   fontsize: ${({ theme }) => theme.fontSize.medium};
+  gap: 20px;
 `;
 
 export const FormFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 130px;
 `;
 
 export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
@@ -45,7 +45,7 @@ interface InputBoxProps {
 export const LiquidityInputBox = styled.input<InputBoxProps>`
   width: 99%;
   height: 47px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: transparent;
   border: 1px solid;
   border-color: ${({ theme }) => theme.colors.greyBorder};

@@ -80,7 +80,15 @@ const Pool: React.FC<PoolProps> = ({ poolType, exists }) => {
           <label>0.000%</label>
         </Tvlstyle>
         <PoolButton onClick={handleDeposite}>
-          <GradientButton height="40px" padding="5px" fontSize="16px">
+          <GradientButton
+            borderRadius="8px"
+            color="#ffffff"
+            padding="0px 20px 30px"
+            border="1px solid transparent"
+            fontSize="12"
+            width="86"
+            height="26px"
+          >
             Deposit
           </GradientButton>
         </PoolButton>

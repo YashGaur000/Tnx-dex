@@ -19,45 +19,48 @@ export const FilterWrapper = styled.main`
     gap: 20px;
   }
 `;
-export const FilterButton = styled.button<FilterButtonProps>`
-  background: transparent;
-  color: ${({ theme }) => theme.colors.whiteBorder};
+export const FilterButton = styled.div<FilterButtonProps>`
   display: inline-block;
   white-space: nowrap;
+  position: relative;
+  height: 29px;
 
-  padding: 6px 15px;
-  border-radius: 13px;
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   background: ${({ theme, selected }) =>
-    selected ? theme.colors.bordercolor : theme.colors.titleColor};
+    selected ? theme.colors.bordercolor : theme.colors.whiteBorder};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   cursor: pointer;
-  border: none;
-
-  position: relative;
+  padding: 4px 16px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  z-index: 1;
 
   &::before {
     content: '';
-    padding: 1px;
+    width: 100%;
+    height: 100%;
     position: absolute;
-    inset: 0;
-    border-radius: 13px;
-    color: ${({ theme }) => theme.colors.whiteBorder};
-    background: ${({ theme, selected }) =>
-      selected ? theme.colors.buttonBackground : theme.colors.greyBorder};
+    border: ${({ selected, theme }) =>
+      selected ? 'none' : `1px solid ${theme.colors.greyBorder}`};
+    background-image: ${({ theme, selected }) =>
+      selected && theme.colors.bordercolor};
+    top: 0px;
+    left: 0px;
+    border-radius: 8px;
+
+    padding: 1px;
+
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
     mask-composite: exclude;
-  }
-
-  @media screen and (max-width: 600px) {
-    font-size: 14px;
-    padding: 10px 10px;
+    z-index: -1;
   }
 
   @media screen and (max-width: 600px) {
@@ -104,9 +107,10 @@ export const FilterButtonContainer = styled.div`
 export const LiquidityFilterSelect = styled.select<{ theme: DefaultTheme }>`
   background: transparent;
   color: ${({ theme }) => theme.colors.whiteBorder};
-  height: 38px;
-  border-radius: 10px;
+
+  border-radius: 8px;
   padding: 10px;
+  width: 80px;
   background: ${({ theme }) => theme.colors.bordercolor};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -138,8 +142,8 @@ export const SearchBoxContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   border: 1px solid ${({ theme }) => theme.colors.greyBorder};
   color: ${({ theme }) => theme.colors.whiteBorder};
-  height: 35px;
-  border-radius: 10px;
+  height: 31px;
+  border-radius: 8px;
   align-items: center;
   padding: 2px 10px;
   gap: 10px;
