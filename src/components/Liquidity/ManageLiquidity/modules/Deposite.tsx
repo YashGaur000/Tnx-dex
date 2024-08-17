@@ -4,12 +4,13 @@ import UnLockIcon from '../../../../assets/unlock.png';
 import SearchIcon from '../../../../assets/search.png';
 import LockIcon from '../../../../assets/lock.png';
 import Stepper from '../../../common/Stepper';
-import React from 'react';
+import React, { useState } from 'react';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import { testErc20Abi } from './../../../../constants/abis/testErc20';
 import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
 import { ethers } from 'ethers';
+import { GlobalButton } from '../../../common/index';
 
 interface Data {
   step: number;
@@ -37,6 +38,8 @@ const Deposite: React.FC<DepositProps> = ({
   amount1,
   amount2,
 }) => {
+  const [isToken1Allowed, setIsToken1Allowed] = useState(false);
+  const [isToken2Allowed, setIsToken2Allowed] = useState(false);
   const getParam = useQueryParams();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
@@ -60,6 +63,7 @@ const Deposite: React.FC<DepositProps> = ({
           selectedToken1?.address,
           amount1InWei.toString()
         );
+        setIsToken1Allowed(true);
       }
     } catch (error) {
       console.error('Error during token approval', error);
@@ -74,6 +78,7 @@ const Deposite: React.FC<DepositProps> = ({
           selectedToken2?.address,
           amount2InWei.toString()
         );
+        setIsToken2Allowed(true);
       }
     } catch (error) {
       console.error('Error during token approval', error);
@@ -94,34 +99,38 @@ const Deposite: React.FC<DepositProps> = ({
     {
       step: 3,
       icon: UnLockIcon,
-      descriptions: [
-        'Allowance ' + ' not granted for ' + selectedToken1?.symbol,
-      ],
-      buttons: [
-        {
-          label: 'Allow ' + selectedToken1?.symbol,
-          icon: LockIcon,
-          onClick: handleAllowToken1,
-          tooltip: 'Click to allow USDT transactions',
-          disabled: disabled1,
-        },
-      ],
+      descriptions: isToken1Allowed
+        ? ['Allowance granted for ' + selectedToken1?.symbol]
+        : ['Allowance not granted for ' + selectedToken1?.symbol],
+      buttons: !isToken1Allowed
+        ? [
+            {
+              label: 'Allow ' + selectedToken1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: 'Click to allow USDT transactions',
+              disabled: disabled1,
+            },
+          ]
+        : undefined,
     },
     {
       step: 4,
       icon: UnLockIcon,
-      descriptions: [
-        'Allowance' + ' not granted for ' + selectedToken1?.symbol,
-      ],
-      buttons: [
-        {
-          label: 'Allow ' + selectedToken2?.symbol,
-          icon: LockIcon,
-          onClick: handleAllowToken2,
-          tooltip: 'Click to allow FTM transactions',
-          disabled: disabled2,
-        },
-      ],
+      descriptions: isToken2Allowed
+        ? ['Allowance granted for ' + selectedToken2?.symbol]
+        : ['Allowance not granted for ' + selectedToken2?.symbol],
+      buttons: !isToken2Allowed
+        ? [
+            {
+              label: 'Allow ' + selectedToken2?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken2,
+              tooltip: 'Click to allow FTM transactions',
+              disabled: disabled2,
+            },
+          ]
+        : undefined,
     },
     {
       step: 5,
@@ -133,6 +142,11 @@ const Deposite: React.FC<DepositProps> = ({
   return (
     <>
       <Stepper data={data} />
+      {isToken2Allowed && isToken2Allowed && (
+        <GlobalButton width="200px" height="50px">
+          Deposit
+        </GlobalButton>
+      )}
     </>
   );
 };
