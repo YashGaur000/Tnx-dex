@@ -3,14 +3,22 @@ import { SupportedInterfaceChainId, getNetworkConfig } from './chain';
 import { getBalance } from '@wagmi/core';
 import { type GetBalanceReturnType } from '@wagmi/core';
 import { Address } from 'viem';
-import { wagmiConfig } from '../components/Web3Provider/wagmi';
+import { wagmiConfig } from '../web3Provider/wagmi';
 
 export const getProvider = (
   chainId: SupportedInterfaceChainId
 ): StaticJsonRpcProvider => {
   const config = getNetworkConfig(chainId);
 
-  const provider = new StaticJsonRpcProvider(config?.RPC[0], chainId);
+  if (!config) {
+    throw new Error(`Network config not found for chainId: ${chainId}`);
+  }
+
+  if (!config?.RPC[0]) {
+    throw new Error(`No RPC URL found for chainId: ${chainId}`);
+  }
+
+  const provider = new StaticJsonRpcProvider(config.RPC[0], chainId);
 
   return provider;
 };
