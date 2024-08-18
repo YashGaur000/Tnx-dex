@@ -10,6 +10,7 @@ import Pagination from './Pagination';
 import { ImgIconStyle, LockTableContains } from '../Styles/ManageVetenex.style';
 import ShortIcon from '../../../assets/short.svg';
 import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+const ITEMS_PER_PAGE = 5;
 interface TableProps {
   data: Record<string, string | number | string[]>[];
 }
@@ -27,11 +28,12 @@ const ButtonContain = styled.div`
 const TableContainer: React.FC<TableProps> = ({ data }) => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
   const [isMergeVisible, setIsMergeVisible] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
   if (data.length === 0) return null;
 
-  function handleButton(data: string) {
-    if (data === 'Merge') {
+  function handleButton(buttonname: string) {
+    if (buttonname === 'Merge') {
       setPopUpVisible(true);
       setIsMergeVisible(true);
     } else {
@@ -46,6 +48,22 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
   };
 
   const headers = Object.keys(data[0]);
+
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
+
+  function handlePrevpage() {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  }
+  function handleNextPage() {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  }
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   return (
     <LockTableContains>
       <TableContainerStyle>
@@ -87,7 +105,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
             </tr>
           </thead>
           <tbody>
-            {data.map((row, rowIndex) => (
+            {paginatedData.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {headers.map((header, colIndex) => (
                   <td key={`${rowIndex}-${colIndex}`} data-label={header}>
@@ -131,7 +149,12 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
           </tbody>
         </Table>
       </TableContainerStyle>
-      <Pagination />
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevpage={handlePrevpage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
         {isMergeVisible ? <MergeLockScreen /> : <SplitScreen />}

@@ -8,6 +8,7 @@ export const ToolTipSection = styled.section<{
   display: flex;
   flex-direction: column;
   padding: 30px;
+  padding-top: 5px;
   gap: 20px;
   font-size: ${({ theme }) => theme.fontSize.medium}px;
   font-family: ${({ theme }) => theme.fonts.main};

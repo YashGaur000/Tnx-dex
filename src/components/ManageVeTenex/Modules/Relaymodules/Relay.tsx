@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { relayData } from '../../../../constants/RelayData';
 import Table, { TableContainerStyle } from '../../../common/TableStyled';
 
@@ -7,8 +8,28 @@ import {
 } from '../../Styles/Relay.style';
 import Pagination from '../Pagination';
 import RelayCard from './RelayCard';
-
+const ITEMS_PER_PAGE = 5;
 const Relay = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = Math.ceil(relayData.length / ITEMS_PER_PAGE);
+
+  function handlePrevpage() {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  }
+  function handleNextPage() {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  }
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const paginatedData = relayData.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
   return (
     <RelayScreenContainer>
       <TableContainerStyle>
@@ -24,7 +45,7 @@ const Relay = () => {
             </tr>
           </thead>
           <tbody>
-            {relayData.map((data, key) => (
+            {paginatedData.map((data, key) => (
               <RelayCard key={key} Relaydata={data} />
             ))}
           </tbody>
@@ -32,7 +53,12 @@ const Relay = () => {
       </TableContainerStyle>
 
       <div>
-        <Pagination />
+        <Pagination
+          handleNextPage={handleNextPage}
+          handlePrevpage={handlePrevpage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </div>
     </RelayScreenContainer>
   );

@@ -18,13 +18,13 @@ const SplitCard: React.FC = () => {
         <Labeltoken fontSize={15}>2462545368625</Labeltoken>
         <TokenDate fontSize={12}>
           1 Year 321 Days{' '}
-          <span
+          <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <ImgStyleSplit src={InformIcon} />
             {isHovered && <LockScreenHover />}
-          </span>
+          </div>
         </TokenDate>
       </Tokenstyle>
       <Tokenstyle>

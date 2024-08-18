@@ -6,7 +6,6 @@ export const SplitContainer = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
   width: 100%;
 
-  margin-top: 20px;
   font-family: ${({ theme }) => theme.fonts.main};
 `;
 export const SplitDatacontain = styled.div<{ theme: DefaultTheme }>`
@@ -40,7 +39,7 @@ export const Tokenstyle = styled.div`
 export const ImgStyleSplit = styled.img`
   width: 15px;
   height: 15px;
-  margin-left: 10px;
+  margin-top: 2px;
 `;
 export const Labeltoken = styled.label<{
   theme: DefaultTheme;
@@ -55,6 +54,10 @@ export const TokenDate = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.greyDark};
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
 `;
 
 export const CheckBoxContainer = styled.div`
@@ -63,18 +66,20 @@ export const CheckBoxContainer = styled.div`
   margin-left: 10px;
   align-items: center;
 `;
-export const CheckBoxMerge = styled.input.attrs({ type: 'checkbox' })`
+export const CheckBoxStyle = styled.input.attrs({ type: 'checkbox' })<{
+  theme: DefaultTheme;
+}>`
   position: relative;
   cursor: pointer;
   appearance: none;
   width: 15px;
   height: 15px;
   background-color: transparent;
-  border: 1.5px solid #5dea9c;
-  border-radius: 4px;
+  border: 1.5px solid #5a5a5a;
+  border-radius: 2px;
   &:checked {
     background: transparent;
-    border: 1.5px solid #5dea9c;
+    border: 1px solid ${({ theme }) => theme.colors.checkboxBorder};
   }
   &:checked::after {
     content: '';
@@ -83,7 +88,7 @@ export const CheckBoxMerge = styled.input.attrs({ type: 'checkbox' })`
     top: 1px;
     width: 3px;
     height: 7px;
-    border: solid #5dea9c;
+    border: 1px solid ${({ theme }) => theme.colors.checkboxBorder};
     border-width: 0 2px 2px 0;
     transform: rotate(45deg);
   }

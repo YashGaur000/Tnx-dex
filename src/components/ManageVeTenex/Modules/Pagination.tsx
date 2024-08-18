@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
+interface PaginationProps {
+  handlePrevpage: () => void;
+  handleNextPage: () => void;
+  currentPage: number;
+  totalPages: number;
+}
 const PaginationStyle = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   display: flex;
   align-items: center;
@@ -21,23 +27,51 @@ const PageNuberShower = styled.p<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid transparent;
+  font-size: 12px;
 
-  border: 5px solid transparent;
-  border-image-source: ${({ theme }) => theme.colors.bordercolor};
-  border-image-slice: 1;
-  border-image-width: 1px;
-  border-image-outset: 0;
+  background: ${({ theme }) => theme.colors.card},
+    ${({ theme }) => theme.colors.bordercolor};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
 
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 18px;
 `;
-const Pagination = () => {
+const PageChenges = styled.button<{ theme: DefaultTheme }>`
+  cursor: pointer;
+  font-family: ${({ theme }) => theme.fonts.main};
+  background: none;
+  border: none;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  line-height: 17.94px;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  color: ${({ theme, disabled }) =>
+    disabled ? theme.colors.greyDark : theme.colors.whiteBorder};
+  &:hover {
+    text-decoration: ${({ disabled }) => (disabled ? 'none' : 'underline')};
+  }
+`;
+const Pagination: React.FC<PaginationProps> = ({
+  handlePrevpage,
+  handleNextPage,
+  currentPage,
+  totalPages,
+}) => {
   return (
-    <PaginationStyle fontSize={13}>
-      <label>Prev</label>
-      <PageNuberShower>{1}</PageNuberShower>
-      <label>Next</label>
+    <PaginationStyle fontSize={12}>
+      <PageChenges onClick={handlePrevpage} disabled={currentPage === 1}>
+        Prev
+      </PageChenges>
+      <PageNuberShower>{currentPage}</PageNuberShower>
+      <PageChenges
+        onClick={handleNextPage}
+        disabled={currentPage === totalPages}
+      >
+        Next
+      </PageChenges>
     </PaginationStyle>
   );
 };

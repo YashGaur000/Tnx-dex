@@ -4,7 +4,7 @@ import {
   Tokenstyle,
   Labeltoken,
   ImgStyleSplit,
-  CheckBoxMerge,
+  CheckBoxStyle,
   CheckBoxContainer,
 } from '../Styles/SplitAndMergelockScreen.style';
 import InformIcon from '../../../assets/information.png';
@@ -16,7 +16,7 @@ const MergeCard = () => {
   return (
     <CardContainsLockScreen>
       <CheckBoxContainer>
-        <CheckBoxMerge type="checkbox" />
+        <CheckBoxStyle type="checkbox" />
       </CheckBoxContainer>
       <Tokenstyle>
         <Labeltoken fontSize={15}>2462545368625</Labeltoken>

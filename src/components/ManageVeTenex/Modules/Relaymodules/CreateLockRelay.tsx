@@ -24,7 +24,6 @@ import {
   RelayIdStatus,
   RelayCheckBoxWrapper,
   RelayStrategyContents,
-  CheckBoxStyle,
   LockDropDownBox,
   UnderLineStyle,
 } from '../../Styles/Relay.style';
@@ -32,6 +31,7 @@ import SelectIcon from '../../../../assets/select.png';
 import RelayDeposit from './RelayDeposit';
 
 import { Link } from 'react-router-dom';
+import { CheckBoxStyle } from '../../Styles/SplitAndMergelockScreen.style';
 
 const CreateLockRelay = () => {
   return (

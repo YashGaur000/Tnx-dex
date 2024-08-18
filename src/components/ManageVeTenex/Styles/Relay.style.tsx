@@ -50,53 +50,12 @@ export const RelayIdStatus = styled.div<{ theme: DefaultTheme }>`
 export const RelayCheckBoxWrapper = styled.div`
   display: flex;
   gap: 10px;
-  align-items: flex-start;
+  align-items: center;
 `;
 export const RelayStrategyContents = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-`;
-export const CheckBoxStyle = styled.input<{ theme: DefaultTheme }>`
-  appearance: none;
-  -webkit-appearance: none;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  font-size: 2rem;
-  padding: 0.1rem;
-
-  width: 15px;
-  height: 15px;
-  margin-top: 3px;
-  border: 1.5px solid #5a5a5a;
-  border-radius: 1px;
-
-  cursor: pointer;
-
-  &::before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border-radius: 2px;
-    transition: background-color 0.2s ease-in-out;
-  }
-
-  &:checked::before {
-    content: '✔';
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: ${({ theme }) => theme.colors.cardDark};
-    font-size: 10px;
-
-    border-radius: 2px;
-  }
-
-  &:checked {
-  }
 `;
 
 export const LockDropDownBox = styled.div<{ theme: DefaultTheme }>`

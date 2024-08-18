@@ -29,11 +29,21 @@ export const IMG1Contains = styled.div<{ Top: number; Left: number }>`
   position: absolute;
   left: ${({ Left }) => Left}px;
   top: ${({ Top }) => Top}px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
 `;
 export const IMG2Contains = styled.div<{ Top: number; Left: number }>`
   position: absolute;
   left: ${({ Left }) => Left}px;
   top: ${({ Top }) => Top}px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
 `;
 export const Imgstyle = styled.img`
   width: 40px;
