@@ -90,6 +90,7 @@ const Deposite: React.FC<DepositProps> = ({
     try {
       const amount1InWei = amount1 && ethers.parseUnits(amount1.toString());
       const amount2InWei = amount2 && ethers.parseUnits(amount2.toString());
+      const type = getParam('type') ? false : true;
       const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
 
       if (
@@ -102,7 +103,7 @@ const Deposite: React.FC<DepositProps> = ({
         const tx = await addLiquidity(
           selectedToken1?.address,
           selectedToken2?.address,
-          false, // @Todo: works only for volatile pool
+          type,
           amount1InWei,
           amount2InWei,
           amount1InWei,
