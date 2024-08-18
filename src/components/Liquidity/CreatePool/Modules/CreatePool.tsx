@@ -29,7 +29,6 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
 } from '../Styles/CreatePool.style';
-import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
@@ -76,32 +75,6 @@ const CreatePool = () => {
   const closeModal = () => {
     setPopUpVisible(false);
   };
-
-  // const {
-  //   addLiquidityAction,
-  // } = useLiquidityStore();
-
-  const tokenA = '0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC';
-  const tokenB = '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
-
-  const { chainId, address: userAddress } = useAccount();
-
-  if (userAddress) {
-    console.log(
-      addLiquidity({
-        tokenA: tokenA,
-        tokenB: tokenB,
-        stable: false,
-        amountADesired: 10,
-        amountBDesired: 12,
-        amountAMin: 5,
-        amountBMin: 6,
-        to: userAddress,
-        deadline: 1723113333,
-        chainId: chainId,
-      })
-    );
-  }
 
   return (
     <>
