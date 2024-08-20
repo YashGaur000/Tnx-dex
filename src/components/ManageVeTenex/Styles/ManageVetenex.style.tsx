@@ -28,7 +28,7 @@ export const LockDescriptonTitle = styled.p<{
   color: ${({ theme }) => theme.colors.titleColor};
 `;
 
-export const ImgIconStyle = styled.img<{
+export const ImgContains = styled.img<{
   width: string;
   height: string;
   margin?: string;

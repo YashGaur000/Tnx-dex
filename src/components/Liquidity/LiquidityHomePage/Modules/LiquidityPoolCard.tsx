@@ -21,6 +21,7 @@ import { useState } from 'react';
 import LiquidityInfo from './LiquidityInfo';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
+import { TableColumn } from '../../../common/TableStyled';
 // import Pool from '../../CreatePool/Modules/Pool';
 
 const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
@@ -52,7 +53,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
   return (
     <>
       <tr>
-        <td>
+        <TableColumn>
           <TokenCardContainer>
             <GroupImgContains>
               <IMG1Contains Top={20} Left={0}>
@@ -86,11 +87,11 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               </TokenAmountTitle>
             </PairContain>
           </TokenCardContainer>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <AprDataWrapper>{}%</AprDataWrapper>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <VolumeStyles>
             <label>~$ {data.totalVolumeUSD.toString()}</label>
             <TokenAmountTitle>
@@ -100,8 +101,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               {data.totalVolume1.toString()} {data.token1.symbol}
             </TokenAmountTitle>
           </VolumeStyles>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <VolumeStyles>
             <label>~$ {data.totalFeesUSD.toString()}</label>
             <TokenAmountTitle>
@@ -111,8 +112,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               {data.totalFees1.toString()} {data.token1.symbol}
             </TokenAmountTitle>
           </VolumeStyles>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <VolumeStyles>
             <label>
               {data.reserve0.toString()} {data.token0.symbol}
@@ -143,7 +144,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               </GradientButton>
             </div>
           </VolumeStyles>
-        </td>
+        </TableColumn>
       </tr>
     </>
   );

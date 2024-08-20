@@ -33,7 +33,7 @@ import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
-import { ImgIconStyle } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
+import { ImgContains } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -138,7 +138,7 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <ImgIconStyle
+                <ImgContains
                   src={SelectIcon}
                   alt={SelectIcon}
                   width="9"
@@ -175,7 +175,7 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <ImgIconStyle
+                <ImgContains
                   src={SelectIcon}
                   width="8"
                   height="8"
@@ -201,7 +201,7 @@ const CreatePool = () => {
           </>
         ) : (
           <CreateSuggestContain>
-            <ImgIconStyle
+            <ImgContains
               src={InformIcon}
               alt="Information Icon"
               width="20"

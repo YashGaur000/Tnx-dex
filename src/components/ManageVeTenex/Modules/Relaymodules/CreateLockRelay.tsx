@@ -13,7 +13,7 @@ import {
   LockProgressStyle,
 } from '../../Styles/CreateLock.style';
 import {
-  ImgIconStyle,
+  ImgContains,
   LockCardstyle,
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -58,7 +58,7 @@ const CreateLockRelay = () => {
                 <LockDropDownBox>
                   <label>Your Locks...</label>
                   <div>
-                    <ImgIconStyle width="10" height="5" src={SelectIcon} />
+                    <ImgContains width="10" height="5" src={SelectIcon} />
                   </div>
                 </LockDropDownBox>
               </div>
@@ -90,12 +90,14 @@ const CreateLockRelay = () => {
                     <LockDescriptonTitle fontSize={12}>
                       0x2341...35287
                     </LockDescriptonTitle>
-                    <ImgIconStyle width="15px" height="15px" src={CopyIcon} />
+                    <ImgContains width="15px" height="15px" src={CopyIcon} />
                   </RelayCardDataContains>
                 </RelayCardSection>
               </div>
               <RelayCheckBoxWrapper>
-                <CheckBoxStyle type="checkbox" />
+                <div>
+                  <CheckBoxStyle type="checkbox" />
+                </div>
                 <LockDescriptonTitle fontSize={12}>
                   I understand that by depositing my Lock into a Relay strategy,
                   the Lock unlock date will be extended to 4 years.

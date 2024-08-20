@@ -1,5 +1,8 @@
 import React from 'react';
-import Table, { TableContainerStyle } from '../../common/TableStyled';
+import TableContains, {
+  TableWrapper,
+  TableHeader,
+} from '../../common/TableStyled';
 import Teth from '../../../assets/tether.png';
 import BTC from '../../../assets/Btc.svg';
 import SOL from '../../../assets/sol.png';
@@ -90,8 +93,8 @@ const VotePoolTable: React.FC = () => {
   ];
 
   return (
-    <TableContainerStyle>
-      <Table
+    <TableWrapper>
+      <TableContains
         padding="20px 30px "
         borderRadius="20px"
         textAlign="center"
@@ -100,39 +103,39 @@ const VotePoolTable: React.FC = () => {
       >
         <thead>
           <tr>
-            <th>
+            <TableHeader>
               <LiquidityHeaderColumn>Pool</LiquidityHeaderColumn>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 Fees <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 Incentives <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 Total Rewards <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 vAPR <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 Vote Pool <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
+            </TableHeader>
           </tr>
         </thead>
         <tbody>
@@ -140,8 +143,8 @@ const VotePoolTable: React.FC = () => {
             <VotingPoolCard key={key} data={item} />
           ))}
         </tbody>
-      </Table>
-    </TableContainerStyle>
+      </TableContains>
+    </TableWrapper>
   );
 };
 

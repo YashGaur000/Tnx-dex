@@ -1,7 +1,7 @@
 import { GradientButton } from '../../../common';
 
 import {
-  ImgIconStyle,
+  ImgContains,
   LockDescriptonTitle,
   LockHeaderTitle,
 } from '../../Styles/ManageVetenex.style';
@@ -13,6 +13,7 @@ import {
 import CopyIcon from '../../../../assets/copy.svg';
 import { useNavigate } from 'react-router-dom';
 import { RelayData } from '../../../../constants/RelayData';
+import { TableColumn } from '../../../common/TableStyled';
 
 interface RelayCardProps {
   Relaydata: RelayData;
@@ -26,7 +27,7 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
   };
   return (
     <tr>
-      <td>
+      <TableColumn>
         <RelayCardSection>
           <RelayCardDataContains>
             <LockHeaderTitle fontSize={16}>
@@ -42,19 +43,19 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
             <LockDescriptonTitle fontSize={12}>
               {Relaydata.relay.address}
             </LockDescriptonTitle>
-            <ImgIconStyle width="15px" height="15px" src={CopyIcon} />
+            <ImgContains width="15px" height="15px" src={CopyIcon} />
           </RelayCardDataContains>
         </RelayCardSection>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <LockHeaderTitle fontSize={12}>
           {Relaydata.votingPower.value} ~ {Relaydata.votingPower.percentage}
         </LockHeaderTitle>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <LockHeaderTitle fontSize={12}>{Relaydata.apr}</LockHeaderTitle>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <div onClick={handleDepositeLock}>
           <GradientButton
             borderRadius="6px"
@@ -68,7 +69,7 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
             Deposit Lock
           </GradientButton>
         </div>
-      </td>
+      </TableColumn>
     </tr>
   );
 };

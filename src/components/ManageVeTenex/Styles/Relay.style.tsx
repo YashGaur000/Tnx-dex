@@ -22,7 +22,6 @@ export const RelayCardSection = styled.div`
 
   width: 90%;
   gap: 10px;
-  margin: auto;
 `;
 export const RelayCardDataContains = styled.div<{ theme: DefaultTheme }>`
   display: flex;
@@ -50,7 +49,7 @@ export const RelayIdStatus = styled.div<{ theme: DefaultTheme }>`
 export const RelayCheckBoxWrapper = styled.div`
   display: flex;
   gap: 10px;
-  align-items: center;
+  align-items: flex-start;
 `;
 export const RelayStrategyContents = styled.div`
   display: flex;

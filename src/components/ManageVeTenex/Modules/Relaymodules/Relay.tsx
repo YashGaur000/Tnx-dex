@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { relayData } from '../../../../constants/RelayData';
-import Table, { TableContainerStyle } from '../../../common/TableStyled';
+import TableContains, {
+  TableHeader,
+  TableWrapper,
+} from '../../../common/TableStyled';
 
 import {
   RelayScreenContainer,
@@ -32,16 +35,16 @@ const Relay = () => {
   );
   return (
     <RelayScreenContainer>
-      <TableContainerStyle>
-        <Table padding="20px" margin="0px 0px">
+      <TableWrapper>
+        <TableContains padding="20px" margin="0px 0px">
           <thead>
             <tr>
-              <th>
+              <TableHeader>
                 <RelayTableheader> Relay</RelayTableheader>
-              </th>
-              <th>Voting Power</th>
-              <th>APR</th>
-              <th>Manage</th>
+              </TableHeader>
+              <TableHeader>Voting Power</TableHeader>
+              <TableHeader>APR</TableHeader>
+              <TableHeader>Manage</TableHeader>
             </tr>
           </thead>
           <tbody>
@@ -49,8 +52,8 @@ const Relay = () => {
               <RelayCard key={key} Relaydata={data} />
             ))}
           </tbody>
-        </Table>
-      </TableContainerStyle>
+        </TableContains>
+      </TableWrapper>
 
       <div>
         <Pagination

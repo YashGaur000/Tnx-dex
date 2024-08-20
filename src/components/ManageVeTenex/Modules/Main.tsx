@@ -1,5 +1,5 @@
 import TenexIcon from '../../../assets/Tenex.png';
-import TableContainer from './TableContainer';
+import TableContainer from './VeTenexTable';
 import { GlobalButton } from '../../common';
 import { useNavigate } from 'react-router-dom';
 import QuestionIcon from '../../../assets/question-mark.png';
@@ -12,7 +12,7 @@ import {
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   AmountWithImg,
-  ImgIconStyle,
+  ImgContains,
   LockButtonConatainer,
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -83,7 +83,7 @@ const Main = () => {
               <StatsCardtitle fontSize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
                 4,376,987.82{' '}
-                <ImgIconStyle
+                <ImgContains
                   width={'15'}
                   height={'15'}
                   margin={'0px 10px'}
@@ -107,12 +107,12 @@ const Main = () => {
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
           <span onMouseEnter={() => handleTooltipShow('lock')}>
-            <ImgIconStyle
+            <ImgContains
               width={'16px'}
               height={'16px'}
               margin="7px 0px 0px 0px"
               src={QuestionIcon}
-            ></ImgIconStyle>
+            ></ImgContains>
           </span>
         </LockheaderWrapper>
 
@@ -122,12 +122,12 @@ const Main = () => {
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
           <div onMouseEnter={() => handleTooltipShow('relay')}>
-            <ImgIconStyle
+            <ImgContains
               width={'16px'}
               height={'16px'}
               margin="7px 0px 0px 0px"
               src={QuestionIcon}
-            ></ImgIconStyle>
+            ></ImgContains>
           </div>
         </LockheaderWrapper>
 

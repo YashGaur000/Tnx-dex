@@ -1,5 +1,5 @@
 import LiquidityHeroSection from './LiquidityHeroSection';
-import FilterContainer from './FilterContainer';
+import FilterContainer from './LiquidityFiter';
 import LiquidityPoolTable from './LiquidityPoolTable';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
 import { gql, useQuery } from '@apollo/client';

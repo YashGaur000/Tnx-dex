@@ -3,21 +3,21 @@ import styled from 'styled-components';
 import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
 import ArrowIcon from './../../assets/doubleHederArrow.svg';
-interface Data {
+export interface StepperDataProps {
   step: number;
   icon?: string;
   descriptions: (string | string[])[];
   buttons?: {
     label: string;
     icon: string;
-    onClick: () => void;
+    onClick?: () => void;
     tooltip?: string;
     disabled?: boolean;
   }[];
 }
 
 interface StepperProps {
-  data: Data[];
+  data: StepperDataProps[];
 }
 
 const StepperContainer = styled.div<{ theme: DefaultTheme }>`

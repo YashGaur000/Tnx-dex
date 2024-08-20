@@ -2,11 +2,11 @@ import React from 'react';
 
 import Deposite from './Deposite';
 
-//import DepositeInstruction from './DepositeInstruction';
+import DepositeInstruction from './DepositeInstruction';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import { StyledDepositContainer } from '../styles/LiquidityDeposit.style';
 import { ethers } from 'ethers';
-import ManageDeposit from './ManageDeposit';
+
 interface DepositComponentProps {
   token1Value: ethers.Numeric;
   token2Value: ethers.Numeric;
@@ -36,8 +36,7 @@ const DepositeComponent: React.FC<DepositComponentProps> = ({
           amount2={token2Value}
         />
       ) : (
-        // <DepositeInstruction />
-        <ManageDeposit />
+        <DepositeInstruction />
       )}
     </StyledDepositContainer>
   );

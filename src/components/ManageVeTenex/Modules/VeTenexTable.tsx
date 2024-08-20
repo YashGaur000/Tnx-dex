@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import { useState } from 'react';
-import Table, { TableContainerStyle } from '../../common/TableStyled';
+import TableContains, {
+  TableColumn,
+  TableHeader,
+  TableWrapper,
+} from '../../common/TableStyled';
 import TenexIcon from '../../../assets/Tenex.png';
 import { GradientButton } from '../../common';
 import SplitScreen from './SplitScreen';
 import PopupScreen from './PopupScreen';
 import MergeLockScreen from './MergeLockScreen';
 import Pagination from './Pagination';
-import { ImgIconStyle, LockTableContains } from '../Styles/ManageVetenex.style';
+import { ImgContains, LockTableContains } from '../Styles/ManageVetenex.style';
 import ShortIcon from '../../../assets/short.svg';
 import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 const ITEMS_PER_PAGE = 5;
@@ -66,49 +70,51 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
   const paginatedData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   return (
     <LockTableContains>
-      <TableContainerStyle>
-        <Table padding="20px" margin="0px 0px">
+      <TableWrapper>
+        <TableContains padding="20px" margin="0px 0px">
           <thead>
             <tr>
-              <th>
-                {' '}
+              <TableHeader>
                 <TableHeaderWrapper>
                   <label>ID + Status </label>
                   <img src={ShortIcon} />
                 </TableHeaderWrapper>
-              </th>
+              </TableHeader>
 
-              <th>
+              <TableHeader>
                 <TableHeaderWrapper>
                   Locked Amount <img src={ShortIcon} />
                 </TableHeaderWrapper>
-              </th>
+              </TableHeader>
 
-              <th>
+              <TableHeader>
                 <TableHeaderWrapper>
                   {' '}
                   Voting Power <img src={ShortIcon} />
                 </TableHeaderWrapper>
-              </th>
-              <th>
+              </TableHeader>
+              <TableHeader>
                 <TableHeaderWrapper> Voting For</TableHeaderWrapper>
-              </th>
-              <th>
+              </TableHeader>
+              <TableHeader>
                 <TableHeaderWrapper>
                   {' '}
                   Expiry Date <img src={ShortIcon} />
                 </TableHeaderWrapper>
-              </th>
-              <th>
+              </TableHeader>
+              <TableHeader>
                 <TableHeaderWrapper> Manage your Locks</TableHeaderWrapper>
-              </th>
+              </TableHeader>
             </tr>
           </thead>
           <tbody>
             {paginatedData.map((row, rowIndex) => (
               <tr key={rowIndex}>
                 {headers.map((header, colIndex) => (
-                  <td key={`${rowIndex}-${colIndex}`} data-label={header}>
+                  <TableColumn
+                    key={`${rowIndex}-${colIndex}`}
+                    data-label={header}
+                  >
                     {Array.isArray(row[header]) ? (
                       row[header].map((item, index) => (
                         <ButtonContain
@@ -132,7 +138,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                     ) : header === 'Locked Amount' ? (
                       <AmountWithImg key={header}>
                         <label>{row[header]}</label>{' '}
-                        <ImgIconStyle
+                        <ImgContains
                           width="15"
                           height="15"
                           margin="0px 0px 0px 10px"
@@ -142,13 +148,13 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                     ) : (
                       row[header]
                     )}
-                  </td>
+                  </TableColumn>
                 ))}
               </tr>
             ))}
           </tbody>
-        </Table>
-      </TableContainerStyle>
+        </TableContains>
+      </TableWrapper>
       <Pagination
         handleNextPage={handleNextPage}
         handlePrevpage={handlePrevpage}

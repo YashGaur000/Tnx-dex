@@ -15,7 +15,7 @@ interface TableProps {
   textAlign?: string;
 }
 
-export const TableContainerStyle = styled.div<{ theme: DefaultTheme }>`
+export const TableWrapper = styled.div<{ theme: DefaultTheme }>`
   overflow-x: scroll;
   padding-bottom: 10px;
   border-radius: 24px;
@@ -39,7 +39,7 @@ export const TableContainerStyle = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-const Table = styled.table<TableProps>`
+const TableContains = styled.table<TableProps>`
   width: ${({ width }) => width ?? '100%'};
   border-collapse: collapse;
   margin: ${({ margin }) => margin ?? '10px 0px'};
@@ -81,8 +81,38 @@ const Table = styled.table<TableProps>`
   }
 
   @media screen and (max-width: 500px) {
-    font-size: ${({ fontSize }) => fontSize ?? '13px'};
+    font-size: ${({ fontSize }) => fontSize ?? '12px'};
   }
 `;
+export const TableHeader = styled.th<TableProps>`
+  white-space: nowrap;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-weight: ${({ fontWeight, theme }) =>
+    fontWeight ?? theme.fontWeights.regular};
+  text-overflow: ellipsis;
+  min-width: 100px;
 
-export default Table;
+  background: ${({ background }) =>
+    background ?? 'linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%)'};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  padding: ${({ padding }) => padding ?? '10px 0px'};
+  text-align: ${({ textAlign }) => textAlign ?? 'center'};
+`;
+
+export const TableColumn = styled.td<TableProps>`
+  white-space: nowrap;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-size: ${({ fontSize }) => fontSize ?? '14px'};
+  font-weight: ${({ fontWeight, theme }) =>
+    fontWeight ?? theme.fontWeights.regular};
+  text-overflow: ellipsis;
+  min-width: 100px;
+
+  padding: ${({ padding }) => padding ?? '10px 0px'};
+  text-align: center;
+`;
+
+export default TableContains;

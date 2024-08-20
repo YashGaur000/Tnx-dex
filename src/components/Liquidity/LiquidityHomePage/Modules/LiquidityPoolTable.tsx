@@ -1,4 +1,7 @@
-import Table, { TableContainerStyle } from '../../../common/TableStyled';
+import TableContains, {
+  TableHeader,
+  TableWrapper,
+} from '../../../common/TableStyled';
 
 import {
   LiquidityHeaderColumn,
@@ -6,7 +9,7 @@ import {
 } from '../styles/LiquidityTable.style.tsx';
 import SortIcon from '../../../../assets/short.svg';
 
-import { ImgIconStyle } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
+import { ImgContains } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew.ts';
 
@@ -26,39 +29,38 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
   // };
 
   return (
-    <TableContainerStyle>
-      <Table padding="20px" margin="0px 0px">
+    <TableWrapper>
+      <TableContains padding="20px" margin="0px 0px">
         <thead>
           <tr>
-            <th>
+            <TableHeader>
               {' '}
               <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 APR <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Volume{' '}
-                <ImgIconStyle width="12px" height="12px" src={SortIcon} />
+                Volume <ImgContains width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Fees <ImgIconStyle width="12px" height="12px" src={SortIcon} />
+                Fees <ImgContains width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 Pool Balance{' '}
-                <ImgIconStyle width="12px" height="12px" src={SortIcon} />
+                <ImgContains width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
+            </TableHeader>
           </tr>
         </thead>
         <tbody>
@@ -66,8 +68,8 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
             <LiquidityPoolCard key={key} data={item} />
           ))}
         </tbody>
-      </Table>
-    </TableContainerStyle>
+      </TableContains>
+    </TableWrapper>
   );
 };
 
