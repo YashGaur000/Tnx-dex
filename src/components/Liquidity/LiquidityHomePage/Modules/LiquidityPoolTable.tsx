@@ -8,13 +8,12 @@ import {
 } from '../styles/LiquidityTable.style.tsx';
 import SortIcon from '../../../../assets/sorting.png';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
-import { LiquidityPoolData } from '../../../../graphql/types/LiquidityPoolNew';
 
 type SortableKeys = keyof LiquidityPoolNewType;
 
 interface PoolTableProps {
   handleSortedFeatures?: (item: SortableKeys) => void;
-  sortedData: LiquidityPoolData[];
+  sortedData: LiquidityPoolNewType[];
 }
 
 const LiquidityPoolTable: React.FC<PoolTableProps> = ({

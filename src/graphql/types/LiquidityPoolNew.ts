@@ -21,29 +21,6 @@ export interface LiquidityPoolNewType {
     symbol: string;
   };
 }
-
-export interface LiquidityPoolData {
-  id: string;
-  name: string;
-  isStable: boolean;
-  reserve0: number;
-  reserve1: number;
-  totalVolume0: BigNumberish;
-  totalVolume1: BigNumberish;
-  totalVolumeUSD: BigNumberish;
-  totalFees0: BigNumberish;
-  totalFees1: BigNumberish;
-  totalFeesUSD: BigNumberish;
-  token0: {
-    id: string;
-    symbol: string;
-  };
-  token1: {
-    id: string;
-    symbol: string;
-  };
-}
-
 export interface LiquidityPoolResponse {
   LiquidityPoolNew: LiquidityPoolNewType[];
 }
