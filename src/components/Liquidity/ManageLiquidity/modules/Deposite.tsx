@@ -91,7 +91,7 @@ const Deposite: React.FC<DepositProps> = ({
       const amount1InWei = amount1 && ethers.parseUnits(amount1.toString());
       const amount2InWei = amount2 && ethers.parseUnits(amount2.toString());
       const type = getParam('type') ? true : false;
-      const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
+      const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
 
       if (
         amount1InWei &&
@@ -109,7 +109,7 @@ const Deposite: React.FC<DepositProps> = ({
           amount1InWei,
           amount2InWei,
           address,
-          deadline // 10 minutes deadline
+          deadline
         );
         console.log('Liquidity added:', tx);
         setIsDeposited(true);
