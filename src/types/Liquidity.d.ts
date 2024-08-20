@@ -4,20 +4,20 @@ import { Address } from 'viem';
 import { TokenInfo } from '../constants/tokens';
 
 interface RouterContract extends Contract {
-  functions: {
-    addLiquidity(
-      tokenA: Address,
-      tokenB: Address,
-      stable: boolean,
-      amountADesired: ethers.Numeric,
-      amountBDesired: ethers.Numeric,
-      amountAMin: ethers.Numeric,
-      amountBMin: ethers.Numeric,
-      to: Address,
-      deadline: ethers.Numeric
-    ): Promise<ContractTransaction>;
-    factoryRegistry(): Promise<[Address]>;
-  };
+  addLiquidity(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    amountADesired: bigint,
+    amountBDesired: bigint,
+    amountAMin: bigint,
+    amountBMin: bigint,
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
+  factoryRegistry(): Promise<[Address]>;
+  sortTokens(tokenA: Address, tokenB: Address): Promise<[Address]>;
 }
 
 export interface AddLiquidityParams {
