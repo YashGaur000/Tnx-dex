@@ -5,11 +5,12 @@ import { useEthersProvider } from './useEthersProvider';
 import { AddressZero } from '@ethersproject/constants';
 import { isAddress } from './../utils/addresses/index';
 import { Address } from 'viem';
+import { RouterContract } from '../types/Liquidity';
 
 export function useContract(
   contractAddress: Address,
   ABI: ContractInterface
-): Contract | undefined {
+): Contract | RouterContract | undefined {
   const { chainId, address: userAddress } = useAccount();
   const provider = useEthersProvider({ chainId });
 

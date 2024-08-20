@@ -18,6 +18,19 @@ interface RouterContract extends Contract {
   ): Promise<ContractTransaction>;
   factoryRegistry(): Promise<[Address]>;
   sortTokens(tokenA: Address, tokenB: Address): Promise<[Address]>;
+  estimateGas: {
+    addLiquidity(
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      amountADesired: bigint,
+      amountBDesired: bigint,
+      amountAMin: bigint,
+      amountBMin: bigint,
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
+  };
 }
 
 export interface AddLiquidityParams {
