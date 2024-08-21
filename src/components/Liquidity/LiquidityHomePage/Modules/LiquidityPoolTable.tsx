@@ -7,7 +7,7 @@ import {
   TableHeaderWrapper,
 } from '../styles/LiquidityTable.style.tsx';
 import SortIcon from '../../../../assets/sorting.png';
-import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew.ts';
+import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 
 type SortableKeys = keyof LiquidityPoolNewType;
 
