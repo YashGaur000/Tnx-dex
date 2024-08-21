@@ -9,16 +9,16 @@ import {
 const LIQUIDITY_POOL_QUERY = gql(LiquidityPoolNew);
 
 // Function to convert reserves to human-readable format
-const formatReserves = (reserve: string) => {
-  return Number(formatUnits(reserve, 18)); // Assuming the reserve is in 18 decimal places
+const formatReserves = (reserve: string, decimal: bigint) => {
+  return Number(formatUnits(reserve, decimal));
 };
 
 // Function to process the fetched data
 const processLiquidityPoolData = (data: LiquidityPoolResponse) => {
   return data.LiquidityPoolNew.map((pool: LiquidityPoolNewType) => ({
     ...pool,
-    reserve0: formatReserves(pool.reserve0.toString()),
-    reserve1: formatReserves(pool.reserve1.toString()),
+    reserve0: formatReserves(pool.reserve0.toString(), pool.token0.decimals),
+    reserve1: formatReserves(pool.reserve1.toString(), pool.token1.decimals),
   }));
 };
 
