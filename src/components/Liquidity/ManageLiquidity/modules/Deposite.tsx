@@ -98,7 +98,7 @@ const Deposite: React.FC<DepositProps> = ({
       const amount2InWei =
         amount2 &&
         ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
-      const type = getParam('type') ? true : false;
+      const type = getParam('type') == '0' ? true : false;
       const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
 
       if (
