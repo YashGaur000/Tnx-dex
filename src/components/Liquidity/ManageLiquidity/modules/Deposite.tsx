@@ -138,7 +138,10 @@ const Deposite: React.FC<DepositProps> = ({
       icon: PlusIcon,
       descriptions: ['10% slippage applied...'],
     },
-    {
+  ];
+
+  if (!disabled1) {
+    data.push({
       step: 3,
       icon: UnLockIcon,
       descriptions: isToken1Allowed
@@ -155,8 +158,11 @@ const Deposite: React.FC<DepositProps> = ({
             },
           ]
         : undefined,
-    },
-    {
+    });
+  }
+
+  if (!disabled2) {
+    data.push({
       step: 4,
       icon: UnLockIcon,
       descriptions: isToken2Allowed
@@ -173,15 +179,16 @@ const Deposite: React.FC<DepositProps> = ({
             },
           ]
         : undefined,
-    },
-    {
-      step: 5,
-      icon: SearchIcon,
-      descriptions: isDeposited
-        ? ['Deposit confirmed']
-        : ['Waiting for next actions...'],
-    },
-  ];
+    });
+  }
+
+  data.push({
+    step: 5,
+    icon: SearchIcon,
+    descriptions: isDeposited
+      ? ['Deposit confirmed']
+      : ['Waiting for next actions...'],
+  });
 
   return (
     <>
