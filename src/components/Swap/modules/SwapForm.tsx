@@ -13,6 +13,9 @@ import {
   Description,
   Input,
   InputWrapper,
+  PercentageButton,
+  PercentageOptions,
+  PercentageSelectorContainer,
   SwapBox,
   SwapBoxWrapper,
   SwapFormContainer,
@@ -23,6 +26,7 @@ import {
   TokenSelectAlignSelect,
   WalletButton,
   WalletIcon,
+  WalletInfo,
   WalletText,
   WalletWrapper,
 } from '../styles/SwapForm.style.';
@@ -45,6 +49,9 @@ const SwapForm: React.FC = () => {
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
   >('token1');
+  const [selectedPercentage, setSelectedPercentage] = React.useState<
+    number | null
+  >(null);
 
   useEffect(() => {
     setIsConnected(!!address);
@@ -82,6 +89,10 @@ const SwapForm: React.FC = () => {
     } else {
       setSelectedToken2(token);
     }
+  };
+
+  const handleSelectPercentage = (percentage: number) => {
+    setSelectedPercentage(percentage);
   };
 
   return (
@@ -127,10 +138,45 @@ const SwapForm: React.FC = () => {
                 <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
               </TokenSelectAlignSelect>
             </TokenSelect>
-            <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
+            <PercentageSelectorContainer>
+              <WalletInfo>Wallet: 0.000 - $0.00</WalletInfo>
+
+              <PercentageOptions>
+                <PercentageButton
+                  active={selectedPercentage === 0}
+                  onClick={() => handleSelectPercentage(0)}
+                >
+                  0%
+                </PercentageButton>
+                <PercentageButton
+                  active={selectedPercentage === 25}
+                  onClick={() => handleSelectPercentage(25)}
+                >
+                  25%
+                </PercentageButton>
+                <PercentageButton
+                  active={selectedPercentage === 50}
+                  onClick={() => handleSelectPercentage(50)}
+                >
+                  50%
+                </PercentageButton>
+                <PercentageButton
+                  active={selectedPercentage === 75}
+                  onClick={() => handleSelectPercentage(75)}
+                >
+                  75%
+                </PercentageButton>
+                <PercentageButton
+                  active={selectedPercentage === 100}
+                  onClick={() => handleSelectPercentage(100)}
+                >
+                  MAX
+                </PercentageButton>
+              </PercentageOptions>
+            </PercentageSelectorContainer>
           </InputWrapper>
           <SwitchButton onClick={handleSwap}>
-            <img src={faSwitchAlt} />
+            <img src={faSwitchAlt} alt={faSwitchAlt} />
           </SwitchButton>
           <InputWrapper>
             <Input

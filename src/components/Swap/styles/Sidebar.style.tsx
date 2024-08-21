@@ -22,6 +22,22 @@ export const SidebarContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
+export const SidebarInner = styled.div<{ theme: DefaultTheme }>`
+  width: 340px;
+  margin-left: 28px;
+
+  @media (max-width: 900px) {
+    width: 100%;
+    margin-top: 40px;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin-top: 40px;
+    margin-left: 0px;
+  }
+`;
+
 export const SidebarTitle = styled.h2<{
   fontSize: number;
   theme: DefaultTheme;
