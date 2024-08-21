@@ -25,6 +25,8 @@ interface voteData {
   volumeDesc?: string;
   volumeSubDesc?: string;
   fees?: string;
+  feesUSDT?: string;
+  feesBTC?: string;
   feesDesc?: string;
   feesSubDesc?: string;
   poolBalance?: string;
@@ -46,6 +48,8 @@ const VotePoolTable: React.FC = () => {
       volumeDesc: 'Add incentives',
       // volumeSubDesc: '0.003 BTC',
       fees: '~$10,180',
+      feesUSDT: '0.5643 USDT',
+      feesBTC: '0.003 BTC',
       feesDesc: 'Fees + Incentives',
       // feesSubDesc: '0.003 BTC',
       poolBalance: '37.18%',
@@ -92,7 +96,7 @@ const VotePoolTable: React.FC = () => {
   return (
     <TableContainerStyle>
       <Table
-        padding="20px 30px "
+        padding="20px 50px "
         borderRadius="20px"
         textAlign="center"
         width="100%"
