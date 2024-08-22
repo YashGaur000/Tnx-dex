@@ -28,13 +28,12 @@ export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
   text-align: left;
 `;
 
-export const LiquidityProgress = styled.span`
+export const LiquidityProgress = styled.div`
   display: flex;
   justify-content: end;
   padding-right: 5px;
   gap: 10px;
   font-size: 12px;
-  color: silver;
 `;
 
 interface InputBoxProps {

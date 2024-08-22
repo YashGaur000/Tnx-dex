@@ -34,7 +34,7 @@ const TokenDeposite = () => {
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
-  const poolType = getParam('type') ? 'stable' : 'volatile';
+  const poolType = getParam('type') == '0' ? 'stable' : 'volatile';
 
   if (selectedToken1 && selectedToken2) {
     return (

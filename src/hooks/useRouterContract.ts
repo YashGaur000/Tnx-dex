@@ -11,7 +11,6 @@ import routerAbi from '../constants/artifacts/contracts/Router.json';
  */
 export function useRouterContract() {
   const routerAddress = contractAddress.Router;
-  console.log(routerAddress, 'router');
   const routerContract = useContract(
     routerAddress,
     routerAbi.abi
@@ -35,6 +34,23 @@ export function useRouterContract() {
       }
 
       try {
+        // estimate gas for add liquidity
+        const gasEstimate = await routerContract.estimateGas.addLiquidity(
+          tokenA,
+          tokenB,
+          stable,
+          amountADesired,
+          amountBDesired,
+          amountAMin,
+          amountBMin,
+          to,
+          deadline
+        );
+
+        if (!gasEstimate) {
+          console.error('Error estimating gas price');
+        }
+
         const tx = await routerContract.addLiquidity(
           tokenA,
           tokenB,
@@ -45,7 +61,7 @@ export function useRouterContract() {
           amountBMin,
           to,
           deadline,
-          { gasLimit: 3000000 }
+          { gasLimit: gasEstimate ? gasEstimate : 3000000 }
         );
         console.log('Transaction sent:', tx);
         await tx.wait();
@@ -58,8 +74,6 @@ export function useRouterContract() {
     },
     [routerContract]
   );
-
-  // Additional functions can be added here
 
   return { addLiquidity };
 }

@@ -12,7 +12,8 @@ import SortIcon from '../../../../assets/short.svg';
 
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
-import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew.ts';
+
+import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 
 type SortableKeys = keyof LiquidityPoolNewType;
 

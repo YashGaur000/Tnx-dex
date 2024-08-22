@@ -61,7 +61,9 @@ const Deposite: React.FC<DepositProps> = ({
 
   const handleAllowToken1 = async () => {
     try {
-      const amount1InWei = amount1 && ethers.parseEther(amount1.toString());
+      const amount1InWei =
+        amount1 &&
+        ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
       if (amount1InWei && selectedToken1?.address) {
         await approveAllowance1(routerAddress, amount1InWei.toString());
         setIsToken1Allowed(true);
@@ -73,7 +75,9 @@ const Deposite: React.FC<DepositProps> = ({
 
   const handleAllowToken2 = async () => {
     try {
-      const amount2InWei = amount2 && ethers.parseEther(amount2.toString());
+      const amount2InWei =
+        amount2 &&
+        ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
       if (amount2InWei && selectedToken2?.address) {
         await approveAllowance2(routerAddress, amount2InWei.toString());
         setIsToken2Allowed(true);
@@ -88,10 +92,14 @@ const Deposite: React.FC<DepositProps> = ({
 
   const handleDeposit = async () => {
     try {
-      const amount1InWei = amount1 && ethers.parseUnits(amount1.toString());
-      const amount2InWei = amount2 && ethers.parseUnits(amount2.toString());
-      const type = getParam('type') ? true : false;
-      const deadline = BigInt(Math.floor(Date.now() / 1000) + 3600);
+      const amount1InWei =
+        amount1 &&
+        ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
+      const amount2InWei =
+        amount2 &&
+        ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
+      const type = getParam('type') == '0' ? true : false;
+      const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
 
       if (
         amount1InWei &&
@@ -109,7 +117,7 @@ const Deposite: React.FC<DepositProps> = ({
           amount1InWei,
           amount2InWei,
           address,
-          deadline // 10 minutes deadline
+          deadline
         );
         console.log('Liquidity added:', tx);
         setIsDeposited(true);
@@ -130,7 +138,10 @@ const Deposite: React.FC<DepositProps> = ({
       icon: PlusIcon,
       descriptions: ['10% slippage applied...'],
     },
-    {
+  ];
+
+  if (!disabled1) {
+    data.push({
       step: 3,
       icon: UnLockIcon,
       descriptions: isToken1Allowed
@@ -147,8 +158,11 @@ const Deposite: React.FC<DepositProps> = ({
             },
           ]
         : undefined,
-    },
-    {
+    });
+  }
+
+  if (!disabled2) {
+    data.push({
       step: 4,
       icon: UnLockIcon,
       descriptions: isToken2Allowed
@@ -165,15 +179,16 @@ const Deposite: React.FC<DepositProps> = ({
             },
           ]
         : undefined,
-    },
-    {
-      step: 5,
-      icon: SearchIcon,
-      descriptions: isDeposited
-        ? ['Deposit confirmed']
-        : ['Waiting for next actions...'],
-    },
-  ];
+    });
+  }
+
+  data.push({
+    step: 5,
+    icon: SearchIcon,
+    descriptions: isDeposited
+      ? ['Deposit confirmed']
+      : ['Waiting for next actions...'],
+  });
 
   return (
     <>

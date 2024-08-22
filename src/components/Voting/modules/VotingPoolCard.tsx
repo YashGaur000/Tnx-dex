@@ -39,6 +39,8 @@ interface DataProps {
   volumeDesc?: string;
   volumeSubDesc?: string;
   fees?: string;
+  feesUSDT?: string;
+  feesBTC?: string;
   feesDesc?: string;
   feesSubDesc?: string;
   poolBalance?: string;
@@ -72,13 +74,19 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           </PairContain>
         </CardContainer>
       </TableColumn>
-      <TableColumn>
-        <label>{data.fees}</label>
-      </TableColumn>
+      <td>
+        <VolumeStyles>
+          <label>{data.fees}</label>
+          <Label>{data.feesUSDT}</Label>
+          <Label>{data.feesBTC}</Label>
+        </VolumeStyles>
+      </td>
       <TableColumn>
         <VolumeStyles>
           <label>{data.volume}</label>
-          <Label>{data.volumeDesc}</Label>
+          <u>
+            <Label>{data.volumeDesc}</Label>
+          </u>
           <Label>{data.volumeSubDesc}</Label>
         </VolumeStyles>
       </TableColumn>
@@ -120,7 +128,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
               padding="0px 5px"
               marginTop="10px"
             >
-              Vote
+              Deposit
             </StyledGradientButton>
             <VoteTooltip>
               You need to create a Lock in

@@ -2,24 +2,15 @@ import LiquidityHeroSection from './LiquidityHeroSection';
 import FilterContainer from './LiquidityFiter';
 import LiquidityPoolTable from './LiquidityPoolTable';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
-import { gql, useQuery } from '@apollo/client';
-import { LiquidityPoolNew } from '../../../../graphql/poolQuery';
-import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
+import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
 
 //type SortableKeys = keyof LiquidityPoolNewType;
 
 const LiquidityPool = () => {
-  const {
-    loading,
-    error,
-    data: poolData,
-  } = useQuery<{
-    LiquidityPoolNew: LiquidityPoolNewType[];
-  }>(gql(LiquidityPoolNew));
+  const { loading, error, data: poolData } = useLiquidityPoolData();
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
-
   // const [sortedColumn, setSortedColumn] = useState<SortableKeys>('apr');
   // const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   // const [filteredData, setFilteredData] = useState<PoolDataProps[]>(POOL_DATA);
@@ -68,7 +59,7 @@ const LiquidityPool = () => {
       {poolData && (
         <LiquidityPoolTable
           //handleSortedFeatures={handleSortedFeatures}
-          sortedData={poolData.LiquidityPoolNew}
+          sortedData={poolData}
         />
       )}
     </>
