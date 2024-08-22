@@ -16,3 +16,5 @@ export { InputWrapper, Input } from './Input';
 export { SidebarContainer } from './Sidebar';
 
 export { Separator } from './Separator';
+
+export { AmountLabel } from './AmountLables';

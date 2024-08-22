@@ -16,6 +16,7 @@ import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo } from '../../../../constants/tokens';
 import { ethers } from 'ethers';
+import { AmountLabel } from '../../../common';
 
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
@@ -57,6 +58,31 @@ const LiquidityForm: FC<FormComponentProps> = ({
     );
   };
 
+  const handleAmountValue = (
+    percentage: number,
+    tokenType: 'token1' | 'token2'
+  ) => {
+    if (tokenType === 'token1') {
+      const calculatedValue = (Number(totalBalanceToken1) * percentage) / 100;
+      setToken1Amount(calculatedValue);
+      onTokenValueChange(
+        calculatedValue,
+        token2Value,
+        totalBalanceToken1,
+        totalBalanceToken2
+      );
+    } else {
+      const calculatedValue = (Number(totalBalanceToken2) * percentage) / 100;
+      setToken2Amount(calculatedValue);
+      onTokenValueChange(
+        token1Value,
+        calculatedValue,
+        totalBalanceToken1,
+        totalBalanceToken2
+      );
+    }
+  };
+
   const getParam = useQueryParams();
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
@@ -95,11 +121,21 @@ const LiquidityForm: FC<FormComponentProps> = ({
             />
           </div>
           <LiquidityProgress>
-            <label>0%</label>
-            <label>25%</label>
-            <label>50%</label>
-            <label>75%</label>
-            <label>MAX</label>
+            <AmountLabel onClick={() => handleAmountValue(0, 'token1')}>
+              0%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(25, 'token1')}>
+              25%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(50, 'token1')}>
+              50%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(75, 'token1')}>
+              75%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(100, 'token1')}>
+              MAX
+            </AmountLabel>
           </LiquidityProgress>
         </FormFieldContainer>
         <SwapImgConatiner>
@@ -125,11 +161,21 @@ const LiquidityForm: FC<FormComponentProps> = ({
             />
           </div>
           <LiquidityProgress>
-            <label>0%</label>
-            <label>25%</label>
-            <label>50%</label>
-            <label>75%</label>
-            <label>MAX</label>
+            <AmountLabel onClick={() => handleAmountValue(0, 'token2')}>
+              0%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
+              25%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(50, 'token2')}>
+              50%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(75, 'token2')}>
+              75%
+            </AmountLabel>
+            <AmountLabel onClick={() => handleAmountValue(100, 'token2')}>
+              MAX
+            </AmountLabel>
           </LiquidityProgress>
         </FormFieldContainer>
       </ManageLiquidityFormSection>

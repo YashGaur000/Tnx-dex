@@ -20,9 +20,9 @@ const DepositeComponent: React.FC<DepositComponentProps> = ({
   totalBalanceToken2,
 }) => {
   const checkForToken1 =
-    Number(token1Value) < Number(totalBalanceToken1) && token1Value != 0;
+    Number(token1Value) <= Number(totalBalanceToken1) && token1Value != 0;
   const checkForToken2 =
-    Number(token2Value) < Number(totalBalanceToken2) && token2Value != 0;
+    Number(token2Value) <= Number(totalBalanceToken2) && token2Value != 0;
   console.log('check', checkForToken2);
   return (
     <StyledDepositContainer>

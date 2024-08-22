@@ -98,7 +98,7 @@ const Deposite: React.FC<DepositProps> = ({
       const amount2InWei =
         amount2 &&
         ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
-      const type = getParam('type') ? true : false;
+      const type = getParam('type') == '0' ? true : false;
       const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
 
       if (
@@ -138,7 +138,10 @@ const Deposite: React.FC<DepositProps> = ({
       icon: PlusIcon,
       descriptions: ['10% slippage applied...'],
     },
-    {
+  ];
+
+  if (!disabled1) {
+    data.push({
       step: 3,
       icon: UnLockIcon,
       descriptions: isToken1Allowed
@@ -155,8 +158,11 @@ const Deposite: React.FC<DepositProps> = ({
             },
           ]
         : undefined,
-    },
-    {
+    });
+  }
+
+  if (!disabled2) {
+    data.push({
       step: 4,
       icon: UnLockIcon,
       descriptions: isToken2Allowed
@@ -173,15 +179,16 @@ const Deposite: React.FC<DepositProps> = ({
             },
           ]
         : undefined,
-    },
-    {
-      step: 5,
-      icon: SearchIcon,
-      descriptions: isDeposited
-        ? ['Deposit confirmed']
-        : ['Waiting for next actions...'],
-    },
-  ];
+    });
+  }
+
+  data.push({
+    step: 5,
+    icon: SearchIcon,
+    descriptions: isDeposited
+      ? ['Deposit confirmed']
+      : ['Waiting for next actions...'],
+  });
 
   return (
     <>
