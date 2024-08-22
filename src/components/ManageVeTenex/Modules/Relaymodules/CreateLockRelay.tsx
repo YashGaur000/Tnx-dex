@@ -13,7 +13,7 @@ import {
   LockProgressStyle,
 } from '../../Styles/CreateLock.style';
 import {
-  ImgContains,
+  ImageContainer,
   LockCardstyle,
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -58,7 +58,7 @@ const CreateLockRelay = () => {
                 <LockDropDownBox>
                   <label>Your Locks...</label>
                   <div>
-                    <ImgContains width="10" height="5" src={SelectIcon} />
+                    <ImageContainer width="10" height="5" src={SelectIcon} />
                   </div>
                 </LockDropDownBox>
               </div>
@@ -90,7 +90,7 @@ const CreateLockRelay = () => {
                     <LockDescriptonTitle fontSize={12}>
                       0x2341...35287
                     </LockDescriptonTitle>
-                    <ImgContains width="15px" height="15px" src={CopyIcon} />
+                    <ImageContainer width="15px" height="15px" src={CopyIcon} />
                   </RelayCardDataContains>
                 </RelayCardSection>
               </div>

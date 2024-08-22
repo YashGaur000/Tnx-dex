@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import TableContains, {
   TableColumn,
@@ -10,24 +9,22 @@ import { GradientButton } from '../../common';
 import SplitScreen from './SplitScreen';
 import PopupScreen from './PopupScreen';
 import MergeLockScreen from './MergeLockScreen';
-import Pagination from './Pagination';
-import { ImgContains, LockTableContains } from '../Styles/ManageVetenex.style';
+import Pagination from '../../common/Pagination';
+import {
+  ImageContainer,
+  LockTableContains,
+} from '../Styles/ManageVetenex.style';
 import ShortIcon from '../../../assets/short.svg';
 import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+import {
+  AmountWithImg,
+  ButtonContain,
+  LockButtonWrapper,
+} from '../Styles/VeTenexTable.style';
 const ITEMS_PER_PAGE = 5;
 interface TableProps {
   data: Record<string, string | number | string[]>[];
 }
-
-const AmountWithImg = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ButtonContain = styled.div`
-  display: inline;
-`;
 
 const TableContainer: React.FC<TableProps> = ({ data }) => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -116,29 +113,31 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                     data-label={header}
                   >
                     {Array.isArray(row[header]) ? (
-                      row[header].map((item, index) => (
-                        <ButtonContain
-                          key={index}
-                          onClick={() => handleButton(item)}
-                        >
-                          <GradientButton
-                            borderRadius="6px"
-                            color="#ffffff"
-                            padding="0px 12px 30px 12px"
-                            border="1px solid transparent"
-                            fontSize="12"
-                            height="22px"
-                            width="80px"
+                      <LockButtonWrapper>
+                        {row[header].map((item, index) => (
+                          <ButtonContain
+                            key={index}
+                            onClick={() => handleButton(item)}
                           >
-                            {item}
-                          </GradientButton>
-                          <span> &nbsp;&nbsp;</span>
-                        </ButtonContain>
-                      ))
+                            <GradientButton
+                              borderRadius="6px"
+                              color="#ffffff"
+                              padding="0px 12px 30px 12px"
+                              border="1px solid transparent"
+                              fontSize="12px"
+                              height="22px"
+                              width="80px"
+                            >
+                              {item}
+                            </GradientButton>
+                            <span>&nbsp;&nbsp;</span>
+                          </ButtonContain>
+                        ))}
+                      </LockButtonWrapper>
                     ) : header === 'Locked Amount' ? (
                       <AmountWithImg key={header}>
                         <label>{row[header]}</label>{' '}
-                        <ImgContains
+                        <ImageContainer
                           width="15"
                           height="15"
                           margin="0px 0px 0px 10px"

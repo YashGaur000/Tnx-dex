@@ -18,8 +18,8 @@ const CreateNewLiquidity = () => {
     <CreateVoliteLiquiditySection>
       <VolatileLiquidityWrapper>
         <LiquidityImgStyle
-          width={'20px'}
-          height={'20px'}
+          width={'24px'}
+          height={'24px'}
           src={InformationIcon}
         />
         <StatsCardtitle fontSize={16}>

@@ -71,7 +71,7 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.titleColor};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   line-height: 23.92px;
   text-align: left;
 `;
@@ -124,7 +124,11 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                   </label>
                 </BalanceShowWrapper>
               ) : (
-                <p key={idx}>{desc}</p>
+                <React.Fragment key={idx}>
+                  <p>{desc}</p>
+                  {item.descriptions.length > 1 &&
+                    idx < item.descriptions.length - 1 && <br />}
+                </React.Fragment>
               )
             )}
 

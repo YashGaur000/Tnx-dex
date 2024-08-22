@@ -42,7 +42,7 @@ export const StatsCardtitle = styled.label<{
 export const LiquidityHeroSectionMain = styled.main`
   display: flex;
   height: auto;
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
 
   justify-content: space-between;
@@ -58,7 +58,7 @@ export const LiquidityHeroSectionContent = styled.article<{
   flex-direction: column;
   gap: 45px;
   color: ${({ theme }) => theme.colors.titleColor};
-  padding-top: 15px;
+  padding-top: 20px;
   width: 50%;
 
   @media (max-width: 1250px) {
@@ -77,8 +77,7 @@ export const LiquidityHeroSectionContent = styled.article<{
 export const AsideSectionContains = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 18px;
-  width: 50%;
+  gap: 20px;
 
   @media (max-width: 1250px) {
     width: 40%;
@@ -169,3 +168,8 @@ export const LiquidityImgStyle = styled.img<{ width: string; height: string }>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
 `;
+
+export const TitleUnderLine = styled.u`
+  text-decoration: underline;
+`;
+export const PopupWrapper = styled.div``;

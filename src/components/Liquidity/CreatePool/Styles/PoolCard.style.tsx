@@ -9,7 +9,7 @@ export const LiquidityPoolCardStyles = styled.div`
   display: flex;
   border-radius: 20px;
   justify-content: space-between;
-  padding: 3px 30px 3px 30px;
+  padding: 16px 40px;
   height: 80px;
   color: rgba(255, 255, 255, 1);
 
@@ -44,6 +44,9 @@ export const Tvlstyle = styled.div`
   }
 `;
 
+export const TokenPairWrapper = styled.div`
+  padding: 5px;
+`;
 export const PoolButton = styled.div`
   flex-shrink: 1;
   @media only screen and (max-width: 500px) {

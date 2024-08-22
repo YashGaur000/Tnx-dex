@@ -9,7 +9,7 @@ import {
   RelayScreenContainer,
   RelayTableheader,
 } from '../../Styles/Relay.style';
-import Pagination from '../Pagination';
+import Pagination from '../../../common/Pagination';
 import RelayCard from './RelayCard';
 const ITEMS_PER_PAGE = 5;
 const Relay = () => {

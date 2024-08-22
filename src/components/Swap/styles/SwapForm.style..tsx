@@ -130,6 +130,7 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
     color: ${({ theme }) => theme.colors.text};
     position: relative;
     z-index: 10;
+    border-radius: 10px;
     margin-bottom: 2px;
     display: block;
   }
@@ -140,7 +141,7 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const WalletText = styled.div<{ theme: DefaultTheme }>`
+export const PercentageArea = styled.div<{ theme: DefaultTheme }>`
   width: 100%;
   font-size: 10px;
   line-height: 14.95px;
@@ -150,6 +151,72 @@ export const WalletText = styled.div<{ theme: DefaultTheme }>`
   @media only screen and (max-width: 600px) {
     font-size: 9px;
     padding: 8px;
+  }
+`;
+
+export const PercentageSelectorContainer = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  border: 1px solid #2a4365;
+  border-radius: 8px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px;
+  }
+`;
+
+export const WalletInfo = styled.div<{ theme: DefaultTheme }>`
+  font-size: 12px;
+  line-height: 14.95px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.textGreyColor};
+  @media only screen and (max-width: 600px) {
+    font-size: 9px;
+    padding: 8px;
+  }
+`;
+
+export const WalletText = styled.span<{ theme: DefaultTheme }>`
+  width: 100%;
+  font-size: 12px;
+  line-height: 14.95px;
+  padding: 10px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.textGreyColor};
+  @media only screen and (max-width: 600px) {
+    font-size: 9px;
+    padding: 8px;
+  }
+`;
+
+export const PercentageOptions = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  align-items: center;
+`;
+
+export const PercentageButton = styled.button<{ active?: boolean }>`
+  margin-left: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  border: none;
+  background-color: ${({ active }) => (active ? '#2b6cb0' : 'transparent')};
+  color: ${({ active }) => (active ? '#ffffff' : '#cbd5e0')};
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #2b6cb0;
+  }
+  @media (max-width: 768px) {
+    margin-left: 0;
+    padding: 8px 12px;
+    font-size: 12px;
+    flex: 1;
+    text-align: center;
   }
 `;
 

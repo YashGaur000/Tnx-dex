@@ -1,4 +1,4 @@
-import ImpImage from '../../../../assets/information.png';
+import ImpImage from '../../../../assets/Tips.svg';
 
 import { GradientButton } from '../../../common';
 import { useNavigate } from 'react-router-dom';
@@ -8,15 +8,20 @@ import {
   IMG2Contains,
   Imgstyle,
   SuggestImg,
+  TitleWrapper,
   TokenAmountTitle,
   TraidingSyleLabel,
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
-import { StatsCardtitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import {
+  LiquidityTitle,
+  StatsCardtitle,
+} from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   LiquidityPoolCardStyles,
   PoolcardStatus,
   PoolButton,
   Tvlstyle,
+  TokenPairWrapper,
 } from '../Styles/PoolCard.style';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
@@ -61,23 +66,24 @@ const Pool: React.FC<PoolProps> = ({ poolType, exists }) => {
             </IMG2Contains>
           </GroupImgContains>
 
-          <div>
+          <TokenPairWrapper>
             <TraidingSyleLabel>
               vAMM-{selectedToken1.symbol}/{selectedToken2.symbol}
             </TraidingSyleLabel>
             <TokenAmountTitle>
               <StatsCardtitle fontSize={12}> {poolType} </StatsCardtitle>
-              <label> 0.00%</label> <SuggestImg src={ImpImage} />
+              <LiquidityTitle fontSize={14}> 0.00%</LiquidityTitle>{' '}
+              <SuggestImg src={ImpImage} />
             </TokenAmountTitle>
-          </div>
+          </TokenPairWrapper>
         </PoolcardStatus>
         <Tvlstyle>
-          <label>TVL</label>
-          <label>0.000$</label>
+          <TitleWrapper fontSize="14px">TVL</TitleWrapper>
+          <TitleWrapper fontSize="14px">0.000$</TitleWrapper>
         </Tvlstyle>
         <Tvlstyle>
-          <label>APR</label>
-          <label>0.000%</label>
+          <TitleWrapper fontSize="14px">APR</TitleWrapper>
+          <TitleWrapper fontSize="14px">0.000%</TitleWrapper>
         </Tvlstyle>
         <PoolButton onClick={handleDeposite}>
           <GradientButton

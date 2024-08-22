@@ -25,7 +25,7 @@ export const CardContainsLockScreen = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   justify-content: space-between;
   background: ${({ theme }) => theme.colors.cardLight};
-  padding: 10px 15px;
+  padding: 20px;
 
   border-radius: 15px;
 `;
@@ -60,6 +60,9 @@ export const TokenDate = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   gap: 10px;
 `;
 
+export const TipsIconWrapper = styled.div`
+  padding: 0px;
+`;
 export const CheckBoxContainer = styled.div`
   display: flex;
 
@@ -75,7 +78,7 @@ export const CheckBoxStyle = styled.input.attrs({ type: 'checkbox' })<{
   width: 15px;
   height: 15px;
   background-color: transparent;
-  border: 1.5px solid #5a5a5a;
+  border: 1.5px solid ${({ theme }) => theme.colors.checkboxGrayBorder};
   border-radius: 2px;
   &:checked {
     background: transparent;

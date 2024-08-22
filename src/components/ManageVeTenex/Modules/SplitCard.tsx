@@ -1,4 +1,4 @@
-import InformIcon from '../../../assets/information.png';
+import InformIcon from '../../../assets/questionMark.png';
 import TenexIcon from '../../../assets/Tenex.png';
 import { useState } from 'react';
 import LockScreenHover from './LockScreenHover';
@@ -8,7 +8,9 @@ import {
   Tokenstyle,
   Labeltoken,
   ImgStyleSplit,
+  TipsIconWrapper,
 } from '../Styles/SplitAndMergelockScreen.style';
+import { TitleWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 const SplitCard: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -18,23 +20,23 @@ const SplitCard: React.FC = () => {
         <Labeltoken fontSize={15}>2462545368625</Labeltoken>
         <TokenDate fontSize={12}>
           1 Year 321 Days{' '}
-          <div
+          <TipsIconWrapper
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
             <ImgStyleSplit src={InformIcon} />
             {isHovered && <LockScreenHover />}
-          </div>
+          </TipsIconWrapper>
         </TokenDate>
       </Tokenstyle>
       <Tokenstyle>
-        <div>
+        <TitleWrapper fontSize="16px">
           54 <ImgStyleSplit src={TenexIcon} />{' '}
-        </div>
+        </TitleWrapper>
         <TokenDate fontSize={12}>Stake</TokenDate>
       </Tokenstyle>
       <Tokenstyle>
-        <div>32.00</div>
+        <TitleWrapper fontSize="16px">32.00</TitleWrapper>
         <TokenDate fontSize={12}>Voting Power</TokenDate>
       </Tokenstyle>
     </CardContainsLockScreen>

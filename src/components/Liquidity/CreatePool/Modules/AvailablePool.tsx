@@ -7,9 +7,8 @@ const AvailablePool = () => {
   return (
     <PoolSection>
       <LiquidityHeaderTitle fontSize={20}>Available Pools</LiquidityHeaderTitle>
-      <div>
-        <Pool poolType="stable" exists="false" />
-      </div>
+
+      <Pool poolType="stable" exists="false" />
     </PoolSection>
   );
 };

@@ -65,6 +65,9 @@ export const LiquidityInputBox = styled.input<InputBoxProps>`
   }
 `;
 
+export const InputBoxContainer = styled.div`
+  padding-top: 2px;
+`;
 export const SwapImgConatiner = styled.div`
   display: block;
   margin: auto;

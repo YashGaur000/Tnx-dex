@@ -76,7 +76,7 @@ export const FilterContainerStyle = styled.section`
 `;
 export const FilterButtonContainer = styled.div`
   display: flex;
-  gap: 10px;
+  gap: 16px;
   padding-top: 10px;
   width: 50%;
 
@@ -149,3 +149,5 @@ export const SearchBoxContainer = styled.div<{ theme: DefaultTheme }>`
   gap: 10px;
   width: 100%;
 `;
+
+export const DropDownWrapper = styled.div``;

@@ -12,7 +12,7 @@ import {
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   AmountWithImg,
-  ImgContains,
+  ImageContainer,
   LockButtonConatainer,
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -83,7 +83,7 @@ const Main = () => {
               <StatsCardtitle fontSize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
                 4,376,987.82{' '}
-                <ImgContains
+                <ImageContainer
                   width={'15'}
                   height={'15'}
                   margin={'0px 10px'}
@@ -107,12 +107,12 @@ const Main = () => {
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
           <span onMouseEnter={() => handleTooltipShow('lock')}>
-            <ImgContains
+            <ImageContainer
               width={'16px'}
               height={'16px'}
               margin="7px 0px 0px 0px"
               src={QuestionIcon}
-            ></ImgContains>
+            ></ImageContainer>
           </span>
         </LockheaderWrapper>
 
@@ -122,12 +122,12 @@ const Main = () => {
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
           <div onMouseEnter={() => handleTooltipShow('relay')}>
-            <ImgContains
+            <ImageContainer
               width={'16px'}
               height={'16px'}
               margin="7px 0px 0px 0px"
               src={QuestionIcon}
-            ></ImgContains>
+            ></ImageContainer>
           </div>
         </LockheaderWrapper>
 

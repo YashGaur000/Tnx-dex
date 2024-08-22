@@ -1,7 +1,7 @@
 import { GradientButton } from '../../../common';
 
 import {
-  ImgContains,
+  ImageContainer,
   LockDescriptonTitle,
   LockHeaderTitle,
 } from '../../Styles/ManageVetenex.style';
@@ -43,7 +43,7 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
             <LockDescriptonTitle fontSize={12}>
               {Relaydata.relay.address}
             </LockDescriptonTitle>
-            <ImgContains width="15px" height="15px" src={CopyIcon} />
+            <ImageContainer width="15px" height="15px" src={CopyIcon} />
           </RelayCardDataContains>
         </RelayCardSection>
       </TableColumn>

@@ -13,9 +13,12 @@ import {
   MetricDisplayWrapper,
   StatsCardtitle,
   InformImageStye,
+  TitleUnderLine,
+  PopupWrapper,
 } from '../styles/LiquidityHeroSection.style';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
 import LiquidityToolTips from './LiquidityToolTips';
+import { TitleWrapper } from '../styles/LiquidityTable.style';
 
 const LiquidityHeroSection = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -56,15 +59,17 @@ const LiquidityHeroSection = () => {
             </LiquidityDespcriptionWrap>
           </div>
           <LiquidityTitle fontSize={12}>
-            There are currently 100 tokens listed. <u>See all tokens</u> or{' '}
-            <u>request a new token listing.</u>
+            There are currently 100 tokens listed.{' '}
+            <TitleUnderLine>See all tokens</TitleUnderLine> or{' '}
+            <TitleUnderLine>request a new token listing.</TitleUnderLine>
           </LiquidityTitle>
         </LiquidityHeroSectionContent>
         <AsideSectionContains>
           <CreateLiquidityButtonWrapper>
             <GlobalButton
-              width="130px"
+              width="155px"
               height="40px"
+              margin="0px"
               onClick={handleCreatePool}
             >
               Create Pool
@@ -73,15 +78,15 @@ const LiquidityHeroSection = () => {
           <MetricDisplayWrapper>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>TVL</StatsCardtitle>
-              <label>$1,547,658,000.28</label>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
-              <label>$1,547,658,000.28</label>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>24H Volume</StatsCardtitle>
-              <label>$1,547,658,000.28</label>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
@@ -89,9 +94,9 @@ const LiquidityHeroSection = () => {
 
       {isPopupVisible && (
         <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
-          <div onMouseLeave={handleTooltipHide}>
+          <PopupWrapper onMouseLeave={handleTooltipHide}>
             <LiquidityToolTips />
-          </div>
+          </PopupWrapper>
         </PopupScreen>
       )}
     </>

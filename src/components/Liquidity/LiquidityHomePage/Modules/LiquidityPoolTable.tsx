@@ -1,5 +1,6 @@
 import TableContains, {
   TableHeader,
+  TableRow,
   TableWrapper,
 } from '../../../common/TableStyled';
 
@@ -9,7 +10,7 @@ import {
 } from '../styles/LiquidityTable.style.tsx';
 import SortIcon from '../../../../assets/short.svg';
 
-import { ImgContains } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
 import LiquidityPoolCard from './LiquidityPoolCard.tsx';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew.ts';
 
@@ -30,9 +31,9 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
 
   return (
     <TableWrapper>
-      <TableContains padding="20px" margin="0px 0px">
+      <TableContains margin="0px 0px">
         <thead>
-          <tr>
+          <TableRow>
             <TableHeader>
               {' '}
               <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
@@ -45,23 +46,25 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
             <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Volume <ImgContains width="12px" height="12px" src={SortIcon} />
+                Volume{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Fees <ImgContains width="12px" height="12px" src={SortIcon} />
+                Fees{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
                 {' '}
                 Pool Balance{' '}
-                <ImgContains width="12px" height="12px" src={SortIcon} />
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
-          </tr>
+          </TableRow>
         </thead>
         <tbody>
           {sortedData.map((item, key) => (

@@ -19,6 +19,7 @@ import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypo
 import {
   InformImageStye,
   LiquidityTitle,
+  PopupWrapper,
   StatsCardtitle,
 } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 
@@ -32,7 +33,7 @@ import {
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
-import { ImgContains } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -82,7 +83,9 @@ const CreatePool = () => {
   return (
     <>
       <MainContainerStyle>
-        <LiquidityHeaderTitle fontSize={36}>Create Pool</LiquidityHeaderTitle>
+        <LiquidityHeaderTitle fontSize={36}>
+          Create your Liquidity Pool
+        </LiquidityHeaderTitle>
         <LiquidityTitle fontSize={16} margin="15px 0px">
           Create your new pool{' '}
           <span onMouseEnter={handleTooolTipShow}>
@@ -111,7 +114,7 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <ImgContains
+                <ImageContainer
                   src={SelectIcon}
                   alt={SelectIcon}
                   width="9"
@@ -148,7 +151,7 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <ImgContains
+                <ImageContainer
                   src={SelectIcon}
                   width="8"
                   height="8"
@@ -174,10 +177,10 @@ const CreatePool = () => {
           </>
         ) : (
           <CreateSuggestContain>
-            <ImgContains
+            <ImageContainer
               src={InformIcon}
               alt="Information Icon"
-              width="20"
+              width="21"
               height="20"
             />
             <StatsCardtitle fontSize={16}>
@@ -189,7 +192,9 @@ const CreatePool = () => {
       </MainContainerStyle>
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
-        <div onMouseLeave={handleTooltipHide}>{<LiquidityToolTips />}</div>
+        <PopupWrapper onMouseLeave={handleTooltipHide}>
+          {<LiquidityToolTips />}
+        </PopupWrapper>
       </PopupScreen>
     </>
   );

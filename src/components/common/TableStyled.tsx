@@ -17,12 +17,12 @@ interface TableProps {
 
 export const TableWrapper = styled.div<{ theme: DefaultTheme }>`
   overflow-x: scroll;
-  padding-bottom: 10px;
+  padding: 30px;
   border-radius: 24px;
 
   background: ${({ theme }) => theme.colors.card};
   width: 100%;
-
+  margin-top: 20px;
   &::-webkit-scrollbar {
     height: 3px;
   }
@@ -42,7 +42,8 @@ export const TableWrapper = styled.div<{ theme: DefaultTheme }>`
 const TableContains = styled.table<TableProps>`
   width: ${({ width }) => width ?? '100%'};
   border-collapse: collapse;
-  margin: ${({ margin }) => margin ?? '10px 0px'};
+
+  margin: ${({ margin }) => margin ?? '0px 0px'};
   height: auto;
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize ?? '16px'};
@@ -52,33 +53,6 @@ const TableContains = styled.table<TableProps>`
   color: ${({ color }) => color ?? '#ffffff'};
   background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
   border-radius: 20px;
-
-  td,
-  th {
-    white-space: nowrap;
-    font-family: ${({ theme }) => theme.fonts.main};
-    font-size: ${({ fontSize }) => fontSize ?? '16px'};
-    font-weight: ${({ fontWeight, theme }) =>
-      fontWeight ?? theme.fontWeights.regular};
-    text-overflow: ellipsis;
-    min-width: 100px;
-  }
-
-  td {
-    padding: ${({ padding }) => padding ?? '10px 0px'};
-    text-align: center;
-    font-size: ${({ fontSize }) => fontSize ?? '14px'};
-  }
-
-  th {
-    background: ${({ background }) =>
-      background ?? 'linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%)'};
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    padding: ${({ padding }) => padding ?? '10px 0px'};
-    text-align: ${({ textAlign }) => textAlign ?? 'center'};
-  }
 
   @media screen and (max-width: 500px) {
     font-size: ${({ fontSize }) => fontSize ?? '12px'};
@@ -98,7 +72,7 @@ export const TableHeader = styled.th<TableProps>`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding: ${({ padding }) => padding ?? '10px 0px'};
+  padding: ${({ padding }) => padding ?? '0px 0px 15px'};
   text-align: ${({ textAlign }) => textAlign ?? 'center'};
 `;
 
@@ -114,5 +88,7 @@ export const TableColumn = styled.td<TableProps>`
   padding: ${({ padding }) => padding ?? '10px 0px'};
   text-align: center;
 `;
-
+export const TableRow = styled.tr`
+  padding: 0px;
+`;
 export default TableContains;

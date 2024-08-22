@@ -9,6 +9,7 @@ import {
   LiquidityInputBox,
   LiquidityProgress,
   SwapImgConatiner,
+  InputBoxContainer,
 } from '../styles/LiquidityForm.style';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import useQueryParams from '../../../../hooks/useQueryParams';
@@ -16,6 +17,9 @@ import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo } from '../../../../constants/tokens';
 import { ethers } from 'ethers';
+import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
+
+import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
@@ -83,11 +87,15 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
-              <label>{selectedToken1.symbol}</label>
+              <LiquidityHeaderTitle fontSize={16}>
+                {selectedToken1.symbol}
+              </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <label>Available {totalBalanceToken1.toString()}</label>
+            <LiquidityTitle fontSize={16}>
+              Available {totalBalanceToken1.toString()}
+            </LiquidityTitle>
           </FormRowWrapper>
-          <div>
+          <InputBoxContainer>
             <LiquidityInputBox
               type="text"
               name="token1"
@@ -97,13 +105,13 @@ const LiquidityForm: FC<FormComponentProps> = ({
               }
               onChange={handleChangeToken1Value}
             />
-          </div>
+          </InputBoxContainer>
           <LiquidityProgress>
-            <label>0%</label>
-            <label>25%</label>
-            <label>50%</label>
-            <label>75%</label>
-            <label>MAX</label>
+            <LiquidityTitle fontSize={14}>0%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>25%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>50%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>75%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>MAX</LiquidityTitle>
           </LiquidityProgress>
         </FormFieldContainer>
         <SwapImgConatiner onClick={handleSwapFeatures}>
@@ -113,11 +121,15 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken2.logoURI} alt="FTM logo" />
-              <label>{selectedToken2.symbol}</label>
+              <LiquidityHeaderTitle fontSize={16}>
+                {selectedToken2.symbol}
+              </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <label>Available {totalBalanceToken2.toString()}</label>
+            <LiquidityTitle fontSize={16}>
+              Available {totalBalanceToken2.toString()}
+            </LiquidityTitle>
           </FormRowWrapper>
-          <div>
+          <InputBoxContainer>
             <LiquidityInputBox
               type="text"
               name="token2"
@@ -127,13 +139,13 @@ const LiquidityForm: FC<FormComponentProps> = ({
               }
               onChange={handleChangeToken2Value}
             />
-          </div>
+          </InputBoxContainer>
           <LiquidityProgress>
-            <label>0%</label>
-            <label>25%</label>
-            <label>50%</label>
-            <label>75%</label>
-            <label>MAX</label>
+            <LiquidityTitle fontSize={14}>0%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>25%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>50%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>75%</LiquidityTitle>
+            <LiquidityTitle fontSize={14}>MAX</LiquidityTitle>
           </LiquidityProgress>
         </FormFieldContainer>
       </ManageLiquidityFormSection>
