@@ -23,7 +23,6 @@ const DepositeComponent: React.FC<DepositComponentProps> = ({
     Number(token1Value) <= Number(totalBalanceToken1) && token1Value != 0;
   const checkForToken2 =
     Number(token2Value) <= Number(totalBalanceToken2) && token2Value != 0;
-  console.log('check', checkForToken2);
   return (
     <StyledDepositContainer>
       <LiquidityHeaderTitle fontSize={36}>New Deposit</LiquidityHeaderTitle>

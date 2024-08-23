@@ -32,6 +32,8 @@ import {
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import AvailablePool from './AvailablePool';
+import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -49,6 +51,35 @@ const CreatePool = () => {
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   // const poolType = getParam('type') ? 'stable' : 'volatile';
+
+  const { loading, error, data: poolData } = useLiquidityPoolData();
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+  // @todo : check if this query is possible to integrate in gql itself
+  const availablePools = poolData.filter((item) => {
+    if (
+      (item.token0.symbol === selectedToken1?.symbol &&
+        item.token1.symbol === selectedToken2?.symbol) ||
+      (item.token1.symbol === selectedToken1?.symbol &&
+        item.token0.symbol === selectedToken2?.symbol)
+    ) {
+      return item;
+    }
+  });
+
+  // Check if there's one item with isStable true and another with isStable false
+  const stablePool = availablePools.find((item) => item.isStable === true)
+    ? true
+    : false;
+  const nonStablePool = availablePools.find((item) => item.isStable === false)
+    ? true
+    : false;
+
+  const hasBothStableAndNonStable = !!stablePool && !!nonStablePool;
+
+  // console.log(availablePools, hasBothStableAndNonStable)
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
@@ -155,9 +186,16 @@ const CreatePool = () => {
 
         {selectedToken1 && selectedToken2 ? (
           <>
-            {/* todo: add contract call to check if pool is available for selected token 
-            <AvailablePool /> */}
-            <LowLiquidityPool />
+            {/* todo: add contract call to check if pool is available for selected token */}
+            {(!stablePool && !nonStablePool) || (
+              <AvailablePool poolData={availablePools} />
+            )}
+            {!hasBothStableAndNonStable && (
+              <LowLiquidityPool
+                isStablePresent={stablePool}
+                isVolatilePresent={nonStablePool}
+              />
+            )}
           </>
         ) : (
           <CreateSuggestContain>

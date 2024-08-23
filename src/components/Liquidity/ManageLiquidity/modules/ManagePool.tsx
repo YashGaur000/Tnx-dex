@@ -19,16 +19,9 @@ const ManagePool = () => {
     useState<ethers.Numeric>(0);
   const [totalBalanceToken2, setTotalBalanceToken2] =
     useState<ethers.Numeric>(0);
-  console.log('total balance 1:', totalBalanceToken1);
 
-  // const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
-  // const token1 = queryParams.get('token1');
-  // const token2 = queryParams.get('token2');
-  // console.log('token 1 :', token1);
-
-  // Navigate('/liquidity/manage');
   const exists = queryParams.get('exists') === 'true' ? true : false;
 
   const title = exists ? 'Manage Pool' : 'Create New Pool';

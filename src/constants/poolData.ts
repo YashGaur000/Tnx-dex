@@ -1,4 +1,4 @@
-export const POOL_DATA = [
+const POOL_DATA = [
   {
     id: '1',
     pair: 'USDT-FTM',
@@ -200,3 +200,5 @@ export const POOL_DATA = [
     liquidityType: 'Volatile',
   },
 ];
+
+export default POOL_DATA;
