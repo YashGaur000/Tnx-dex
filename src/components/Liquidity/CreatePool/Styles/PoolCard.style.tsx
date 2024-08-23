@@ -53,3 +53,9 @@ export const PoolButton = styled.div`
     margin-left: 80%;
   }
 `;
+
+export const PoolWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;

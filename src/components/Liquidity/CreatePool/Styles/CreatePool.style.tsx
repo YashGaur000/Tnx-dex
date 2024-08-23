@@ -31,6 +31,10 @@ export const TokenSelectItem = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
+export const ToolTipWraper = styled.span`
+  padding: 0px;
+`;
+
 export const CreateSuggestContain = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;

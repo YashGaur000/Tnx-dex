@@ -23,7 +23,7 @@ import {
 } from '../Styles/IncentiveTokenPopup.style';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Address } from 'viem';
-import { POOL_DATA } from '../../../constants/poolData.ts';
+import PoolData from '../../../constants/poolData';
 
 interface PoolInfo {
   id: string;
@@ -57,13 +57,13 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
   onSelect,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredPools, setFilteredPools] = useState<PoolInfo[]>(POOL_DATA);
+  const [filteredPools, setFilteredPools] = useState<PoolInfo[]>(PoolData);
   const [filterType, setFilterType] = useState<string>('All');
 
   useEffect(() => {
     // Filter pools based on search query and filter type
     setFilteredPools(
-      POOL_DATA.filter(
+      PoolData.filter(
         (pool) =>
           (filterType === 'All' || pool.liquidityType === filterType) &&
           pool.pair.toLowerCase().includes(searchQuery.toLowerCase())

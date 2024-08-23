@@ -7,16 +7,22 @@ const LiquidityPoolStyle = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
-const LowLiquidityPool = () => {
+interface LowLiquidityPoolProps {
+  isStablePresent: boolean;
+  isVolatilePresent: boolean;
+}
+const LowLiquidityPool = ({
+  isStablePresent,
+  isVolatilePresent,
+}: LowLiquidityPoolProps) => {
   return (
     <PoolSection>
       <LiquidityHeaderTitle fontSize={20}>
         Low Liquidity Pools
       </LiquidityHeaderTitle>
       <LiquidityPoolStyle>
-        <Pool poolType="stable" exists="false" />
-        <Pool poolType="volatile" exists="false" />
+        {!isStablePresent && <Pool poolType="stable" exists="false" />}
+        {!isVolatilePresent && <Pool poolType="volatile" exists="false" />}
       </LiquidityPoolStyle>
     </PoolSection>
   );
