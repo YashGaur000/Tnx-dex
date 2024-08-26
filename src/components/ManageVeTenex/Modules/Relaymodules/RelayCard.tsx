@@ -9,6 +9,7 @@ import {
   RelayCardDataContains,
   RelayCardSection,
   RelayIdStatus,
+  DepositeLockButtonWrapper,
 } from '../../Styles/Relay.style';
 import CopyIcon from '../../../../assets/copy.svg';
 import { useNavigate } from 'react-router-dom';
@@ -56,19 +57,22 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
         <LockHeaderTitle fontSize={12}>{Relaydata.apr}</LockHeaderTitle>
       </TableColumn>
       <TableColumn>
-        <div onClick={handleDepositeLock}>
+        <DepositeLockButtonWrapper onClick={handleDepositeLock}>
           <GradientButton
             borderRadius="6px"
             color="#ffffff"
-            padding="0px 10px 30px"
-            border="1px solid transparent"
-            fontSize="12"
-            width="86"
-            height="22px"
+            padding="10px"
+            lineHeight="0px"
+            border="1.5px solid transparent"
+            fontSize="12px"
+            width="95px"
+            height="26px"
+            smFontSize={12}
+            smMargin="0px"
           >
             Deposit Lock
           </GradientButton>
-        </div>
+        </DepositeLockButtonWrapper>
       </TableColumn>
     </tr>
   );

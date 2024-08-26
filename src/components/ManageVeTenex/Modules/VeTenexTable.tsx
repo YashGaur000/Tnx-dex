@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TableContains, {
   TableColumn,
   TableHeader,
+  TableRow,
   TableWrapper,
 } from '../../common/TableStyled';
 import TenexIcon from '../../../assets/Tenex.png';
@@ -12,6 +13,7 @@ import MergeLockScreen from './MergeLockScreen';
 import Pagination from '../../common/Pagination';
 import {
   ImageContainer,
+  LockHeaderTitle,
   LockTableContains,
 } from '../Styles/ManageVetenex.style';
 import ShortIcon from '../../../assets/short.svg';
@@ -20,6 +22,7 @@ import {
   AmountWithImg,
   ButtonContain,
   LockButtonWrapper,
+  ColumnDataWrapper,
 } from '../Styles/VeTenexTable.style';
 const ITEMS_PER_PAGE = 5;
 interface TableProps {
@@ -67,13 +70,13 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
   const paginatedData = data.slice(startIndex, startIndex + ITEMS_PER_PAGE);
   return (
     <LockTableContains>
-      <TableWrapper>
-        <TableContains padding="20px" margin="0px 0px">
+      <TableWrapper padding="0px" background="none">
+        <TableContains margin="0px 0px">
           <thead>
-            <tr>
+            <TableRow>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <label>ID + Status </label>
+                  <LockHeaderTitle fontSize={16}>ID + Status </LockHeaderTitle>
                   <img src={ShortIcon} />
                 </TableHeaderWrapper>
               </TableHeader>
@@ -102,11 +105,11 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
               <TableHeader>
                 <TableHeaderWrapper> Manage your Locks</TableHeaderWrapper>
               </TableHeader>
-            </tr>
+            </TableRow>
           </thead>
           <tbody>
             {paginatedData.map((row, rowIndex) => (
-              <tr key={rowIndex}>
+              <TableRow key={rowIndex}>
                 {headers.map((header, colIndex) => (
                   <TableColumn
                     key={`${rowIndex}-${colIndex}`}
@@ -122,11 +125,14 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                             <GradientButton
                               borderRadius="6px"
                               color="#ffffff"
-                              padding="0px 12px 30px 12px"
+                              padding="4px 12px"
                               border="1px solid transparent"
                               fontSize="12px"
                               height="22px"
-                              width="80px"
+                              lineHeight="0px"
+                              width="60px"
+                              smFontSize={12}
+                              smMargin="0px"
                             >
                               {item}
                             </GradientButton>
@@ -145,11 +151,11 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                         />
                       </AmountWithImg>
                     ) : (
-                      row[header]
+                      <ColumnDataWrapper>{row[header]}</ColumnDataWrapper>
                     )}
                   </TableColumn>
                 ))}
-              </tr>
+              </TableRow>
             ))}
           </tbody>
         </TableContains>

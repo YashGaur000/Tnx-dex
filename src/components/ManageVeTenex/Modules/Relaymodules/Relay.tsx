@@ -6,6 +6,7 @@ import TableContains, {
 } from '../../../common/TableStyled';
 
 import {
+  DepositeLockButtonWrapper,
   RelayScreenContainer,
   RelayTableheader,
 } from '../../Styles/Relay.style';
@@ -35,8 +36,8 @@ const Relay = () => {
   );
   return (
     <RelayScreenContainer>
-      <TableWrapper>
-        <TableContains padding="20px" margin="0px 0px">
+      <TableWrapper padding="0px 15px" background="none">
+        <TableContains padding="0px" margin="0px 0px">
           <thead>
             <tr>
               <TableHeader>
@@ -44,7 +45,9 @@ const Relay = () => {
               </TableHeader>
               <TableHeader>Voting Power</TableHeader>
               <TableHeader>APR</TableHeader>
-              <TableHeader>Manage</TableHeader>
+              <TableHeader>
+                <DepositeLockButtonWrapper>Manage</DepositeLockButtonWrapper>
+              </TableHeader>
             </tr>
           </thead>
           <tbody>
@@ -55,14 +58,12 @@ const Relay = () => {
         </TableContains>
       </TableWrapper>
 
-      <div>
-        <Pagination
-          handleNextPage={handleNextPage}
-          handlePrevpage={handlePrevpage}
-          currentPage={currentPage}
-          totalPages={totalPages}
-        />
-      </div>
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevpage={handlePrevpage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </RelayScreenContainer>
   );
 };
