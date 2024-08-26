@@ -3,18 +3,7 @@ import styled from 'styled-components';
 import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
 import ArrowIcon from './../../assets/doubleHederArrow.svg';
-export interface StepperDataProps {
-  step: number;
-  icon?: string;
-  descriptions: (string | string[])[];
-  buttons?: {
-    label: string;
-    icon: string;
-    onClick?: () => void;
-    tooltip?: string;
-    disabled?: boolean;
-  }[];
-}
+import { StepperDataProps } from '../../types/Stepper';
 
 interface StepperProps {
   data: StepperDataProps[];
@@ -66,8 +55,13 @@ const Line = styled.div`
 
 const Content = styled.div<{ theme: DefaultTheme }>`
   margin-left: 20px;
-  display: inline-block;
-  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 100%;
+  gap: 12px;
+
+  margin-bottom: 16px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.titleColor};
@@ -83,7 +77,7 @@ const ButtonIcon = styled.img`
 `;
 const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  margin: 10px 0px;
+  margin: 0px 0px;
   gap: 10px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
@@ -92,6 +86,22 @@ const StepperTitle = styled.span<{ theme: DefaultTheme }>`
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
+
+const UnderlinedText = styled.span<{ theme: DefaultTheme }>`
+  text-decoration: underline;
+  cursor: pointer;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+`;
+
+const DescriptionSection = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+const DescriptionWrapper = styled.p`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
 const Stepper: React.FC<StepperProps> = ({ data }) => {
@@ -110,34 +120,53 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
             {index < data.length - 1 && <Line />}
           </VerticalStep>
           <Content>
-            {item.descriptions.map((desc, idx) =>
-              Array.isArray(desc) ? (
-                <BalanceShowWrapper key={idx}>
-                  <label>
-                    {desc[0]} <StepperTitle>msETH</StepperTitle>{' '}
-                  </label>
-                  <span>
-                    <img src={ArrowIcon} alt="Arrow" />
-                  </span>
-                  <label>
-                    {desc[1]} <StepperTitle>ETH</StepperTitle>
-                  </label>
-                </BalanceShowWrapper>
-              ) : (
-                <React.Fragment key={idx}>
-                  <p>{desc}</p>
-                  {item.descriptions.length > 1 &&
-                    idx < item.descriptions.length - 1 && <br />}
-                </React.Fragment>
-              )
+            <DescriptionSection>
+              <DescriptionWrapper>
+                {item.descriptions.labels.map((label, idx) => (
+                  <p key={idx}>{label} </p>
+                ))}
+              </DescriptionWrapper>
+              {item.descriptions.adjust && (
+                <UnderlinedText onClick={item.descriptions.onClick}>
+                  {item.descriptions.adjust}
+                </UnderlinedText>
+              )}
+            </DescriptionSection>
+
+            {item.descriptions.token1 && item.descriptions.token2 && (
+              <BalanceShowWrapper>
+                <label>
+                  {item.descriptions.token1} <StepperTitle>msETH</StepperTitle>{' '}
+                </label>
+                <span>
+                  <img src={ArrowIcon} alt="Arrow" />
+                </span>
+                <label>
+                  {item.descriptions.token2} <StepperTitle>ETH</StepperTitle>
+                </label>
+              </BalanceShowWrapper>
             )}
 
             {item.buttons?.map((button, idx) => (
               <GlobalButton
                 key={idx}
-                padding="8px "
+                padding="8px"
+                margin="0px"
+                width="176px"
+                height="37px"
                 tabIndex={idx}
-                onClick={button.onClick}
+                onClick={() => {
+                  if (button.onClick) {
+                    button
+                      .onClick()
+                      .then(() => {
+                        console.log('clicked sucess');
+                      })
+                      .catch((error) => {
+                        console.error('Button click failed:', error);
+                      });
+                  }
+                }}
                 disabled={button.disabled}
               >
                 {button.label}
