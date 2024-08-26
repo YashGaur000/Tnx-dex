@@ -1,5 +1,5 @@
 // src/components/Header.tsx
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
 import logoImage from '../assets/logo.svg';
@@ -12,7 +12,7 @@ import {
 import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
 import { DefaultTheme } from '../styles/Theme';
-import { useHeaderStore } from '../store/root';
+import { useHeaderStore, useRootStore } from '../store/root';
 
 const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
   display: flex;
@@ -159,6 +159,18 @@ const Header: React.FC = () => {
 
   const toggleNav = () => setNavOpen(!navOpen);
 
+  const { from, to, resetTokens } = useRootStore();
+
+  const prevLocationRef = useRef(location.pathname);
+
+  useEffect(() => {
+    // Reset the tokens
+    if (prevLocationRef.current !== location.pathname) {
+      resetTokens();
+      prevLocationRef.current = location.pathname;
+    }
+  }, [location, resetTokens]);
+
   return (
     <HeaderContainer sticky={isSticky.toString()}>
       <Logo
@@ -195,7 +207,7 @@ const Header: React.FC = () => {
               items={[
                 {
                   main: 'Trade',
-                  to: '/swap',
+                  to: `/swap?from=${from}&to=${to}`,
                   label: 'Swap',
                   description:
                     'Tenex Meta Aggregator swaps for efficient routing',
