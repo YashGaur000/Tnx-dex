@@ -14,6 +14,7 @@ import { GlobalButton } from '../../../common/index';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
+import SuccessPopup from '../../../common/SucessPopup';
 interface Data {
   step: number;
   icon?: string;
@@ -209,6 +210,9 @@ const Deposite: React.FC<DepositProps> = ({
         >
           Deposit
         </GlobalButton>
+      )}
+      {isDeposited && (
+        <SuccessPopup message="Deposit Successfully"></SuccessPopup>
       )}
     </>
   );
