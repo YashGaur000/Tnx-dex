@@ -15,12 +15,16 @@ interface TableProps {
   textAlign?: string;
 }
 
-export const TableWrapper = styled.div<{ theme: DefaultTheme }>`
+export const TableWrapper = styled.div<{
+  theme: DefaultTheme;
+  padding?: string;
+  background?: string;
+}>`
   overflow-x: scroll;
-  padding: 30px;
-  border-radius: 24px;
 
-  background: ${({ theme }) => theme.colors.card};
+  border-radius: 24px;
+  padding: ${({ padding }) => padding ?? '30px'};
+  background: ${({ theme, background }) => background ?? theme.colors.card};
   width: 100%;
   margin-top: 20px;
   &::-webkit-scrollbar {
@@ -51,7 +55,7 @@ const TableContains = styled.table<TableProps>`
     fontWeight ?? theme.fontWeights.regular};
   line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
   color: ${({ color }) => color ?? '#ffffff'};
-  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
+
   border-radius: 20px;
 
   @media screen and (max-width: 500px) {
