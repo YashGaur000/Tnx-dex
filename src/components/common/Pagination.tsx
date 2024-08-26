@@ -14,8 +14,8 @@ const PaginationStyle = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   gap: 10px;
   width: 120px;
   height: 40px;
-  margin-right: 30px;
-  float: right;
+  margin-right: 0px;
+
   padding: 10px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
@@ -54,6 +54,12 @@ const PageChenges = styled.button<{ theme: DefaultTheme }>`
     text-decoration: ${({ disabled }) => (disabled ? 'none' : 'underline')};
   }
 `;
+
+const PaginationWrapper = styled.section`
+  display: flex;
+  align-items: center;
+  justify-content: end;
+`;
 const Pagination: React.FC<PaginationProps> = ({
   handlePrevpage,
   handleNextPage,
@@ -61,18 +67,20 @@ const Pagination: React.FC<PaginationProps> = ({
   totalPages,
 }) => {
   return (
-    <PaginationStyle fontSize={12}>
-      <PageChenges onClick={handlePrevpage} disabled={currentPage === 1}>
-        Prev
-      </PageChenges>
-      <PageNuberShower>{currentPage}</PageNuberShower>
-      <PageChenges
-        onClick={handleNextPage}
-        disabled={currentPage === totalPages}
-      >
-        Next
-      </PageChenges>
-    </PaginationStyle>
+    <PaginationWrapper>
+      <PaginationStyle fontSize={12}>
+        <PageChenges onClick={handlePrevpage} disabled={currentPage === 1}>
+          Prev
+        </PageChenges>
+        <PageNuberShower>{currentPage}</PageNuberShower>
+        <PageChenges
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </PageChenges>
+      </PaginationStyle>
+    </PaginationWrapper>
   );
 };
 

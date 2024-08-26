@@ -6,14 +6,14 @@ export const RelayScreenContainer = styled.div<{ theme: DefaultTheme }>`
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
-  margin-top: 20px;
+  margin-top: 10px;
   width: 100%;
   height: auto;
   border-radius: 15px;
-  padding: 40px;
+  padding: 20px 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 0px;
 `;
 
 export const RelayCardSection = styled.div`
@@ -75,7 +75,7 @@ export const LockDropDownBox = styled.div<{ theme: DefaultTheme }>`
 
 export const RelayTableheader = styled.div`
   display: flex;
-  margin-left: 30px;
+  margin-left: 10px;
 `;
 export const UnderLineStyle = styled.span<{ theme: DefaultTheme }>`
   position: relative;
@@ -97,4 +97,9 @@ export const UnderLineStyle = styled.span<{ theme: DefaultTheme }>`
 
     background-clip: border-box;
   }
+`;
+
+export const DepositeLockButtonWrapper = styled.div`
+  text-align: right;
+  margin-right: 5px;
 `;
