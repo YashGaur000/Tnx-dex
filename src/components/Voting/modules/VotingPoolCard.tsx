@@ -1,4 +1,5 @@
 import ImpIcon from '../../../assets/information.png';
+import { TableColumn } from '../../common/TableStyled';
 import {
   CardContainer,
   GroupImg,
@@ -49,7 +50,7 @@ interface DataProps {
 const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
   return (
     <tr>
-      <td>
+      <TableColumn>
         <CardContainer>
           <GroupImg>
             <IMG1>
@@ -72,7 +73,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
             </Label>
           </PairContain>
         </CardContainer>
-      </td>
+      </TableColumn>
       <td>
         <VolumeStyles>
           <label>{data.fees}</label>
@@ -80,7 +81,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           <Label>{data.feesBTC}</Label>
         </VolumeStyles>
       </td>
-      <td>
+      <TableColumn>
         <VolumeStyles>
           <label>{data.volume}</label>
           <u>
@@ -88,15 +89,15 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           </u>
           <Label>{data.volumeSubDesc}</Label>
         </VolumeStyles>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <VolumeStyles>
           <label>{data.fees}</label>
           <Label>{data.feesDesc}</Label>
           <Label>{data.feesSubDesc}</Label>
         </VolumeStyles>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <VolumeStyles>
           <TooltipContainer>
             <label>
@@ -117,8 +118,8 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           </TooltipContainer>
           <Label>{data.balanceDesc}</Label>
         </VolumeStyles>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <VolumeStyles>
           <VoteButtonContainer>
             <StyledGradientButton
@@ -138,7 +139,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
             </VoteTooltip>
           </VoteButtonContainer>
         </VolumeStyles>
-      </td>
+      </TableColumn>
     </tr>
   );
 };

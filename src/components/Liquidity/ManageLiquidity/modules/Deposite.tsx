@@ -2,7 +2,7 @@ import CalIcon from '../../../../assets/phone.png';
 import PlusIcon from '../../../../assets/plusminus.png';
 import UnLockIcon from '../../../../assets/unlock.png';
 import SearchIcon from '../../../../assets/search.png';
-import LockIcon from '../../../../assets/lock.png';
+import LockIcon from '../../../../assets/Lock1.svg';
 import Stepper from '../../../common/Stepper';
 import React, { useState } from 'react';
 import useQueryParams from '../../../../hooks/useQueryParams';
@@ -17,7 +17,7 @@ import contractAddress from '../../../../constants/contract-address/address';
 interface Data {
   step: number;
   icon?: string;
-  descriptions: string[];
+  descriptions: (string | string[])[];
   buttons?: {
     label: string;
     icon: string;

@@ -9,6 +9,7 @@ import {
   FilterButton,
   SearchBoxContainer,
   FilterWithSearchStyle,
+  DropDownWrapper,
 } from '../styles/LiquidityFilter.style';
 import DropDown from '../../../common/DropDown';
 
@@ -76,10 +77,10 @@ const FilterContainer = () =>
             ))}
           </FilterButtonContainer>
           <FilterWithSearchStyle>
-            <div>
+            <DropDownWrapper>
               {' '}
               <DropDown onSelect={handleSelectOption} options={options} />
-            </div>
+            </DropDownWrapper>
             <SearchBoxContainer>
               <img src={SearchIcon} alt="Search Icon" />
               <Input

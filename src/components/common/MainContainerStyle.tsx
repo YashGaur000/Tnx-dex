@@ -6,19 +6,19 @@ export const MainContainerStyle = styled.section<{ theme: DefaultTheme }>`
   align-items: flex-start;
   margin-top: 15px;
   margin-bottom: 10px;
-  height: auto;
-  padding: 0px 40px;
+  min-height: 100vh;
+  padding: 10px 60px;
   background-color: ${({ theme }) => theme.colors.background};
 
   @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
-    padding: 20px;
+    padding: 10px 60px;
   }
 
   @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
-    padding: 0px;
+    padding: 10px 40px;
   }
 
   @media (max-width: ${({ theme }) => theme.screenSizes.medium}) {
-    padding: 0px;
+    padding: 10px;
   }
 `;

@@ -4,7 +4,7 @@ import InformIcon from '../../../../assets/information.png';
 // import AvailablePool from './AvailablePool';
 import LowLiquidityPool from './LowLiquidityPool';
 import QuestionIcon from '../../../../assets/questionMark.png';
-import SelectIcon from '../../../../assets/select.png';
+import SelectIcon from '../../../../assets/select.svg';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
@@ -19,19 +19,22 @@ import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypo
 import {
   InformImageStye,
   LiquidityTitle,
+  PopupWrapper,
   StatsCardtitle,
 } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
-import { SuggestImg } from '../../LiquidityHomePage/styles/LiquidityTable.style';
+
 import {
   CreatePoolStyles,
   TokenSelectAlignStyle,
   TokenSelectCustom,
   TokenSelectItem,
   CreateSuggestContain,
+  ToolTipWraper,
 } from '../Styles/CreatePool.style';
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import AvailablePool from './AvailablePool';
 import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
 
@@ -102,7 +105,9 @@ const CreatePool = () => {
   function handleTooolTipShow() {
     setPopUpVisible(true);
   }
-
+  function handleTooltipHide() {
+    setPopUpVisible(false);
+  }
   const closeModal = () => {
     setPopUpVisible(false);
   };
@@ -110,12 +115,14 @@ const CreatePool = () => {
   return (
     <>
       <MainContainerStyle>
-        <LiquidityHeaderTitle fontSize={36}>Create Pool</LiquidityHeaderTitle>
-        <LiquidityTitle fontSize={16}>
+        <LiquidityHeaderTitle fontSize={36}>
+          Create your Liquidity Pool
+        </LiquidityHeaderTitle>
+        <LiquidityTitle fontSize={16} margin="15px 0px">
           Create your new pool{' '}
-          <span onMouseEnter={handleTooolTipShow}>
+          <ToolTipWraper onMouseEnter={handleTooolTipShow}>
             <InformImageStye src={QuestionIcon} />
-          </span>
+          </ToolTipWraper>
         </LiquidityTitle>
         <CreatePoolStyles>
           <TokenSelectItem>
@@ -139,7 +146,12 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+                <ImageContainer
+                  src={SelectIcon}
+                  alt={SelectIcon}
+                  width="9"
+                  height="4"
+                />
               </TokenSelectAlignSelect>
             </TokenSelectCustom>
 
@@ -171,7 +183,12 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+                <ImageContainer
+                  src={SelectIcon}
+                  width="8"
+                  height="8"
+                  alt={SelectIcon}
+                />
               </TokenSelectAlignSelect>
             </TokenSelectCustom>
 
@@ -199,7 +216,12 @@ const CreatePool = () => {
           </>
         ) : (
           <CreateSuggestContain>
-            <SuggestImg src={InformIcon} alt="Information Icon" />
+            <ImageContainer
+              src={InformIcon}
+              alt="Information Icon"
+              width="21"
+              height="20"
+            />
             <StatsCardtitle fontSize={16}>
               Start by selecting the tokens. The liquidity pools available for
               deposit will show up next.
@@ -209,7 +231,9 @@ const CreatePool = () => {
       </MainContainerStyle>
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
-        {<LiquidityToolTips />}
+        <PopupWrapper onMouseLeave={handleTooltipHide}>
+          {<LiquidityToolTips />}
+        </PopupWrapper>
       </PopupScreen>
     </>
   );

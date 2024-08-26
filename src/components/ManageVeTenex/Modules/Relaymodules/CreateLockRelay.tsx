@@ -13,7 +13,7 @@ import {
   LockProgressStyle,
 } from '../../Styles/CreateLock.style';
 import {
-  ImgIconStyle,
+  ImageContainer,
   LockCardstyle,
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -24,11 +24,14 @@ import {
   RelayIdStatus,
   RelayCheckBoxWrapper,
   RelayStrategyContents,
-  CheckBoxStyle,
   LockDropDownBox,
+  UnderLineStyle,
 } from '../../Styles/Relay.style';
 import SelectIcon from '../../../../assets/select.png';
 import RelayDeposit from './RelayDeposit';
+
+import { Link } from 'react-router-dom';
+import { CheckBoxStyle } from '../../Styles/SplitAndMergelockScreen.style';
 
 const CreateLockRelay = () => {
   return (
@@ -47,15 +50,15 @@ const CreateLockRelay = () => {
               <FormRowWrapper>
                 <label>Select the Lock you want to deposit</label>
 
-                <LockDescriptonTitle fontSize={16}>
-                  Create New Lock
-                </LockDescriptonTitle>
+                <UnderLineStyle>
+                  <Link to={'/governance/create'}> Create New Lock </Link>
+                </UnderLineStyle>
               </FormRowWrapper>
               <div>
                 <LockDropDownBox>
                   <label>Your Locks...</label>
                   <div>
-                    <ImgIconStyle width="10" height="5" src={SelectIcon} />
+                    <ImageContainer width="10" height="5" src={SelectIcon} />
                   </div>
                 </LockDropDownBox>
               </div>
@@ -87,12 +90,14 @@ const CreateLockRelay = () => {
                     <LockDescriptonTitle fontSize={12}>
                       0x2341...35287
                     </LockDescriptonTitle>
-                    <ImgIconStyle width="15px" height="15px" src={CopyIcon} />
+                    <ImageContainer width="15px" height="15px" src={CopyIcon} />
                   </RelayCardDataContains>
                 </RelayCardSection>
               </div>
               <RelayCheckBoxWrapper>
-                <CheckBoxStyle type="checkbox" />
+                <div>
+                  <CheckBoxStyle type="checkbox" />
+                </div>
                 <LockDescriptonTitle fontSize={12}>
                   I understand that by depositing my Lock into a Relay strategy,
                   the Lock unlock date will be extended to 4 years.

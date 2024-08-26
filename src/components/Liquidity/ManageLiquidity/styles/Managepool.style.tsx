@@ -30,3 +30,9 @@ export const CreateFormWrapper = styled.div`
     width: 100%;
   }
 `;
+
+export const LiquidityHeaderWrapper = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;

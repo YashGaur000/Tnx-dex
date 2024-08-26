@@ -8,15 +8,20 @@ import {
   IMG2Contains,
   Imgstyle,
   SuggestImg,
+  TitleWrapper,
   TokenAmountTitle,
   TraidingSyleLabel,
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
-import { StatsCardtitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import {
+  LiquidityTitle,
+  StatsCardtitle,
+} from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   LiquidityPoolCardStyles,
   PoolcardStatus,
   PoolButton,
   Tvlstyle,
+  TokenPairWrapper,
 } from '../Styles/PoolCard.style';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
@@ -75,24 +80,24 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
           </IMG2Contains>
         </GroupImgContains>
 
-        <div>
+        <TokenPairWrapper>
           <TraidingSyleLabel>{poolName}</TraidingSyleLabel>
           <TokenAmountTitle>
             <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
-            <label>{fee}</label>
+            <LiquidityTitle fontSize={12}>{fee}</LiquidityTitle>
             <SuggestImg src={ImpImage} />
           </TokenAmountTitle>
-        </div>
+        </TokenPairWrapper>
       </PoolcardStatus>
 
       <Tvlstyle>
-        <label>TVL</label>
-        <label>{tvl}</label>
+        <TitleWrapper fontSize="16px">TVL</TitleWrapper>
+        <TitleWrapper fontSize="16px">{tvl}</TitleWrapper>
       </Tvlstyle>
 
       <Tvlstyle>
-        <label>APR</label>
-        <label>0.000%</label>
+        <TitleWrapper fontSize="16px">APR</TitleWrapper>
+        <TitleWrapper fontSize="16px">0.000%</TitleWrapper>
       </Tvlstyle>
 
       <PoolButton onClick={handleDeposit}>

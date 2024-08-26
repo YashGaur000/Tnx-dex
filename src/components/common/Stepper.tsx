@@ -2,22 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
-
-interface Data {
+import ArrowIcon from './../../assets/doubleHederArrow.svg';
+export interface StepperDataProps {
   step: number;
   icon?: string;
-  descriptions: string[];
+  descriptions: (string | string[])[];
   buttons?: {
     label: string;
     icon: string;
-    onClick: () => void;
+    onClick?: () => void;
     tooltip?: string;
     disabled?: boolean;
   }[];
 }
 
 interface StepperProps {
-  data: Data[];
+  data: StepperDataProps[];
 }
 
 const StepperContainer = styled.div<{ theme: DefaultTheme }>`
@@ -71,7 +71,7 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.titleColor};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   line-height: 23.92px;
   text-align: left;
 `;
@@ -80,6 +80,18 @@ const ButtonIcon = styled.img`
   width: 15px;
   height: 15px;
   margin-left: 5px;
+`;
+const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  margin: 10px 0px;
+  gap: 10px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+`;
+const StepperTitle = styled.span<{ theme: DefaultTheme }>`
+  color: ${({ theme }) => theme.colors.titleColor};
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
 const Stepper: React.FC<StepperProps> = ({ data }) => {
@@ -98,9 +110,28 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
             {index < data.length - 1 && <Line />}
           </VerticalStep>
           <Content>
-            {item.descriptions.map((desc, idx) => (
-              <p key={idx}>{desc}</p>
-            ))}
+            {item.descriptions.map((desc, idx) =>
+              Array.isArray(desc) ? (
+                <BalanceShowWrapper key={idx}>
+                  <label>
+                    {desc[0]} <StepperTitle>msETH</StepperTitle>{' '}
+                  </label>
+                  <span>
+                    <img src={ArrowIcon} alt="Arrow" />
+                  </span>
+                  <label>
+                    {desc[1]} <StepperTitle>ETH</StepperTitle>
+                  </label>
+                </BalanceShowWrapper>
+              ) : (
+                <React.Fragment key={idx}>
+                  <p>{desc}</p>
+                  {item.descriptions.length > 1 &&
+                    idx < item.descriptions.length - 1 && <br />}
+                </React.Fragment>
+              )
+            )}
+
             {item.buttons?.map((button, idx) => (
               <GlobalButton
                 key={idx}

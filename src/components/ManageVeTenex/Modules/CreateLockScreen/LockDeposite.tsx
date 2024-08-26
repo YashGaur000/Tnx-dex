@@ -5,27 +5,14 @@ import { LockHeaderTitle } from '../../Styles/ManageVetenex.style';
 import LockIcon from '../../../../assets/lock.png';
 import SearchIcon from '../../../../assets/search.png';
 import Lock1Icon from '../../../../assets/Lock1.svg';
-interface Data {
-  step: number;
-  icon?: string;
-  descriptions: string[];
-  buttons?: {
-    label: string;
-    icon: string;
-    onClick: () => void;
-    tooltip?: string;
-  }[];
-}
+import { StepperDataProps } from '../../../common/Stepper';
 
 interface LockDepositeProps {
   LockTokenValue: number;
 }
 
 const LockDeposite: React.FC<LockDepositeProps> = ({ LockTokenValue }) => {
-  function handleAllowTenex() {
-    console.log('unlock Tenex');
-  }
-  const LockInstructionData: Data[] = [
+  const LockInstructionData: StepperDataProps[] = [
     {
       step: 1,
       descriptions: ['Select the amount of TENEX you want to lock.'],
@@ -46,7 +33,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({ LockTokenValue }) => {
     },
   ];
 
-  const LockData: Data[] = [
+  const LockData: StepperDataProps[] = [
     {
       step: 1,
       descriptions: ['Allowance not granted for TENEX'],
@@ -55,7 +42,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({ LockTokenValue }) => {
         {
           label: 'Allow TENEX',
           icon: Lock1Icon,
-          onClick: handleAllowTenex,
+
           tooltip: 'Click to allow USDT transactions',
         },
       ],

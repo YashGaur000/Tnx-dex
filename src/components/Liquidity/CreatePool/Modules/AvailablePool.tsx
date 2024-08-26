@@ -1,6 +1,6 @@
 import Pool from './Pool';
 
-import { PoolSection } from '../Styles/PoolCard.style';
+import { PoolSection, PoolWrapper } from '../Styles/PoolCard.style';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 
@@ -16,7 +16,7 @@ const AvailablePool = ({ poolData }: AvailablePoolProps) => {
   return (
     <PoolSection>
       <LiquidityHeaderTitle fontSize={20}>Available Pools</LiquidityHeaderTitle>
-      <div>
+      <PoolWrapper>
         {poolData.map((pool) => (
           <Pool
             key={pool.id}
@@ -25,7 +25,7 @@ const AvailablePool = ({ poolData }: AvailablePoolProps) => {
             exists="true"
           />
         ))}
-      </div>
+      </PoolWrapper>
     </PoolSection>
   );
 };

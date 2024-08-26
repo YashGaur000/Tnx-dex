@@ -1,12 +1,18 @@
-import Table, { TableContainerStyle } from '../../../common/TableStyled';
-
-import LiquidityPoolCard from './LiquidityPoolCard.tsx';
+import TableContains, {
+  TableHeader,
+  TableRow,
+  TableWrapper,
+} from '../../../common/TableStyled';
 
 import {
   LiquidityHeaderColumn,
   TableHeaderWrapper,
 } from '../styles/LiquidityTable.style.tsx';
-import SortIcon from '../../../../assets/sorting.png';
+import SortIcon from '../../../../assets/short.svg';
+
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
+import LiquidityPoolCard from './LiquidityPoolCard.tsx';
+
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 
 type SortableKeys = keyof LiquidityPoolNewType;
@@ -25,49 +31,49 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
   // };
 
   return (
-    <TableContainerStyle>
-      <Table
-        padding="20px 30px "
-        borderRadius="20px"
-        textAlign="center"
-        width="100%"
-        margin="20px 0px"
-      >
+    <TableWrapper>
+      <TableContains margin="0px 0px">
         <thead>
-          <tr>
-            <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
-            <th>
+          <TableRow>
+            <TableHeader>
+              {' '}
+              <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 APR <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Volume <img src={SortIcon} />
+                Volume{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Fees <img src={SortIcon} />
+                Fees{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
+            </TableHeader>
+            <TableHeader>
               <TableHeaderWrapper>
                 {' '}
-                Pool Balance <img src={SortIcon} />
+                Pool Balance{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-          </tr>
+            </TableHeader>
+          </TableRow>
         </thead>
         <tbody>
           {sortedData.map((item, key) => (
             <LiquidityPoolCard key={key} data={item} />
           ))}
         </tbody>
-      </Table>
-    </TableContainerStyle>
+      </TableContains>
+    </TableWrapper>
   );
 };
 

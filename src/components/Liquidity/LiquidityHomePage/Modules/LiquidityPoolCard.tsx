@@ -1,4 +1,4 @@
-import ImpIcon from '../../../../assets/information.png';
+import ImpIcon from '../../../../assets/Tips.svg';
 import {
   TokenCardContainer,
   GroupImgContains,
@@ -12,15 +12,20 @@ import {
   TokenAmountTitle,
   AprDataWrapper,
   SugestImgWrapper,
+  TitleWrapper,
 } from '../styles/LiquidityTable.style';
 import { GradientButton } from '../../../common';
 import { useNavigate } from 'react-router-dom';
-import { StatsCardtitle } from '../styles/LiquidityHeroSection.style';
+import {
+  LiquidityTitle,
+  StatsCardtitle,
+} from '../styles/LiquidityHeroSection.style';
 
 import { useState } from 'react';
 import LiquidityInfo from './LiquidityInfo';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
+import { TableColumn, TableRow } from '../../../common/TableStyled';
 // import Pool from '../../CreatePool/Modules/Pool';
 
 const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
@@ -51,14 +56,14 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
 
   return (
     <>
-      <tr>
-        <td>
+      <TableRow>
+        <TableColumn>
           <TokenCardContainer>
             <GroupImgContains>
-              <IMG1Contains Top={20} Left={0}>
+              <IMG1Contains Top={10} Left={0}>
                 <Imgstyle src={getTokenLogo(data.token0.symbol)} />
               </IMG1Contains>
-              <IMG2Contains Top={20} Left={25}>
+              <IMG2Contains Top={10} Left={25}>
                 <Imgstyle src={getTokenLogo(data.token1.symbol)} />
               </IMG2Contains>
             </GroupImgContains>
@@ -82,17 +87,21 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               </TokenAmountTitle>
               <TokenAmountTitle>
                 <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
-                <label>{data.totalVolumeUSD.toString()}</label>
+                <LiquidityTitle fontSize={12}>
+                  {data.totalVolumeUSD.toString()}
+                </LiquidityTitle>
               </TokenAmountTitle>
             </PairContain>
           </TokenCardContainer>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <AprDataWrapper>{}%</AprDataWrapper>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <VolumeStyles>
-            <label>~$ {data.totalVolumeUSD.toString()}</label>
+            <TitleWrapper fontSize={'12px'}>
+              ~$ {data.totalVolumeUSD.toString()}
+            </TitleWrapper>
             <TokenAmountTitle>
               {data.totalVolume0.toString()} {data.token0.symbol}
             </TokenAmountTitle>
@@ -100,10 +109,12 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               {data.totalVolume1.toString()} {data.token1.symbol}
             </TokenAmountTitle>
           </VolumeStyles>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <VolumeStyles>
-            <label>~$ {data.totalFeesUSD.toString()}</label>
+            <TitleWrapper fontSize={'12px'}>
+              ~$ {data.totalFeesUSD.toString()}
+            </TitleWrapper>
             <TokenAmountTitle>
               {data.totalFees0.toString()} {data.token0.symbol}
             </TokenAmountTitle>
@@ -111,16 +122,16 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               {data.totalFees1.toString()} {data.token1.symbol}
             </TokenAmountTitle>
           </VolumeStyles>
-        </td>
-        <td>
+        </TableColumn>
+        <TableColumn>
           <VolumeStyles>
-            <label>
+            <TitleWrapper fontSize={'12px'}>
               {data.reserve0.toString()} {data.token0.symbol}
-            </label>
+            </TitleWrapper>
             {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
-            <label>
+            <TitleWrapper fontSize={'12px'}>
               {data.reserve1.toString()} {data.token1.symbol}
-            </label>
+            </TitleWrapper>
             <div
               onClick={() =>
                 handleDepositeButton(
@@ -131,17 +142,20 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               }
             >
               <GradientButton
-                width="90px"
-                fontSize="13px"
-                padding="0px 5px"
-                marginTop="10px"
+                borderRadius="8px"
+                color="#ffffff"
+                padding="0px 20px 30px"
+                border="1px solid transparent"
+                fontSize="12"
+                width="86"
+                height="26px"
               >
                 Deposit
               </GradientButton>
             </div>
           </VolumeStyles>
-        </td>
-      </tr>
+        </TableColumn>
+      </TableRow>
     </>
   );
 };

@@ -8,6 +8,7 @@ import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSect
 import {
   CreateFormWrapper,
   CreateMainContainer,
+  LiquidityHeaderWrapper,
 } from '../styles/Managepool.style';
 import CreateNewLiquidity from './CreateNewLiquidity';
 import { ethers } from 'ethers';
@@ -24,7 +25,7 @@ const ManagePool = () => {
 
   const exists = queryParams.get('exists') === 'true' ? true : false;
 
-  const title = exists ? 'Manage Pool' : 'Create New Pool';
+  const title = exists ? 'Manage Pool' : 'Create your Liquidity Pool';
   const description = exists
     ? 'Manage your position'
     : 'Create your LP position';
@@ -42,10 +43,10 @@ const ManagePool = () => {
   };
   return (
     <MainContainerStyle>
-      <header>
+      <LiquidityHeaderWrapper>
         <LiquidityHeaderTitle fontSize={36}>{title}</LiquidityHeaderTitle>
         <LiquidityTitle fontSize={16}>{description}</LiquidityTitle>
-      </header>
+      </LiquidityHeaderWrapper>
 
       <CreateMainContainer>
         <CreateFormWrapper>

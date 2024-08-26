@@ -6,7 +6,6 @@ export const TokenCardContainer = styled.div`
   gap: 25px;
 
   justify-content: center;
-  margin-left: 30px;
 
   width: 200px;
 `;
@@ -29,11 +28,21 @@ export const IMG1Contains = styled.div<{ Top: number; Left: number }>`
   position: absolute;
   left: ${({ Left }) => Left}px;
   top: ${({ Top }) => Top}px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
 `;
 export const IMG2Contains = styled.div<{ Top: number; Left: number }>`
   position: absolute;
   left: ${({ Left }) => Left}px;
   top: ${({ Top }) => Top}px;
+  border-radius: 50%;
+  overflow: hidden;
+  object-fit: cover;
+  width: 40px;
+  height: 40px;
 `;
 export const Imgstyle = styled.img`
   width: 40px;
@@ -48,10 +57,8 @@ export const PairContain = styled.div`
 export const VolumeStyles = styled.div`
   display: flex;
   flex-direction: column;
-  margin: auto;
+  padding-right: 20px;
   align-items: flex-end;
-
-  width: 60%;
 `;
 export const SuggestImg = styled.img`
   width: 15px;
@@ -67,25 +74,37 @@ export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: ${({ theme }) => theme.fontSize.small};
 `;
-export const LiquidityHeaderColumn = styled.th`
+export const LiquidityHeaderColumn = styled.div`
   float: left;
-  margin-left: 55px;
+  margin-left: 40px;
 `;
 
 export const TableHeaderWrapper = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+  padding: 5px 10px;
   gap: 7px;
+
   cursor: pointer;
 `;
 export const AprDataWrapper = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: end;
+  padding-right: 20px;
   height: 95px;
 `;
 
 export const SugestImgWrapper = styled.div`
   position: relative;
   overflow: visible;
+`;
+
+export const TitleWrapper = styled.label<{
+  theme: DefaultTheme;
+  fontSize: string;
+}>`
+  font-size: ${({ fontSize }) => fontSize};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.whiteBorder};
 `;

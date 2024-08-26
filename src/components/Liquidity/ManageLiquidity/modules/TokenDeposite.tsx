@@ -1,4 +1,4 @@
-import InformIcon from '../../../../assets/information.png';
+import InformIcon from '../../../../assets/Tips.svg';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import {
   LiquidityImgStyle,

@@ -46,6 +46,9 @@ interface Colorpallate {
   stepperColor: string;
   backgroundAnalytics: string;
   separator: string;
+  checkboxBorder: string;
+  checkboxGrayBorder: string;
+  backgroundCreateLiquidity: string;
 }
 
 interface FontType {
@@ -77,7 +80,9 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundSwap: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
-    backgroundLiquidity: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 30%),
+    backgroundLiquidity: `radial-gradient(circle at 50% 20%,#43d6cd3a 0%, transparent 30%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundCreateLiquidity: `radial-gradient(circle at 50% 30%,#43d6cd2a 0%, transparent 60%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
@@ -114,6 +119,8 @@ const theme: DefaultTheme = {
     navtoggle: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
     bordercolor: 'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
     stepperColor: '#101C3B',
+    checkboxBorder: '#5DEA9C',
+    checkboxGrayBorder: '#5a5a5a',
     separator:
       'linear-gradient(90deg, rgba(219, 219, 219, 0.04) 0%, rgba(219, 219, 219, 0.16) 50%, rgba(219, 219, 219, 0.04) 100%)',
   },
