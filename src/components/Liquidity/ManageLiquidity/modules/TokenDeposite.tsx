@@ -1,4 +1,4 @@
-import InformIcon from '../../../../assets/Tips.svg';
+import InformIcon from '../../../../assets/information.png';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import {
   LiquidityImgStyle,
@@ -24,6 +24,7 @@ import {
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
 
 const TokenDeposite = () => {
   //const location = useLocation();
@@ -35,6 +36,27 @@ const TokenDeposite = () => {
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const poolType = getParam('type') == '0' ? 'stable' : 'volatile';
+
+  const { loading, error, data: poolData } = useLiquidityPoolData();
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+  // @todo : check if this query is possible to integrate in gql itself
+  const poolDetails = poolData.filter((item) => {
+    const type = poolType == 'stable' ? true : false;
+    if (
+      (item.token0.symbol === selectedToken1?.symbol &&
+        item.token1.symbol === selectedToken2?.symbol) ||
+      (item.token1.symbol === selectedToken1?.symbol &&
+        item.token0.symbol === selectedToken2?.symbol &&
+        item.isStable == type)
+    ) {
+      return item;
+    }
+  });
+
+  console.log(poolDetails[0].reserve0, poolDetails[0].reserve0);
 
   if (selectedToken1 && selectedToken2) {
     return (
@@ -87,12 +109,12 @@ const TokenDeposite = () => {
           <LiquidityStyleContainer>
             <LiquidityHeaderTitle fontSize={16}>Liquidity</LiquidityHeaderTitle>
             <LiquidityTitle fontSize={12}>
-              {/* {obj.feesDesc}*/} 0 {selectedToken1.symbol}
-              <span></span>
+              {/* {obj.feesDesc}*/} {poolDetails[0].reserve0}{' '}
+              {selectedToken1.symbol}
             </LiquidityTitle>
             <LiquidityTitle fontSize={12}>
-              {/* {obj.feesSubDesc}*/} 0 {selectedToken2.symbol}
-              <span></span>
+              {/* {obj.feesSubDesc}*/} {poolDetails[0].reserve1}{' '}
+              {selectedToken2.symbol}
             </LiquidityTitle>
           </LiquidityStyleContainer>
 
