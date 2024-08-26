@@ -28,6 +28,7 @@ export const SidebarTitle = styled.h2<{
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
+  margin-left: 11px;
   color: ${({ theme }) => theme.colors.whiteBorder};
   @media (max-width: 600px) {
     font-size: ${({ fontSize }) => fontSize * 0.8}px;
@@ -39,6 +40,7 @@ export const ToleranceButtons = styled.div`
   display: flex;
   gap: 6px;
   margin-bottom: 20px;
+  margin-left: 11px;
   @media (max-width: 600px) {
     gap: 4px;
     margin-bottom: 15px;
