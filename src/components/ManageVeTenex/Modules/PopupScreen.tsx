@@ -16,7 +16,8 @@ const ModalBackground = styled.div<{ isVisible: boolean; theme: DefaultTheme }>`
 const ModalContent = styled.div<{ theme: DefaultTheme }>`
   position: fixed;
   width: 500px;
-  height: 520px;
+  max-height: 520px;
+  height: auto;
   overflow: hidden;
   top: 50%;
   left: 50%;
@@ -52,11 +53,12 @@ const DivOverflow = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   width: 99%;
-  height: 450px;
+  max-height: 450px;
+  height: auto;
   padding: 15px;
   padding-top: 0px;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   margin: 30px 0px;
   &::-webkit-scrollbar {
     width: 6px;
