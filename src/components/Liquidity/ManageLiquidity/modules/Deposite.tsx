@@ -1,7 +1,10 @@
 import CalIcon from '../../../../assets/phone.png';
 import PlusIcon from '../../../../assets/plusminus.png';
-import UnLockIcon from '../../../../assets/unlock.png';
+import RedLockIcon from '../../../../assets/lock.png';
+import UnLockIcon from '../../../../assets/LockSucess.svg';
 import SearchIcon from '../../../../assets/search.png';
+import DurationIcon from '../../../../assets/Duration.svg';
+import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import LockIcon from '../../../../assets/Lock1.svg';
 import Stepper from '../../../common/Stepper';
 import React, { useState } from 'react';
@@ -14,18 +17,8 @@ import { GlobalButton } from '../../../common/index';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
-interface Data {
-  step: number;
-  icon?: string;
-  descriptions: (string | string[])[];
-  buttons?: {
-    label: string;
-    icon: string;
-    onClick: () => Promise<void>;
-    tooltip?: string;
-    disabled?: boolean;
-  }[];
-}
+import { StepperDataProps } from '../../../../types/Stepper';
+import SuccessPopup from '../../../common/SucessPopup';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -87,6 +80,9 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
+  const handleAdjust = () => {
+    console.log('adjust');
+  };
   const { addLiquidity } = useRouterContract();
   const { address } = useAccount();
 
@@ -127,26 +123,43 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
-  const data: Data[] = [
+  const CreatepoolDepositeData: StepperDataProps[] = [
     {
       step: 1,
       icon: CalIcon,
-      descriptions: ['First deposit into stable pool use 11 rate'],
+      descriptions: {
+        labels: ['Using your quote for new liquidity pool deposits'],
+      },
     },
     {
       step: 2,
       icon: PlusIcon,
-      descriptions: ['10% slippage applied...'],
+      descriptions: {
+        labels: ['1.0 % slippage applied...'],
+        adjust: 'Adjust',
+        onClick: handleAdjust,
+      },
+    },
+    {
+      step: 3,
+      icon: DurationIcon,
+      descriptions: {
+        labels: ['30 min transaction deadline applied...'],
+        adjust: 'Adjust',
+        onClick: handleAdjust,
+      },
     },
   ];
 
   if (!disabled1) {
-    data.push({
+    CreatepoolDepositeData.push({
       step: 3,
-      icon: UnLockIcon,
-      descriptions: isToken1Allowed
-        ? ['Allowance granted for ' + selectedToken1?.symbol]
-        : ['Allowance not granted for ' + selectedToken1?.symbol],
+      icon: !isToken1Allowed ? RedLockIcon : UnLockIcon,
+      descriptions: {
+        labels: isToken1Allowed
+          ? ['Allowed the contracts to access ' + selectedToken1?.symbol]
+          : ['Allowance not granted for ' + selectedToken1?.symbol],
+      },
       buttons: !isToken1Allowed
         ? [
             {
@@ -162,12 +175,14 @@ const Deposite: React.FC<DepositProps> = ({
   }
 
   if (!disabled2) {
-    data.push({
+    CreatepoolDepositeData.push({
       step: 4,
-      icon: UnLockIcon,
-      descriptions: isToken2Allowed
-        ? ['Allowance granted for ' + selectedToken2?.symbol]
-        : ['Allowance not granted for ' + selectedToken2?.symbol],
+      icon: !isToken2Allowed ? RedLockIcon : UnLockIcon,
+      descriptions: {
+        labels: isToken2Allowed
+          ? ['Allowed the contracts to access ' + selectedToken2?.symbol]
+          : ['Allowance not granted for ' + selectedToken2?.symbol],
+      },
       buttons: !isToken2Allowed
         ? [
             {
@@ -182,25 +197,28 @@ const Deposite: React.FC<DepositProps> = ({
     });
   }
 
-  data.push({
+  CreatepoolDepositeData.push({
     step: 5,
-    icon: SearchIcon,
-    descriptions: isDeposited
-      ? ['Deposit confirmed']
-      : ['Waiting for next actions...'],
+    icon: !isDeposited ? SearchIcon : SucessDepositIcon,
+    descriptions: {
+      labels: isDeposited
+        ? ['Deposit confirmed']
+        : ['Waiting for next actions...'],
+    },
   });
 
   return (
     <>
-      <Stepper data={data} />
+      <Stepper data={CreatepoolDepositeData} />
       {!isDeposited && isToken2Allowed && isToken2Allowed && (
         <GlobalButton
-          width="200px"
-          height="50px"
+          width="100%"
+          height="48px"
+          margin="0px"
           onClick={() => {
             handleDeposit()
               .then(() => {
-                // Handle success here if needed
+                <SuccessPopup message="Deposit Successfully" />;
               })
               .catch((error) => {
                 console.error('Error adding liquidity:', error);
@@ -208,6 +226,11 @@ const Deposite: React.FC<DepositProps> = ({
           }}
         >
           Deposit
+        </GlobalButton>
+      )}
+      {isDeposited && (
+        <GlobalButton width="100%" height="48px" margin="0px">
+          Stake your Deposit{' '}
         </GlobalButton>
       )}
     </>
