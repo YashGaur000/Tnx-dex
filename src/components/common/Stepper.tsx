@@ -103,6 +103,12 @@ const DescriptionWrapper = styled.p`
   flex-direction: column;
   gap: 20px;
 `;
+const Stepperlabel = styled.label<{ theme: DefaultTheme }>`
+  color: ${({ theme }) => theme.colors.titleColor};
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
 
 const Stepper: React.FC<StepperProps> = ({ data }) => {
   return (
@@ -135,15 +141,15 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
 
             {item.descriptions.token1 && item.descriptions.token2 && (
               <BalanceShowWrapper>
-                <label>
+                <Stepperlabel>
                   {item.descriptions.token1} <StepperTitle>msETH</StepperTitle>{' '}
-                </label>
-                <span>
+                </Stepperlabel>
+                <Stepperlabel>
                   <img src={ArrowIcon} alt="Arrow" />
-                </span>
-                <label>
+                </Stepperlabel>
+                <Stepperlabel>
                   {item.descriptions.token2} <StepperTitle>ETH</StepperTitle>
-                </label>
+                </Stepperlabel>
               </BalanceShowWrapper>
             )}
 
