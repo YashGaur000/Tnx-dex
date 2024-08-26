@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const LiquityContainer = styled.div<{ theme: DefaultTheme }>`
-  background: linear-gradient(90deg, #18264C 0%, #1F305F 100%);
+ background: ${({ theme }) => theme.colors.card};
   border-radius: 24px;
   padding: 40px;
   margin-top: 40px;

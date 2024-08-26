@@ -21,6 +21,7 @@ export const SidebarTitle = styled.h2<{
   text-align: justify;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
+  margin-left: 11px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
@@ -48,6 +49,7 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
 
 export const SliderContainer = styled.div`
   margin-bottom: 20px;
+  margin-left: 11px;
 `;
 
 export const Slider = styled.input`

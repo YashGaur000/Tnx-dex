@@ -27,7 +27,7 @@ export const SwapFormContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 export const SwapBox = styled.div<{ theme: DefaultTheme }>`
-  background: ${({ theme }) => theme.colors.cardLight};
+  background: ${({ theme }) => theme.colors.card};
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
   padding: 40px;
@@ -159,7 +159,6 @@ export const PercentageSelectorContainer = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
   justify-content: space-between;
   padding: 10px 15px;
-  border: 1px solid #2a4365;
   border-radius: 8px;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -206,7 +205,6 @@ export const PercentageButton = styled.button<{ active?: boolean }>`
   color: ${({ active }) => (active ? '#ffffff' : '#cbd5e0')};
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.3s ease;
 
   &:hover {
     background-color: #2b6cb0;
