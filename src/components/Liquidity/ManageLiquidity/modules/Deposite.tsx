@@ -19,6 +19,10 @@ import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
 import { StepperDataProps } from '../../../../types/Stepper';
 import SuccessPopup from '../../../common/SucessPopup';
+import SlippageTolerance from '../../../Swap/modules/SlippageTolerance';
+import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import TransactionDeadline from '../../../Swap/modules/TransactionDeadline';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -36,6 +40,8 @@ const Deposite: React.FC<DepositProps> = ({
   const [isToken1Allowed, setIsToken1Allowed] = useState(false);
   const [isToken2Allowed, setIsToken2Allowed] = useState(false);
   const [isDeposited, setIsDeposited] = useState(false);
+  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const getParam = useQueryParams();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
@@ -80,8 +86,20 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
-  const handleAdjust = () => {
-    console.log('adjust');
+  const handleAdjust = (adjustbuttonName: string) => {
+    if (adjustbuttonName === 'Slippage') {
+      setVisibleSlippage(true);
+      setVisibleDealine(false);
+    } else if (adjustbuttonName === 'deadline') {
+      setVisibleSlippage(false);
+      setVisibleDealine(true);
+    } else {
+      console.log('wrong button');
+    }
+  };
+  const closeModal = () => {
+    setVisibleDealine(false);
+    setVisibleSlippage(false);
   };
   const { addLiquidity } = useRouterContract();
   const { address } = useAccount();
@@ -137,7 +155,9 @@ const Deposite: React.FC<DepositProps> = ({
       descriptions: {
         labels: ['1.0 % slippage applied...'],
         adjust: 'Adjust',
-        onClick: handleAdjust,
+        onClick: () => {
+          handleAdjust('Slippage');
+        },
       },
     },
     {
@@ -146,7 +166,9 @@ const Deposite: React.FC<DepositProps> = ({
       descriptions: {
         labels: ['30 min transaction deadline applied...'],
         adjust: 'Adjust',
-        onClick: handleAdjust,
+        onClick: () => {
+          handleAdjust('deadline');
+        },
       },
     },
   ];
@@ -228,10 +250,27 @@ const Deposite: React.FC<DepositProps> = ({
           Deposit
         </GlobalButton>
       )}
+
       {isDeposited && (
         <GlobalButton width="100%" height="48px" margin="0px">
           Stake your Deposit{' '}
         </GlobalButton>
+      )}
+
+      {isVisibleSlippage && !isVisibleDeadline && (
+        <PopupScreen isVisible={isVisibleSlippage} onClose={closeModal}>
+          <PopupWrapper>
+            <SlippageTolerance />
+          </PopupWrapper>
+        </PopupScreen>
+      )}
+
+      {!isVisibleSlippage && isVisibleDeadline && (
+        <PopupScreen isVisible={isVisibleDeadline} onClose={closeModal}>
+          <PopupWrapper>
+            <TransactionDeadline />
+          </PopupWrapper>
+        </PopupScreen>
       )}
     </>
   );
