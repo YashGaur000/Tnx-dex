@@ -4,26 +4,23 @@ import { LockHeaderTitle } from '../../Styles/ManageVetenex.style';
 import LockIcon from '../../../../assets/lock.png';
 import SearchIcon from '../../../../assets/search.png';
 import CheckIcon from '../../../../assets/check.svg';
-interface Data {
-  step: number;
-  icon?: string;
-  descriptions: string[];
-}
+import { StepperDataProps } from '../../../../types/Stepper';
+
 const RelayDeposit = () => {
-  const RelayDepositData: Data[] = [
+  const RelayDepositData: StepperDataProps[] = [
     {
       step: 1,
-      descriptions: ['Select the Lock you want to deposit'],
+      descriptions: { labels: 'Select the Lock you want to deposit' },
       icon: LockIcon,
     },
     {
       step: 2,
-      descriptions: ['Pool price tick at 75147'],
+      descriptions: { labels: 'Pool price tick at 75147' },
       icon: CheckIcon,
     },
     {
       step: 3,
-      descriptions: ['Waiting for next actions...'],
+      descriptions: { labels: 'Waiting for next actions...' },
       icon: SearchIcon,
     },
   ];
