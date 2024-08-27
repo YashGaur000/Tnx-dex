@@ -7,6 +7,7 @@ export const GlobalButton = styled.button<{
   width?: string;
   height?: string;
   disabled?: boolean;
+  margin?: string;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -20,7 +21,7 @@ export const GlobalButton = styled.button<{
   border: none;
   font-size: 16px;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  margin: 20px 0px;
+  margin: ${({ margin }) => (margin ? margin : '20px 0px')};
 
   &:hover {
     background: ${({ theme, disabled }) =>

@@ -4,7 +4,7 @@ import InformIcon from '../../../../assets/information.png';
 // import AvailablePool from './AvailablePool';
 import LowLiquidityPool from './LowLiquidityPool';
 import QuestionIcon from '../../../../assets/questionMark.png';
-import SelectIcon from '../../../../assets/select.png';
+import SelectIcon from '../../../../assets/select.svg';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
@@ -19,20 +19,24 @@ import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypo
 import {
   InformImageStye,
   LiquidityTitle,
+  PopupWrapper,
   StatsCardtitle,
 } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
-import { SuggestImg } from '../../LiquidityHomePage/styles/LiquidityTable.style';
+
 import {
   CreatePoolStyles,
   TokenSelectAlignStyle,
   TokenSelectCustom,
   TokenSelectItem,
   CreateSuggestContain,
+  ToolTipWraper,
 } from '../Styles/CreatePool.style';
-import { addLiquidity } from '../../../../services/Liquidity.service';
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
+import AvailablePool from './AvailablePool';
+import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -50,6 +54,35 @@ const CreatePool = () => {
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   // const poolType = getParam('type') ? 'stable' : 'volatile';
+
+  const { loading, error, data: poolData } = useLiquidityPoolData();
+
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+
+  // @todo : check if this query is possible to integrate in gql itself
+  const availablePools = poolData.filter((item) => {
+    if (
+      (item.token0.symbol === selectedToken1?.symbol &&
+        item.token1.symbol === selectedToken2?.symbol) ||
+      (item.token1.symbol === selectedToken1?.symbol &&
+        item.token0.symbol === selectedToken2?.symbol)
+    ) {
+      return item;
+    }
+  });
+
+  // Check if there's one item with isStable true and another with isStable false
+  const stablePool = availablePools.find((item) => item.isStable === true)
+    ? true
+    : false;
+  const nonStablePool = availablePools.find((item) => item.isStable === false)
+    ? true
+    : false;
+
+  const hasBothStableAndNonStable = !!stablePool && !!nonStablePool;
+
+  // console.log(availablePools, hasBothStableAndNonStable)
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
@@ -72,46 +105,24 @@ const CreatePool = () => {
   function handleTooolTipShow() {
     setPopUpVisible(true);
   }
-
+  function handleTooltipHide() {
+    setPopUpVisible(false);
+  }
   const closeModal = () => {
     setPopUpVisible(false);
   };
 
-  // const {
-  //   addLiquidityAction,
-  // } = useLiquidityStore();
-
-  const tokenA = '0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC';
-  const tokenB = '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2';
-
-  const { chainId, address: userAddress } = useAccount();
-
-  if (userAddress) {
-    console.log(
-      addLiquidity({
-        tokenA: tokenA,
-        tokenB: tokenB,
-        stable: false,
-        amountADesired: 10,
-        amountBDesired: 12,
-        amountAMin: 5,
-        amountBMin: 6,
-        to: userAddress,
-        deadline: 1723113333,
-        chainId: chainId,
-      })
-    );
-  }
-
   return (
     <>
       <MainContainerStyle>
-        <LiquidityHeaderTitle fontSize={36}>Create Pool</LiquidityHeaderTitle>
-        <LiquidityTitle fontSize={16}>
+        <LiquidityHeaderTitle fontSize={36}>
+          Create your Liquidity Pool
+        </LiquidityHeaderTitle>
+        <LiquidityTitle fontSize={16} margin="15px 0px">
           Create your new pool{' '}
-          <span onMouseEnter={handleTooolTipShow}>
+          <ToolTipWraper onMouseEnter={handleTooolTipShow}>
             <InformImageStye src={QuestionIcon} />
-          </span>
+          </ToolTipWraper>
         </LiquidityTitle>
         <CreatePoolStyles>
           <TokenSelectItem>
@@ -135,7 +146,12 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+                <ImageContainer
+                  src={SelectIcon}
+                  alt={SelectIcon}
+                  width="9"
+                  height="4"
+                />
               </TokenSelectAlignSelect>
             </TokenSelectCustom>
 
@@ -167,7 +183,12 @@ const CreatePool = () => {
               </TokenSelectAlignStyle>
 
               <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
+                <ImageContainer
+                  src={SelectIcon}
+                  width="8"
+                  height="8"
+                  alt={SelectIcon}
+                />
               </TokenSelectAlignSelect>
             </TokenSelectCustom>
 
@@ -182,13 +203,25 @@ const CreatePool = () => {
 
         {selectedToken1 && selectedToken2 ? (
           <>
-            {/* todo: add contract call to check if pool is available for selected token 
-            <AvailablePool /> */}
-            <LowLiquidityPool />
+            {/* todo: add contract call to check if pool is available for selected token */}
+            {(!stablePool && !nonStablePool) || (
+              <AvailablePool poolData={availablePools} />
+            )}
+            {!hasBothStableAndNonStable && (
+              <LowLiquidityPool
+                isStablePresent={stablePool}
+                isVolatilePresent={nonStablePool}
+              />
+            )}
           </>
         ) : (
           <CreateSuggestContain>
-            <SuggestImg src={InformIcon} alt="Information Icon" />
+            <ImageContainer
+              src={InformIcon}
+              alt="Information Icon"
+              width="21"
+              height="20"
+            />
             <StatsCardtitle fontSize={16}>
               Start by selecting the tokens. The liquidity pools available for
               deposit will show up next.
@@ -198,7 +231,9 @@ const CreatePool = () => {
       </MainContainerStyle>
 
       <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
-        {<LiquidityToolTips />}
+        <PopupWrapper onMouseLeave={handleTooltipHide}>
+          {<LiquidityToolTips />}
+        </PopupWrapper>
       </PopupScreen>
     </>
   );

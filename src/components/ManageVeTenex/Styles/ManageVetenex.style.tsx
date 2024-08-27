@@ -28,7 +28,7 @@ export const LockDescriptonTitle = styled.p<{
   color: ${({ theme }) => theme.colors.titleColor};
 `;
 
-export const ImgIconStyle = styled.img<{
+export const ImageContainer = styled.img<{
   width: string;
   height: string;
   margin?: string;
@@ -95,7 +95,7 @@ export const LockheaderContentStyle = styled.div`
   display: flex;
   align-items: flex-start;
 
-  width: 95%;
+  width: 100%;
   gap: 10px;
 `;
 export const LockContainerWrapper = styled.div`
@@ -109,4 +109,23 @@ export const LockheaderWrapper = styled.div`
   display: flex;
   gap: 10px;
   align-items: center;
+`;
+
+interface ContainerProps {
+  display: string;
+  alignItems?: string;
+  justifyContent?: string;
+  width?: string;
+  height?: string;
+  margin?: string;
+  padding?: string;
+}
+export const CardComponentWrapper = styled.div<ContainerProps>`
+  display: ${({ display }) => display};
+  align-items: ${({ alignItems }) => alignItems};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
 `;

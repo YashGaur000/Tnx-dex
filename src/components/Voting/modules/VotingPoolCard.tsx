@@ -1,4 +1,5 @@
 import ImpIcon from '../../../assets/information.png';
+import { TableColumn } from '../../common/TableStyled';
 import {
   CardContainer,
   GroupImg,
@@ -38,6 +39,8 @@ interface DataProps {
   volumeDesc?: string;
   volumeSubDesc?: string;
   fees?: string;
+  feesUSDT?: string;
+  feesBTC?: string;
   feesDesc?: string;
   feesSubDesc?: string;
   poolBalance?: string;
@@ -47,7 +50,7 @@ interface DataProps {
 const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
   return (
     <tr>
-      <td>
+      <TableColumn>
         <CardContainer>
           <GroupImg>
             <IMG1>
@@ -70,25 +73,31 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
             </Label>
           </PairContain>
         </CardContainer>
-      </td>
-      <td>
-        <label>{data.fees}</label>
-      </td>
+      </TableColumn>
       <td>
         <VolumeStyles>
-          <label>{data.volume}</label>
-          <Label>{data.volumeDesc}</Label>
-          <Label>{data.volumeSubDesc}</Label>
+          <label>{data.fees}</label>
+          <Label>{data.feesUSDT}</Label>
+          <Label>{data.feesBTC}</Label>
         </VolumeStyles>
       </td>
-      <td>
+      <TableColumn>
+        <VolumeStyles>
+          <label>{data.volume}</label>
+          <u>
+            <Label>{data.volumeDesc}</Label>
+          </u>
+          <Label>{data.volumeSubDesc}</Label>
+        </VolumeStyles>
+      </TableColumn>
+      <TableColumn>
         <VolumeStyles>
           <label>{data.fees}</label>
           <Label>{data.feesDesc}</Label>
           <Label>{data.feesSubDesc}</Label>
         </VolumeStyles>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <VolumeStyles>
           <TooltipContainer>
             <label>
@@ -109,8 +118,8 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           </TooltipContainer>
           <Label>{data.balanceDesc}</Label>
         </VolumeStyles>
-      </td>
-      <td>
+      </TableColumn>
+      <TableColumn>
         <VolumeStyles>
           <VoteButtonContainer>
             <StyledGradientButton
@@ -119,7 +128,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
               padding="0px 5px"
               marginTop="10px"
             >
-              Vote
+              Deposit
             </StyledGradientButton>
             <VoteTooltip>
               You need to create a Lock in
@@ -130,7 +139,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
             </VoteTooltip>
           </VoteButtonContainer>
         </VolumeStyles>
-      </td>
+      </TableColumn>
     </tr>
   );
 };

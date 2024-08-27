@@ -1,5 +1,5 @@
 import TenexIcon from '../../../assets/Tenex.png';
-import TableContainer from './TableContainer';
+import TableContainer from './VeTenexTable';
 import { GlobalButton } from '../../common';
 import { useNavigate } from 'react-router-dom';
 import QuestionIcon from '../../../assets/question-mark.png';
@@ -12,7 +12,7 @@ import {
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   AmountWithImg,
-  ImgIconStyle,
+  ImageContainer,
   LockButtonConatainer,
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -24,12 +24,36 @@ import {
 } from '../Styles/ManageVetenex.style';
 
 import Relay from './Relaymodules/Relay';
+import PopupScreen from './PopupScreen';
+import LockToolTips from './LockToolTips';
+import { useState } from 'react';
+import RelayToolTips from './RelayToolTips';
 
 const Main = () => {
+  const [isPopupVisible, setPopupVisible] = useState(false);
+  const [isToolTipActive, setToolTipActive] = useState(false);
   const Navigate = useNavigate();
   function handleCreateLock() {
     Navigate('/governance/create');
   }
+
+  function handleTooltipShow(option: string) {
+    if (option === 'lock') {
+      setToolTipActive(true);
+    } else {
+      setToolTipActive(false);
+    }
+
+    setPopupVisible(true);
+  }
+
+  function handleTooltipHide() {
+    setPopupVisible(false);
+  }
+
+  const closeModal = () => {
+    setPopupVisible(false);
+  };
 
   return (
     <>
@@ -41,12 +65,6 @@ const Main = () => {
               Maximize your voting power and boost rewards by locking more
               tokens for longer durations.
             </LockDescriptonTitle>
-            <ImgIconStyle
-              src={QuestionIcon}
-              width="20"
-              height="20"
-              margin="3px 0px"
-            />
           </LockheaderContentStyle>
         </LockHeroSectionContent>
 
@@ -65,7 +83,7 @@ const Main = () => {
               <StatsCardtitle fontSize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
                 4,376,987.82{' '}
-                <ImgIconStyle
+                <ImageContainer
                   width={'15'}
                   height={'15'}
                   margin={'0px 10px'}
@@ -88,11 +106,14 @@ const Main = () => {
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
-          <ImgIconStyle
-            width={'18'}
-            height={'18'}
-            src={QuestionIcon}
-          ></ImgIconStyle>
+          <span onMouseEnter={() => handleTooltipShow('lock')}>
+            <ImageContainer
+              width={'16px'}
+              height={'16px'}
+              margin="7px 0px 0px 0px"
+              src={QuestionIcon}
+            ></ImageContainer>
+          </span>
         </LockheaderWrapper>
 
         <TableContainer data={LockData} />
@@ -100,15 +121,26 @@ const Main = () => {
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
-          <ImgIconStyle
-            width={'18'}
-            height={'18'}
-            src={QuestionIcon}
-          ></ImgIconStyle>
+          <div onMouseEnter={() => handleTooltipShow('relay')}>
+            <ImageContainer
+              width={'16px'}
+              height={'16px'}
+              margin="7px 0px 0px 0px"
+              src={QuestionIcon}
+            ></ImageContainer>
+          </div>
         </LockheaderWrapper>
 
         <Relay />
       </LockContainerWrapper>
+
+      {isPopupVisible && (
+        <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
+          <div onMouseLeave={handleTooltipHide}>
+            {isToolTipActive ? <LockToolTips /> : <RelayToolTips />}
+          </div>
+        </PopupScreen>
+      )}
     </>
   );
 };
