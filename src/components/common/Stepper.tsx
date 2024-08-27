@@ -128,9 +128,15 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
           <Content>
             <DescriptionSection>
               <DescriptionWrapper>
-                {item.descriptions.labels.map((label, idx) => (
-                  <p key={idx}>{label} </p>
-                ))}
+                {!item.descriptions.isSplit ? (
+                  <StepperTitle>{item.descriptions.labels}</StepperTitle>
+                ) : (
+                  item.descriptions.labels.split('\n').map((line, index) => (
+                    <React.Fragment key={index}>
+                      <DescriptionWrapper>{line}</DescriptionWrapper>
+                    </React.Fragment>
+                  ))
+                )}
               </DescriptionWrapper>
               {item.descriptions.adjust && (
                 <UnderlinedText onClick={item.descriptions.onClick}>
@@ -153,32 +159,25 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
               </BalanceShowWrapper>
             )}
 
-            {item.buttons?.map((button, idx) => (
+            {item.buttons && (
               <GlobalButton
-                key={idx}
                 padding="8px"
                 margin="0px"
                 width="176px"
                 height="37px"
-                tabIndex={idx}
+                tabIndex={0}
                 onClick={() => {
-                  if (button.onClick) {
-                    button
-                      .onClick()
-                      .then(() => {
-                        console.log('clicked sucess');
-                      })
-                      .catch((error) => {
-                        console.error('Button click failed:', error);
-                      });
-                  }
+                  item.buttons?.onClick;
                 }}
-                disabled={button.disabled}
+                disabled={item.buttons?.disabled}
               >
-                {button.label}
-                <ButtonIcon src={button.icon} alt={`${button.label} icon`} />
+                {item.buttons?.label}
+                <ButtonIcon
+                  src={item.buttons?.icon}
+                  alt={`${item.buttons?.label} icon`}
+                />
               </GlobalButton>
-            ))}
+            )}
           </Content>
         </Step>
       ))}
