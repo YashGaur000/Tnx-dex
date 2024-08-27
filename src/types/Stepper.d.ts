@@ -9,11 +9,12 @@ export interface StepperDataProps {
   step: number;
   icon?: string;
   descriptions: {
-    labels: string[];
+    labels: string;
+    isSplit?: boolean;
     adjust?: string;
     onClick?: () => void;
     token1?: string;
     token2?: string;
   };
-  buttons?: StepperButtons[];
+  buttons?: StepperButtons;
 }

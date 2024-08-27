@@ -146,14 +146,14 @@ const Deposite: React.FC<DepositProps> = ({
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: ['Using your quote for new liquidity pool deposits'],
+        labels: 'Using your quote for new liquidity pool deposits',
       },
     },
     {
       step: 2,
       icon: PlusIcon,
       descriptions: {
-        labels: ['1.0 % slippage applied...'],
+        labels: '1.0 % slippage applied...',
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('Slippage');
@@ -164,7 +164,7 @@ const Deposite: React.FC<DepositProps> = ({
       step: 3,
       icon: DurationIcon,
       descriptions: {
-        labels: ['30 min transaction deadline applied...'],
+        labels: '30 min transaction deadline applied...',
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('deadline');
@@ -179,19 +179,17 @@ const Deposite: React.FC<DepositProps> = ({
       icon: !isToken1Allowed ? RedLockIcon : UnLockIcon,
       descriptions: {
         labels: isToken1Allowed
-          ? ['Allowed the contracts to access ' + selectedToken1?.symbol]
-          : ['Allowance not granted for ' + selectedToken1?.symbol],
+          ? 'Allowed the contracts to access ' + selectedToken1?.symbol
+          : 'Allowance not granted for ' + selectedToken1?.symbol,
       },
       buttons: !isToken1Allowed
-        ? [
-            {
-              label: 'Allow ' + selectedToken1?.symbol,
-              icon: LockIcon,
-              onClick: handleAllowToken1,
-              tooltip: 'Click to allow USDT transactions',
-              disabled: disabled1,
-            },
-          ]
+        ? {
+            label: 'Allow ' + selectedToken1?.symbol,
+            icon: LockIcon,
+            onClick: handleAllowToken1,
+            tooltip: 'Click to allow USDT transactions',
+            disabled: disabled1,
+          }
         : undefined,
     });
   }
@@ -202,19 +200,17 @@ const Deposite: React.FC<DepositProps> = ({
       icon: !isToken2Allowed ? RedLockIcon : UnLockIcon,
       descriptions: {
         labels: isToken2Allowed
-          ? ['Allowed the contracts to access ' + selectedToken2?.symbol]
-          : ['Allowance not granted for ' + selectedToken2?.symbol],
+          ? 'Allowed the contracts to access ' + selectedToken2?.symbol
+          : 'Allowance not granted for ' + selectedToken2?.symbol,
       },
       buttons: !isToken2Allowed
-        ? [
-            {
-              label: 'Allow ' + selectedToken2?.symbol,
-              icon: LockIcon,
-              onClick: handleAllowToken2,
-              tooltip: 'Click to allow FTM transactions',
-              disabled: disabled2,
-            },
-          ]
+        ? {
+            label: 'Allow ' + selectedToken2?.symbol,
+            icon: LockIcon,
+            onClick: handleAllowToken2,
+            tooltip: 'Click to allow FTM transactions',
+            disabled: disabled2,
+          }
         : undefined,
     });
   }
@@ -223,9 +219,7 @@ const Deposite: React.FC<DepositProps> = ({
     step: 5,
     icon: !isDeposited ? SearchIcon : SucessDepositIcon,
     descriptions: {
-      labels: isDeposited
-        ? ['Deposit confirmed']
-        : ['Waiting for next actions...'],
+      labels: isDeposited ? 'Deposit confirmed' : 'Waiting for next actions...',
     },
   });
 

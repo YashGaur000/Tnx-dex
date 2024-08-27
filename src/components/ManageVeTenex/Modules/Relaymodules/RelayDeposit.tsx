@@ -10,17 +10,17 @@ const RelayDeposit = () => {
   const RelayDepositData: StepperDataProps[] = [
     {
       step: 1,
-      descriptions: { labels: ['Select the Lock you want to deposit'] },
+      descriptions: { labels: 'Select the Lock you want to deposit' },
       icon: LockIcon,
     },
     {
       step: 2,
-      descriptions: { labels: ['Pool price tick at 75147'] },
+      descriptions: { labels: 'Pool price tick at 75147' },
       icon: CheckIcon,
     },
     {
       step: 3,
-      descriptions: { labels: ['Waiting for next actions...'] },
+      descriptions: { labels: 'Waiting for next actions...' },
       icon: SearchIcon,
     },
   ];
