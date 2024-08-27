@@ -61,7 +61,6 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
   const [filterType, setFilterType] = useState<string>('All');
 
   useEffect(() => {
-    // Filter pools based on search query and filter type
     setFilteredPools(
       PoolData.filter(
         (pool) =>
@@ -77,7 +76,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
 
   const handleRowClick = (pool: PoolInfo) => {
     onSelect(pool);
-    onClose(); // Optionally close the modal after selection
+    onClose();
   };
 
   return (
