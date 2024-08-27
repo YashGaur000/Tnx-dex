@@ -167,7 +167,16 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                 height="37px"
                 tabIndex={0}
                 onClick={() => {
-                  item.buttons?.onClick;
+                  if (item.buttons?.onClick) {
+                    item.buttons
+                      ?.onClick()
+                      .then(() => {
+                        console.log('clicked sucess');
+                      })
+                      .catch((error) => {
+                        console.error('Button click failed:', error);
+                      });
+                  }
                 }}
                 disabled={item.buttons?.disabled}
               >
