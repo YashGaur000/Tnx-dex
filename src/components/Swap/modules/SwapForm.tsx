@@ -11,7 +11,7 @@ import SelectIcon from '../../../assets/select.png';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   Description,
-  Input,
+  // Input,
   InputWrapper,
   PercentageButton,
   PercentageOptions,
@@ -35,6 +35,7 @@ import Sidebar from './Sidebar';
 import { useRootStore } from '../../../store/root';
 import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
+import InputBox from './InputBox';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -46,6 +47,9 @@ const SwapForm: React.FC = () => {
   // const [selectedToken2, setSelectedToken2] = useState<TokenInfo>(
   //   ERC20_TEST_TOKEN_LIST[1]
   // );
+
+  const [inputValue1, setinputValue1] = useState<string>(''); // add mandeep
+  const [inputValue2, setinputValue2] = useState<string>(''); //add mandeep
 
   const selectedToken1 = useTokenInfo(from);
 
@@ -114,6 +118,14 @@ const SwapForm: React.FC = () => {
     setSelectedPercentage(percentage);
   };
 
+  function handleInputfield1(data: string) {
+    setinputValue1(data);
+    return true;
+  }
+  function handleInputfield2(data: string) {
+    setinputValue2(data);
+    return true;
+  }
   return (
     <SwapFormContainer>
       <SwapBoxWrapper>
@@ -137,11 +149,19 @@ const SwapForm: React.FC = () => {
             />
           </WalletWrapper>
           <InputWrapper>
-            <Input
+            {/* <Input
               type="number"
               placeholder="0"
               value={''}
               //onChange={(e) => setInputValue1(e.target.value)}
+            /> */}
+            <InputBox
+              type="number"
+              border="none"
+              placeholder=""
+              width="75%"
+              padding="0px"
+              handleInputData={handleInputfield1}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
               <TokenSelectAlign>
@@ -157,6 +177,7 @@ const SwapForm: React.FC = () => {
                 <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
               </TokenSelectAlignSelect>
             </TokenSelect>
+
             <PercentageSelectorContainer>
               <WalletInfo>Wallet: 0.000 - $0.00</WalletInfo>
 
@@ -198,12 +219,20 @@ const SwapForm: React.FC = () => {
             <img src={faSwitchAlt} alt={faSwitchAlt} />
           </SwitchButton>
           <InputWrapper>
-            <Input
+            {/* <Input
               type="number"
               inputMode="numeric"
               placeholder="0"
               value={''}
               //onChange={(e) => setInputValue2(e.target.value)}
+            /> */}
+            <InputBox
+              type="number"
+              border="none"
+              placeholder=""
+              width="75%"
+              padding="0px"
+              handleInputData={handleInputfield2}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
               <TokenSelectAlign>
@@ -239,7 +268,7 @@ const SwapForm: React.FC = () => {
         </SwapBox>
         {(from || to) && <LiquityRouting />}
       </SwapBoxWrapper>
-      <Sidebar />
+      <Sidebar InputAmount1={inputValue1} InputAmount2={inputValue2} />
     </SwapFormContainer>
   );
 };
