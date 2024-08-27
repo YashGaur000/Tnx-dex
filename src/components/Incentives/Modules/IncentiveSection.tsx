@@ -217,7 +217,9 @@ const IncentiveSection: React.FC = () => {
                 </Box2DataPoint3>
               </Box2Container>
               <Box2Container>
-                <Box2DataPoint1Tenex>
+                <Box2DataPoint1Tenex
+                  onClick={() => handleTokenSelectOpen2('token1')}
+                >
                   <Img2
                     width={20}
                     height={20}
@@ -226,10 +228,7 @@ const IncentiveSection: React.FC = () => {
                   <Box2TokenName>
                     {selectedToken2 ? selectedToken2.pair : 'TENEX'}
                   </Box2TokenName>
-                  <Img4
-                    src={tenexarrow}
-                    onClick={() => handleTokenSelectOpen2('token1')}
-                  />
+                  <Img4 src={tenexarrow} />
                 </Box2DataPoint1Tenex>
                 <Box2DataPoint2 />
                 <Box2DataPoint4>
