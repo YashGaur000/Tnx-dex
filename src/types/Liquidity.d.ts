@@ -4,6 +4,15 @@ import { Address } from 'viem';
 import { TokenInfo } from '../constants/tokens';
 
 interface RouterContract extends Contract {
+  getReserves(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    factory: Address
+  ): Promise<{
+    reserveA: bigint;
+    reserveB: bigint;
+  }>;
   addLiquidity(
     tokenA: Address,
     tokenB: Address,

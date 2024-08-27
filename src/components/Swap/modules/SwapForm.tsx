@@ -35,21 +35,26 @@ import Sidebar from './Sidebar';
 import { useRootStore } from '../../../store/root';
 import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
+import { useTokenBalances } from '../../../hooks/useTokenBalance';
+import { useRouterContract } from '../../../hooks/useRouterContract';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
   const [isConnected, setIsConnected] = useState(false);
+  const [tokenInput1, setTokenInput1] = useState('');
+  const [tokenInput2, setTokenInput2] = useState('');
+
   const { from, to, setFrom, setTo } = useRootStore();
-  // const [selectedToken1, setSelectedToken1] = useState<TokenInfo>(
-  //   ERC20_TEST_TOKEN_LIST[0]
-  // );
-  // const [selectedToken2, setSelectedToken2] = useState<TokenInfo>(
-  //   ERC20_TEST_TOKEN_LIST[1]
-  // );
 
   const selectedToken1 = useTokenInfo(from);
 
   const selectedToken2 = useTokenInfo(to);
+
+  const tokenList = [selectedToken1, selectedToken2];
+
+  const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
+
+  const { getReserves } = useRouterContract();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
@@ -74,6 +79,22 @@ const SwapForm: React.FC = () => {
     if (fromAddress) setFrom(fromAddress as Address);
     if (toAddress) setTo(toAddress as Address);
   }, [address, setFrom, setTo]);
+
+  const handleTokenInput1 = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setTokenInput1(event.target.value);
+
+    if (selectedToken1 && selectedToken2) {
+      const reserves = await getReserves(selectedToken1, selectedToken2, false);
+
+      const exchangeRate =
+        reserves &&
+        Number(reserves.formatedReserveB) / Number(reserves.formatedReserveA);
+
+      console.log('exchange Rate----->', exchangeRate);
+    }
+  };
 
   const handleToggleChange = () => {
     if (isConnected) {
@@ -140,8 +161,8 @@ const SwapForm: React.FC = () => {
             <Input
               type="number"
               placeholder="0"
-              value={''}
-              //onChange={(e) => setInputValue1(e.target.value)}
+              value={tokenInput1}
+              onChange={(e) => void handleTokenInput1(e)}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
               <TokenSelectAlign>
@@ -158,7 +179,10 @@ const SwapForm: React.FC = () => {
               </TokenSelectAlignSelect>
             </TokenSelect>
             <PercentageSelectorContainer>
-              <WalletInfo>Wallet: 0.000 - $0.00</WalletInfo>
+              <WalletInfo>
+                Wallet:{' '}
+                {Number(selectedToken1 && balances[selectedToken1?.address])}{' '}
+              </WalletInfo>
 
               <PercentageOptions>
                 <PercentageButton
@@ -202,8 +226,8 @@ const SwapForm: React.FC = () => {
               type="number"
               inputMode="numeric"
               placeholder="0"
-              value={''}
-              //onChange={(e) => setInputValue2(e.target.value)}
+              value={tokenInput2}
+              onChange={(e) => setTokenInput2(e.target.value)}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
               <TokenSelectAlign>
@@ -224,7 +248,10 @@ const SwapForm: React.FC = () => {
                 />
               </TokenSelectAlign>
             </TokenSelect>
-            <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
+            <WalletText>
+              Wallet:{' '}
+              {Number(selectedToken2 && balances[selectedToken2?.address])}{' '}
+            </WalletText>
           </InputWrapper>
           <TokenSelectModal
             isOpen={isModalOpen}
@@ -237,7 +264,7 @@ const SwapForm: React.FC = () => {
             TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
           </Description>
         </SwapBox>
-        {(from || to) && <LiquityRouting />}
+        {(tokenInput1 || tokenInput2) && <LiquityRouting />}
       </SwapBoxWrapper>
       <Sidebar />
     </SwapFormContainer>
