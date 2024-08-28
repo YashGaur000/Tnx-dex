@@ -196,10 +196,13 @@ export const PercentageOptions = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
 `;
 
-export const PercentageButton = styled.button<{ active?: boolean }>`
+export const PercentageButton = styled.button<{
+  active?: boolean;
+  theme: DefaultTheme;
+}>`
   margin-left: 10px;
   padding: 5px 10px;
-  font-size: 14px;
+  font-size: 12px;
   border: none;
   background-color: ${({ active }) => (active ? '#2b6cb0' : 'transparent')};
   color: ${({ active }) => (active ? '#ffffff' : '#cbd5e0')};
