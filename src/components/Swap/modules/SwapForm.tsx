@@ -11,7 +11,7 @@ import SelectIcon from '../../../assets/select.png';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   Description,
-  Input,
+  // Input,
   InputWrapper,
   PercentageButton,
   PercentageOptions,
@@ -36,15 +36,19 @@ import { useRootStore } from '../../../store/root';
 import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
-import { useRouterContract } from '../../../hooks/useRouterContract';
+//import { useRouterContract } from '../../../hooks/useRouterContract';
+import InputBox from './InputBox';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
   const [isConnected, setIsConnected] = useState(false);
-  const [tokenInput1, setTokenInput1] = useState('');
-  const [tokenInput2, setTokenInput2] = useState('');
+  //const [tokenInput1, setTokenInput1] = useState('');
+  //const [tokenInput2, setTokenInput2] = useState('');
 
   const { from, to, setFrom, setTo } = useRootStore();
+
+  const [inputValue1, setinputValue1] = useState<string>(''); // add mandeep
+  const [inputValue2, setinputValue2] = useState<string>(''); //add mandeep
 
   const selectedToken1 = useTokenInfo(from);
 
@@ -54,7 +58,7 @@ const SwapForm: React.FC = () => {
 
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
 
-  const { getReserves } = useRouterContract();
+  //const { getReserves } = useRouterContract();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
@@ -80,21 +84,21 @@ const SwapForm: React.FC = () => {
     if (toAddress) setTo(toAddress as Address);
   }, [address, setFrom, setTo]);
 
-  const handleTokenInput1 = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTokenInput1(event.target.value);
+  // const handleTokenInput1 = async (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   setTokenInput1(event.target.value);
 
-    if (selectedToken1 && selectedToken2) {
-      const reserves = await getReserves(selectedToken1, selectedToken2, false);
+  //   if (selectedToken1 && selectedToken2) {
+  //     const reserves = await getReserves(selectedToken1, selectedToken2, false);
 
-      const exchangeRate =
-        reserves &&
-        Number(reserves.formatedReserveB) / Number(reserves.formatedReserveA);
+  //     const exchangeRate =
+  //       reserves &&
+  //       Number(reserves.formatedReserveB) / Number(reserves.formatedReserveA);
 
-      console.log('exchange Rate----->', exchangeRate);
-    }
-  };
+  //     console.log('exchange Rate----->', exchangeRate);
+  //   }
+  // };
 
   const handleToggleChange = () => {
     if (isConnected) {
@@ -135,6 +139,14 @@ const SwapForm: React.FC = () => {
     setSelectedPercentage(percentage);
   };
 
+  function handleInputfield1(data: string) {
+    setinputValue1(data);
+    return true;
+  }
+  function handleInputfield2(data: string) {
+    setinputValue2(data);
+    return true;
+  }
   return (
     <SwapFormContainer>
       <SwapBoxWrapper>
@@ -158,11 +170,21 @@ const SwapForm: React.FC = () => {
             />
           </WalletWrapper>
           <InputWrapper>
-            <Input
+            {/* <Input
               type="number"
               placeholder="0"
               value={tokenInput1}
               onChange={(e) => void handleTokenInput1(e)}
+              value={''}
+              //onChange={(e) => setInputValue1(e.target.value)}
+            /> */}
+            <InputBox
+              type="number"
+              border="none"
+              placeholder=""
+              width="75%"
+              padding="0px"
+              handleInputData={handleInputfield1}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
               <TokenSelectAlign>
@@ -178,6 +200,7 @@ const SwapForm: React.FC = () => {
                 <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
               </TokenSelectAlignSelect>
             </TokenSelect>
+
             <PercentageSelectorContainer>
               <WalletInfo>
                 Wallet:{' '}
@@ -222,12 +245,22 @@ const SwapForm: React.FC = () => {
             <img src={faSwitchAlt} alt={faSwitchAlt} />
           </SwitchButton>
           <InputWrapper>
-            <Input
+            {/* <Input
               type="number"
               inputMode="numeric"
               placeholder="0"
               value={tokenInput2}
               onChange={(e) => setTokenInput2(e.target.value)}
+              value={''}
+              //onChange={(e) => setInputValue2(e.target.value)}
+            /> */}
+            <InputBox
+              type="number"
+              border="none"
+              placeholder=""
+              width="75%"
+              padding="0px"
+              handleInputData={handleInputfield2}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
               <TokenSelectAlign>
@@ -264,9 +297,9 @@ const SwapForm: React.FC = () => {
             TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
           </Description>
         </SwapBox>
-        {(tokenInput1 || tokenInput2) && <LiquityRouting />}
+        {(inputValue1 || inputValue2) && <LiquityRouting />}
       </SwapBoxWrapper>
-      <Sidebar />
+      <Sidebar InputAmount1={inputValue1} InputAmount2={inputValue2} />
     </SwapFormContainer>
   );
 };
