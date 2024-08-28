@@ -1,7 +1,10 @@
 import CalIcon from '../../../../assets/phone.png';
 import PlusIcon from '../../../../assets/plusminus.png';
-import UnLockIcon from '../../../../assets/unlock.png';
+import RedLockIcon from '../../../../assets/lock.png';
+import UnLockIcon from '../../../../assets/LockSucess.svg';
 import SearchIcon from '../../../../assets/search.png';
+import DurationIcon from '../../../../assets/Duration.svg';
+import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import LockIcon from '../../../../assets/Lock1.svg';
 import Stepper from '../../../common/Stepper';
 import React, { useState } from 'react';
@@ -14,18 +17,12 @@ import { GlobalButton } from '../../../common/index';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
-interface Data {
-  step: number;
-  icon?: string;
-  descriptions: (string | string[])[];
-  buttons?: {
-    label: string;
-    icon: string;
-    onClick: () => Promise<void>;
-    tooltip?: string;
-    disabled?: boolean;
-  }[];
-}
+import { StepperDataProps } from '../../../../types/Stepper';
+import SuccessPopup from '../../../common/SucessPopup';
+import SlippageTolerance from '../../../Swap/modules/SlippageTolerance';
+import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import TransactionDeadline from '../../../Swap/modules/TransactionDeadline';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -43,6 +40,8 @@ const Deposite: React.FC<DepositProps> = ({
   const [isToken1Allowed, setIsToken1Allowed] = useState(false);
   const [isToken2Allowed, setIsToken2Allowed] = useState(false);
   const [isDeposited, setIsDeposited] = useState(false);
+  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const getParam = useQueryParams();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
@@ -87,6 +86,21 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
+  const handleAdjust = (adjustbuttonName: string) => {
+    if (adjustbuttonName === 'Slippage') {
+      setVisibleSlippage(true);
+      setVisibleDealine(false);
+    } else if (adjustbuttonName === 'deadline') {
+      setVisibleSlippage(false);
+      setVisibleDealine(true);
+    } else {
+      console.log('wrong button');
+    }
+  };
+  const closeModal = () => {
+    setVisibleDealine(false);
+    setVisibleSlippage(false);
+  };
   const { addLiquidity } = useRouterContract();
   const { address } = useAccount();
 
@@ -127,80 +141,100 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
-  const data: Data[] = [
+  const CreatepoolDepositeData: StepperDataProps[] = [
     {
       step: 1,
       icon: CalIcon,
-      descriptions: ['First deposit into stable pool use 11 rate'],
+      descriptions: {
+        labels: 'Using your quote for new liquidity pool deposits',
+      },
     },
     {
       step: 2,
       icon: PlusIcon,
-      descriptions: ['10% slippage applied...'],
+      descriptions: {
+        labels: '1.0 % slippage applied...',
+        adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('Slippage');
+        },
+      },
+    },
+    {
+      step: 3,
+      icon: DurationIcon,
+      descriptions: {
+        labels: '30 min transaction deadline applied...',
+        adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('deadline');
+        },
+      },
     },
   ];
 
   if (!disabled1) {
-    data.push({
+    CreatepoolDepositeData.push({
       step: 3,
-      icon: UnLockIcon,
-      descriptions: isToken1Allowed
-        ? ['Allowance granted for ' + selectedToken1?.symbol]
-        : ['Allowance not granted for ' + selectedToken1?.symbol],
+      icon: !isToken1Allowed ? RedLockIcon : UnLockIcon,
+      descriptions: {
+        labels: isToken1Allowed
+          ? 'Allowed the contracts to access ' + selectedToken1?.symbol
+          : 'Allowance not granted for ' + selectedToken1?.symbol,
+      },
       buttons: !isToken1Allowed
-        ? [
-            {
-              label: 'Allow ' + selectedToken1?.symbol,
-              icon: LockIcon,
-              onClick: handleAllowToken1,
-              tooltip: 'Click to allow USDT transactions',
-              disabled: disabled1,
-            },
-          ]
+        ? {
+            label: 'Allow ' + selectedToken1?.symbol,
+            icon: LockIcon,
+            onClick: handleAllowToken1,
+            tooltip: 'Click to allow USDT transactions',
+            disabled: disabled1,
+          }
         : undefined,
     });
   }
 
   if (!disabled2) {
-    data.push({
+    CreatepoolDepositeData.push({
       step: 4,
-      icon: UnLockIcon,
-      descriptions: isToken2Allowed
-        ? ['Allowance granted for ' + selectedToken2?.symbol]
-        : ['Allowance not granted for ' + selectedToken2?.symbol],
+      icon: !isToken2Allowed ? RedLockIcon : UnLockIcon,
+      descriptions: {
+        labels: isToken2Allowed
+          ? 'Allowed the contracts to access ' + selectedToken2?.symbol
+          : 'Allowance not granted for ' + selectedToken2?.symbol,
+      },
       buttons: !isToken2Allowed
-        ? [
-            {
-              label: 'Allow ' + selectedToken2?.symbol,
-              icon: LockIcon,
-              onClick: handleAllowToken2,
-              tooltip: 'Click to allow FTM transactions',
-              disabled: disabled2,
-            },
-          ]
+        ? {
+            label: 'Allow ' + selectedToken2?.symbol,
+            icon: LockIcon,
+            onClick: handleAllowToken2,
+            tooltip: 'Click to allow FTM transactions',
+            disabled: disabled2,
+          }
         : undefined,
     });
   }
 
-  data.push({
+  CreatepoolDepositeData.push({
     step: 5,
-    icon: SearchIcon,
-    descriptions: isDeposited
-      ? ['Deposit confirmed']
-      : ['Waiting for next actions...'],
+    icon: !isDeposited ? SearchIcon : SucessDepositIcon,
+    descriptions: {
+      labels: isDeposited ? 'Deposit confirmed' : 'Waiting for next actions...',
+    },
   });
 
   return (
     <>
-      <Stepper data={data} />
+      <Stepper data={CreatepoolDepositeData} />
       {!isDeposited && isToken2Allowed && isToken2Allowed && (
         <GlobalButton
-          width="200px"
-          height="50px"
+          width="100%"
+          height="48px"
+          margin="0px"
           onClick={() => {
             handleDeposit()
               .then(() => {
-                // Handle success here if needed
+                <SuccessPopup message="Deposit Successfully" />;
               })
               .catch((error) => {
                 console.error('Error adding liquidity:', error);
@@ -209,6 +243,28 @@ const Deposite: React.FC<DepositProps> = ({
         >
           Deposit
         </GlobalButton>
+      )}
+
+      {isDeposited && (
+        <GlobalButton width="100%" height="48px" margin="0px">
+          Stake your Deposit{' '}
+        </GlobalButton>
+      )}
+
+      {isVisibleSlippage && !isVisibleDeadline && (
+        <PopupScreen isVisible={isVisibleSlippage} onClose={closeModal}>
+          <PopupWrapper>
+            <SlippageTolerance />
+          </PopupWrapper>
+        </PopupScreen>
+      )}
+
+      {!isVisibleSlippage && isVisibleDeadline && (
+        <PopupScreen isVisible={isVisibleDeadline} onClose={closeModal}>
+          <PopupWrapper>
+            <TransactionDeadline />
+          </PopupWrapper>
+        </PopupScreen>
       )}
     </>
   );

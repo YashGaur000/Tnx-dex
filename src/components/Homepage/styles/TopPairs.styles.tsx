@@ -53,6 +53,7 @@ export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 53.82px;
   text-align: center;
+  gap: 5vw;
 
   @media (max-width: 1024px) {
     grid-template-columns: none;
@@ -64,6 +65,7 @@ export const CardValue = styled.div<{ theme: DefaultTheme }>`
   font-size: 36px;
   line-height: 53.82px;
   color: ${({ theme }) => theme.colors.text};
+  font-family: ${({ theme }) => theme.fonts.main}
   margin-bottom: 10px;
 `;
 
@@ -86,8 +88,8 @@ export const CardIcon = styled.img`
 `;
 
 export const CardPercentage = styled.div<{ theme: DefaultTheme }>`
-  font-size: 1em;
   color: ${({ theme }) => theme.colors.grey};
-  font-size: 2px;
+  font-size: 24px;
   line-height: 35.88px;
+  font-family: ${({ theme }) => theme.fonts.main};
 `;
