@@ -7,7 +7,7 @@ import { TokenInfo } from './../../../constants/tokens';
 import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import { GlobalButton } from '../../common';
-import SelectIcon from '../../../assets/select.png';
+import SelectIcon from '../../../assets/select.svg';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   Description,
@@ -29,6 +29,8 @@ import {
   WalletInfo,
   WalletText,
   WalletWrapper,
+  InputBoxWithTokenSelectWrapper,
+  TokenIcon,
 } from '../styles/SwapForm.style.';
 import LiquityRouting from './LiquityRouting';
 import Sidebar from './Sidebar';
@@ -148,35 +150,42 @@ const SwapForm: React.FC = () => {
             />
           </WalletWrapper>
           <InputWrapper>
-            {/* <Input
+            <InputBoxWithTokenSelectWrapper>
+              {/* <Input
               type="number"
               placeholder="0"
               value={''}
               //onChange={(e) => setInputValue1(e.target.value)}
             /> */}
-            <InputBox
-              type="number"
-              border="none"
-              placeholder=""
-              width="75%"
-              padding="0px 16px"
-              handleInputData={handleInputfield1}
-            />
-            <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
-              <TokenSelectAlign>
-                <img
-                  src={selectedToken1?.logoURI}
-                  width={21}
-                  height={22}
-                  alt={selectedToken1?.logoURI}
-                />
-              </TokenSelectAlign>
-              <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
-              <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
-              </TokenSelectAlignSelect>
-            </TokenSelect>
 
+              <InputBox
+                type="number"
+                border="none"
+                placeholder=""
+                width="75%"
+                padding="0px"
+                handleInputData={handleInputfield1}
+              />
+              <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+                <TokenSelectAlign>
+                  <TokenIcon
+                    src={selectedToken1?.logoURI}
+                    width={20}
+                    height={20}
+                    alt={selectedToken1?.logoURI}
+                  />
+                </TokenSelectAlign>
+                <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
+                <TokenSelectAlignSelect>
+                  <TokenIcon
+                    src={SelectIcon}
+                    width={8}
+                    height={4}
+                    alt={SelectIcon}
+                  />
+                </TokenSelectAlignSelect>
+              </TokenSelect>
+            </InputBoxWithTokenSelectWrapper>
             <PercentageSelectorContainer>
               <WalletInfo>Wallet: 0.000 - $0.00</WalletInfo>
 
@@ -219,41 +228,43 @@ const SwapForm: React.FC = () => {
             <img src={faSwitchAlt} alt={faSwitchAlt} />
           </SwitchButton>
           <InputWrapper>
-            {/* <Input
+            <InputBoxWithTokenSelectWrapper>
+              {/* <Input
               type="number"
               inputMode="numeric"
               placeholder="0"
               value={''}
               //onChange={(e) => setInputValue2(e.target.value)}
             /> */}
-            <InputBox
-              type="number"
-              border="none"
-              placeholder=""
-              width="75%"
-              padding="0px"
-              initialValue={inputValue2}
-              readOnly
-            />
-            <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
-              <TokenSelectAlign>
-                <img
-                  src={selectedToken2?.logoURI}
-                  width={20}
-                  height={20}
-                  alt={selectedToken2?.logoURI}
-                />
-              </TokenSelectAlign>
-              <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
-              <TokenSelectAlign>
-                <img
-                  src={SelectIcon}
-                  width={8}
-                  height={4}
-                  alt="src/assets/select.png"
-                />
-              </TokenSelectAlign>
-            </TokenSelect>
+              <InputBox
+                type="number"
+                border="none"
+                placeholder=""
+                width="75%"
+                padding="0px"
+                initialValue={inputValue2}
+                readOnly
+              />
+              <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+                <TokenSelectAlign>
+                  <img
+                    src={selectedToken2?.logoURI}
+                    width={20}
+                    height={20}
+                    alt={selectedToken2?.logoURI}
+                  />
+                </TokenSelectAlign>
+                <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
+                <TokenSelectAlign>
+                  <img
+                    src={SelectIcon}
+                    width={8}
+                    height={4}
+                    alt="src/assets/select.png"
+                  />
+                </TokenSelectAlign>
+              </TokenSelect>
+            </InputBoxWithTokenSelectWrapper>
             <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
           </InputWrapper>
           <TokenSelectModal

@@ -6,7 +6,7 @@ export const AllowUnsafeWrapper = styled.div<{
   theme: DefaultTheme;
 }>`
   display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
+  background: ${({ theme }) => theme.colors.cardLight};
   border-radius: 12px;
   padding: 20px;
   width: 350px;
