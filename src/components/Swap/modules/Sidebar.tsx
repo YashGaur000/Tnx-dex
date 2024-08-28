@@ -22,10 +22,9 @@ import { StepperDataProps } from '../../../types/Stepper';
 
 interface SidebarProps {
   InputAmount1: string;
-  InputAmount2: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
+const Sidebar: React.FC<SidebarProps> = ({ InputAmount1 }) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
   const handleUnsafeAllowence = () => {
@@ -179,13 +178,7 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
         <SidebarInner>
           <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
           <SidebarList>
-            <Stepper
-              data={
-                InputAmount1 && InputAmount2
-                  ? SwapDepositData
-                  : SwapInstructData
-              }
-            />
+            <Stepper data={InputAmount1 ? SwapDepositData : SwapInstructData} />
           </SidebarList>
           <SlippageTolerance />
           <TransactionDeadline />
