@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { DefaultTheme } from '../../../styles/Theme';
 
 interface InputboxStyledProps {
   width?: string;
@@ -9,6 +10,8 @@ interface InputboxStyledProps {
   margin?: string;
   padding?: string;
   isValid?: boolean;
+  readOnly?: boolean;
+  theme?: DefaultTheme;
 }
 
 const Inputbox = styled.input<InputboxStyledProps>`
@@ -19,6 +22,9 @@ const Inputbox = styled.input<InputboxStyledProps>`
   border: ${({ border, isValid }) =>
     border ?? `1px solid ${isValid ? 'green' : 'red'}`};
   font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+
   background: none;
   color: white;
   border-radius: 4px;
@@ -55,6 +61,7 @@ const InputBox: React.FC<InputBoxProps> = ({
   fontSize,
   margin,
   padding,
+  readOnly = false,
 }) => {
   const [value, setValue] = useState<string | number>(initialValue);
   const [isValid, setIsValid] = useState<boolean>(true);
@@ -64,6 +71,10 @@ const InputBox: React.FC<InputBoxProps> = ({
     setValue(inputValue);
     setIsValid(handleInputData(inputValue));
   };
+
+  useEffect(() => {
+    setValue(initialValue);
+  }, [initialValue]);
 
   return (
     <Inputbox
@@ -78,6 +89,7 @@ const InputBox: React.FC<InputBoxProps> = ({
       onChange={handleInputBox}
       isValid={isValid}
       placeholder={placeholder}
+      readOnly={readOnly}
     />
   );
 };
