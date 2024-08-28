@@ -16,32 +16,60 @@ const ModalBackground = styled.div<{ isVisible: boolean; theme: DefaultTheme }>`
 const ModalContent = styled.div<{ theme: DefaultTheme }>`
   position: fixed;
   width: 500px;
-  height: 500px;
-  overflow-y: scroll;
+  max-height: 520px;
+  height: auto;
+  overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.colors.card};
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1001;
   @media (max-width: 700px) {
-    width: 350px;
+    width: 400px;
   }
+  @media (max-width: 500px) {
+    width: 90%;
+  }
+`;
 
+const CloseButton = styled.button`
+  position: absolute;
+  top: 10px;
+  right: 7px;
+  background: none;
+  text-align: left;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+`;
+const CloseImg = styled.img`
+  width: 25px;
+  height: 25px;
+`;
+const DivOverflow = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  flex-direction: column;
+  width: 99%;
+  max-height: 450px;
+  height: auto;
+  padding: 15px;
+  padding-top: 0px;
+
+  overflow-y: auto;
+  margin: 30px 0px;
   &::-webkit-scrollbar {
-    width: 5px;
-    padding-right: 25px;
+    width: 6px;
   }
 
   &::-webkit-scrollbar-track {
     background: transparent;
-    border-radius: 10px;
-    width: 5px;
-    margin: 5px;
-    background: black;
-    margin-right: 5px;
+    border-radius: 20px;
+    width: 6px;
+
+    background: ${({ theme }) => theme.colors.swapIconBackground};
   }
 
   &::-webkit-scrollbar-thumb {
@@ -50,22 +78,6 @@ const ModalContent = styled.div<{ theme: DefaultTheme }>`
     margin-right: 5px;
   }
 `;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  text-align: left;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-`;
-const CloseImg = styled.img`
-  width: 20px;
-  height: 20px;
-`;
-
 interface PopUpProps {
   isVisible: boolean;
   onClose: () => void;
@@ -83,7 +95,7 @@ const PopupScreen: React.FC<PopUpProps> = ({
         <CloseButton onClick={onClose}>
           <CloseImg src={CloseIcon} />
         </CloseButton>
-        {children}
+        <DivOverflow>{children}</DivOverflow>
       </ModalContent>
     </ModalBackground>
   );

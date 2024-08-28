@@ -3,8 +3,11 @@ import { DefaultTheme } from '../../../styles/Theme';
 
 export const LockCardstyle = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
-  padding: 20px;
+  padding: 30px 40px;
   border-radius: 10px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-family: ${({ theme }) => theme.fonts.main};
 `;
 
 export const LockHeaderTitle = styled.label<{
@@ -25,7 +28,7 @@ export const LockDescriptonTitle = styled.p<{
   color: ${({ theme }) => theme.colors.titleColor};
 `;
 
-export const ImgIconStyle = styled.img<{
+export const ImageContainer = styled.img<{
   width: string;
   height: string;
   margin?: string;
@@ -83,6 +86,46 @@ export const LockTableContains = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   margin-top: 20px;
   width: 100%;
-  height: autopx;
+  height: auto;
   border-radius: 15px;
+  padding: 20px;
+`;
+
+export const LockheaderContentStyle = styled.div`
+  display: flex;
+  align-items: flex-start;
+
+  width: 100%;
+  gap: 10px;
+`;
+export const LockContainerWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 40px;
+  width: 100%;
+`;
+export const LockheaderWrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
+`;
+
+interface ContainerProps {
+  display: string;
+  alignItems?: string;
+  justifyContent?: string;
+  width?: string;
+  height?: string;
+  margin?: string;
+  padding?: string;
+}
+export const CardComponentWrapper = styled.div<ContainerProps>`
+  display: ${({ display }) => display};
+  align-items: ${({ alignItems }) => alignItems};
+  justify-content: ${({ justifyContent }) => justifyContent};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
 `;

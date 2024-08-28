@@ -3,6 +3,8 @@ import { useAccount } from '../../hooks/useAccount';
 import { ChainButton, GlobalButton } from '../common';
 import { Container, FlexContainer, IconContainer } from './style';
 
+//import { getPoolInfo } from '../../graphql';
+
 interface ChainProps {
   hasIcon: boolean;
   iconBackground: string;

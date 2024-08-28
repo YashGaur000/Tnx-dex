@@ -7,16 +7,15 @@ export const ManageLiquidityFormSection = styled.form<{ theme: DefaultTheme }>`
   flex-direction: column;
   background: ${({ theme }) => theme.colors.card};
   border-radius: 15px;
-  padding: 10px;
+  padding: 40px;
   fontsize: ${({ theme }) => theme.fontSize.medium};
+  gap: 20px;
 `;
 
 export const FormFieldContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  height: 130px;
-  padding: 10px;
 `;
 
 export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
@@ -25,16 +24,16 @@ export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSize.medium};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   text-align: left;
 `;
 
-export const LiquidityProgress = styled.span`
+export const LiquidityProgress = styled.div`
   display: flex;
   justify-content: end;
   padding-right: 5px;
   gap: 10px;
   font-size: 12px;
-  color: silver;
 `;
 
 interface InputBoxProps {
@@ -45,7 +44,7 @@ interface InputBoxProps {
 export const LiquidityInputBox = styled.input<InputBoxProps>`
   width: 99%;
   height: 47px;
-  border-radius: 10px;
+  border-radius: 12px;
   background: transparent;
   border: 1px solid;
   border-color: ${({ theme }) => theme.colors.greyBorder};
@@ -53,11 +52,25 @@ export const LiquidityInputBox = styled.input<InputBoxProps>`
   padding-left: 20px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
+export const InputBoxContainer = styled.div`
+  padding-top: 2px;
+`;
 export const SwapImgConatiner = styled.div`
   display: block;
   margin: auto;
+  cursor: pointer;
 `;
 
 export const TokenImgLiquidity = styled.img`

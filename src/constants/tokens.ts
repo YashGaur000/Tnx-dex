@@ -1,6 +1,7 @@
+import { Address } from 'viem';
 export interface TokenInfo {
   readonly chainId: number;
-  readonly address: string;
+  readonly address: Address;
   readonly name: string;
   readonly decimals: number;
   readonly symbol: string;
@@ -18,12 +19,40 @@ export const ERC20_TEST_TOKEN_LIST: TokenInfo[] = [
       'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000004.png',
   },
   {
+    address: '0x8Fe5C378B39DBdC984F2FfB8631227758340631A',
+    name: 'Otaku',
+    symbol: 'OTK',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143917/Tether_hdiwul.svg',
+  },
+  {
+    address: '0xD88957c98D65E9bee30304290f734847De09B990',
+    name: 'tSpace',
+    symbol: 'tSPACE',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0xD88957c98D65E9bee30304290f734847De09B990.png',
+  },
+  {
+    address: '0x4200000000000000000000000000000000000022',
+    name: 'Usdb',
+    symbol: 'USDB',
+    chainId: 168587773,
+    decimals: 6,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4200000000000000000000000000000000000022.png',
+  },
+  {
     address: '0x5B2f5c3e8A9Aa9B26A2ADE212Fa6d0B2f6e993DC',
     name: 'Tenex Usdc',
     symbol: 'tUSDC',
     chainId: 168587773,
     decimals: 6,
-    logoURI: '',
+    logoURI:
+      'https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143830/usdc_q5v7we.svg',
   },
   {
     address: '0x66f473054828BF8D560869eF26Fb2f5Ff7D326E2',

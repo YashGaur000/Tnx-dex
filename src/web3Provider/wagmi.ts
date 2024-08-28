@@ -13,8 +13,8 @@ import {
   SUPPORTED_MAINNET_CHAINS,
   SUPPORTED_TESTNET_CHAINS,
   TRANSPORT_CHAINID,
-} from '../../constants/chain';
-import { envConfig } from '../../config';
+} from '../constants/chain';
+import { envConfig } from '../config';
 
 declare module 'wagmi' {
   interface Register {

@@ -12,7 +12,7 @@ export const VoteBoxWrapper = styled.div<{ theme: DefaultTheme }>`
 
 export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  line-height: 72px;
+  line-height: 53.82px;
   margin-bottom: 24px;
 
   @media (max-width: 768px) {
@@ -24,6 +24,8 @@ export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
 export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
+  color: ${({ theme }) => theme.colors.whiteBorder};
 
   @media (max-width: 768px) {
     font-size: 36px;
@@ -33,7 +35,7 @@ export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
 
 export const VoteDescBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  line-height: 36px;
+  line-height: 23.92px;
 
   @media (max-width: 768px) {
     justify-content: center;
@@ -45,6 +47,8 @@ export const VoteDescBox = styled.div<{ theme: DefaultTheme }>`
 export const VoteDesc = styled.p<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
+  color: ${({ theme }) => theme.colors.titleColor};
 
   @media (max-width: 768px) {
     font-size: 16px;
@@ -91,8 +95,11 @@ export const VoteInfoSubtitle = styled.div<{ theme: DefaultTheme }>`
   gap: 20px;
   justify-content: center;
   text-align: center;
-  font-size: 20px;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  color: ${({ theme }) => theme.colors.titleColor};
+  font-family: ${({ theme }) => theme.fonts.main};
+  line-height: 20.93px;
 
   @media (max-width: 1024px) {
     grid-template-columns: repeat(3, 1fr);
@@ -114,7 +121,11 @@ export const InfoItem = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
   align-items: center;
   margin-bottom: 16px;
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 35.88px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: 900px) {
     font-size: 16px;

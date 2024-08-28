@@ -23,7 +23,7 @@ import {
 } from '../Styles/IncentiveTokenPopup.style';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Address } from 'viem';
-import PoolData from '../../../constants/PoolData.json';
+import PoolData from '../../../constants/poolData';
 
 interface PoolInfo {
   id: string;

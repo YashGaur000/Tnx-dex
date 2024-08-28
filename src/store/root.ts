@@ -7,16 +7,18 @@ import {
   createTokenBalancesSlice,
   TokenBalancesSlice,
 } from './slices/tokenBalances';
+import { SwapSlice, createSwapSlice } from './slices/swapSlice';
 
 enableMapSet();
 
-export type RootStore = TokenBalancesSlice;
+export type RootStore = TokenBalancesSlice & SwapSlice;
 
 export const useRootStore = create<RootStore>()(
   subscribeWithSelector(
     devtools((...args) => {
       return {
         ...createTokenBalancesSlice(...args),
+        ...createSwapSlice(...args),
       };
     })
   )

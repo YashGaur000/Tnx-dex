@@ -1,36 +1,35 @@
 import React from 'react';
 
 import Stepper from '../../../common/Stepper';
-
-interface Data {
-  step: number;
-  descriptions: string[];
-}
+import { StepperDataProps } from '../../../../types/Stepper';
 
 const DepositeInstruction: React.FC = () => {
-  const data: Data[] = [
+  const DepositeInstData: StepperDataProps[] = [
     {
       step: 1,
-      descriptions: [
-        "You are depositing liquidity into a Basic pool. Also known as the constant product pool or AMM, the liquidity in these pools is added over the full price range '(0 to ∞)' and requires little to no maintenance.",
-        'The pool liquidity is kept in balance using the formula x*y + y³x ≥ k.',
-      ],
+      descriptions: {
+        labels: `You are depositing liquidity into a Basic pool. Also known as the constant product pool or AMM, the liquidity in these pools is added over the full price range (0 to ∞) and requires little to no maintenance.\n The pool liquidity is kept in balance using the formula x³y + y³x ≥ k`,
+        isSplit: true,
+      },
     },
     {
       step: 2,
-      descriptions: [
-        'Fill in the deposit amounts. We calculate the deposit amounts to match the liquidity reserves in the pool. Pools without liquidity will use your deposit for the initial pool price.',
-      ],
+      descriptions: {
+        labels:
+          'Fill in the deposit amounts. We calculate the deposit amounts to match the liquidity reserves in the pool. Pools without liquidity will use your deposit for the initial pool price.',
+      },
     },
     {
       step: 3,
-      descriptions: ['After you deposit, you can stake the liquidity.'],
+      descriptions: {
+        labels: 'After you deposit, you can stake the liquidity.',
+      },
     },
   ];
 
   return (
     <>
-      <Stepper data={data} />
+      <Stepper data={DepositeInstData} />
     </>
   );
 };

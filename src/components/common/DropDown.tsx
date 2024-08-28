@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import UpWardIcon from '../../assets/select.png';
+import UpWardIcon from '../../assets/select.svg';
 import { DefaultTheme } from '../../styles/Theme';
 
 interface Option {
@@ -25,16 +25,17 @@ const SelectSelectedItem = styled.div<{
 }>`
   cursor: pointer;
   display: flex;
+
   align-items: center;
   gap: 10px;
   border-color: ${({ theme }) => theme.colors.greyBorder};
   background: ${({ theme }) => theme.colors.bordercolor};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  border-radius: 10px;
+  border-radius: 8px;
   height: ${({ height }) => height}px;
   width: ${({ width }) => width}px;
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.whiteBorder};
@@ -47,7 +48,7 @@ const SelectSelectedItem = styled.div<{
     padding: 1px;
     position: absolute;
     inset: 0;
-    border-radius: 13px;
+    border-radius: 8px;
 
     background: ${({ theme }) => theme.colors.buttonBackground};
     -webkit-mask:
@@ -65,9 +66,9 @@ const SelectItem = styled.div<{ theme: DefaultTheme }>`
   right: 0;
   z-index: 99;
   background: ${({ theme }) => theme.colors.card};
-  border-radius: 10px;
+  border-radius: 8px;
   display: block;
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   box-shadow: 0px 4px 11.4px 0px #131d3c;
@@ -79,7 +80,7 @@ const SelectItem = styled.div<{ theme: DefaultTheme }>`
 const OptionItem = styled.div`
   display: flex;
   align-items: center;
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 const OptionContainer = styled.div`
@@ -137,7 +138,7 @@ const DropDown: React.FC<CustomDropdownProps> = ({ options, onSelect }) => {
   return (
     <CustomSelect ref={dropdownRef}>
       <SelectSelectedItem
-        height={35}
+        height={31}
         width={100}
         onClick={() => setIsOpen(!isOpen)}
       >

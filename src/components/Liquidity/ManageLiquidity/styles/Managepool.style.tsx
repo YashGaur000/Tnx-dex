@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const CreateMainContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
+
   width: 100%;
 
   margin-top: 40px;
@@ -29,4 +29,10 @@ export const CreateFormWrapper = styled.div`
   @media only screen and (max-width: 900px) {
     width: 100%;
   }
+`;
+
+export const LiquidityHeaderWrapper = styled.header`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;

@@ -6,6 +6,8 @@ export const GlobalButton = styled.button<{
   padding?: string;
   width?: string;
   height?: string;
+  disabled?: boolean;
+  margin?: string;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -18,11 +20,12 @@ export const GlobalButton = styled.button<{
   border-radius: 10px;
   border: none;
   font-size: 16px;
-  cursor: pointer;
-  margin: 20px 0px;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  margin: ${({ margin }) => (margin ? margin : '20px 0px')};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.buttonHover};
+    background: ${({ theme, disabled }) =>
+      disabled ? theme.colors.grey : theme.colors.buttonHover};
   }
   @media (max-width: 768px) {
     padding: 6px 12px;

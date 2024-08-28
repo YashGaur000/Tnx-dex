@@ -59,8 +59,12 @@ export const CardRow = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const CardDescription = styled.p<{ theme: DefaultTheme }>`
+export const CardDescription = styled.p<{
+  theme: DefaultTheme;
+  Lineheight?: string;
+}>`
   font-size: 1em;
+  line-height: ${({ Lineheight }) => Lineheight};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.greyLight};
   margin-bottom: 20px;

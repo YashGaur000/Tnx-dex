@@ -51,24 +51,24 @@ const ParticipantsSection: React.FC = () => (
         <StatLabel>TENEX Locked</StatLabel>
       </Stat>
       <Stat>
-        <StatValue>$16.32 million</StatValue>
-        <StatLabel>Marketcap</StatLabel>
-      </Stat>
-      <Stat>
         <StatValue>$0.0240</StatValue>
         <StatLabel>Incentives per vote (Avg)</StatLabel>
+      </Stat>
+      <Stat>
+        <StatValue>$16.32 million</StatValue>
+        <StatLabel>Marketcap</StatLabel>
       </Stat>
       <Stat>
         <StatValue>12.45%</StatValue>
         <StatLabel>veTENEX APR</StatLabel>
       </Stat>
       <Stat>
-        <StatValue>2.64 million</StatValue>
-        <StatLabel>TENEX to veTENEX</StatLabel>
-      </Stat>
-      <Stat>
         <StatValue>$40,432</StatValue>
         <StatLabel>Epoch Incentives</StatLabel>
+      </Stat>
+      <Stat>
+        <StatValue>2.64 million</StatValue>
+        <StatLabel>TENEX to veTENEX</StatLabel>
       </Stat>
     </StatsContainer>
   </ParticipantsContainer>

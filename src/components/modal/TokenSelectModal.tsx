@@ -20,12 +20,15 @@ import {
 import tenex from '../../assets/Tenex.png';
 import { useTokenBalances } from '../../hooks/useTokenBalance';
 import { Address } from 'viem';
+import useQueryParams from '../../hooks/useQueryParams';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSelect: (token: TokenInfo) => void;
   account: Address;
+  excludeToken1?: Address;
+  excludeToken2?: Address;
 }
 
 const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
@@ -33,8 +36,16 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
   onClose,
   onSelect,
   account,
+  excludeToken1,
+  excludeToken2,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  // console.log("actual rtoken list:",ERC20_TEST_TOKEN_LIST)
+  const getParam = useQueryParams();
+
+  excludeToken1 = getParam('token1') as Address;
+  excludeToken2 = getParam('token2') as Address;
+
   const { balances, loading, error } = useTokenBalances(
     ERC20_TEST_TOKEN_LIST,
     account
@@ -56,8 +67,11 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
     return `${str.slice(0, 6)}...${str.slice(-9)}`;
   };
 
-  const filteredTokens = ERC20_TEST_TOKEN_LIST.filter((token) =>
-    token.symbol.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTokens = ERC20_TEST_TOKEN_LIST.filter(
+    (token) =>
+      token.symbol.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      token.address !== excludeToken1 && // Exclude the selected token
+      token.address !== excludeToken2
   );
 
   return (
@@ -96,7 +110,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                   marginLeft: '150px',
                 }}
               >
-                {account && balances[token.address as Address].toString()}
+                {account && balances[token.address].toString()}
               </p>
             </TokenItem>
           ))}
