@@ -120,12 +120,11 @@ const SwapForm: React.FC = () => {
 
   function handleInputfield1(data: string) {
     setinputValue1(data);
-    return true;
-  }
-  function handleInputfield2(data: string) {
+
     setinputValue2(data);
     return true;
   }
+
   return (
     <SwapFormContainer>
       <SwapBoxWrapper>
@@ -160,7 +159,7 @@ const SwapForm: React.FC = () => {
               border="none"
               placeholder=""
               width="75%"
-              padding="0px"
+              padding="0px 16px"
               handleInputData={handleInputfield1}
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
@@ -232,7 +231,8 @@ const SwapForm: React.FC = () => {
               placeholder=""
               width="75%"
               padding="0px"
-              handleInputData={handleInputfield2}
+              initialValue={inputValue2}
+              readOnly
             />
             <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
               <TokenSelectAlign>
@@ -268,7 +268,7 @@ const SwapForm: React.FC = () => {
         </SwapBox>
         {(from || to) && <LiquityRouting />}
       </SwapBoxWrapper>
-      <Sidebar InputAmount1={inputValue1} InputAmount2={inputValue2} />
+      <Sidebar InputAmount1={inputValue1} />
     </SwapFormContainer>
   );
 };
