@@ -31,11 +31,11 @@ export const Align = styled.div`
 `;
 
 export const TimerButton = styled.button<{ theme: DefaultTheme }>`
-  width: 74px;
-  height: 32px;
-  padding: 8px;
+  width: 67px;
+  height: 25px;
+  padding: 2px, 12px, 2px, 12px;
   background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
+  color: ${({ theme }) => theme.colors.text};
   border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
   border-radius: 10px;
   cursor: pointer;
@@ -62,5 +62,5 @@ export const TdText = styled.div<{ theme: DefaultTheme }>`
   font-size: 10px;
   text-align: justify;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color: ${({ theme }) => theme.colors.greyDark};
+  color: ${({ theme }) => theme.colors.text};
 `;
