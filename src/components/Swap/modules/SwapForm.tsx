@@ -214,6 +214,7 @@ const SwapForm: React.FC = () => {
               </PercentageOptions>
             </PercentageSelectorContainer>
           </InputWrapper>
+
           <SwitchButton onClick={handleSwap}>
             <img src={faSwitchAlt} alt={faSwitchAlt} />
           </SwitchButton>
@@ -262,7 +263,7 @@ const SwapForm: React.FC = () => {
             account={address!}
           />
           <GlobalButton padding="15px">Swap</GlobalButton>
-          <Description textAlign="left">
+          <Description textAlign="center">
             TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
           </Description>
         </SwapBox>
