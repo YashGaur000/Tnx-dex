@@ -8,6 +8,10 @@ interface StepperButtons {
 export interface StepperDataProps {
   step: number;
   icon?: string;
+  unSafe?: {
+    visible: boolean;
+    onClick: () => void;
+  };
   descriptions: {
     labels: string;
     isSplit?: boolean;
