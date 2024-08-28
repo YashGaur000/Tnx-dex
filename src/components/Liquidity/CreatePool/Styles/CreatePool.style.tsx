@@ -4,6 +4,7 @@ import { DefaultTheme } from '../../../../styles/Theme';
 export const CreatePoolStyles = styled.main`
   display: flex;
   margin-top: 35px;
+
   justify-content: space-between;
   width: 100%;
   @media only screen and (max-width: 800px) {
@@ -14,20 +15,24 @@ export const CreatePoolStyles = styled.main`
   }
 `;
 
-export const TokenSelectItem = styled.div`
+export const TokenSelectItem = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 47%;
+  gap: 16px;
+  width: 49%;
   border-radius: 16px;
   height: 170px;
-  padding: 20px;
+  padding: 40px;
   justify-content: center;
-  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
+  background: ${({ theme }) => theme.colors.card};
 
   @media only screen and (max-width: 800px) {
     width: 95%;
   }
+`;
+
+export const ToolTipWraper = styled.span`
+  padding: 0px;
 `;
 
 export const CreateSuggestContain = styled.div<{ theme: DefaultTheme }>`
@@ -49,11 +54,12 @@ export const TokenSelectAlignStyle = styled.div`
   align-items: center;
 `;
 
-export const TokenSelectCustom = styled.div`
+export const TokenSelectCustom = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  border: 1px solid gray;
+  border: 1px solid ${({ theme }) => theme.colors.greyBorder};
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
-  border-radius: 15px;
+  padding: 5px 15px;
+  height: 48px;
+  border-radius: 12px;
 `;

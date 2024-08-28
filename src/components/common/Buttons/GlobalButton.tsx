@@ -6,24 +6,35 @@ export const GlobalButton = styled.button<{
   padding?: string;
   width?: string;
   height?: string;
+  disabled?: boolean;
+  margin?: string;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
+
   color: ${({ theme }) => theme.colors.text};
   width: ${({ width }) => (width ? width : '100%')};
-  height: ${({ height }) => (height ? height : '')};
+  height: ${({ height }) => (height ? height : '50px')};
 
   padding: ${({ padding }) => padding};
-  border-radius: 10px;
+  border-radius: 12px;
   border: none;
   font-size: 16px;
-  cursor: pointer;
-  margin: 20px 0px;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  margin: ${({ margin }) => (margin ? margin : '20px 0px')};
 
   &:hover {
-    background: ${({ theme }) => theme.colors.buttonHover};
+    border-radius: 12px;
+
+    border: 1px solid transparent;
+    background:
+      padding-box
+        ${({ theme, disabled }) =>
+          disabled ? theme.colors.grey : theme.colors.cardLight},
+      border-box ${({ theme }) => theme.colors.buttonBackground};
   }
+
   @media (max-width: 768px) {
     padding: 6px 12px;
     font-size: 16px;

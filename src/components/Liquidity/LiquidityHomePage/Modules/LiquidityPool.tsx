@@ -1,78 +1,67 @@
 import LiquidityHeroSection from './LiquidityHeroSection';
-import FilterContainer from './FilterContainer';
+import FilterContainer from './LiquidityFiter';
 import LiquidityPoolTable from './LiquidityPoolTable';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
-import PoolData from '../../../../constants/PoolData.json';
-import { useState } from 'react';
-export interface PoolDataProps {
-  id: string;
-  pair: string;
-  icon1: string;
-  icon2: string;
-  stablePercentage: number;
-  tvl: string;
-  apr: number;
-  volume: string;
-  volumeDesc: string;
-  volumeSubDesc: string;
-  fees: string;
-  feesDesc: string;
-  feesSubDesc: string;
-  poolBalance: string;
-  balanceDesc: string;
-  liquidityType: string;
-}
-type SortableKeys = keyof PoolDataProps;
+import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
+
+//type SortableKeys = keyof LiquidityPoolNewType;
+
 const LiquidityPool = () => {
-  const [sortedColumn, setSortedColumn] = useState<SortableKeys>('apr');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [filteredData, setFilteredData] = useState<PoolDataProps[]>(PoolData);
+  const { loading, error, data: poolData } = useLiquidityPoolData();
 
-  const handleSelectedFilterItem = (selectItem: string) => {
-    const newFilterData = PoolData.filter((item) => {
-      return item.liquidityType === selectItem || selectItem === 'All Pools';
-    });
-    setFilteredData(newFilterData);
-  };
+  if (loading) return 'Loading...';
+  if (error) return `Error! ${error.message}`;
+  // const [sortedColumn, setSortedColumn] = useState<SortableKeys>('apr');
+  // const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  // const [filteredData, setFilteredData] = useState<PoolDataProps[]>(POOL_DATA);
 
-  const handleSearchFeatures = (item: string) => {
-    const searchItem = item.toLowerCase();
-    console.log(searchItem);
+  // const handleSelectedFilterItem = (selectItem: string) => {
+  //   const newFilterData = POOL_DATA.filter((item) => {
+  //     return item.liquidityType === selectItem || selectItem === 'All Pools';
+  //   });
+  //   setFilteredData(newFilterData);
+  // };
 
-    const newfilterData = PoolData.filter((item) => {
-      return item.pair.toLowerCase().includes(searchItem);
-    });
+  // const handleSearchFeatures = (item: string) => {
+  //   const searchItem = item.toLowerCase();
+  //   console.log(searchItem);
 
-    setFilteredData(newfilterData);
-  };
+  //   const newfilterData = POOL_DATA.filter((item) => {
+  //     return item.pair.toLowerCase().includes(searchItem);
+  //   });
 
-  const handleSortedFeatures = (item: SortableKeys) => {
-    const isAsc = item === sortedColumn && sortDirection === 'asc';
-    const newDirection = isAsc ? 'desc' : 'asc';
+  //   setFilteredData(newfilterData);
+  // };
 
-    const sortedArray = [...filteredData].sort((a, b) => {
-      if (a[item] < b[item]) return newDirection === 'asc' ? -1 : 1;
-      if (a[item] > b[item]) return newDirection === 'asc' ? 1 : -1;
-      return 0;
-    });
+  // const handleSortedFeatures = (item: SortableKeys) => {
+  //   const isAsc = item === sortedColumn && sortDirection === 'asc';
+  //   const newDirection = isAsc ? 'desc' : 'asc';
 
-    setFilteredData(sortedArray);
-    setSortedColumn(item);
-    setSortDirection(newDirection);
-  };
+  //   const sortedArray = [...filteredData].sort((a, b) => {
+  //     if (a[item] < b[item]) return newDirection === 'asc' ? -1 : 1;
+  //     if (a[item] > b[item]) return newDirection === 'asc' ? 1 : -1;
+  //     return 0;
+  //   });
+
+  //   setFilteredData(sortedArray);
+  //   setSortedColumn(item);
+  //   setSortDirection(newDirection);
+  // };
 
   return (
     <>
       <LiquidityHeaderTitle fontSize={36}>Liquidity</LiquidityHeaderTitle>
       <LiquidityHeroSection />
       <FilterContainer
-        handleSelectedFilterItem={handleSelectedFilterItem}
-        handleSearchFeatures={handleSearchFeatures}
+      //handleSelectedFilterItem={handleSelectedFilterItem}
+      //handleSearchFeatures={handleSearchFeatures}
       />
-      <LiquidityPoolTable
-        handleSortedFeatures={handleSortedFeatures}
-        sortedData={filteredData}
-      />
+      {poolData && (
+        <LiquidityPoolTable
+          //handleSortedFeatures={handleSortedFeatures}
+          sortedData={poolData}
+        />
+      )}
     </>
   );
 };

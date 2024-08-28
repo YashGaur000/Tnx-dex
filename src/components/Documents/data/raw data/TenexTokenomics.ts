@@ -84,27 +84,27 @@ export const TOKENOMICS_RAW_DATA = {
                   <th>Allocation</th>
               </tr>
               <tr>
-                  <td>Protocol NFT (veTENEX)</td>
+                  <td>Protocol NFT/Reserves (veTENEX)</td>
                   <td>7%</td>
                   <td>28,000,000</td>
               </tr>
               <tr>
-                  <td>Partner (TENEX/veTENEX)</td>
+                  <td>Partner NFT (veTENEX)</td>
                   <td>3.5%</td>
                   <td>14,000,000</td>
               </tr>
               <tr>
-                  <td>Development Team (TENEX/veTENEX)</td>
+                  <td>Development Team (veTENEX)</td>
                   <td>5%</td>
                   <td>20,000,000</td>
               </tr>
               <tr>
-                  <td>Airdrop (veTENEX)</td>
+                  <td>Airdrop (TENEX)</td>
                   <td>1%</td>
                   <td>4,000,000</td>
               </tr>
               <tr>
-                  <td>Treasury (veTENEX)</td>
+                  <td>Treasury (TENEX)</td>
                   <td>2.5%</td>
                   <td>10,000,000</td>
               </tr>
@@ -114,14 +114,19 @@ export const TOKENOMICS_RAW_DATA = {
                   <td>6,000,000</td>
               </tr>
               <tr>
-                  <td>LGE (TENEX)</td>
+                  <td>LGE (veTENEX)</td>
+                  <td>1.5%</td>
+                  <td>6,000,000</td>
+              </tr>
+              <tr>
+                  <td>Initial Investor/Private Sale(TENEX)</td>
                   <td>2%</td>
                   <td>8,000,000</td>
               </tr>
               <tr>
-                  <td>Initial Investor/Private Sale(TENEX)</td>
-                  <td>2.5%</td>
-                  <td>10,000,000</td>
+                  <td>Marketing and KOLs</td>
+                  <td>1%</td>
+                  <td>4,000,000</td>
               </tr>
               <tr>
                   <td>Emissions (TENEX)</td>
@@ -189,7 +194,7 @@ export const TOKENOMICS_RAW_DATA = {
               </tbody>
           </table>
           <p>User can calculate the emissions for an epoch based on the previous, as such:</p>
-          <p class="formula">Emissions(epoch(N)) = Emissions(N - 1) * 0.995</p>
+          <p class="formula">Emissions(epoch(N)) = Emissions(N - 1) * 0.9925</p>
           <p>There will be no gradual reduction period to avoid token dilution and price drops. Instead, emissions will decline slowly and steadily to balance liquidity incentives and fees for $veTENEX holders.</p>
       </div>
       `,

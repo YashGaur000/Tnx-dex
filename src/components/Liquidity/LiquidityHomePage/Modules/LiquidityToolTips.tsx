@@ -1,13 +1,13 @@
 import { LiquidityTitle } from '../styles/LiquidityHeroSection.style';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
 import {
-  LiquidityToolTipSection,
+  ToolTipSection,
   UnorderListStyle,
 } from '../styles/LiquidityToolTipStyle';
 
 const LiquidityToolTips = () => {
   return (
-    <LiquidityToolTipSection fontSize={12}>
+    <ToolTipSection fontSize={12}>
       <LiquidityHeaderTitle fontSize={20}>Liquidity Pools</LiquidityHeaderTitle>
       <LiquidityTitle fontSize={12}>
         The core functionality of TENEX Finance is to allow users to exchange
@@ -75,7 +75,7 @@ const LiquidityToolTips = () => {
         </LiquidityTitle>
         <p>x × y ≥ k</p>
       </div>
-    </LiquidityToolTipSection>
+    </ToolTipSection>
   );
 };
 

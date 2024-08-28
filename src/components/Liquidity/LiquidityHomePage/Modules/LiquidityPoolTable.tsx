@@ -1,73 +1,79 @@
-import Table, { TableContainerStyle } from '../../../common/TableStyled';
-
-import LiquidityPoolCard from './LiquidityPoolCard.tsx';
+import TableContains, {
+  TableHeader,
+  TableRow,
+  TableWrapper,
+} from '../../../common/TableStyled';
 
 import {
   LiquidityHeaderColumn,
   TableHeaderWrapper,
 } from '../styles/LiquidityTable.style.tsx';
-import SortIcon from '../../../../assets/sorting.png';
-import { PoolDataProps } from './LiquidityPool.tsx';
+import SortIcon from '../../../../assets/short.svg';
 
-type SortableKeys = keyof PoolDataProps;
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style.tsx';
+import LiquidityPoolCard from './LiquidityPoolCard.tsx';
+
+import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
+
+type SortableKeys = keyof LiquidityPoolNewType;
 
 interface PoolTableProps {
-  handleSortedFeatures: (item: SortableKeys) => void;
-  sortedData: PoolDataProps[];
+  handleSortedFeatures?: (item: SortableKeys) => void;
+  sortedData: LiquidityPoolNewType[];
 }
 
 const LiquidityPoolTable: React.FC<PoolTableProps> = ({
-  handleSortedFeatures,
+  //handleSortedFeatures,
   sortedData,
 }) => {
-  const handleSorting = (item: SortableKeys) => {
-    handleSortedFeatures(item);
-  };
+  // const handleSorting = (item: SortableKeys) => {
+  //   handleSortedFeatures(item);
+  // };
 
   return (
-    <TableContainerStyle>
-      <Table
-        padding="20px 30px "
-        borderRadius="20px"
-        textAlign="center"
-        width="100%"
-        margin="20px 0px"
-      >
+    <TableWrapper>
+      <TableContains margin="0px 0px">
         <thead>
-          <tr>
-            <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
-            <th>
-              <TableHeaderWrapper onClick={() => handleSorting('apr')}>
+          <TableRow>
+            <TableHeader>
+              {' '}
+              <LiquidityHeaderColumn>Liquidity Pool </LiquidityHeaderColumn>
+            </TableHeader>
+            <TableHeader>
+              <TableHeaderWrapper>
                 APR <img src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
-              <TableHeaderWrapper onClick={() => handleSorting('volume')}>
+            </TableHeader>
+            <TableHeader>
+              <TableHeaderWrapper>
                 {' '}
-                Volume <img src={SortIcon} />
+                Volume{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
-              <TableHeaderWrapper onClick={() => handleSorting('fees')}>
+            </TableHeader>
+            <TableHeader>
+              <TableHeaderWrapper>
                 {' '}
-                Fees <img src={SortIcon} />
+                Fees{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-            <th>
-              <TableHeaderWrapper onClick={() => handleSorting('poolBalance')}>
+            </TableHeader>
+            <TableHeader>
+              <TableHeaderWrapper>
                 {' '}
-                Pool Balance <img src={SortIcon} />
+                Pool Balance{' '}
+                <ImageContainer width="12px" height="12px" src={SortIcon} />
               </TableHeaderWrapper>
-            </th>
-          </tr>
+            </TableHeader>
+          </TableRow>
         </thead>
         <tbody>
           {sortedData.map((item, key) => (
             <LiquidityPoolCard key={key} data={item} />
           ))}
         </tbody>
-      </Table>
-    </TableContainerStyle>
+      </TableContains>
+    </TableWrapper>
   );
 };
 

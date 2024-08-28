@@ -2,7 +2,7 @@ import React, { Suspense, lazy, startTransition, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import HomePage from '../pages/App/HomePage';
 import LiquidityPage from '../pages/liquidity/LiquidityPage';
-import GovernancePage from '../pages/governance/ManageveTenex';
+// import GovernancePage from '../pages/governance/ManageveTenex';
 import RewardsPage from '../pages/rewards/RewardsPage';
 import ToolsPage from '../pages/tools/ToolsPage';
 import SwapPage from '../pages/swap/SwapPage';
@@ -10,11 +10,13 @@ import CrossChainSwap from '../pages/swap/CrossChainSwap';
 import ConcentratedLiquidityPage from '../pages/liquidity/ConcentratedLiquidityPage';
 import ManageveTenex from '../pages/governance/ManageveTenex';
 import Documentation from '../pages/tools/Documentation';
+import Incentives from '../pages/governance/Incentives';
 import { DOCS_DATA } from '../components/Documents/data/docsData';
 import BackgroundWrapper from './BackgroundWrapper';
 import Vote from '../pages/governance/Vote';
 import CreatePool from '../components/Liquidity/CreatePool/Modules/CreatePool';
 import Createlock from '../components/ManageVeTenex/Modules/CreateLockScreen/Createlock';
+import CreateLockRelay from '../components/ManageVeTenex/Modules/Relaymodules/CreateLockRelay';
 const ManagePool = lazy(
   () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
 );
@@ -47,10 +49,18 @@ const AppRoutes: React.FC = () => {
                 path="/concentrated-liquidity-farms"
                 element={<ConcentratedLiquidityPage />}
               />
-              <Route path="/governance" element={<ManageveTenex />} />
+              <Route path="/governance/" element={<ManageveTenex />} />
+              <Route
+                path="/governance/managevetenex"
+                element={<ManageveTenex />}
+              />
               <Route path="/governance/create" element={<Createlock />} />
+              <Route
+                path="/governance/relay/create"
+                element={<CreateLockRelay />}
+              />
               <Route path="/vote" element={<Vote />} />
-              <Route path="/incentives" element={<GovernancePage />} />
+              <Route path="/incentives" element={<Incentives />} />
               <Route path="/rewards" element={<RewardsPage />} />
               <Route path="/analytics" element={<ToolsPage />} />
               <Route path="/documentation" element={<Documentation />}>

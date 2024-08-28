@@ -29,7 +29,7 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
       background = theme.colors.backgroundLiquidity;
       break;
     case '/liquidity/create':
-      background = theme.colors.backgroundLiquidity;
+      background = theme.colors.backgroundCreateLiquidity;
       break;
     case '/governance':
       background = theme.colors.backgroundLiquidity;
