@@ -50,6 +50,7 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
     const typeValue = poolType === 'stable' ? '0' : '1';
     queryParams.set('type', typeValue.toString());
     queryParams.set('exists', exists);
+    if (exists == 'true' && poolDetails) queryParams.set('id', poolDetails?.id);
     Navigate({
       pathname: '/liquidity/manage',
       search: `?${queryParams.toString()}`,
