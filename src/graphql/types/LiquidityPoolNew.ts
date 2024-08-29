@@ -32,3 +32,9 @@ export interface LiquidityPoolNewType {
 export interface LiquidityPoolResponse {
   LiquidityPoolNew: LiquidityPoolNewType[];
 }
+
+export interface LiquidityPoolDataBySymbol {
+  symbol0: string;
+  symbol1: string;
+  isStable: boolean;
+}
