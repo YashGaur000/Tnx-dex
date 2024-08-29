@@ -7,6 +7,7 @@ import {
 } from '../graphql/types/LiquidityPoolNew';
 
 const LIQUIDITY_POOL_QUERY = gql(LiquidityPoolNew);
+// const LIQUIDITY_POOL_BY_SYMBOLS = gql(getLiquidityPoolBySymbols);
 
 // Function to convert reserves to human-readable format
 const formatReserves = (reserve: string, decimal: bigint) => {
@@ -24,10 +25,12 @@ const processLiquidityPoolData = (data: LiquidityPoolResponse) => {
 
 // Custom hook to fetch and process liquidity pool data
 export const useLiquidityPoolData = () => {
+  // const { loading, error, data } = filterdata ?  useQuery<LiquidityPoolResponse>(LIQUIDITY_POOL_BY_SYMBOLS, {
+  //   variables: {"symbol0": filterdata.symbol0, "symbol1": filterdata.symbol1, "isStable": filterdata.isStable}}) : useQuery<LiquidityPoolResponse>(LIQUIDITY_POOL_QUERY);
   const { loading, error, data } =
     useQuery<LiquidityPoolResponse>(LIQUIDITY_POOL_QUERY);
-
   // Process data after fetching
+  console.log('data', data);
   const processedData = data ? processLiquidityPoolData(data) : [];
 
   return {

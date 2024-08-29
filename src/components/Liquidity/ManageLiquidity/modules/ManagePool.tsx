@@ -51,7 +51,7 @@ const ManagePool = () => {
       <CreateMainContainer>
         <CreateFormWrapper>
           {!exists && <CreateNewLiquidity />}
-          <TokenDeposite />
+          {exists && <TokenDeposite />}
           <LiquidityForm
             totalBalanceToken1={totalBalanceToken1}
             totalBalanceToken2={totalBalanceToken2}
