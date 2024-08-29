@@ -6,9 +6,11 @@ export const SlippageWrapper = styled.div<{
   theme: DefaultTheme;
 }>`
   display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
-  padding: 10px;
+  background: ${({ theme }) => theme.colors.cardLight};
+  padding: 16px;
   width: 100%;
+  height: 115px;
+
   border-radius: 20px;
   margin: 15px 0px;
 `;
@@ -48,7 +50,6 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
 `;
 
 export const SliderContainer = styled.div`
-  margin-bottom: 20px;
   margin-left: 11px;
 `;
 
@@ -59,8 +60,9 @@ export const Slider = styled.input`
 `;
 
 export const TdText = styled.div<{ theme: DefaultTheme }>`
-  font-size: 10px;
-  text-align: justify;
+  font-size: 12px;
+  margin-top: 5px;
+  float: right;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.text};
 `;
