@@ -6,7 +6,7 @@ export const SlippageWrapper = styled.div<{
   theme: DefaultTheme;
 }>`
   display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
+  background: ${({ theme }) => theme.colors.cardLight};
   padding: 10px;
   width: 100%;
   border-radius: 20px;
