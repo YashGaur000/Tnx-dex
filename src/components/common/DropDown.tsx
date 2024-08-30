@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
-import UpWardIcon from '../../assets/select.svg';
+import UpWardIcon from '../../assets/selectGradient.svg';
 import { DefaultTheme } from '../../styles/Theme';
 
 interface Option {
@@ -21,26 +21,28 @@ const CustomSelect = styled.div`
 const SelectSelectedItem = styled.div<{
   theme: DefaultTheme;
   height?: number;
-  width?: number;
+  width?: string;
 }>`
   cursor: pointer;
   display: flex;
 
   align-items: center;
+  white-space: nowrap;
   gap: 10px;
   border-color: ${({ theme }) => theme.colors.greyBorder};
-  background: ${({ theme }) => theme.colors.bordercolor};
+  background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   border-radius: 8px;
   height: ${({ height }) => height}px;
-  width: ${({ width }) => width}px;
+  width: ${({ width }) => width};
+  min-width: 85px;
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.whiteBorder};
   justify-content: space-between;
-  padding: 10px;
+  padding: 4px 8px;
   position: relative;
 
   &::before {
@@ -83,26 +85,26 @@ const OptionItem = styled.div`
   font-size: 14px;
 `;
 
-const OptionContainer = styled.div`
+const OptionContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
 
   &:hover {
-    background: linear-gradient(180deg, #18264c 0%, #141e3b 100%);
-    border-radius: 16px;
+    background: ${({ theme }) => theme.colors.cardLight};
+    border-radius: 10px;
   }
 `;
 
 const ImgUpSelect = styled.img`
-  margin-right: 10px;
-  width: 10px;
+  width: 9px;
+  height: 4.85px;
   transform: rotate(180deg);
 `;
 const ImgDownSelect = styled.img`
-  margin-right: 10px;
-  width: 10px;
+  height: 4.85px;
+  width: 9px;
 `;
 
 const DropDown: React.FC<CustomDropdownProps> = ({ options, onSelect }) => {
@@ -138,8 +140,8 @@ const DropDown: React.FC<CustomDropdownProps> = ({ options, onSelect }) => {
   return (
     <CustomSelect ref={dropdownRef}>
       <SelectSelectedItem
-        height={31}
-        width={100}
+        height={29}
+        width={'100%'}
         onClick={() => setIsOpen(!isOpen)}
       >
         {selectedOption && <OptionItem>{selectedOption.label}</OptionItem>}

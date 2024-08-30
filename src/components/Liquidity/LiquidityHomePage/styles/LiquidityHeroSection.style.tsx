@@ -12,6 +12,7 @@ export const LiquidityTitle = styled.label<{
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ lineHeight }) => lineHeight ?? '17.94'}
   text-align: left;
+  
   color: ${({ theme }) => theme.colors.titleColor};
   margin: ${({ margin }) => margin};
 `;
@@ -19,14 +20,18 @@ export const LiquidityTitle = styled.label<{
 export const LiquidityDespcriptionWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: auto;
+  gap: 2px;
 `;
 
+export const TitleWithImgWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+`;
 export const InformImageStye = styled.img`
-  width: 1em;
-  height: 1em;
-  margin-left: 10px;
+  width: 16px;
+  height: 16px;
 `;
 
 export const StatsCardtitle = styled.label<{
@@ -34,7 +39,7 @@ export const StatsCardtitle = styled.label<{
   fontSize: number;
   lineHeight?: string;
 }>`
-  background: ${({ theme }) => theme.colors.bordercolor};
+  background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -45,7 +50,7 @@ export const StatsCardtitle = styled.label<{
 export const LiquidityHeroSectionMain = styled.main`
   display: flex;
   height: auto;
-  margin-top: 10px;
+
   width: 100%;
 
   justify-content: space-between;
@@ -59,30 +64,25 @@ export const LiquidityHeroSectionContent = styled.article<{
 }>`
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 38px;
   color: ${({ theme }) => theme.colors.titleColor};
   padding-top: 20px;
   width: 50%;
 
-  @media (max-width: 1250px) {
+  @media (max-width: 1200px) {
     width: 60%;
   }
 
   @media (max-width: 1000px) {
     width: 100%;
   }
-
-  div {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 export const AsideSectionContains = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 
-  @media (max-width: 1250px) {
+  @media (max-width: 1200px) {
     width: 40%;
   }
 
@@ -101,13 +101,14 @@ export const MetricDisplayWrapper = styled.div<{
 }>`
   display: flex;
 
-  gap: 20px;
+  gap: 16px;
+
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-size: ${({ theme }) => theme.fontSize.medium};
   justify-content: flex-end;
   width: 100%;
-
-  @media (max-width: 1250px) {
+  height: 68px;
+  @media (max-width: 1200px) {
     flex-direction: column;
     gap: 5px;
   }
@@ -125,17 +126,18 @@ export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.card};
-  height: 80px;
-  justify-content: center;
-  padding: 15px;
-  gap: 6px;
+  height: 67px;
 
-  border-radius: 10px;
+  justify-content: center;
+  padding: 6px 16px;
+  gap: 2px;
+
+  border-radius: 8px;
 
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
-  @media (max-width: 1250px) {
+  @media (max-width: 1200px) {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;

@@ -18,7 +18,7 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 5px;
   background-color: ${({ theme }) => theme.colors.background};
 
   ${({ sticky }) =>
