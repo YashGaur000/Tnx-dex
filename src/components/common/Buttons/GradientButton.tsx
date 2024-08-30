@@ -34,8 +34,9 @@ const StyledButton = styled.button<
   background-origin: padding-box, border-box;
   cursor: ${({ cursor }) => cursor ?? 'pointer'};
   font-size: ${({ fontSize }) => fontSize ?? '20px'};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
+  font-family: ${({ theme }) => theme.fonts.main};
   letter-spacing: 0.02em;
   text-align: center;
   color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};
