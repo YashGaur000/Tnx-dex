@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import logoImage from '../assets/logo.svg';
+import logoImage from '../assets/TenExlogo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
@@ -41,7 +41,8 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
 `;
 
 export const Logo = styled.img<{ theme: DefaultTheme }>`
-  height: 40px;
+  height: 36px;
+  width: 88px;
   margin-right: 10px;
   font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
