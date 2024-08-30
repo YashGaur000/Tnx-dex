@@ -4,8 +4,9 @@ import { RouterContract } from './../types/Liquidity';
 import { Address } from 'viem';
 import { ethers } from 'ethers';
 import contractAddress from '../constants/contract-address/address';
-import { routerAbi } from '../constants/abis/router';
+import routerAbi from '../constants/artifacts/contracts/Router.json';
 import { TokenInfo } from '../constants/tokens';
+import { Route } from '../utils/generateAllRoutes';
 
 /**
  * Hook to interact with the router contract.
@@ -16,7 +17,7 @@ export function useRouterContract() {
   const factory = contractAddress.PoolFactory;
   const routerContract = useContract(
     routerAddress,
-    routerAbi
+    routerAbi.abi
   ) as RouterContract;
 
   const addLiquidity = useCallback(
@@ -114,5 +115,26 @@ export function useRouterContract() {
     [routerContract, factory]
   );
 
-  return { addLiquidity, getReserves };
+  const getAmountsOut = useCallback(
+    async (amountIn: string, routes: Route[]) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+
+      try {
+        const amounInWei = ethers.parseUnits(amountIn, 18);
+        console.log('in wei---->', amounInWei, routes);
+        const amounts = await routerContract.getAmountsOut(amounInWei, routes);
+        console.log('amounts------->', amounts);
+        return amounts;
+      } catch (error) {
+        console.error('Error fetching:', error);
+        throw error;
+      }
+    },
+    [routerContract, factory]
+  );
+
+  return { addLiquidity, getReserves, getAmountsOut };
 }

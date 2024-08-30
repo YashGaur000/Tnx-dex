@@ -2,6 +2,7 @@ import { Contract, ContractTransaction } from '@ethersproject/contracts';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
 import { TokenInfo } from '../constants/tokens';
+import { Route } from '../utils/generateAllRoutes';
 
 interface RouterContract extends Contract {
   getReserves(
@@ -13,6 +14,7 @@ interface RouterContract extends Contract {
     reserveA: bigint;
     reserveB: bigint;
   }>;
+  getAmountsOut(amountIn: bigint, routes: Route[]): Promise<bigint[]>;
   addLiquidity(
     tokenA: Address,
     tokenB: Address,

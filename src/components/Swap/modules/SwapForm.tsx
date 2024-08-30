@@ -40,6 +40,8 @@ import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
 import { LoadingSpinner } from '../../common/Loader';
+import { findBestRoute, getAllRoutes } from '../../../utils/generateAllRoutes';
+import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -60,7 +62,9 @@ const SwapForm: React.FC = () => {
 
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
 
-  const { getReserves } = useRouterContract();
+  const { getAmountsOut } = useRouterContract();
+
+  const graph = useLiquidityRouting();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
@@ -95,27 +99,46 @@ const SwapForm: React.FC = () => {
 
     if (selectedToken1 && selectedToken2 && amount != '') {
       setIsLoading(true);
+
+      console.log('graph-------->', graph);
+
       setTimeout(() => {
         void (async () => {
           try {
-            const reserves = await getReserves(
-              selectedToken1,
-              selectedToken2,
-              false
-            );
+            // const reserves = await getReserves(
+            //   selectedToken1,
+            //   selectedToken2,
+            //   false
+            // );
 
-            const exchangeRate =
-              reserves &&
-              Number(reserves.formatedReserveB) /
-                Number(reserves.formatedReserveA);
+            // const exchangeRate =
+            //   reserves &&
+            //   Number(reserves.formatedReserveB) /
+            //     Number(reserves.formatedReserveA);
 
-            let token2Value = 0;
-            if (exchangeRate) {
-              setExchangeRate(exchangeRate);
-              token2Value = Number(amount) * exchangeRate;
+            // let token2Value = 0;
+            // if (exchangeRate) {
+            //   setExchangeRate(exchangeRate);
+            //   token2Value = Number(amount) * exchangeRate;
+            // }
+
+            // setTokenInput2(token2Value.toString());
+            if (graph) {
+              const routes = getAllRoutes(
+                graph,
+                selectedToken1.address,
+                selectedToken2.address,
+                3
+              );
+              console.log('routes------->', routes);
+              const test = await findBestRoute(amount, routes, getAmountsOut);
+              console.log(
+                'test------->',
+                Number(test?.bestQuote.toString()) / 10 ** 18,
+                test?.bestRoute
+              );
             }
-
-            setTokenInput2(token2Value.toString());
+            setExchangeRate(1);
           } catch (error) {
             console.error('Error fetching reserves:', error);
           } finally {
