@@ -35,7 +35,9 @@ const TokenDeposite = () => {
 
   // Fetch balances from pool contract
   const { balance0, balance1, reserve0, reserve1 } = usePoolContract(
-    poolId ?? ''
+    poolId ?? '',
+    selectedToken1?.decimals ?? 18,
+    selectedToken2?.decimals ?? 18
   );
 
   if (selectedToken1 && selectedToken2) {

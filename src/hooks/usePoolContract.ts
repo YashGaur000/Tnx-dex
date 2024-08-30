@@ -10,7 +10,11 @@ import { Address } from 'viem';
  * Hook to interact with the POOL contract.
  * @returns An object containing the balances of tokens 0 and 1 in ethers, or null if not yet loaded.
  */
-export function usePoolContract(poolId: string) {
+export function usePoolContract(
+  poolId: string,
+  decimal0: number,
+  decimal1: number
+) {
   const [balance0, setBalance0] = useState<string>('0.0');
   const [balance1, setBalance1] = useState<string>('0.0');
   const [reserve0, setReserve0] = useState<string>('0.0');
@@ -44,16 +48,22 @@ export function usePoolContract(poolId: string) {
 
           // Calculate balances for token 0 and token 1
           const userBalanceInEther = parseFloat(
-            formatUnits(userBalance.toString(), 18)
+            formatUnits(
+              userBalance.toString(),
+              decimal0 > decimal1 ? decimal0 - decimal1 : decimal1 - decimal0
+            )
           );
           const reserve0InEther = parseFloat(
-            formatUnits(reserve0.toString(), 18)
+            formatUnits(reserve0.toString(), decimal0)
           );
           const reserve1InEther = parseFloat(
-            formatUnits(reserve1.toString(), 18)
+            formatUnits(reserve1.toString(), decimal1)
           );
           const totalSupplyInEther = parseFloat(
-            formatUnits(totalSupply.toString(), 18)
+            formatUnits(
+              totalSupply.toString(),
+              decimal0 > decimal1 ? decimal0 - decimal1 : decimal1 - decimal0
+            )
           );
 
           const balance0 =
