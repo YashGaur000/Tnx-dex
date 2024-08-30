@@ -1,6 +1,5 @@
 import {
   LiquityContainer,
-  LiquityTitle,
   Step,
   StepCommon,
   StepImage,
@@ -15,7 +14,6 @@ import SoloIcon from '../../../assets/sol.png';
 const LiquityRouting = () => {
   return (
     <LiquityContainer>
-      <LiquityTitle>Liquidity Routing</LiquityTitle>
       <StepperContainer>
         <StepCommon>
           <StepImage src={SuiIcon} alt="Icon 1" />

@@ -3,39 +3,47 @@ import { DefaultTheme } from '../../../styles/Theme';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const SwapBoxWrapper = styled.div<{ theme: DefaultTheme }>`
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  padding: 20px;
+
+  @media (max-width: 900px) {
+    padding: 15px;
+  }
+
+  @media (max-width: 600px) {
+    padding: 10px;
+  }
 `;
+
 export const SwapFormContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   gap: 20px;
 
   @media (max-width: 900px) {
     display: flex;
-    gap: 20px;
+    flex-direction: column;
+    padding: 15px;
   }
 
   @media (max-width: 780px) {
-    display: flex;
-    gap: 20px;
-    display: block;
+    padding: 10px;
   }
 
   @media (max-width: 600px) {
-    display: flex;
-    gap: 20px;
-    display: block;
+    padding: 5px;
   }
 `;
+
 export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: Mixed solid rgba(184, 184, 184, 0.8);
   border-radius: 20px;
-  padding: 40px;
-  box-sizing: border-box;
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
-  max-width: 600px;
-  height: 575px;
   width: 600px;
+  height: 348px;
+  padding: 41px;
+
+  font-weight: ${({ theme }) => theme.fontWeights.bold};
+
   @media only screen and (max-width: 600px) {
     width: 100%;
     padding: 20px;
@@ -48,16 +56,19 @@ export const SwapBox = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Title = styled.h1<{ theme: DefaultTheme }>`
-  font-size: 36px;
-  margin-bottom: 10px;
-  line-height: 53.82px;
-  text-align: center;
+export const SwTitle = styled.div<{ theme: DefaultTheme }>`
+  font-size: 24px;
+  line-height: 35.88px;
+  width: 520px;
+  text-align: left;
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  margin-bottom: 8px;
+  margin-left: -12px;
+
   @media only screen and (max-width: 600px) {
-    font-size: 28px;
-    line-height: 42px;
+    font-size: 22px;
+    line-height: 32px;
   }
 `;
 
@@ -71,13 +82,23 @@ export const Description = styled.p<{ textAlign: string; theme: DefaultTheme }>`
     font-size: 12px;
   }
 `;
+export const SwapboxInner = styled.div<{ theme: DefaultTheme }>`
+  width: 520px;
+  height: 216px;
+  top: 232px;
+  left: 140px;
+  gap: 0px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+`;
 
 export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-  margin-bottom: 10px;
+  max-width: 520px;
+  min-height: 78px;
+  padding-left: 13px;
+
   @media only screen and (max-width: 600px) {
     width: 72%;
     padding: 8px;
@@ -87,13 +108,13 @@ export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
 export const Input = styled.input<{ theme: DefaultTheme }>`
   border-color: ${({ theme }) => theme.colors.greyBorder};
   width: 75%;
-  padding: 10px;
+  height: 32px;
   border: none;
+  padding-left: 13px;
   background: none;
   color: ${({ theme }) => theme.colors.text};
-  font-size: 16px;
+  font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  margin-right: 1%;
 
   /* Hide spin buttons */
   -moz-appearance: textfield; /* Firefox */
@@ -114,24 +135,21 @@ export const Input = styled.input<{ theme: DefaultTheme }>`
 
 export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   width: 90px;
-  height: 24px;
-  display: table;
-  table-layout: fixed; /* Optional */
-  border-spacing: 3px;
+  height: 32px;
+  border-spacing: 6px;
   border: none;
   background: none;
   color: ${({ theme }) => theme.colors.text};
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
-  margin-left: 28px;
+  margin-left: 16px;
   display: inline-block;
   img {
     color: ${({ theme }) => theme.colors.text};
     position: relative;
     z-index: 10;
     border-radius: 10px;
-    margin-bottom: 2px;
     display: block;
   }
 
@@ -158,7 +176,7 @@ export const PercentageSelectorContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: 9px 15px 0px 1px;
   border-radius: 8px;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -200,7 +218,7 @@ export const PercentageButton = styled.button<{
   active?: boolean;
   theme: DefaultTheme;
 }>`
-  margin-left: 10px;
+  margin-left: 16px;
   padding: 5px 10px;
   font-size: 12px;
   border: none;
@@ -231,10 +249,9 @@ export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
   border-radius: 50%;
   margin: 10px auto;
   cursor: pointer;
-  transform: rotate(90deg);
 
   img {
-    transform: rotate(90deg);
+    transform: rotate(180deg);
   }
 
   &:hover {
@@ -250,11 +267,13 @@ export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
 
 export const WalletWrapper = styled.div`
   display: flex;
-  justify-content: right;
+  justify-content: flex-end;
   align-items: center;
-  margin-bottom: 10px;
+  margin-left: 24px;
+
   @media only screen and (max-width: 600px) {
     justify-content: center;
+    margin-top: 10px;
     margin-bottom: 8px;
   }
 `;
@@ -293,14 +312,33 @@ export const WalletIcon = styled(FontAwesomeIcon)`
 export const TokenSelectAlign = styled.div<{ theme: DefaultTheme }>`
   display: table-cell;
   align-content: center;
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.main};
   color: #ffffff;
 
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
-export const TokenSelectAlignSelect = styled.div`
+export const TokenSelectAlignSelect = styled.div<{ theme: DefaultTheme }>`
   display: table-cell;
   align-content: center;
+`;
+export const SwapTitle = styled.div<{ theme: DefaultTheme }>`
+  border-radius: 10px;
+  max-width: 520px;
+  min-height: 36px;
+  padding-left: 13px;
+  display: flex;
+
+  @media only screen and (max-width: 600px) {
+    width: 72%;
+    padding: 8px;
+  }
+`;
+export const ContectedText = styled.span<{ theme: DefaultTheme }>`
+  font-size: 10px;
+  font-weight: 300;
+  line-height: 14.95px;
+  text-align: left;
+  margin-top: 16px;
 `;

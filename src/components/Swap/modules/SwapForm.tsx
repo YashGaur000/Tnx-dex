@@ -1,60 +1,46 @@
 import React, { useState, useEffect } from 'react';
-
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
 import { useAccount } from '../../../hooks/useAccount';
-import SwitchComponent from './SwitchComponent';
 import { TokenInfo } from './../../../constants/tokens';
-import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
-import { GlobalButton } from '../../common';
 import SelectIcon from '../../../assets/select.png';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
-  Description,
-  // Input,
+  ContectedText,
   InputWrapper,
   PercentageButton,
   PercentageOptions,
   PercentageSelectorContainer,
   SwapBox,
+  SwapboxInner,
   SwapBoxWrapper,
   SwapFormContainer,
+  SwapTitle,
   SwitchButton,
-  Title,
+  SwTitle,
   TokenSelect,
   TokenSelectAlign,
   TokenSelectAlignSelect,
-  WalletButton,
-  WalletIcon,
   WalletInfo,
   WalletText,
-  WalletWrapper,
 } from '../styles/SwapForm.style.';
-import LiquityRouting from './LiquityRouting';
+
 import Sidebar from './Sidebar';
 import { useRootStore } from '../../../store/root';
 import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import InputBox from './InputBox';
+import { SidebarContainer } from '../styles/Sidebar.style';
+import LiquityRouting from './LiquityRouting';
+import SwitchComponent from './SwitchComponent';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
   const [isConnected, setIsConnected] = useState(false);
   const { from, to, setFrom, setTo } = useRootStore();
-  // const [selectedToken1, setSelectedToken1] = useState<TokenInfo>(
-  //   ERC20_TEST_TOKEN_LIST[0]
-  // );
-  // const [selectedToken2, setSelectedToken2] = useState<TokenInfo>(
-  //   ERC20_TEST_TOKEN_LIST[1]
-  // );
-
   const [inputValue1, setinputValue1] = useState<string>(''); // add mandeep
   const [inputValue2, setinputValue2] = useState<string>(''); //add mandeep
-
   const selectedToken1 = useTokenInfo(from);
-
   const selectedToken2 = useTokenInfo(to);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
@@ -79,20 +65,8 @@ const SwapForm: React.FC = () => {
     if (toAddress) setTo(toAddress as Address);
   }, [address, setFrom, setTo]);
 
-  const handleToggleChange = () => {
-    if (isConnected) {
-      //disconnect();
-    } else {
-      // logic to open wallet connect modal
-    }
-    setIsConnected(!isConnected);
-  };
-
   const handleSwap = () => {
-    //setSelectedToken1(selectedToken2);
-    //setSelectedToken2(selectedToken1);
-    // setInputValue1(''); //to clear the input fields when we click on swap
-    // setInputValue2('');
+    console.log('Swap Handle');
   };
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
@@ -126,151 +100,148 @@ const SwapForm: React.FC = () => {
     setinputValue2(data);
     return true;
   }
+  const handleToggleChange = () => {
+    if (isConnected) {
+      //disconnect();
+    } else {
+      // logic to open wallet connect modal
+    }
+    setIsConnected(!isConnected);
+  };
+
   return (
-    <SwapFormContainer>
-      <SwapBoxWrapper>
-        <SwapBox>
-          <Title>Swap</Title>
-          <Description textAlign="center">
-            Our unique engine automatically chooses the best route for your
-            trade
-          </Description>
-          <WalletWrapper>
-            <WalletButton>
-              <WalletIcon icon={faWallet} />
-              {address && <BalanceDisplay address={address} />}
-            </WalletButton>
-            <SwitchComponent
-              isChecked={isConnected}
-              handleToggle={handleToggleChange}
-              onText=""
-              offText=""
-              isDisabled={true}
-            />
-          </WalletWrapper>
-          <InputWrapper>
-            {/* <Input
-              type="number"
-              placeholder="0"
-              value={''}
-              //onChange={(e) => setInputValue1(e.target.value)}
-            /> */}
-            <InputBox
-              type="number"
-              border="none"
-              placeholder=""
-              width="75%"
-              padding="0px"
-              handleInputData={handleInputfield1}
-            />
-            <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
-              <TokenSelectAlign>
-                <img
-                  src={selectedToken1?.logoURI}
-                  width={21}
-                  height={22}
-                  alt={selectedToken1?.logoURI}
+    <>
+      <SwapFormContainer>
+        <SwapBoxWrapper>
+          <SwapBox>
+            <SwapTitle>
+              <SwTitle>Swap</SwTitle>
+              <SwitchComponent
+                isChecked={isConnected}
+                handleToggle={handleToggleChange}
+                onText=""
+                offText=""
+                isDisabled={true}
+              />
+              {isConnected && <ContectedText>Connected</ContectedText>}
+            </SwapTitle>
+            <SwapboxInner>
+              <InputWrapper>
+                <InputBox
+                  type="number"
+                  border="none"
+                  placeholder=""
+                  width="75%"
+                  padding="0px"
+                  handleInputData={handleInputfield1}
                 />
-              </TokenSelectAlign>
-              <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
-              <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
-              </TokenSelectAlignSelect>
-            </TokenSelect>
+                <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+                  <TokenSelectAlign>
+                    <img
+                      src={selectedToken1?.logoURI}
+                      width={20}
+                      height={20}
+                      alt={selectedToken1?.logoURI}
+                    />
+                  </TokenSelectAlign>
+                  <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
+                  <TokenSelectAlignSelect>
+                    <img
+                      src={SelectIcon}
+                      width={8}
+                      height={4}
+                      alt={SelectIcon}
+                    />
+                  </TokenSelectAlignSelect>
+                </TokenSelect>
 
-            <PercentageSelectorContainer>
-              <WalletInfo>Wallet: 0.000 - $0.00</WalletInfo>
+                <PercentageSelectorContainer>
+                  <WalletInfo>Wallet: 0.000 - $0.00</WalletInfo>
 
-              <PercentageOptions>
-                <PercentageButton
-                  active={selectedPercentage === 0}
-                  onClick={() => handleSelectPercentage(0)}
-                >
-                  0%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 25}
-                  onClick={() => handleSelectPercentage(25)}
-                >
-                  25%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 50}
-                  onClick={() => handleSelectPercentage(50)}
-                >
-                  50%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 75}
-                  onClick={() => handleSelectPercentage(75)}
-                >
-                  75%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 100}
-                  onClick={() => handleSelectPercentage(100)}
-                >
-                  MAX
-                </PercentageButton>
-              </PercentageOptions>
-            </PercentageSelectorContainer>
-          </InputWrapper>
+                  <PercentageOptions>
+                    <PercentageButton
+                      active={selectedPercentage === 25}
+                      onClick={() => handleSelectPercentage(25)}
+                    >
+                      25%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 50}
+                      onClick={() => handleSelectPercentage(50)}
+                    >
+                      50%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 75}
+                      onClick={() => handleSelectPercentage(75)}
+                    >
+                      75%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 100}
+                      onClick={() => handleSelectPercentage(100)}
+                    >
+                      MAX
+                    </PercentageButton>
+                  </PercentageOptions>
+                </PercentageSelectorContainer>
+              </InputWrapper>
 
-          <SwitchButton onClick={handleSwap}>
-            <img src={faSwitchAlt} alt={faSwitchAlt} />
-          </SwitchButton>
-          <InputWrapper>
-            {/* <Input
+              <SwitchButton onClick={handleSwap}>
+                <img src={faSwitchAlt} alt={faSwitchAlt} />
+              </SwitchButton>
+              <InputWrapper>
+                {/* <Input
               type="number"
               inputMode="numeric"
               placeholder="0"
               value={''}
               //onChange={(e) => setInputValue2(e.target.value)}
             /> */}
-            <InputBox
-              type="number"
-              border="none"
-              placeholder=""
-              width="75%"
-              padding="0px"
-              handleInputData={handleInputfield2}
+                <InputBox
+                  type="number"
+                  border="none"
+                  placeholder=""
+                  width="75%"
+                  padding="0px"
+                  handleInputData={handleInputfield2}
+                />
+                <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+                  <TokenSelectAlign>
+                    <img
+                      src={selectedToken2?.logoURI}
+                      width={20}
+                      height={20}
+                      alt={selectedToken2?.logoURI}
+                    />
+                  </TokenSelectAlign>
+                  <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
+                  <TokenSelectAlign>
+                    <img
+                      src={SelectIcon}
+                      width={8}
+                      height={4}
+                      alt="src/assets/select.png"
+                    />
+                  </TokenSelectAlign>
+                </TokenSelect>
+                <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
+              </InputWrapper>
+            </SwapboxInner>
+            <TokenSelectModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onSelect={handleTokenSelect}
+              account={address!}
             />
-            <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
-              <TokenSelectAlign>
-                <img
-                  src={selectedToken2?.logoURI}
-                  width={20}
-                  height={20}
-                  alt={selectedToken2?.logoURI}
-                />
-              </TokenSelectAlign>
-              <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
-              <TokenSelectAlign>
-                <img
-                  src={SelectIcon}
-                  width={8}
-                  height={4}
-                  alt="src/assets/select.png"
-                />
-              </TokenSelectAlign>
-            </TokenSelect>
-            <WalletText>Wallet: 0.000 &nbsp;&nbsp; ~$0.00</WalletText>
-          </InputWrapper>
-          <TokenSelectModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onSelect={handleTokenSelect}
-            account={address!}
-          />
-          <GlobalButton padding="15px">Swap</GlobalButton>
-          <Description textAlign="center">
-            TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
-          </Description>
-        </SwapBox>
-        {(from || to) && <LiquityRouting />}
-      </SwapBoxWrapper>
-      <Sidebar InputAmount1={inputValue1} InputAmount2={inputValue2} />
-    </SwapFormContainer>
+          </SwapBox>
+          {inputValue1 && inputValue2 && <LiquityRouting />}
+        </SwapBoxWrapper>
+      </SwapFormContainer>
+      <SidebarContainer height={inputValue1 && inputValue2 ? 540 : 340}>
+        <Sidebar InputAmount1={inputValue1} InputAmount2={inputValue2} />
+      </SidebarContainer>
+    </>
   );
 };
 

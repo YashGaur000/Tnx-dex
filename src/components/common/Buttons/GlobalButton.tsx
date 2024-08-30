@@ -37,7 +37,11 @@ export const GlobalButton = styled.button<{
 export const ChainButton = styled.button<{
   padding: string;
   theme: DefaultTheme;
+  width?: string;
+  height?: string;
 }>`
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
   display: flex;
   align-items: center;
   padding: ${({ padding }) => padding};

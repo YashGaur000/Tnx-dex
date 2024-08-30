@@ -60,6 +60,7 @@ export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
   border-radius: 8px;
   cursor: pointer;
   margin-top: 2px;
+  line-height:20.93px
   width: 50px;
   text-align: center;
   display: flex;

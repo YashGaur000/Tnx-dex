@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import TransactionDeadline from './TransactionDeadline';
-import SlippageTolerance from './SlippageTolerance';
-import AllowUnsafeTrades from './AllowUnsafeTrades';
+// import TransactionDeadline from './TransactionDeadline';
+// import SlippageTolerance from './SlippageTolerance';
+// import AllowUnsafeTrades from './AllowUnsafeTrades';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import SolIcon from '../../../assets/sol.png';
@@ -12,7 +12,6 @@ import UnLockIcon from '../../../assets/LockSucess.svg';
 import LockIcon from '../../../assets/Lock1.svg';
 import SearchIcon from '../../../assets/search.png';
 import {
-  SidebarContainer,
   SidebarInner,
   SidebarList,
   SidebarTitle,
@@ -29,7 +28,7 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
   const handleUnsafeAllowence = () => {
-    setTokenAllow(false); //temperory writing this statement
+    setTokenAllow(false);
     setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
   };
   const SwapDepositInitialData: StepperDataProps[] = [
@@ -56,13 +55,24 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
     },
     {
       step: 3,
+      icon: PlusIcon,
+      descriptions: {
+        labels: '30 min transaction deadline applied...',
+        adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('tolerance');
+        },
+      },
+    },
+    {
+      step: 5,
       icon: SolIcon,
       descriptions: {
         labels: 'Minimum received 5.86 SOL',
       },
     },
     {
-      step: 4,
+      step: 6,
       icon: InformationIcon,
       unSafe: {
         visible: true,
@@ -82,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
       step: 1,
       descriptions: {
         labels:
-          'Start by selecting the token to swap from and the amount you want to exchange.',
+          'Start by selecting the token to Swap from and the amount you want to exchange.',
       },
     },
     {
@@ -97,25 +107,18 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
         labels: 'The quote will be ready in a moment!',
       },
     },
-    {
-      step: 4,
-      descriptions: {
-        labels:
-          ' Slippage tolerance 0.5% and transaction deadline 30 mins are set. To change, please click below.',
-      },
-    },
   ];
 
-  // const handleTokenAllow=async()=>{
+  //  const handleTokenAllow=()=>{
   //       try {
 
-  //         console.log(abc);
-  //          setTokenAllow(true);
+  //          console.log('abc');
+  //          await setTokenAllow(true);
   //       } catch (error) {
-  //         console.log(error);
+  //          console.log(error);
 
   //       }
-  // }
+  //  }
 
   useEffect(() => {
     const updatedData = [...SwapDepositInitialData];
@@ -170,31 +173,22 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
     }
   };
 
-  const handleToggleChange = () => {
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  };
+  // const handleToggleChange = () => {
+  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+  // };
+
   return (
     <>
-      <SidebarContainer>
-        <SidebarInner>
-          <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
-          <SidebarList>
-            <Stepper
-              data={
-                InputAmount1 && InputAmount2
-                  ? SwapDepositData
-                  : SwapInstructData
-              }
-            />
-          </SidebarList>
-          <SlippageTolerance />
-          <TransactionDeadline />
-          <AllowUnsafeTrades
-            isChecked={isUnsafeTradesAllowed}
-            handleToggle={handleToggleChange}
+      <SidebarInner>
+        <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
+        <SidebarList>
+          <Stepper
+            data={
+              InputAmount1 && InputAmount2 ? SwapDepositData : SwapInstructData
+            }
           />
-        </SidebarInner>
-      </SidebarContainer>
+        </SidebarList>
+      </SidebarInner>
     </>
   );
 };
