@@ -7,11 +7,10 @@ import { TokenInfo } from './../../../constants/tokens';
 import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import { GlobalButton } from '../../common';
-import SelectIcon from '../../../assets/select.png';
+import SelectIcon from '../../../assets/select.svg';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   Description,
-  Input,
   InputWrapper,
   PercentageButton,
   PercentageOptions,
@@ -29,6 +28,8 @@ import {
   WalletInfo,
   WalletText,
   WalletWrapper,
+  InputBoxWithTokenSelectWrapper,
+  TokenIcon,
 } from '../styles/SwapForm.style.';
 import LiquityRouting from './LiquityRouting';
 import Sidebar from './Sidebar';
@@ -37,10 +38,15 @@ import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import { useRouterContract } from '../../../hooks/useRouterContract';
+import { InputBox } from './InputBox';
+import { LoadingSpinner } from '../../common/Loader';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
   const [isConnected, setIsConnected] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [exchangeRate, setExchangeRate] = useState(0);
+
   const [tokenInput1, setTokenInput1] = useState('');
   const [tokenInput2, setTokenInput2] = useState('');
 
@@ -80,19 +86,43 @@ const SwapForm: React.FC = () => {
     if (toAddress) setTo(toAddress as Address);
   }, [address, setFrom, setTo]);
 
-  const handleTokenInput1 = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setTokenInput1(event.target.value);
+  const handleTokenInput1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const amount = event.target.value;
+    setTokenInput1(amount);
+    setTokenInput2('');
 
-    if (selectedToken1 && selectedToken2) {
-      const reserves = await getReserves(selectedToken1, selectedToken2, false);
+    if (!amount) setIsLoading(false);
 
-      const exchangeRate =
-        reserves &&
-        Number(reserves.formatedReserveB) / Number(reserves.formatedReserveA);
+    if (selectedToken1 && selectedToken2 && amount != '') {
+      setIsLoading(true);
+      setTimeout(() => {
+        void (async () => {
+          try {
+            const reserves = await getReserves(
+              selectedToken1,
+              selectedToken2,
+              false
+            );
 
-      console.log('exchange Rate----->', exchangeRate);
+            const exchangeRate =
+              reserves &&
+              Number(reserves.formatedReserveB) /
+                Number(reserves.formatedReserveA);
+
+            let token2Value = 0;
+            if (exchangeRate) {
+              setExchangeRate(exchangeRate);
+              token2Value = Number(amount) * exchangeRate;
+            }
+
+            setTokenInput2(token2Value.toString());
+          } catch (error) {
+            console.error('Error fetching reserves:', error);
+          } finally {
+            setIsLoading(false);
+          }
+        })();
+      }, 5000);
     }
   };
 
@@ -158,26 +188,36 @@ const SwapForm: React.FC = () => {
             />
           </WalletWrapper>
           <InputWrapper>
-            <Input
-              type="number"
-              placeholder="0"
-              value={tokenInput1}
-              onChange={(e) => void handleTokenInput1(e)}
-            />
-            <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
-              <TokenSelectAlign>
-                <img
-                  src={selectedToken1?.logoURI}
-                  width={21}
-                  height={22}
-                  alt={selectedToken1?.logoURI}
-                />
-              </TokenSelectAlign>
-              <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
-              <TokenSelectAlignSelect>
-                <img src={SelectIcon} width={8} height={4} alt={SelectIcon} />
-              </TokenSelectAlignSelect>
-            </TokenSelect>
+            <InputBoxWithTokenSelectWrapper>
+              <InputBox
+                type="number"
+                border="none"
+                placeholder=""
+                width="75%"
+                padding="0px"
+                value={tokenInput1}
+                onChange={handleTokenInput1}
+              />
+              <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+                <TokenSelectAlign>
+                  <TokenIcon
+                    src={selectedToken1?.logoURI}
+                    width={20}
+                    height={20}
+                    alt={selectedToken1?.logoURI}
+                  />
+                </TokenSelectAlign>
+                <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
+                <TokenSelectAlignSelect>
+                  <TokenIcon
+                    src={SelectIcon}
+                    width={8}
+                    height={4}
+                    alt={SelectIcon}
+                  />
+                </TokenSelectAlignSelect>
+              </TokenSelect>
+            </InputBoxWithTokenSelectWrapper>
             <PercentageSelectorContainer>
               <WalletInfo>
                 Wallet:{' '}
@@ -218,36 +258,41 @@ const SwapForm: React.FC = () => {
               </PercentageOptions>
             </PercentageSelectorContainer>
           </InputWrapper>
+
           <SwitchButton onClick={handleSwap}>
             <img src={faSwitchAlt} alt={faSwitchAlt} />
           </SwitchButton>
           <InputWrapper>
-            <Input
-              type="number"
-              inputMode="numeric"
-              placeholder="0"
-              value={tokenInput2}
-              onChange={(e) => setTokenInput2(e.target.value)}
-            />
-            <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
-              <TokenSelectAlign>
-                <img
-                  src={selectedToken2?.logoURI}
-                  width={20}
-                  height={20}
-                  alt={selectedToken2?.logoURI}
-                />
-              </TokenSelectAlign>
-              <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
-              <TokenSelectAlign>
-                <img
-                  src={SelectIcon}
-                  width={8}
-                  height={4}
-                  alt="src/assets/select.png"
-                />
-              </TokenSelectAlign>
-            </TokenSelect>
+            <InputBoxWithTokenSelectWrapper>
+              <InputBox
+                type="number"
+                border="none"
+                placeholder=""
+                width="75%"
+                padding="0px"
+                value={tokenInput1 ? tokenInput2 : ''}
+                disabled={true}
+              />
+              <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+                <TokenSelectAlign>
+                  <img
+                    src={selectedToken2?.logoURI}
+                    width={20}
+                    height={20}
+                    alt={selectedToken2?.logoURI}
+                  />
+                </TokenSelectAlign>
+                <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
+                <TokenSelectAlign>
+                  <img
+                    src={SelectIcon}
+                    width={8}
+                    height={4}
+                    alt="src/assets/select.png"
+                  />
+                </TokenSelectAlign>
+              </TokenSelect>
+            </InputBoxWithTokenSelectWrapper>
             <WalletText>
               Wallet:{' '}
               {Number(selectedToken2 && balances[selectedToken2?.address])}{' '}
@@ -260,13 +305,25 @@ const SwapForm: React.FC = () => {
             account={address!}
           />
           <GlobalButton padding="15px">Swap</GlobalButton>
-          <Description textAlign="left">
+          <Description textAlign="center">
             TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
           </Description>
         </SwapBox>
-        {(tokenInput1 || tokenInput2) && <LiquityRouting />}
+        {tokenInput1 ? (
+          isLoading ? (
+            <LoadingSpinner />
+          ) : (
+            <LiquityRouting />
+          )
+        ) : (
+          <></>
+        )}
       </SwapBoxWrapper>
-      <Sidebar />
+
+      <Sidebar
+        isLoading={isLoading}
+        exchangeRate={tokenInput1 ? exchangeRate : 0}
+      />
     </SwapFormContainer>
   );
 };
