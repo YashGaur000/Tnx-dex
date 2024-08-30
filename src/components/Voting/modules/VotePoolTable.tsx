@@ -2,6 +2,7 @@ import React from 'react';
 import TableContains, {
   TableWrapper,
   TableHeader,
+  TableHeaderWrapper,
 } from '../../common/TableStyled';
 import Teth from '../../../assets/tether.png';
 import BTC from '../../../assets/Btc.svg';
@@ -10,10 +11,6 @@ import USDC from '../../../assets/usdc.png';
 import FTM from '../../../assets/ftm.png';
 import VotingPoolCard from './VotingPoolCard';
 import SortIcon from '../../../assets/sorting.png';
-import {
-  LiquidityHeaderColumn,
-  TableHeaderWrapper,
-} from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 
 interface voteData {
   id?: string;
@@ -107,9 +104,7 @@ const VotePoolTable: React.FC = () => {
       >
         <thead>
           <tr>
-            <TableHeader>
-              <LiquidityHeaderColumn>Pool</LiquidityHeaderColumn>
-            </TableHeader>
+            <TableHeader>Pool</TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
                 {' '}

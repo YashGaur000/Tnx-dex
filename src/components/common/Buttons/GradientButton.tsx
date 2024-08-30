@@ -28,7 +28,7 @@ const StyledButton = styled.button<
   padding: ${({ padding }) => padding ?? '12px 31.5px'};
   border: ${({ border }) => border ?? '2px solid transparent'};
   border-radius: ${({ borderRadius }) => borderRadius ?? '12px'};
-  background: ${({ theme, background }) => background ?? theme.colors.card},
+  background: ${({ theme, background }) => background ?? theme.colors.cardLight},
     ${({ theme, background }) => background ?? theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
