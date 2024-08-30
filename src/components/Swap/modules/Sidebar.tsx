@@ -19,12 +19,14 @@ import {
 } from '../styles/Sidebar.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface SidebarProps {
-  InputAmount1: string;
+  isLoading: boolean;
+  exchangeRate: number;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ InputAmount1 }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
   const handleUnsafeAllowence = () => {
@@ -36,10 +38,10 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1 }) => {
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: 'Quote for deposit received... ',
+        labels: 'Exchange Rate Found',
         adjust: 'Refresh',
-        token1: '1.0',
-        token2: '0.73546',
+        token1: '1 tEnvio',
+        token2: `${exchangeRate} tBlast`,
       },
     },
     {
@@ -178,7 +180,13 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1 }) => {
         <SidebarInner>
           <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
           <SidebarList>
-            <Stepper data={InputAmount1 ? SwapDepositData : SwapInstructData} />
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : exchangeRate > 0 ? (
+              <Stepper data={SwapDepositData} />
+            ) : (
+              <Stepper data={SwapInstructData} />
+            )}
           </SidebarList>
           <SlippageTolerance />
           <TransactionDeadline />

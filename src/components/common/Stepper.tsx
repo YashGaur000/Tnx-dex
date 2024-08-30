@@ -164,13 +164,14 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
             {item.descriptions.token1 && item.descriptions.token2 && (
               <BalanceShowWrapper>
                 <Stepperlabel>
-                  {item.descriptions.token1} <StepperTitle>msETH</StepperTitle>{' '}
+                  {item.descriptions.token1}
+                  <StepperTitle></StepperTitle>
                 </Stepperlabel>
                 <Stepperlabel>
                   <img src={ArrowIcon} alt="Arrow" />
                 </Stepperlabel>
                 <Stepperlabel>
-                  {item.descriptions.token2} <StepperTitle>ETH</StepperTitle>
+                  {item.descriptions.token2} <StepperTitle></StepperTitle>
                 </Stepperlabel>
               </BalanceShowWrapper>
             )}

@@ -74,10 +74,11 @@ export const Description = styled.p<{ textAlign: string; theme: DefaultTheme }>`
 
 export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   border: 1px solid ${({ theme }) => theme.colors.greyDark};
-  border-radius: 10px;
-  padding: 10px;
+  border-radius: 12px;
+  height: 78px;
+  padding: 12px 16px;
   box-sizing: border-box;
-  margin-bottom: 10px;
+
   @media only screen and (max-width: 600px) {
     width: 72%;
     padding: 8px;
@@ -113,19 +114,20 @@ export const Input = styled.input<{ theme: DefaultTheme }>`
 `;
 
 export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
-  width: 90px;
-  height: 24px;
-  display: table;
-  table-layout: fixed; /* Optional */
+  max-width: 90px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+
   border-spacing: 3px;
-  border: none;
-  background: none;
+
   color: ${({ theme }) => theme.colors.text};
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
-  margin-left: 28px;
-  display: inline-block;
+
   img {
     color: ${({ theme }) => theme.colors.text};
     position: relative;
@@ -158,7 +160,7 @@ export const PercentageSelectorContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 15px;
+  padding: 0px 0px;
   border-radius: 8px;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -194,18 +196,20 @@ export const WalletText = styled.span<{ theme: DefaultTheme }>`
 export const PercentageOptions = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
+
+  width: 210px;
 `;
 
 export const PercentageButton = styled.button<{
   active?: boolean;
   theme: DefaultTheme;
 }>`
-  margin-left: 10px;
   padding: 5px 10px;
   font-size: 12px;
   border: none;
   background-color: ${({ active }) => (active ? '#2b6cb0' : 'transparent')};
-  color: ${({ active }) => (active ? '#ffffff' : '#cbd5e0')};
+  color: ${({ active, theme }) =>
+    active ? '#ffffff' : theme.colors.textGreyColor};
   cursor: pointer;
   border-radius: 4px;
 
@@ -229,7 +233,7 @@ export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
   height: 28px;
   background: ${({ theme }) => theme.colors.swapIconBackground};
   border-radius: 50%;
-  margin: 10px auto;
+  margin: 16px auto;
   cursor: pointer;
   transform: rotate(90deg);
 
@@ -259,6 +263,13 @@ export const WalletWrapper = styled.div`
   }
 `;
 
+export const InputBoxWithTokenSelectWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28px;
+  margin-bottom: 5px;
+`;
 export const WalletButton = styled.button<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
@@ -293,13 +304,17 @@ export const WalletIcon = styled(FontAwesomeIcon)`
 export const TokenSelectAlign = styled.div<{ theme: DefaultTheme }>`
   display: table-cell;
   align-content: center;
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.main};
   color: #ffffff;
 
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
+export const TokenIcon = styled.img<{ width: number; height: number }>`
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
+`;
 export const TokenSelectAlignSelect = styled.div`
   display: table-cell;
   align-content: center;
