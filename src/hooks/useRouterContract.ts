@@ -145,7 +145,5 @@ export function useRouterContract() {
     [routerContract]
   );
 
-
-
-  return { addLiquidity , getReserves, quoteAddLiquidity};
+  return { addLiquidity, getReserves, quoteAddLiquidity };
 }
