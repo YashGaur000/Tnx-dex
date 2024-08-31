@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import TransactionDeadline from './TransactionDeadline';
-import SlippageTolerance from './SlippageTolerance';
-import AllowUnsafeTrades from './AllowUnsafeTrades';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import SolIcon from '../../../assets/sol.png';
@@ -12,7 +9,6 @@ import UnLockIcon from '../../../assets/LockSucess.svg';
 import LockIcon from '../../../assets/Lock1.svg';
 import SearchIcon from '../../../assets/search.png';
 import {
-  SidebarContainer,
   SidebarInner,
   SidebarList,
   SidebarTitle,
@@ -83,26 +79,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
       step: 1,
       descriptions: {
         labels:
-          'Start by selecting the token to swap from and the amount you want to exchange.',
+          'Start by selecting the token to Swap from and the amount you want to exchange.',
       },
     },
     {
       step: 2,
       descriptions: {
-        labels: 'Pick the token you want to exchange for.',
+        labels: 'Pick the token you want to exchange For.',
       },
     },
     {
       step: 3,
       descriptions: {
         labels: 'The quote will be ready in a moment!',
-      },
-    },
-    {
-      step: 4,
-      descriptions: {
-        labels:
-          ' Slippage tolerance 0.5% and transaction deadline 30 mins are set. To change, please click below.',
       },
     },
   ];
@@ -171,31 +160,23 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
     }
   };
 
-  const handleToggleChange = () => {
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  };
+  // const handleToggleChange = () => {
+  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+  // };
   return (
     <>
-      <SidebarContainer>
-        <SidebarInner>
-          <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
-          <SidebarList>
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : exchangeRate > 0 ? (
-              <Stepper data={SwapDepositData} />
-            ) : (
-              <Stepper data={SwapInstructData} />
-            )}
-          </SidebarList>
-          <SlippageTolerance />
-          <TransactionDeadline />
-          <AllowUnsafeTrades
-            isChecked={isUnsafeTradesAllowed}
-            handleToggle={handleToggleChange}
-          />
-        </SidebarInner>
-      </SidebarContainer>
+      <SidebarInner>
+        <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
+        <SidebarList>
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : exchangeRate > 0 ? (
+            <Stepper data={SwapDepositData} />
+          ) : (
+            <Stepper data={SwapInstructData} />
+          )}
+        </SidebarList>
+      </SidebarInner>
     </>
   );
 };
