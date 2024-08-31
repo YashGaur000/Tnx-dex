@@ -6,9 +6,8 @@ export const LiquityContainer = styled.div<{ theme: DefaultTheme }>`
   border-radius: 24px;
   padding: 40px;
   margin-top: 40px;
-  width: 100%; 
-  max-width:600px
-  height: 204px; 
+  width:600px
+  height: 152px; 
   flex-direction: column;
   align-items: flex-start; 
   justify-content: center;

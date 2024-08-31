@@ -85,6 +85,7 @@ const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
   background: ${({ isActive, theme }) =>
