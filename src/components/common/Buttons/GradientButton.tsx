@@ -28,14 +28,15 @@ const StyledButton = styled.button<
   padding: ${({ padding }) => padding ?? '12px 31.5px'};
   border: ${({ border }) => border ?? '2px solid transparent'};
   border-radius: ${({ borderRadius }) => borderRadius ?? '12px'};
-  background: ${({ theme, background }) => background ?? theme.colors.card},
+  background: ${({ theme, background }) => background ?? theme.colors.cardLight},
     ${({ theme, background }) => background ?? theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   cursor: ${({ cursor }) => cursor ?? 'pointer'};
   font-size: ${({ fontSize }) => fontSize ?? '20px'};
-  font-weight: ${({ theme }) => theme.fontWeights.bold};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
+  font-family: ${({ theme }) => theme.fonts.main};
   letter-spacing: 0.02em;
   text-align: center;
   color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};

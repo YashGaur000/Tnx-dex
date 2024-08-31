@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import logoImage from '../assets/logo.svg';
+import logoImage from '../assets/TenExlogo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
@@ -18,7 +18,7 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 5px;
   background-color: ${({ theme }) => theme.colors.background};
 
   ${({ sticky }) =>
@@ -41,7 +41,8 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
 `;
 
 export const Logo = styled.img<{ theme: DefaultTheme }>`
-  height: 40px;
+  height: 36px;
+  width: 88px;
   margin-right: 10px;
   font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -84,6 +85,7 @@ const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
   background: ${({ isActive, theme }) =>
