@@ -4,7 +4,7 @@ import { RouterContract } from './../types/Liquidity';
 import { Address } from 'viem';
 import { ethers } from 'ethers';
 import contractAddress from '../constants/contract-address/address';
-import { routerAbi } from '../constants/abis/router';
+import routerAbi from '../constants/artifacts/contracts/Router.json';
 import { TokenInfo } from '../constants/tokens';
 
 /**
@@ -16,7 +16,7 @@ export function useRouterContract() {
   const factory = contractAddress.PoolFactory;
   const routerContract = useContract(
     routerAddress,
-    routerAbi
+    routerAbi.abi
   ) as RouterContract;
 
   const addLiquidity = useCallback(
@@ -114,5 +114,36 @@ export function useRouterContract() {
     [routerContract, factory]
   );
 
-  return { addLiquidity, getReserves };
+  const quoteAddLiquidity = useCallback(
+    async (
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      _factory: Address,
+      amountADesired: ethers.Numeric,
+      amountBDesired: ethers.Numeric
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+      try {
+        const liquidityEstimate = await routerContract.quoteAddLiquidity(
+          tokenA,
+          tokenB,
+          stable,
+          _factory,
+          ethers.parseUnits(amountADesired.toString()),
+          ethers.parseUnits(amountBDesired.toString()),
+          { gasLimit: 3000000 } // @todo : not really required just for safety
+        );
+        return liquidityEstimate;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [routerContract]
+  );
+
+  return { addLiquidity, getReserves, quoteAddLiquidity };
 }

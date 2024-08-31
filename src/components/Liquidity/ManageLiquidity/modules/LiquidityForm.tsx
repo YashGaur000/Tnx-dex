@@ -18,9 +18,11 @@ import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo } from '../../../../constants/tokens';
 import { ethers } from 'ethers';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
-
+import contractAddress from '../../../../constants/contract-address/address';
 import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import { AmountLabel } from '../../../common';
+import { useRouterContract } from '../../../../hooks/useRouterContract';
+import { formatUnits } from 'ethers';
 
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
@@ -40,17 +42,59 @@ const LiquidityForm: FC<FormComponentProps> = ({
 }) => {
   const [token1Value, setToken1Amount] = useState<ethers.Numeric>(0);
   const [token2Value, setToken2Amount] = useState<ethers.Numeric>(0);
+  const { quoteAddLiquidity } = useRouterContract();
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     setToken1Amount(value);
-    onTokenValueChange(
-      value,
-      token2Value,
-      totalBalanceToken1,
-      totalBalanceToken2
-    );
+
+    // Set values for creating a new stable pool deposit.
+    if (!exists && type) {
+      setToken2Amount(value);
+    }
+
+    // Fetch values for new deposit in an existing pool (quote liquidity).
+    if (selectedToken1 && selectedToken2 && exists) {
+      if (!value) {
+        setToken2Amount(0);
+      } else {
+        quoteAddLiquidity(
+          selectedToken1.address,
+          selectedToken2.address,
+          type,
+          contractAddress.PoolFactory,
+          value,
+          totalBalanceToken2
+        )
+          .then((tx) => {
+            const value2 =
+              tx &&
+              parseFloat(
+                formatUnits(tx.amountB.toString(), selectedToken2.decimals)
+              );
+            setToken2Amount(value2 ? value2 : 0);
+            onTokenValueChange(
+              value,
+              value2 ?? 0,
+              totalBalanceToken1,
+              totalBalanceToken2
+            );
+          })
+          .catch((error) => {
+            console.error('Error fetching quote liquidity:', error);
+            setToken2Amount(0);
+          });
+      }
+    } else {
+      onTokenValueChange(
+        value,
+        token2Value,
+        totalBalanceToken1,
+        totalBalanceToken2
+      );
+    }
   };
+
   const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = Number(event.target.value);
     setToken2Amount(value);
@@ -69,12 +113,51 @@ const LiquidityForm: FC<FormComponentProps> = ({
     if (tokenType === 'token1') {
       const calculatedValue = (Number(totalBalanceToken1) * percentage) / 100;
       setToken1Amount(calculatedValue);
-      onTokenValueChange(
-        calculatedValue,
-        token2Value,
-        totalBalanceToken1,
-        totalBalanceToken2
-      );
+
+      // to set values for creating new stable pool deposit.
+      if (!exists && type) {
+        setToken2Amount(calculatedValue);
+      }
+
+      // to fetch values for new deposit in an existing pool (quote liquidity).
+      if (selectedToken1 && selectedToken2 && exists) {
+        if (!calculatedValue) {
+          setToken2Amount(0);
+        } else {
+          quoteAddLiquidity(
+            selectedToken1.address,
+            selectedToken2.address,
+            type,
+            contractAddress.PoolFactory,
+            calculatedValue,
+            totalBalanceToken2
+          )
+            .then((tx) => {
+              const value2 =
+                tx &&
+                parseFloat(
+                  formatUnits(tx.amountB.toString(), selectedToken2.decimals)
+                );
+              setToken2Amount(value2 ? value2 : 0);
+              onTokenValueChange(
+                calculatedValue,
+                value2 ?? 0,
+                totalBalanceToken1,
+                totalBalanceToken2
+              );
+            })
+            .catch((error) => {
+              console.error('Error fetching liquidity quote:', error);
+            });
+        }
+      } else {
+        onTokenValueChange(
+          calculatedValue,
+          token2Value,
+          totalBalanceToken1,
+          totalBalanceToken2
+        );
+      }
     } else {
       const calculatedValue = (Number(totalBalanceToken2) * percentage) / 100;
       setToken2Amount(calculatedValue);
@@ -90,6 +173,8 @@ const LiquidityForm: FC<FormComponentProps> = ({
   const getParam = useQueryParams();
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
+  const type = getParam('type') == '0' ? true : false;
+  const exists = getParam('exists') == 'true' ? true : false;
 
   const tokenList = [selectedToken1, selectedToken2];
 
@@ -174,6 +259,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
                 Number(token2Value) > Number(totalBalanceToken2.toString())
               }
               onChange={handleChangeToken2Value}
+              disabled={exists ? exists : type}
             />
           </InputBoxContainer>
           <LiquidityProgress>
