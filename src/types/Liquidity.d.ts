@@ -27,6 +27,15 @@ interface RouterContract extends Contract {
     deadline: bigint,
     { gasLimit: BigInt }
   ): Promise<ContractTransaction>;
+  quoteAddLiquidity(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    _factory: Address,
+    amountADesired: ethers.Numeric,
+    amountBDesired: ethers.Numeric,
+    { gasLimit: BigInt }
+  ): Promise<QuoteAddLiquidityResponse>;
   factoryRegistry(): Promise<[Address]>;
   sortTokens(tokenA: Address, tokenB: Address): Promise<[Address]>;
   estimateGas: {
@@ -41,7 +50,21 @@ interface RouterContract extends Contract {
       to: Address,
       deadline: bigint
     ): Promise<bigint>;
+    quoteAddLiquidity(
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      _factory: Address,
+      amountADesired: ethers.Numeric,
+      amountBDesired: ethers.Numeric
+    ): Promise<bigint>;
   };
+}
+
+export interface QuoteAddLiquidityResponse {
+  amountA: bigint;
+  amountB: bigint;
+  liquidity: bigint;
 }
 
 export interface AddLiquidityParams {

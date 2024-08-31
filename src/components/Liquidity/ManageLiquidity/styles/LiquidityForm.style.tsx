@@ -39,6 +39,7 @@ export const LiquidityProgress = styled.div`
 interface InputBoxProps {
   isInvalid: boolean;
   theme: DefaultTheme;
+  disabled?: boolean;
 }
 
 export const LiquidityInputBox = styled.input<InputBoxProps>`
@@ -52,6 +53,7 @@ export const LiquidityInputBox = styled.input<InputBoxProps>`
   padding-left: 20px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
 
   &:focus {
     outline: none;

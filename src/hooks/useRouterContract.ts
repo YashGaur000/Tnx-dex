@@ -133,8 +133,38 @@ export function useRouterContract() {
         throw error;
       }
     },
-    [routerContract, factory]
+    [routerContract]
   );
 
-  return { addLiquidity, getReserves, getAmountsOut };
+  const quoteAddLiquidity = useCallback(
+    async (
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      _factory: Address,
+      amountADesired: ethers.Numeric,
+      amountBDesired: ethers.Numeric
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+      try {
+        const liquidityEstimate = await routerContract.quoteAddLiquidity(
+          tokenA,
+          tokenB,
+          stable,
+          _factory,
+          ethers.parseUnits(amountADesired.toString()),
+          ethers.parseUnits(amountBDesired.toString()),
+          { gasLimit: 3000000 } // @todo : not really required just for safety
+        );
+        return liquidityEstimate;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [routerContract]
+  );
+  return { addLiquidity, getReserves, getAmountsOut, quoteAddLiquidity };
 }
