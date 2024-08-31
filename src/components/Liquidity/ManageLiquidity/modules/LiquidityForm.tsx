@@ -73,20 +73,26 @@ const LiquidityForm: FC<FormComponentProps> = ({
                 formatUnits(tx.amountB.toString(), selectedToken2.decimals)
               );
             setToken2Amount(value2 ? value2 : 0);
+            onTokenValueChange(
+              value,
+              value2 ?? 0,
+              totalBalanceToken1,
+              totalBalanceToken2
+            );
           })
           .catch((error) => {
             console.error('Error fetching quote liquidity:', error);
             setToken2Amount(0);
           });
       }
+    } else {
+      onTokenValueChange(
+        value,
+        token2Value,
+        totalBalanceToken1,
+        totalBalanceToken2
+      );
     }
-
-    onTokenValueChange(
-      value,
-      token2Value,
-      totalBalanceToken1,
-      totalBalanceToken2
-    );
   };
 
   const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
@@ -133,19 +139,25 @@ const LiquidityForm: FC<FormComponentProps> = ({
                   formatUnits(tx.amountB.toString(), selectedToken2.decimals)
                 );
               setToken2Amount(value2 ? value2 : 0);
+              onTokenValueChange(
+                calculatedValue,
+                value2 ?? 0,
+                totalBalanceToken1,
+                totalBalanceToken2
+              );
             })
             .catch((error) => {
               console.error('Error fetching liquidity quote:', error);
             });
         }
+      } else {
+        onTokenValueChange(
+          calculatedValue,
+          token2Value,
+          totalBalanceToken1,
+          totalBalanceToken2
+        );
       }
-
-      onTokenValueChange(
-        calculatedValue,
-        token2Value,
-        totalBalanceToken1,
-        totalBalanceToken2
-      );
     } else {
       const calculatedValue = (Number(totalBalanceToken2) * percentage) / 100;
       setToken2Amount(calculatedValue);
@@ -247,6 +259,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
                 Number(token2Value) > Number(totalBalanceToken2.toString())
               }
               onChange={handleChangeToken2Value}
+              disabled={exists ? exists : type}
             />
           </InputBoxContainer>
           <LiquidityProgress>
