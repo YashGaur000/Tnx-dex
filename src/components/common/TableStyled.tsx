@@ -71,8 +71,7 @@ export const TableHeader = styled.th<TableProps>`
   text-overflow: ellipsis;
   min-width: 100px;
   width: ${({ width }) => width};
-  background: ${({ background, theme }) =>
-    background ?? theme.colors.bordercolor};
+  background: ${({ background, theme }) => background ?? theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
