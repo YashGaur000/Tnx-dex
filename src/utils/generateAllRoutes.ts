@@ -114,41 +114,16 @@ export const findBestRoute = async (
 
   // Populate the priority queue with the initial evaluation of each route
   for (const route of allRoutes) {
-    pq.enqueue({ route, potentialQuote: amountIn });
-  }
+    const amounts = await getAmountsOut(amountIn, route);
 
-  let bestQuote = BigInt(0);
-  let bestRoute: Route[] | null = null;
-
-  // Process routes from the priority queue
-  while (!pq.isEmpty()) {
-    const dequeuedItem = pq.dequeue();
-
-    // Ensure dequeuedItem is not undefined
-    if (!dequeuedItem) continue;
-
-    const { route, potentialQuote } = dequeuedItem;
-
-    // Skip processing if this route's potential is less than the current best quote
-    if (Number(potentialQuote) <= bestQuote) continue;
-
-    try {
-      // Call the smart contract to get the actual output for the current route
-      const amounts = await getAmountsOut(amountIn, route);
-
-      const lastAmount = amounts?.[amounts.length - 1];
-
-      if (lastAmount && lastAmount > bestQuote) {
-        bestQuote = lastAmount;
-        bestRoute = route;
-      }
-    } catch (error) {
-      console.error('Error fetching amounts out:', error);
+    const lastAmount = amounts?.[amounts.length - 1];
+    if (lastAmount) {
+      pq.enqueue({ route, potentialQuote: lastAmount?.toString() });
     }
   }
 
   return {
-    bestQuote,
-    bestRoute: bestRoute ? bestRoute : null,
+    bestQuote: pq.peek()?.potentialQuote,
+    bestRoute: pq.peek()?.route,
   };
 };
