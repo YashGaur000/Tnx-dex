@@ -8,7 +8,12 @@ export interface Route {
   factory: string;
 }
 
-export type Graph = Record<string, string[]>;
+interface Connection {
+  token: string;
+  stable: boolean;
+}
+
+export type Graph = Record<string, Connection[]>;
 
 interface RouteEvaluation {
   route: Route[];
@@ -35,10 +40,10 @@ function generateRoutes(
   const routes: Route[][] = [];
 
   for (const neighbor of graph[sourceToken]) {
-    if (!visitedTokens.has(neighbor)) {
+    if (!visitedTokens.has(neighbor.token)) {
       const subRoutes = generateRoutes(
         graph,
-        neighbor,
+        neighbor.token,
         destToken,
         visitedTokens,
         currentHop + 1,
@@ -50,8 +55,8 @@ function generateRoutes(
           [
             {
               from: sourceToken,
-              to: neighbor,
-              stable: false,
+              to: neighbor.token,
+              stable: neighbor.stable,
               factory: contractAddresses.PoolFactory.toString(),
             },
           ].concat(subRoute)
