@@ -100,7 +100,7 @@ const theme: DefaultTheme = {
       'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
     buttonHover: 'linear-gradient(188.32deg, #3EACFC -7.09%, #47FF99 99.48%)',
     card: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
-    cardLight: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%);',
+    cardLight: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
     cardDark: 'rgba(16, 28, 59, 1)',
     title: 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)',
     grey: 'rgba(204, 204, 204, 1)',

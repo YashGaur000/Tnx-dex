@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-// import TransactionDeadline from './TransactionDeadline';
-// import SlippageTolerance from './SlippageTolerance';
-// import AllowUnsafeTrades from './AllowUnsafeTrades';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import SolIcon from '../../../assets/sol.png';
@@ -18,17 +15,18 @@ import {
 } from '../styles/Sidebar.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface SidebarProps {
-  InputAmount1: string;
-  InputAmount2: string;
+  isLoading: boolean;
+  exchangeRate: number;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
   const handleUnsafeAllowence = () => {
-    setTokenAllow(false);
+    setTokenAllow(false); //temperory writing this statement
     setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
   };
   const SwapDepositInitialData: StepperDataProps[] = [
@@ -36,10 +34,10 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: 'Quote for deposit received... ',
+        labels: 'Exchange Rate Found',
         adjust: 'Refresh',
-        token1: '1.0',
-        token2: '0.73546',
+        token1: '1 tEnvio',
+        token2: `${exchangeRate} tBlast`,
       },
     },
     {
@@ -55,24 +53,13 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
     },
     {
       step: 3,
-      icon: PlusIcon,
-      descriptions: {
-        labels: '30 min transaction deadline applied...',
-        adjust: 'Adjust',
-        onClick: () => {
-          handleAdjust('tolerance');
-        },
-      },
-    },
-    {
-      step: 5,
       icon: SolIcon,
       descriptions: {
         labels: 'Minimum received 5.86 SOL',
       },
     },
     {
-      step: 6,
+      step: 4,
       icon: InformationIcon,
       unSafe: {
         visible: true,
@@ -98,7 +85,7 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
     {
       step: 2,
       descriptions: {
-        labels: 'Pick the token you want to exchange for.',
+        labels: 'Pick the token you want to exchange For.',
       },
     },
     {
@@ -109,16 +96,16 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
     },
   ];
 
-  //  const handleTokenAllow=()=>{
+  // const handleTokenAllow=async()=>{
   //       try {
 
-  //          console.log('abc');
-  //          await setTokenAllow(true);
+  //         console.log(abc);
+  //          setTokenAllow(true);
   //       } catch (error) {
-  //          console.log(error);
+  //         console.log(error);
 
   //       }
-  //  }
+  // }
 
   useEffect(() => {
     const updatedData = [...SwapDepositInitialData];
@@ -176,17 +163,18 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
   // const handleToggleChange = () => {
   //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
   // };
-
   return (
     <>
       <SidebarInner>
         <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
         <SidebarList>
-          <Stepper
-            data={
-              InputAmount1 && InputAmount2 ? SwapDepositData : SwapInstructData
-            }
-          />
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : exchangeRate > 0 ? (
+            <Stepper data={SwapDepositData} />
+          ) : (
+            <Stepper data={SwapInstructData} />
+          )}
         </SidebarList>
       </SidebarInner>
     </>

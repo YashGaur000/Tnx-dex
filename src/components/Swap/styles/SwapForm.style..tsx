@@ -143,7 +143,7 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
-  margin-left: 16px;
+  margin-left: 24px;
   display: inline-block;
   img {
     color: ${({ theme }) => theme.colors.text};
@@ -176,7 +176,7 @@ export const PercentageSelectorContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 9px 15px 0px 1px;
+  padding: 9px 32px 0px 1px;
   border-radius: 8px;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -212,6 +212,8 @@ export const WalletText = styled.span<{ theme: DefaultTheme }>`
 export const PercentageOptions = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
+
+  width: 210px;
 `;
 
 export const PercentageButton = styled.button<{
@@ -222,8 +224,10 @@ export const PercentageButton = styled.button<{
   padding: 5px 10px;
   font-size: 12px;
   border: none;
+  background: rgba(219, 219, 219, 1);
   background-color: ${({ active }) => (active ? '#2b6cb0' : 'transparent')};
-  color: ${({ active }) => (active ? '#ffffff' : '#cbd5e0')};
+  color: ${({ active, theme }) =>
+    active ? '#ffffff' : theme.colors.textGreyColor};
   cursor: pointer;
   border-radius: 4px;
 
@@ -247,7 +251,7 @@ export const SwitchButton = styled.div<{ theme: DefaultTheme }>`
   height: 28px;
   background: ${({ theme }) => theme.colors.swapIconBackground};
   border-radius: 50%;
-  margin: 10px auto;
+  margin: 16px auto;
   cursor: pointer;
 
   img {
@@ -278,6 +282,13 @@ export const WalletWrapper = styled.div`
   }
 `;
 
+export const InputBoxWithTokenSelectWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 28px;
+  margin-bottom: 5px;
+`;
 export const WalletButton = styled.button<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
@@ -319,7 +330,11 @@ export const TokenSelectAlign = styled.div<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 
-export const TokenSelectAlignSelect = styled.div<{ theme: DefaultTheme }>`
+export const TokenIcon = styled.img<{ width: number; height: number }>`
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
+`;
+export const TokenSelectAlignSelect = styled.div`
   display: table-cell;
   align-content: center;
 `;

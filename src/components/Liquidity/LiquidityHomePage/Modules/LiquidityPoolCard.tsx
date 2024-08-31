@@ -48,6 +48,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
     queryParams.set('type', typeValue);
     queryParams.set('exists', true.toString()); //@Todo need to handle properly and check routes of both manage and create new pool
 
+    queryParams.set('id', data?.id);
+
     navigate({
       pathname: '/liquidity/manage',
       search: `?${queryParams.toString()}`,

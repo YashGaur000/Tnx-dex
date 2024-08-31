@@ -48,8 +48,13 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
     const queryParams = new URLSearchParams(location.search);
 
     const typeValue = poolType === 'stable' ? '0' : '1';
+    if (poolDetails) {
+      queryParams.set('token1', poolDetails.token0.id.replace(/-\S*$/, '')); // to handle the reversal of token0 with the available pool
+      queryParams.set('token2', poolDetails.token1.id.replace(/-\S*$/, '')); // to handle the reversal of token1 with the available pool
+    }
     queryParams.set('type', typeValue.toString());
     queryParams.set('exists', exists);
+    if (exists == 'true' && poolDetails) queryParams.set('id', poolDetails?.id);
     Navigate({
       pathname: '/liquidity/manage',
       search: `?${queryParams.toString()}`,
