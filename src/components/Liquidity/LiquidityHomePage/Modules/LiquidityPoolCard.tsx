@@ -73,30 +73,33 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                 <Imgstyle src={getTokenLogo(data.token1.symbol)} />
               </IMG2Contains>
             </GroupImgContains>
+
             <PairContain>
               <TraidingSyleLabel>
                 {data.token0.symbol}-{data.token1.symbol}
               </TraidingSyleLabel>
-              <TokenAmountTitle>
-                <StatsCardtitle fontSize={12}>
-                  {data.isStable ? 'Stable' : 'Volatile'}
-                </StatsCardtitle>
-                {/* <p> {data.stablePercentage}%</p>{' '} */}
-                <p>{0.01} %</p>
-                <SugestImgWrapper
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  <SuggestImg src={ImpIcon} />
-                  {isHovered && <LiquidityInfo />}
-                </SugestImgWrapper>
-              </TokenAmountTitle>
-              <TokenAmountTitle>
-                <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
-                <LiquidityTitle fontSize={12}>
-                  {data.totalVolumeUSD.toString()}
-                </LiquidityTitle>
-              </TokenAmountTitle>
+              <LiquidityTokenWrapper>
+                <TokenAmountTitle>
+                  <StatsCardtitle fontSize={12}>
+                    {data.isStable ? 'Stable' : 'Volatile'}
+                  </StatsCardtitle>
+                  {/* <p> {data.stablePercentage}%</p>{' '} */}
+                  <p>{0.01} %</p>
+                  <SugestImgWrapper
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <SuggestImg src={ImpIcon} />
+                    {isHovered && <LiquidityInfo />}
+                  </SugestImgWrapper>
+                </TokenAmountTitle>
+                <TokenAmountTitle>
+                  <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
+                  <LiquidityTitle fontSize={12}>
+                    {data.totalVolumeUSD.toString()}
+                  </LiquidityTitle>
+                </TokenAmountTitle>
+              </LiquidityTokenWrapper>
             </PairContain>
           </TokenCardContainer>
         </TableColumn>

@@ -12,6 +12,7 @@ import {
   DropDownWrapper,
 } from '../styles/LiquidityFilter.style';
 import DropDown from '../../../common/DropDown';
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 
 interface Option {
   id: number;
@@ -82,7 +83,12 @@ const FilterContainer = () =>
               <DropDown onSelect={handleSelectOption} options={options} />
             </DropDownWrapper>
             <SearchBoxContainer>
-              <img src={SearchIcon} alt="Search Icon" />
+              <ImageContainer
+                width="16px"
+                height="16px"
+                src={SearchIcon}
+                alt="Search Icon"
+              />
               <Input
                 type="text"
                 placeholder="Search by symbol or address"
