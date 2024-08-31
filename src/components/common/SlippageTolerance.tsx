@@ -6,8 +6,8 @@ import {
   SlippageWrapper,
   ToleranceButton,
   ToleranceButtons,
-} from '../styles/SlippageTolerance.style';
-import { useRootStore } from '../../../store/root';
+} from '../Swap/styles/SlippageTolerance.style';
+import { useRootStore } from '../../store/root';
 
 const SlippageTolerance: React.FC = () => {
   const { selectedTolerance, setSelectedTolerance } = useRootStore();

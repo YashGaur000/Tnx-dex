@@ -76,7 +76,7 @@ export const FilterContainerStyle = styled.section`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: 40px;
+  margin-top: 16px;
 
   height: 87px;
   margin-bottom: 12px;
