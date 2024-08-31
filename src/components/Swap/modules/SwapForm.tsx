@@ -118,11 +118,13 @@ const SwapForm: React.FC = () => {
               );
               console.log('routes------->', routes);
               const test = await findBestRoute(amount, routes, getAmountsOut);
-              console.log(
-                'test------->',
-                Number(test?.bestQuote.toString()) / 10 ** 18,
-                test?.bestRoute
-              );
+              if (test?.bestQuote) {
+                console.log(
+                  'test------->',
+                  Number(test?.bestQuote.toString()) / 10 ** 18,
+                  test?.bestRoute
+                );
+              }
             }
             setExchangeRate(1);
           } catch (error) {
