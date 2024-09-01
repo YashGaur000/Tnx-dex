@@ -7,7 +7,7 @@ interface TableProps {
   margin?: string;
   fontSize?: string;
   fontWeight?: number;
-  lineHeight?: string;
+  lineheight?: string;
   color?: string;
   padding?: string;
   background?: string;
@@ -53,7 +53,7 @@ const TableContains = styled.table<TableProps>`
   font-size: ${({ fontSize }) => fontSize ?? '16px'};
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
-  border-spacing: 0 20px;
+  line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
   color: ${({ color }) => color ?? '#ffffff'};
 
   border-radius: 24px;

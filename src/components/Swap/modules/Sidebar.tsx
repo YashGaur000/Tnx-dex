@@ -91,12 +91,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
     {
       step: 3,
       descriptions: {
-        labels: 'The quote will be ready in a moment!',
+        labels: 'The quote will be ready in a moment!qzg s',
       },
     },
   ];
 
-  // const handleTokenAllow=async()=>{
+  // const handleTokenAllow = ()=>{
   //       try {
 
   //         console.log(abc);

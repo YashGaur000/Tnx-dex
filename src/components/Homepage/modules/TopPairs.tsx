@@ -28,7 +28,7 @@ const TopPairs: React.FC = () => (
             <CardIcon src={suiLogo} alt="SUI Logo" />
           </CardIcons>
           <CardTitle tag="top">SOL/SUI</CardTitle>
-          <CardDescription Lineheight="23.92px">
+          <CardDescription lineheight="23.92px">
             Classic Constant Product AMM
           </CardDescription>
           <CardPercentage>20.54%</CardPercentage>
