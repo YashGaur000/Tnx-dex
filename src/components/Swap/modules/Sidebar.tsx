@@ -79,19 +79,19 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
       step: 1,
       descriptions: {
         labels:
-          'Start by selecting the token to Swap from and the amount you want to exchange.',
+          'Choose the token you want to swap and enter the amount you would like to trade.',
       },
     },
     {
       step: 2,
       descriptions: {
-        labels: 'Pick the token you want to exchange For.',
+        labels: 'Choose the token you want to swap into.',
       },
     },
     {
       step: 3,
       descriptions: {
-        labels: 'The quote will be ready in a moment!qzg s',
+        labels: "Just a moment, we're preparing your quote!",
       },
     },
   ];
