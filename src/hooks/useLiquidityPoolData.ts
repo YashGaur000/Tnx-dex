@@ -30,7 +30,6 @@ export const useLiquidityPoolData = () => {
   const { loading, error, data } =
     useQuery<LiquidityPoolResponse>(LIQUIDITY_POOL_QUERY);
   // Process data after fetching
-  console.log('data', data);
   const processedData = data ? processLiquidityPoolData(data) : [];
 
   return {

@@ -22,11 +22,11 @@ export const TableWrapper = styled.div<{
 }>`
   overflow-x: scroll;
 
-  border-radius: 24px;
-  padding: ${({ padding }) => padding ?? '30px'};
+  border-radius: 16px;
+  padding: ${({ padding }) => padding ?? '16px 40px 16px'};
   background: ${({ theme, background }) => background ?? theme.colors.card};
   width: 100%;
-  margin-top: 20px;
+
   &::-webkit-scrollbar {
     height: 3px;
   }
@@ -45,8 +45,8 @@ export const TableWrapper = styled.div<{
 
 const TableContains = styled.table<TableProps>`
   width: ${({ width }) => width ?? '100%'};
-  border-collapse: collapse;
 
+  table-layout: fixed;
   margin: ${({ margin }) => margin ?? '0px 0px'};
   height: auto;
   font-family: ${({ theme }) => theme.fonts.main};
@@ -54,9 +54,10 @@ const TableContains = styled.table<TableProps>`
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
+  border-spacing: 0 20px;
   color: ${({ color }) => color ?? '#ffffff'};
 
-  border-radius: 20px;
+  border-radius: 24px;
 
   @media screen and (max-width: 500px) {
     font-size: ${({ fontSize }) => fontSize ?? '12px'};
@@ -70,14 +71,16 @@ export const TableHeader = styled.th<TableProps>`
     fontWeight ?? theme.fontWeights.regular};
   text-overflow: ellipsis;
   min-width: 100px;
-
-  background: ${({ background }) =>
-    background ?? 'linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%)'};
+  width: ${({ width }) => width};
+  background: ${({ background, theme }) => background ?? theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  padding: ${({ padding }) => padding ?? '0px 0px 15px'};
-  text-align: ${({ textAlign }) => textAlign ?? 'center'};
+  padding-bottom: 12px;
+
+  line-height: 23.92px;
+
+  text-align: ${({ textAlign }) => textAlign ?? 'right'};
 `;
 
 export const TableColumn = styled.td<TableProps>`
@@ -87,12 +90,28 @@ export const TableColumn = styled.td<TableProps>`
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   text-overflow: ellipsis;
-  min-width: 100px;
+  height: 74px;
 
-  padding: ${({ padding }) => padding ?? '10px 0px'};
-  text-align: center;
+  width: ${({ width }) => width};
+  padding: ${({ padding }) => padding ?? '0px 24px 0px 0px'};
+  text-align: ${({ textAlign }) => textAlign ?? 'right'};
 `;
 export const TableRow = styled.tr`
   padding: 0px;
 `;
+export const TableColumnWrapper = styled.div<{ gap?: number }>`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ gap }) => gap ?? '8'}px;
+  height: 73px;
+  justify-content: flex-start;
+`;
+export const TableHeaderWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 8px;
+  justify-content: right;
+`;
+
 export default TableContains;

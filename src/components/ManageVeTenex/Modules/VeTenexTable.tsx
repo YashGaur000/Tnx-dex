@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TableContains, {
   TableColumn,
   TableHeader,
+  TableHeaderWrapper,
   TableRow,
   TableWrapper,
 } from '../../common/TableStyled';
@@ -17,7 +18,7 @@ import {
   LockTableContains,
 } from '../Styles/ManageVetenex.style';
 import ShortIcon from '../../../assets/short.svg';
-import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+
 import {
   AmountWithImg,
   ButtonContain,
