@@ -8,11 +8,11 @@ export const SlippageWrapper = styled.div<{
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.cardLight};
   padding: 16px;
-  width: 100%;
-  height: 115px;
+  width: 360px;
+  height: 118px;
 
   border-radius: 20px;
-  margin: 15px 0px;
+  margin: 32px 40px;
 `;
 
 export const SidebarTitle = styled.h2<{

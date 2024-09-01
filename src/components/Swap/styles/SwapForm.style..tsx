@@ -57,14 +57,18 @@ export const SwapBox = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const SwTitle = styled.div<{ theme: DefaultTheme }>`
+  width: 58px;
+  height: 36px;
+
+  gap: 0px;
+  opacity: 0px;
+  text-align: left;
   font-size: 24px;
   line-height: 35.88px;
-  width: 520px;
-  text-align: left;
+  text-align: center;
+
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  margin-bottom: 8px;
-  margin-left: -12px;
 
   @media only screen and (max-width: 600px) {
     font-size: 22px;
@@ -339,11 +343,16 @@ export const TokenSelectAlignSelect = styled.div`
   align-content: center;
 `;
 export const SwapTitle = styled.div<{ theme: DefaultTheme }>`
-  border-radius: 10px;
-  max-width: 520px;
-  min-height: 36px;
-  padding-left: 13px;
+  width: 520px;
+  height: 36px;
+  top: 180px;
+  left: 140px;
+  gap: 0px;
+  opacity: 0px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
 
   @media only screen and (max-width: 600px) {
     width: 72%;
@@ -356,4 +365,23 @@ export const ContectedText = styled.span<{ theme: DefaultTheme }>`
   line-height: 14.95px;
   text-align: left;
   margin-top: 16px;
+`;
+export const SwapSetting = styled.div<{ theme: DefaultTheme }>`
+  width: 20px;
+  height: 20px;
+  top: 188px;
+  left: 640px;
+  padding: 1.88px 2.2px 1.88px 2.2px;
+  gap: 0px;
+  opacity: 0px;
+`;
+
+export const SettingIcon = styled.img`
+  width: 20px;
+  height: 20px;
+  top: 188px;
+  left: 640px;
+  padding: 1.88px 2.2px 1.88px 2.2px;
+  gap: 0px;
+  opacity: 0px;
 `;
