@@ -62,7 +62,7 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
             borderRadius="6px"
             color="#ffffff"
             padding="10px"
-            lineHeight="0px"
+            lineheight="0px"
             border="1.5px solid transparent"
             fontSize="12px"
             width="95px"

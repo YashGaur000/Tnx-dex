@@ -66,17 +66,17 @@ export const VotingAllPoolsTabs = styled.button<{
   isconnected?: string;
   theme: DefaultTheme;
   Width: string;
-  isActive?: boolean;
+  isactive?: boolean;
 }>`
   padding: 4px 16px;
   justify-content: center;
   display: flex;
   height: auto;
   width: ${({ Width }) => Width};
-  border: 2px solid ${({ isActive }) => (isActive ? 'transparent' : 'white')};
+  border: 2px solid ${({ isactive }) => (isactive ? 'transparent' : 'white')};
   border-radius: 12px;
-  background: ${({ isActive }) =>
-    isActive
+  background: ${({ isactive }) =>
+    isactive
       ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)'
       : 'transparent'};
   cursor: pointer;
@@ -85,12 +85,12 @@ export const VotingAllPoolsTabs = styled.button<{
   line-height: 29.9px;
   letter-spacing: 0.02em;
   text-align: center;
-  color: ${({ isActive }) => (isActive ? 'transparent' : 'white')};
-  background-clip: ${({ isActive }) => (isActive ? 'text' : 'border-box')};
-  -webkit-background-clip: ${({ isActive }) =>
-    isActive ? 'text' : 'border-box'};
-  -webkit-text-fill-color: ${({ isActive }) =>
-    isActive ? 'transparent' : 'white'};
+  color: ${({ isactive }) => (isactive ? 'transparent' : 'white')};
+  background-clip: ${({ isactive }) => (isactive ? 'text' : 'border-box')};
+  -webkit-background-clip: ${({ isactive }) =>
+    isactive ? 'text' : 'border-box'};
+  -webkit-text-fill-color: ${({ isactive }) =>
+    isactive ? 'transparent' : 'white'};
   transition: all 0.3s;
 
   &:hover {
@@ -242,12 +242,12 @@ export const TooltipsQuadrant4 = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const TooltipText = styled.p<{
-  lineHeight?: string;
+  lineheight?: string;
   fontSize?: string;
   fontWeight?: string;
   theme: DefaultTheme;
 }>`
-  line-height: ${({ lineHeight }) => lineHeight};
+  line-height: ${({ lineheight }) => lineheight};
   font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};

@@ -56,10 +56,11 @@ export const INTRO_RAW_DATA = {
               </li>
           </ol>
         </div>
-  
+  <div>
         <span>Volatile Swaps</span>
         <p>Volatile swaps are used for trading assets that have fluctuating prices. These can include various cryptocurrencies that are not pegged to any stable value, such as ETH, BTC, and numerous altcoins.</p>
         <span>How It Works:</span>
+        </div>
         <div>
           <ol>
               <li>
@@ -160,7 +161,7 @@ export const INTRO_RAW_DATA = {
   ve3: {
     title: 'Introduction',
     content: `
-        <div >
+        <div>
             <p>Ve(3,3) is the name for the protocol’s mechanism of action and not the token’s name. Ve(3,3) token’s name is Solidly. Ve(3,3) is a combination of 2 mechanisms:</p>
             <ul>
                 <li>‘Ve’ mechanism (Vote Escrow): similar to Convex and Curve protocols.</li>
@@ -201,13 +202,14 @@ export const INTRO_RAW_DATA = {
                     <li><strong>Proportional Increase:</strong> veToken holders’ balances increase proportionally with emissions to prevent dilution, this phenomenon is called rebasing (rebase), basically adjusting the value of tokens so that it’s not affected by the inflation when new token is minted.</li>
                 </ul>
             </ul>
-    
+            <div>
             <span>Trading Fees:</span>
             <p>Trading fees originate from swap transactions associated with the Liquidity Pool. You can earn these fees by voting for any gauge you desire a share of. These fees are distributed at the beginning of each epoch. The rewards are provided in the same tokens as the LP-Tokens, for eg.</p>
             <p><em>Rewards for LP with a pair of $BTC/$ETH will be in both $BTC and $ETH</em></p>
     
             <span>Bribes:</span>
             <p>Bribes are a form of supplementary incentives distributed by the protocol or partners (VCs), to the liquidity providers. You have the opportunity to vote and earn in any gauge that is currently offering bribes. Bribes are given out every epoch, just like other incentives. Payment depends on the tokens offered as bribes in each gauge.</p>
+           </div>
             <div>
             <span>NFT Integration:</span>
             <ul>
@@ -226,6 +228,7 @@ export const INTRO_RAW_DATA = {
   rewards: {
     title: 'Rewards',
     content: `
+    <div>
             <p>There are 3 forms of rewards in TenEx:</p>
             <ul>
                 <li>Emissions</li>
@@ -272,13 +275,15 @@ export const INTRO_RAW_DATA = {
         <div>
             <p>As these tools evolve, users can anticipate gaining a clearer view of the TENEX model's performance and dynamics. This will enable more informed interaction with the platform.</p>
         </div>
+        <div>
         <p>Analytics: <span class="highlight">TO BE ADDED</span></p>
+        </div>
         `,
   },
   glossary: {
     title: 'DeFi Glossary',
     content: `
-        <div >
+        <div>
         <p>Mechanisms used by a protocol to encourage participation and align the interests of its users. Fees collected from transactions or other activities are often redistributed as incentives to users who contribute to the protocol's success, such as liquidity providers or stakers.</p>
   
   <span> Mining</span>
@@ -295,7 +300,7 @@ export const INTRO_RAW_DATA = {
         <span>Bribes</span>
         <p>Incentives offered to veToken holders to vote in favor of specific pools or proposals. Bribes can be in the form of additional tokens or rewards, encouraging strategic voting that aligns with the interests of the bribing party.</p>
     </div>
-    <div >
+    <div>
         <span>Concentrated Liquidity</span>
         <p>A concept in DeFi that allows LPs to allocate their capital within a specific price range rather than across the entire price spectrum. This means LPs can concentrate their liquidity where they expect the most trading activity to occur, increasing the efficiency of their capital.</p>
     </div>
@@ -328,12 +333,12 @@ export const INTRO_RAW_DATA = {
     title: 'veTENEX(veNFT)',
     content: `
           <div>
-          <p>veNFTs are specialized ERC-721 tokens that utilize the vested-vote escrow (ve) model to represent a user's underlying position.</p>
-          <p>Within the TENEX ecosystem, veNFTs offer several key benefits:</p>
-          <ul>
-              <li>Voting on pools to earn vote bribes and swap fees</li>
-              <li>Transferring and merging NFT positions</li>
-          </ul>
+                <p>veNFTs are specialized ERC-721 tokens that utilize the vested-vote escrow (ve) model to represent a user's underlying position.</p>
+                <p>Within the TENEX ecosystem, veNFTs offer several key benefits:</p>
+                <ul>
+                    <li>Voting on pools to earn vote bribes and swap fees</li>
+                    <li>Transferring and merging NFT positions</li>
+                </ul>
           </div>
       
           `,
@@ -341,23 +346,22 @@ export const INTRO_RAW_DATA = {
   tenexSwap: {
     title: 'TENEX Swap',
     content: `
-          <div>
-          <p>The TenEx Market, powered by TenEx Swap, will serve as a central hub for both trading and exchanging veTENEX. It’s essential for any project focused on veNFTs to have a dedicated platform where users and investors can explore and conduct transactions.</p>
-          <p>In the realm of nNFT marketplaces, TenExSwap stands out as the undisputed leader. Their innovative services have significantly enhanced the accessibility and user experience within the veNFT ecosystem, making them the ideal partner for TenEx.</p>
-          <p>By collaborating with TenExSwap, our team can channel our efforts into enhancing the user interface and experience of our unique concentrated liquidity offerings. This partnership allows us to maintain a competitive edge in development speed and innovation.</p>
-          </div>
+        <div>
+            <p>The TenEx Market, powered by TenEx Swap, will serve as a central hub for both trading and exchanging veTENEX. It’s essential for any project focused on veNFTs to have a dedicated platform where users and investors can explore and conduct transactions.</p>
+            <p>In the realm of nNFT marketplaces, TenExSwap stands out as the undisputed leader. Their innovative services have significantly enhanced the accessibility and user experience within the veNFT ecosystem, making them the ideal partner for TenEx.</p>
+            <p>By collaborating with TenExSwap, our team can channel our efforts into enhancing the user interface and experience of our unique concentrated liquidity offerings. This partnership allows us to maintain a competitive edge in development speed and innovation.</p>
+        </div>
           `,
   },
   revenue: {
     title: 'Voters Revenue Distribution Schedule',
     content: `
           <div>
-          <span>Vote Incentives:</span>
-          <p>Participants can claim voting incentives as soon as the epoch ends. To illustrate, if a single pair receives a 1000 USDC incentive and you’re the only voter, you're entitled to the entire 1000 USDC. This incentive becomes available for collection starting at 0 UTC on Thursday.</p>
-      
-          <span>Swap Fees:</span>
-          <p>Throughout the week, voters continuously accumulate trading fees in real-time. These earnings are derived from the pool(s) they supported with their votes before the epoch's conclusion. This mechanism ensures that participants receive ongoing compensation for their role in enhancing liquidity.</p>
-          <p>This dual incentive structure encourages active participation and strategic voting, while providing both immediate and continuous benefits to TenEx users.</p>
+            <span>Vote Incentives:</span>
+            <p>Participants can claim voting incentives as soon as the epoch ends. To illustrate, if a single pair receives a 1000 USDC incentive and you’re the only voter, you're entitled to the entire 1000 USDC. This incentive becomes available for collection starting at 0 UTC on Thursday.</p>
+            <span>Swap Fees:</span>
+            <p>Throughout the week, voters continuously accumulate trading fees in real-time. These earnings are derived from the pool(s) they supported with their votes before the epoch's conclusion. This mechanism ensures that participants receive ongoing compensation for their role in enhancing liquidity.</p>
+            <p>This dual incentive structure encourages active participation and strategic voting, while providing both immediate and continuous benefits to TenEx users.</p>
           </div>
           `,
   },

@@ -76,7 +76,7 @@ const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
   }
 `;
 
-const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
+const NavLink = styled.div<{ theme: DefaultTheme; isactive: string }>`
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   text-decoration: none;
@@ -87,8 +87,8 @@ const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
   font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.colors.hover : 'transparent'};
+  background: ${({ isactive, theme }) =>
+    isactive ? theme.colors.hover : 'transparent'};
 
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
@@ -193,7 +193,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Trade' ? true : false}
+            isactive={activeMainTab === 'Trade' ? 'true' : ''}
             onClick={() => {
               setShowTradeSubTabs(!showTradeSubTabs);
               {
@@ -232,7 +232,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowLiquiditySubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Liquidity' ? true : false}
+            isactive={activeMainTab === 'Liquidity' ? ' true' : ''}
             onClick={() => {
               setShowLiquiditySubTabs(!showLiquiditySubTabs);
             }}
@@ -267,7 +267,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Governance' ? true : false}
+            isactive={activeMainTab === 'Governance' ? ' true' : ''}
             onClick={() => {
               setShowGovernanceSubTabs(!showGovernanceSubTabs);
             }}
@@ -305,7 +305,7 @@ const Header: React.FC = () => {
 
         <NavItem>
           <NavLink
-            isActive={activeMainTab === 'Rewards' ? true : false}
+            isactive={activeMainTab === 'Rewards' ? ' true' : ''}
             onClick={() => {
               navigate('/rewards');
               setActiveMainTab('Rewards');
@@ -319,7 +319,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Resources' ? true : false}
+            isactive={activeMainTab === 'Resources' ? 'true' : ''}
             onClick={() => {
               setShowToolsSubTabs(!showToolsSubTabs);
             }}

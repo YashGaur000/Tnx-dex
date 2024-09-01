@@ -235,10 +235,11 @@ export const TOKENOMICS_RAW_DATA = {
               <li>Simple Design & UX: The FairAuction model features an "up-only" graphical chart depicting the price discovery of the TENEX token. Prices start low and rise proportionally as more collateral is provided, moving only upward until the capped amount, with no selling until tokens are distributed at the LGE's end.</li>
           </ul>
           </div>
+          <div>
           <p>LGE Week - </p>
           <p>Time - ?</p>
           <p>Max Cap - 300 ETH or equivalent BLAST token </p>
-          
+          </div>
           `,
   },
   priceDetermination: {
