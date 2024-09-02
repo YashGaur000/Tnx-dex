@@ -49,8 +49,8 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
   }
 `;
 
-export const SliderContainer = styled.div`
-  margin-left: 11px;
+export const SliderContainer = styled.div<{ margin?: string }>`
+  margin-left: ${({ margin }) => margin ?? '11px'};
 `;
 
 export const Slider = styled.input`

@@ -25,6 +25,7 @@ import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSectio
 import TransactionDeadline from '../../../common/TransactionDeadline';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 import { useRootStore } from '../../../../store/root';
+import { useNavigate } from 'react-router-dom';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -45,7 +46,7 @@ const Deposite: React.FC<DepositProps> = ({
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const getParam = useQueryParams();
-
+  const Navigate = useNavigate();
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const routerAddress = contractAddress.Router;
@@ -146,6 +147,9 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
+  const handleStakeDeposit = () => {
+    Navigate('/stake');
+  };
   const CreatepoolDepositeData: StepperDataProps[] = [
     {
       step: 1,
@@ -251,7 +255,12 @@ const Deposite: React.FC<DepositProps> = ({
       )}
 
       {isDeposited && (
-        <GlobalButton width="100%" height="48px" margin="0px">
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={handleStakeDeposit}
+        >
           Stake your Deposit{' '}
         </GlobalButton>
       )}

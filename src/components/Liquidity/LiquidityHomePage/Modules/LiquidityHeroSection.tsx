@@ -91,9 +91,7 @@ const LiquidityHeroSection = () => {
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>24H Volume</StatsCardtitle>
-              <TitleWrapper fontSize={'16px'} lineHeight="23.92px">
-                $1,547,658,000.28
-              </TitleWrapper>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
