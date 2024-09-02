@@ -2,10 +2,10 @@ import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const HeroSectionTitle = styled.h1`
-  font-size: 2.4em;
   font-weight: 300;
   line-height: 1.5;
   text-align: left;
+  font-size: 36px;
   @media (max-width: 400px) {
     font-size: 1.5em;
   }
@@ -18,13 +18,17 @@ export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
 
 export const Section = styled.section`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 60px;
 `;
 
 export const Label = styled.label`
   font-family: Kanit;
   line-height: 1.75;
   text-align: left;
-  font-size: 24px;
+  font-size: 16px;
+  font-weight: 300;
 `;
 
 export const HeroSection = styled.main`

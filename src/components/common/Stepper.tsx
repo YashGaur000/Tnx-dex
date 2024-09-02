@@ -31,8 +31,8 @@ const VerticalStep = styled.div`
 const Circle = styled.div<{ theme: DefaultTheme }>`
   border-radius: 50%;
 
-  width: 25px;
-  height: 25px;
+  width: 26px;
+  height: 26px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,8 +44,8 @@ const Circle = styled.div<{ theme: DefaultTheme }>`
 `;
 
 const IconImage = styled.img`
-  width: 15px;
-  height: 15px;
+  width: 16px;
+  height: 16px;
 `;
 
 const Line = styled.div`
@@ -109,6 +109,12 @@ const Stepperlabel = styled.label<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
+const StepperRedTitle = styled.p<{ theme: DefaultTheme }>`
+  color: ${({ theme }) => theme.colors.redToggle};
+  font-size: 14px;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+`;
 
 const Stepper: React.FC<StepperProps> = ({ data }) => {
   return (
@@ -128,15 +134,25 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
           <Content>
             <DescriptionSection>
               <DescriptionWrapper>
-                {!item.descriptions.isSplit ? (
-                  <StepperTitle>{item.descriptions.labels}</StepperTitle>
-                ) : (
+                {!item.descriptions.isSplit &&
+                  (item.unSafe?.visible ? (
+                    <StepperRedTitle>
+                      {item.descriptions.labels}{' '}
+                      <UnderlinedText onClick={item.unSafe.onClick}>
+                        <br />
+                        Allow unsafe trades
+                      </UnderlinedText>{' '}
+                      or try with smaller amount{' '}
+                    </StepperRedTitle>
+                  ) : (
+                    <StepperTitle>{item.descriptions.labels} </StepperTitle>
+                  ))}
+                {item.descriptions.isSplit &&
                   item.descriptions.labels.split('\n').map((line, index) => (
                     <React.Fragment key={index}>
                       <DescriptionWrapper>{line}</DescriptionWrapper>
                     </React.Fragment>
-                  ))
-                )}
+                  ))}
               </DescriptionWrapper>
               {item.descriptions.adjust && (
                 <UnderlinedText onClick={item.descriptions.onClick}>
