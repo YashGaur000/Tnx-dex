@@ -10,7 +10,7 @@ interface FilterButtonProps {
 export const FilterWrapper = styled.main`
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
 
   margin-top: 16px;
   margin-bottom: 24px;

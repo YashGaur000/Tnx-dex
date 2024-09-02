@@ -10,9 +10,8 @@ export const LiquidityTitle = styled.label<{
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: ${({ lineheight }) => lineheight ?? '17.94'}
-  text-align: left;
-  
+  line-height: ${({ lineheight }) => lineheight ?? '17.94px'};
+
   color: ${({ theme }) => theme.colors.titleColor};
   margin: ${({ margin }) => margin};
 `;
@@ -43,7 +42,7 @@ export const StatsCardtitle = styled.label<{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: ${({ fontSize }) => fontSize} px;
+  font-size: ${({ fontSize }) => fontSize}px;
   line-height: ${({ lineheight }) => lineheight};
 `;
 
