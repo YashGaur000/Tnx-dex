@@ -112,7 +112,7 @@ export const IncentiveLeftBarBox1infoCol2Row2 = styled.span`
 `;
 
 export const LiquidityBox = styled.div`
-  margin-top: 40px;
+  margin-top: 24px;
 `;
 
 export const LiquidityText1 = styled.article`
@@ -131,11 +131,15 @@ export const LiquidityText2 = styled.article`
 `;
 
 export const YourDepositsBox = styled.div`
+  margin-top: 24px;
+`;
+export const YourDepositsBoxHeading = styled.h2`
   margin-top: 40px;
 `;
 
 export const Box2Container = styled.div`
   display: flex;
+  justify-content: end;
 `;
 
 export const Box2Title = styled.h2`
@@ -173,12 +177,11 @@ export const Box2ProgressContainer = styled.div`
 
 export const Box2ProgressBar = styled.input`
   flex-grow: 1;
-  width: 100%;
   background-color: #fff0;
-  border: 1px solid #b8b8b8;
+  border: 1px solid #ffffff00;
   border-radius: 16px;
-  padding: 20px;
-  margin-top: 10px;
+  padding: 10px;
+  margin-right: 10px;
   color: #fff;
   font-family: 'kanit';
   font-weight: 300;
@@ -196,6 +199,12 @@ export const Box2Percentage = styled.span`
   margin-left: 20px;
   font-weight: 300;
 `;
+export const Box2ContainerBorder = styled.div`
+  border: 1px solid #b8b8b8;
+  border-radius: 16px;
+  width: 100%;
+  padding: 12px 16px;
+`;
 
 export const Box2DataPoint1 = styled.div`
   justify-content: space-between;
@@ -207,8 +216,6 @@ export const Box2DataPoint1 = styled.div`
 export const Box2DataPoint1Tenex = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  width: 30%;
 `;
 
 export const Box2DataPoint2 = styled.div`
@@ -225,8 +232,6 @@ export const Box2DataPoint3 = styled.div`
 `;
 
 export const Box2DataPoint4 = styled.div`
-  margin-bottom: 10px;
-  justify-content: end;
   width: 100%;
   display: flex;
   text-align: right;
@@ -236,7 +241,7 @@ export const Box2DataPoint4 = styled.div`
 export const Box2TokenName = styled.span`
   color: #cccccc;
   font-size: 16px;
-  margin-left: 10px;
+  margin: 0px 10px;
 `;
 
 export const IncentivesBox2 = styled.h2`
