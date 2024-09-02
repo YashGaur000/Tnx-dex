@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import USDTFTM from '../../../assets/USDT-FTM.png';
 import USDTFTMi from '../../../assets/USDT-FTM-i.png';
 import Tenexlogo from '../../../assets/Tenex.png';
-import popupicon from '../../../assets/popupicon.png';
 import tenexarrow from '../../../assets/tenex-arrow.png';
 import { GlobalButton } from '../../common';
 import IncentiveTokenPopup from '../Modules/IncentiveTokenPopup';
@@ -17,7 +16,6 @@ import {
   IncentiveLeftBarBox1,
   ImgUSTDFTM,
   Img2,
-  Img3,
   Img4,
   IncentiveLeftBarBox1info,
   IncentiveLeftBarBox1infoCol1,
@@ -45,6 +43,7 @@ import {
   Box2ProgressBar,
   Box2PercentageBar,
   Box2Percentage,
+  Box2ContainerBorder,
   LiquidityBox,
   LiquidityText1,
   LiquidityText2,
@@ -177,10 +176,13 @@ const IncentiveSection: React.FC = () => {
                 </IncentiveLeftBarBox1infoCol1>
                 <IncentiveLeftBarBox1infoCol2>
                   <IncentiveLeftBarBox1infoCol2Row1>
-                    <Img3
-                      src={popupicon}
+                    <GlobalButton
+                      padding="10px"
+                      width="150px"
                       onClick={() => handleTokenSelectOpen('token1')}
-                    />{' '}
+                    >
+                      Change
+                    </GlobalButton>
                   </IncentiveLeftBarBox1infoCol2Row1>
                   <IncentiveLeftBarBox1infoCol2Row2 />
                 </IncentiveLeftBarBox1infoCol2>
@@ -217,36 +219,38 @@ const IncentiveSection: React.FC = () => {
                   <Box2Value>~$0.0</Box2Value>
                 </Box2DataPoint3>
               </Box2Container>
-              <Box2Container>
-                <Box2DataPoint1Tenex
-                  onClick={() => handleTokenSelectOpen2('token1')}
-                >
-                  <Img2
-                    width={20}
-                    height={20}
-                    src={selectedToken2 ? selectedToken2.icon1 : Tenexlogo}
-                  />
-                  <Box2TokenName>
-                    {selectedToken2 ? selectedToken2.pair : 'TENEX'}
-                  </Box2TokenName>
-                  <Img4 src={tenexarrow} />
-                </Box2DataPoint1Tenex>
-                <Box2DataPoint2 />
-                <Box2DataPoint4>
-                  <Box2TitleAvailable>Available: </Box2TitleAvailable>
-                  <Box2ValueAvailable>0.000</Box2ValueAvailable>
-                </Box2DataPoint4>
-              </Box2Container>
-              <Box2ProgressContainer>
-                <Box2ProgressBar value={value} onChange={handleChange} />
-              </Box2ProgressContainer>
-              <Box2PercentageBar>
-                <Box2Percentage>0%</Box2Percentage>
-                <Box2Percentage>25%</Box2Percentage>
-                <Box2Percentage>50%</Box2Percentage>
-                <Box2Percentage>75%</Box2Percentage>
-                <Box2Percentage>MAX%</Box2Percentage>
-              </Box2PercentageBar>
+              <Box2ContainerBorder>
+                <Box2ProgressContainer>
+                  <Box2ProgressBar value={value} onChange={handleChange} />
+                  <Box2Container>
+                    <Box2DataPoint1Tenex
+                      onClick={() => handleTokenSelectOpen2('token1')}
+                    >
+                      <Img2
+                        width={20}
+                        height={20}
+                        src={selectedToken2 ? selectedToken2.icon1 : Tenexlogo}
+                      />
+                      <Box2TokenName>
+                        {selectedToken2 ? selectedToken2.pair : 'TENEX'}
+                      </Box2TokenName>
+                      <Img4 src={tenexarrow} />
+                    </Box2DataPoint1Tenex>
+                  </Box2Container>
+                </Box2ProgressContainer>
+                <Box2PercentageBar>
+                  <Box2DataPoint4>
+                    <Box2TitleAvailable>Wallet: 0.000</Box2TitleAvailable>
+                    <Box2ValueAvailable>~</Box2ValueAvailable>
+                    <Box2ValueAvailable>$0.00</Box2ValueAvailable>
+                  </Box2DataPoint4>
+                  <Box2Percentage>0%</Box2Percentage>
+                  <Box2Percentage>25%</Box2Percentage>
+                  <Box2Percentage>50%</Box2Percentage>
+                  <Box2Percentage>75%</Box2Percentage>
+                  <Box2Percentage>MAX%</Box2Percentage>
+                </Box2PercentageBar>
+              </Box2ContainerBorder>
             </IncentiveLeftBarBox1>
           </IncentiveLeftBar>
         </Column60>
