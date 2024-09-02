@@ -54,6 +54,7 @@ import {
   IncentivizeListItem,
   IncentivizeText,
   IncentivizeTextCircle,
+  LiquidityBoxHeading,
 } from '../Styles/IncentiveSection.style';
 
 import { ImgRightIcon, ImgLeftIcon } from '../Styles/IncentiveTokenPopup.style';
@@ -189,14 +190,14 @@ const IncentiveSection: React.FC = () => {
               <IncentiveLeftBarBox1info>
                 <IncentiveLeftBarBox1infoCol1>
                   <LiquidityBox>
-                    Liquidity
+                    <LiquidityBoxHeading>Liquidity</LiquidityBoxHeading>
                     <LiquidityText1>1,003,212.5643 USDT</LiquidityText1>
                     <LiquidityText2>2,783,860.003 FTM</LiquidityText2>
                   </LiquidityBox>
                 </IncentiveLeftBarBox1infoCol1>
                 <IncentiveLeftBarBox1infoCol2>
                   <YourDepositsBox>
-                    Your Deposits
+                    <LiquidityBoxHeading>Your Deposits</LiquidityBoxHeading>
                     <LiquidityText1>0.0 USDT</LiquidityText1>
                     <LiquidityText2>0.0 FTM</LiquidityText2>
                   </YourDepositsBox>

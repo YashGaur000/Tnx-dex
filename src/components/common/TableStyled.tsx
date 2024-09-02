@@ -54,6 +54,7 @@ const TableContains = styled.table<TableProps>`
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
+  border-spacing: 0 20px;
   color: ${({ color }) => color ?? '#ffffff'};
 
   border-radius: 24px;

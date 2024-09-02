@@ -58,7 +58,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
             </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
-                <StatsCardtitle fontSize={16} lineHeight={'23.92px'}>
+                <StatsCardtitle fontSize={16} lineheight={'23.92px'}>
                   Pool Balance
                 </StatsCardtitle>
                 <ImageContainer width="16px" height="16px" src={SortIcon} />
