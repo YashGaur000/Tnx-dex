@@ -1,12 +1,13 @@
 import { useCallback } from 'react';
 import { useContract } from './useContract';
 import { RouterContract } from './../types/Liquidity';
-import { Address } from 'viem';
+import { Abi, Address } from 'viem';
 import { ethers } from 'ethers';
 import contractAddress from '../constants/contract-address/address';
 import routerAbi from '../constants/artifacts/contracts/Router.json';
 import { TokenInfo } from '../constants/tokens';
 import { Route } from '../utils/generateAllRoutes';
+import { useMultiCall } from './useMultiCall';
 
 /**
  * Hook to interact with the router contract.
@@ -19,6 +20,8 @@ export function useRouterContract() {
     routerAddress,
     routerAbi.abi
   ) as RouterContract;
+
+  const multicallClient = useMultiCall();
 
   const addLiquidity = useCallback(
     async (
@@ -116,24 +119,42 @@ export function useRouterContract() {
   );
 
   const getAmountsOut = useCallback(
-    async (amountIn: string, routes: Route[]) => {
+    async (amountIn: string, routes: Route[][]) => {
       if (!routerContract) {
         console.error('Router contract instance not available');
         return;
       }
 
+      if (!multicallClient) {
+        console.error('Multicall client not available');
+        return;
+      }
+
       try {
-        const amounInWei = ethers.parseUnits(amountIn, 18);
-        console.log('in wei---->', amounInWei, routes);
-        const amounts = await routerContract.getAmountsOut(amounInWei, routes);
-        console.log('amounts------->', amounts);
+        const amountInWei = ethers.parseUnits(amountIn, 18);
+
+        const contractCalls = routes.map((route) => ({
+          abi: routerAbi.abi as Abi,
+          functionName: 'getAmountsOut',
+          args: [amountInWei, route],
+          address: routerAddress,
+        }));
+
+        const results = await multicallClient.multicall({
+          contracts: contractCalls,
+        });
+
+        const amounts: bigint[][] = results.map(
+          (data) => data.result as bigint[]
+        );
+
         return amounts;
       } catch (error) {
-        console.error('Error fetching:', error);
+        console.error('Error fetching amounts out:', error);
         throw error;
       }
     },
-    [routerContract]
+    [routerContract, multicallClient, routerAddress]
   );
 
   const quoteAddLiquidity = useCallback(

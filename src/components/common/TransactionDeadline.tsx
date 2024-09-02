@@ -6,9 +6,9 @@ import {
   SidebarTitle,
   Slider,
   SliderContainer,
-  SlippageWrapper,
   TdText,
   TimerButton,
+  TransactionWrapper,
 } from '../Swap/styles/TransactionDeadline.style';
 import { useLiquidityStore } from '../../store/slices/liquiditySlice';
 
@@ -30,7 +30,7 @@ const TransactionDeadline: React.FC = () => {
   };
 
   return (
-    <SlippageWrapper display="flow">
+    <TransactionWrapper display="flow">
       <Align>
         <SidebarTitle fontSize={16}>Transaction Deadline</SidebarTitle>
         <TimerButton>{formatTime(deadLineValue)}</TimerButton>
@@ -39,15 +39,15 @@ const TransactionDeadline: React.FC = () => {
         <Slider
           type="range"
           min="0"
-          max="60"
+          max="30"
           value={deadLineValue}
           onChange={handleSliderChange}
         />
       </SliderContainer>
       <TdText>
-        <FontAwesomeIcon icon={faInfoCircle} /> Max: 1 hour
+        <FontAwesomeIcon icon={faInfoCircle} /> Max. 30 min
       </TdText>
-    </SlippageWrapper>
+    </TransactionWrapper>
   );
 };
 

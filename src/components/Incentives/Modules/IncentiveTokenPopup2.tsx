@@ -21,7 +21,7 @@ import {
 } from '../Styles/IncentiveTokenPopup.style';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { Address } from 'viem';
-import { ERC20_TEST_TOKEN_LIST } from '../../../constants/tokens'; // Ensure correct named import
+import { ERC20_TEST_TOKEN_LIST } from '../../../constants/tokens';
 
 interface PoolInfo {
   id: string;
@@ -59,27 +59,25 @@ const IncentiveTokenPopup2: React.FC<TokenSelectModalProps> = ({
   const [filterType] = useState<string>('All');
 
   useEffect(() => {
-    // Map token data to PoolInfo format if needed
     const pools: PoolInfo[] = ERC20_TEST_TOKEN_LIST.map((token) => ({
       id: token.address,
       pair: token.symbol,
       icon1: token.logoURI ?? '',
-      icon2: '', // Placeholder value or adjust as necessary
-      stablePercentage: 0, // Placeholder value
-      tvl: '', // Placeholder value
-      apr: 0, // Placeholder value
-      volume: '', // Placeholder value
-      volumeDesc: '', // Placeholder value
-      volumeSubDesc: '', // Placeholder value
-      fees: '', // Placeholder value
-      feesDesc: '', // Placeholder value
-      feesSubDesc: '', // Placeholder value
-      poolBalance: '', // Placeholder value
-      balanceDesc: token.name, // Placeholder value
-      liquidityType: 'Stable', // Example value, adjust as necessary
+      icon2: '',
+      stablePercentage: 0,
+      tvl: '',
+      apr: 0,
+      volume: '',
+      volumeDesc: '',
+      volumeSubDesc: '',
+      fees: '',
+      feesDesc: '',
+      feesSubDesc: '',
+      poolBalance: '',
+      balanceDesc: token.name,
+      liquidityType: 'Stable',
     }));
 
-    // Apply filtering
     const filtered = pools.filter(
       (pool) =>
         (filterType === 'All' || pool.liquidityType === filterType) &&
@@ -94,9 +92,9 @@ const IncentiveTokenPopup2: React.FC<TokenSelectModalProps> = ({
   }
 
   const handleRowClick = (pool: PoolInfo) => {
-    console.log('Selected pool:', pool); // Debugging
-    onSelect(pool); // Ensure onSelect is properly implemented
-    onClose(); // Optionally close the modal after selection
+    console.log('Selected pool:', pool);
+    onSelect(pool);
+    onClose();
   };
 
   return (

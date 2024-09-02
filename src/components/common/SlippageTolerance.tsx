@@ -42,13 +42,12 @@ const SlippageTolerance: React.FC = () => {
     <SlippageWrapper display="flow">
       <SlippageAlign>
         <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
-
         <SlippageInput
           type="text"
           value={selectedTolerance == 0.5 ? '' : selectedTolerance}
           //onChange={(e) => handleCustomToleranceChange(e)}
           placeholder={selectedTolerance.toString()}
-          style={{ width: '50px', textAlign: 'center' }}
+          style={{ width: '53px', textAlign: 'center' }}
         />
       </SlippageAlign>
       <ToleranceButtons>
