@@ -64,8 +64,12 @@ const Deposite: React.FC<DepositProps> = ({
         amount1 &&
         ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
       if (amount1InWei && selectedToken1?.address) {
-        await approveAllowance1(routerAddress, amount1InWei.toString());
-        setIsToken1Allowed(true);
+        if (selectedToken1?.symbol === 'WETH') {
+          setIsToken1Allowed(true);
+        } else {
+          await approveAllowance1(routerAddress, amount1InWei.toString());
+          setIsToken1Allowed(true);
+        }
       }
     } catch (error) {
       console.error('Error during token approval', error);
@@ -78,8 +82,12 @@ const Deposite: React.FC<DepositProps> = ({
         amount2 &&
         ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
       if (amount2InWei && selectedToken2?.address) {
-        await approveAllowance2(routerAddress, amount2InWei.toString());
-        setIsToken2Allowed(true);
+        if (selectedToken2?.symbol === 'WETH') {
+          setIsToken1Allowed(true);
+        } else {
+          await approveAllowance2(routerAddress, amount2InWei.toString());
+          setIsToken2Allowed(true);
+        }
       }
     } catch (error) {
       console.error('Error during token approval', error);
@@ -101,7 +109,7 @@ const Deposite: React.FC<DepositProps> = ({
     setVisibleDealine(false);
     setVisibleSlippage(false);
   };
-  const { addLiquidity } = useRouterContract();
+  const { addLiquidity, addLiquidityETH } = useRouterContract();
   const { address } = useAccount();
 
   const handleDeposit = async () => {
@@ -122,19 +130,43 @@ const Deposite: React.FC<DepositProps> = ({
         selectedToken2?.address &&
         address
       ) {
-        const tx = await addLiquidity(
-          selectedToken1?.address,
-          selectedToken2?.address,
-          type,
-          amount1InWei,
-          amount2InWei,
-          amount1InWei,
-          amount2InWei,
-          address,
-          deadline
-        );
-        console.log('Liquidity added:', tx);
-        setIsDeposited(true);
+        if (selectedToken1?.symbol === 'WETH') {
+          console.log(
+            selectedToken2?.address,
+            type,
+            amount2InWei,
+            amount2InWei,
+            ethers.parseEther(amount1.toString()),
+            address,
+            deadline
+          );
+
+          const tx = await addLiquidityETH(
+            selectedToken2?.address,
+            type,
+            amount2InWei,
+            amount2InWei,
+            amount1InWei,
+            address,
+            deadline
+          );
+          console.log('Eth Liquidity added:', tx);
+          setIsDeposited(true);
+        } else {
+          const tx = await addLiquidity(
+            selectedToken1?.address,
+            selectedToken2?.address,
+            type,
+            amount1InWei,
+            amount2InWei,
+            amount1InWei,
+            amount2InWei,
+            address,
+            deadline
+          );
+          console.log('Liquidity added:', tx);
+          setIsDeposited(true);
+        }
       }
     } catch (error) {
       console.error('Error adding liquidity:', error);
@@ -173,7 +205,7 @@ const Deposite: React.FC<DepositProps> = ({
     },
   ];
 
-  if (!disabled1) {
+  if (!disabled1 && selectedToken1?.symbol !== 'WETH') {
     CreatepoolDepositeData.push({
       step: 3,
       icon: !isToken1Allowed ? RedLockIcon : UnLockIcon,
@@ -194,7 +226,7 @@ const Deposite: React.FC<DepositProps> = ({
     });
   }
 
-  if (!disabled2) {
+  if (!disabled2 && selectedToken2?.symbol !== 'WETH') {
     CreatepoolDepositeData.push({
       step: 4,
       icon: !isToken2Allowed ? RedLockIcon : UnLockIcon,

@@ -72,10 +72,10 @@ export function usePoolContract(
             (userBalanceInEther / totalSupplyInEther) * reserve1InEther;
 
           // Format and set balances
-          setBalance0(balance0.toFixed(2));
-          setBalance1(balance1.toFixed(2));
-          setReserve0(reserve0InEther.toFixed(2));
-          setReserve1(reserve1InEther.toFixed(2));
+          setBalance0(balance0.toFixed(6));
+          setBalance1(balance1.toFixed(6));
+          setReserve0(reserve0InEther.toFixed(6));
+          setReserve1(reserve1InEther.toFixed(6));
         }
       } catch (error) {
         console.error('Error fetching balances:', error);
@@ -87,7 +87,7 @@ export function usePoolContract(
     };
 
     void fetchBalances(); // Explicitly mark the promise as ignore
-  }, [poolContract, address]);
+  }, [poolContract, address, decimal0, decimal1, poolId]);
 
   return { balance0, balance1, reserve0, reserve1 };
 }
