@@ -36,8 +36,8 @@ import { findBestRoute, getAllRoutes } from '../../../utils/generateAllRoutes';
 import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
-import { ethers } from 'ethers';
 import SettingModal from '../../modal/SettingModal';
+import {ethers} from 'ethers';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();

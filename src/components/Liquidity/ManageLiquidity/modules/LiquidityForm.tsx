@@ -40,12 +40,12 @@ const LiquidityForm: FC<FormComponentProps> = ({
   totalBalanceToken2,
   onTokenValueChange,
 }) => {
-  const [token1Value, setToken1Amount] = useState<ethers.Numeric>(0);
-  const [token2Value, setToken2Amount] = useState<ethers.Numeric>(0);
+  const [token1Value, setToken1Amount] = useState('');
+  const [token2Value, setToken2Amount] = useState('');
   const { quoteAddLiquidity } = useRouterContract();
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
+    const value = event.target.value;
     setToken1Amount(value);
 
     // Set values for creating a new stable pool deposit.
@@ -56,14 +56,14 @@ const LiquidityForm: FC<FormComponentProps> = ({
     // Fetch values for new deposit in an existing pool (quote liquidity).
     if (selectedToken1 && selectedToken2 && exists) {
       if (!value) {
-        setToken2Amount(0);
+        setToken2Amount('0');
       } else {
         quoteAddLiquidity(
-          selectedToken1.address,
-          selectedToken2.address,
+          selectedToken1,
+          selectedToken2,
           type,
           contractAddress.PoolFactory,
-          value,
+          parseFloat(value),
           totalBalanceToken2
         )
           .then((tx) => {
@@ -72,9 +72,9 @@ const LiquidityForm: FC<FormComponentProps> = ({
               parseFloat(
                 formatUnits(tx.amountB.toString(), selectedToken2.decimals)
               );
-            setToken2Amount(value2 ? value2 : 0);
+            setToken2Amount(value2 ? value2.toString() : '0');
             onTokenValueChange(
-              value,
+              parseFloat(value),
               value2 ?? 0,
               totalBalanceToken1,
               totalBalanceToken2
@@ -82,13 +82,13 @@ const LiquidityForm: FC<FormComponentProps> = ({
           })
           .catch((error) => {
             console.error('Error fetching quote liquidity:', error);
-            setToken2Amount(0);
+            setToken2Amount('0');
           });
       }
     } else {
       onTokenValueChange(
-        value,
-        token2Value,
+        parseFloat(value),
+        parseFloat(token2Value),
         totalBalanceToken1,
         totalBalanceToken2
       );
@@ -96,11 +96,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
   };
 
   const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
-    const value = Number(event.target.value);
+    const value = event.target.value;
     setToken2Amount(value);
     onTokenValueChange(
-      token1Value,
-      value,
+      parseFloat(token1Value),
+      parseFloat(value),
       totalBalanceToken1,
       totalBalanceToken2
     );
@@ -112,33 +112,39 @@ const LiquidityForm: FC<FormComponentProps> = ({
   ) => {
     if (tokenType === 'token1') {
       const calculatedValue = (Number(totalBalanceToken1) * percentage) / 100;
-      setToken1Amount(calculatedValue);
+      setToken1Amount(calculatedValue.toString());
 
       // to set values for creating new stable pool deposit.
       if (!exists && type) {
-        setToken2Amount(calculatedValue);
+        setToken2Amount(calculatedValue.toString());
       }
 
       // to fetch values for new deposit in an existing pool (quote liquidity).
       if (selectedToken1 && selectedToken2 && exists) {
         if (!calculatedValue) {
-          setToken2Amount(0);
+          setToken2Amount('0');
         } else {
           quoteAddLiquidity(
-            selectedToken1.address,
-            selectedToken2.address,
+            selectedToken1,
+            selectedToken2,
             type,
             contractAddress.PoolFactory,
             calculatedValue,
             totalBalanceToken2
           )
             .then((tx) => {
+              const value1 =
+                tx &&
+                parseFloat(
+                  formatUnits(tx.amountA.toString(), selectedToken2.decimals)
+                );
               const value2 =
                 tx &&
                 parseFloat(
                   formatUnits(tx.amountB.toString(), selectedToken2.decimals)
                 );
-              setToken2Amount(value2 ? value2 : 0);
+              setToken1Amount(value1 ? value1.toString() : '0');
+              setToken2Amount(value2 ? value2.toString() : '0');
               onTokenValueChange(
                 calculatedValue,
                 value2 ?? 0,
@@ -153,16 +159,16 @@ const LiquidityForm: FC<FormComponentProps> = ({
       } else {
         onTokenValueChange(
           calculatedValue,
-          token2Value,
+          parseFloat(token2Value),
           totalBalanceToken1,
           totalBalanceToken2
         );
       }
     } else {
       const calculatedValue = (Number(totalBalanceToken2) * percentage) / 100;
-      setToken2Amount(calculatedValue);
+      setToken2Amount(calculatedValue.toString());
       onTokenValueChange(
-        token1Value,
+        parseFloat(token1Value),
         calculatedValue,
         totalBalanceToken1,
         totalBalanceToken2
@@ -208,11 +214,13 @@ const LiquidityForm: FC<FormComponentProps> = ({
           </FormRowWrapper>
           <InputBoxContainer>
             <LiquidityInputBox
-              type="text"
+              type="number"
               name="token1"
-              value={token1Value === 0 ? '' : token1Value?.toString() || ''}
+              step="0.000000000001"
+              value={token1Value}
               isInvalid={
-                Number(token1Value) > Number(totalBalanceToken1.toString())
+                parseFloat(token1Value) >
+                parseFloat(totalBalanceToken1.toString())
               }
               onChange={handleChangeToken1Value}
             />
@@ -254,9 +262,10 @@ const LiquidityForm: FC<FormComponentProps> = ({
             <LiquidityInputBox
               type="text"
               name="token2"
-              value={token2Value === 0 ? '' : token2Value?.toString() || ''}
+              value={token2Value}
               isInvalid={
-                Number(token2Value) > Number(totalBalanceToken2.toString())
+                parseFloat(token2Value) >
+                parseFloat(totalBalanceToken2.toString())
               }
               onChange={handleChangeToken2Value}
               disabled={exists ? exists : type}
