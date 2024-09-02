@@ -5,12 +5,12 @@ export const LiquidityTitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
   margin?: string;
-  lineHeight?: string;
+  lineheight?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: ${({ lineHeight }) => lineHeight ?? '17.94'}
+  line-height: ${({ lineheight }) => lineheight ?? '17.94'}
   text-align: left;
   
   color: ${({ theme }) => theme.colors.titleColor};
@@ -37,14 +37,14 @@ export const InformImageStye = styled.img`
 export const StatsCardtitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
-  lineHeight?: string;
+  lineheight?: string;
 }>`
   background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: ${({ fontSize }) => fontSize} px;
-  line-height: ${({ lineHeight }) => lineHeight};
+  line-height: ${({ lineheight }) => lineheight};
 `;
 
 export const LiquidityHeroSectionMain = styled.main<{ theme: DefaultTheme }>`

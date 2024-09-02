@@ -8,9 +8,10 @@ export const SlippageWrapper = styled.div<{
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.cardLight};
   padding: 10px;
-  width: 100%;
+  width: 360px;
+  height: 118px;
   border-radius: 20px;
-  margin: 15px 0;
+  margin: 32px 40px;
   @media (max-width: 900px) {
     margin-top: 40px;
   }
@@ -98,8 +99,8 @@ export const SlippageAlign = styled.div`
 `;
 
 export const SlippageInput = styled.input<{ theme: DefaultTheme }>`
-  width: 74px;
-  height: 32px;
+  width: 53px;
+  height: 25px;
   padding: 8px;
   background: transparent;
   color: ${({ theme }) => theme.colors.greyDark};

@@ -130,7 +130,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                               border="1px solid transparent"
                               fontSize="12px"
                               height="22px"
-                              lineHeight="0px"
+                              lineheight="0px"
                               width="60px"
                               smFontSize={12}
                               smMargin="0px"

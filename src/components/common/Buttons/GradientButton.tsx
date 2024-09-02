@@ -16,12 +16,12 @@ interface GradientButtonProps {
   className?: string;
   smFontSize?: number;
   smMargin?: string;
-  lineHeight?: string;
+  lineheight?: string;
   children: React.ReactNode;
 }
 
 const StyledButton = styled.button<
-  GradientButtonProps & { theme: DefaultTheme }
+  GradientButtonProps & { theme: DefaultTheme; lineheight?: string }
 >`
   width: ${({ width }) => width ?? 'auto'};
   height: ${({ height }) => height ?? 'auto'};
@@ -35,7 +35,7 @@ const StyledButton = styled.button<
   cursor: ${({ cursor }) => cursor ?? 'pointer'};
   font-size: ${({ fontSize }) => fontSize ?? '20px'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: ${({ lineHeight }) => lineHeight ?? '29.9px'};
+  line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
   font-family: ${({ theme }) => theme.fonts.main};
   letter-spacing: 0.02em;
   text-align: center;
@@ -67,14 +67,14 @@ const StyledButton = styled.button<
 // export const GradientSpan = styled.span<{
 //   fontSize?: number;
 //   Color?: string;
-//   isActive?: boolean;
+//   isactive?: boolean;
 //   theme: DefaultTheme;
 // }>`
 //   color: ${({ Color }) => Color};
 //   font-size: ${({ fontSize }) => fontSize}px;
 //   font-family: ${({ theme }) => theme.fonts.main};
-//   background: ${({ isActive, theme }) =>
-//     isActive ? 'black' : theme.colors.buttonBackground};
+//   background: ${({ isactive, theme }) =>
+//     isactive ? 'black' : theme.colors.buttonBackground};
 //   -webkit-background-clip: text;
 //   -webkit-text-fill-color: transparent;
 //   display: inline-block;
@@ -83,34 +83,34 @@ const StyledButton = styled.button<
 
 // export const GradientSpan = styled.span<{
 //   fontSize?: number;
-//   isActive?: boolean;
+//   isactive?: boolean;
 //   theme: DefaultTheme;
 // }>`
 //   font-size: ${({ fontSize }) => fontSize}px;
 //   font-family: ${({ theme }) => theme.fonts.main};
-//   border : ${({ isActive }) =>
-//     isActive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
-//   background: ${({ isActive }) =>
-//     isActive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
+//   border : ${({ isactive }) =>
+//     isactive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
+//   background: ${({ isactive }) =>
+//     isactive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
 //   -webkit-background-clip: text;
-//   // -webkit-text-fill-color: ${({ isActive }) => (isActive ? 'transparent' : 'white')};
+//   // -webkit-text-fill-color: ${({ isactive }) => (isactive ? 'transparent' : 'white')};
 //   // background-clip: text; // For cross-browser support
-//   // -webkit-text-fill-color: ${({ isActive }) => (isActive ? 'transparent' : 'white')};
+//   // -webkit-text-fill-color: ${({ isactive }) => (isactive ? 'transparent' : 'white')};
 //   // transition: background 0.3s ease;
 // `;
 
 export const GradientSpan = styled.span<{
   fontSize?: number;
-  isActive?: boolean;
+  isactive?: boolean;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-  background: ${({ isActive }) =>
-    isActive
+  background: ${({ isactive }) =>
+    isactive
       ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)'
       : 'white'};
   -webkit-background-clip: text;
-  -webkit-text-fill-color: ${({ isActive }) =>
-    isActive ? 'transparent' : 'white'};
+  -webkit-text-fill-color: ${({ isactive }) =>
+    isactive ? 'transparent' : 'white'};
 `;
 
 const GradientButton: React.FC<GradientButtonProps> = ({
@@ -124,7 +124,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   color,
   cursor,
   marginTop,
-  lineHeight,
+  lineheight,
   smFontSize,
   smMargin,
   children,
@@ -141,7 +141,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       color={color}
       cursor={cursor}
       marginTop={marginTop}
-      lineHeight={lineHeight}
+      lineheight={lineheight}
       smMargin={smMargin}
       smFontSize={smFontSize}
     >

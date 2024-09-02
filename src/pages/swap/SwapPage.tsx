@@ -9,6 +9,7 @@ const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   justify-content: center;
   align-items: flex-start;
   top: 140px;
+  padding-top: 40px;
   left: 100px;
   border: 2px red;
   gap: 20px;

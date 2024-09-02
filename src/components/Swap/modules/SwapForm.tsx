@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
-import SwitchComponent from './SwitchComponent';
 import { TokenInfo } from './../../../constants/tokens';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import SelectIcon from '../../../assets/select.svg';
+import SwapSettingIcon from '../../../assets/swapSetting.png';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   InputWrapper,
@@ -20,9 +20,9 @@ import {
   WalletText,
   SwapTitle,
   SwTitle,
-  ContectedText,
   SwapboxInner,
   WalletInfo,
+  SettingIcon,
 } from '../styles/SwapForm.style.';
 import LiquityRouting from './LiquityRouting';
 import Sidebar from './Sidebar';
@@ -37,10 +37,11 @@ import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import { ethers } from 'ethers';
+import SettingModal from '../../modal/SettingModal';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
-  const [isConnected, setIsConnected] = useState(false);
+  const [isSettingModelOpen, setIsSettingModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(0);
   const [tokenInput1, setTokenInput1] = useState('');
@@ -65,7 +66,7 @@ const SwapForm: React.FC = () => {
 
   useEffect(() => {
     // 1. Update connection state
-    setIsConnected(!!address);
+    //setIsConnected(!!address);
 
     // 2. Scroll to the top when the component is mounted
     window.scrollTo(0, 0);
@@ -141,14 +142,14 @@ const SwapForm: React.FC = () => {
     }
   };
 
-  const handleToggleChange = () => {
-    if (isConnected) {
-      //disconnect();
-    } else {
-      // logic to open wallet connect modal
-    }
-    setIsConnected(!isConnected);
-  };
+  // const handleToggleChange = () => {
+  //   if (isConnected) {
+  //     //disconnect();
+  //   } else {
+  //     // logic to open wallet connect modal
+  //   }
+  //   setIsConnected(!isConnected);
+  // };
 
   const handleSwap = () => {
     //setSelectedToken1(selectedToken2);
@@ -180,6 +181,14 @@ const SwapForm: React.FC = () => {
     setSelectedPercentage(percentage);
   };
 
+  const handleIconClick = () => {
+    setIsSettingModelOpen(true);
+  };
+
+  const handleCloseClick = () => {
+    setIsSettingModelOpen(false);
+  };
+
   return (
     <>
       <SwapFormContainer>
@@ -187,14 +196,17 @@ const SwapForm: React.FC = () => {
           <SwapBox>
             <SwapTitle>
               <SwTitle>Swap</SwTitle>
-              <SwitchComponent
-                isChecked={isConnected}
-                handleToggle={handleToggleChange}
-                onText=""
-                offText=""
-                isDisabled={true}
+              <SettingIcon
+                src={SwapSettingIcon}
+                alt="Setting"
+                onClick={handleIconClick}
               />
-              {isConnected && <ContectedText>Connected</ContectedText>}
+              <SettingModal
+                isOpen={isSettingModelOpen}
+                onClose={handleCloseClick}
+              >
+                <p>Settings content goes here...</p>
+              </SettingModal>
             </SwapTitle>
             <SwapboxInner>
               <InputWrapper>
@@ -328,7 +340,7 @@ const SwapForm: React.FC = () => {
         </SwapBoxWrapper>
       </SwapFormContainer>
 
-      <SidebarContainer height={tokenInput1 ? 540 : 340}>
+      <SidebarContainer height={tokenInput1 ? 540 : 348}>
         <Sidebar
           isLoading={isLoading}
           exchangeRate={tokenInput1 ? exchangeRate : 0}
