@@ -32,7 +32,11 @@ import { Address } from 'viem';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
 import { LoadingSpinner } from '../../common/Loader';
-import { findBestRoute, getAllRoutes } from '../../../utils/generateAllRoutes';
+import {
+  findBestRoute,
+  getAllRoutes,
+  Route,
+} from '../../../utils/generateAllRoutes';
 import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
@@ -44,6 +48,8 @@ const SwapForm: React.FC = () => {
   const [isSettingModelOpen, setIsSettingModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(0);
+  const [route, setRoute] = useState<Route[] | null>(null);
+
   const [tokenInput1, setTokenInput1] = useState('');
   const [tokenInput2, setTokenInput2] = useState('');
   const { from, to, setFrom, setTo } = useRootStore();
@@ -129,9 +135,10 @@ const SwapForm: React.FC = () => {
                   selectedToken2.decimals
                 );
                 setTokenInput2(bestQuote);
+                setExchangeRate(Number(bestQuote) / Number(amount));
+                setRoute(bestPath?.bestRoute);
               }
             }
-            setExchangeRate(1);
           } catch (error) {
             console.error('Error fetching reserves:', error);
           } finally {
@@ -328,11 +335,11 @@ const SwapForm: React.FC = () => {
               account={address!}
             />
           </SwapBox>
-          {tokenInput1 ? (
+          {tokenInput1 && route ? (
             isLoading ? (
               <LoadingSpinner />
             ) : (
-              <LiquityRouting />
+              <LiquityRouting route={route} />
             )
           ) : (
             <></>
@@ -343,7 +350,9 @@ const SwapForm: React.FC = () => {
       <SidebarContainer height={tokenInput1 ? 540 : 348}>
         <Sidebar
           isLoading={isLoading}
-          exchangeRate={tokenInput1 ? exchangeRate : 0}
+          exchangeRate={exchangeRate}
+          token1={selectedToken1!}
+          token2={selectedToken2!}
         />
       </SidebarContainer>
     </>
