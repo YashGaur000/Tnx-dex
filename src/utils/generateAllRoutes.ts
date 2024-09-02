@@ -8,11 +8,16 @@ export interface Route {
   factory: string;
 }
 
-export type Graph = Record<string, string[]>;
+interface Connection {
+  token: string;
+  stable: boolean;
+}
+
+export type Graph = Record<string, Connection[]>;
 
 interface RouteEvaluation {
   route: Route[];
-  potentialQuote: string;
+  potentialQuote: bigint;
 }
 
 function generateRoutes(
@@ -35,10 +40,10 @@ function generateRoutes(
   const routes: Route[][] = [];
 
   for (const neighbor of graph[sourceToken]) {
-    if (!visitedTokens.has(neighbor)) {
+    if (!visitedTokens.has(neighbor.token)) {
       const subRoutes = generateRoutes(
         graph,
-        neighbor,
+        neighbor.token,
         destToken,
         visitedTokens,
         currentHop + 1,
@@ -50,8 +55,8 @@ function generateRoutes(
           [
             {
               from: sourceToken,
-              to: neighbor,
-              stable: false,
+              to: neighbor.token,
+              stable: neighbor.stable,
               factory: contractAddresses.PoolFactory.toString(),
             },
           ].concat(subRoute)
@@ -70,18 +75,6 @@ export function getAllRoutes(
   destToken: string,
   maxHops: number
 ): Route[][] {
-  // const graph: Graph = {
-  //     USDB: ["tSPACE","OTK"],
-  //     tSPACE: ["USDB"],
-  //     OTK: ["USDB"],
-  //     tOP: ["tBLAST","tENVIO","tCURVE","tUSDC"],
-  //     tBLAST: ["tENVIO","tAAVE","tOP","tCURVE"],
-  //     tENVIO : ["tBLAST","tOP","tUSDC","tCURVE","tAAVE"],
-  //     tCURVE : ["tOP","tAAVE","tENVIO","tBLAST"],
-  //     tAAVE : ["tBLAST","tCURVE","tENVIO"],
-  //     tUSDC : ["tENVIO","tOP"]
-  // };
-  //onst PoolFactory = contractAddresses.PoolFactory;
   return generateRoutes(
     graph,
     sourceToken,
@@ -97,53 +90,40 @@ export const findBestRoute = async (
   allRoutes: Route[][],
   getAmountsOut: (
     amountIn: string,
-    route: Route[]
-  ) => Promise<bigint[] | undefined>
-) => {
-  if (allRoutes.length === 0) return;
+    routes: Route[][]
+  ) => Promise<bigint[][] | undefined>
+): Promise<{ bestQuote: bigint; bestRoute: Route[] | null }> => {
+  if (allRoutes.length === 0) return { bestQuote: BigInt(0), bestRoute: null };
 
-  // Create a priority queue, prioritizing routes with higher potential quotes
-  const pq = new PriorityQueue<RouteEvaluation>(
-    (a, b) => Number(b.potentialQuote) - Number(a.potentialQuote)
-  );
+  try {
+    // Create a priority queue, prioritizing routes with higher potential quotes
+    const pq = new PriorityQueue<RouteEvaluation>(
+      (a, b) => Number(b.potentialQuote) - Number(a.potentialQuote)
+    );
 
-  // Populate the priority queue with the initial evaluation of each route
-  for (const route of allRoutes) {
-    pq.enqueue({ route, potentialQuote: amountIn });
-  }
+    // Fetch amounts out for all routes
+    const amounts = await getAmountsOut(amountIn, allRoutes);
+    if (!amounts) throw new Error('Failed to fetch amounts out');
 
-  let bestQuote = BigInt(0);
-  let bestRoute: Route[] | null = null;
+    // Populate the priority queue with the evaluation of each route
+    allRoutes.forEach((route, i) => {
+      const amountsOut = amounts[i];
+      const lastAmount = amountsOut[amountsOut.length - 1];
 
-  // Process routes from the priority queue
-  while (!pq.isEmpty()) {
-    const dequeuedItem = pq.dequeue();
-
-    // Ensure dequeuedItem is not undefined
-    if (!dequeuedItem) continue;
-
-    const { route, potentialQuote } = dequeuedItem;
-
-    // Skip processing if this route's potential is less than the current best quote
-    if (Number(potentialQuote) <= bestQuote) continue;
-
-    try {
-      // Call the smart contract to get the actual output for the current route
-      const amounts = await getAmountsOut(amountIn, route);
-
-      const lastAmount = amounts?.[amounts.length - 1];
-
-      if (lastAmount && lastAmount > bestQuote) {
-        bestQuote = lastAmount;
-        bestRoute = route;
+      if (lastAmount) {
+        pq.enqueue({ route, potentialQuote: lastAmount });
       }
-    } catch (error) {
-      console.error('Error fetching amounts out:', error);
-    }
-  }
+    });
 
-  return {
-    bestQuote,
-    bestRoute: bestRoute ? bestRoute : null,
-  };
+    // Get the best evaluation from the priority queue
+    const bestEvaluation = pq.peek();
+
+    return {
+      bestQuote: bestEvaluation?.potentialQuote ?? BigInt(0),
+      bestRoute: bestEvaluation?.route ?? null,
+    };
+  } catch (error) {
+    console.error('Error finding best route:', error);
+    return { bestQuote: BigInt(0), bestRoute: null };
+  }
 };
