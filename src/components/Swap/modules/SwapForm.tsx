@@ -36,6 +36,7 @@ import { findBestRoute, getAllRoutes } from '../../../utils/generateAllRoutes';
 import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
+import { ethers } from 'ethers';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -88,8 +89,6 @@ const SwapForm: React.FC = () => {
     if (selectedToken1 && selectedToken2 && amount != '') {
       setIsLoading(true);
 
-      console.log('graph-------->', graph);
-
       setTimeout(() => {
         void (async () => {
           try {
@@ -116,16 +115,19 @@ const SwapForm: React.FC = () => {
                 graph,
                 selectedToken1.address,
                 selectedToken2.address,
-                3
+                3 // maxhop
               );
-              console.log('routes------->', routes);
-              const test = await findBestRoute(amount, routes, getAmountsOut);
-              if (test?.bestQuote) {
-                console.log(
-                  'test------->',
-                  Number(test?.bestQuote.toString()) / 10 ** 18,
-                  test?.bestRoute
+              const bestPath = await findBestRoute(
+                amount,
+                routes,
+                getAmountsOut
+              );
+              if (bestPath?.bestQuote) {
+                const bestQuote = ethers.formatUnits(
+                  bestPath.bestQuote,
+                  selectedToken2.decimals
                 );
+                setTokenInput2(bestQuote);
               }
             }
             setExchangeRate(1);
