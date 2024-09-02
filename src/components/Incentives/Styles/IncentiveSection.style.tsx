@@ -2,22 +2,25 @@ import styled from 'styled-components';
 
 export const Section = styled.section`
   width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 10px 60px;
 `;
 
 export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
-  margin: 0 -15px; /* optional, for gutters */
+  margin: 0 -15px;
 `;
 
 export const Column60 = styled.div`
-  padding: 0 15px; /* optional, for gutters */
+  padding: 0 15px;
   box-sizing: border-box;
   width: 60%;
 `;
 
 export const Column40 = styled.div`
-  padding: 0 15px; /* optional, for gutters */
+  padding: 0 15px;
   box-sizing: border-box;
   width: 40%;
 `;
@@ -51,7 +54,6 @@ export const Img3 = styled.img`
 export const Img4 = styled.img`
   height: auto;
   width: 18x;
-  padding-left: 10px;
 `;
 
 export const IncentiveLeftBarBox1info = styled.div`
@@ -67,26 +69,37 @@ export const IncentiveLeftBarBox1infoCol1 = styled.div`
 
 export const IncentiveLeftBarBox1infoCol1StableRow = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const UtmLabel = styled.label`
   font-family: Kanit;
   line-height: 1.75;
   text-align: left;
-  font-size: 20px;
+  font-size: 16px;
+`;
+export const LiquidityBoxHeading = styled.span`
+  font-family: Kanit;
+  line-height: 1.75;
+  text-align: left;
+  font-size: 16px;
 `;
 
 export const IncentiveLeftBarBox1infoCol1Stable = styled.div`
-  margin-right: 20px;
+  margin-right: 13px;
   color: #16c062;
+  font-size: 12px;
 `;
 
 export const IncentiveLeftBarBox1infoCol1Count = styled.div`
-  margin-right: 20px;
+  margin-right: 13px;
+  font-size: 12px;
 `;
 
 export const IncentiveLeftBarBox1infoCol1Icon = styled.div`
-  margin-right: 20px;
+  margin-right: 10px;
+  display: flex;
+  align-items: center;
 `;
 
 export const IncentiveLeftBarBox1UTM = styled.div`
@@ -112,7 +125,7 @@ export const IncentiveLeftBarBox1infoCol2Row2 = styled.span`
 `;
 
 export const LiquidityBox = styled.div`
-  margin-top: 40px;
+  margin-top: 24px;
 `;
 
 export const LiquidityText1 = styled.article`
@@ -121,6 +134,7 @@ export const LiquidityText1 = styled.article`
   line-height: 1.75;
   color: #cccccc;
   margin-top: 12px;
+  font-weight: 300;
 `;
 
 export const LiquidityText2 = styled.article`
@@ -128,19 +142,24 @@ export const LiquidityText2 = styled.article`
   font-family: Kanit;
   line-height: 1.75;
   color: #cccccc;
+  font-weight: 300;
 `;
 
 export const YourDepositsBox = styled.div`
+  margin-top: 24px;
+`;
+export const YourDepositsBoxHeading = styled.h2`
   margin-top: 40px;
 `;
 
 export const Box2Container = styled.div`
   display: flex;
+  justify-content: end;
 `;
 
 export const Box2Title = styled.h2`
   color: #cccccc;
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 10px;
   font-weight: 300;
 `;
@@ -154,14 +173,14 @@ export const Box2TitleAvailable = styled.h2`
 
 export const Box2Value = styled.p`
   color: #ccc;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 300;
   margin-bottom: 20px;
 `;
 
 export const Box2ValueAvailable = styled.p`
   color: #ccc;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 300;
 `;
 
@@ -173,12 +192,11 @@ export const Box2ProgressContainer = styled.div`
 
 export const Box2ProgressBar = styled.input`
   flex-grow: 1;
-  width: 100%;
   background-color: #fff0;
-  border: 1px solid #b8b8b8;
+  border: 1px solid #ffffff00;
   border-radius: 16px;
-  padding: 20px;
-  margin-top: 10px;
+  padding: 10px;
+  margin-right: 10px;
   color: #fff;
   font-family: 'kanit';
   font-weight: 300;
@@ -196,6 +214,12 @@ export const Box2Percentage = styled.span`
   margin-left: 20px;
   font-weight: 300;
 `;
+export const Box2ContainerBorder = styled.div`
+  border: 1px solid #b8b8b8;
+  border-radius: 16px;
+  width: 100%;
+  padding: 12px 16px;
+`;
 
 export const Box2DataPoint1 = styled.div`
   justify-content: space-between;
@@ -207,8 +231,6 @@ export const Box2DataPoint1 = styled.div`
 export const Box2DataPoint1Tenex = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
-  width: 30%;
 `;
 
 export const Box2DataPoint2 = styled.div`
@@ -225,8 +247,6 @@ export const Box2DataPoint3 = styled.div`
 `;
 
 export const Box2DataPoint4 = styled.div`
-  margin-bottom: 10px;
-  justify-content: end;
   width: 100%;
   display: flex;
   text-align: right;
@@ -236,7 +256,7 @@ export const Box2DataPoint4 = styled.div`
 export const Box2TokenName = styled.span`
   color: #cccccc;
   font-size: 16px;
-  margin-left: 10px;
+  margin: 0px 10px;
 `;
 
 export const IncentivesBox2 = styled.h2`
@@ -248,7 +268,7 @@ export const IncentivesBox2 = styled.h2`
 
 export const IncentivesBox2Paragraph = styled.article`
   color: #fff;
-  font-size: 16px;
+  font-size: 14px;
   font-family: Kanit;
   line-height: 1.75;
   font-weight: 300;
@@ -269,7 +289,7 @@ export const IncentivizeListItem = styled.li`
 `;
 export const IncentivizeText = styled.span`
   color: #cccccc;
-  font-size: 16px;
+  font-size: 14px;
 `;
 export const IncentivizeTextCircle = styled.span`
   margin-right: 16px;
