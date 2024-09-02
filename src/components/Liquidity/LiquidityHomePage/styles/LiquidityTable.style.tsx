@@ -87,9 +87,9 @@ export const SugestImgWrapper = styled.div`
 export const TitleWrapper = styled.p<{
   theme: DefaultTheme;
   fontSize: string;
-  lineHeight?: string;
+  lineheight?: string;
 }>`
-  line-height: ${({ lineHeight }) => lineHeight ?? '20.93px'};
+  line-height: ${({ lineheight }) => lineheight ?? '20.93px'};
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};

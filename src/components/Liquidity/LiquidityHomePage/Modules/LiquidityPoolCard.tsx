@@ -140,11 +140,11 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
         </TableColumn>
         <TableColumn>
           <LiquidityTokenWrapper>
-            <TitleWrapper fontSize={'12px'} lineHeight="17.94px">
+            <TitleWrapper fontSize={'12px'} lineheight="17.94px">
               {data.reserve0.toString()} {data.token0.symbol}
             </TitleWrapper>
             {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
-            <TitleWrapper fontSize={'12px'} lineHeight="17.94px">
+            <TitleWrapper fontSize={'12px'} lineheight="17.94px">
               {data.reserve1.toString()} {data.token1.symbol}
             </TitleWrapper>
           </LiquidityTokenWrapper>
@@ -165,7 +165,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               fontSize="12px"
               width="81px"
               height="26px"
-              lineHeight="17.94px"
+              lineheight="17.94px"
               smFontSize={12}
               smMargin="0px"
             >

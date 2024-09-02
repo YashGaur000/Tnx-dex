@@ -62,10 +62,10 @@ export const CardRow = styled.div<{ theme: DefaultTheme }>`
 
 export const CardDescription = styled.p<{
   theme: DefaultTheme;
-  Lineheight?: string;
+  lineheight?: string;
 }>`
   font-size: 1em;
-  line-height: ${({ Lineheight }) => Lineheight};
+  line-height: ${({ lineheight }) => lineheight};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.greyLight};
   margin-bottom: 20px;
