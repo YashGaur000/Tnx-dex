@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
-export const SlippageWrapper = styled.div<{
+export const TransactionWrapper = styled.div<{
   display: string;
   theme: DefaultTheme;
 }>`
@@ -24,7 +24,7 @@ export const SidebarTitle = styled.h2<{
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   margin-left: 11px;
-  color: ${({ theme }) => theme.colors.whiteBorder};
+  color: ${({ theme }) => theme.colors.greyLight};
 `;
 
 export const Align = styled.div`
@@ -36,24 +36,30 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
   width: 67px;
   height: 25px;
   padding: 2px, 12px, 2px, 12px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.text};
-  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
-  border-radius: 10px;
+  border: 1px solid transparent;
+  color: ${({ theme }) => theme.colors.greyLight};
+  background: ${({ theme }) => theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  border-radius: 8px;
   cursor: pointer;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
+    color: ${({ theme }) => theme.colors.greyLight};
+    border: 2px solid transparent;
+    background: ${({ theme }) => theme.colors.cardLight},
+      ${({ theme }) => theme.colors.buttonBackground};
+    background-clip: padding-box, border-box;
+    background-origin: padding-box, border-box;
   }
 `;
 
-export const SliderContainer = styled.div`
+export const SliderContainer = styled.div<{ theme: DefaultTheme }>`
   margin-left: 11px;
 `;
 
-export const Slider = styled.input`
+export const Slider = styled.input<{ theme: DefaultTheme }>`
   width: 100%;
   height: 2px;
   accent-color: darkcyan;
