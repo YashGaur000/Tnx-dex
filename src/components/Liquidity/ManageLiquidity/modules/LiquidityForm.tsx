@@ -136,7 +136,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
               const value1 =
                 tx &&
                 parseFloat(
-                  formatUnits(tx.amountA.toString(), selectedToken2.decimals)
+                  formatUnits(tx.amountA.toString(), selectedToken1.decimals)
                 );
               const value2 =
                 tx &&
