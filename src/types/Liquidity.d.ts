@@ -27,6 +27,16 @@ interface RouterContract extends Contract {
     deadline: bigint,
     { gasLimit: BigInt }
   ): Promise<ContractTransaction>;
+  addLiquidityETH(
+    token: Address,
+    stable: boolean,
+    amountTokenDesired: bigint,
+    amountTokenMin: bigint,
+    amountETHMin: bigint,
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt, value: BigInt }
+  ): Promise<ContractTransaction>;
   quoteAddLiquidity(
     tokenA: Address,
     tokenB: Address,
@@ -49,6 +59,16 @@ interface RouterContract extends Contract {
       amountBMin: bigint,
       to: Address,
       deadline: bigint
+    ): Promise<bigint>;
+    addLiquidityETH(
+      token: Address,
+      stable: boolean,
+      amountTokenDesired: bigint,
+      amountTokenMin: bigint,
+      amountETHMin: bigint,
+      to: Address,
+      deadline: bigint,
+      { value: BigInt }
     ): Promise<bigint>;
     quoteAddLiquidity(
       tokenA: Address,
