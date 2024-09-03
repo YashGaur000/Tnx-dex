@@ -25,7 +25,9 @@ import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSectio
 import TransactionDeadline from '../../../common/TransactionDeadline';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 import { useRootStore } from '../../../../store/root';
-import { useNavigate } from 'react-router-dom';
+import { parseAmounts } from './../../../../utils/transaction/parseAmounts';
+import { calculateMinAmount } from './../../../../utils/transaction/calculateMinAmounts';
+import { getDeadline } from './../../../../utils/transaction/getDeadline';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -46,7 +48,7 @@ const Deposite: React.FC<DepositProps> = ({
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const getParam = useQueryParams();
-  const Navigate = useNavigate();
+
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const routerAddress = contractAddress.Router;
@@ -118,16 +120,22 @@ const Deposite: React.FC<DepositProps> = ({
 
   const handleDeposit = async () => {
     try {
-      const amount1InWei =
-        amount1 &&
-        ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
-      const amount2InWei =
-        amount2 &&
-        ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
-      const type = getParam('type') == '0' ? true : false;
-      const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
-      console.log(deadLineValue);
-      console.log(selectedTolerance);
+      const amount1InWei = parseAmounts(amount1, selectedToken1?.decimals);
+      const amount2InWei = parseAmounts(amount2, selectedToken2?.decimals);
+
+      const minAmount1InWei = calculateMinAmount(
+        amount1 ?? 0,
+        selectedTolerance,
+        selectedToken1?.decimals ?? 18
+      );
+      const minAmount2InWei = calculateMinAmount(
+        amount2 ?? 0,
+        selectedTolerance,
+        selectedToken2?.decimals ?? 18
+      );
+
+      const type = getParam('type') == '0';
+      const deadline = getDeadline(deadLineValue);
 
       if (
         amount1InWei &&
@@ -137,21 +145,11 @@ const Deposite: React.FC<DepositProps> = ({
         address
       ) {
         if (selectedToken1?.symbol === 'WETH') {
-          console.log(
-            selectedToken2?.address,
-            type,
-            amount2InWei,
-            amount2InWei,
-            ethers.parseEther(amount1.toString()),
-            address,
-            deadline
-          );
-
           const tx = await addLiquidityETH(
             selectedToken2?.address,
             type,
             amount2InWei,
-            amount2InWei,
+            minAmount2InWei,
             amount1InWei,
             address,
             deadline
@@ -165,8 +163,8 @@ const Deposite: React.FC<DepositProps> = ({
             type,
             amount1InWei,
             amount2InWei,
-            amount1InWei,
-            amount2InWei,
+            minAmount1InWei,
+            minAmount2InWei,
             address,
             deadline
           );
@@ -179,9 +177,6 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
-  const handleStakeDeposit = () => {
-    Navigate('/stake');
-  };
   const CreatepoolDepositeData: StepperDataProps[] = [
     {
       step: 1,
@@ -287,12 +282,7 @@ const Deposite: React.FC<DepositProps> = ({
       )}
 
       {isDeposited && (
-        <GlobalButton
-          width="100%"
-          height="48px"
-          margin="0px"
-          onClick={handleStakeDeposit}
-        >
+        <GlobalButton width="100%" height="48px" margin="0px">
           Stake your Deposit{' '}
         </GlobalButton>
       )}
