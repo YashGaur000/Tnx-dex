@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import SlippageTolerance from '../Swap/modules/SlippageTolerance';
-import TransactionDeadline from '../Swap/modules/TransactionDeadline';
+
 import { DefaultTheme } from '../../styles/Theme';
 import AllowUnsafeTrades from '../Swap/modules/AllowUnsafeTrades';
+import SlippageTolerance from '../common/SlippageTolerance';
+
+import TransactionDeadline from '../common/TransactionDeadline';
 
 interface SettingProps {
   isOpen: boolean;

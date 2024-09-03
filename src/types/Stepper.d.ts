@@ -1,6 +1,6 @@
 interface StepperButtons {
   label: string;
-  icon: string;
+  icon?: string;
   onClick?: () => Promise<void>;
   tooltip?: string;
   disabled?: boolean;

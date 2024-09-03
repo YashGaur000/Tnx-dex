@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -9,13 +9,16 @@ import {
   TdText,
   TimerButton,
   TransactionWrapper,
-} from '../styles/TransactionDeadline.style';
+} from '../Swap/styles/TransactionDeadline.style';
+import { useLiquidityStore } from '../../store/slices/liquiditySlice';
 
 const TransactionDeadline: React.FC = () => {
-  const [sliderValue, setSliderValue] = useState(30);
+  const { setDeadLineValue, deadLineValue } = useLiquidityStore();
+  // const [sliderValue, setSliderValue] = useState<number>(30);
 
   const handleSliderChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSliderValue(Number(event.target.value));
+    // setSliderValue(Number(event.target.value));
+    setDeadLineValue(Number(event.target.value));
   };
 
   const formatTime = (minutes: number) => {
@@ -30,14 +33,14 @@ const TransactionDeadline: React.FC = () => {
     <TransactionWrapper display="flow">
       <Align>
         <SidebarTitle fontSize={16}>Transaction Deadline</SidebarTitle>
-        <TimerButton>{formatTime(sliderValue)}</TimerButton>
+        <TimerButton>{formatTime(deadLineValue)}</TimerButton>
       </Align>
       <SliderContainer>
         <Slider
           type="range"
           min="0"
           max="30"
-          value={sliderValue}
+          value={deadLineValue}
           onChange={handleSliderChange}
         />
       </SliderContainer>

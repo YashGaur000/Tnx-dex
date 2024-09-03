@@ -16,6 +16,9 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
     case '/':
       background = theme.colors.backgroundHome;
       break;
+    case '/stake':
+      background = theme.colors.backgroundCreateLiquidity;
+      break;
     case '/swap':
       background = theme.colors.backgroundSwap;
       break;
