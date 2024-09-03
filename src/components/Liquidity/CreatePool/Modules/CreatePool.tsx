@@ -7,7 +7,7 @@ import QuestionIcon from '../../../../assets/questionMark.png';
 import SelectIcon from '../../../../assets/select.svg';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
-import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import PopupScreen from '../../../common/PopupScreen';
 
 import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import {

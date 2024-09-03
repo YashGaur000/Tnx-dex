@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { relayData } from '../../../../constants/RelayData';
 import TableContains, {
   TableHeader,
+  TableRow,
   TableWrapper,
 } from '../../../common/TableStyled';
 
@@ -39,7 +40,7 @@ const Relay = () => {
       <TableWrapper padding="0px 15px" background="none">
         <TableContains padding="0px" margin="0px 0px">
           <thead>
-            <tr>
+            <TableRow>
               <TableHeader>
                 <RelayTableheader> Relay</RelayTableheader>
               </TableHeader>
@@ -48,7 +49,7 @@ const Relay = () => {
               <TableHeader>
                 <DepositeLockButtonWrapper>Manage</DepositeLockButtonWrapper>
               </TableHeader>
-            </tr>
+            </TableRow>
           </thead>
           <tbody>
             {paginatedData.map((data, key) => (
