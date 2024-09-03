@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import SolIcon from '../../../assets/sol.png';
 import InformationIcon from '../../../assets/redInformation.svg';
-import RedLockIcon from '../../../assets/lock.png';
-import CheckIcon from '../../../assets/check.svg';
-import UnLockIcon from '../../../assets/LockSucess.svg';
 import LockIcon from '../../../assets/Lock1.svg';
 import SearchIcon from '../../../assets/search.png';
 import {
@@ -15,14 +12,23 @@ import {
 } from '../styles/Sidebar.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
-import { LoadingSpinner } from '../../common/Loader';
+import { TokenInfo } from '../../../constants/tokens';
 
 interface SidebarProps {
   isLoading: boolean;
   exchangeRate: number;
+  token1: TokenInfo;
+  token2: TokenInfo;
+  tokenInput1: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
+const Sidebar: React.FC<SidebarProps> = ({
+  isLoading,
+  exchangeRate,
+  token1,
+  token2,
+  tokenInput1,
+}) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
   const handleUnsafeAllowence = () => {
@@ -36,8 +42,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
       descriptions: {
         labels: 'Exchange Rate Found',
         adjust: 'Refresh',
-        token1: '1 tEnvio',
-        token2: `${exchangeRate} tBlast`,
+        token1: `1 ${token1.symbol}`,
+        token2: `${exchangeRate.toFixed(4)} ${token2.symbol}`,
       },
     },
     {
@@ -69,10 +75,34 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
         labels: 'Estimated price impact is too high 22.67% ',
       },
     },
+    {
+      step: 5,
+      icon: LockIcon,
+      descriptions: {
+        labels: `Allowance not granted for ${token1.symbol}`,
+      },
+      buttons: !isTokenAllow
+        ? {
+            label: 'Allow ' + token1?.symbol,
+            icon: LockIcon,
+            onClick: undefined,
+            tooltip: `Click to allow ${token1.symbol} transactions`,
+            disabled: false,
+          }
+        : undefined,
+    },
+    {
+      step: 6,
+      icon: SearchIcon,
+      descriptions: {
+        labels: 'Waiting for next actions ...',
+      },
+    },
   ];
-  const [SwapDepositData, setSwapDepositData] = useState<StepperDataProps[]>(
-    SwapDepositInitialData
-  );
+
+  // const [SwapDepositData, setSwapDepositData] = useState<StepperDataProps[]>(
+  //   SwapDepositInitialData
+  // );
 
   const SwapInstructData: StepperDataProps[] = [
     {
@@ -96,57 +126,35 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
     },
   ];
 
-  // const handleTokenAllow = ()=>{
-  //       try {
-
-  //         console.log(abc);
-  //          setTokenAllow(true);
-  //       } catch (error) {
-  //         console.log(error);
-
-  //       }
-  // }
-
-  useEffect(() => {
-    const updatedData = [...SwapDepositInitialData];
-
-    if (isUnsafeTradesAllowed) {
-      updatedData.pop();
-      updatedData.push({
-        step: 5,
-        icon: CheckIcon,
-        descriptions: {
-          labels: '22.41% price impact is unsafe',
-        },
-      });
-      updatedData.push({
-        step: 6,
-        icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
-
-        descriptions: {
-          labels: !isTokenAllow
-            ? 'Allowance not granted for SUI'
-            : 'Allowed the contracts to access SUI',
-        },
-        buttons: !isTokenAllow
-          ? {
-              label: 'Allow SUI',
-              icon: LockIcon,
-              // onClick:handleTokenAllow
-            }
-          : undefined,
-      });
-      updatedData.push({
-        step: 7,
-        icon: SearchIcon,
-        descriptions: {
-          labels: 'Waiting for next actions...',
-        },
-      });
-    }
-
-    setSwapDepositData(updatedData);
-  }, [isUnsafeTradesAllowed, isTokenAllow]);
+  const SwapLoadingData: StepperDataProps[] = [
+    {
+      step: 1,
+      descriptions: {
+        labels: 'Getting the Exchange Rate ...',
+      },
+    },
+    {
+      step: 2,
+      descriptions: {
+        labels: `Allowance not granted for ${token1.symbol}`,
+      },
+      buttons: !isTokenAllow
+        ? {
+            label: 'Allow ' + token1?.symbol,
+            icon: LockIcon,
+            onClick: undefined,
+            tooltip: `Click to allow ${token1.symbol} transactions`,
+            disabled: false,
+          }
+        : undefined,
+    },
+    {
+      step: 3,
+      descriptions: {
+        labels: 'Waiting for next actions ...',
+      },
+    },
+  ];
 
   const handleAdjust = (adjustbuttonName: string) => {
     if (adjustbuttonName === 'Slippage') {
@@ -169,9 +177,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
         <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
         <SidebarList>
           {isLoading ? (
-            <LoadingSpinner />
-          ) : exchangeRate > 0 ? (
-            <Stepper data={SwapDepositData} />
+            <Stepper data={SwapLoadingData} />
+          ) : exchangeRate > 0 && tokenInput1 ? (
+            <Stepper data={SwapDepositInitialData} />
           ) : (
             <Stepper data={SwapInstructData} />
           )}
