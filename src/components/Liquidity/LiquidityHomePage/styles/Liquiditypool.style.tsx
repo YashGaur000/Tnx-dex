@@ -7,7 +7,6 @@ export const LiquidityHeaderTitle = styled.p<{
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  color:${({ theme }) => theme.colors.whiteBorder}
+  color: ${({ theme }) => theme.colors.whiteBorder};
   text-align: left;
-
 `;

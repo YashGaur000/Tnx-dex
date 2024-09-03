@@ -6,6 +6,8 @@ import styled from 'styled-components';
 const LiquidityPoolStyle = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
 `;
 interface LowLiquidityPoolProps {
   isStablePresent: boolean;
