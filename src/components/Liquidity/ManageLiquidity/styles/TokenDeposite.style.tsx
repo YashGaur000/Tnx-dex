@@ -59,7 +59,7 @@ export const TokenStatus = styled.div<{ theme: DefaultTheme }>`
 `;
 export const TokenDescription = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 8px;
   flex-direction: column;
   align-items: flex-start;
 `;
@@ -68,6 +68,8 @@ export const TokenContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: space-between;
+
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -76,11 +78,12 @@ export const TokenContainer = styled.div<{ theme: DefaultTheme }>`
 export const LiquidityStyleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 12px;
   align-items: flex-start;
 `;
 export const DepositeStyle = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 12px;
   align-items: flex-end;
 `;

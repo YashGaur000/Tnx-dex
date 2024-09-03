@@ -80,11 +80,11 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               </TraidingSyleLabel>
               <LiquidityTokenWrapper>
                 <TokenAmountTitle>
-                  <StatsCardtitle fontSize={12}>
+                  <StatsCardtitle lineheight="17px" fontSize={12}>
                     {data.isStable ? 'Stable' : 'Volatile'}
                   </StatsCardtitle>
                   {/* <p> {data.stablePercentage}%</p>{' '} */}
-                  <p>{0.01} %</p>
+                  <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
                   <SugestImgWrapper
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
@@ -94,7 +94,9 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                   </SugestImgWrapper>
                 </TokenAmountTitle>
                 <TokenAmountTitle>
-                  <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
+                  <StatsCardtitle lineheight="17px" fontSize={12}>
+                    TVL
+                  </StatsCardtitle>{' '}
                   <LiquidityTitle fontSize={12}>
                     {data.totalVolumeUSD.toString()}
                   </LiquidityTitle>

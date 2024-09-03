@@ -36,19 +36,21 @@ const SelectSelectedItem = styled.div<{
   border-radius: 8px;
   height: ${({ height }) => height}px;
   width: ${({ width }) => width};
-  min-width: 85px;
+  min-width: 100px;
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.whiteBorder};
   justify-content: space-between;
   padding: 4px 8px;
+
   position: relative;
 
   &::before {
     content: '';
     padding: 1px;
     position: absolute;
+
     inset: 0;
     border-radius: 8px;
 

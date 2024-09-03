@@ -19,10 +19,13 @@ import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
 import { StepperDataProps } from '../../../../types/Stepper';
 import SuccessPopup from '../../../common/SucessPopup';
-import SlippageTolerance from '../../../Swap/modules/SlippageTolerance';
+import SlippageTolerance from '../../../common/SlippageTolerance';
 import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
 import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
-import TransactionDeadline from '../../../Swap/modules/TransactionDeadline';
+import TransactionDeadline from '../../../common/TransactionDeadline';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import { useRootStore } from '../../../../store/root';
+import { useNavigate } from 'react-router-dom';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -43,11 +46,12 @@ const Deposite: React.FC<DepositProps> = ({
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const getParam = useQueryParams();
-
+  const Navigate = useNavigate();
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const routerAddress = contractAddress.Router;
-
+  const { deadLineValue } = useLiquidityStore();
+  const { selectedTolerance } = useRootStore();
   const { approveAllowance: approveAllowance1 } = useTokenAllowance(
     selectedToken1!.address,
     testErc20Abi
@@ -122,6 +126,8 @@ const Deposite: React.FC<DepositProps> = ({
         ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
       const type = getParam('type') == '0' ? true : false;
       const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
+      console.log(deadLineValue);
+      console.log(selectedTolerance);
 
       if (
         amount1InWei &&
@@ -173,6 +179,9 @@ const Deposite: React.FC<DepositProps> = ({
     }
   };
 
+  const handleStakeDeposit = () => {
+    Navigate('/stake');
+  };
   const CreatepoolDepositeData: StepperDataProps[] = [
     {
       step: 1,
@@ -278,7 +287,12 @@ const Deposite: React.FC<DepositProps> = ({
       )}
 
       {isDeposited && (
-        <GlobalButton width="100%" height="48px" margin="0px">
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={handleStakeDeposit}
+        >
           Stake your Deposit{' '}
         </GlobalButton>
       )}
