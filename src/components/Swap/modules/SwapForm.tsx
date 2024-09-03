@@ -31,7 +31,6 @@ import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
-import { LoadingSpinner } from '../../common/Loader';
 import {
   findBestRoute,
   getAllRoutes,
@@ -335,14 +334,8 @@ const SwapForm: React.FC = () => {
               account={address!}
             />
           </SwapBox>
-          {tokenInput1 && route ? (
-            isLoading ? (
-              <LoadingSpinner />
-            ) : (
-              <LiquityRouting route={route} />
-            )
-          ) : (
-            <></>
+          {tokenInput1 && (
+            <LiquityRouting route={route} isLoading={isLoading} />
           )}
         </SwapBoxWrapper>
       </SwapFormContainer>
@@ -353,6 +346,7 @@ const SwapForm: React.FC = () => {
           exchangeRate={exchangeRate}
           token1={selectedToken1!}
           token2={selectedToken2!}
+          tokenInput1={tokenInput1}
         />
       </SidebarContainer>
     </>

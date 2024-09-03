@@ -19,6 +19,7 @@ interface SidebarProps {
   exchangeRate: number;
   token1: TokenInfo;
   token2: TokenInfo;
+  tokenInput1: string;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -26,6 +27,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   exchangeRate,
   token1,
   token2,
+  tokenInput1,
 }) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
@@ -176,7 +178,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <SidebarList>
           {isLoading ? (
             <Stepper data={SwapLoadingData} />
-          ) : exchangeRate > 0 ? (
+          ) : exchangeRate > 0 && tokenInput1 ? (
             <Stepper data={SwapDepositInitialData} />
           ) : (
             <Stepper data={SwapInstructData} />
