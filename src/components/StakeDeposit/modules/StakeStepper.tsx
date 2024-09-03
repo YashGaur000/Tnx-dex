@@ -5,6 +5,8 @@ import RedLockIcon from '../../../assets/lock.png';
 import LoadingIcon from '../../../assets/search.png';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import TimerIcon from '../../../assets/timer-red-logo.svg';
+import useQueryParams from '../../../hooks/useQueryParams';
+import { useTokenInfo } from '../../../hooks/useTokenInfo';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
@@ -12,6 +14,10 @@ interface StakeStepperProps {
 
 const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   console.log(selectedStakeValue);
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
 
   const StakeStepperInstructData = [
     {
@@ -52,7 +58,11 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
         labels: 'Create the gauge by incentivizing first',
       },
       buttons: {
-        label: 'Incentivize USDT-FTM',
+        label:
+          'Incentivize ' +
+          selectedToken1?.symbol +
+          '-' +
+          selectedToken2?.symbol,
       },
     },
     {
@@ -62,7 +72,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
         labels: 'Create the gauge by incentivizing first',
       },
       buttons: {
-        label: 'Allow USDT-FTM',
+        label: 'Allow ' + selectedToken1?.symbol + '-' + selectedToken2?.symbol,
         icon: LockIcon,
       },
     },

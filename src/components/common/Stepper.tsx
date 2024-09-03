@@ -180,7 +180,7 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
               <GlobalButton
                 padding="8px"
                 margin="0px"
-                width="186px"
+                width="fit-content"
                 height="40px"
                 tabIndex={0}
                 onClick={() => {

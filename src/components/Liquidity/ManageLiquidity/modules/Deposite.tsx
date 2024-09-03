@@ -103,7 +103,11 @@ const Deposite: React.FC<DepositProps> = ({
   };
 
   const handleStakeDeposit = () => {
-    Navigate('/stake');
+    const queryParams = new URLSearchParams(location.search);
+    Navigate({
+      pathname: '/stake',
+      search: `?${queryParams.toString()}`,
+    });
   };
 
   const handleAdjust = (adjustbuttonName: string) => {
