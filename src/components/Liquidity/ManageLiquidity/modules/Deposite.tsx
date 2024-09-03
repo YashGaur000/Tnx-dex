@@ -28,6 +28,7 @@ import { useRootStore } from '../../../../store/root';
 import { parseAmounts } from './../../../../utils/transaction/parseAmounts';
 import { calculateMinAmount } from './../../../../utils/transaction/calculateMinAmounts';
 import { getDeadline } from './../../../../utils/transaction/getDeadline';
+import { useNavigate } from 'react-router-dom';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -48,6 +49,7 @@ const Deposite: React.FC<DepositProps> = ({
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const getParam = useQueryParams();
+  const Navigate = useNavigate();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
@@ -98,6 +100,10 @@ const Deposite: React.FC<DepositProps> = ({
     } catch (error) {
       console.error('Error during token approval', error);
     }
+  };
+
+  const handleStakeDeposit = () => {
+    Navigate('/stake');
   };
 
   const handleAdjust = (adjustbuttonName: string) => {
@@ -282,7 +288,12 @@ const Deposite: React.FC<DepositProps> = ({
       )}
 
       {isDeposited && (
-        <GlobalButton width="100%" height="48px" margin="0px">
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={handleStakeDeposit}
+        >
           Stake your Deposit{' '}
         </GlobalButton>
       )}
