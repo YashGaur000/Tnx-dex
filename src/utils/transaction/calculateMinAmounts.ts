@@ -12,7 +12,9 @@ export const calculateMinAmount = (
   selectedTolerance: number,
   decimals: number
 ) => {
-  const minAmount = (parseFloat(amount.toString()) * selectedTolerance) / 100;
+  const minAmount =
+    parseFloat(amount.toString()) -
+    (parseFloat(amount.toString()) * selectedTolerance) / 100;
   const minAmountInWei = ethers.parseUnits(minAmount.toString(), decimals);
 
   return minAmountInWei;
