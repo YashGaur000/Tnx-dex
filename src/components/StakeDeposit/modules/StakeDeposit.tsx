@@ -12,8 +12,6 @@ import {
   Imgstyle,
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import InformIcon from '../../../assets/Tips.svg';
-import Usdt from '../../../assets/usdc.png';
-import Ftm from '../../../assets/ftm.png';
 
 import {
   DepositeContentWrapper,
@@ -44,9 +42,26 @@ import {
 } from '../../Swap/styles/TransactionDeadline.style';
 import StakeStepper from './StakeStepper';
 import { ChangeEvent, useState } from 'react';
+import useQueryParams from '../../../hooks/useQueryParams';
+import { useTokenInfo } from '../../../hooks/useTokenInfo';
+import { usePoolContract } from '../../../hooks/usePoolContract';
 
 const StakeDeposit = () => {
   const [SelectStakeValue, SetSelectStakeValue] = useState<number>(0);
+
+  const getParam = useQueryParams();
+
+  const selectedToken1 = useTokenInfo(getParam('token1'));
+  const selectedToken2 = useTokenInfo(getParam('token2'));
+  const poolId = getParam('id');
+  const poolType = getParam('type') === '0' ? 'stable' : 'volatile';
+
+  // Fetch balances from pool contract
+  const { balance0, balance1, reserve0, reserve1 } = usePoolContract(
+    poolId ?? '',
+    selectedToken1?.decimals ?? 18,
+    selectedToken2?.decimals ?? 18
+  );
 
   const HandleStakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const StakeValue = e.target.value;
@@ -58,7 +73,6 @@ const StakeDeposit = () => {
   };
   const SliderPercentage = [
     { id: '1', value: 0 },
-
     { id: '2', value: 25 },
     { id: '3', value: 50 },
     { id: '4', value: 75 },
@@ -72,19 +86,19 @@ const StakeDeposit = () => {
             <DepositeTokenWithImage>
               <GroupImgContains>
                 <IMG1Contains Top={5} Left={0}>
-                  <Imgstyle src={Usdt} />
+                  <Imgstyle src={selectedToken1?.logoURI} />
                 </IMG1Contains>
                 <IMG2Contains Top={5} Left={26}>
-                  <Imgstyle src={Ftm} />
+                  <Imgstyle src={selectedToken2?.logoURI} />
                 </IMG2Contains>
               </GroupImgContains>
 
               <TokenDescription>
                 <LiquidityHeaderTitle fontSize={20}>
-                  {'USDT'}-{'FTM'}
+                  {selectedToken1?.symbol}-{selectedToken2?.symbol}
                 </LiquidityHeaderTitle>
                 <TokenStatus>
-                  <StatsCardtitle fontSize={12}>{'Stable'}</StatsCardtitle>
+                  <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
                   <LiquidityTitle fontSize={12}>0.01%</LiquidityTitle>
                   <LiquidityImgStyle
                     width={'17px'}
@@ -108,10 +122,10 @@ const StakeDeposit = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle fontSize={12}>
-                  {'1,003,212.5643 USDT'}
+                  {reserve0 + ' ' + selectedToken1?.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle fontSize={12}>
-                  {'2,783,860.003 FTM'}
+                  {reserve1 + ' ' + selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </LiquidityStyleContainer>
@@ -121,8 +135,12 @@ const StakeDeposit = () => {
                 Your Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle fontSize={12}>{'0.0 USDT'}</LiquidityTitle>
-                <LiquidityTitle fontSize={12}>{'0.0 FTM'}</LiquidityTitle>
+                <LiquidityTitle fontSize={12}>
+                  {balance0 + ' ' + selectedToken1?.symbol}
+                </LiquidityTitle>
+                <LiquidityTitle fontSize={12}>
+                  {balance1 + ' ' + selectedToken2?.symbol}
+                </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
           </DepositeContentWrapper>
