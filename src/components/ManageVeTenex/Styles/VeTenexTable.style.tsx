@@ -2,21 +2,18 @@ import styled from 'styled-components';
 
 export const AmountWithImg = styled.div`
   display: flex;
+  justify-content: right;
   align-items: center;
-  justify-content: flex-end;
-  padding-right: 30px;
+  gap: 8px;
 `;
 
 export const ButtonContain = styled.div`
   display: inline-block;
 `;
 export const LockButtonWrapper = styled.div`
+  height: 22px;
   display: flex;
+  gap: 10px;
   justify-content: end;
-  gap: 8px;
-`;
-
-export const ColumnDataWrapper = styled.div`
-  text-align: right;
-  margin-right: 15px;
+  align-items: center;
 `;

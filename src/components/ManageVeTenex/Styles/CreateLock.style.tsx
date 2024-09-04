@@ -40,19 +40,24 @@ export const LoaderStatusWrapper = styled.div<{
 
   padding: 10px;
   width: 100%;
-
+  border: 1px solid;
   text-align: center;
   display: block;
 `;
-export const LoaderStatus = styled.p<{ theme: DefaultTheme }>`
+export const LoaderStatus = styled.p<{
+  theme: DefaultTheme;
+  fontSize?: number;
+}>`
   background: ${({ theme }) => theme.colors.hover};
   display: inline-block;
-
-  padding: 10px;
+  font-size: ${({ fontSize }) => fontSize}px;
+  padding: 4px 6px;
   float: right;
-  border-radius: 10px;
+  border-radius: 6px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  min-width: 39px;
+  text-align: center;
 `;
 export const LoaderStyle = styled.div`
   width: 100%;
