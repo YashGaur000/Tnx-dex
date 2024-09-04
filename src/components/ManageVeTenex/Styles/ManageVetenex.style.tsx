@@ -9,7 +9,7 @@ export const LockCardstyle = styled.div<{ theme: DefaultTheme }>`
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
-
+export const ToolTipsWrapper = styled.span``;
 export const LockHeaderTitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
@@ -38,34 +38,32 @@ export const ImageContainer = styled.img<{
   margin: ${({ margin }) => margin};
 `;
 
-export const LockHeroSection = styled.main`
+export const LockHeroSection = styled.main<{ theme: DefaultTheme }>`
   display: flex;
-  height: auto;
-  margin-top: 20px;
+  height: 132px;
+  margin-top: 5px;
   width: 100%;
 
   justify-content: space-between;
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     flex-direction: column;
+    height: auto;
   }
 `;
 export const LockHeroSectionContent = styled.article<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   color: ${({ theme }) => theme.colors.titleColor};
-  padding-top: 10px;
+  padding-top: 2px;
   width: 50%;
 
-  @media (max-width: 1250px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     width: 60%;
   }
 
-  @media (max-width: 1100px) {
-    font-size: 15px;
-  }
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     width: 100%;
   }
 `;
@@ -73,6 +71,7 @@ export const LockHeroSectionContent = styled.article<{ theme: DefaultTheme }>`
 export const LockButtonConatainer = styled.div`
   display: flex;
   justify-content: end;
+  margin-bottom: 3px;
 `;
 
 export const AmountWithImg = styled.div`
@@ -84,11 +83,11 @@ export const AmountWithImg = styled.div`
 
 export const LockTableContains = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
-  margin-top: 20px;
+
   width: 100%;
   height: auto;
   border-radius: 15px;
-  padding: 20px;
+  padding: 20px 40px;
 `;
 
 export const LockheaderContentStyle = styled.div`

@@ -10,9 +10,8 @@ export const LiquidityTitle = styled.label<{
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: ${({ lineheight }) => lineheight ?? '17.94'}
-  text-align: left;
-  
+  line-height: ${({ lineheight }) => lineheight ?? '17.94px'};
+
   color: ${({ theme }) => theme.colors.titleColor};
   margin: ${({ margin }) => margin};
 `;
@@ -43,7 +42,7 @@ export const StatsCardtitle = styled.label<{
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: ${({ fontSize }) => fontSize} px;
+  font-size: ${({ fontSize }) => fontSize}px;
   line-height: ${({ lineheight }) => lineheight};
 `;
 
@@ -80,7 +79,7 @@ export const LiquidityHeroSectionContent = styled.article<{
 export const AsideSectionContains = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 22px;
 
   @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     width: 40%;
@@ -107,13 +106,16 @@ export const MetricDisplayWrapper = styled.div<{
   font-size: ${({ theme }) => theme.fontSize.medium};
   justify-content: flex-end;
   width: 100%;
-  height: 68px;
+  height: 55px;
+
   @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     flex-direction: column;
+    height: auto;
     gap: 5px;
   }
   @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     flex-direction: row;
+
     gap: 20px;
   }
 
@@ -130,10 +132,10 @@ export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.card};
-  height: 67px;
+  height: 55px;
 
   justify-content: center;
-  padding: 6px 16px;
+  padding: 0px 16px;
   gap: 2px;
 
   border-radius: 8px;

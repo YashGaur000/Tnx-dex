@@ -56,7 +56,7 @@ const TableContains = styled.table<TableProps>`
   line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
   border-spacing: 0 20px;
   color: ${({ color }) => color ?? '#ffffff'};
-
+  overflow-x: scroll;
   border-radius: 24px;
 
   @media screen and (max-width: 500px) {
@@ -90,7 +90,6 @@ export const TableColumn = styled.td<TableProps>`
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   text-overflow: ellipsis;
-  height: 74px;
 
   width: ${({ width }) => width};
   padding: ${({ padding }) => padding ?? '0px 24px 0px 0px'};
@@ -99,11 +98,11 @@ export const TableColumn = styled.td<TableProps>`
 export const TableRow = styled.tr`
   padding: 0px;
 `;
-export const TableColumnWrapper = styled.div<{ gap?: number }>`
+export const TableColumnWrapper = styled.div<{ gap?: number; height?: string }>`
   display: flex;
   flex-direction: column;
   gap: ${({ gap }) => gap ?? '8'}px;
-  height: 73px;
+  height: ${({ height }) => height ?? '73px'};
   justify-content: flex-start;
 `;
 export const TableHeaderWrapper = styled.div`

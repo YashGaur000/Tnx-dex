@@ -5,6 +5,7 @@ export const Section = styled.section`
   height: 100vh;
   display: flex;
   padding: 10px 60px;
+  justify-content: center;
   @media screen and (max-width: 800px) {
     padding: unset;
   }
@@ -29,7 +30,7 @@ export const Row = styled.div`
 export const Column60 = styled.div`
   padding: 0 15px;
   box-sizing: border-box;
-  width: 55%;
+  width: 600px;
 
   @media screen and (max-width: 800px) {
     width: 100%;
@@ -42,7 +43,7 @@ export const Column60 = styled.div`
 export const Column40 = styled.div`
   padding: 0 15px;
   box-sizing: border-box;
-  width: 45%;
+  width: 440px;
 
   @media screen and (max-width: 800px) {
     width: 100%;
@@ -307,10 +308,10 @@ export const Box2TokenName = styled.span`
 `;
 
 export const IncentivesBox2 = styled.h2`
-  color: #eb5540;
-  font-size: 36px;
+  color: #ffffff;
+  font-size: 24px;
   font-weight: 300;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 `;
 
 export const IncentivesBox2Paragraph = styled.article`
@@ -319,13 +320,12 @@ export const IncentivesBox2Paragraph = styled.article`
   font-family: Kanit;
   line-height: 1.75;
   font-weight: 300;
-  margin-bottom: 40px;
+  margin-bottom: 34px;
+  color: #cccccc;
 `;
 
 export const IncentivizeOrderedList = styled.ol`
   list-style-type: decimal;
-  padding-left: 20px;
-  margin-top: 20px;
   font-family: Arial, sans-serif;
   font-size: 18px;
   color: #333;
@@ -342,7 +342,7 @@ export const IncentivizeTextCircle = styled.span`
   margin-right: 16px;
   color: #fff;
   background: #101c3b;
-  font-size: 16px;
-  padding: 8px 13px;
+  font-size: 13px;
+  padding: 5px 9px;
   border-radius: 50px;
 `;

@@ -13,7 +13,7 @@ const StepperContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: 15px;
+  margin-top: 10px;
 `;
 
 const Step = styled.div`
@@ -48,9 +48,9 @@ const IconImage = styled.img`
   height: 16px;
 `;
 
-const Line = styled.div`
+const Line = styled.div<{ theme: DefaultTheme }>`
   height: 100%;
-  border-left: 2px dotted rgb(64, 120, 146);
+  border-left: 1px dotted ${({ theme }) => theme.colors.greyBorder};
 `;
 
 const Content = styled.div<{ theme: DefaultTheme }>`
@@ -180,8 +180,8 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
               <GlobalButton
                 padding="8px"
                 margin="0px"
-                width="176px"
-                height="37px"
+                width="fit-content"
+                height="40px"
                 tabIndex={0}
                 onClick={() => {
                   if (item.buttons?.onClick) {
@@ -198,10 +198,12 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                 disabled={item.buttons?.disabled}
               >
                 {item.buttons?.label}
-                <ButtonIcon
-                  src={item.buttons?.icon}
-                  alt={`${item.buttons?.label} icon`}
-                />
+                {item.buttons?.icon && (
+                  <ButtonIcon
+                    src={item.buttons?.icon}
+                    alt={`${item.buttons?.label} icon`}
+                  />
+                )}
               </GlobalButton>
             )}
           </Content>

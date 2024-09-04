@@ -9,7 +9,7 @@ const Container = styled.div`
 const Loader = styled.div`
   border-width: 0.5rem;
   border-style: solid;
-  border-color: purple purple purple purple;
+  border-color: white white white white;
   width: 3.625rem;
   height: 3.625rem;
   border-radius: 50%;

@@ -14,16 +14,9 @@ const IncentiveRightContent: React.FC = () => {
     <IncentiveLeftBarBox1>
       <IncentivesBox2>Incentivize</IncentivesBox2>
       <IncentivesBox2Paragraph>
-        Incentives are usually provided by the protocols. By continuing with the
-        next steps you acknowledge that you understand the mechanics of the
-        protocol and that after depositing any rewards as incentives you
-        won&apos;t be able to withdraw them.
-      </IncentivesBox2Paragraph>
-      <IncentivesBox2Paragraph>
-        By providing an incentive, you may draw more liquidity providers. Votes
-        are a decisive factor on how much emissions a liquidity pool will get
-        next epoch. The more emissions are flowing to a liquidity pool, the more
-        rewards for those who provide liquidity for the pool.
+        Voting and adding incentives for this epoch ends in 3 days and there
+        will be 8,984,340.1 TENEX distributed to all liquidity providers. By
+        providing an incentive, you draw more liquidity providers to this pool.
       </IncentivesBox2Paragraph>
       <IncentivizeOrderedList>
         <IncentivizeListItem>
@@ -49,4 +42,5 @@ const IncentiveRightContent: React.FC = () => {
     </IncentiveLeftBarBox1>
   );
 };
+
 export default IncentiveRightContent;

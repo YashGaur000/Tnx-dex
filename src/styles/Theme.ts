@@ -106,7 +106,7 @@ const theme: DefaultTheme = {
     grey: 'rgba(204, 204, 204, 1)',
     greyLight: 'rgba(255, 255, 255, 1)',
     hover: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
-    greyBorder: '#B8B8B8',
+    greyBorder: '#B8B8B899',
     textGreyColor: '#DBDBDB',
     whiteBorder: '#FFFFFF',
     swapIconBackground:
