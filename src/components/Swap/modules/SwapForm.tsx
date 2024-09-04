@@ -40,7 +40,7 @@ import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import SettingModal from '../../modal/SettingModal';
-import {ethers} from 'ethers';
+import { ethers } from 'ethers';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -347,6 +347,8 @@ const SwapForm: React.FC = () => {
           token1={selectedToken1!}
           token2={selectedToken2!}
           tokenInput1={tokenInput1}
+          tokenInput2={tokenInput2}
+          routes={route ? route : null}
         />
       </SidebarContainer>
     </>
