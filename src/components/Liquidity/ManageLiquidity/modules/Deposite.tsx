@@ -20,7 +20,7 @@ import contractAddress from '../../../../constants/contract-address/address';
 import { StepperDataProps } from '../../../../types/Stepper';
 import SuccessPopup from '../../../common/SucessPopup';
 import SlippageTolerance from '../../../common/SlippageTolerance';
-import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import PopupScreen from '../../../common/PopupScreen';
 import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import TransactionDeadline from '../../../common/TransactionDeadline';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';

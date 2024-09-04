@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ReactNode } from 'react';
-import { DefaultTheme } from '../../../styles/Theme';
-import CloseIcon from '../../../assets/close.png';
+import { DefaultTheme } from '../../styles/Theme';
+import CloseIcon from '../../assets/close.png';
 const ModalBackground = styled.div<{ isVisible: boolean; theme: DefaultTheme }>`
   display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
   position: fixed;
@@ -68,7 +68,7 @@ const DivOverflow = styled.div<{ theme: DefaultTheme }>`
     background: transparent;
     border-radius: 20px;
     width: 6px;
-
+    margin-top: 50px;
     background: ${({ theme }) => theme.colors.swapIconBackground};
   }
 

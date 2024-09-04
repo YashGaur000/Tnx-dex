@@ -6,7 +6,7 @@ export const RelayScreenContainer = styled.div<{ theme: DefaultTheme }>`
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
-  margin-top: 10px;
+
   width: 100%;
   height: auto;
   border-radius: 15px;

@@ -1,50 +1,50 @@
 [
     {
-        "ID + Status": "243687214231",
-        "Locked Amount": "8463",
-        "Voting Power": "654.00",
-        "Voting For": "USDT-BTC",
-        "Expiry Date": "20-08-2024",
-        "Manage your Locks": ["Merge", "Split"]
+        "ID": "243687214231",
+        "LockedAmount": "8463",
+        "VotingPower": "654.00",
+        "VotingFor": "USDT-BTC",
+        "ExpiryDate": "20-08-2024",
+        "button": ["Merge", "Split"]
     },
     {
-        "ID + Status": "243687214231",
-        "Locked Amount": "8463",
-        "Voting Power": "654.00",
-        "Voting For": "USDT-BTC",
-        "Expiry Date": "20-08-2024",
-        "Manage your Locks": ["Merge", "Split"]
+        "ID": "243687214231",
+        "LockedAmount": "8463",
+        "VotingPower": "654.00",
+        "VotingFor": "USDT-BTC",
+        "ExpiryDate": "20-08-2024",
+        "button": ["Merge", "Split"]
     },
     {
-        "ID + Status": "243687214231",
-        "Locked Amount": "8463",
-        "Voting Power": "654.00",
-        "Voting For": "USDT-BTC",
-        "Expiry Date": "20-08-2024",
-        "Manage your Locks": ["Merge", "Split"]
+        "ID": "243687214231",
+        "LockedAmount": "8463",
+        "VotingPower": "654.00",
+        "VotingFor": "USDT-BTC",
+        "ExpiryDate": "20-08-2024",
+        "button": ["Merge", "Split"]
     },
     {
-        "ID + Status": "243687214231",
-        "Locked Amount": "8463",
-        "Voting Power": "654.00",
-        "Voting For": "USDT-BTC",
-        "Expiry Date": "20-08-2024",
-        "Manage your Locks": ["Merge", "Split"]
+        "ID": "243687214231",
+        "LockedAmount": "8463",
+        "VotingPower": "654.00",
+        "VotingFor": "USDT-BTC",
+        "ExpiryDate": "20-08-2024",
+        "button": ["Merge", "Split"]
     },
     {
-        "ID + Status": "243687214231",
-        "Locked Amount": "8463",
-        "Voting Power": "654.00",
-        "Voting For": "USDT-BTC",
-        "Expiry Date": "20-08-2024",
-        "Manage your Locks": ["Merge", "Split"]
+        "ID": "243687214231",
+        "LockedAmount": "8463",
+        "VotingPower": "654.00",
+        "VotingFor": "USDT-BTC",
+        "ExpiryDate": "20-08-2024",
+        "button": ["Merge", "Split"]
     },
     {
-        "ID + Status": "243687214231",
-        "Locked Amount": "8463",
-        "Voting Power": "654.00",
-        "Voting For": "USDT-BTC",
-        "Expiry Date": "20-08-2024",
-        "Manage your Locks": ["Merge", "Split"]
+        "ID": "243687214231",
+        "LockedAmount": "8463",
+        "VotingPower": "654.00",
+        "VotingFor": "USDT-BTC",
+        "ExpiryDate": "20-08-2024",
+        "button": ["Merge", "Split"]
     }
 ]
