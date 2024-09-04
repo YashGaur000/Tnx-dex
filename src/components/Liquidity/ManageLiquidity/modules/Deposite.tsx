@@ -135,12 +135,12 @@ const Deposite: React.FC<DepositProps> = ({
 
       const minAmount1InWei = calculateMinAmount(
         amount1 ?? 0,
-        selectedTolerance,
+        parseFloat(selectedTolerance) ?? 1,
         selectedToken1?.decimals ?? 18
       );
       const minAmount2InWei = calculateMinAmount(
         amount2 ?? 0,
-        selectedTolerance,
+        parseFloat(selectedTolerance) ?? 1,
         selectedToken2?.decimals ?? 18
       );
 
