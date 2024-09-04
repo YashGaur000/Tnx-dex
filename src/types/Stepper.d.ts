@@ -21,4 +21,5 @@ export interface StepperDataProps {
     token2?: string;
   };
   buttons?: StepperButtons;
+  actionCompleted?: boolean;
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
 import ArrowIcon from './../../assets/doubleHederArrow.svg';
@@ -28,7 +28,16 @@ const VerticalStep = styled.div`
   align-items: center;
 `;
 
-const Circle = styled.div<{ theme: DefaultTheme }>`
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Circle = styled.div<{ theme: DefaultTheme; actionCompleted?: boolean }>`
   border-radius: 50%;
 
   width: 26px;
@@ -41,6 +50,11 @@ const Circle = styled.div<{ theme: DefaultTheme }>`
   flex-shrink: 0;
   color: white;
   overflow: hidden;
+  ${({ actionCompleted }) =>
+    actionCompleted &&
+    css`
+      animation: ${rotate} 2s linear infinite;
+    `}
 `;
 
 const IconImage = styled.img`
@@ -122,7 +136,7 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
       {data.map((item, index) => (
         <Step key={index}>
           <VerticalStep>
-            <Circle>
+            <Circle actionCompleted={item.actionCompleted}>
               {item.icon ? (
                 <IconImage src={item.icon} alt="Step Icon" />
               ) : (

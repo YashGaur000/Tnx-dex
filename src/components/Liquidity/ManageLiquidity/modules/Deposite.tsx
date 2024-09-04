@@ -279,6 +279,7 @@ const Deposite: React.FC<DepositProps> = ({
     descriptions: {
       labels: isDeposited ? 'Deposit confirmed' : 'Waiting for next actions...',
     },
+    actionCompleted: !isDeposited,
   });
 
   return (
