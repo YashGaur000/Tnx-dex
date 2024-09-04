@@ -103,11 +103,22 @@ const Deposite: React.FC<DepositProps> = ({
   };
 
   const handleStakeDeposit = () => {
-    const queryParams = new URLSearchParams(location.search);
-    Navigate({
-      pathname: '/stake',
-      search: `?${queryParams.toString()}`,
-    });
+    const type = getParam('type') == '0';
+    const factoryAddress = contractAddress.PoolFactory;
+    if (selectedToken1 && selectedToken2) {
+      poolFor(selectedToken1, selectedToken2, type, factoryAddress)
+        .then((poolAddress) => {
+          if (poolAddress) {
+            Navigate({
+              pathname: '/stake',
+              search: `?pool=${poolAddress.toString()}`,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading stake:', error);
+        });
+    }
   };
 
   const handleAdjust = (adjustbuttonName: string) => {
@@ -125,7 +136,8 @@ const Deposite: React.FC<DepositProps> = ({
     setVisibleDealine(false);
     setVisibleSlippage(false);
   };
-  const { addLiquidity, addLiquidityETH } = useRouterContract();
+  const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
+
   const { address } = useAccount();
 
   const handleDeposit = async () => {

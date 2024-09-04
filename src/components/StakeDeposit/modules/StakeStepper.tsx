@@ -6,18 +6,40 @@ import LoadingIcon from '../../../assets/search.png';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import TimerIcon from '../../../assets/timer-red-logo.svg';
 import useQueryParams from '../../../hooks/useQueryParams';
-import { useTokenInfo } from '../../../hooks/useTokenInfo';
+import { useEffect, useState } from 'react';
+import { usePoolContract } from '../../../hooks/usePoolContract';
+import { TokenInfo } from '../../../constants/tokens';
+import { Metadata } from '../../../types/Pool';
+import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
 }
 
 const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
-  console.log(selectedStakeValue);
-  const getParam = useQueryParams();
+  const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
+    undefined
+  );
 
-  const selectedToken1 = useTokenInfo(getParam('token1'));
-  const selectedToken2 = useTokenInfo(getParam('token2'));
+  const getParam = useQueryParams();
+  const poolId = getParam('pool');
+  const { metadata } = usePoolContract(poolId ?? '');
+
+  useEffect(() => {
+    metadata()
+      .then((data: Metadata | undefined) => {
+        if (data) {
+          setSelectedToken1(getTokenInfo(data.t0));
+          setSelectedToken2(getTokenInfo(data.t1));
+        }
+      })
+      .catch((error) => {
+        console.log('error loading metadata', error);
+      });
+  }, [poolId, metadata]);
 
   const StakeStepperInstructData = [
     {

@@ -248,6 +248,38 @@ export function useRouterContract() {
     [routerContract]
   );
 
-  return { addLiquidity, getReserves, quoteAddLiquidity, getAmountsOut, addLiquidityETH};
+  const poolFor = useCallback(
+    async (
+      tokenA: TokenInfo,
+      tokenB: TokenInfo,
+      stable: boolean,
+      _factory: Address
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+      try {
+        const poolAddress = await routerContract.poolFor(
+          tokenA.address,
+          tokenB.address,
+          stable,
+          _factory
+        );
+        return poolAddress;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [routerContract]
+  );
 
+  return {
+    addLiquidity,
+    getReserves,
+    quoteAddLiquidity,
+    getAmountsOut,
+    addLiquidityETH,
+    poolFor,
+  };
 }

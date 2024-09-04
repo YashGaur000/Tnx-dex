@@ -41,23 +41,46 @@ import {
   SliderContainer,
 } from '../../Swap/styles/TransactionDeadline.style';
 import StakeStepper from './StakeStepper';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import useQueryParams from '../../../hooks/useQueryParams';
-import { useTokenInfo } from '../../../hooks/useTokenInfo';
+import { usePoolBalances } from '../../../hooks/usePoolBalances';
 import { usePoolContract } from '../../../hooks/usePoolContract';
+import { Metadata } from '../../../types/Pool';
+import { TokenInfo } from '../../../constants/tokens';
+import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 
 const StakeDeposit = () => {
   const [SelectStakeValue, SetSelectStakeValue] = useState<number>(0);
+  const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  // const [token1, setToken1Value] = useState<string>("");
+  // const [ token2, setToken2Value] = useState<string>("");
 
   const getParam = useQueryParams();
+  const poolId = getParam('pool');
+  const { metadata } = usePoolContract(poolId ?? '');
 
-  const selectedToken1 = useTokenInfo(getParam('token1'));
-  const selectedToken2 = useTokenInfo(getParam('token2'));
-  const poolId = getParam('id');
+  useEffect(() => {
+    metadata()
+      .then((data: Metadata | undefined) => {
+        if (data) {
+          setSelectedToken1(getTokenInfo(data.t0));
+          setSelectedToken2(getTokenInfo(data.t1));
+        }
+      })
+      .catch((error) => {
+        console.error('error loading metadata', error);
+      });
+  }, [poolId, metadata]);
+
   const poolType = getParam('type') === '0' ? 'stable' : 'volatile';
 
   // Fetch balances from pool contract
-  const { balance0, balance1, reserve0, reserve1 } = usePoolContract(
+  const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
     selectedToken1?.decimals ?? 18,
     selectedToken2?.decimals ?? 18
