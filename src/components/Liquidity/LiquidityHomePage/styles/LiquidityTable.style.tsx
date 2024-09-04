@@ -24,8 +24,9 @@ export const GroupImgContains = styled.div`
   box-sizing: border-box;
 `;
 export const TraidingSyleLabel = styled.label<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontSize.medium}px;
+  font-size: 20px;
   line-height: 23.92px;
+  font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
@@ -64,14 +65,14 @@ export const PairContain = styled.div`
 `;
 
 export const SuggestImg = styled.img`
-  width: 16px;
+  width: 18px;
   height: 18px;
 `;
 export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
 
-  gap: 6px;
+  gap: 8px;
 
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: ${({ theme }) => theme.fontSize.small};

@@ -1,14 +1,15 @@
 import TenexIcon from '../../../assets/Tenex.png';
-import TableContainer from './VeTenexTable';
+
 import { GlobalButton } from '../../common';
 import { useNavigate } from 'react-router-dom';
 import QuestionIcon from '../../../assets/question-mark.png';
-import LockData from '../../../constants/LockData.json';
+
 import {
   MetricDisplay,
   MetricDisplayWrapper,
   AsideSectionContains,
   StatsCardtitle,
+  PopupWrapper,
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   AmountWithImg,
@@ -21,13 +22,15 @@ import {
   LockContainerWrapper,
   LockheaderWrapper,
   LockheaderContentStyle,
+  ToolTipsWrapper,
 } from '../Styles/ManageVetenex.style';
 
 import Relay from './Relaymodules/Relay';
-import PopupScreen from './PopupScreen';
+import PopupScreen from '../../common/PopupScreen';
 import LockToolTips from './LockToolTips';
 import { useState } from 'react';
 import RelayToolTips from './RelayToolTips';
+import VeTenexTable from './VeTenexTable';
 
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -73,6 +76,7 @@ const Main = () => {
             <GlobalButton
               width="150px"
               height="40px"
+              margin="0px"
               onClick={handleCreateLock}
             >
               Create Lock
@@ -93,11 +97,11 @@ const Main = () => {
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>Total Voting power</StatsCardtitle>
-              <label>0.00</label>
+              <LockHeaderTitle fontSize={16}>0.00</LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>Total Value Locked</StatsCardtitle>
-              <label>$0.00</label>
+              <LockHeaderTitle fontSize={16}>$0.00</LockHeaderTitle>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
@@ -106,29 +110,29 @@ const Main = () => {
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
-          <span onMouseEnter={() => handleTooltipShow('lock')}>
+          <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('lock')}>
             <ImageContainer
               width={'16px'}
               height={'16px'}
               margin="7px 0px 0px 0px"
               src={QuestionIcon}
             ></ImageContainer>
-          </span>
+          </ToolTipsWrapper>
         </LockheaderWrapper>
 
-        <TableContainer data={LockData} />
+        <VeTenexTable />
       </LockContainerWrapper>
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
-          <div onMouseEnter={() => handleTooltipShow('relay')}>
+          <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('relay')}>
             <ImageContainer
               width={'16px'}
               height={'16px'}
               margin="7px 0px 0px 0px"
               src={QuestionIcon}
             ></ImageContainer>
-          </div>
+          </ToolTipsWrapper>
         </LockheaderWrapper>
 
         <Relay />
@@ -136,9 +140,9 @@ const Main = () => {
 
       {isPopupVisible && (
         <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
-          <div onMouseLeave={handleTooltipHide}>
+          <PopupWrapper onMouseLeave={handleTooltipHide}>
             {isToolTipActive ? <LockToolTips /> : <RelayToolTips />}
-          </div>
+          </PopupWrapper>
         </PopupScreen>
       )}
     </>

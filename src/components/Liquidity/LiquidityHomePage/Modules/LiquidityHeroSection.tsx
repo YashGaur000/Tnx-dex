@@ -17,7 +17,7 @@ import {
   PopupWrapper,
   TitleWithImgWrapper,
 } from '../styles/LiquidityHeroSection.style';
-import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import PopupScreen from '../../../common/PopupScreen';
 import LiquidityToolTips from './LiquidityToolTips';
 import { TitleWrapper } from '../styles/LiquidityTable.style';
 
