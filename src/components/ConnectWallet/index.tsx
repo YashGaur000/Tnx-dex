@@ -81,11 +81,11 @@ export const ConnectWallet = () => {
 
                   <ChainButton
                     onClick={openAccountModal}
-                    width="126"
+                    width="fit-content"
                     height="40"
                     padding="12px 20px"
                   >
-                    {address.substring(0, 6)}
+                    {address.substring(0, 6)}...
                   </ChainButton>
                 </FlexContainer>
               );
