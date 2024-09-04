@@ -108,6 +108,7 @@ export const LP_RAW_DATA = {
         <li>FeeCollector.sol & any relevant interfaces</li>
         <li>Any contracts designated with the BUSL-1.1 header.</li>
         </ul>
+        </div>
         `,
   },
 };

@@ -2,7 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { useLocation, useNavigate } from 'react-router-dom';
-import logoImage from '../assets/logo.svg';
+import logoImage from '../assets/TenExlogo.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faChevronDown,
@@ -18,7 +18,7 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px 40px;
+  padding: 20px 5px;
   background-color: ${({ theme }) => theme.colors.background};
 
   ${({ sticky }) =>
@@ -41,7 +41,8 @@ const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
 `;
 
 export const Logo = styled.img<{ theme: DefaultTheme }>`
-  height: 40px;
+  height: 36px;
+  width: 88px;
   margin-right: 10px;
   font-size: 20px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -76,7 +77,7 @@ const Nav = styled.nav<{ isopen: string; theme: DefaultTheme }>`
   }
 `;
 
-const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
+const NavLink = styled.div<{ theme: DefaultTheme; isactive: string }>`
   color: ${({ theme }) => theme.colors.text};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   text-decoration: none;
@@ -84,10 +85,11 @@ const NavLink = styled.div<{ theme: DefaultTheme; isActive: boolean }>`
   display: flex;
   align-items: center;
   gap: 4px;
+  font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
-  background: ${({ isActive, theme }) =>
-    isActive ? theme.colors.hover : 'transparent'};
+  background: ${({ isactive, theme }) =>
+    isactive ? theme.colors.hover : 'transparent'};
 
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
@@ -192,7 +194,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Trade' ? true : false}
+            isactive={activeMainTab === 'Trade' ? 'true' : ''}
             onClick={() => {
               setShowTradeSubTabs(!showTradeSubTabs);
               {
@@ -231,7 +233,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowLiquiditySubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Liquidity' ? true : false}
+            isactive={activeMainTab === 'Liquidity' ? ' true' : ''}
             onClick={() => {
               setShowLiquiditySubTabs(!showLiquiditySubTabs);
             }}
@@ -266,7 +268,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Governance' ? true : false}
+            isactive={activeMainTab === 'Governance' ? ' true' : ''}
             onClick={() => {
               setShowGovernanceSubTabs(!showGovernanceSubTabs);
             }}
@@ -304,7 +306,7 @@ const Header: React.FC = () => {
 
         <NavItem>
           <NavLink
-            isActive={activeMainTab === 'Rewards' ? true : false}
+            isactive={activeMainTab === 'Rewards' ? ' true' : ''}
             onClick={() => {
               navigate('/rewards');
               setActiveMainTab('Rewards');
@@ -318,7 +320,7 @@ const Header: React.FC = () => {
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
         >
           <NavLink
-            isActive={activeMainTab === 'Resources' ? true : false}
+            isactive={activeMainTab === 'Resources' ? 'true' : ''}
             onClick={() => {
               setShowToolsSubTabs(!showToolsSubTabs);
             }}

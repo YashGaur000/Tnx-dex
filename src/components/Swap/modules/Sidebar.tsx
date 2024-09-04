@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import TransactionDeadline from './TransactionDeadline';
-import SlippageTolerance from './SlippageTolerance';
-import AllowUnsafeTrades from './AllowUnsafeTrades';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import SolIcon from '../../../assets/sol.png';
@@ -12,20 +9,20 @@ import UnLockIcon from '../../../assets/LockSucess.svg';
 import LockIcon from '../../../assets/Lock1.svg';
 import SearchIcon from '../../../assets/search.png';
 import {
-  SidebarContainer,
   SidebarInner,
   SidebarList,
   SidebarTitle,
 } from '../styles/Sidebar.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface SidebarProps {
-  InputAmount1: string;
-  InputAmount2: string;
+  isLoading: boolean;
+  exchangeRate: number;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
   const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setTokenAllow] = useState(false);
   const handleUnsafeAllowence = () => {
@@ -37,10 +34,10 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: 'Quote for deposit received... ',
+        labels: 'Exchange Rate Found',
         adjust: 'Refresh',
-        token1: '1.0',
-        token2: '0.73546',
+        token1: '1 tEnvio',
+        token2: `${exchangeRate} tBlast`,
       },
     },
     {
@@ -82,31 +79,24 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
       step: 1,
       descriptions: {
         labels:
-          'Start by selecting the token to swap from and the amount you want to exchange.',
+          'Choose the token you want to swap and enter the amount you would like to trade.',
       },
     },
     {
       step: 2,
       descriptions: {
-        labels: 'Pick the token you want to exchange for.',
+        labels: 'Choose the token you want to swap into.',
       },
     },
     {
       step: 3,
       descriptions: {
-        labels: 'The quote will be ready in a moment!',
-      },
-    },
-    {
-      step: 4,
-      descriptions: {
-        labels:
-          ' Slippage tolerance 0.5% and transaction deadline 30 mins are set. To change, please click below.',
+        labels: "Just a moment, we're preparing your quote!",
       },
     },
   ];
 
-  // const handleTokenAllow=async()=>{
+  // const handleTokenAllow = ()=>{
   //       try {
 
   //         console.log(abc);
@@ -170,31 +160,23 @@ const Sidebar: React.FC<SidebarProps> = ({ InputAmount1, InputAmount2 }) => {
     }
   };
 
-  const handleToggleChange = () => {
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  };
+  // const handleToggleChange = () => {
+  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+  // };
   return (
     <>
-      <SidebarContainer>
-        <SidebarInner>
-          <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
-          <SidebarList>
-            <Stepper
-              data={
-                InputAmount1 && InputAmount2
-                  ? SwapDepositData
-                  : SwapInstructData
-              }
-            />
-          </SidebarList>
-          <SlippageTolerance />
-          <TransactionDeadline />
-          <AllowUnsafeTrades
-            isChecked={isUnsafeTradesAllowed}
-            handleToggle={handleToggleChange}
-          />
-        </SidebarInner>
-      </SidebarContainer>
+      <SidebarInner>
+        <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
+        <SidebarList>
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : exchangeRate > 0 ? (
+            <Stepper data={SwapDepositData} />
+          ) : (
+            <Stepper data={SwapInstructData} />
+          )}
+        </SidebarList>
+      </SidebarInner>
     </>
   );
 };

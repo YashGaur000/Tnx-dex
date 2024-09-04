@@ -5,12 +5,12 @@ import {
   IMG2Contains,
   IMG1Contains,
   Imgstyle,
+  DepositeButtonWrapper,
   PairContain,
   TraidingSyleLabel,
-  VolumeStyles,
+  LiquidityTokenWrapper,
   SuggestImg,
   TokenAmountTitle,
-  AprDataWrapper,
   SugestImgWrapper,
   TitleWrapper,
 } from '../styles/LiquidityTable.style';
@@ -25,7 +25,11 @@ import { useState } from 'react';
 import LiquidityInfo from './LiquidityInfo';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
-import { TableColumn, TableRow } from '../../../common/TableStyled';
+import {
+  TableColumn,
+  TableColumnWrapper,
+  TableRow,
+} from '../../../common/TableStyled';
 // import Pool from '../../CreatePool/Modules/Pool';
 
 const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
@@ -48,6 +52,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
     queryParams.set('type', typeValue);
     queryParams.set('exists', true.toString()); //@Todo need to handle properly and check routes of both manage and create new pool
 
+    queryParams.set('id', data?.id);
+
     navigate({
       pathname: '/liquidity/manage',
       search: `?${queryParams.toString()}`,
@@ -67,93 +73,105 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                 <Imgstyle src={getTokenLogo(data.token1.symbol)} />
               </IMG2Contains>
             </GroupImgContains>
+
             <PairContain>
               <TraidingSyleLabel>
                 {data.token0.symbol}-{data.token1.symbol}
               </TraidingSyleLabel>
-              <TokenAmountTitle>
-                <StatsCardtitle fontSize={12}>
-                  {data.isStable ? 'Stable' : 'Volatile'}
-                </StatsCardtitle>
-                {/* <p> {data.stablePercentage}%</p>{' '} */}
-                <p>{0.01} %</p>
-                <SugestImgWrapper
-                  onMouseEnter={() => setIsHovered(true)}
-                  onMouseLeave={() => setIsHovered(false)}
-                >
-                  <SuggestImg src={ImpIcon} />
-                  {isHovered && <LiquidityInfo />}
-                </SugestImgWrapper>
-              </TokenAmountTitle>
-              <TokenAmountTitle>
-                <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
-                <LiquidityTitle fontSize={12}>
-                  {data.totalVolumeUSD.toString()}
-                </LiquidityTitle>
-              </TokenAmountTitle>
+              <LiquidityTokenWrapper>
+                <TokenAmountTitle>
+                  <StatsCardtitle fontSize={12}>
+                    {data.isStable ? 'Stable' : 'Volatile'}
+                  </StatsCardtitle>
+                  {/* <p> {data.stablePercentage}%</p>{' '} */}
+                  <p>{0.01} %</p>
+                  <SugestImgWrapper
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
+                    <SuggestImg src={ImpIcon} />
+                    {isHovered && <LiquidityInfo />}
+                  </SugestImgWrapper>
+                </TokenAmountTitle>
+                <TokenAmountTitle>
+                  <StatsCardtitle fontSize={12}>TVL</StatsCardtitle>{' '}
+                  <LiquidityTitle fontSize={12}>
+                    {data.totalVolumeUSD.toString()}
+                  </LiquidityTitle>
+                </TokenAmountTitle>
+              </LiquidityTokenWrapper>
             </PairContain>
           </TokenCardContainer>
         </TableColumn>
         <TableColumn>
-          <AprDataWrapper>{}%</AprDataWrapper>
+          <TableColumnWrapper>{}%</TableColumnWrapper>
         </TableColumn>
         <TableColumn>
-          <VolumeStyles>
-            <TitleWrapper fontSize={'12px'}>
+          <TableColumnWrapper>
+            <TitleWrapper fontSize={'14px'}>
               ~$ {data.totalVolumeUSD.toString()}
             </TitleWrapper>
-            <TokenAmountTitle>
-              {data.totalVolume0.toString()} {data.token0.symbol}
-            </TokenAmountTitle>
-            <TokenAmountTitle>
-              {data.totalVolume1.toString()} {data.token1.symbol}
-            </TokenAmountTitle>
-          </VolumeStyles>
+            <LiquidityTokenWrapper>
+              <LiquidityTitle fontSize={12}>
+                {' '}
+                {data.totalVolume0.toString()} {data.token0.symbol}
+              </LiquidityTitle>
+              <LiquidityTitle fontSize={12}>
+                {data.totalVolume1.toString()} {data.token1.symbol}
+              </LiquidityTitle>
+            </LiquidityTokenWrapper>
+          </TableColumnWrapper>
         </TableColumn>
         <TableColumn>
-          <VolumeStyles>
+          <TableColumnWrapper>
             <TitleWrapper fontSize={'12px'}>
               ~$ {data.totalFeesUSD.toString()}
             </TitleWrapper>
-            <TokenAmountTitle>
-              {data.totalFees0.toString()} {data.token0.symbol}
-            </TokenAmountTitle>
-            <TokenAmountTitle>
-              {data.totalFees1.toString()} {data.token1.symbol}
-            </TokenAmountTitle>
-          </VolumeStyles>
+
+            <LiquidityTokenWrapper>
+              <LiquidityTitle fontSize={12}>
+                {data.totalFees0.toString()} {data.token0.symbol}
+              </LiquidityTitle>
+              <LiquidityTitle fontSize={12}>
+                {data.totalFees1.toString()} {data.token1.symbol}
+              </LiquidityTitle>
+            </LiquidityTokenWrapper>
+          </TableColumnWrapper>
         </TableColumn>
         <TableColumn>
-          <VolumeStyles>
-            <TitleWrapper fontSize={'12px'}>
+          <LiquidityTokenWrapper>
+            <TitleWrapper fontSize={'12px'} lineheight="17.94px">
               {data.reserve0.toString()} {data.token0.symbol}
             </TitleWrapper>
             {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
-            <TitleWrapper fontSize={'12px'}>
+            <TitleWrapper fontSize={'12px'} lineheight="17.94px">
               {data.reserve1.toString()} {data.token1.symbol}
             </TitleWrapper>
-            <div
-              onClick={() =>
-                handleDepositeButton(
-                  data.token0.id,
-                  data.token1.id,
-                  data.isStable
-                )
-              }
+          </LiquidityTokenWrapper>
+          <DepositeButtonWrapper
+            onClick={() =>
+              handleDepositeButton(
+                data.token0.id,
+                data.token1.id,
+                data.isStable
+              )
+            }
+          >
+            <GradientButton
+              borderRadius="8px"
+              color="#ffffff"
+              padding="4px 20px"
+              border="1px solid transparent"
+              fontSize="12px"
+              width="81px"
+              height="26px"
+              lineheight="17.94px"
+              smFontSize={12}
+              smMargin="0px"
             >
-              <GradientButton
-                borderRadius="8px"
-                color="#ffffff"
-                padding="0px 20px 30px"
-                border="1px solid transparent"
-                fontSize="12"
-                width="86"
-                height="26px"
-              >
-                Deposit
-              </GradientButton>
-            </div>
-          </VolumeStyles>
+              Deposit
+            </GradientButton>
+          </DepositeButtonWrapper>
         </TableColumn>
       </TableRow>
     </>

@@ -58,7 +58,12 @@ export const ConnectWallet = () => {
 
               return (
                 <FlexContainer>
-                  <ChainButton onClick={openChainModal} padding="11px 20px">
+                  <ChainButton
+                    onClick={openChainModal}
+                    width="74"
+                    height="40"
+                    padding="11px 20px"
+                  >
                     {(chain as ChainProps).hasIcon && (
                       <IconContainer
                         background={(chain as ChainProps).iconBackground}
@@ -74,7 +79,12 @@ export const ConnectWallet = () => {
                     )}
                   </ChainButton>
 
-                  <ChainButton onClick={openAccountModal} padding="12px 20px">
+                  <ChainButton
+                    onClick={openAccountModal}
+                    width="126"
+                    height="40"
+                    padding="12px 20px"
+                  >
                     {address.substring(0, 6)}
                   </ChainButton>
                 </FlexContainer>

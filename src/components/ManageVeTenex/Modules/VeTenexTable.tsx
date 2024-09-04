@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TableContains, {
   TableColumn,
   TableHeader,
+  TableHeaderWrapper,
   TableRow,
   TableWrapper,
 } from '../../common/TableStyled';
@@ -17,7 +18,7 @@ import {
   LockTableContains,
 } from '../Styles/ManageVetenex.style';
 import ShortIcon from '../../../assets/short.svg';
-import { TableHeaderWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+
 import {
   AmountWithImg,
   ButtonContain,
@@ -129,7 +130,7 @@ const TableContainer: React.FC<TableProps> = ({ data }) => {
                               border="1px solid transparent"
                               fontSize="12px"
                               height="22px"
-                              lineHeight="0px"
+                              lineheight="0px"
                               width="60px"
                               smFontSize={12}
                               smMargin="0px"

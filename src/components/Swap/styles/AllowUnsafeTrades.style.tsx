@@ -6,11 +6,18 @@ export const AllowUnsafeWrapper = styled.div<{
   theme: DefaultTheme;
 }>`
   display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
+  background: linear-gradient(180deg, #273762 0%, #2a3e75 100%);
+
   border-radius: 12px;
   padding: 20px;
-  width: 350px;
-  margin: 15px 0px;
+  width: 360px;
+  height: 118px;
+  top: 488px;
+  left: 460px;
+  gap: 0px;
+  opacity: 0px;
+
+  margin: 32px 40px;
 `;
 
 export const SidebarTitle = styled.h2<{

@@ -5,12 +5,14 @@ export const LiquidityTitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
   margin?: string;
+  lineheight?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: 1.75;
+  line-height: ${({ lineheight }) => lineheight ?? '17.94'}
   text-align: left;
+  
   color: ${({ theme }) => theme.colors.titleColor};
   margin: ${({ margin }) => margin};
 `;
@@ -18,36 +20,42 @@ export const LiquidityTitle = styled.label<{
 export const LiquidityDespcriptionWrap = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: auto;
+  gap: 2px;
 `;
 
+export const TitleWithImgWrapper = styled.div`
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+`;
 export const InformImageStye = styled.img`
-  width: 1em;
-  height: 1em;
-  margin-left: 10px;
+  width: 16px;
+  height: 16px;
 `;
 
 export const StatsCardtitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
+  lineheight?: string;
 }>`
-  background: ${({ theme }) => theme.colors.bordercolor};
+  background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   font-size: ${({ fontSize }) => fontSize} px;
+  line-height: ${({ lineheight }) => lineheight};
 `;
 
-export const LiquidityHeroSectionMain = styled.main`
+export const LiquidityHeroSectionMain = styled.main<{ theme: DefaultTheme }>`
   display: flex;
   height: auto;
-  margin-top: 10px;
+
   width: 100%;
 
   justify-content: space-between;
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     flex-direction: column;
   }
 `;
@@ -56,34 +64,29 @@ export const LiquidityHeroSectionContent = styled.article<{
 }>`
   display: flex;
   flex-direction: column;
-  gap: 45px;
+  gap: 38px;
   color: ${({ theme }) => theme.colors.titleColor};
   padding-top: 20px;
   width: 50%;
 
-  @media (max-width: 1250px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     width: 60%;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     width: 100%;
   }
-
-  div {
-    display: flex;
-    flex-direction: column;
-  }
 `;
-export const AsideSectionContains = styled.div`
+export const AsideSectionContains = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 24px;
 
-  @media (max-width: 1250px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     width: 40%;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     width: 100%;
     margin-top: 30px;
     flex-direction: column-reverse;
@@ -98,41 +101,47 @@ export const MetricDisplayWrapper = styled.div<{
 }>`
   display: flex;
 
-  gap: 20px;
+  gap: 16px;
+
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-size: ${({ theme }) => theme.fontSize.medium};
   justify-content: flex-end;
   width: 100%;
-
-  @media (max-width: 1250px) {
+  height: 68px;
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     flex-direction: column;
     gap: 5px;
   }
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     flex-direction: row;
     gap: 20px;
   }
 
-  @media (max-width: 550px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.medium}) {
     flex-direction: column;
     gap: 5px;
+  }
+  @media (max-width: ${({ theme }) => theme.screenSizes.small}) {
+    height: 100%;
+    width: 100%;
   }
 `;
 export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   background: ${({ theme }) => theme.colors.card};
-  height: 80px;
-  justify-content: center;
-  padding: 15px;
-  gap: 6px;
+  height: 67px;
 
-  border-radius: 10px;
+  justify-content: center;
+  padding: 6px 16px;
+  gap: 2px;
+
+  border-radius: 8px;
 
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
-  @media (max-width: 1250px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -142,7 +151,7 @@ export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
     width: 100%;
   }
 
-  @media (max-width: 1000px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.large}) {
     flex-direction: column;
 
     padding: 0px 15px;
@@ -153,7 +162,7 @@ export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
     justify-content: center;
   }
 
-  @media (max-width: 550px) {
+  @media (max-width: ${({ theme }) => theme.screenSizes.medium}) {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -161,6 +170,12 @@ export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
     padding: 0px 15px;
     height: 35px;
     width: 100%;
+  }
+  @media (max-width: ${({ theme }) => theme.screenSizes.small}) {
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 5px;
   }
 `;
 

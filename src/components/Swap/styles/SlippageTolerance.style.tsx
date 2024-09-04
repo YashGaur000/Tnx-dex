@@ -6,11 +6,12 @@ export const SlippageWrapper = styled.div<{
   theme: DefaultTheme;
 }>`
   display: ${({ display }) => display};
-  background: ${({ theme }) => theme.colors.card};
+  background: ${({ theme }) => theme.colors.cardLight};
   padding: 10px;
-  width: 100%;
+  width: 360px;
+  height: 118px;
   border-radius: 20px;
-  margin: 15px 0;
+  margin: 32px 40px;
   @media (max-width: 900px) {
     margin-top: 40px;
   }
@@ -29,16 +30,18 @@ export const SidebarTitle = styled.h2<{
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   margin-left: 11px;
-  color: ${({ theme }) => theme.colors.whiteBorder};
+  color: ${({ theme }) => theme.colors.greyLight};
   @media (max-width: 600px) {
     font-size: ${({ fontSize }) => fontSize * 0.8}px;
     margin-bottom: 15px;
   }
 `;
 
-export const ToleranceButtons = styled.div`
+export const ToleranceButtons = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  gap: 6px;
+  gap: 10px;
+
+  padding: 2px, 12px, 2px, 12px;
   margin-bottom: 20px;
   margin-left: 11px;
   @media (max-width: 600px) {
@@ -47,14 +50,25 @@ export const ToleranceButtons = styled.div`
   }
 `;
 
-export const ToleranceButton = styled.button<{ theme: DefaultTheme }>`
+export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
   flex: 1;
   padding: 8px;
+  height: 25px;
   background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
-  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 25px;
   border-radius: 8px;
   cursor: pointer;
+  margin-top: 2px;
+  line-height:20.93px
+  width: 50px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.text};
+  border: 1px solid ${({ theme }) => theme.colors.text};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
@@ -85,18 +99,27 @@ export const SlippageAlign = styled.div`
 `;
 
 export const SlippageInput = styled.input<{ theme: DefaultTheme }>`
-  width: 74px;
-  height: 32px;
+  width: 53px;
+  height: 25px;
   padding: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
-  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
-  border-radius: 10px;
+  border: 1px solid transparent;
+  color: ${({ theme }) => theme.colors.greyLight};
+  background: ${({ theme }) => theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  border-radius: 8px;
   text-align: center;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
+  
+  &:focus {
+  outline:none;
   }
+ &:hover {
+    color: ${({ theme }) => theme.colors.text};
+    border: 2px solid transparent;
+     background: ${({ theme }) => theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+ 
 `;

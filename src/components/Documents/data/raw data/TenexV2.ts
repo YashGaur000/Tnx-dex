@@ -286,6 +286,7 @@ Rebalancing: The pool automatically rebalances as trades occur to maintain the p
     whitelisting: {
       title: 'Whitelisting',
       content: `
+      <div>
           <p>For a project to get a gauge on TENEX, they need their token to be whitelisted. There are a couple steps to get this process done:</p>
         <p><strong>Step 1:</strong> Submit token information via a Pull Request to the tenex-assets repository:</p>
         <ul>
@@ -296,13 +297,16 @@ Rebalancing: The pool automatically rebalances as trades occur to maintain the p
         <ul>
             <li>Create a ticket on the TENEX Discord requesting formal inclusion in the gauge whitelist.</li>
         </ul>
+        </div>
       `,
     },
     ads: {
       title: 'Ads',
       content: `
+      <div>
           <p>Ad creation: Creator address, Unit price, Total amount, Ad content, Link address, Publish, Enter password and confirm
           <br/><br/>Ad Management:</p>
+          </div>
       `,
     },
     lendBorrow: {
@@ -314,12 +318,14 @@ Rebalancing: The pool automatically rebalances as trades occur to maintain the p
   v2liquidityProvisioning: {
     title: 'Liquidity Provisioning',
     content: `
+    <div>
         <p>Here are the articles in this section:</p>
       
         <ul>
         <li>Multi Assets Pools</li>
         <li>Concentrated Liquidity</li>
         </ul>
+        </div>
       `,
     multiAssetsPool: {
       title: 'Multi Assets Pools',
@@ -330,17 +336,19 @@ Rebalancing: The pool automatically rebalances as trades occur to maintain the p
     liquidityConcentrated: {
       title: 'Concentrated Liquidity',
       content: `
+      <div>
             <p>Here are the articles in this section:</p>
                 <ul>
                 <li>CL Gauges</li>
                 <li>Default Fee Tiers/Tickspacing</li>
                 <li>Fee Distribution</li>
                 </ul>
-    
+    </div>
         `,
       clGauges: {
         title: 'CL Gauges',
         content: `
+        <div>
             <span>The Concentrated Liquidity staking/rewarder solution novel to TENEX</span>
             <p>TENEX introduces a significant enhancement to the CL rewarding model, primarily through the innovative CL Gauge contract infrastructure. This crucial component seamlessly integrates into the ve(3,3) model, and we have chosen to secure it under a BUSL-1.1 license.</p>
             <span>Features of TENEX CL Gauges</span>
@@ -364,14 +372,14 @@ Rebalancing: The pool automatically rebalances as trades occur to maintain the p
                 </li>
             </ul>
             <p class="highlight">The following comparison illustrates how TENEX' CL Gauge solution outperforms other concentrated liquidity staking solutions:</p>
-    
+    </div>
                 `,
       },
       tickspacing: {
         title: 'Default Fee Tiers/Tickspacing',
         content: `
     
-                <div class="container">
+        <div class="container">
             <div class="info-box">
                 <p class="info-icon">ℹ️</p>
                 <p>100 basis points = 1%</p>

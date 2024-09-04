@@ -2,27 +2,54 @@ import styled from 'styled-components';
 
 export const Section = styled.section`
   width: 100%;
+  height: 100vh;
   display: flex;
-  justify-content: center;
   padding: 10px 60px;
+  @media screen and (max-width: 800px) {
+    padding: unset;
+  }
+  @media screen and (max-width: 1000px) {
+    padding: unset;
+  }
 `;
 
 export const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
   margin: 0 -15px;
+
+  @media screen and (max-width: 800px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+  }
 `;
 
 export const Column60 = styled.div`
   padding: 0 15px;
   box-sizing: border-box;
-  width: 60%;
+  width: 55%;
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 
 export const Column40 = styled.div`
   padding: 0 15px;
   box-sizing: border-box;
-  width: 40%;
+  width: 45%;
+
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+  }
 `;
 
 export const IncentiveLeftBar = styled.div``;
@@ -34,9 +61,16 @@ export const IncentiveLeftBarBox1 = styled.div`
     rgba(24, 38, 76, 1) 0%,
     rgba(31, 48, 95, 1) 100%
   );
-  padding: 40px;
+  padding: 20px;
   border-radius: 16px;
-  margin-top: 40px;
+  margin-top: 30px;
+
+  @media screen and (max-width: 800px) {
+    padding: 16px;
+  }
+  @media screen and (max-width: 1000px) {
+    padding: 16px;
+  }
 `;
 
 export const ImgUSTDFTM = styled.img`
@@ -58,11 +92,10 @@ export const Img4 = styled.img`
 
 export const IncentiveLeftBarBox1info = styled.div`
   display: flex;
-  flex-direction: initial;
 `;
 
 export const IncentiveLeftBarBox1infoCol1 = styled.div`
-  width: 50%;
+  width: 60%;
   display: flex;
   align-items: center;
 `;
@@ -107,7 +140,7 @@ export const IncentiveLeftBarBox1UTM = styled.div`
 `;
 
 export const IncentiveLeftBarBox1infoCol2 = styled.div`
-  width: 50%;
+  width: 40%;
   text-align: end;
 `;
 
@@ -194,7 +227,7 @@ export const Box2ProgressBar = styled.input`
   flex-grow: 1;
   background-color: #fff0;
   border: 1px solid #ffffff00;
-  border-radius: 16px;
+  border-radius: 10px;
   padding: 10px;
   margin-right: 10px;
   color: #fff;
@@ -206,6 +239,12 @@ export const Box2ProgressBar = styled.input`
 export const Box2PercentageBar = styled.div`
   justify-content: end;
   display: flex;
+  @media screen and (max-width: 800px) {
+    display: unset;
+  }
+  @media screen and (max-width: 1000px) {
+    display: unset;
+  }
 `;
 
 export const Box2Percentage = styled.span`
@@ -213,6 +252,14 @@ export const Box2Percentage = styled.span`
   font-size: 14px;
   margin-left: 20px;
   font-weight: 300;
+  @media screen and (max-width: 800px) {
+    margin-left: unset;
+    margin-right: 20px;
+  }
+  @media screen and (max-width: 1000px) {
+    margin-left: unset;
+    margin-right: 20px;
+  }
 `;
 export const Box2ContainerBorder = styled.div`
   border: 1px solid #b8b8b8;

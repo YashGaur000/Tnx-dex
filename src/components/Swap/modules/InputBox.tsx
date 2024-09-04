@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
 import styled from 'styled-components';
+import { DefaultTheme } from '../../../styles/Theme';
 
 interface InputboxStyledProps {
   width?: string;
@@ -9,9 +9,10 @@ interface InputboxStyledProps {
   margin?: string;
   padding?: string;
   isValid?: boolean;
+  theme?: DefaultTheme;
 }
 
-const Inputbox = styled.input<InputboxStyledProps>`
+export const InputBox = styled.input<InputboxStyledProps>`
   width: ${({ width }) => width ?? '100%'};
   height: ${({ height }) => height ?? 'auto'};
   margin: ${({ margin }) => margin ?? '0'};
@@ -19,6 +20,9 @@ const Inputbox = styled.input<InputboxStyledProps>`
   border: ${({ border, isValid }) =>
     border ?? `1px solid ${isValid ? 'green' : 'red'}`};
   font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+
   background: none;
   color: white;
   border-radius: 4px;
@@ -36,50 +40,3 @@ const Inputbox = styled.input<InputboxStyledProps>`
     -moz-appearance: textfield;
   }
 `;
-
-interface InputBoxProps extends InputboxStyledProps {
-  type?: React.HTMLInputTypeAttribute;
-  handleInputData?: (value: string) => boolean;
-  initialValue?: string | number;
-  placeholder?: string;
-}
-
-const InputBox: React.FC<InputBoxProps> = ({
-  type = 'text',
-  handleInputData = () => true,
-  initialValue = '',
-  placeholder = '',
-  width,
-  height,
-  border,
-  fontSize,
-  margin,
-  padding,
-}) => {
-  const [value, setValue] = useState<string | number>(initialValue);
-  const [isValid, setIsValid] = useState<boolean>(true);
-
-  const handleInputBox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
-    setIsValid(handleInputData(inputValue));
-  };
-
-  return (
-    <Inputbox
-      type={type}
-      value={value}
-      width={width}
-      height={height}
-      border={border}
-      fontSize={fontSize}
-      margin={margin}
-      padding={padding}
-      onChange={handleInputBox}
-      isValid={isValid}
-      placeholder={placeholder}
-    />
-  );
-};
-
-export default InputBox;
