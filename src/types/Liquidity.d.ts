@@ -56,6 +56,12 @@ interface RouterContract extends Contract {
   ): Promise<QuoteAddLiquidityResponse>;
   factoryRegistry(): Promise<[Address]>;
   sortTokens(tokenA: Address, tokenB: Address): Promise<[Address]>;
+  poolFor(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    _factory: Address
+  ): Promise<Address>;
   estimateGas: {
     addLiquidity(
       tokenA: Address,

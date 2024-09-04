@@ -24,7 +24,7 @@ import {
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
-import { usePoolContract } from '../../../../hooks/usePoolContract';
+import { usePoolBalances } from '../../../../hooks/usePoolBalances';
 
 const TokenDeposite = () => {
   const getParam = useQueryParams();
@@ -35,7 +35,7 @@ const TokenDeposite = () => {
   const poolType = getParam('type') === '0' ? 'stable' : 'volatile';
 
   // Fetch balances from pool contract
-  const { balance0, balance1, reserve0, reserve1 } = usePoolContract(
+  const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
     selectedToken1?.decimals ?? 18,
     selectedToken2?.decimals ?? 18
