@@ -168,7 +168,7 @@ const StakeDeposit = () => {
             </DepositeStyle>
           </DepositeContentWrapper>
           <StakeRangeWrapper>
-            <StakeTitle fontSize={16}>Staking 100%</StakeTitle>
+            <StakeTitle fontSize={16}>Staking {SelectStakeValue}%</StakeTitle>
 
             <SliderStatusWrapper>
               <LoaderStatus fontSize={12}>{SelectStakeValue}%</LoaderStatus>
