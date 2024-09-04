@@ -211,7 +211,7 @@ const Deposite: React.FC<DepositProps> = ({
       step: 2,
       icon: PlusIcon,
       descriptions: {
-        labels: '1.0 % slippage applied...',
+        labels: `${selectedTolerance} % slippage applied...`,
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('Slippage');
@@ -222,7 +222,7 @@ const Deposite: React.FC<DepositProps> = ({
       step: 3,
       icon: DurationIcon,
       descriptions: {
-        labels: '30 min transaction deadline applied...',
+        labels: `${deadLineValue} min transaction deadline applied...`,
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('deadline');
