@@ -62,23 +62,22 @@ export const TokenList = styled.ul<{ theme: DefaultTheme }>`
 export const TokenItem = styled.li<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 10px 10px 10px 5px;
+  justify-content: space-between;
   cursor: pointer;
   line-height: 23.92px;
   color: ${({ theme }) => theme.colors.textGreyColor};
   &:hover {
     background: grey;
   }
-
-  img {
-    width: 35px;
-    height: 36px;
-    border-radius: 30px;
-    padding: 7px;
-    object-fit: cover;
-  }
 `;
-
+export const TokenItemImage = styled.img<{ theme: DefaultTheme }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  object-fit: cover;
+`;
+export const TokenItemData = styled.p<{ theme: DefaultTheme }>``;
 export const SearchWrapper = styled.div<{ theme: DefaultTheme }>`
   position: relative;
   margin-bottom: 10px;
