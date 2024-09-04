@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import SolIcon from '../../../assets/sol.png';
-import InformationIcon from '../../../assets/redInformation.svg';
+//import InformationIcon from '../../../assets/redInformation.svg';
+import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
+
+import RedLockIcon from '../../../assets/lock.png';
+import UnLockIcon from '../../../assets/LockSucess.svg';
 import LockIcon from '../../../assets/Lock1.svg';
 import SearchIcon from '../../../assets/search.png';
 import {
@@ -13,6 +17,19 @@ import {
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
 import { TokenInfo } from '../../../constants/tokens';
+import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
+import { useRootStore } from '../../../store/root';
+import { calculateMinAmount } from '../../../utils/transaction/calculateMinAmounts';
+import { ethers } from 'ethers';
+import { testErc20Abi } from '../../../constants/abis/testErc20';
+import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
+import contractAddresses from '../../../constants/contract-address/address';
+import { GlobalButton } from '../../common';
+import { getDeadline } from '../../../utils/transaction/getDeadline';
+import { parseAmounts } from '../../../utils/transaction/parseAmounts';
+import { useAccount } from '../../../hooks/useAccount';
+import { useRouterContract } from '../../../hooks/useRouterContract';
+import { Route } from '../../../utils/generateAllRoutes';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -20,6 +37,8 @@ interface SidebarProps {
   token1: TokenInfo;
   token2: TokenInfo;
   tokenInput1: string;
+  tokenInput2: string;
+  routes: Route[] | null;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -28,13 +47,64 @@ const Sidebar: React.FC<SidebarProps> = ({
   token1,
   token2,
   tokenInput1,
+  tokenInput2,
+  routes,
 }) => {
-  const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
-  const [isTokenAllow, setTokenAllow] = useState(false);
-  const handleUnsafeAllowence = () => {
-    setTokenAllow(false); //temperory writing this statement
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+  //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
+  const [isTokenAllow, setIsTokenAllow] = useState(false);
+  const { address } = useAccount();
+  const { swapExactTokensForTokens } = useRouterContract();
+  const { deadLineValue } = useLiquidityStore();
+  const { selectedTolerance } = useRootStore();
+  const [minAmountOut, setMinAmountOut] = useState('');
+  const [isSwapped, setIsSwapped] = useState(false);
+
+  useEffect(() => {
+    if (tokenInput2) {
+      const minAmountOutWei = calculateMinAmount(
+        Number(tokenInput2) ?? 0,
+        selectedTolerance,
+        token2?.decimals ?? 18
+      );
+
+      const formattedMinAmount = ethers.formatUnits(
+        minAmountOutWei,
+        token2?.decimals
+      );
+
+      setMinAmountOut(formattedMinAmount);
+    }
+  }, [tokenInput2, selectedTolerance, token2]);
+  // const handleUnsafeAllowence = () => {
+  //   setTokenAllow(false); //temperory writing this statement
+  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+  // };
+  const { approveAllowance: approveAllowance1 } = useTokenAllowance(
+    token1.address,
+    testErc20Abi
+  );
+
+  const handleAllowToken1 = async () => {
+    try {
+      const amount1InWei =
+        tokenInput1 &&
+        ethers.parseUnits(tokenInput1.toString(), token1?.decimals);
+      if (amount1InWei && token1?.address) {
+        if (token1?.symbol === 'WETH') {
+          setIsTokenAllow(true);
+        } else {
+          await approveAllowance1(
+            contractAddresses.Router,
+            amount1InWei.toString()
+          );
+          setIsTokenAllow(true);
+        }
+      }
+    } catch (error) {
+      console.error('Error during token approval', error);
+    }
   };
+
   const SwapDepositInitialData: StepperDataProps[] = [
     {
       step: 1,
@@ -61,41 +131,43 @@ const Sidebar: React.FC<SidebarProps> = ({
       step: 3,
       icon: SolIcon,
       descriptions: {
-        labels: 'Minimum received 5.86 SOL',
+        labels: `Minimum received ${Number(minAmountOut).toFixed(4)} ${token2.symbol}`,
       },
     },
-    {
-      step: 4,
-      icon: InformationIcon,
-      unSafe: {
-        visible: true,
-        onClick: handleUnsafeAllowence,
-      },
-      descriptions: {
-        labels: 'Estimated price impact is too high 22.67% ',
-      },
-    },
+    // {
+    //   step: 4,
+    //   icon: InformationIcon,
+    //   unSafe: {
+    //     visible: true,
+    //     onClick: handleUnsafeAllowence,
+    //   },
+    //   descriptions: {
+    //     labels: 'Estimated price impact is too high 22.67% ',
+    //   },
+    // },
     {
       step: 5,
-      icon: LockIcon,
+      icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: `Allowance not granted for ${token1.symbol}`,
+        labels: isTokenAllow
+          ? 'Allowed the contracts to access ' + token1?.symbol
+          : 'Allowance not granted for ' + token1?.symbol,
       },
       buttons: !isTokenAllow
         ? {
             label: 'Allow ' + token1?.symbol,
             icon: LockIcon,
-            onClick: undefined,
+            onClick: handleAllowToken1,
             tooltip: `Click to allow ${token1.symbol} transactions`,
             disabled: false,
           }
         : undefined,
     },
     {
-      step: 6,
-      icon: SearchIcon,
+      step: 5,
+      icon: !isSwapped ? SearchIcon : SucessDepositIcon,
       descriptions: {
-        labels: 'Waiting for next actions ...',
+        labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
       },
     },
   ];
@@ -135,14 +207,17 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       step: 2,
+      icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: `Allowance not granted for ${token1.symbol}`,
+        labels: isTokenAllow
+          ? 'Allowed the contracts to access ' + token1?.symbol
+          : 'Allowance not granted for ' + token1?.symbol,
       },
       buttons: !isTokenAllow
         ? {
             label: 'Allow ' + token1?.symbol,
             icon: LockIcon,
-            onClick: undefined,
+            onClick: handleAllowToken1,
             tooltip: `Click to allow ${token1.symbol} transactions`,
             disabled: false,
           }
@@ -171,6 +246,32 @@ const Sidebar: React.FC<SidebarProps> = ({
   // const handleToggleChange = () => {
   //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
   // };
+  const handleSwap = async () => {
+    try {
+      const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
+
+      const deadline = getDeadline(deadLineValue);
+
+      if (amountInWei && token1?.address && address && tokenInput2 && routes) {
+        const minAmountOutWei = calculateMinAmount(
+          Number(tokenInput2) ?? 0,
+          selectedTolerance,
+          token2?.decimals ?? 18
+        );
+        const tx = await swapExactTokensForTokens(
+          amountInWei,
+          minAmountOutWei,
+          routes,
+          address,
+          deadline
+        );
+        console.log('Liquidity added:', tx);
+        setIsSwapped(true);
+      }
+    } catch (error) {
+      console.error('Error adding liquidity:', error);
+    }
+  };
   return (
     <>
       <SidebarInner>
@@ -179,7 +280,19 @@ const Sidebar: React.FC<SidebarProps> = ({
           {isLoading ? (
             <Stepper data={SwapLoadingData} />
           ) : exchangeRate > 0 && tokenInput1 ? (
-            <Stepper data={SwapDepositInitialData} />
+            <>
+              <Stepper data={SwapDepositInitialData} />
+              {!isSwapped && isTokenAllow && (
+                <GlobalButton
+                  width="100%"
+                  height="48px"
+                  margin="0px"
+                  onClick={() => void handleSwap()}
+                >
+                  Swap
+                </GlobalButton>
+              )}
+            </>
           ) : (
             <Stepper data={SwapInstructData} />
           )}
