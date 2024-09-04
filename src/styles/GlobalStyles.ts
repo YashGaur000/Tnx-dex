@@ -18,12 +18,16 @@ const GlobalStyles = createGlobalStyle<{
     font-family: 'Kanit', sans-serif;
     padding:0px 55px;
 
-@media (min-width: 600px) {
-  body {
+    &[data-scroll-locked] {
+      padding:0px 55px !important;
+    }
+
+   @media (min-width: 600px) {
+     body {
    
     padding: 20px;
+    }
   }
-}
 
 /* Large screens (desktop) */
 @media (min-width: 992px) {
