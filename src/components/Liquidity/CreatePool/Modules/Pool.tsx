@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import ImpImage from '../../../../assets/information.png';
+import ImpImage from '../../../../assets/Tips.svg';
 import { GradientButton } from '../../../common';
 import {
   GroupImgContains,
@@ -96,24 +96,27 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
       </PoolcardStatus>
 
       <Tvlstyle>
-        <TitleWrapper fontSize="16px">TVL</TitleWrapper>
-        <TitleWrapper fontSize="16px">{tvl}</TitleWrapper>
+        <TitleWrapper fontSize="14px">TVL</TitleWrapper>
+        <TitleWrapper fontSize="14px">{tvl}</TitleWrapper>
       </Tvlstyle>
 
       <Tvlstyle>
-        <TitleWrapper fontSize="16px">APR</TitleWrapper>
-        <TitleWrapper fontSize="16px">0.000%</TitleWrapper>
+        <TitleWrapper fontSize="14px">APR</TitleWrapper>
+        <TitleWrapper fontSize="14px">0.000%</TitleWrapper>
       </Tvlstyle>
 
       <PoolButton onClick={handleDeposit}>
         <GradientButton
           borderRadius="8px"
           color="#ffffff"
-          padding="0px 20px 30px"
+          padding="4px 16px"
+          lineheight="17.94px"
           border="1px solid transparent"
           fontSize="12"
-          width="86"
+          width="80px"
           height="26px"
+          smFontSize={12}
+          smMargin="0px"
         >
           Deposit
         </GradientButton>

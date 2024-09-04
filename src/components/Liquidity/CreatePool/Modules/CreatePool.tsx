@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import InformIcon from '../../../../assets/information.png';
+import InformIcon from '../../../../assets/information.svg';
 // import AvailablePool from './AvailablePool';
 import LowLiquidityPool from './LowLiquidityPool';
-import QuestionIcon from '../../../../assets/questionMark.png';
+import QuestionIcon from '../../../../assets/questionmark.svg';
 import SelectIcon from '../../../../assets/select.svg';
 import { TokenInfo } from './../../../../constants/tokens';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
-import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import PopupScreen from '../../../common/PopupScreen';
 
 import LiquidityToolTips from '../../LiquidityHomePage/Modules/LiquidityToolTips';
 import {
@@ -16,12 +16,7 @@ import {
 } from '../../../Swap/styles/SwapForm.style.';
 import { MainContainerStyle } from '../../../common/MainContainerStyle';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
-import {
-  InformImageStye,
-  LiquidityTitle,
-  PopupWrapper,
-  StatsCardtitle,
-} from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 
 import {
   CreatePoolStyles,
@@ -30,6 +25,8 @@ import {
   TokenSelectItem,
   CreateSuggestContain,
   ToolTipWraper,
+  CreateLiqidityHeaderWrapper,
+  SelectedTokenImgContainer,
 } from '../Styles/CreatePool.style';
 import { useAccount } from '../../../../hooks/useAccount';
 import useQueryParams from '../../../../hooks/useQueryParams';
@@ -115,15 +112,15 @@ const CreatePool = () => {
   return (
     <>
       <MainContainerStyle>
-        <LiquidityHeaderTitle fontSize={36}>
-          Create your Liquidity Pool
-        </LiquidityHeaderTitle>
-        <LiquidityTitle fontSize={16} margin="15px 0px">
-          Create your new pool{' '}
+        <CreateLiqidityHeaderWrapper>
+          <LiquidityHeaderTitle fontSize={36}>
+            Create your Liquidity Pool
+          </LiquidityHeaderTitle>
+
           <ToolTipWraper onMouseEnter={handleTooolTipShow}>
-            <InformImageStye src={QuestionIcon} />
+            <ImageContainer width="24px" height="24px" src={QuestionIcon} />
           </ToolTipWraper>
-        </LiquidityTitle>
+        </CreateLiqidityHeaderWrapper>
         <CreatePoolStyles>
           <TokenSelectItem>
             <LiquidityHeaderTitle fontSize={20}>
@@ -133,10 +130,8 @@ const CreatePool = () => {
             <TokenSelectCustom onClick={() => handleTokenSelectOpen('token1')}>
               <TokenSelectAlignStyle>
                 {selectedToken1 && (
-                  <img
+                  <SelectedTokenImgContainer
                     src={selectedToken1?.logoURI}
-                    width={21}
-                    height={22}
                     alt={selectedToken1.logoURI}
                   />
                 )}
@@ -170,10 +165,8 @@ const CreatePool = () => {
             <TokenSelectCustom onClick={() => handleTokenSelectOpen('token2')}>
               <TokenSelectAlignStyle>
                 {selectedToken2 && (
-                  <img
+                  <SelectedTokenImgContainer
                     src={selectedToken2?.logoURI}
-                    width={21}
-                    height={22}
                     alt={selectedToken2.logoURI}
                   />
                 )}
@@ -219,13 +212,13 @@ const CreatePool = () => {
             <ImageContainer
               src={InformIcon}
               alt="Information Icon"
-              width="21"
-              height="20"
+              width="20"
+              height="21"
             />
-            <StatsCardtitle fontSize={16}>
+            <LiquidityHeaderTitle fontSize={16}>
               Start by selecting the tokens. The liquidity pools available for
-              deposit will show up next.
-            </StatsCardtitle>
+              deposit will show up next
+            </LiquidityHeaderTitle>
           </CreateSuggestContain>
         )}
       </MainContainerStyle>

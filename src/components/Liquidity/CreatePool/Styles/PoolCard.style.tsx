@@ -1,23 +1,23 @@
 import styled from 'styled-components';
+import { DefaultTheme } from '../../../../styles/Theme';
 
 export const PoolSection = styled.section`
   width: 100%;
   margin-top: 30px;
 `;
-export const LiquidityPoolCardStyles = styled.div`
-  margin-top: 20px;
+export const LiquidityPoolCardStyles = styled.div<{ theme: DefaultTheme }>`
   display: flex;
-  border-radius: 20px;
+  border-radius: 16px;
   justify-content: space-between;
   padding: 16px 40px;
-  height: 80px;
-  color: rgba(255, 255, 255, 1);
+  height: 84px;
 
   align-items: center;
-  background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
-  font-size: 13px;
+  background: ${({ theme }) => theme.colors.card};
+  font-size: 14px;
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.screenSizes.medium}) {
     flex-direction: column;
     margin: 10px;
     align-items: flex-start;
@@ -31,13 +31,14 @@ export const PoolcardStatus = styled.div`
   gap: 15px;
   align-items: center;
 `;
-export const Tvlstyle = styled.div`
+export const Tvlstyle = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
 
-  gap: 5px;
+  gap: 8px;
 
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.screenSizes.medium}) {
     flex-direction: row;
 
     gap: 20px;
@@ -45,11 +46,14 @@ export const Tvlstyle = styled.div`
 `;
 
 export const TokenPairWrapper = styled.div`
-  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 `;
-export const PoolButton = styled.div`
+export const PoolButton = styled.div<{ theme: DefaultTheme }>`
   flex-shrink: 1;
-  @media only screen and (max-width: 500px) {
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.screenSizes.medium}) {
     margin-left: 80%;
   }
 `;
@@ -58,4 +62,5 @@ export const PoolWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  margin-top: 16px;
 `;
