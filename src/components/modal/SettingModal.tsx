@@ -10,12 +10,18 @@ interface SettingProps {
   onClose: () => void;
   children: React.ReactNode;
 }
-
 const PopupContainer = styled.div`
-  position: absolute;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const SettingModalContent = styled.div`
   width: 440px;
   height: 466px;
-  top: 130px;
+  position: relative;
+  position: relative;
+  top: 180px;
   left: 420px;
   gap: 0px;
   border-radius: 24px;
@@ -45,15 +51,17 @@ const SettingModal: React.FC<SettingProps> = ({ isOpen, onClose }) => {
 
   return (
     <PopupContainer>
-      <CloseButton onClick={onClose}>&times;</CloseButton>
-      <SlippageTolerance />
-      <TransactionDeadline />
-      <AllowUnsafeTrades
-        isChecked={false}
-        handleToggle={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
+      <SettingModalContent>
+        <CloseButton onClick={onClose}>&times;</CloseButton>
+        <SlippageTolerance />
+        <TransactionDeadline />
+        <AllowUnsafeTrades
+          isChecked={false}
+          handleToggle={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
+      </SettingModalContent>
     </PopupContainer>
   );
 };

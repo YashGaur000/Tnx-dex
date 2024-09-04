@@ -1,10 +1,6 @@
-import TenexIcon from '../../../../assets/Tenex.png';
 import InformIcon from '../../../../assets/information.png';
-import {
-  LockDescriptonTitle,
-  LockHeaderTitle,
-  LockCardstyle,
-} from '../../Styles/ManageVetenex.style';
+import { LockCardstyle } from '../../Styles/ManageVetenex.style';
+import SelectIcon from '../../../../assets/select.png';
 import {
   Slider,
   SliderContainer,
@@ -19,9 +15,7 @@ import {
   LockScreenInstruction,
   InformImg,
   LockProgressStyle,
-  LockInputBox,
   LoaderStatusWrapper,
-  LockHeaderStyle,
   WeeksLabel,
 } from '../../Styles/CreateLock.style';
 import LockDeposite from './LockDeposite';
@@ -31,14 +25,40 @@ import { CreateMainContainer } from '../../../Liquidity/ManageLiquidity/styles/M
 import {
   FormFieldContainer,
   FormRowWrapper,
-  ImageWithTitleWrap,
-  TokenImgLiquidity,
 } from '../../../Liquidity/ManageLiquidity/styles/LiquidityForm.style';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FC, useState } from 'react';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useTokenBalances } from '../../../../hooks/useTokenBalance';
+import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens';
+import { ethers } from 'ethers';
+import {
+  InputWrapper,
+  PercentageSelectorContainer,
+  TokenSelect,
+  TokenSelectAlign,
+  TokenSelectAlignSelect,
+  WalletInfo,
+} from '../../../Swap/styles/SwapForm.style.';
+import { InputBox } from '../../../Swap/modules/InputBox';
 
-const Createlock = () => {
+interface FormComponentProps {
+  totalBalanceToken: ethers.Numeric;
+}
+
+const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
   const [WeekValue, SetWeekValue] = useState(1);
   const [LockTokenValue, setLockTokenValue] = useState<number>(0);
+  const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[6];
+  //const [isTokenAllowed, setIsTokenAllowed] = useState(false);
+  //const lockTokenInfo = useTokenInfo(tokenInformation);
+  const tokenList = [lockTokenInfo];
+  const { address } = useAccount();
+  const { balances } = useTokenBalances(tokenList, address!);
+  totalBalanceToken = Number(lockTokenInfo && balances[lockTokenInfo.address]);
+  console.log(address);
+  console.log(totalBalanceToken);
+  console.log(lockTokenInfo);
+
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
     SetWeekValue(Number(TotalWeeks));
@@ -46,7 +66,6 @@ const Createlock = () => {
 
   const labels = [
     { value: 1, weeks: '1 week' },
-
     { value: 52, weeks: '1 year' },
     { value: 104, weeks: '2 year' },
     { value: 156, weeks: '3 year' },
@@ -57,25 +76,20 @@ const Createlock = () => {
     console.log(e.target.value);
     setLockTokenValue(Number(e.target.value));
   };
+
   return (
     <MainContainerStyle>
-      <LockHeaderStyle>
-        <LockHeaderTitle fontSize={36}>Lock</LockHeaderTitle>
-        <LockDescriptonTitle fontSize={16}>
-          Lock your tokens for veTENEX voting power
-        </LockDescriptonTitle>
-      </LockHeaderStyle>
-
       <CreateMainContainer>
         <CreateLockFirstSection>
           <LockCardstyle>
             <FormFieldContainer>
               <FormRowWrapper>
-                <ImageWithTitleWrap>
-                  <TokenImgLiquidity src={TenexIcon} alt="USDT logo" />
-                  <label>TENEX</label>
+                {/*/<FormRowWrapper>
+                 <ImageWithTitleWrap>
+                  <TokenImgLiquidity src={lockTokenInfo.logoURI} alt={lockTokenInfo.name} />
+                  <label>{lockTokenInfo.name}</label>
                 </ImageWithTitleWrap>
-                <label>Available 0000</label>
+                <label>Available {totalBalanceToken.toString()} </label>
               </FormRowWrapper>
               <div>
                 <LockInputBox
@@ -90,7 +104,56 @@ const Createlock = () => {
                 <label>50%</label>
                 <label>75%</label>
                 <label>MAX</label>
-              </LockProgressStyle>
+              </LockProgressStyle> */}
+
+                <InputWrapper>
+                  <InputBox
+                    type="number"
+                    border="none"
+                    placeholder=""
+                    width="75%"
+                    padding="0px"
+                    value={LockTokenValue}
+                    onChange={handleLockInputData}
+                  />
+                  <TokenSelect>
+                    <TokenSelectAlign>
+                      <img
+                        src={lockTokenInfo.logoURI}
+                        width={20}
+                        height={20}
+                        alt={lockTokenInfo.logoURI}
+                      />
+                    </TokenSelectAlign>
+                    <TokenSelectAlign>{lockTokenInfo?.symbol}</TokenSelectAlign>
+                    <TokenSelectAlignSelect>
+                      <img
+                        src={SelectIcon}
+                        width={8}
+                        height={4}
+                        alt={SelectIcon}
+                      />
+                    </TokenSelectAlignSelect>
+                  </TokenSelect>
+
+                  <PercentageSelectorContainer>
+                    <WalletInfo>
+                      Wallet:{' '}
+                      {Number(
+                        lockTokenInfo && balances[lockTokenInfo?.address]
+                      )}{' '}
+                    </WalletInfo>
+
+                    <LockProgressStyle>
+                      <label>0%</label>
+                      <label>25%</label>
+                      <label>50%</label>
+                      <label>75%</label>
+                      <label>MAX</label>
+                    </LockProgressStyle>
+                  </PercentageSelectorContainer>
+                </InputWrapper>
+              </FormRowWrapper>
             </FormFieldContainer>
 
             <LockTitle fontSize={17}>
@@ -121,22 +184,23 @@ const Createlock = () => {
               </SliderDeadlineStyle>
             </LockLoaderContainer>
           </LockCardstyle>
-
-          <LockCardstyle>
-            <LockScreenInstruction>
-              <InformImg src={InformIcon} />
-              <StatsCardtitle fontSize={14}>
-                Locking will give you an NFT, referred to as a veNFT. You can
-                increase the Lock amount or extend the Lock time at any point
-                after.
-              </StatsCardtitle>
-            </LockScreenInstruction>
-          </LockCardstyle>
         </CreateLockFirstSection>
-        <LockDeposite LockTokenValue={LockTokenValue} />
+        <LockDeposite
+          LockTokenValue={LockTokenValue}
+          LockTokenSymbol={lockTokenInfo.symbol}
+          LocTokenAddress={lockTokenInfo.address}
+          LockTokenDecimal={lockTokenInfo.decimals}
+        />
       </CreateMainContainer>
+      <LockScreenInstruction>
+        <InformImg src={InformIcon} />
+        <StatsCardtitle fontSize={14}>
+          Locking will give you an NFT, referred to as a veNFT. You can increase
+          the Lock amount or extend the Lock time at any point after.
+        </StatsCardtitle>
+      </LockScreenInstruction>
     </MainContainerStyle>
   );
 };
 
-export default Createlock;
+export default CreatelockForm;

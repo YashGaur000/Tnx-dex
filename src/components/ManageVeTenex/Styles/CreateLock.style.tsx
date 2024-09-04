@@ -71,13 +71,14 @@ font-weight:${({ theme }) => theme.fontWeights.regular}
 `;
 export const LockScreenInstruction = styled.div`
   display: flex;
+  padding: 14px;
   gap: 10px;
   align-items: flex-start;
 `;
 export const InformImg = styled.img`
-  width: 27px;
-  height: 27px;
-  padding-top: 5px;
+  width: 24px;
+  height: 24px;
+  padding-top: 1px;
 `;
 
 export const LockInputBox = styled.input<{ theme: DefaultTheme }>`

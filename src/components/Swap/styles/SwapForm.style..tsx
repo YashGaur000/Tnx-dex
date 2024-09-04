@@ -99,8 +99,8 @@ export const SwapboxInner = styled.div<{ theme: DefaultTheme }>`
 export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
   border: 1px solid ${({ theme }) => theme.colors.greyDark};
   border-radius: 10px;
-  max-width: 520px;
-  min-height: 78px;
+  width: 520px;
+  height: 78px;
   padding-left: 13px;
 
   @media only screen and (max-width: 600px) {
@@ -355,7 +355,6 @@ export const SwapTitle = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 16px;
 
   @media only screen and (max-width: 600px) {
-    width: 72%;
     padding: 8px;
   }
 `;
