@@ -60,10 +60,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [isSwapped, setIsSwapped] = useState(false);
 
   useEffect(() => {
-    if (tokenInput2) {
+    if (tokenInput2 && selectedTolerance) {
       const minAmountOutWei = calculateMinAmount(
         Number(tokenInput2) ?? 0,
-        selectedTolerance,
+        parseFloat(selectedTolerance) ?? 1,
         token2?.decimals ?? 18
       );
 
@@ -120,7 +120,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       step: 2,
       icon: PlusIcon,
       descriptions: {
-        labels: '1.0 % slippage applied...',
+        labels: `${selectedTolerance} % slippage applied...`,
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('Slippage');
@@ -252,10 +252,17 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       const deadline = getDeadline(deadLineValue);
 
-      if (amountInWei && token1?.address && address && tokenInput2 && routes) {
+      if (
+        amountInWei &&
+        token1?.address &&
+        address &&
+        tokenInput2 &&
+        routes &&
+        selectedTolerance
+      ) {
         const minAmountOutWei = calculateMinAmount(
           Number(tokenInput2) ?? 0,
-          selectedTolerance,
+          parseFloat(selectedTolerance) ?? 1,
           token2?.decimals ?? 18
         );
         const tx = await swapExactTokensForTokens(
@@ -265,11 +272,11 @@ const Sidebar: React.FC<SidebarProps> = ({
           address,
           deadline
         );
-        console.log('Liquidity added:', tx);
+        console.log('Swap added:', tx);
         setIsSwapped(true);
       }
     } catch (error) {
-      console.error('Error adding liquidity:', error);
+      console.error('Error swapping:', error);
     }
   };
   return (
