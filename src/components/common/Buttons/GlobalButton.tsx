@@ -7,6 +7,7 @@ export const GlobalButton = styled.button<{
   width?: string;
   height?: string;
   disabled?: boolean;
+  inProgress?: boolean;
   margin?: string;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
@@ -22,6 +23,7 @@ export const GlobalButton = styled.button<{
   border: none;
   font-size: 16px;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  cursor: ${({ inProgress }) => (inProgress ? 'progress' : 'pointer')};
   margin: ${({ margin }) => (margin ? margin : '20px 0px')};
 
   &:hover {

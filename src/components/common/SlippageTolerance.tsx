@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SidebarTitle,
   SlippageAlign,
@@ -10,33 +10,32 @@ import {
 import { useRootStore } from '../../store/root';
 
 const SlippageTolerance: React.FC = () => {
-  const { selectedTolerance, setSelectedTolerance } = useRootStore();
+  const { setSelectedTolerance } = useRootStore();
+  const [toleranceInput, setToleranceInput] = useState('');
 
-  const handleToleranceChange = (tolerance: number) => {
+  const [color, setColor] = useState('');
+
+  const handleToleranceChange = (tolerance: string) => {
     setSelectedTolerance(tolerance);
   };
 
-  // const handleCustomToleranceChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const value = event.target.value;
+  const handleCustomTolerance = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    const numValue = parseFloat(value);
 
-  //   if (value === '' || /^[0-9]*\.?[0-9]*$/.test(value)) {
-  //     // Convert the string value to a number
-  //     const numericValue = parseFloat(value);
+    // Check if the value is valid
+    if (!isNaN(numValue) && numValue >= 0.1 && numValue <= 50) {
+      setSelectedTolerance(value);
+      setColor(''); // Reset color to default if valid
+    } else {
+      setSelectedTolerance('1'); // Set to default value if invalid
+      setColor('red'); // Set color to red to indicate an error
+    }
 
-  //     // Check if the value is within the desired range
-  //     if (value === '' || (numericValue >= 0.1 && numericValue <= 50)) {
-  //       setSelectedTolerance();
-  //     } else {
-  //       // Optional: Handle out-of-range case, e.g., show a message
-  //       console.log("Value must be between 0.1 and 50");
-  //     }
-  //   } else {
-  //     // Optional: Handle invalid input case, e.g., show a message
-  //     console.log("Invalid input format");
-  //   }
-  // };
+    setToleranceInput(value);
+  };
 
   return (
     <SlippageWrapper display="flow">
@@ -44,26 +43,26 @@ const SlippageTolerance: React.FC = () => {
         <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
         <SlippageInput
           type="text"
-          value={selectedTolerance == 0.5 ? '' : selectedTolerance}
-          //onChange={(e) => handleCustomToleranceChange(e)}
-          placeholder={selectedTolerance.toString()}
-          style={{ width: '53px', textAlign: 'center' }}
+          value={toleranceInput}
+          onChange={handleCustomTolerance}
+          placeholder={'1.0'}
+          style={{ width: '80px', textAlign: 'center', color: `${color}` }}
         />
       </SlippageAlign>
       <ToleranceButtons>
-        <ToleranceButton onClick={() => handleToleranceChange(0.1)}>
+        <ToleranceButton onClick={() => handleToleranceChange('0.1')}>
           0.1%
         </ToleranceButton>
-        <ToleranceButton onClick={() => handleToleranceChange(0.5)}>
+        <ToleranceButton onClick={() => handleToleranceChange('0.5')}>
           0.5%
         </ToleranceButton>
-        <ToleranceButton onClick={() => handleToleranceChange(1)}>
+        <ToleranceButton onClick={() => handleToleranceChange('1')}>
           1.0%
         </ToleranceButton>
-        <ToleranceButton onClick={() => handleToleranceChange(2)}>
+        <ToleranceButton onClick={() => handleToleranceChange('2')}>
           2.0%
         </ToleranceButton>
-        <ToleranceButton onClick={() => handleToleranceChange(5)}>
+        <ToleranceButton onClick={() => handleToleranceChange('5')}>
           5.0%
         </ToleranceButton>
       </ToleranceButtons>
