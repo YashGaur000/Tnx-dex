@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAccount } from '../../../hooks/useAccount';
-import { TokenInfo } from './../../../constants/tokens';
-import TokenSelectModal from '../../modal/TokenSelectModal';
-import SelectIcon from '../../../assets/select.svg';
-import SwapSettingIcon from '../../../assets/swapSetting.png';
-import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
+import { useAccount } from '../../hooks/useAccount';
+import { TokenInfo } from '../../constants/tokens';
+import TokenSelectModal from '../modal/TokenSelectModal';
+import SelectIcon from '../../assets/select.svg';
+import SwapSettingIcon from '../../assets/swapSetting.png';
+import faSwitchAlt from '../../assets/faSwitchAlt.svg';
 import {
   InputWrapper,
   PercentageButton,
@@ -23,26 +23,32 @@ import {
   SwapboxInner,
   WalletInfo,
   SettingIcon,
-} from '../styles/SwapForm.style.';
-import LiquityRouting from './LiquityRouting';
-import Sidebar from './Sidebar';
-import { useRootStore } from '../../../store/root';
-import { useTokenInfo } from '../../../hooks/useTokenInfo';
+} from '../Swap/styles/SwapForm.style.';
+
+import LiquityRouting from '../Swap/modules/LiquityRouting';
+import { useRootStore } from '../../store/root';
+
+import { useTokenInfo } from '../../hooks/useTokenInfo';
 import { Address } from 'viem';
-import { useRouterContract } from '../../../hooks/useRouterContract';
-import { InputBox } from './InputBox';
+
+import { useRouterContract } from '../../hooks/useRouterContract';
+
 import {
   getAllRoutes,
   Route,
-} from '../../../utils/liquidityRouting/generateAllRoutes';
-import { findBestRoute } from '../../../utils/liquidityRouting/findBestRoute';
-import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
-import { SidebarContainer } from '../styles/Sidebar.style';
-import { useTokenBalances } from '../../../hooks/useTokenBalance';
-import SettingModal from '../../modal/SettingModal';
+} from '../../utils/liquidityRouting/generateAllRoutes';
+import { findBestRoute } from '../../utils/liquidityRouting/findBestRoute';
+import { useLiquidityRouting } from '../../hooks/useLiquidityRouting';
+import { useTokenBalances } from '../../hooks/useTokenBalance';
+
 import { ethers } from 'ethers';
 
-const SwapForm: React.FC = () => {
+import { InputBox } from '../Swap/modules/InputBox';
+import SettingModal from '../modal/SettingModal';
+import { SidebarContainer } from '../Swap/styles/Sidebar.style';
+import Sidebar from '../Swap/modules/Sidebar';
+
+const InputForm: React.FC = () => {
   const { address } = useAccount();
   const [isSettingModelOpen, setIsSettingModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -359,4 +365,4 @@ const SwapForm: React.FC = () => {
   );
 };
 
-export default SwapForm;
+export default InputForm;

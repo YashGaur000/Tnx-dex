@@ -24,7 +24,7 @@ export const GroupImgContains = styled.div`
   box-sizing: border-box;
 `;
 export const TraidingSyleLabel = styled.label<{ theme: DefaultTheme }>`
-  font-size: 20px;
+  font-size: 16px;
   line-height: 23.92px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
