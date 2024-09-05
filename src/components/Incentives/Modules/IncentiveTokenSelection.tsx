@@ -29,14 +29,21 @@ import TokenSelectModal from '../../modal/TokenSelectModal';
 import { useRootStore } from '../../../store/root';
 import { TokenInfo } from '../../../constants/tokens';
 
-const IncentiveTokenSelection: React.FC = () => {
+interface IncentiveTokenSelectionProps {
+  handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
+  handleTokenSymbol: (symbol: string) => void;
+}
+
+const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
+  handleIncentiveFormValue,
+  handleTokenSymbol,
+}) => {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const { address } = useAccount();
   const { setFrom, setTo } = useRootStore();
   const [selectedToken2, setSelectedToken2] = useState<TokenInfo | null>(null);
   const [tokenSelectTarget2, setTokenSelectTarget2] =
     useState<'token1'>('token1');
-  const [value, setValue] = useState<string>('');
 
   const handleTokenSelectOpen2 = (target: 'token1') => {
     setTokenSelectTarget2(target);
@@ -48,24 +55,23 @@ const IncentiveTokenSelection: React.FC = () => {
 
     if (tokenSelectTarget2 === 'token1') {
       setFrom(token.address);
-      setSelectedToken2(token); // Update the selected token state
+      setSelectedToken2(token);
       queryParams.set('from', token.address);
     } else {
       setTo(token.address);
-      setSelectedToken2(token); // Update the selected token state
+      setSelectedToken2(token);
       queryParams.set('to', token.address);
     }
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.pushState(null, '', newUrl);
-    setIsModalOpen2(false); // Close the modal after selection
+    setIsModalOpen2(false);
+
+    handleTokenSymbol(token.symbol);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-
-    if (/^\d*\.?\d*$/.test(inputValue)) {
-      setValue(inputValue);
-    }
+    const inputValue = Number(e.target.value); // Ensure inputValue is a number
+    handleIncentiveFormValue(inputValue); // Call the function
   };
 
   if (!address) {
@@ -90,7 +96,7 @@ const IncentiveTokenSelection: React.FC = () => {
       </Box2Container>
       <Box2ContainerBorder>
         <Box2ProgressContainer>
-          <Box2ProgressBar value={value} onChange={handleChange} />
+          <Box2ProgressBar type="number" onChange={handleChange} />
           <Box2Container>
             <Box2DataPoint1Tenex
               onClick={() => handleTokenSelectOpen2('token1')}
