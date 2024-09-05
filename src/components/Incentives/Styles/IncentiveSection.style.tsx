@@ -235,6 +235,14 @@ export const Box2ProgressBar = styled.input`
   font-family: 'kanit';
   font-weight: 300;
   font-size: 16px;
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `;
 
 export const Box2PercentageBar = styled.div`
