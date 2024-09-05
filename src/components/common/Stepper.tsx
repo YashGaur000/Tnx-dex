@@ -95,11 +95,35 @@ const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
   gap: 10px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
-const StepperTitle = styled.span<{ theme: DefaultTheme }>`
+const StepperTitle = styled.span<{
+  theme: DefaultTheme;
+  actionCompleted?: boolean;
+}>`
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  /* Add loading shimmer effect when actionCompleted is false */
+  ${({ actionCompleted, theme }) =>
+    actionCompleted &&
+    `
+    background: ${theme.colors.loaderBackground};
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+    color: transparent; /* Text is transparent while the shimmer is active */
+    -webkit-background-clip: text;
+    background-clip: text;
+  `}
+
+  /* Keyframes for shimmer effect */
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 `;
 
 const UnderlinedText = styled.span<{ theme: DefaultTheme }>`
@@ -159,7 +183,9 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                       or try with smaller amount{' '}
                     </StepperRedTitle>
                   ) : (
-                    <StepperTitle>{item.descriptions.labels} </StepperTitle>
+                    <StepperTitle actionCompleted={item.actionCompleted}>
+                      {item.descriptions.labels}
+                    </StepperTitle>
                   ))}
                 {item.descriptions.isSplit &&
                   item.descriptions.labels.split('\n').map((line, index) => (
