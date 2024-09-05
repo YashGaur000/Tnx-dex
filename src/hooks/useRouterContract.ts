@@ -6,7 +6,7 @@ import { ethers } from 'ethers';
 import contractAddress from '../constants/contract-address/address';
 import routerAbi from '../constants/artifacts/contracts/Router.json';
 import { TokenInfo } from '../constants/tokens';
-import { Route } from '../utils/generateAllRoutes';
+import { Route } from '../utils/liquidityRouting/generateAllRoutes';
 import { useMultiCall } from './useMultiCall';
 
 /**
@@ -177,7 +177,7 @@ export function useRouterContract() {
   );
 
   const getAmountsOut = useCallback(
-    async (amountIn: string, routes: Route[][]) => {
+    async (amountIn: bigint, routes: Route[][]) => {
       if (!routerContract) {
         console.error('Router contract instance not available');
         return;
@@ -189,12 +189,10 @@ export function useRouterContract() {
       }
 
       try {
-        const amountInWei = ethers.parseUnits(amountIn, 18);
-
         const contractCalls = routes.map((route) => ({
           abi: routerAbi.abi as Abi,
           functionName: 'getAmountsOut',
-          args: [amountInWei, route],
+          args: [amountIn, route],
           address: routerAddress,
         }));
 

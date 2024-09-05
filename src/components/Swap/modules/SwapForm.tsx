@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAccount } from '../../hooks/useAccount';
-import { TokenInfo } from './../../constants/tokens';
-import TokenSelectModal from '../modal/TokenSelectModal';
-import SelectIcon from '../../assets/select.svg';
-import SwapSettingIcon from '../../assets/swapSetting.png';
-import faSwitchAlt from '../../assets/faSwitchAlt.svg';
+import { useAccount } from '../../../hooks/useAccount';
+import { TokenInfo } from './../../../constants/tokens';
+import TokenSelectModal from '../../modal/TokenSelectModal';
+import SelectIcon from '../../../assets/select.svg';
+import SwapSettingIcon from '../../../assets/swapSetting.png';
+import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   InputWrapper,
   PercentageButton,
@@ -23,32 +23,24 @@ import {
   SwapboxInner,
   WalletInfo,
   SettingIcon,
-} from '../Swap/styles/SwapForm.style.';
-
-import LiquityRouting from '../Swap/modules/LiquityRouting';
-import { useRootStore } from '../../store/root';
-
-import { useTokenInfo } from '../../hooks/useTokenInfo';
+} from '../styles/SwapForm.style.';
+import LiquityRouting from './LiquityRouting';
+import Sidebar from './Sidebar';
+import { useRootStore } from '../../../store/root';
+import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
-
-import { useRouterContract } from '../../hooks/useRouterContract';
-
+import { useRouterContract } from '../../../hooks/useRouterContract';
+import { InputBox } from './InputBox';
 import {
-  findBestRoute,
   getAllRoutes,
   Route,
-} from '../../utils/generateAllRoutes';
-
-import { useLiquidityRouting } from '../../hooks/useLiquidityRouting';
-
-import { useTokenBalances } from '../../hooks/useTokenBalance';
-
+} from '../../../utils/liquidityRouting/generateAllRoutes';
+import { findBestRoute } from '../../../utils/liquidityRouting/findBestRoute';
+import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
+import { SidebarContainer } from '../styles/Sidebar.style';
+import { useTokenBalances } from '../../../hooks/useTokenBalance';
+import SettingModal from '../../modal/SettingModal';
 import { ethers } from 'ethers';
-
-import { InputBox } from '../Swap/modules/InputBox';
-import SettingModal from '../modal/SettingModal';
-import { SidebarContainer } from '../Swap/styles/Sidebar.style';
-import Sidebar from '../Swap/modules/Sidebar';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -131,8 +123,12 @@ const SwapForm: React.FC = () => {
                 selectedToken2.address,
                 3 // maxhop
               );
-              const bestPath = await findBestRoute(
+              const amountInWei = ethers.parseUnits(
                 amount,
+                selectedToken1.decimals
+              );
+              const bestPath = await findBestRoute(
+                amountInWei,
                 routes,
                 getAmountsOut
               );

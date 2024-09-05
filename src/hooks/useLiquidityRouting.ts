@@ -1,4 +1,4 @@
-import { Graph } from '../utils/generateAllRoutes';
+import { Graph } from '../utils/liquidityRouting/generateAllRoutes';
 import { useLiquidityPoolData } from './useLiquidityPoolData';
 
 export const useLiquidityRouting = () => {
