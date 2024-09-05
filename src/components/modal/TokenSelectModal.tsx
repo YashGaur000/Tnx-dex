@@ -16,6 +16,8 @@ import {
   SearchWrapper,
   TokenItem,
   TokenList,
+  TokenItemImage,
+  TokenItemData,
 } from './styles/TokenSelectModal.style';
 import tenex from '../../assets/Tenex.png';
 import { useTokenBalances } from '../../hooks/useTokenBalance';
@@ -98,20 +100,20 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
               key={token.symbol}
               onClick={() => handleSelectToken(token)}
             >
-              <img
+              <TokenItemImage
                 src={token.logoURI ? token.logoURI : tenex}
                 width={21}
                 height={22}
                 alt={token.symbol}
               />
               {token.symbol} <br /> {truncateString(token.address)}
-              <p
+              <TokenItemData
                 style={{
                   marginLeft: '150px',
                 }}
               >
                 {account && balances[token.address].toString()}
-              </p>
+              </TokenItemData>
             </TokenItem>
           ))}
         </TokenList>
