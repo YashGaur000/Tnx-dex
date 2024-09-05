@@ -8,7 +8,7 @@ import {
   StepperContainer,
 } from '../styles/LiquityRouting.style';
 import FwdIcon from '../../../assets/fwd-arrow.png';
-import { Route } from '../../../utils/generateAllRoutes';
+import { Route } from '../../../utils/liquidityRouting/generateAllRoutes';
 import { useEffect, useState } from 'react';
 import { findTokenByAddress } from '../../../hooks/useTokenInfo';
 import { TokenInfo } from '../../../constants/tokens';
@@ -45,6 +45,15 @@ const LiquityRouting = ({
     setDestToken(tokens);
     setStable(stableFactor);
   }, [route]);
+
+  if (!route)
+    return (
+      <LiquityContainer>
+        <StepperContainer>
+          {isLoading ? <LoadingSpinner /> : 'No Path Exists'}
+        </StepperContainer>
+      </LiquityContainer>
+    );
 
   return (
     <LiquityContainer>

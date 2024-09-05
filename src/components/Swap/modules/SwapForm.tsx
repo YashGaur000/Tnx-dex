@@ -32,10 +32,10 @@ import { Address } from 'viem';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
 import {
-  findBestRoute,
   getAllRoutes,
   Route,
-} from '../../../utils/generateAllRoutes';
+} from '../../../utils/liquidityRouting/generateAllRoutes';
+import { findBestRoute } from '../../../utils/liquidityRouting/findBestRoute';
 import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
@@ -123,8 +123,12 @@ const SwapForm: React.FC = () => {
                 selectedToken2.address,
                 3 // maxhop
               );
-              const bestPath = await findBestRoute(
+              const amountInWei = ethers.parseUnits(
                 amount,
+                selectedToken1.decimals
+              );
+              const bestPath = await findBestRoute(
+                amountInWei,
                 routes,
                 getAmountsOut
               );

@@ -29,7 +29,7 @@ import { getDeadline } from '../../../utils/transaction/getDeadline';
 import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { useAccount } from '../../../hooks/useAccount';
 import { useRouterContract } from '../../../hooks/useRouterContract';
-import { Route } from '../../../utils/generateAllRoutes';
+import { Route } from '../../../utils/liquidityRouting/generateAllRoutes';
 import PopupScreen from '../../common/PopupScreen';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import SlippageTolerance from '../../common/SlippageTolerance';
