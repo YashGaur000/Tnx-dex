@@ -3,12 +3,10 @@ import DepositeComponent from './DepositeComponent';
 import { useState } from 'react';
 import TokenDeposite from './TokenDeposite';
 import { MainContainerStyle } from '../../../common/MainContainerStyle';
-import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
-import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+
 import {
   CreateFormWrapper,
   CreateMainContainer,
-  LiquidityHeaderWrapper,
 } from '../styles/Managepool.style';
 import CreateNewLiquidity from './CreateNewLiquidity';
 import { ethers } from 'ethers';
@@ -25,10 +23,10 @@ const ManagePool = () => {
 
   const exists = queryParams.get('exists') === 'true' ? true : false;
 
-  const title = exists ? 'Manage Pool' : 'Create your Liquidity Pool';
-  const description = exists
-    ? 'Manage your position'
-    : 'Create your LP position';
+  // const title = exists ? 'Manage Pool' : 'Create your Liquidity Pool';
+  // const description = exists
+  //   ? 'Manage your position'
+  //   : 'Create your LP position';
 
   const handleTokenValueChange = (
     token1: ethers.Numeric,
@@ -43,11 +41,6 @@ const ManagePool = () => {
   };
   return (
     <MainContainerStyle>
-      <LiquidityHeaderWrapper>
-        <LiquidityHeaderTitle fontSize={36}>{title}</LiquidityHeaderTitle>
-        <LiquidityTitle fontSize={16}>{description}</LiquidityTitle>
-      </LiquidityHeaderWrapper>
-
       <CreateMainContainer>
         <CreateFormWrapper>
           {!exists && <CreateNewLiquidity />}

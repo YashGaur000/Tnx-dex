@@ -57,7 +57,8 @@ interface PoolInfo {
 
 const IncentiveSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [value, setValue] = useState<number>(0);
+  const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
   const { address } = useAccount();
   const [selectedToken1, setSelectedToken1] = useState<PoolInfo | undefined>(
     undefined
@@ -76,6 +77,12 @@ const IncentiveSection: React.FC = () => {
     if (tokenSelectTarget === 'token1') {
       setSelectedToken1(token);
     }
+  };
+  const handleIncentiveFormValue = (inputValue: number) => {
+    setValue(inputValue);
+  };
+  const handleTokenSymbol = (symbol: string) => {
+    setTokenSymbol(symbol);
   };
 
   return (
@@ -152,11 +159,17 @@ const IncentiveSection: React.FC = () => {
                 </IncentiveLeftBarBox1infoCol2>
               </IncentiveLeftBarBox1info>
             </IncentiveLeftBarBox1>
-            <IncentiveTokenSelection />
+            <IncentiveTokenSelection
+              handleIncentiveFormValue={handleIncentiveFormValue}
+              handleTokenSymbol={handleTokenSymbol}
+            />
           </IncentiveLeftBar>
         </Column60>
         <Column40>
-          <IncentiveRightContent />
+          <IncentiveRightContent
+            InsentiveFormValue={value}
+            tokenSymbol={tokenSymbol}
+          />
           <IncentiveTokenPopup
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
