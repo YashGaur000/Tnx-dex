@@ -2,13 +2,16 @@ import React from 'react';
 
 import Stepper from '../../../common/Stepper';
 import { StepperDataProps } from '../../../../types/Stepper';
+import useQueryParams from '../../../../hooks/useQueryParams';
 
 const DepositeInstruction: React.FC = () => {
+  const getParam = useQueryParams();
+  const isStable = getParam('type') == '0' ? `x³y + y³x ≥ k` : `x * y ≥ k `;
   const DepositeInstData: StepperDataProps[] = [
     {
       step: 1,
       descriptions: {
-        labels: `You are depositing liquidity into a Basic pool. Also known as the constant product pool or AMM, the liquidity in these pools is added over the full price range (0 to ∞) and requires little to no maintenance.\n The pool liquidity is kept in balance using the formula x³y + y³x ≥ k`,
+        labels: `You are depositing liquidity into a Basic pool. Also known as the constant product pool or AMM, the liquidity in these pools is added over the full price range (0 to ∞) and requires little to no maintenance.\n The pool liquidity is kept in balance using the formula ${isStable}`,
         isSplit: true,
       },
     },
