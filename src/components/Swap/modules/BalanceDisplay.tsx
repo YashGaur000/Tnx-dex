@@ -12,7 +12,7 @@ const BalanceDisplay: React.FC<BalanceDisplayProps> = ({ address }) => {
   if (loading) return <p>Loading balance...</p>;
   if (error) return <p>{error}</p>;
 
-  return <p>{Number(balance?.formatted).toFixed(4)}</p>;
+  return <p>{Number(balance?.formatted).toFixed(5)}</p>;
 };
 
 export default BalanceDisplay;
