@@ -72,10 +72,10 @@ export function usePoolBalances(
             (userBalanceInEther / totalSupplyInEther) * reserve1InEther;
 
           // Format and set balances
-          setBalance0(balance0.toFixed(6));
-          setBalance1(balance1.toFixed(6));
-          setReserve0(reserve0InEther.toFixed(6));
-          setReserve1(reserve1InEther.toFixed(6));
+          setBalance0(balance0.toFixed(5));
+          setBalance1(balance1.toFixed(5));
+          setReserve0(reserve0InEther.toFixed(5));
+          setReserve1(reserve1InEther.toFixed(5));
         }
       } catch (error) {
         console.error('Error fetching balances:', error);
