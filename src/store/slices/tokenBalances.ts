@@ -46,7 +46,7 @@ export const createTokenBalancesSlice: StateCreator<
           acc[token.address] = (
             Number(results[index].result) /
             10 ** token.decimals
-          ).toFixed(3);
+          ).toFixed(5);
           return acc;
         },
         {} as Record<string, string>

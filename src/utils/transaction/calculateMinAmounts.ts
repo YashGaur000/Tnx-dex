@@ -15,7 +15,12 @@ export const calculateMinAmount = (
   const minAmount =
     parseFloat(amount.toString()) -
     (parseFloat(amount.toString()) * selectedTolerance) / 100;
-  const minAmountInWei = ethers.parseUnits(minAmount.toString(), decimals);
+
+  // Format minAmount to match the token's decimals precision
+  const formattedMinAmount = minAmount.toFixed(decimals);
+
+  // Convert the formatted minAmount to BigNumber in Wei
+  const minAmountInWei = ethers.parseUnits(formattedMinAmount, decimals);
 
   return minAmountInWei;
 };

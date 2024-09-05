@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
-import SolIcon from '../../../assets/sol.png';
+import DurationIcon from '../../../assets/Duration.svg';
 //import InformationIcon from '../../../assets/redInformation.svg';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 
@@ -30,6 +30,10 @@ import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { useAccount } from '../../../hooks/useAccount';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { Route } from '../../../utils/generateAllRoutes';
+import PopupScreen from '../../common/PopupScreen';
+import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import SlippageTolerance from '../../common/SlippageTolerance';
+import TransactionDeadline from '../../common/TransactionDeadline';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -53,22 +57,25 @@ const Sidebar: React.FC<SidebarProps> = ({
   //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setIsTokenAllow] = useState(false);
   const { address } = useAccount();
-  const { swapExactTokensForTokens } = useRouterContract();
+  const { swapExactTokensForTokens, swapExactTokensForETH } =
+    useRouterContract();
   const { deadLineValue } = useLiquidityStore();
   const { selectedTolerance } = useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
+  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isVisibleDeadline, setVisibleDealine] = useState(false);
 
   useEffect(() => {
     if (tokenInput2 && selectedTolerance) {
       const minAmountOutWei = calculateMinAmount(
         Number(tokenInput2) ?? 0,
         parseFloat(selectedTolerance) ?? 1,
-        token2?.decimals ?? 18
+        token2?.decimals
       );
 
       const formattedMinAmount = ethers.formatUnits(
-        minAmountOutWei,
+        minAmountOutWei.toString(),
         token2?.decimals
       );
 
@@ -112,8 +119,11 @@ const Sidebar: React.FC<SidebarProps> = ({
       descriptions: {
         labels: 'Exchange Rate Found',
         adjust: 'Refresh',
+        onClick: () => {
+          alert('cool');
+        },
         token1: `1 ${token1.symbol}`,
-        token2: `${exchangeRate.toFixed(4)} ${token2.symbol}`,
+        token2: `${exchangeRate.toFixed(5)} ${token2.symbol}`,
       },
     },
     {
@@ -129,9 +139,20 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       step: 3,
-      icon: SolIcon,
+      icon: DurationIcon,
       descriptions: {
-        labels: `Minimum received ${Number(minAmountOut).toFixed(4)} ${token2.symbol}`,
+        labels: `${deadLineValue} min transaction deadline applied...`,
+        adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('deadline');
+        },
+      },
+    },
+    {
+      step: 4,
+      icon: token2.logoURI,
+      descriptions: {
+        labels: `Minimum received ${Number(minAmountOut).toFixed(5)} ${token2.symbol}`,
       },
     },
     // {
@@ -164,7 +185,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         : undefined,
     },
     {
-      step: 5,
+      step: 6,
       icon: !isSwapped ? SearchIcon : SucessDepositIcon,
       descriptions: {
         labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
@@ -233,13 +254,9 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleAdjust = (adjustbuttonName: string) => {
     if (adjustbuttonName === 'Slippage') {
-      console.log('Slippage');
+      setVisibleSlippage(true);
     } else if (adjustbuttonName === 'deadline') {
-      {
-        console.log('Deadline');
-      }
-    } else {
-      console.log('wrong button');
+      setVisibleDealine(true);
     }
   };
 
@@ -265,14 +282,26 @@ const Sidebar: React.FC<SidebarProps> = ({
           parseFloat(selectedTolerance) ?? 1,
           token2?.decimals ?? 18
         );
-        const tx = await swapExactTokensForTokens(
-          amountInWei,
-          minAmountOutWei,
-          routes,
-          address,
-          deadline
-        );
-        console.log('Swap added:', tx);
+        if (token2.symbol == 'WETH') {
+          const tx = await swapExactTokensForETH(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+          console.log('Swap added:', tx);
+        } else {
+          const tx = await swapExactTokensForTokens(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+          console.log('Swap added:', tx);
+        }
+
         setIsSwapped(true);
       }
     } catch (error) {
@@ -298,6 +327,28 @@ const Sidebar: React.FC<SidebarProps> = ({
                 >
                   Swap
                 </GlobalButton>
+              )}
+
+              {isVisibleSlippage && (
+                <PopupScreen
+                  isVisible={isVisibleSlippage}
+                  onClose={() => setVisibleSlippage(false)}
+                >
+                  <PopupWrapper>
+                    <SlippageTolerance />
+                  </PopupWrapper>
+                </PopupScreen>
+              )}
+
+              {isVisibleDeadline && (
+                <PopupScreen
+                  isVisible={isVisibleDeadline}
+                  onClose={() => setVisibleDealine(false)}
+                >
+                  <PopupWrapper>
+                    <TransactionDeadline />
+                  </PopupWrapper>
+                </PopupScreen>
               )}
             </>
           ) : (
