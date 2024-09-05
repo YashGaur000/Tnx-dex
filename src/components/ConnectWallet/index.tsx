@@ -47,6 +47,7 @@ export const ConnectWallet = () => {
               if ((chain as ChainProps)?.unsupported) {
                 return (
                   <GlobalButton
+                    margin="0px"
                     padding="10px 20px"
                     onClick={openChainModal}
                     type="button"
