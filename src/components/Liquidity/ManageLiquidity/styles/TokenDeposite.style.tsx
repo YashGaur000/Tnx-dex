@@ -9,7 +9,7 @@ export const CreateVoliteLiquiditySection = styled.div<{ theme: DefaultTheme }>`
   gap: 15px;
   padding-left: 20px;
   padding-right: 20px;
-  height: 70px;
+  height: 56px;
   background: ${({ theme }) => theme.colors.card};
   border-radius: 16px;
 `;
