@@ -4,6 +4,7 @@ interface StepperButtons {
   onClick?: () => Promise<void>;
   tooltip?: string;
   disabled?: boolean;
+  inProgress?: boolean;
 }
 export interface StepperDataProps {
   step: number;

@@ -210,6 +210,7 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                   }
                 }}
                 disabled={item.buttons?.disabled}
+                inProgress={item.buttons?.inProgress}
               >
                 {item.buttons?.label}
                 {item.buttons?.icon && (
