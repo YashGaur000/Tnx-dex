@@ -213,7 +213,9 @@ const Deposite: React.FC<DepositProps> = ({
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: 'Using your quote for new liquidity pool deposits',
+        labels: `Using your quote for new liquidity pool deposits `,
+        token1: `${amount1} ${selectedToken1?.symbol}`,
+        token2: `${amount2} ${selectedToken2?.symbol}`,
       },
     },
     {

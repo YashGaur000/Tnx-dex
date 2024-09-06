@@ -57,6 +57,7 @@ interface FontType {
 }
 
 interface FontWeight {
+  light: number;
   regular: number;
   bold: number;
 }
@@ -132,6 +133,7 @@ const theme: DefaultTheme = {
     main: 'Kanit, sans-serif',
   },
   fontWeights: {
+    light: 200,
     regular: 300,
     bold: 400,
   },
