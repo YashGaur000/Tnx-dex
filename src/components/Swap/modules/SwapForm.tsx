@@ -31,18 +31,14 @@ import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
-import {
-  getAllRoutes,
-  Route,
-} from '../../../utils/liquidityRouting/generateAllRoutes';
-import { findBestRoute } from '../../../utils/liquidityRouting/findBestRoute';
+import { Route } from '../../../utils/liquidityRouting/generateAllRoutes';
 import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import SettingModal from '../../modal/SettingModal';
-import { ethers } from 'ethers';
-import { findTokenBySymbol } from '../../../utils/transaction/getTokenInfo';
+
 import BalanceDisplay from './BalanceDisplay';
+import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -112,52 +108,18 @@ const SwapForm: React.FC = () => {
 
     // Regular function wrapping the async logic
     inputTimeout.current = setTimeout(() => {
-      const fetchBestRoute = async () => {
-        try {
-          // Handle token conversions for ETH to WETH
-          const srcToken =
-            selectedToken1.symbol === 'ETH'
-              ? findTokenBySymbol('WETH')
-              : selectedToken1.address;
-
-          const destToken =
-            selectedToken2.symbol === 'ETH'
-              ? findTokenBySymbol('WETH')
-              : selectedToken2.address;
-
-          const routes = getAllRoutes(graph, srcToken!, destToken!, 3); // maxhop
-          const amountInWei = ethers.parseUnits(
-            amount,
-            selectedToken1.decimals
-          );
-
-          const bestPath = await findBestRoute(
-            amountInWei,
-            routes,
-            getAmountsOut
-          );
-
-          if (bestPath?.bestQuote) {
-            const bestQuote = ethers.formatUnits(
-              bestPath.bestQuote,
-              selectedToken2.decimals
-            );
-            const exchangeRate = Number(bestQuote) / Number(amount);
-
-            // Update state in one place
-            setTokenInput2(bestQuote);
-            setExchangeRate(exchangeRate);
-            setRoute(bestPath.bestRoute);
-          }
-        } catch (error) {
-          console.error('Error fetching reserves:', error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
       // Call the async function
-      void fetchBestRoute();
+      void fetchBestRouteAndUpdateState(
+        selectedToken1,
+        selectedToken2,
+        amount,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading
+      );
     }, delay);
   };
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
@@ -349,7 +311,9 @@ const SwapForm: React.FC = () => {
       <SidebarContainer height={tokenInput1 ? 540 : 348}>
         <Sidebar
           isLoading={isLoading}
+          setIsLoading={setIsLoading}
           exchangeRate={exchangeRate}
+          setExchangeRate={setExchangeRate}
           token1={selectedToken1!}
           token2={selectedToken2!}
           tokenInput1={tokenInput1}
@@ -357,6 +321,8 @@ const SwapForm: React.FC = () => {
           setTokenInput1={setTokenInput1}
           setTokenInput2={setTokenInput2}
           routes={route}
+          setRoute={setRoute}
+          graph={graph}
         />
       </SidebarContainer>
     </>
