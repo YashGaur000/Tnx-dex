@@ -3,13 +3,19 @@ import FilterContainer from './LiquidityFiter';
 import LiquidityPoolTable from './LiquidityPoolTable';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
 import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
+import PageLoader from '../../../common/PageLoader';
 
 //type SortableKeys = keyof LiquidityPoolNewType;
 
 const LiquidityPool = () => {
   const { loading, error, data: poolData } = useLiquidityPoolData();
 
-  if (loading) return 'Loading...';
+  if (loading)
+    return (
+      <>
+        <PageLoader />
+      </>
+    );
   if (error) return `Error! ${error.message}`;
   // const [sortedColumn, setSortedColumn] = useState<SortableKeys>('apr');
   // const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
