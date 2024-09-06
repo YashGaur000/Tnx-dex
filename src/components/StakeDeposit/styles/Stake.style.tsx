@@ -37,6 +37,7 @@ export const StakeCard = styled.div<{ width?: string; theme: DefaultTheme }>`
 export const TokenAmountWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: end;
   gap: 4px;
 `;
 export const StakeTitle = styled.p<{ theme: DefaultTheme; fontSize: number }>`

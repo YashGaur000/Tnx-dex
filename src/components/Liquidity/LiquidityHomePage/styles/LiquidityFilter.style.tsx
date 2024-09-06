@@ -135,8 +135,7 @@ export const SearchBoxContainer = styled.div<{ theme: DefaultTheme }>`
   border-radius: 8px;
   align-items: center;
   padding: 2px 16px;
-  gap: 16px;
-  width: 100%;
+  gap: 6px;
 `;
 
 export const DropDownWrapper = styled.div``;

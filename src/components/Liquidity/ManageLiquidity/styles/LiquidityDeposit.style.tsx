@@ -8,13 +8,15 @@ export const StyledDepositContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 40px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  @media only screen and (max-width: 1100px) {
+  gap: 24px;
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.screenSizes.large}) {
     width: 50%;
     gap: 10px;
   }
 
-  @media only screen and (max-width: 900px) {
+  @media only screen and (max-width: ${({ theme }) =>
+      theme.screenSizes.custom900}) {
     width: 100%;
   }
 `;

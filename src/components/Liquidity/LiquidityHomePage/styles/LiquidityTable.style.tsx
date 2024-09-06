@@ -11,7 +11,7 @@ export const TokenCardContainer = styled.div`
 `;
 export const DepositeButtonWrapper = styled.div`
   margin-top: 4px;
-
+  margin-bottom: 2px;
   display: inline-block;
 `;
 
@@ -101,4 +101,10 @@ export const LiquidityTokenWrapper = styled.label`
   display: flex;
   flex-direction: column;
   gap: 4px;
+`;
+export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.card};
+  padding: 16px 40px 40px;
+  margin: 0px;
+  border-radius: 24px;
 `;

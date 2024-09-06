@@ -117,7 +117,7 @@ const StakeDeposit = () => {
               </GroupImgContains>
 
               <TokenDescription>
-                <LiquidityHeaderTitle fontSize={20}>
+                <LiquidityHeaderTitle fontSize={16}>
                   {selectedToken1?.symbol}-{selectedToken2?.symbol}
                 </LiquidityHeaderTitle>
                 <TokenStatus>
@@ -158,10 +158,10 @@ const StakeDeposit = () => {
                 Your Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle fontSize={12}>
+                <LiquidityTitle textalign="right" fontSize={12}>
                   {balance0 + ' ' + selectedToken1?.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle fontSize={12}>
+                <LiquidityTitle textalign="right" fontSize={12}>
                   {balance1 + ' ' + selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>

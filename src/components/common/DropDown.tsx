@@ -26,7 +26,7 @@ const SelectSelectedItem = styled.div<{
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+
   border: 1px solid transparent;
   background: ${({ theme }) => theme.colors.cardLight},
     ${({ theme }) => theme.colors.buttonBackground};

@@ -97,7 +97,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                   <StatsCardtitle lineheight="17px" fontSize={12}>
                     TVL
                   </StatsCardtitle>{' '}
-                  <LiquidityTitle fontSize={12}>
+                  <LiquidityTitle fontSize={12} textalign="right">
                     {data.totalVolumeUSD.toString()}
                   </LiquidityTitle>
                 </TokenAmountTitle>
@@ -114,11 +114,11 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               ~$ {data.totalVolumeUSD.toString()}
             </TitleWrapper>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontSize={12}>
+              <LiquidityTitle fontSize={12} textalign="right">
                 {' '}
                 {data.totalVolume0.toString()} {data.token0.symbol}
               </LiquidityTitle>
-              <LiquidityTitle fontSize={12}>
+              <LiquidityTitle fontSize={12} textalign="right">
                 {data.totalVolume1.toString()} {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
@@ -131,25 +131,16 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
             </TitleWrapper>
 
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontSize={12}>
+              <LiquidityTitle fontSize={12} textalign="right">
                 {data.totalFees0.toString()} {data.token0.symbol}
               </LiquidityTitle>
-              <LiquidityTitle fontSize={12}>
+              <LiquidityTitle fontSize={12} textalign="right">
                 {data.totalFees1.toString()} {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
           </TableColumnWrapper>
         </TableColumn>
         <TableColumn>
-          <LiquidityTokenWrapper>
-            <TitleWrapper fontSize={'12px'} lineheight="17.94px">
-              {data.reserve0.toString()} {data.token0.symbol}
-            </TitleWrapper>
-            {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
-            <TitleWrapper fontSize={'12px'} lineheight="17.94px">
-              {data.reserve1.toString()} {data.token1.symbol}
-            </TitleWrapper>
-          </LiquidityTokenWrapper>
           <DepositeButtonWrapper
             onClick={() =>
               handleDepositeButton(
@@ -174,6 +165,23 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               Deposit
             </GradientButton>
           </DepositeButtonWrapper>
+          <LiquidityTokenWrapper>
+            <LiquidityTitle
+              fontSize={12}
+              lineheight="17.94px"
+              textalign="right"
+            >
+              {data.reserve0.toString()} {data.token0.symbol}
+            </LiquidityTitle>
+            {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
+            <LiquidityTitle
+              fontSize={12}
+              lineheight="17.94px"
+              textalign="right"
+            >
+              {data.reserve1.toString()} {data.token1.symbol}
+            </LiquidityTitle>
+          </LiquidityTokenWrapper>
         </TableColumn>
       </TableRow>
     </>
