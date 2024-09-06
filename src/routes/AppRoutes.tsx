@@ -18,6 +18,7 @@ import CreatePool from '../components/Liquidity/CreatePool/Modules/CreatePool';
 import Createlock from '../components/ManageVeTenex/Modules/CreateLockScreen/Createlock';
 import CreateLockRelay from '../components/ManageVeTenex/Modules/Relaymodules/CreateLockRelay';
 import StakeDeposit from '../components/StakeDeposit/modules/StakeDeposit';
+import PageLoader from '../components/common/PageLoader';
 const ManagePool = lazy(
   () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
 );
@@ -35,7 +36,13 @@ const AppRoutes: React.FC = () => {
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        fallback={
+          <>
+            <PageLoader />
+          </>
+        }
+      >
         {!isLoading && (
           <BackgroundWrapper>
             <Routes>
