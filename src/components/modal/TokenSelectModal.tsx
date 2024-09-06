@@ -23,6 +23,7 @@ import tenex from '../../assets/Tenex.png';
 import { useTokenBalances } from '../../hooks/useTokenBalance';
 import { Address } from 'viem';
 import useQueryParams from '../../hooks/useQueryParams';
+import BalanceDisplay from '../Swap/modules/BalanceDisplay';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
@@ -112,7 +113,11 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                   marginLeft: '150px',
                 }}
               >
-                {account && balances[token.address].toString()}
+                {account && token.symbol == 'ETH' ? (
+                  <BalanceDisplay address={account} />
+                ) : (
+                  balances[token.address].toString()
+                )}
               </TokenItemData>
             </TokenItem>
           ))}

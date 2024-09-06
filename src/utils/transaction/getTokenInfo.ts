@@ -1,5 +1,6 @@
 // src/utils/tokenUtils.ts
 
+import { Address } from 'viem';
 import { ERC20_TEST_TOKEN_LIST, TokenInfo } from '../../constants/tokens';
 
 /**
@@ -11,6 +12,13 @@ export function findTokenByAddress(address: string): TokenInfo | undefined {
   return ERC20_TEST_TOKEN_LIST.find(
     (token) => token.address.toLowerCase() === address.toLowerCase()
   );
+}
+
+export function findTokenBySymbol(symbol: string): Address | undefined {
+  const token = ERC20_TEST_TOKEN_LIST.find(
+    (token) => token.symbol.toLowerCase() === symbol.toLowerCase()
+  );
+  return token?.address;
 }
 
 /**
