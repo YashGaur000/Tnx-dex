@@ -31,42 +31,20 @@ export const FilterButton = styled.div<FilterButtonProps>`
 
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: 14px;
+  border: 1px solid
+    ${({ theme, selected }) =>
+      !selected ? theme.colors.greyBorder : 'transparent'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  background: ${({ theme, selected }) =>
-    selected ? theme.colors.title : theme.colors.whiteBorder};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: ${({ theme, selected }) => selected && theme.colors.cardLight},
+    ${({ theme, selected }) => selected && theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+
   cursor: pointer;
   padding: 4px 16px;
   color: ${({ theme }) => theme.colors.whiteBorder};
-  z-index: 1;
 
-  &::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    border: ${({ selected, theme }) =>
-      selected ? 'none' : `1px solid ${theme.colors.greyBorder}`};
-    background-image: ${({ theme, selected }) =>
-      selected && theme.colors.bordercolor};
-    top: 0px;
-    left: 0px;
-    border-radius: 8px;
-    box-sizing: border-box;
-    padding: 1px;
-
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    z-index: -1;
-  }
-
+  border-radius: 8px;
   @media screen and (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSize.small};
     padding: 8px 8px;

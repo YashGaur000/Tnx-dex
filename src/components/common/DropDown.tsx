@@ -25,14 +25,13 @@ const SelectSelectedItem = styled.div<{
 }>`
   cursor: pointer;
   display: flex;
-
   align-items: center;
-  white-space: nowrap;
   gap: 10px;
-  border-color: ${({ theme }) => theme.colors.greyBorder};
-  background: ${({ theme }) => theme.colors.title};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  border: 1px solid transparent;
+  background: ${({ theme }) => theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
   border-radius: 8px;
   height: ${({ height }) => height}px;
   width: ${({ width }) => width};
@@ -43,24 +42,6 @@ const SelectSelectedItem = styled.div<{
   color: ${({ theme }) => theme.colors.whiteBorder};
   justify-content: space-between;
   padding: 4px 8px;
-
-  position: relative;
-
-  &::before {
-    content: '';
-    padding: 1px;
-    position: absolute;
-
-    inset: 0;
-    border-radius: 8px;
-
-    background: ${({ theme }) => theme.colors.buttonBackground};
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
 `;
 
 const SelectItem = styled.div<{ theme: DefaultTheme }>`

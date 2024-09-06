@@ -38,7 +38,11 @@ export const ConnectWallet = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <GlobalButton padding="10px 20px" onClick={openConnectModal}>
+                  <GlobalButton
+                    padding="10px 20px"
+                    margin="0px"
+                    onClick={openConnectModal}
+                  >
                     Connect Wallet
                   </GlobalButton>
                 );
