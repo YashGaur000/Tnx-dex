@@ -60,6 +60,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
   const [filteredPools, setFilteredPools] = useState<PoolInfo[]>(PoolData);
   const [filterType, setFilterType] = useState<string>('All');
 
+  console.log('pool pop up ');
   useEffect(() => {
     setFilteredPools(
       PoolData.filter(

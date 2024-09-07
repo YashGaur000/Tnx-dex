@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import tenexarrow from '../../../assets/tenex-arrow.png';
-import Tenexlogo from '../../../assets/Tenex.png';
-
 import {
   IncentiveLeftBarBox1,
   Img2,
@@ -16,7 +14,7 @@ import {
   Box2DataPoint1Tenex,
   Box2TokenName,
   Box2TitleAvailable,
-  Box2ValueAvailable,
+  // Box2ValueAvailable,
   Box2ProgressContainer,
   Box2ProgressBar,
   Box2PercentageBar,
@@ -26,12 +24,14 @@ import {
 
 import { useAccount } from '../../../hooks/useAccount';
 import TokenSelectModal from '../../modal/TokenSelectModal';
-import { useRootStore } from '../../../store/root';
 import { TokenInfo } from '../../../constants/tokens';
+import { useTokenBalances } from '../../../hooks/useTokenBalance';
+import contractAddresses from '../../../constants/contract-address/address';
+import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
-  handleTokenSymbol: (symbol: string) => void;
+  handleTokenSymbol: (token: TokenInfo) => void;
 }
 
 const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
@@ -39,34 +39,37 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   handleTokenSymbol,
 }) => {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
-  const { address } = useAccount();
-  const { setFrom, setTo } = useRootStore();
-  const [selectedToken2, setSelectedToken2] = useState<TokenInfo | null>(null);
-  const [tokenSelectTarget2, setTokenSelectTarget2] =
-    useState<'token1'>('token1');
+  const [selectedIncentiveToken, setSelectedIncentiveToken] = useState<
+    TokenInfo | undefined
+  >(undefined);
+  // const [tokenSelectTarget2, setTokenSelectTarget2] =
+  //   useState<'token1'>('token1');
 
-  const handleTokenSelectOpen2 = (target: 'token1') => {
-    setTokenSelectTarget2(target);
+  const TENEX_ADDRESS = contractAddresses.TENEX;
+  const { address } = useAccount();
+
+  // Fetch and set TENEX token info by default
+  useEffect(() => {
+    setSelectedIncentiveToken(getTokenInfo(TENEX_ADDRESS));
+    selectedIncentiveToken && handleTokenSymbol(selectedIncentiveToken);
+  }, [TENEX_ADDRESS, handleTokenSymbol, selectedIncentiveToken]);
+
+  const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
+  const { balances } = useTokenBalances(
+    tokenList,
+    address ?? '0x0000000000000000000000000000000000000000'
+  );
+  const totalBalanceIncentiveToken =
+    selectedIncentiveToken && Number(balances[selectedIncentiveToken?.address]);
+
+  const handleTokenSelectOpen2 = () => {
+    // setTokenSelectTarget2(target);
     setIsModalOpen2(true);
   };
 
-  const handleTokenSelect2 = (token: TokenInfo) => {
-    const queryParams = new URLSearchParams(window.location.search);
-
-    if (tokenSelectTarget2 === 'token1') {
-      setFrom(token.address);
-      setSelectedToken2(token);
-      queryParams.set('from', token.address);
-    } else {
-      setTo(token.address);
-      setSelectedToken2(token);
-      queryParams.set('to', token.address);
-    }
-    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState(null, '', newUrl);
-    setIsModalOpen2(false);
-
-    handleTokenSymbol(token.symbol);
+  const handleIncentiveToken = (token: TokenInfo) => {
+    setSelectedIncentiveToken(token);
+    handleTokenSymbol(token);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,34 +101,26 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         <Box2ProgressContainer>
           <Box2ProgressBar type="number" onChange={handleChange} />
           <Box2Container>
-            <Box2DataPoint1Tenex
-              onClick={() => handleTokenSelectOpen2('token1')}
-            >
-              {selectedToken2 ? (
-                <>
-                  <Img2
-                    width={20}
-                    height={20}
-                    src={selectedToken2.logoURI}
-                    alt={selectedToken2.symbol}
-                  />
-                  <Box2TokenName>{selectedToken2.symbol}</Box2TokenName>
-                </>
-              ) : (
-                <>
-                  <Img2 width={20} height={20} src={Tenexlogo} alt="TENEX" />
-                  <Box2TokenName>TENEX</Box2TokenName>
-                </>
-              )}
+            <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
+              <Img2
+                width={20}
+                height={20}
+                src={selectedIncentiveToken?.logoURI}
+                alt={selectedIncentiveToken?.symbol}
+              />
+              <Box2TokenName>{selectedIncentiveToken?.symbol}</Box2TokenName>
               <Img4 src={tenexarrow} alt="Select Arrow" />
             </Box2DataPoint1Tenex>
           </Box2Container>
         </Box2ProgressContainer>
         <Box2PercentageBar>
           <Box2DataPoint4>
-            <Box2TitleAvailable>Wallet: 0.000</Box2TitleAvailable>
-            <Box2ValueAvailable>~</Box2ValueAvailable>
-            <Box2ValueAvailable>$0.00</Box2ValueAvailable>
+            <Box2TitleAvailable>
+              Wallet : {totalBalanceIncentiveToken}{' '}
+              {selectedIncentiveToken?.symbol}
+            </Box2TitleAvailable>
+            {/* <Box2ValueAvailable>~</Box2ValueAvailable>
+            <Box2ValueAvailable>$0.00</Box2ValueAvailable> */}
           </Box2DataPoint4>
           <Box2Percentage>0%</Box2Percentage>
           <Box2Percentage>25%</Box2Percentage>
@@ -137,7 +132,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
       <TokenSelectModal
         isOpen={isModalOpen2}
         onClose={() => setIsModalOpen2(false)}
-        onSelect={handleTokenSelect2}
+        onSelect={handleIncentiveToken}
         account={address}
       />
     </IncentiveLeftBarBox1>

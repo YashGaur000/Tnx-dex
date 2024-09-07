@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import USDTFTM from '../../../assets/USDT-FTM.png';
 import USDTFTMi from '../../../assets/USDT-FTM-i.png';
 import { GlobalButton } from '../../common';
-import IncentiveTokenPopup from '../Modules/IncentiveTokenPopup';
+// import IncentiveTokenPopup from '../Modules/IncentiveTokenPopup';
 import IncentiveRightContent from '../Modules/IncentiveRightContent';
 import IncentiveTokenSelection from '../Modules/IncentiveTokenSelection';
 
@@ -34,55 +34,68 @@ import {
 } from '../Styles/IncentiveSection.style';
 
 import { ImgRightIcon, ImgLeftIcon } from '../Styles/IncentiveTokenPopup.style';
-import { useAccount } from '../../../hooks/useAccount';
+// import { useAccount } from '../../../hooks/useAccount';
+import useQueryParams from '../../../hooks/useQueryParams';
+import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
 
-interface PoolInfo {
-  id: string;
-  pair: string;
-  icon1: string;
-  icon2: string;
-  stablePercentage: number;
-  tvl: string;
-  apr: number;
-  volume: string;
-  volumeDesc: string;
-  volumeSubDesc: string;
-  fees: string;
-  feesDesc: string;
-  feesSubDesc: string;
-  poolBalance: string;
-  balanceDesc: string;
-  liquidityType: string;
-}
+import { TokenInfo } from '../../../constants/tokens';
+import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import contractAddresses from '../../../constants/contract-address/address';
 
 const IncentiveSection: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
   const [value, setValue] = useState<number>(0);
   const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
-  const { address } = useAccount();
-  const [selectedToken1, setSelectedToken1] = useState<PoolInfo | undefined>(
-    undefined
+  const [incentiveToken, setIncentiveToken] = useState<TokenInfo | undefined>(
+    getTokenInfo(contractAddresses.TENEX)
   );
 
-  const [tokenSelectTarget, setTokenSelectTarget] = useState<
-    'token1' | 'token2'
-  >('token1');
+  // const { address } = useAccount();
+  const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  // const [selectedIncentiveToken, setSelectedIncentiveToken] = useState<TokenInfo | undefined>(
+  //   undefined
+  // );
 
-  const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
-    setTokenSelectTarget(target);
-    setIsModalOpen(true);
-  };
+  // const [tokenSelectTarget, setTokenSelectTarget] = useState<
+  //   'token1' | 'token2'
+  // >('token1');
 
-  const handleTokenSelect = (token: PoolInfo) => {
-    if (tokenSelectTarget === 'token1') {
-      setSelectedToken1(token);
+  const getParam = useQueryParams();
+  const poolId = getParam('pool') ?? '';
+  const { data: poolData } = useLiquidityPoolDataById(poolId);
+
+  console.log(tokenSymbol);
+  useEffect(() => {
+    if (poolData?.[0]) {
+      const token1 = poolData[0].token0?.id.match(/0x[a-fA-F0-9]{40}/) ?? '';
+      const token2 = poolData[0].token1?.id.match(/0x[a-fA-F0-9]{40}/) ?? '';
+
+      setSelectedToken1(getTokenInfo(token1[0]));
+      setSelectedToken2(getTokenInfo(token2[0]));
     }
-  };
+  }, [poolData]);
+
+  // const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
+  //   setTokenSelectTarget(target);
+  //   setIsModalOpen(true);
+  // };
+
+  // const handleTokenSelect = (token: TokenInfo) => {
+  //   if (tokenSelectTarget === 'token1') {
+  //     setSelectedToken1(token);
+  //   }
+  // };
   const handleIncentiveFormValue = (inputValue: number) => {
     setValue(inputValue);
   };
-  const handleTokenSymbol = (symbol: string) => {
-    setTokenSymbol(symbol);
+  const handleTokenSymbol = (token: TokenInfo) => {
+    setTokenSymbol(token.symbol);
+    setIncentiveToken(token);
   };
 
   return (
@@ -96,13 +109,13 @@ const IncentiveSection: React.FC = () => {
                   {selectedToken1 ? (
                     <>
                       <ImgLeftIcon
-                        src={selectedToken1.icon1}
+                        src={selectedToken1?.logoURI}
                         alt="Icon 1"
                         width={36}
                         height={36}
                       />
                       <ImgRightIcon
-                        src={selectedToken1.icon2}
+                        src={selectedToken2?.logoURI}
                         alt="Icon 2"
                         width={36}
                         height={36}
@@ -112,12 +125,10 @@ const IncentiveSection: React.FC = () => {
                     <ImgUSTDFTM src={USDTFTM} alt="Default Icon" />
                   )}
                   <IncentiveLeftBarBox1UTM>
-                    <UtmLabel>
-                      {selectedToken1 ? selectedToken1.pair : 'USDT-FTM'}
-                    </UtmLabel>
+                    <UtmLabel>{poolData[0]?.name}</UtmLabel>
                     <IncentiveLeftBarBox1infoCol1StableRow>
                       <IncentiveLeftBarBox1infoCol1Stable>
-                        Stable
+                        {poolData[0]?.isStable ? 'stable' : 'volatile'}
                       </IncentiveLeftBarBox1infoCol1Stable>
                       <IncentiveLeftBarBox1infoCol1Count>
                         0.01%
@@ -134,7 +145,7 @@ const IncentiveSection: React.FC = () => {
                       height="40px"
                       width="80px"
                       margin="0px"
-                      onClick={() => handleTokenSelectOpen('token1')}
+                      // onClick={() => handleTokenSelectOpen('token1')}
                     >
                       Change
                     </GlobalButton>
@@ -146,15 +157,23 @@ const IncentiveSection: React.FC = () => {
                 <IncentiveLeftBarBox1infoCol1>
                   <LiquidityBox>
                     <LiquidityBoxHeading>Liquidity</LiquidityBoxHeading>
-                    <LiquidityText1>1,003,212.5643 USDT</LiquidityText1>
-                    <LiquidityText2>2,783,860.003 FTM</LiquidityText2>
+                    <LiquidityText1>
+                      {poolData[0]?.reserve0} {poolData[0]?.token0.symbol}
+                    </LiquidityText1>
+                    <LiquidityText2>
+                      {poolData[0]?.reserve1} {poolData[0]?.token1.symbol}
+                    </LiquidityText2>
                   </LiquidityBox>
                 </IncentiveLeftBarBox1infoCol1>
                 <IncentiveLeftBarBox1infoCol2>
                   <YourDepositsBox>
                     <LiquidityBoxHeading>Your Deposits</LiquidityBoxHeading>
-                    <LiquidityText1>0.0 USDT</LiquidityText1>
-                    <LiquidityText2>0.0 FTM</LiquidityText2>
+                    <LiquidityText1>
+                      0.0 {poolData[0]?.token0.symbol}
+                    </LiquidityText1>
+                    <LiquidityText2>
+                      0.0 {poolData[0]?.token1.symbol}
+                    </LiquidityText2>
                   </YourDepositsBox>
                 </IncentiveLeftBarBox1infoCol2>
               </IncentiveLeftBarBox1info>
@@ -168,14 +187,15 @@ const IncentiveSection: React.FC = () => {
         <Column40>
           <IncentiveRightContent
             InsentiveFormValue={value}
-            tokenSymbol={tokenSymbol}
+            tokenSymbol={incentiveToken}
+            poolData={poolData}
           />
-          <IncentiveTokenPopup
+          {/* <IncentiveTokenPopup
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
             onSelect={handleTokenSelect}
             account={address!}
-          />
+          /> */}
         </Column40>
       </Row>
     </Section>
