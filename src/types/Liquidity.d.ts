@@ -31,6 +31,13 @@ interface RouterContract extends Contract {
     deadline: bigint,
     { gasLimit: BigInt }
   ): Promise<ContractTransaction>;
+  swapExactETHForTokens(
+    amountOutMin: bigint,
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt, value: BigInt }
+  ): Promise<ContractTransaction>;
   addLiquidity(
     tokenA: Address,
     tokenB: Address,
@@ -113,6 +120,13 @@ interface RouterContract extends Contract {
       routes: Route[],
       to: Address,
       deadline: bigint
+    ): Promise<bigint>;
+    swapExactETHForTokens(
+      amountOutMin: bigint,
+      routes: Route[],
+      to: Address,
+      deadline: bigint,
+      { value: BigInt }
     ): Promise<bigint>;
   };
 }
