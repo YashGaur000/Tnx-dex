@@ -45,14 +45,15 @@ import { ethers } from 'ethers';
 
 import { InputBox } from '../Swap/modules/InputBox';
 import SettingModal from '../modal/SettingModal';
-import { SidebarContainer } from '../Swap/styles/Sidebar.style';
-import Sidebar from '../Swap/modules/Sidebar';
+// import { SidebarContainer } from '../Swap/styles/Sidebar.style';
+// import Sidebar from '../Swap/modules/Sidebar';
 
 const InputForm: React.FC = () => {
   const { address } = useAccount();
   const [isSettingModelOpen, setIsSettingModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [exchangeRate, setExchangeRate] = useState(0);
+  console.log(exchangeRate);
   const [route, setRoute] = useState<Route[] | null>(null);
 
   const [tokenInput1, setTokenInput1] = useState('');
@@ -349,7 +350,7 @@ const InputForm: React.FC = () => {
           )}
         </SwapBoxWrapper>
       </SwapFormContainer>
-
+      {/* 
       <SidebarContainer height={tokenInput1 ? 540 : 348}>
         <Sidebar
           isLoading={isLoading}
@@ -360,7 +361,7 @@ const InputForm: React.FC = () => {
           tokenInput2={tokenInput2}
           routes={route ? route : null}
         />
-      </SidebarContainer>
+      </SidebarContainer> */}
     </>
   );
 };

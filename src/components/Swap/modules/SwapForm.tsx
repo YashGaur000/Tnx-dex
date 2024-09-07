@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
 import { TokenInfo } from './../../../constants/tokens';
 import TokenSelectModal from '../../modal/TokenSelectModal';
@@ -41,6 +41,8 @@ import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import SettingModal from '../../modal/SettingModal';
 import { ethers } from 'ethers';
+import { findTokenBySymbol } from '../../../utils/transaction/getTokenInfo';
+import BalanceDisplay from './BalanceDisplay';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -85,89 +87,79 @@ const SwapForm: React.FC = () => {
     if (toAddress) setTo(toAddress as Address);
   }, [address, setFrom, setTo]);
 
+  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
+
   const handleTokenInput1 = (event: React.ChangeEvent<HTMLInputElement>) => {
     const amount = event.target.value;
     setTokenInput1(amount);
-    setTokenInput2('');
+    setTokenInput2(''); // Reset the second token input
 
-    if (!amount) setIsLoading(false);
-
-    if (selectedToken1 && selectedToken2 && amount != '') {
-      setIsLoading(true);
-
-      setTimeout(() => {
-        void (async () => {
-          try {
-            // const reserves = await getReserves(
-            //   selectedToken1,
-            //   selectedToken2,
-            //   false
-            // );
-
-            // const exchangeRate =
-            //   reserves &&
-            //   Number(reserves.formatedReserveB) /
-            //     Number(reserves.formatedReserveA);
-
-            // let token2Value = 0;
-            // if (exchangeRate) {
-            //   setExchangeRate(exchangeRate);
-            //   token2Value = Number(amount) * exchangeRate;
-            // }
-
-            // setTokenInput2(token2Value.toString());
-            if (graph) {
-              const routes = getAllRoutes(
-                graph,
-                selectedToken1.address,
-                selectedToken2.address,
-                3 // maxhop
-              );
-              const amountInWei = ethers.parseUnits(
-                amount,
-                selectedToken1.decimals
-              );
-              const bestPath = await findBestRoute(
-                amountInWei,
-                routes,
-                getAmountsOut
-              );
-              if (bestPath?.bestQuote) {
-                const bestQuote = ethers.formatUnits(
-                  bestPath.bestQuote,
-                  selectedToken2.decimals
-                );
-                setTokenInput2(bestQuote);
-                setExchangeRate(Number(bestQuote) / Number(amount));
-                setRoute(bestPath?.bestRoute);
-              }
-            }
-          } catch (error) {
-            console.error('Error fetching reserves:', error);
-          } finally {
-            setIsLoading(false);
-          }
-        })();
-      }, 5000);
+    if (!amount) {
+      setIsLoading(false);
+      return;
     }
+
+    if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+    setIsLoading(true);
+
+    const delay = 5000; // 5 seconds delay
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      const fetchBestRoute = async () => {
+        try {
+          // Handle token conversions for ETH to WETH
+          const srcToken =
+            selectedToken1.symbol === 'ETH'
+              ? findTokenBySymbol('WETH')
+              : selectedToken1.address;
+
+          const destToken =
+            selectedToken2.symbol === 'ETH'
+              ? findTokenBySymbol('WETH')
+              : selectedToken2.address;
+
+          const routes = getAllRoutes(graph, srcToken!, destToken!, 3); // maxhop
+          const amountInWei = ethers.parseUnits(
+            amount,
+            selectedToken1.decimals
+          );
+
+          const bestPath = await findBestRoute(
+            amountInWei,
+            routes,
+            getAmountsOut
+          );
+
+          if (bestPath?.bestQuote) {
+            const bestQuote = ethers.formatUnits(
+              bestPath.bestQuote,
+              selectedToken2.decimals
+            );
+            const exchangeRate = Number(bestQuote) / Number(amount);
+
+            // Update state in one place
+            setTokenInput2(bestQuote);
+            setExchangeRate(exchangeRate);
+            setRoute(bestPath.bestRoute);
+          }
+        } catch (error) {
+          console.error('Error fetching reserves:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      // Call the async function
+      void fetchBestRoute();
+    }, delay);
   };
-
-  // const handleToggleChange = () => {
-  //   if (isConnected) {
-  //     //disconnect();
-  //   } else {
-  //     // logic to open wallet connect modal
-  //   }
-  //   setIsConnected(!isConnected);
-  // };
-
-  const handleSwap = () => {
-    //setSelectedToken1(selectedToken2);
-    //setSelectedToken2(selectedToken1);
-    // setInputValue1(''); //to clear the input fields when we click on swap
-    // setInputValue2('');
-  };
-
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
     setIsModalOpen(true);
@@ -251,10 +243,13 @@ const SwapForm: React.FC = () => {
 
                 <PercentageSelectorContainer>
                   <WalletInfo>
-                    Wallet:{' '}
-                    {Number(
-                      selectedToken1 && balances[selectedToken1?.address]
-                    )}{' '}
+                    Wallet: {'  '}
+                    {selectedToken1 &&
+                      (selectedToken1.symbol === 'ETH' ? (
+                        <BalanceDisplay address={address!} />
+                      ) : (
+                        balances[selectedToken1.address]?.toString()
+                      ))}
                   </WalletInfo>
 
                   <PercentageOptions>
@@ -286,7 +281,7 @@ const SwapForm: React.FC = () => {
                 </PercentageSelectorContainer>
               </InputWrapper>
 
-              <SwitchButton onClick={handleSwap}>
+              <SwitchButton>
                 <img src={faSwitchAlt} alt={faSwitchAlt} />
               </SwitchButton>
               <InputWrapper>
@@ -326,8 +321,15 @@ const SwapForm: React.FC = () => {
                   </TokenSelectAlign>
                 </TokenSelect>
                 <WalletText>
-                  Wallet:{' '}
-                  {Number(selectedToken2 && balances[selectedToken2?.address])}{' '}
+                  <WalletInfo>
+                    Wallet: {'  '}
+                    {selectedToken2 &&
+                      (selectedToken2.symbol === 'ETH' ? (
+                        <BalanceDisplay address={address!} />
+                      ) : (
+                        balances[selectedToken2.address]?.toString()
+                      ))}
+                  </WalletInfo>
                 </WalletText>
               </InputWrapper>
             </SwapboxInner>
@@ -352,7 +354,9 @@ const SwapForm: React.FC = () => {
           token2={selectedToken2!}
           tokenInput1={tokenInput1}
           tokenInput2={tokenInput2}
-          routes={route ? route : null}
+          setTokenInput1={setTokenInput1}
+          setTokenInput2={setTokenInput2}
+          routes={route}
         />
       </SidebarContainer>
     </>

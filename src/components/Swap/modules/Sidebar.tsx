@@ -42,6 +42,8 @@ interface SidebarProps {
   token2: TokenInfo;
   tokenInput1: string;
   tokenInput2: string;
+  setTokenInput1: (input: string) => void;
+  setTokenInput2: (input: string) => void;
   routes: Route[] | null;
 }
 
@@ -52,13 +54,18 @@ const Sidebar: React.FC<SidebarProps> = ({
   token2,
   tokenInput1,
   tokenInput2,
+  setTokenInput1,
+  setTokenInput2,
   routes,
 }) => {
   //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setIsTokenAllow] = useState(false);
   const { address } = useAccount();
-  const { swapExactTokensForTokens, swapExactTokensForETH } =
-    useRouterContract();
+  const {
+    swapExactTokensForTokens,
+    swapExactTokensForETH,
+    swapExactETHForTokens,
+  } = useRouterContract();
   const { deadLineValue } = useLiquidityStore();
   const { selectedTolerance } = useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
@@ -97,22 +104,18 @@ const Sidebar: React.FC<SidebarProps> = ({
         tokenInput1 &&
         ethers.parseUnits(tokenInput1.toString(), token1?.decimals);
       if (amount1InWei && token1?.address) {
-        if (token1?.symbol === 'WETH') {
-          setIsTokenAllow(true);
-        } else {
-          await approveAllowance1(
-            contractAddresses.Router,
-            amount1InWei.toString()
-          );
-          setIsTokenAllow(true);
-        }
+        await approveAllowance1(
+          contractAddresses.Router,
+          amount1InWei.toString()
+        );
+        setIsTokenAllow(true);
       }
     } catch (error) {
       console.error('Error during token approval', error);
     }
   };
 
-  const SwapDepositInitialData: StepperDataProps[] = [
+  const SwapDepositData: StepperDataProps[] = [
     {
       step: 1,
       icon: CalIcon,
@@ -170,19 +173,21 @@ const Sidebar: React.FC<SidebarProps> = ({
       step: 5,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: isTokenAllow
-          ? 'Allowed the contracts to access ' + token1?.symbol
-          : 'Allowance not granted for ' + token1?.symbol,
+        labels:
+          isTokenAllow || token1.symbol === 'ETH'
+            ? 'Allowed the contracts to access ' + token1?.symbol
+            : 'Allowance not granted for ' + token1?.symbol,
       },
-      buttons: !isTokenAllow
-        ? {
-            label: 'Allow ' + token1?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken1,
-            tooltip: `Click to allow ${token1.symbol} transactions`,
-            disabled: false,
-          }
-        : undefined,
+      buttons:
+        !isTokenAllow && token1.symbol !== 'ETH'
+          ? {
+              label: 'Allow ' + token1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: `Click to allow ${token1.symbol} transactions`,
+              disabled: false,
+            }
+          : undefined,
     },
     {
       step: 6,
@@ -230,9 +235,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       step: 2,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: isTokenAllow
-          ? 'Allowed the contracts to access ' + token1?.symbol
-          : 'Allowance not granted for ' + token1?.symbol,
+        labels:
+          isTokenAllow || token1.symbol === 'ETH'
+            ? 'Allowed the contracts to access ' + token1?.symbol
+            : 'Allowance not granted for ' + token1?.symbol,
       },
       buttons: !isTokenAllow
         ? {
@@ -260,9 +266,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  // const handleToggleChange = () => {
-  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  // };
   const handleSwap = async () => {
     try {
       const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
@@ -282,8 +285,17 @@ const Sidebar: React.FC<SidebarProps> = ({
           parseFloat(selectedTolerance) ?? 1,
           token2?.decimals ?? 18
         );
-        if (token2.symbol == 'WETH') {
+        if (token2.symbol === 'ETH') {
           const tx = await swapExactTokensForETH(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+          console.log('Swap added:', tx);
+        } else if (token1.symbol === 'ETH') {
+          const tx = await swapExactETHForTokens(
             amountInWei,
             minAmountOutWei,
             routes,
@@ -303,6 +315,10 @@ const Sidebar: React.FC<SidebarProps> = ({
         }
 
         setIsSwapped(true);
+        setTimeout(() => {
+          setTokenInput1('');
+          setTokenInput2('');
+        }, 1000);
       }
     } catch (error) {
       console.error('Error swapping:', error);
@@ -317,8 +333,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             <Stepper data={SwapLoadingData} />
           ) : exchangeRate > 0 && tokenInput1 ? (
             <>
-              <Stepper data={SwapDepositInitialData} />
-              {!isSwapped && isTokenAllow && (
+              <Stepper data={SwapDepositData} />
+              {!isSwapped && (isTokenAllow || token1.symbol === 'ETH') && (
                 <GlobalButton
                   width="100%"
                   height="48px"
