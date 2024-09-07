@@ -19,6 +19,7 @@ import Createlock from '../components/ManageVeTenex/Modules/CreateLockScreen/Cre
 import CreateLockRelay from '../components/ManageVeTenex/Modules/Relaymodules/CreateLockRelay';
 import StakeDeposit from '../components/StakeDeposit/modules/StakeDeposit';
 import PageLoader from '../components/common/PageLoader';
+import DashboardPage from '../pages/dashboard/DashboardPage';
 const ManagePool = lazy(
   () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
 );
@@ -52,6 +53,7 @@ const AppRoutes: React.FC = () => {
               <Route path="/liquidity" element={<LiquidityPage />} />
               <Route path="/liquidity/manage" element={<ManagePool />} />
               <Route path="/liquidity/create" element={<CreatePool />} />
+              <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/stake" element={<StakeDeposit />} />
               <Route
                 path="/concentrated-liquidity-farms"
