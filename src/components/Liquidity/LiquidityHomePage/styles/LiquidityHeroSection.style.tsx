@@ -6,12 +6,13 @@ export const LiquidityTitle = styled.label<{
   fontSize: number;
   margin?: string;
   lineheight?: string;
+  textalign?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ lineheight }) => lineheight ?? '17.94px'};
-
+  text-align: ${({ textalign }) => textalign ?? 'left'};
   color: ${({ theme }) => theme.colors.titleColor};
   margin: ${({ margin }) => margin};
 `;

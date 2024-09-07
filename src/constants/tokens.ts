@@ -10,6 +10,15 @@ export interface TokenInfo {
 
 export const ERC20_TEST_TOKEN_LIST: TokenInfo[] = [
   {
+    address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+    name: 'ETH',
+    symbol: 'ETH',
+    chainId: 168587773,
+    decimals: 18,
+    logoURI:
+      'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4300000000000000000000000000000000000004.png',
+  },
+  {
     address: '0x4200000000000000000000000000000000000023',
     name: 'WETH',
     symbol: 'WETH',

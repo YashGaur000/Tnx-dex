@@ -96,10 +96,10 @@ const TokenDeposite = () => {
               Your Deposits
             </LiquidityHeaderTitle>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontSize={12}>
+              <LiquidityTitle textalign="right" fontSize={12}>
                 {balance0} {selectedToken1.symbol}
               </LiquidityTitle>
-              <LiquidityTitle fontSize={12}>
+              <LiquidityTitle textalign="right" fontSize={12}>
                 {balance1} {selectedToken2.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>

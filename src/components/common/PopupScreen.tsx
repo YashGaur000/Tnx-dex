@@ -82,19 +82,29 @@ interface PopUpProps {
   isVisible: boolean;
   onClose: () => void;
   children: ReactNode;
+  top?: number;
+  left?: number;
+  width?: string;
+  height?: string;
+  padding?: string;
+  isVisiblecloseIcon?: boolean;
 }
 
 const PopupScreen: React.FC<PopUpProps> = ({
   isVisible,
   onClose,
   children,
+
+  isVisiblecloseIcon = true,
 }) => {
   return (
     <ModalBackground isVisible={isVisible} onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
-        <CloseButton onClick={onClose}>
-          <CloseImg src={CloseIcon} />
-        </CloseButton>
+        {isVisiblecloseIcon && (
+          <CloseButton onClick={onClose}>
+            <CloseImg src={CloseIcon} />
+          </CloseButton>
+        )}
         <DivOverflow>{children}</DivOverflow>
       </ModalContent>
     </ModalBackground>

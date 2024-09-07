@@ -1,14 +1,28 @@
 import LiquidityHeroSection from './LiquidityHeroSection';
-import FilterContainer from './LiquidityFiter';
+
 import LiquidityPoolTable from './LiquidityPoolTable';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
 import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
 import PageLoader from '../../../common/PageLoader';
-
-//type SortableKeys = keyof LiquidityPoolNewType;
+import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
+import { useEffect, useState } from 'react';
+import LiquidityFilter from './LiquidityFiter';
+type SortableKeys = 'totalVolumeUSD' | 'reserve0' | 'totalFeesUSD';
 
 const LiquidityPool = () => {
   const { loading, error, data: poolData } = useLiquidityPoolData();
+  const [filterData, setFilterData] = useState<LiquidityPoolNewType[]>([]);
+  const [sortedData, setSortedData] = useState<LiquidityPoolNewType[]>([]);
+  const [isFiltered, setIsFiltered] = useState(false);
+  const [sortedColumn, setSortedColumn] =
+    useState<SortableKeys>('totalVolumeUSD');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+
+  useEffect(() => {
+    if (poolData && !isFiltered) {
+      setSortedData(poolData);
+    }
+  }, [poolData, isFiltered]);
 
   if (loading)
     return (
@@ -17,55 +31,81 @@ const LiquidityPool = () => {
       </>
     );
   if (error) return `Error! ${error.message}`;
-  // const [sortedColumn, setSortedColumn] = useState<SortableKeys>('apr');
-  // const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  // const [filteredData, setFilteredData] = useState<PoolDataProps[]>(POOL_DATA);
 
-  // const handleSelectedFilterItem = (selectItem: string) => {
-  //   const newFilterData = POOL_DATA.filter((item) => {
-  //     return item.liquidityType === selectItem || selectItem === 'All Pools';
-  //   });
-  //   setFilteredData(newFilterData);
-  // };
+  const handleSelectedFilterItem = (selectItem: string) => {
+    if (!poolData) return;
+    setIsFiltered(true);
+    const newFilterData = poolData.filter((item) => {
+      if (selectItem === 'All Pools') {
+        return true;
+      } else if (selectItem === 'Stable') {
+        return item.isStable;
+      } else if (selectItem === 'Volatile') {
+        return !item.isStable;
+      } else if (selectItem === 'Low TVL') {
+        return Number(item.totalVolumeUSD) < 100;
+      } else if (selectItem === 'Concentrated') {
+        if (item.name.toLowerCase().includes('concentrated')) {
+          return true;
+        }
+        return false;
+      }
+      return false;
+    });
 
-  // const handleSearchFeatures = (item: string) => {
-  //   const searchItem = item.toLowerCase();
-  //   console.log(searchItem);
+    if (newFilterData.length > 0) {
+      setSortedData(newFilterData);
+      setFilterData(newFilterData);
+    } else {
+      console.log('No pools match the selected filter.');
+      setSortedData([]);
+      setFilterData([]);
+    }
+  };
 
-  //   const newfilterData = POOL_DATA.filter((item) => {
-  //     return item.pair.toLowerCase().includes(searchItem);
-  //   });
+  const handleSearchFeatures = (item: string) => {
+    setIsFiltered(true);
+    const searchItem = item.toLowerCase();
 
-  //   setFilteredData(newfilterData);
-  // };
+    console.log(item);
 
-  // const handleSortedFeatures = (item: SortableKeys) => {
-  //   const isAsc = item === sortedColumn && sortDirection === 'asc';
-  //   const newDirection = isAsc ? 'desc' : 'asc';
+    const newfilterData = filterData.filter((item) => {
+      return item.name.toLowerCase().includes(searchItem);
+    });
 
-  //   const sortedArray = [...filteredData].sort((a, b) => {
-  //     if (a[item] < b[item]) return newDirection === 'asc' ? -1 : 1;
-  //     if (a[item] > b[item]) return newDirection === 'asc' ? 1 : -1;
-  //     return 0;
-  //   });
+    if (newfilterData) {
+      setIsFiltered(true);
+      setSortedData(newfilterData);
+    }
+  };
+  const handleSortedFeatures = (item: SortableKeys) => {
+    setIsFiltered(true);
+    const isAsc = item === sortedColumn && sortDirection === 'asc';
+    const newDirection = isAsc ? 'desc' : 'asc';
 
-  //   setFilteredData(sortedArray);
-  //   setSortedColumn(item);
-  //   setSortDirection(newDirection);
-  // };
+    const sortedArray = [...sortedData].sort((a, b) => {
+      if (a[item] < b[item]) return newDirection === 'asc' ? -1 : 1;
+      if (a[item] > b[item]) return newDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    setSortedData(sortedArray);
+    setSortedColumn(item);
+    setSortDirection(newDirection);
+  };
 
   return (
     <>
       <LiquidityHeaderTitle fontSize={36}>Liquidity</LiquidityHeaderTitle>
       <LiquidityHeroSection />
-      <FilterContainer
-      //handleSelectedFilterItem={handleSelectedFilterItem}
-      //handleSearchFeatures={handleSearchFeatures}
+      <LiquidityFilter
+        handleSelectedFilterItem={handleSelectedFilterItem}
+        handleSearchFeatures={handleSearchFeatures}
       />
-      {poolData && (
+      {sortedData && (
         <LiquidityPoolTable
-          //handleSortedFeatures={handleSortedFeatures}
-          sortedData={poolData}
+          handleSortedFeatures={handleSortedFeatures}
+          sortedData={sortedData}
         />
       )}
     </>
