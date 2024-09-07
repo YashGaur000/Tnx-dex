@@ -24,6 +24,36 @@ export const LiquidityPoolNew = `
 }
 `;
 
+export const getLiquidityPoolById = `
+  query ($id: String!) {
+    LiquidityPoolNew(
+      where: {
+        id: { _eq: $id }
+      }
+    ) {
+      id
+      name
+      isStable
+      reserve0
+      reserve1
+      totalVolume0
+      totalVolume1
+      totalVolumeUSD
+      totalFees0
+      totalFees1
+      totalFeesUSD
+      token0 {
+        id
+        symbol
+      }
+      token1 {
+        id
+        symbol
+      }
+    }
+  }
+`;
+
 export const getLiquidityPoolBySymbols = `
   query ($symbol0: String!, $symbol1: String!, $isStable: Boolean!) {
     LiquidityPoolNew(
