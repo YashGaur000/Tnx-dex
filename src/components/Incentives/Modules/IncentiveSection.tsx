@@ -94,6 +94,7 @@ const IncentiveSection: React.FC = () => {
     setValue(inputValue);
   };
   const handleTokenSymbol = (token: TokenInfo) => {
+    console.log('test ', token);
     setTokenSymbol(token.symbol);
     setIncentiveToken(token);
   };

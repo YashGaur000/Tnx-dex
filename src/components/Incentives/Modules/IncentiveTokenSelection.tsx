@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import tenexarrow from '../../../assets/tenex-arrow.png';
 import {
   IncentiveLeftBarBox1,
@@ -41,18 +41,11 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [selectedIncentiveToken, setSelectedIncentiveToken] = useState<
     TokenInfo | undefined
-  >(undefined);
+  >(getTokenInfo(contractAddresses.TENEX));
   // const [tokenSelectTarget2, setTokenSelectTarget2] =
   //   useState<'token1'>('token1');
 
-  const TENEX_ADDRESS = contractAddresses.TENEX;
   const { address } = useAccount();
-
-  // Fetch and set TENEX token info by default
-  useEffect(() => {
-    setSelectedIncentiveToken(getTokenInfo(TENEX_ADDRESS));
-    selectedIncentiveToken && handleTokenSymbol(selectedIncentiveToken);
-  }, [TENEX_ADDRESS, handleTokenSymbol, selectedIncentiveToken]);
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
   const { balances } = useTokenBalances(
@@ -68,6 +61,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   };
 
   const handleIncentiveToken = (token: TokenInfo) => {
+    console.log('test', token);
     setSelectedIncentiveToken(token);
     handleTokenSymbol(token);
   };
