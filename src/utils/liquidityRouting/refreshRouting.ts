@@ -4,6 +4,8 @@ import { TokenInfo } from '../../constants/tokens';
 import { getAllRoutes, Graph, Route } from './generateAllRoutes';
 import { findBestRoute } from './findBestRoute';
 
+const MAX_HOP = 3;
+
 export const fetchBestRouteAndUpdateState = async (
   selectedToken1: TokenInfo,
   selectedToken2: TokenInfo,
@@ -30,7 +32,7 @@ export const fetchBestRouteAndUpdateState = async (
         ? findTokenBySymbol('WETH')
         : selectedToken2.address;
 
-    const routes = getAllRoutes(graph, srcToken!, destToken!, 3); // maxhop
+    const routes = getAllRoutes(graph, srcToken!, destToken!, MAX_HOP); // maxhop
     const amountInWei = ethers.parseUnits(amount, selectedToken1.decimals);
 
     const bestPath = await findBestRoute(amountInWei, routes, getAmountsOut);

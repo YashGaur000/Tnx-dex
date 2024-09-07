@@ -153,6 +153,52 @@ const SwapForm: React.FC = () => {
     setIsSettingModelOpen(false);
   };
 
+  const handleReverse = () => {
+    if (!selectedToken1 || !selectedToken2 || !graph) return;
+    const queryParams = new URLSearchParams(window.location.search);
+
+    setFrom(selectedToken2.address);
+    queryParams.set('from', selectedToken2.address);
+
+    setTo(selectedToken1.address);
+    queryParams.set('to', selectedToken1.address);
+
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.pushState(null, '', newUrl);
+
+    setTokenInput2(''); // Reset the second token input
+
+    if (!tokenInput1) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    const delay = 5000; // 5 seconds delay
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      // Call the async function
+      void fetchBestRouteAndUpdateState(
+        selectedToken2,
+        selectedToken1,
+        tokenInput1,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading
+      );
+    }, delay);
+  };
+
   return (
     <>
       <SwapFormContainer>
@@ -243,7 +289,7 @@ const SwapForm: React.FC = () => {
                 </PercentageSelectorContainer>
               </InputWrapper>
 
-              <SwitchButton>
+              <SwitchButton onClick={handleReverse}>
                 <img src={faSwitchAlt} alt={faSwitchAlt} />
               </SwitchButton>
               <InputWrapper>
