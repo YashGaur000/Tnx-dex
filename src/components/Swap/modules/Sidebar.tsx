@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import DurationIcon from '../../../assets/Duration.svg';
@@ -27,7 +27,10 @@ import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import contractAddresses from '../../../constants/contract-address/address';
 import { GlobalButton } from '../../common';
 import { getDeadline } from '../../../utils/transaction/getDeadline';
-import { parseAmounts } from '../../../utils/transaction/parseAmounts';
+import {
+  formatAmounts,
+  parseAmounts,
+} from '../../../utils/transaction/parseAmounts';
 import { useAccount } from '../../../hooks/useAccount';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import {
@@ -87,30 +90,50 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
 
-  useEffect(() => {
+  const minAmountOutWei = useMemo(() => {
     if (tokenInput2 && selectedTolerance) {
-      const minAmountOutWei = calculateMinAmount(
+      return calculateMinAmount(
         Number(tokenInput2) ?? 0,
         parseFloat(selectedTolerance) ?? 1,
         token2?.decimals
       );
+    }
+    return null;
+  }, [tokenInput2, selectedTolerance, token2?.decimals]);
 
+  useEffect(() => {
+    if (minAmountOutWei) {
       const formattedMinAmount = ethers.formatUnits(
         minAmountOutWei.toString(),
         token2?.decimals
       );
-
       setMinAmountOut(formattedMinAmount);
     }
-  }, [tokenInput2, selectedTolerance, token2]);
-  // const handleUnsafeAllowence = () => {
-  //   setTokenAllow(false); //temperory writing this statement
-  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  // };
-  const { approveAllowance: approveAllowance1 } = useTokenAllowance(
-    token1.address,
-    testErc20Abi
-  );
+  }, [minAmountOutWei, token2?.decimals]);
+
+  const { approveAllowance: approveAllowance1, checkAllowance } =
+    useTokenAllowance(token1?.address, testErc20Abi);
+
+  useEffect(() => {
+    async function fetchAllowance() {
+      if (address && tokenInput1 && token1) {
+        try {
+          const allowance = await checkAllowance(
+            address,
+            contractAddresses.Router
+          );
+          const formattedAllowance = formatAmounts(allowance, token1?.decimals);
+          setIsTokenAllow(Number(formattedAllowance) >= Number(tokenInput1));
+        } catch (error) {
+          console.error('Error checking allowance:', error);
+          setIsTokenAllow(false);
+        }
+      }
+    }
+    if (tokenInput1 && token1) {
+      void fetchAllowance();
+    }
+  }, [tokenInput1, token1?.decimals, address, checkAllowance]);
 
   const handleAllowToken1 = async () => {
     try {
