@@ -306,13 +306,13 @@ const Header: React.FC = () => {
 
         <NavItem>
           <NavLink
-            isactive={activeMainTab === 'Rewards' ? ' true' : ''}
+            isactive={activeMainTab === 'Dashboard' ? ' true' : ''}
             onClick={() => {
-              navigate('/rewards');
+              navigate('/dashboard');
               setActiveMainTab('Rewards');
             }}
           >
-            Rewards
+            Dashboard
           </NavLink>
         </NavItem>
         <NavItem
