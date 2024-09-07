@@ -10,13 +10,10 @@ interface PaginationProps {
 const PaginationStyle = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   display: flex;
   align-items: center;
+  gap: 8px;
+  width: 90px;
+  height: 18px;
 
-  gap: 10px;
-  width: 120px;
-  height: 40px;
-  margin-right: 0px;
-
-  padding: 10px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};

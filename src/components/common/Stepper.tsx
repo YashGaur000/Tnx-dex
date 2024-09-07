@@ -13,7 +13,6 @@ const StepperContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: 10px;
 `;
 
 const Step = styled.div`
@@ -73,9 +72,8 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  gap: 12px;
+  margin-bottom: 12px;
 
-  margin-bottom: 16px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.titleColor};
@@ -87,7 +85,6 @@ const Content = styled.div<{ theme: DefaultTheme }>`
 const ButtonIcon = styled.img`
   width: 15px;
   height: 15px;
-  margin-left: 5px;
 `;
 const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
   display: flex;
@@ -153,7 +150,12 @@ const StepperRedTitle = styled.p<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
-
+const ButtonWrapperTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
 const Stepper: React.FC<StepperProps> = ({ data }) => {
   return (
     <StepperContainer>
@@ -220,8 +222,11 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
               <GlobalButton
                 padding="8px"
                 margin="0px"
-                width="fit-content"
-                height="40px"
+                maxwidth="200px"
+                minwidth="163px"
+                fontsize={14}
+                smfontsize={14}
+                height="37px"
                 tabIndex={0}
                 onClick={() => {
                   if (item.buttons?.onClick) {
@@ -238,13 +243,15 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                 disabled={item.buttons?.disabled}
                 inProgress={item.buttons?.inProgress}
               >
-                {item.buttons?.label}
-                {item.buttons?.icon && (
-                  <ButtonIcon
-                    src={item.buttons?.icon}
-                    alt={`${item.buttons?.label} icon`}
-                  />
-                )}
+                <ButtonWrapperTitle>
+                  {item.buttons?.label}
+                  {item.buttons?.icon && (
+                    <ButtonIcon
+                      src={item.buttons?.icon}
+                      alt={`${item.buttons?.label} icon`}
+                    />
+                  )}
+                </ButtonWrapperTitle>
               </GlobalButton>
             )}
           </Content>

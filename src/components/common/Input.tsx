@@ -5,6 +5,7 @@ interface InputProps {
   theme: DefaultTheme;
   width?: string;
   height?: string;
+  fontsize?: string;
 }
 
 export const InputWrapper = styled.div<{ theme: DefaultTheme }>`
@@ -22,7 +23,7 @@ export const Input = styled.input<InputProps>`
   border: none;
   background: none;
   color: ${({ theme }) => theme.colors.text};
-  font-size: 16px;
+  font-size: ${({ fontsize }) => fontsize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-right: 1%;
 
