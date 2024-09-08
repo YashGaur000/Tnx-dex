@@ -27,10 +27,7 @@ import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import contractAddresses from '../../../constants/contract-address/address';
 import { GlobalButton } from '../../common';
 import { getDeadline } from '../../../utils/transaction/getDeadline';
-import {
-  formatAmounts,
-  parseAmounts,
-} from '../../../utils/transaction/parseAmounts';
+import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { useAccount } from '../../../hooks/useAccount';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import {
@@ -42,6 +39,7 @@ import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/Liquidity
 import SlippageTolerance from '../../common/SlippageTolerance';
 import TransactionDeadline from '../../common/TransactionDeadline';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
+import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -111,29 +109,19 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   }, [minAmountOutWei, token2?.decimals]);
 
-  const { approveAllowance: approveAllowance1, checkAllowance } =
-    useTokenAllowance(token1?.address, testErc20Abi);
+  const { approveAllowance: approveAllowance1 } = useTokenAllowance(
+    token1?.address,
+    testErc20Abi
+  );
 
-  useEffect(() => {
-    async function fetchAllowance() {
-      if (address && tokenInput1 && token1) {
-        try {
-          const allowance = await checkAllowance(
-            address,
-            contractAddresses.Router
-          );
-          const formattedAllowance = formatAmounts(allowance, token1?.decimals);
-          setIsTokenAllow(Number(formattedAllowance) >= Number(tokenInput1));
-        } catch (error) {
-          console.error('Error checking allowance:', error);
-          setIsTokenAllow(false);
-        }
-      }
-    }
-    if (tokenInput1 && token1) {
-      void fetchAllowance();
-    }
-  }, [tokenInput1, token1?.decimals, address, checkAllowance]);
+  // allowance check
+  useCheckAllowance(
+    token1,
+    tokenInput1,
+    address!,
+    contractAddresses.Router,
+    setIsTokenAllow
+  );
 
   const handleAllowToken1 = async () => {
     try {
