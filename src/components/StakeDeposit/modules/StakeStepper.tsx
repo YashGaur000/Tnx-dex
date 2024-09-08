@@ -11,6 +11,7 @@ import { usePoolContract } from '../../../hooks/usePoolContract';
 import { TokenInfo } from '../../../constants/tokens';
 import { Metadata } from '../../../types/Pool';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import { useNavigate } from 'react-router-dom';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
@@ -40,6 +41,16 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
         console.log('error loading metadata', error);
       });
   }, [poolId, metadata]);
+
+  const Navigate = useNavigate();
+
+  const handleIncentive = () => {
+    const queryParams = new URLSearchParams(location.search);
+    Navigate({
+      pathname: '/incentives',
+      search: `?${queryParams.toString()}`,
+    });
+  };
 
   const StakeStepperInstructData = [
     {
@@ -85,6 +96,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           selectedToken1?.symbol +
           '-' +
           selectedToken2?.symbol,
+        onClick: handleIncentive,
       },
     },
     {

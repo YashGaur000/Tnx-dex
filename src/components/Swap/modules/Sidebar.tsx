@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import DurationIcon from '../../../assets/Duration.svg';
 //import InformationIcon from '../../../assets/redInformation.svg';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
+import Exchange from '../../../assets/exchange.svg';
 
 import RedLockIcon from '../../../assets/lock.png';
 import UnLockIcon from '../../../assets/LockSucess.svg';
@@ -29,15 +30,21 @@ import { getDeadline } from '../../../utils/transaction/getDeadline';
 import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { useAccount } from '../../../hooks/useAccount';
 import { useRouterContract } from '../../../hooks/useRouterContract';
-import { Route } from '../../../utils/liquidityRouting/generateAllRoutes';
+import {
+  Graph,
+  Route,
+} from '../../../utils/liquidityRouting/generateAllRoutes';
 import PopupScreen from '../../common/PopupScreen';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import SlippageTolerance from '../../common/SlippageTolerance';
 import TransactionDeadline from '../../common/TransactionDeadline';
+import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
 
 interface SidebarProps {
   isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
   exchangeRate: number;
+  setExchangeRate: (exchangeRate: number) => void;
   token1: TokenInfo;
   token2: TokenInfo;
   tokenInput1: string;
@@ -45,11 +52,15 @@ interface SidebarProps {
   setTokenInput1: (input: string) => void;
   setTokenInput2: (input: string) => void;
   routes: Route[] | null;
+  setRoute: (route: Route[] | null) => void;
+  graph: Graph;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   isLoading,
+  setIsLoading,
   exchangeRate,
+  setExchangeRate,
   token1,
   token2,
   tokenInput1,
@@ -57,6 +68,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   setTokenInput1,
   setTokenInput2,
   routes,
+  setRoute,
+  graph,
 }) => {
   //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setIsTokenAllow] = useState(false);
@@ -65,6 +78,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     swapExactTokensForTokens,
     swapExactTokensForETH,
     swapExactETHForTokens,
+    getAmountsOut,
   } = useRouterContract();
   const { deadLineValue } = useLiquidityStore();
   const { selectedTolerance } = useRootStore();
@@ -115,6 +129,36 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const delay = 5000; // 5 seconds delay
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    setTokenInput2('');
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      // Call the async function
+      void fetchBestRouteAndUpdateState(
+        token1,
+        token2,
+        tokenInput1,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading
+      );
+    }, delay);
+  };
+
   const SwapDepositData: StepperDataProps[] = [
     {
       step: 1,
@@ -122,9 +166,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       descriptions: {
         labels: 'Exchange Rate Found',
         adjust: 'Refresh',
-        onClick: () => {
-          alert('cool');
-        },
+        onClick: handleRefresh,
         token1: `1 ${token1.symbol}`,
         token2: `${exchangeRate.toFixed(5)} ${token2.symbol}`,
       },
@@ -195,6 +237,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       descriptions: {
         labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
       },
+      actionCompleted: !isSwapped,
     },
   ];
 
@@ -227,6 +270,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const SwapLoadingData: StepperDataProps[] = [
     {
       step: 1,
+      icon: Exchange,
       descriptions: {
         labels: 'Getting the Exchange Rate ...',
       },
@@ -240,21 +284,24 @@ const Sidebar: React.FC<SidebarProps> = ({
             ? 'Allowed the contracts to access ' + token1?.symbol
             : 'Allowance not granted for ' + token1?.symbol,
       },
-      buttons: !isTokenAllow
-        ? {
-            label: 'Allow ' + token1?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken1,
-            tooltip: `Click to allow ${token1.symbol} transactions`,
-            disabled: false,
-          }
-        : undefined,
+      buttons:
+        !isTokenAllow && token1.symbol !== 'ETH'
+          ? {
+              label: 'Allow ' + token1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: `Click to allow ${token1.symbol} transactions`,
+              disabled: false,
+            }
+          : undefined,
     },
     {
       step: 3,
+      icon: SearchIcon,
       descriptions: {
         labels: 'Waiting for next actions ...',
       },
+      actionCompleted: isLoading,
     },
   ];
 
