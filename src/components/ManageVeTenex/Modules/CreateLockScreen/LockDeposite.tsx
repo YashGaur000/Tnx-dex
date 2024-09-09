@@ -46,7 +46,6 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       setIsLoading(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       if (amountInWei && LocTokenAddress) {
-        // error  Promise-returning function provided to attribute where a void return was expected  @typescript-eslint/no-misused-promises
         await approveAllowance(escrowAddress, amountInWei.toString());
         setIsTokenAllowed(true);
       }

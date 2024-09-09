@@ -45,7 +45,6 @@ const Main = () => {
     async function fetchData() {
       try {
         if (address) {
-          // Await the promise
           const nftData = await fetchUserNFTs(address);
           console.log('User NFT Count: ', nftData);
         } else {
@@ -55,8 +54,6 @@ const Main = () => {
         console.error('Error fetching NFT count:', error);
       }
     }
-
-    // Always await the promise inside async useEffect functions
     void fetchData();
   }, [address, fetchUserNFTs]);
 
