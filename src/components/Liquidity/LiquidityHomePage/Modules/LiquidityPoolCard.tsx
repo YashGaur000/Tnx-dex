@@ -151,10 +151,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
             }
           >
             <GradientButton
-              borderRadius="8px"
               color="#ffffff"
               padding="4px 20px"
-              border="1px solid transparent"
               fontSize="12px"
               width="81px"
               height="26px"

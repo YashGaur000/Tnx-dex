@@ -7,12 +7,11 @@ export const TransactionWrapper = styled.div<{
 }>`
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.cardLight};
-  padding: 16px;
+  padding: 24px;
   width: 360px;
   height: 118px;
 
-  border-radius: 20px;
-  // margin: 32px 40px;
+  border-radius: 12px;
 `;
 
 export const SidebarTitle = styled.h2<{
@@ -20,16 +19,17 @@ export const SidebarTitle = styled.h2<{
   theme: DefaultTheme;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-  text-align: justify;
+  font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  margin-bottom: 20px;
-  margin-left: 11px;
-  color: ${({ theme }) => theme.colors.greyLight};
+  margin-bottom: 12px;
+
+  color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
 export const Align = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 25px;
 `;
 
 export const TimerButton = styled.button<{ theme: DefaultTheme }>`
@@ -37,7 +37,10 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
   height: 25px;
   padding: 2px, 12px, 2px, 12px;
   border: 1px solid transparent;
-  color: ${({ theme }) => theme.colors.greyLight};
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-size: 14px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   background: ${({ theme }) => theme.colors.cardLight},
     ${({ theme }) => theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
@@ -56,7 +59,7 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
 `;
 
 export const SliderContainer = styled.div<{ margin?: string }>`
-  margin-left: ${({ margin }) => margin ?? '11px'};
+  margin-left: ${({ margin }) => margin ?? '0px'};
 `;
 
 export const Slider = styled.input<{ theme: DefaultTheme }>`
@@ -70,5 +73,6 @@ export const TdText = styled.div<{ theme: DefaultTheme }>`
   margin-top: 5px;
   float: right;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.text};
 `;
