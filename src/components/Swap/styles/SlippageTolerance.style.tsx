@@ -11,12 +11,10 @@ export const SlippageWrapper = styled.div<{
   width: 360px;
   height: 118px;
   border-radius: 20px;
-  margin: 32px 40px;
+
   @media (max-width: 900px) {
-    margin-top: 40px;
   }
   @media (max-width: 600px) {
-    padding: 8px;
     border-radius: 15px;
     margin: 10px 0;
   }

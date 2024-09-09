@@ -13,18 +13,24 @@ const ModalBackground = styled.div<{ isVisible: boolean; theme: DefaultTheme }>`
   z-index: 1000;
 `;
 
-const ModalContent = styled.div<{ theme: DefaultTheme }>`
+const ModalContent = styled.div<{
+  theme: DefaultTheme;
+  width?: string;
+  height?: string;
+}>`
   position: fixed;
-  width: 500px;
-  max-height: 520px;
-  height: auto;
+
+  width: ${({ width }) => width ?? 'auto'};
+  max-width: 664px;
+  max-height: 666px;
+  height: ${({ height }) => height ?? 'auto'};
   overflow: hidden;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: ${({ theme }) => theme.colors.card};
-  padding: 10px;
-  border-radius: 10px;
+  padding: 16px;
+  border-radius: 24px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   z-index: 1001;
   @media (max-width: 700px) {
@@ -37,8 +43,8 @@ const ModalContent = styled.div<{ theme: DefaultTheme }>`
 
 const CloseButton = styled.button`
   position: absolute;
-  top: 10px;
-  right: 7px;
+  top: 13px;
+  right: 11px;
   background: none;
   text-align: left;
   border: none;
@@ -52,14 +58,14 @@ const CloseImg = styled.img`
 const DivOverflow = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
-  width: 99%;
+  width: 100%;
   max-height: 450px;
   height: auto;
-  padding: 15px;
+  padding: 20px;
   padding-top: 0px;
 
   overflow-y: auto;
-  margin: 30px 0px;
+  margin-top: 20px;
   &::-webkit-scrollbar {
     width: 6px;
   }
@@ -94,12 +100,17 @@ const PopupScreen: React.FC<PopUpProps> = ({
   isVisible,
   onClose,
   children,
-
+  width,
+  height,
   isVisiblecloseIcon = true,
 }) => {
   return (
     <ModalBackground isVisible={isVisible} onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()}>
+      <ModalContent
+        width={width}
+        height={height}
+        onClick={(e) => e.stopPropagation()}
+      >
         {isVisiblecloseIcon && (
           <CloseButton onClick={onClose}>
             <CloseImg src={CloseIcon} />

@@ -49,8 +49,6 @@ export const DashBoardCardData = styled.p<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: 16px;
-  display: flex;
-  justify-content: flex-end;
 `;
 
 export const DashBoardTitle = styled.div<{ theme: DefaultTheme }>`
