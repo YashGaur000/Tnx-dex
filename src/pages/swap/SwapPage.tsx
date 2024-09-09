@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-import SwapForm from '../../components/Swap/modules/SwapForm';
-
 import { DefaultTheme } from '../../styles/Theme';
+import SwapForm from '../../components/Swap/modules/SwapForm';
+//import SwapForm from '../../components/common/InputForm';
 
 const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;

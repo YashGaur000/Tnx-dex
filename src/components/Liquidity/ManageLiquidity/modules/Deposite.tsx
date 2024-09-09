@@ -48,6 +48,9 @@ const Deposite: React.FC<DepositProps> = ({
   const [isDeposited, setIsDeposited] = useState(false);
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
+  const [isAllowingToken1, setIsAllowingToken1] = useState(false);
+  const [isAllowingToken2, setIsAllowingToken2] = useState(false);
+
   const getParam = useQueryParams();
   const Navigate = useNavigate();
 
@@ -67,6 +70,7 @@ const Deposite: React.FC<DepositProps> = ({
   );
 
   const handleAllowToken1 = async () => {
+    setIsAllowingToken1(true);
     try {
       const amount1InWei =
         amount1 &&
@@ -81,10 +85,13 @@ const Deposite: React.FC<DepositProps> = ({
       }
     } catch (error) {
       console.error('Error during token approval', error);
+    } finally {
+      setIsAllowingToken1(false); // Re-enable the button after the operation completes
     }
   };
 
   const handleAllowToken2 = async () => {
+    setIsAllowingToken2(true);
     try {
       const amount2InWei =
         amount2 &&
@@ -99,6 +106,8 @@ const Deposite: React.FC<DepositProps> = ({
       }
     } catch (error) {
       console.error('Error during token approval', error);
+    } finally {
+      setIsAllowingToken2(false); // Re-enable the button after the operation completes
     }
   };
 
@@ -204,7 +213,9 @@ const Deposite: React.FC<DepositProps> = ({
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: 'Using your quote for new liquidity pool deposits',
+        labels: `Using your quote for new liquidity pool deposits `,
+        token1: `${amount1} ${selectedToken1?.symbol}`,
+        token2: `${amount2} ${selectedToken2?.symbol}`,
       },
     },
     {
@@ -247,6 +258,7 @@ const Deposite: React.FC<DepositProps> = ({
             onClick: handleAllowToken1,
             tooltip: 'Click to allow USDT transactions',
             disabled: disabled1,
+            inProgress: isAllowingToken1,
           }
         : undefined,
     });
@@ -268,6 +280,7 @@ const Deposite: React.FC<DepositProps> = ({
             onClick: handleAllowToken2,
             tooltip: 'Click to allow FTM transactions',
             disabled: disabled2,
+            inProgress: isAllowingToken2,
           }
         : undefined,
     });
@@ -279,6 +292,7 @@ const Deposite: React.FC<DepositProps> = ({
     descriptions: {
       labels: isDeposited ? 'Deposit confirmed' : 'Waiting for next actions...',
     },
+    actionCompleted: !isDeposited,
   });
 
   return (

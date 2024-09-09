@@ -2,7 +2,7 @@ import { Contract, ContractTransaction } from '@ethersproject/contracts';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
 import { TokenInfo } from '../constants/tokens';
-import { Route } from '../utils/generateAllRoutes';
+import { Route } from '../utils/liquidityRouting/generateAllRoutes';
 
 interface RouterContract extends Contract {
   getReserves(
@@ -22,6 +22,21 @@ interface RouterContract extends Contract {
     to: Address,
     deadline: bigint,
     { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
+  swapExactTokensForETH(
+    amountIn: bigint,
+    amountOutMin: bigint,
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
+  swapExactETHForTokens(
+    amountOutMin: bigint,
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt, value: BigInt }
   ): Promise<ContractTransaction>;
   addLiquidity(
     tokenA: Address,
@@ -98,6 +113,20 @@ interface RouterContract extends Contract {
       routes: Route[],
       to: Address,
       deadline: bigint
+    ): Promise<bigint>;
+    swapExactTokensForETH(
+      amountIn: bigint,
+      amountOutMin: bigint,
+      routes: Route[],
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
+    swapExactETHForTokens(
+      amountOutMin: bigint,
+      routes: Route[],
+      to: Address,
+      deadline: bigint,
+      { value: BigInt }
     ): Promise<bigint>;
   };
 }

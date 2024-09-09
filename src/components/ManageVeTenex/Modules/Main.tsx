@@ -158,7 +158,12 @@ const Main = () => {
       </LockContainerWrapper>
 
       {isPopupVisible && (
-        <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
+        <PopupScreen
+          isVisible={isPopupVisible}
+          onClose={closeModal}
+          width="500px"
+          height="518px"
+        >
           <PopupWrapper onMouseLeave={handleTooltipHide}>
             {isToolTipActive ? <LockToolTips /> : <RelayToolTips />}
           </PopupWrapper>

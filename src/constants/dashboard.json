@@ -1,0 +1,122 @@
+[
+    {
+      "id": "1",
+      "pair": "USDT-FTM",
+      "icon1": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143917/Tether_hdiwul.svg",
+      "icon2": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143829/ftm_wekfyb.svg",
+      "stablePercentage": 0.01,
+      "liquidityType": "Stable",
+      "token1name": "USDT",
+      "token2name": "FTM",
+      "PoolTotalAmount1": "2094854.24",
+      "PoolTotalAmount2": "94.45",
+      "Wallet": {
+        "amount1": "57498.254",
+        "amount2": "3.87"
+      },
+      "unstaked": {
+        "amount1": "4.4999",
+        "amount2": "0.003"
+      },
+      "staked": {
+        "amount1": "0.00",
+        "amount2": "0.00"
+      }
+    },
+    {
+      "id": "2",
+      "pair": "BTC-ETH",
+      "icon1": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723141852/bitCoin_ruljfd.png",
+      "icon2": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143196/ethereum-eth_arn8uu.svg",
+      "stablePercentage": 0.03,
+      "liquidityType": "Volatile",
+      "token1name": "BTC",
+      "token2name": "ETH",
+      "PoolTotalAmount1": "1500.00",
+      "PoolTotalAmount2": "750.00",
+      "Wallet": {
+        "amount1": "0.5",
+        "amount2": "0.25"
+      },
+      "unstaked": {
+        "amount1": "0.1",
+        "amount2": "0.05"
+      },
+      "staked": {
+        "amount1": "0.4",
+        "amount2": "0.2"
+      }
+    },
+    {
+      "id": "3",
+      "pair": "BNB-USDT",
+      "icon1": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723144337/bnb-bnb-logo_lfdwgj.png",
+      "icon2": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143917/Tether_hdiwul.svg",
+      "stablePercentage": 0.02,
+      "liquidityType": "Stable",
+      "token1name": "BNB",
+      "token2name": "USDT",
+      "PoolTotalAmount1": "3000.00",
+      "PoolTotalAmount2": "60000.00",
+      "Wallet": {
+        "amount1": "0.75",
+        "amount2": "1500.00"
+      },
+      "unstaked": {
+        "amount1": "0.25",
+        "amount2": "500.00"
+      },
+      "staked": {
+        "amount1": "0.5",
+        "amount2": "1000.00"
+      }
+    },
+    {
+      "id": "4",
+      "pair": "ETH-FTM",
+      "icon1": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143196/ethereum-eth_arn8uu.svg",
+      "icon2": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723143829/ftm_wekfyb.svg",
+      "stablePercentage": 0.04,
+      "liquidityType": "Volatile",
+      "token1name": "ETH",
+      "token2name": "FTM",
+      "PoolTotalAmount1": "500.00",
+      "PoolTotalAmount2": "25000.00",
+      "Wallet": {
+        "amount1": "0.125",
+        "amount2": "6250.00"
+      },
+      "unstaked": {
+        "amount1": "0.025",
+        "amount2": "1250.00"
+      },
+      "staked": {
+        "amount1": "0.1",
+        "amount2": "5000.00"
+      }
+    },
+    {
+      "id": "5",
+      "pair": "BTC-BNB",
+      "icon1": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723141852/bitCoin_ruljfd.png",
+      "icon2": "https://res.cloudinary.com/dd9ca7pyl/image/upload/v1723144337/bnb-bnb-logo_lfdwgj.png",
+      "stablePercentage": 0.05,
+      "liquidityType": "Volatile",
+      "token1name": "BTC",
+      "token2name": "BNB",
+      "PoolTotalAmount1": "1000.00",
+      "PoolTotalAmount2": "3000.00",
+      "Wallet": {
+        "amount1": "0.3",
+        "amount2": "0.9"
+      },
+      "unstaked": {
+        "amount1": "0.1",
+        "amount2": "0.3"
+      },
+      "staked": {
+        "amount1": "0.2",
+        "amount2": "0.6"
+      }
+    }
+  ]

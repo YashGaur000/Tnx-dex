@@ -11,7 +11,7 @@ export const TokenCardContainer = styled.div`
 `;
 export const DepositeButtonWrapper = styled.div`
   margin-top: 4px;
-
+  margin-bottom: 2px;
   display: inline-block;
 `;
 
@@ -24,7 +24,7 @@ export const GroupImgContains = styled.div`
   box-sizing: border-box;
 `;
 export const TraidingSyleLabel = styled.label<{ theme: DefaultTheme }>`
-  font-size: 20px;
+  font-size: 16px;
   line-height: 23.92px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -101,4 +101,10 @@ export const LiquidityTokenWrapper = styled.label`
   display: flex;
   flex-direction: column;
   gap: 4px;
+`;
+export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.card};
+  padding: 16px 40px 40px;
+  margin: 0px;
+  border-radius: 24px;
 `;

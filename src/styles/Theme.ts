@@ -23,6 +23,7 @@ interface Colorpallate {
   backgroundLiquidity: string;
   text: string;
   buttonBackground: string;
+  loaderBackground: string;
   buttonHover: string;
   card: string;
   cardLight: string;
@@ -56,6 +57,7 @@ interface FontType {
 }
 
 interface FontWeight {
+  light: number;
   regular: number;
   bold: number;
 }
@@ -97,7 +99,9 @@ const theme: DefaultTheme = {
                          linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     text: '#ffffff',
     buttonBackground:
-      'linear-gradient(209.3deg, #16C062 7.44%, #3EACFC 86.34%)',
+      'linear-gradient(190.3deg, #16C062 7.44%, #3EACFC 86.34%)',
+    loaderBackground:
+      'linear-gradient(90deg, rgb(255 255 255), rgb(0 0 0 / 15%), rgb(255 255 255))',
     buttonHover: 'linear-gradient(188.32deg, #3EACFC -7.09%, #47FF99 99.48%)',
     card: 'linear-gradient(180deg, #18264C 0%, #1F305F 100%)',
     cardLight: 'linear-gradient(180deg, #273762 0%, #2A3E75 100%)',
@@ -129,6 +133,7 @@ const theme: DefaultTheme = {
     main: 'Kanit, sans-serif',
   },
   fontWeights: {
+    light: 200,
     regular: 300,
     bold: 400,
   },

@@ -2,15 +2,13 @@ import InformationIcon from '../../../../assets/information.png';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { GlobalButton } from '../../../common';
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  LiquidityImgStyle,
-  StatsCardtitle,
-} from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
+import { LiquidityImgStyle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
   CreateVoliteLiquiditySection,
   VolatileLiquidityWrapper,
 } from '../styles/TokenDeposite.style';
 import { useState } from 'react';
+import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 
 const CreateNewLiquidity = () => {
   const getParam = useQueryParams();
@@ -44,14 +42,14 @@ const CreateNewLiquidity = () => {
           height={'24px'}
           src={InformationIcon}
         />
-        <StatsCardtitle fontSize={16}>
+        <LiquidityHeaderTitle fontSize={14}>
           You&apos;r about to create a new{' '}
           {poolType == '0' ? 'stable' : 'volatile'} liquidity Pool...
-        </StatsCardtitle>
+        </LiquidityHeaderTitle>
       </VolatileLiquidityWrapper>
       <GlobalButton
         width="90px"
-        height="40px"
+        height="29px"
         onClick={() => handleTypeChange()}
       >
         Change

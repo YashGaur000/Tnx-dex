@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
-import SolIcon from '../../../assets/sol.png';
+import DurationIcon from '../../../assets/Duration.svg';
 //import InformationIcon from '../../../assets/redInformation.svg';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
+import Exchange from '../../../assets/exchange.svg';
 
 import RedLockIcon from '../../../assets/lock.png';
 import UnLockIcon from '../../../assets/LockSucess.svg';
@@ -29,59 +30,98 @@ import { getDeadline } from '../../../utils/transaction/getDeadline';
 import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { useAccount } from '../../../hooks/useAccount';
 import { useRouterContract } from '../../../hooks/useRouterContract';
-import { Route } from '../../../utils/generateAllRoutes';
+import {
+  Graph,
+  Route,
+} from '../../../utils/liquidityRouting/generateAllRoutes';
+import PopupScreen from '../../common/PopupScreen';
+import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import SlippageTolerance from '../../common/SlippageTolerance';
+import TransactionDeadline from '../../common/TransactionDeadline';
+import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
+import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
+import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 
 interface SidebarProps {
   isLoading: boolean;
+  setIsLoading: (loading: boolean) => void;
   exchangeRate: number;
+  setExchangeRate: (exchangeRate: number) => void;
   token1: TokenInfo;
   token2: TokenInfo;
   tokenInput1: string;
   tokenInput2: string;
+  setTokenInput1: (input: string) => void;
+  setTokenInput2: (input: string) => void;
   routes: Route[] | null;
+  setRoute: (route: Route[] | null) => void;
+  graph: Graph;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   isLoading,
+  setIsLoading,
   exchangeRate,
+  setExchangeRate,
   token1,
   token2,
   tokenInput1,
   tokenInput2,
+  setTokenInput1,
+  setTokenInput2,
   routes,
+  setRoute,
+  graph,
 }) => {
   //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setIsTokenAllow] = useState(false);
   const { address } = useAccount();
-  const { swapExactTokensForTokens } = useRouterContract();
+  const {
+    swapExactTokensForTokens,
+    swapExactTokensForETH,
+    swapExactETHForTokens,
+    getAmountsOut,
+  } = useRouterContract();
   const { deadLineValue } = useLiquidityStore();
   const { selectedTolerance } = useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
+  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isVisibleDeadline, setVisibleDealine] = useState(false);
 
-  useEffect(() => {
+  const minAmountOutWei = useMemo(() => {
     if (tokenInput2 && selectedTolerance) {
-      const minAmountOutWei = calculateMinAmount(
+      return calculateMinAmount(
         Number(tokenInput2) ?? 0,
         parseFloat(selectedTolerance) ?? 1,
-        token2?.decimals ?? 18
-      );
-
-      const formattedMinAmount = ethers.formatUnits(
-        minAmountOutWei,
         token2?.decimals
       );
+    }
+    return null;
+  }, [tokenInput2, selectedTolerance, token2?.decimals]);
 
+  useEffect(() => {
+    if (minAmountOutWei) {
+      const formattedMinAmount = ethers.formatUnits(
+        minAmountOutWei.toString(),
+        token2?.decimals
+      );
       setMinAmountOut(formattedMinAmount);
     }
-  }, [tokenInput2, selectedTolerance, token2]);
-  // const handleUnsafeAllowence = () => {
-  //   setTokenAllow(false); //temperory writing this statement
-  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  // };
+  }, [minAmountOutWei, token2?.decimals]);
+
   const { approveAllowance: approveAllowance1 } = useTokenAllowance(
-    token1.address,
+    token1?.address,
     testErc20Abi
+  );
+
+  // allowance check
+  useCheckAllowance(
+    token1,
+    tokenInput1,
+    address!,
+    contractAddresses.Router,
+    setIsTokenAllow
   );
 
   const handleAllowToken1 = async () => {
@@ -90,30 +130,55 @@ const Sidebar: React.FC<SidebarProps> = ({
         tokenInput1 &&
         ethers.parseUnits(tokenInput1.toString(), token1?.decimals);
       if (amount1InWei && token1?.address) {
-        if (token1?.symbol === 'WETH') {
-          setIsTokenAllow(true);
-        } else {
-          await approveAllowance1(
-            contractAddresses.Router,
-            amount1InWei.toString()
-          );
-          setIsTokenAllow(true);
-        }
+        await approveAllowance1(
+          contractAddresses.Router,
+          amount1InWei.toString()
+        );
+        setIsTokenAllow(true);
       }
     } catch (error) {
       console.error('Error during token approval', error);
     }
   };
 
-  const SwapDepositInitialData: StepperDataProps[] = [
+  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    setTokenInput2('');
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      // Call the async function
+      void fetchBestRouteAndUpdateState(
+        token1,
+        token2,
+        tokenInput1,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading
+      );
+    }, ROUTING_DELAY);
+  };
+
+  const SwapDepositData: StepperDataProps[] = [
     {
       step: 1,
       icon: CalIcon,
       descriptions: {
         labels: 'Exchange Rate Found',
         adjust: 'Refresh',
+        onClick: handleRefresh,
         token1: `1 ${token1.symbol}`,
-        token2: `${exchangeRate.toFixed(4)} ${token2.symbol}`,
+        token2: `${exchangeRate.toFixed(5)} ${token2.symbol}`,
       },
     },
     {
@@ -129,9 +194,20 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       step: 3,
-      icon: SolIcon,
+      icon: DurationIcon,
       descriptions: {
-        labels: `Minimum received ${Number(minAmountOut).toFixed(4)} ${token2.symbol}`,
+        labels: `${deadLineValue} min transaction deadline applied...`,
+        adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('deadline');
+        },
+      },
+    },
+    {
+      step: 4,
+      icon: token2.logoURI,
+      descriptions: {
+        labels: `Minimum received ${Number(minAmountOut).toFixed(5)} ${token2.symbol}`,
       },
     },
     // {
@@ -149,26 +225,29 @@ const Sidebar: React.FC<SidebarProps> = ({
       step: 5,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: isTokenAllow
-          ? 'Allowed the contracts to access ' + token1?.symbol
-          : 'Allowance not granted for ' + token1?.symbol,
+        labels:
+          isTokenAllow || token1.symbol === 'ETH'
+            ? 'Allowed the contracts to access ' + token1?.symbol
+            : 'Allowance not granted for ' + token1?.symbol,
       },
-      buttons: !isTokenAllow
-        ? {
-            label: 'Allow ' + token1?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken1,
-            tooltip: `Click to allow ${token1.symbol} transactions`,
-            disabled: false,
-          }
-        : undefined,
+      buttons:
+        !isTokenAllow && token1.symbol !== 'ETH'
+          ? {
+              label: 'Allow ' + token1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: `Click to allow ${token1.symbol} transactions`,
+              disabled: false,
+            }
+          : undefined,
     },
     {
-      step: 5,
+      step: 6,
       icon: !isSwapped ? SearchIcon : SucessDepositIcon,
       descriptions: {
         labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
       },
+      actionCompleted: !isSwapped,
     },
   ];
 
@@ -201,6 +280,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const SwapLoadingData: StepperDataProps[] = [
     {
       step: 1,
+      icon: Exchange,
       descriptions: {
         labels: 'Getting the Exchange Rate ...',
       },
@@ -209,43 +289,40 @@ const Sidebar: React.FC<SidebarProps> = ({
       step: 2,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: isTokenAllow
-          ? 'Allowed the contracts to access ' + token1?.symbol
-          : 'Allowance not granted for ' + token1?.symbol,
+        labels:
+          isTokenAllow || token1.symbol === 'ETH'
+            ? 'Allowed the contracts to access ' + token1?.symbol
+            : 'Allowance not granted for ' + token1?.symbol,
       },
-      buttons: !isTokenAllow
-        ? {
-            label: 'Allow ' + token1?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken1,
-            tooltip: `Click to allow ${token1.symbol} transactions`,
-            disabled: false,
-          }
-        : undefined,
+      buttons:
+        !isTokenAllow && token1.symbol !== 'ETH'
+          ? {
+              label: 'Allow ' + token1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: `Click to allow ${token1.symbol} transactions`,
+              disabled: false,
+            }
+          : undefined,
     },
     {
       step: 3,
+      icon: SearchIcon,
       descriptions: {
         labels: 'Waiting for next actions ...',
       },
+      actionCompleted: isLoading,
     },
   ];
 
   const handleAdjust = (adjustbuttonName: string) => {
     if (adjustbuttonName === 'Slippage') {
-      console.log('Slippage');
+      setVisibleSlippage(true);
     } else if (adjustbuttonName === 'deadline') {
-      {
-        console.log('Deadline');
-      }
-    } else {
-      console.log('wrong button');
+      setVisibleDealine(true);
     }
   };
 
-  // const handleToggleChange = () => {
-  //   setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
-  // };
   const handleSwap = async () => {
     try {
       const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
@@ -265,15 +342,40 @@ const Sidebar: React.FC<SidebarProps> = ({
           parseFloat(selectedTolerance) ?? 1,
           token2?.decimals ?? 18
         );
-        const tx = await swapExactTokensForTokens(
-          amountInWei,
-          minAmountOutWei,
-          routes,
-          address,
-          deadline
-        );
-        console.log('Swap added:', tx);
+        if (token2.symbol === 'ETH') {
+          const tx = await swapExactTokensForETH(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+          console.log('Swap added:', tx);
+        } else if (token1.symbol === 'ETH') {
+          const tx = await swapExactETHForTokens(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+          console.log('Swap added:', tx);
+        } else {
+          const tx = await swapExactTokensForTokens(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+          console.log('Swap added:', tx);
+        }
+
         setIsSwapped(true);
+        setTimeout(() => {
+          setTokenInput1('');
+          setTokenInput2('');
+        }, 1000);
       }
     } catch (error) {
       console.error('Error swapping:', error);
@@ -288,8 +390,8 @@ const Sidebar: React.FC<SidebarProps> = ({
             <Stepper data={SwapLoadingData} />
           ) : exchangeRate > 0 && tokenInput1 ? (
             <>
-              <Stepper data={SwapDepositInitialData} />
-              {!isSwapped && isTokenAllow && (
+              <Stepper data={SwapDepositData} />
+              {!isSwapped && (isTokenAllow || token1.symbol === 'ETH') && (
                 <GlobalButton
                   width="100%"
                   height="48px"
@@ -298,6 +400,28 @@ const Sidebar: React.FC<SidebarProps> = ({
                 >
                   Swap
                 </GlobalButton>
+              )}
+
+              {isVisibleSlippage && (
+                <PopupScreen
+                  isVisible={isVisibleSlippage}
+                  onClose={() => setVisibleSlippage(false)}
+                >
+                  <PopupWrapper>
+                    <SlippageTolerance />
+                  </PopupWrapper>
+                </PopupScreen>
+              )}
+
+              {isVisibleDeadline && (
+                <PopupScreen
+                  isVisible={isVisibleDeadline}
+                  onClose={() => setVisibleDealine(false)}
+                >
+                  <PopupWrapper>
+                    <TransactionDeadline />
+                  </PopupWrapper>
+                </PopupScreen>
               )}
             </>
           ) : (

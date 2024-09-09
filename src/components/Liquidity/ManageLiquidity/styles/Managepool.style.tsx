@@ -4,7 +4,6 @@ export const CreateMainContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  margin-top: 40px;
 
   @media only screen and (max-width: 900px) {
     flex-direction: column;

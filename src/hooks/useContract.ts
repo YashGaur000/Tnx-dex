@@ -6,11 +6,12 @@ import { AddressZero } from '@ethersproject/constants';
 import { isAddress } from './../utils/addresses/index';
 import { Address } from 'viem';
 import { RouterContract } from '../types/Liquidity';
+import { VoterContract } from '../types/Voter';
 
 export function useContract(
   contractAddress: Address,
   ABI: ContractInterface
-): Contract | RouterContract | undefined {
+): Contract | RouterContract | VoterContract | undefined {
   const { chainId, address: userAddress } = useAccount();
   const provider = useEthersProvider({ chainId });
 

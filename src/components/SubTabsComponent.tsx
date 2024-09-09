@@ -9,6 +9,7 @@ interface SubTabItem {
   to: string;
   label: string;
   description: string;
+  disabled?: boolean;
 }
 
 interface SubTabsProps {
@@ -30,18 +31,24 @@ const SubTabsContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 10px;
 `;
 
-const SubTabItemContainer = styled.div<{ theme: DefaultTheme }>`
+const SubTabItemContainer = styled.div<{
+  theme: DefaultTheme;
+  disabled?: boolean;
+}>`
   padding: 10px;
   border-radius: 4px;
+
   &:hover {
     background: ${({ theme }) => theme.colors.hover};
   }
 `;
 
-const SubTabLink = styled.div<{ theme: DefaultTheme }>`
+const SubTabLink = styled.div<{ theme: DefaultTheme; disabled?: boolean }>`
   text-decoration: none;
   color: ${({ theme }) => theme.colors.text};
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+
+  opacity: ${({ disabled }) => (disabled ? '0.6' : '1')};
 `;
 
 const SubTabLabel = styled.div<{ theme: DefaultTheme }>`
@@ -69,11 +76,14 @@ const SubTabs: React.FC<SubTabsProps> = ({
       {items.map((item: SubTabItem, index: number) => (
         <SubTabItemContainer key={index}>
           <SubTabLink
+            disabled={item.disabled}
             onClick={() => {
-              navigate(item.to);
-              setShowTabs(false);
-              if (setNavOpen) setNavOpen(false);
-              setActiveMainTab(item.main);
+              if (!item.disabled) {
+                navigate(item.to);
+                setShowTabs(false);
+                if (setNavOpen) setNavOpen(false);
+                setActiveMainTab(item.main);
+              }
             }}
           >
             <SubTabLabel>{item.label}</SubTabLabel>

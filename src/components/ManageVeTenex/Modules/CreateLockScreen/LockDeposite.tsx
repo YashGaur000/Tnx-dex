@@ -128,6 +128,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       step: 2,
       descriptions: { labels: 'Waiting for next actions...' },
       icon: SearchIcon,
+      actionCompleted: isLoading,
     },
   ];
 

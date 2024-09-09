@@ -220,6 +220,7 @@ const Header: React.FC = () => {
                   label: 'Cross chain swaps',
                   description:
                     'Bridge and swap via Wormhole Axelar and LayerZero',
+                  disabled: true,
                 },
               ]}
               showTabs={showTradeSubTabs}
@@ -254,6 +255,7 @@ const Header: React.FC = () => {
                   to: '/concentrated-liquidity-farms',
                   label: 'Concentrated Liquidity Farms',
                   description: 'Highly efficient CL farms for max fees',
+                  disabled: true,
                 },
               ]}
               showTabs={showLiquiditySubTabs}
@@ -306,13 +308,13 @@ const Header: React.FC = () => {
 
         <NavItem>
           <NavLink
-            isactive={activeMainTab === 'Rewards' ? ' true' : ''}
+            isactive={activeMainTab === 'Dashboard' ? ' true' : ''}
             onClick={() => {
-              navigate('/rewards');
+              navigate('/dashboard');
               setActiveMainTab('Rewards');
             }}
           >
-            Rewards
+            Dashboard
           </NavLink>
         </NavItem>
         <NavItem

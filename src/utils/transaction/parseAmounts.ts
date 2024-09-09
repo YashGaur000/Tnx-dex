@@ -13,3 +13,11 @@ export const parseAmounts = (amount?: ethers.Numeric, decimals?: number) => {
 
   return amountInWei;
 };
+
+export const formatAmounts = (amount?: ethers.Numeric, decimals?: number) => {
+  const amountInToken = amount
+    ? ethers.formatUnits(amount.toString(), decimals)
+    : undefined;
+
+  return amountInToken;
+};

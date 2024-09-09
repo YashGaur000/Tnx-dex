@@ -22,6 +22,9 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
     case '/swap':
       background = theme.colors.backgroundSwap;
       break;
+    case '/dashboard':
+      background = theme.colors.backgroundLiquidity;
+      break;
     case '/documentation':
       background = theme.colors.backgroundDocs;
       break;
