@@ -40,11 +40,14 @@ import SettingModal from '../../modal/SettingModal';
 import BalanceDisplay from './BalanceDisplay';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
 import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
+import { useNativeBalance } from '../../../hooks/useNativeBalance';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
   const [isSettingModelOpen, setIsSettingModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+
   const [exchangeRate, setExchangeRate] = useState(0);
   const [route, setRoute] = useState<Route[] | null>(null);
 
@@ -55,6 +58,7 @@ const SwapForm: React.FC = () => {
   const selectedToken2 = useTokenInfo(to);
   const tokenList = [selectedToken1, selectedToken2];
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
+  const { balance: nativeBalance } = useNativeBalance(address!);
 
   const { getAmountsOut } = useRouterContract();
 
@@ -67,6 +71,18 @@ const SwapForm: React.FC = () => {
   const [selectedPercentage, setSelectedPercentage] = React.useState<
     number | null
   >(null);
+
+  useEffect(() => {
+    if (tokenInput1 && selectedToken1) {
+      const walletBalanceCheck =
+        Number(tokenInput1) <=
+          Number(balances[selectedToken1.address].toString()) ||
+        (selectedToken1.symbol === 'ETH' &&
+          Number(tokenInput1) <= Number(nativeBalance?.formatted));
+
+      setIsValid(walletBalanceCheck);
+    }
+  }, [tokenInput1, selectedToken1]);
 
   useEffect(() => {
     // 1. Update connection state
@@ -225,6 +241,7 @@ const SwapForm: React.FC = () => {
                   padding="0px"
                   value={tokenInput1}
                   onChange={handleTokenInput1}
+                  style={{ color: isValid ? '' : 'red' }}
                 />
                 <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
                   <TokenSelectAlign>
@@ -354,6 +371,7 @@ const SwapForm: React.FC = () => {
       <SidebarContainer height={tokenInput1 ? 540 : 348}>
         <Sidebar
           isLoading={isLoading}
+          isValid={isValid}
           setIsLoading={setIsLoading}
           exchangeRate={exchangeRate}
           setExchangeRate={setExchangeRate}
