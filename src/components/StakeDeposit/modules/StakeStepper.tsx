@@ -12,7 +12,8 @@ import { TokenInfo } from '../../../constants/tokens';
 import { Metadata } from '../../../types/Pool';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { useNavigate } from 'react-router-dom';
-
+import { useVoterContract } from '../../../hooks/useVoterContract';
+import { Address } from 'viem';
 interface StakeStepperProps {
   selectedStakeValue: number;
 }
@@ -24,10 +25,13 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
     undefined
   );
+  const [gaugeExists, setGaugeExists] = useState(false);
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
   const { metadata } = usePoolContract(poolId ?? '');
+
+  const { gauges } = useVoterContract();
 
   useEffect(() => {
     metadata()
@@ -40,6 +44,21 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
       .catch((error) => {
         console.log('error loading metadata', error);
       });
+    // to check if a gauge exists or needs to be created
+    poolId &&
+      gauges(poolId as Address)
+        .then((gaugeAddress: `0x${string}` | undefined) => {
+          if (
+            gaugeAddress != '0x0000000000000000000000000000000000000000' &&
+            gaugeAddress != undefined
+          ) {
+            console.log('gauge found :', gaugeAddress);
+            setGaugeExists(true);
+          }
+        })
+        .catch((error) => {
+          console.log('Error finding gauge:', error);
+        });
   }, [poolId, metadata]);
 
   const Navigate = useNavigate();
@@ -88,16 +107,20 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
       step: 2,
       icon: TimerIcon,
       descriptions: {
-        labels: 'Create the gauge by incentivizing first',
+        labels: !gaugeExists
+          ? 'Create the gauge by incentivizing first'
+          : `Gauge found for ${selectedToken1?.symbol} - ${selectedToken2?.symbol}`,
       },
-      buttons: {
-        label:
-          'Incentivize ' +
-          selectedToken1?.symbol +
-          '-' +
-          selectedToken2?.symbol,
-        onClick: handleIncentive,
-      },
+      buttons: !gaugeExists
+        ? {
+            label:
+              'Incentivize ' +
+              selectedToken1?.symbol +
+              '-' +
+              selectedToken2?.symbol,
+            onClick: handleIncentive,
+          }
+        : undefined,
     },
     {
       step: 3,
@@ -108,6 +131,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
       buttons: {
         label: 'Allow ' + selectedToken1?.symbol + '-' + selectedToken2?.symbol,
         icon: LockIcon,
+        disabled: !gaugeExists,
       },
     },
     {

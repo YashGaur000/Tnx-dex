@@ -13,10 +13,19 @@ export const useLiquidityRouting = () => {
     if (!acc[token1Address]) acc[token1Address] = [];
 
     // Add edges in both directions for bidirectional graph
-    if (!acc[token0Address].some((conn) => conn.token === token1Address)) {
+    // Check both token and stable value
+    if (
+      !acc[token0Address].some(
+        (conn) => conn.token === token1Address && conn.stable === isStable
+      )
+    ) {
       acc[token0Address].push({ token: token1Address, stable: isStable });
     }
-    if (!acc[token1Address].some((conn) => conn.token === token0Address)) {
+    if (
+      !acc[token1Address].some(
+        (conn) => conn.token === token0Address && conn.stable === isStable
+      )
+    ) {
       acc[token1Address].push({ token: token0Address, stable: isStable });
     }
 

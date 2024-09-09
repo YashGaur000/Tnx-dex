@@ -40,6 +40,7 @@ import SettingModal from '../../modal/SettingModal';
 
 import BalanceDisplay from './BalanceDisplay';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
+import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -100,8 +101,6 @@ const SwapForm: React.FC = () => {
 
     setIsLoading(true);
 
-    const delay = 5000; // 5 seconds delay
-
     // Clear any previous timeouts before setting a new one
     if (inputTimeout.current) {
       clearTimeout(inputTimeout.current);
@@ -121,7 +120,7 @@ const SwapForm: React.FC = () => {
         setRoute,
         setIsLoading
       );
-    }, delay);
+    }, ROUTING_DELAY);
   };
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
@@ -176,8 +175,6 @@ const SwapForm: React.FC = () => {
 
     setIsLoading(true);
 
-    const delay = 5000; // 5 seconds delay
-
     // Clear any previous timeouts before setting a new one
     if (inputTimeout.current) {
       clearTimeout(inputTimeout.current);
@@ -197,7 +194,7 @@ const SwapForm: React.FC = () => {
         setRoute,
         setIsLoading
       );
-    }, delay);
+    }, ROUTING_DELAY);
   };
 
   return (
