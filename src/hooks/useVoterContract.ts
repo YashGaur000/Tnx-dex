@@ -56,5 +56,22 @@ export function useVoterContract() {
     [voterContract]
   );
 
-  return { createGauge, gauges };
+  const gaugeToBribe = useCallback(
+    async (_gauge: Address) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const bribeVotingRewardAddress =
+          await voterContract.gaugeToBribe(_gauge);
+        return bribeVotingRewardAddress;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+
+  return { createGauge, gauges, gaugeToBribe };
 }

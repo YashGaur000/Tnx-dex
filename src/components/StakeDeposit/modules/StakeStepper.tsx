@@ -2,6 +2,7 @@ import Stepper from '../../common/Stepper';
 import { LiquidityHeaderTitle } from '../../Liquidity/LiquidityHomePage/styles/Liquiditypool.style';
 import LockIcon from '../../../assets/Lock1.svg';
 import RedLockIcon from '../../../assets/lock.png';
+import UnLockIcon from '../../../assets/unlock.png';
 import LoadingIcon from '../../../assets/search.png';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import TimerIcon from '../../../assets/timer-red-logo.svg';
@@ -14,6 +15,10 @@ import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { useNavigate } from 'react-router-dom';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { Address } from 'viem';
+import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
+import poolAbi from '../../../constants/artifacts/contracts/Pool.json';
+import { ethers } from 'ethers';
+import { GlobalButton } from '../../common/index';
 interface StakeStepperProps {
   selectedStakeValue: number;
 }
@@ -26,10 +31,15 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
     undefined
   );
   const [gaugeExists, setGaugeExists] = useState(false);
+  const [gaugeAddress, setGaugeAddress] = useState<Address>(
+    '0x0000000000000000000000000000000000000000'
+  );
+  const [isAllowingToken, setIsAllowingToken] = useState(false);
+  const [isTokenAllowed, setIsTokenAllowed] = useState(false);
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
-  const { metadata } = usePoolContract(poolId ?? '');
+  const { metadata, balanceOf } = usePoolContract(poolId ?? '');
 
   const { gauges } = useVoterContract();
 
@@ -52,16 +62,26 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
             gaugeAddress != '0x0000000000000000000000000000000000000000' &&
             gaugeAddress != undefined
           ) {
-            console.log('gauge found :', gaugeAddress);
             setGaugeExists(true);
+            setGaugeAddress(gaugeAddress);
+            // if (gaugeExists) {
+            //   gaugeToBribe(gaugeAddress).then((bribeAddress)=>{
+            //     // setBribeAddress(bribeAddress);
+            //     console.log("bribe ",bribeAddress)
+            // })}
           }
         })
         .catch((error) => {
           console.log('Error finding gauge:', error);
         });
-  }, [poolId, metadata]);
+  }, [poolId, metadata, gaugeAddress]);
 
   const Navigate = useNavigate();
+
+  const { approveAllowance } = useTokenAllowance(
+    poolId as Address,
+    poolAbi.abi
+  );
 
   const handleIncentive = () => {
     const queryParams = new URLSearchParams(location.search);
@@ -69,6 +89,21 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
       pathname: '/incentives',
       search: `?${queryParams.toString()}`,
     });
+  };
+
+  const handleAllowance = async () => {
+    setIsAllowingToken(true);
+    const balance = await balanceOf();
+    if (balance) {
+      const amount =
+        (parseFloat(balance.toString()) * selectedStakeValue) / 100;
+      const amountInEth = ethers.parseUnits(amount.toString(), 18);
+      const result = await approveAllowance(
+        gaugeAddress,
+        amountInEth.toString()
+      );
+      setIsTokenAllowed(result ? true : false);
+    }
   };
 
   const StakeStepperInstructData = [
@@ -124,15 +159,22 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
     },
     {
       step: 3,
-      icon: RedLockIcon,
+      icon: !isTokenAllowed ? RedLockIcon : UnLockIcon,
       descriptions: {
-        labels: 'Create the gauge by incentivizing first',
+        labels: isTokenAllowed
+          ? 'Allowed the contracts to access pool'
+          : 'Allowance not granted for pool',
       },
-      buttons: {
-        label: 'Allow ' + selectedToken1?.symbol + '-' + selectedToken2?.symbol,
-        icon: LockIcon,
-        disabled: !gaugeExists,
-      },
+      buttons: !isTokenAllowed
+        ? {
+            label:
+              'Allow ' + selectedToken1?.symbol + '-' + selectedToken2?.symbol,
+            icon: LockIcon,
+            disabled: !gaugeExists,
+            onClick: handleAllowance,
+            inProgress: isAllowingToken,
+          }
+        : undefined,
     },
     {
       step: 4,
@@ -151,6 +193,16 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           selectedStakeValue < 1 ? StakeStepperInstructData : StakeStepperData
         }
       />
+      {isTokenAllowed && (
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          // onClick={handleStakeDeposit}
+        >
+          Stake your Deposit{' '}
+        </GlobalButton>
+      )}
     </>
   );
 };

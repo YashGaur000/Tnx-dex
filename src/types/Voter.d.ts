@@ -8,6 +8,7 @@ export interface VoterContract extends Contract {
     { gasLimit: bigInt }
   ): Promise<Address>;
   gauges(_pool: Address): Promise<Address>;
+  gaugeToBribe(_gauge: Address): Promise<Address>;
   estimateGas: {
     createGauge(_poolFactory: Address, _pool: Address): Promise<bigint>;
   };
