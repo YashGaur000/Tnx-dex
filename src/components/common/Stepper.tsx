@@ -220,9 +220,9 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
 
             {item.buttons && (
               <GlobalButton
-                padding="8px"
+                padding="8px 24px"
                 margin="0px"
-                maxwidth="200px"
+                width="fit-content"
                 minwidth="163px"
                 fontsize={14}
                 smfontsize={14}

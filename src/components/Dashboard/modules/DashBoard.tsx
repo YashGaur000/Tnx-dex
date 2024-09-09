@@ -42,7 +42,7 @@ const DashBoard: React.FC = () => {
         <DashBoardCard>
           <DashBoardCardData>
             To receive emissions{' '}
-            <DashboardNavigation>deposit and stake</DashboardNavigation> your
+            <DashboardNavigation> deposit and stake </DashboardNavigation> your
             liquidity first.
           </DashBoardCardData>
         </DashBoardCard>
@@ -55,7 +55,7 @@ const DashBoard: React.FC = () => {
         <DashBoardCard>
           <DashBoardCardData>
             Start by{' '}
-            <DashboardNavigation>depositing and staking</DashboardNavigation>{' '}
+            <DashboardNavigation> depositing and staking</DashboardNavigation>{' '}
             liquidity.
           </DashBoardCardData>
         </DashBoardCard>
