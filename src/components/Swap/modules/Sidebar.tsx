@@ -40,6 +40,7 @@ import SlippageTolerance from '../../common/SlippageTolerance';
 import TransactionDeadline from '../../common/TransactionDeadline';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
 import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
+import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -142,8 +143,6 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const inputTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const delay = 5000; // 5 seconds delay
-
   const handleRefresh = () => {
     setIsLoading(true);
     setTokenInput2('');
@@ -167,7 +166,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         setRoute,
         setIsLoading
       );
-    }, delay);
+    }, ROUTING_DELAY);
   };
 
   const SwapDepositData: StepperDataProps[] = [
