@@ -68,9 +68,6 @@ const SwapForm: React.FC = () => {
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
   >('token1');
-  const [selectedPercentage, setSelectedPercentage] = React.useState<
-    number | null
-  >(null);
 
   useEffect(() => {
     if (tokenInput1 && selectedToken1) {
@@ -157,7 +154,45 @@ const SwapForm: React.FC = () => {
   };
 
   const handleSelectPercentage = (percentage: number) => {
-    setSelectedPercentage(percentage);
+    if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+    let walletBalance = 0;
+    if (selectedToken1.symbol === 'ETH') {
+      walletBalance = (Number(nativeBalance?.formatted) * percentage) / 100;
+    } else {
+      walletBalance =
+        (Number(balances[selectedToken1?.address].toString()) * percentage) /
+        100;
+    }
+
+    const amount = walletBalance.toFixed(5);
+
+    setTokenInput1(amount);
+
+    setTokenInput2(''); // Reset the second token input
+
+    setIsLoading(true);
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      // Call the async function
+      void fetchBestRouteAndUpdateState(
+        selectedToken1,
+        selectedToken2,
+        amount,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading
+      );
+    }, ROUTING_DELAY);
   };
 
   const handleIconClick = () => {
@@ -276,25 +311,21 @@ const SwapForm: React.FC = () => {
 
                   <PercentageOptions>
                     <PercentageButton
-                      active={selectedPercentage === 25}
                       onClick={() => handleSelectPercentage(25)}
                     >
                       25%
                     </PercentageButton>
                     <PercentageButton
-                      active={selectedPercentage === 50}
                       onClick={() => handleSelectPercentage(50)}
                     >
                       50%
                     </PercentageButton>
                     <PercentageButton
-                      active={selectedPercentage === 75}
                       onClick={() => handleSelectPercentage(75)}
                     >
                       75%
                     </PercentageButton>
                     <PercentageButton
-                      active={selectedPercentage === 100}
                       onClick={() => handleSelectPercentage(100)}
                     >
                       MAX
