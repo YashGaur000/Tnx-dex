@@ -12,7 +12,7 @@ export const TransactionWrapper = styled.div<{
   height: 118px;
 
   border-radius: 20px;
-  margin: 32px 40px;
+  // margin: 32px 40px;
 `;
 
 export const SidebarTitle = styled.h2<{

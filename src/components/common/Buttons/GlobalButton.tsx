@@ -31,15 +31,12 @@ export const GlobalButton = styled.button<{
     disabled ? 'not-allowed' : inProgress ? 'progress' : 'pointer'};
   margin: ${({ margin }) => (margin ? margin : '20px 0px')};
   font-size: ${({ fontsize }) => fontsize ?? '16'}px;
-  &:hover {
-    border-radius: 12px;
+  opacity: 1;
+  transition: all 0.3s ease;
 
-    border: 1px solid transparent;
-    background:
-      padding-box
-        ${({ theme, disabled }) =>
-          disabled ? theme.colors.grey : theme.colors.cardLight},
-      border-box ${({ theme }) => theme.colors.buttonBackground};
+  &:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
   }
 
   @media (max-width: 768px) {

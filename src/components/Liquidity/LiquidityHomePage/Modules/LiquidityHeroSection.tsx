@@ -98,7 +98,12 @@ const LiquidityHeroSection = () => {
       </LiquidityHeroSectionMain>
 
       {isPopupVisible && (
-        <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
+        <PopupScreen
+          isVisible={isPopupVisible}
+          onClose={closeModal}
+          width="500px"
+          height="518px"
+        >
           <PopupWrapper onMouseLeave={handleTooltipHide}>
             <LiquidityToolTips />
           </PopupWrapper>

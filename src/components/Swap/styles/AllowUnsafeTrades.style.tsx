@@ -17,7 +17,7 @@ export const AllowUnsafeWrapper = styled.div<{
   gap: 0px;
   opacity: 0px;
 
-  margin: 32px 40px;
+  // margin: 32px 40px;
 `;
 
 export const SidebarTitle = styled.h2<{
