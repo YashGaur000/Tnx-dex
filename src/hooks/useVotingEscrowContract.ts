@@ -89,7 +89,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
       try {
         const count = new BigNumber(
           // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          (await votingEscrowContract.balanceOf(owner)) as string | number
+          (await votingEscrowContract.balanceOf(owner)) as number
         );
         return count.toNumber();
       } catch (error) {
