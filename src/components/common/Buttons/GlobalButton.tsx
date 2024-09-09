@@ -27,8 +27,8 @@ export const GlobalButton = styled.button<{
   border-radius: 12px;
   border: none;
 
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
-  cursor: ${({ inProgress }) => (inProgress ? 'progress' : 'pointer')};
+  cursor: ${({ disabled, inProgress }) =>
+    disabled ? 'not-allowed' : inProgress ? 'progress' : 'pointer'};
   margin: ${({ margin }) => (margin ? margin : '20px 0px')};
   font-size: ${({ fontsize }) => fontsize ?? '16'}px;
   &:hover {
