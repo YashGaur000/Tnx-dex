@@ -32,6 +32,12 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    "@typescript-eslint/no-misused-promises": [
+    "error",
+    {
+      "checksVoidReturn": false
+    }
+  ],
     'react/require-default-props':0,
     "react/prop-types": "off",
   },

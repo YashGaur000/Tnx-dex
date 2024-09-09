@@ -1,9 +1,8 @@
+import { useEffect, useState } from 'react';
 import TenexIcon from '../../../assets/Tenex.png';
-
 import { GlobalButton } from '../../common';
 import { useNavigate } from 'react-router-dom';
 import QuestionIcon from '../../../assets/question-mark.png';
-
 import {
   MetricDisplay,
   MetricDisplayWrapper,
@@ -24,29 +23,49 @@ import {
   LockheaderContentStyle,
   ToolTipsWrapper,
 } from '../Styles/ManageVetenex.style';
-
 import Relay from './Relaymodules/Relay';
 import PopupScreen from '../../common/PopupScreen';
 import LockToolTips from './LockToolTips';
-import { useState } from 'react';
 import RelayToolTips from './RelayToolTips';
 import VeTenexTable from './VeTenexTable';
+import { useAccount } from '../../../hooks/useAccount';
+import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
+import contractAddress from '../../../constants/contract-address/address';
 
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isToolTipActive, setToolTipActive] = useState(false);
   const Navigate = useNavigate();
+
+  const escrowAddress = contractAddress.VotingEscrow;
+  const { fetchUserNFTs } = useVotingEscrowContract(escrowAddress);
+  const { address } = useAccount();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        if (address) {
+          // Await the promise
+          const nftData = await fetchUserNFTs(address);
+          console.log('User NFT Count: ', nftData);
+        } else {
+          console.warn('Address is undefined');
+        }
+      } catch (error) {
+        console.error('Error fetching NFT count:', error);
+      }
+    }
+
+    // Always await the promise inside async useEffect functions
+    void fetchData();
+  }, [address, fetchUserNFTs]);
+
   function handleCreateLock() {
     Navigate('/governance/create');
   }
 
   function handleTooltipShow(option: string) {
-    if (option === 'lock') {
-      setToolTipActive(true);
-    } else {
-      setToolTipActive(false);
-    }
-
+    setToolTipActive(option === 'lock');
     setPopupVisible(true);
   }
 

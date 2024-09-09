@@ -17,20 +17,20 @@ import {
   LockProgressStyle,
   LoaderStatusWrapper,
   WeeksLabel,
+  LockCardtitle,
 } from '../../Styles/CreateLock.style';
 import LockDeposite from './LockDeposite';
-import { StatsCardtitle } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import { MainContainerStyle } from '../../../common/MainContainerStyle';
 import { CreateMainContainer } from '../../../Liquidity/ManageLiquidity/styles/Managepool.style';
 import {
   FormFieldContainer,
   FormRowWrapper,
 } from '../../../Liquidity/ManageLiquidity/styles/LiquidityForm.style';
-import { ChangeEvent, FC, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens';
-import { ethers } from 'ethers';
+
 import {
   InputWrapper,
   PercentageSelectorContainer,
@@ -41,27 +41,25 @@ import {
 } from '../../../Swap/styles/SwapForm.style.';
 import { InputBox } from '../../../Swap/modules/InputBox';
 
-interface FormComponentProps {
-  totalBalanceToken: ethers.Numeric;
-}
-
-const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
-  const [WeekValue, SetWeekValue] = useState(1);
-  const [LockTokenValue, setLockTokenValue] = useState<number>(0);
-  const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[6];
+const CreatelockForm = () => {
+  const [lockDuration, SetlockDuration] = useState<number>(1);
+  const [LockTokenValue, setLockTokenValue] = useState<string>('');
+  const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
   //const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   //const lockTokenInfo = useTokenInfo(tokenInformation);
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
-  totalBalanceToken = Number(lockTokenInfo && balances[lockTokenInfo.address]);
+  const totalBalanceToken = Number(
+    lockTokenInfo && balances[lockTokenInfo.address]
+  );
   console.log(address);
   console.log(totalBalanceToken);
   console.log(lockTokenInfo);
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
-    SetWeekValue(Number(TotalWeeks));
+    SetlockDuration(Number(TotalWeeks));
   };
 
   const labels = [
@@ -74,7 +72,7 @@ const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
-    setLockTokenValue(Number(e.target.value));
+    setLockTokenValue(e.target.value);
   };
 
   return (
@@ -84,33 +82,11 @@ const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
           <LockCardstyle>
             <FormFieldContainer>
               <FormRowWrapper>
-                {/*/<FormRowWrapper>
-                 <ImageWithTitleWrap>
-                  <TokenImgLiquidity src={lockTokenInfo.logoURI} alt={lockTokenInfo.name} />
-                  <label>{lockTokenInfo.name}</label>
-                </ImageWithTitleWrap>
-                <label>Available {totalBalanceToken.toString()} </label>
-              </FormRowWrapper>
-              <div>
-                <LockInputBox
-                  type="number"
-                  name="usdt"
-                  onChange={handleLockInputData}
-                />
-              </div>
-              <LockProgressStyle>
-                <label>0%</label>
-                <label>25%</label>
-                <label>50%</label>
-                <label>75%</label>
-                <label>MAX</label>
-              </LockProgressStyle> */}
-
                 <InputWrapper>
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0"
                     width="75%"
                     padding="0px"
                     value={LockTokenValue}
@@ -161,7 +137,7 @@ const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
             </LockTitle>
             <LockLoaderContainer>
               <LoaderStatusWrapper fontSize={14}>
-                <LoaderStatus>{WeekValue} weeks</LoaderStatus>
+                <LoaderStatus>{lockDuration} weeks</LoaderStatus>
               </LoaderStatusWrapper>
               <LoaderStyle>
                 <SliderContainer>
@@ -170,14 +146,17 @@ const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
                     min="1"
                     max="208"
                     step={1}
-                    value={WeekValue}
+                    value={lockDuration}
                     onChange={HandleWeeksStatus}
                   />
                 </SliderContainer>
               </LoaderStyle>
               <SliderDeadlineStyle fontSize={10}>
                 {labels.map(({ value, weeks }) => (
-                  <WeeksLabel key={value} onClick={() => SetWeekValue(value)}>
+                  <WeeksLabel
+                    key={value}
+                    onClick={() => SetlockDuration(value)}
+                  >
                     {weeks}
                   </WeeksLabel>
                 ))}
@@ -190,14 +169,15 @@ const CreatelockForm: FC<FormComponentProps> = ({ totalBalanceToken }) => {
           LockTokenSymbol={lockTokenInfo.symbol}
           LocTokenAddress={lockTokenInfo.address}
           LockTokenDecimal={lockTokenInfo.decimals}
+          lockDuration={Number(lockDuration)}
         />
       </CreateMainContainer>
       <LockScreenInstruction>
         <InformImg src={InformIcon} />
-        <StatsCardtitle fontSize={14}>
+        <LockCardtitle fontSize={16}>
           Locking will give you an NFT, referred to as a veNFT. You can increase
           the Lock amount or extend the Lock time at any point after.
-        </StatsCardtitle>
+        </LockCardtitle>
       </LockScreenInstruction>
     </MainContainerStyle>
   );

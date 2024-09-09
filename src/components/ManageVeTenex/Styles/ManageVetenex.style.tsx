@@ -4,6 +4,8 @@ import { DefaultTheme } from '../../../styles/Theme';
 export const LockCardstyle = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   padding: 30px 40px;
+  width: 600px;
+  height: 296px;
   border-radius: 10px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSize.medium};

@@ -29,7 +29,6 @@ export const CreateLockFirstSection = styled.div`
 export const LockLoaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-
   padding: 15px;
 `;
 export const LoaderStatusWrapper = styled.div<{
@@ -40,7 +39,6 @@ export const LoaderStatusWrapper = styled.div<{
 
   padding: 10px;
   width: 100%;
-  border: 1px solid;
   text-align: center;
   display: block;
 `;
@@ -125,4 +123,14 @@ export const LockHeaderStyle = styled.div`
 
 export const WeeksLabel = styled.label`
   cursor: pointer;
+`;
+
+export const LockCardtitle = styled.label<{
+  theme: DefaultTheme;
+  fontSize: number;
+  lineheight?: number;
+}>`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ fontSize }) => fontSize}px;
+  line-height: ${({ lineheight }) => lineheight};
 `;
