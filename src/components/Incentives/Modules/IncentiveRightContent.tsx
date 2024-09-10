@@ -170,7 +170,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
             icon: Lock1Icon,
             onClick: handleAllowance,
             tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
-            inProgress: !isAllowingToken,
+            inProgress: isAllowingToken,
           }
         : undefined,
     },
