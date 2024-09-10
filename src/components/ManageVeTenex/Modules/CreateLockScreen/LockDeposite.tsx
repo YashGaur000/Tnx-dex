@@ -60,11 +60,8 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
     try {
       if (!LockTokenValue || !isTokenAllowed) return;
       setIsLocking(true);
-
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
-
       const durationInSeconds = lockDuration * 7 * 24 * 60 * 60;
-
       const tx = await createLock(amountInWei, durationInSeconds);
       console.log('Transaction successful:', tx);
     } catch (error) {
@@ -140,7 +137,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
           width="100%"
           height="48px"
           margin="0px"
-          onClick={() => handleLock}
+          onClick={handleLock}
           disabled={isLocking}
         >
           {isLocking ? 'Locking...' : 'Lock'}

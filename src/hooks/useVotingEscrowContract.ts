@@ -90,8 +90,8 @@ export function useVotingEscrowContract(escrowAddress: string) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const NftCount: number = (await votingEscrowContract.balanceOf(
           owner
-        )) as number; // Problem in this line Unsafe assignment of an `any` value @typescript-eslint/no-unsafe-assignment
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        )) as number;
+
         return Number(NftCount);
       } catch (error) {
         console.error('Error fetching NFT count:', error);
