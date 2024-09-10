@@ -7,10 +7,10 @@ export const SlippageWrapper = styled.div<{
 }>`
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.cardLight};
-  padding: 10px;
+  padding: 24px;
   width: 360px;
   height: 118px;
-  border-radius: 20px;
+  border-radius: 12px;
 
   @media (max-width: 900px) {
   }
@@ -28,7 +28,7 @@ export const SidebarTitle = styled.h2<{
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   margin-left: 11px;
-  color: ${({ theme }) => theme.colors.greyLight};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   @media (max-width: 600px) {
     font-size: ${({ fontSize }) => fontSize * 0.8}px;
     margin-bottom: 15px;
@@ -65,8 +65,8 @@ export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.colors.text};
-  border: 1px solid ${({ theme }) => theme.colors.text};
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
 
   &:hover {
     color: ${({ theme }) => theme.colors.text};
@@ -101,7 +101,7 @@ export const SlippageInput = styled.input<{ theme: DefaultTheme }>`
   height: 25px;
   padding: 8px;
   border: 1px solid transparent;
-  color: ${({ theme }) => theme.colors.greyLight};
+  color: ${({ theme }) => theme.colors.whiteBorder};
   background: ${({ theme }) => theme.colors.cardLight},
     ${({ theme }) => theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
