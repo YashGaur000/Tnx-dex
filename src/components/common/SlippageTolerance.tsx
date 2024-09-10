@@ -11,7 +11,7 @@ import { useRootStore } from '../../store/root';
 
 const SlippageTolerance: React.FC = () => {
   const { setSelectedTolerance } = useRootStore();
-  const [toleranceInput, setToleranceInput] = useState('');
+  const [toleranceInput, setToleranceInput] = useState('0.1');
 
   const [color, setColor] = useState('');
 
@@ -45,8 +45,7 @@ const SlippageTolerance: React.FC = () => {
           type="text"
           value={toleranceInput}
           onChange={handleCustomTolerance}
-          placeholder={'1.0'}
-          style={{ width: '80px', textAlign: 'center', color: `${color}` }}
+          style={{ textAlign: 'center', color: `${color}` }}
         />
       </SlippageAlign>
       <ToleranceButtons>

@@ -8,6 +8,12 @@ import routerAbi from '../constants/artifacts/contracts/Router.json';
 import { TokenInfo } from '../constants/tokens';
 import { Route } from '../utils/liquidityRouting/generateAllRoutes';
 import { useMultiCall } from './useMultiCall';
+import {
+  CHUNK_SIZE,
+  chunkArray,
+  delay,
+  MULTICALL_DELAY,
+} from '../utils/liquidityRouting/chunk';
 
 /**
  * Hook to interact with the router contract.
@@ -189,6 +195,7 @@ export function useRouterContract() {
       }
 
       try {
+        // Generate contract calls for each route
         const contractCalls = routes.map((route) => ({
           abi: routerAbi.abi as Abi,
           functionName: 'getAmountsOut',
@@ -196,12 +203,29 @@ export function useRouterContract() {
           address: routerAddress,
         }));
 
-        const results = await multicallClient.multicall({
-          contracts: contractCalls,
-        });
+        // Chunk the contract calls into batches of 10
+        const chunks = chunkArray(contractCalls, CHUNK_SIZE);
+
+        const results = [];
+
+        for (const chunk of chunks) {
+          try {
+            // Execute multicall for the current chunk
+            const result = await multicallClient.multicall({
+              contracts: chunk,
+            });
+            results.push(...result);
+          } catch (error) {
+            console.error('Error in multicall:', error);
+            // Handle errors (e.g., retry logic could be added here)
+          }
+
+          // Introduce a delay between requests to avoid rate limits
+          await delay(MULTICALL_DELAY);
+        }
 
         const amounts: bigint[][] = results.map(
-          (data) => data.result as bigint[]
+          (data) => data?.result as bigint[]
         );
 
         return amounts;

@@ -179,7 +179,12 @@ const VeTenexTable: React.FC = () => {
         totalPages={totalPages}
       />
 
-      <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
+      <PopupScreen
+        isVisible={isPopUpVisible}
+        onClose={closeModal}
+        width="550px"
+        height="550px"
+      >
         {isMergeVisible ? <MergeLockScreen /> : <SplitScreen />}
       </PopupScreen>
     </LockTableContains>

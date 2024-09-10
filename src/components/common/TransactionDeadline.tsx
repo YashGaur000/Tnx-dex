@@ -1,6 +1,5 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+
 import {
   Align,
   SidebarTitle,
@@ -44,9 +43,7 @@ const TransactionDeadline: React.FC = () => {
           onChange={handleSliderChange}
         />
       </SliderContainer>
-      <TdText>
-        <FontAwesomeIcon icon={faInfoCircle} /> Max. 30 min
-      </TdText>
+      <TdText>Max. 30 min</TdText>
     </TransactionWrapper>
   );
 };

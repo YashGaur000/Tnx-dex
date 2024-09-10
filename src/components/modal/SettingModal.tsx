@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { DefaultTheme } from '../../styles/Theme';
 import AllowUnsafeTrades from '../Swap/modules/AllowUnsafeTrades';
 import SlippageTolerance from '../common/SlippageTolerance';
 
 import TransactionDeadline from '../common/TransactionDeadline';
+import PopupScreen from '../common/PopupScreen';
 
 interface SettingProps {
   isOpen: boolean;
@@ -14,49 +14,32 @@ interface SettingProps {
 }
 
 const PopupContainer = styled.div`
-  position: absolute;
-  width: 440px;
-  height: 466px;
-  top: 130px;
-  left: 420px;
-  gap: 0px;
-  border-radius: 24px;
-  background-color: rgba(24, 38, 76, 1);
-  background: linear-gradient(
-    to bottom,
-    rgba(24, 38, 76, 1),
-    rgba(31, 48, 95, 1)
-  );
-
-  z-index: 1000;
-`;
-
-const CloseButton = styled.button<{ theme: DefaultTheme }>`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: ${({ theme }) => theme.colors.text};
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 `;
 
 const SettingModal: React.FC<SettingProps> = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <PopupContainer>
-      <CloseButton onClick={onClose}>&times;</CloseButton>
-      <SlippageTolerance />
-      <TransactionDeadline />
-      <AllowUnsafeTrades
-        isChecked={false}
-        handleToggle={function (): void {
-          throw new Error('Function not implemented.');
-        }}
-      />
-    </PopupContainer>
+    <PopupScreen
+      isVisible={isOpen}
+      onClose={onClose}
+      width="430px"
+      height="466px"
+    >
+      <PopupContainer>
+        <SlippageTolerance />
+        <TransactionDeadline />
+        <AllowUnsafeTrades
+          isChecked={false}
+          handleToggle={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
+      </PopupContainer>
+    </PopupScreen>
   );
 };
 

@@ -16,13 +16,14 @@ import {
   SwitchButton,
   TokenSelect,
   TokenSelectAlign,
-  TokenSelectAlignSelect,
   WalletText,
   SwapTitle,
   SwTitle,
   SwapboxInner,
   WalletInfo,
   SettingIcon,
+  InputBoxRow,
+  SwapPageIconWrapper,
 } from '../styles/SwapForm.style.';
 import LiquityRouting from './LiquityRouting';
 import Sidebar from './Sidebar';
@@ -39,6 +40,7 @@ import SettingModal from '../../modal/SettingModal';
 
 import BalanceDisplay from './BalanceDisplay';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
+import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -99,8 +101,6 @@ const SwapForm: React.FC = () => {
 
     setIsLoading(true);
 
-    const delay = 5000; // 5 seconds delay
-
     // Clear any previous timeouts before setting a new one
     if (inputTimeout.current) {
       clearTimeout(inputTimeout.current);
@@ -120,7 +120,7 @@ const SwapForm: React.FC = () => {
         setRoute,
         setIsLoading
       );
-    }, delay);
+    }, ROUTING_DELAY);
   };
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
@@ -175,8 +175,6 @@ const SwapForm: React.FC = () => {
 
     setIsLoading(true);
 
-    const delay = 5000; // 5 seconds delay
-
     // Clear any previous timeouts before setting a new one
     if (inputTimeout.current) {
       clearTimeout(inputTimeout.current);
@@ -196,7 +194,7 @@ const SwapForm: React.FC = () => {
         setRoute,
         setIsLoading
       );
-    }, delay);
+    }, ROUTING_DELAY);
   };
 
   return (
@@ -220,44 +218,47 @@ const SwapForm: React.FC = () => {
             </SwapTitle>
             <SwapboxInner>
               <InputWrapper>
-                <InputBox
-                  type="number"
-                  border="none"
-                  placeholder=""
-                  width="75%"
-                  padding="0px"
-                  value={tokenInput1}
-                  onChange={handleTokenInput1}
-                />
-                <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
-                  <TokenSelectAlign>
-                    <img
+                <InputBoxRow>
+                  <InputBox
+                    type="number"
+                    border="none"
+                    placeholder=""
+                    width="70%"
+                    padding="0px"
+                    value={tokenInput1}
+                    onChange={handleTokenInput1}
+                  />
+                  <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+                    <SwapPageIconWrapper
                       src={selectedToken1?.logoURI}
-                      width={20}
-                      height={20}
+                      width="18px"
+                      height="18px"
                       alt={selectedToken1?.logoURI}
                     />
-                  </TokenSelectAlign>
-                  <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
-                  <TokenSelectAlignSelect>
-                    <img
+
+                    <TokenSelectAlign>
+                      {selectedToken1?.symbol}
+                    </TokenSelectAlign>
+                    <SwapPageIconWrapper
+                      width="8px"
+                      height="4px"
                       src={SelectIcon}
-                      width={8}
-                      height={4}
-                      alt={SelectIcon}
                     />
-                  </TokenSelectAlignSelect>
-                </TokenSelect>
+                  </TokenSelect>
+                </InputBoxRow>
 
                 <PercentageSelectorContainer>
                   <WalletInfo>
-                    Wallet: {'  '}
-                    {selectedToken1 &&
-                      (selectedToken1.symbol === 'ETH' ? (
-                        <BalanceDisplay address={address!} />
-                      ) : (
-                        balances[selectedToken1.address]?.toString()
-                      ))}
+                    Wallet:
+                    <WalletText>
+                      {selectedToken1 &&
+                        (selectedToken1.symbol === 'ETH' ? (
+                          <BalanceDisplay address={address!} />
+                        ) : (
+                          balances[selectedToken1.address]?.toString()
+                        ))}
+                    </WalletText>
+                    <WalletText margin={8}>~$0.00</WalletText>
                   </WalletInfo>
 
                   <PercentageOptions>
@@ -292,6 +293,7 @@ const SwapForm: React.FC = () => {
               <SwitchButton onClick={handleReverse}>
                 <img src={faSwitchAlt} alt={faSwitchAlt} />
               </SwitchButton>
+
               <InputWrapper>
                 {/* <Input
               type="number"
@@ -300,45 +302,76 @@ const SwapForm: React.FC = () => {
               value={''}
               //onChange={(e) => setInputValue2(e.target.value)}
             /> */}
-                <InputBox
-                  type="number"
-                  border="none"
-                  placeholder=""
-                  width="75%"
-                  padding="0px"
-                  value={tokenInput1 ? tokenInput2 : ''}
-                  disabled={true}
-                />
-                <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
-                  <TokenSelectAlign>
-                    <img
-                      src={selectedToken2?.logoURI}
-                      width={20}
-                      height={20}
-                      alt={selectedToken2?.logoURI}
+                <InputBoxRow>
+                  <InputBox
+                    type="number"
+                    border="none"
+                    placeholder=""
+                    width="75%"
+                    padding="0px"
+                    value={tokenInput1 ? tokenInput2 : ''}
+                    disabled={true}
+                  />
+                  <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+                    <SwapPageIconWrapper
+                      src={selectedToken1?.logoURI}
+                      width="18px"
+                      height="18px"
+                      alt={selectedToken1?.logoURI}
                     />
-                  </TokenSelectAlign>
-                  <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
-                  <TokenSelectAlign>
-                    <img
+
+                    <TokenSelectAlign>
+                      {selectedToken2?.symbol}
+                    </TokenSelectAlign>
+
+                    <SwapPageIconWrapper
+                      width="8px"
+                      height="4px"
                       src={SelectIcon}
-                      width={8}
-                      height={4}
-                      alt="src/assets/select.png"
+                      alt="wrong"
                     />
-                  </TokenSelectAlign>
-                </TokenSelect>
-                <WalletText>
+                  </TokenSelect>
+                </InputBoxRow>
+                <PercentageSelectorContainer>
                   <WalletInfo>
-                    Wallet: {'  '}
-                    {selectedToken2 &&
-                      (selectedToken2.symbol === 'ETH' ? (
-                        <BalanceDisplay address={address!} />
-                      ) : (
-                        balances[selectedToken2.address]?.toString()
-                      ))}
+                    Wallet:
+                    <WalletText>
+                      {selectedToken2 &&
+                        (selectedToken2.symbol === 'ETH' ? (
+                          <BalanceDisplay address={address!} />
+                        ) : (
+                          balances[selectedToken2.address]?.toString()
+                        ))}
+                    </WalletText>
                   </WalletInfo>
-                </WalletText>
+                  <WalletText margin={8}>~$0.00</WalletText>
+                  <PercentageOptions>
+                    <PercentageButton
+                      active={selectedPercentage === 25}
+                      onClick={() => handleSelectPercentage(25)}
+                    >
+                      25%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 50}
+                      onClick={() => handleSelectPercentage(50)}
+                    >
+                      50%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 75}
+                      onClick={() => handleSelectPercentage(75)}
+                    >
+                      75%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 100}
+                      onClick={() => handleSelectPercentage(100)}
+                    >
+                      MAX
+                    </PercentageButton>
+                  </PercentageOptions>
+                </PercentageSelectorContainer>
               </InputWrapper>
             </SwapboxInner>
             <TokenSelectModal

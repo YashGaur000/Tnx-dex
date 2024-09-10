@@ -39,5 +39,26 @@ export function useTokenAllowance(
     [tokenContract]
   );
 
-  return { approveAllowance };
+  const checkAllowance = useCallback(
+    async (account: Address, spenderAddress: Address) => {
+      if (!tokenContract) {
+        console.error('Token contract instance not available');
+        return;
+      }
+
+      try {
+        const amountAllowed: bigint = await tokenContract.allowance(
+          account,
+          spenderAddress
+        );
+        return amountAllowed;
+      } catch (error) {
+        console.error('Error fetching allowance:', error);
+        throw error;
+      }
+    },
+    [tokenContract]
+  );
+
+  return { approveAllowance, checkAllowance };
 }
