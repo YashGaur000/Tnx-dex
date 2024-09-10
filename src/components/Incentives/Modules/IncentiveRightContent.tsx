@@ -5,7 +5,6 @@ import {
 } from '../Styles/IncentiveSection.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
-import LockIcon from '../../../assets/lock.png';
 import SearchIcon from '../../../assets/search.png';
 import Lock1Icon from '../../../assets/Lock1.svg';
 import { TokenInfo } from '../../../constants/tokens';
@@ -14,6 +13,14 @@ import contractAddresses from '../../../constants/contract-address/address';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { Address } from 'viem';
+import { parseAmounts } from '../../../utils/transaction/parseAmounts';
+import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
+import { erc20Abi } from '../../../constants/abis/erc20';
+import RedLockIcon from '../../../assets/lock.png';
+import UnLockIcon from '../../../assets/unlock.png';
+import { GlobalButton } from '../../common/index';
+import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
+import SuccessPopup from '../../common/SucessPopup';
 
 interface IncentiveRightContent {
   InsentiveFormValue: number;
@@ -30,14 +37,20 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   // const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isGaugeCreated, setIsGaugeCreated] = useState(false);
   const [gaugeAddress, setGaugeAddress] = useState<Address>();
+  const [bribeAddress, setBribeAddress] = useState<string>('');
 
-  // const { approveAllowance: approveAllowance1 } = useTokenAllowance(
-  //   tokenSymbol!.address,
-  //   abi
-  // );
+  const [isAllowingToken, setIsAllowingToken] = useState(false);
+  const [isTokenAllowed, setIsTokenAllowed] = useState(false);
+  const [isIncentiveAdded, setIsIncentiveAdded] = useState(false);
 
-  const { createGauge, gauges } = useVoterContract();
-  console.log(gaugeAddress);
+  const { approveAllowance } = useTokenAllowance(
+    tokenSymbol!.address,
+    erc20Abi
+  );
+
+  const { notifyRewardAmount } = useBribeVotingReward(bribeAddress as Address);
+
+  const { createGauge, gauges, gaugeToBribe } = useVoterContract();
 
   const handleCreateGauge = async () => {
     const gaugeAddress = await createGauge(
@@ -60,7 +73,6 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         gaugeAddress != '0x0000000000000000000000000000000000000000' &&
         gaugeAddress != undefined
       ) {
-        console.log('gauge found :', gaugeAddress);
         setGaugeAddress(gaugeAddress);
         setIsGaugeCreated(true);
       }
@@ -71,29 +83,42 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   useEffect(() => {
     void getGaugeAddress();
-  }, [InsentiveFormValue]);
+    if (
+      gaugeAddress != '0x0000000000000000000000000000000000000000' &&
+      gaugeAddress != undefined
+    ) {
+      gaugeToBribe(gaugeAddress)
+        .then((bribeAddress) => {
+          setBribeAddress(bribeAddress as string);
+        })
+        .catch((error) => {
+          console.log('error loading bribe address', error);
+        });
+    }
+  }, [InsentiveFormValue, gaugeAddress, gaugeToBribe]);
 
-  // const handleAllowance = () => {
-  // setIsAllowingToken(true);
-  // try {
-  //   console.log("allowance",tokenSymbol)
-  //   const amount1InWei =
-  //   InsentiveFormValue &&
-  //     ethers.parseUnits(InsentiveFormValue.toString(), tokenSymbol?.decimals);
-  //   if (amount1InWei && tokenSymbol?.address) {
-  //     if (tokenSymbol?.symbol === 'WETH') {
-  //       console.log("not allowed ")
-  //     } else {
-  //       await approveAllowance1(contractAddresses.VotingRewardsFactory, amount1InWei.toString());
-  //       setIsTokenAllowed(true);
-  //     }
-  //   }
-  // } catch (error) {
-  //   console.error('Error during token approval', error);
-  // } finally {
-  //   setIsAllowingToken(false); // Re-enable the button after the operation completes
-  // }
-  // };
+  const handleAllowance = async () => {
+    setIsAllowingToken(true);
+
+    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    if (bribeAddress && amount) {
+      const result = await approveAllowance(
+        bribeAddress as Address,
+        amount.toString()
+      );
+      setIsTokenAllowed(result ? true : false);
+    }
+  };
+
+  const handleAddIncentive = async () => {
+    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    if (tokenSymbol && amount) {
+      const result = await notifyRewardAmount(tokenSymbol.address, amount);
+      console.log(result);
+      setIsIncentiveAdded(result ? true : false);
+    }
+  };
+
   const LockInstructionData: StepperDataProps[] = [
     {
       step: 1,
@@ -121,7 +146,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
           ? `Create gauge for the ${poolData[0]?.name} pool`
           : `Gauge found for this Pool`,
       },
-      icon: LockIcon,
+      icon: !isGaugeCreated ? RedLockIcon : UnLockIcon,
       buttons: !isGaugeCreated
         ? {
             label: `Create gauge for ${poolData[0]?.token0.symbol}-${poolData[0]?.token1.symbol}`,
@@ -134,19 +159,28 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     {
       step: 2,
       descriptions: {
-        labels: `Allowance not granted for ${tokenSymbol?.symbol}`,
+        labels: isTokenAllowed
+          ? `Allowance granted for ${tokenSymbol?.symbol}`
+          : `Allowance not granted for ${tokenSymbol?.symbol}`,
       },
-      icon: LockIcon,
-      buttons: {
-        label: `Allow ${tokenSymbol?.symbol}`,
-        icon: Lock1Icon,
-        // onClick: handleAllowance,
-        tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
-      },
+      icon: !isTokenAllowed ? RedLockIcon : UnLockIcon,
+      buttons: !isTokenAllowed
+        ? {
+            label: `Allow ${tokenSymbol?.symbol}`,
+            icon: Lock1Icon,
+            onClick: handleAllowance,
+            tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
+            inProgress: !isAllowingToken,
+          }
+        : undefined,
     },
     {
       step: 2,
-      descriptions: { labels: 'Waiting for next actions...' },
+      descriptions: {
+        labels: isIncentiveAdded
+          ? 'Incentive Added'
+          : 'Waiting for next actions...',
+      },
       icon: SearchIcon,
     },
   ];
@@ -160,8 +194,26 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         providing an incentive, you draw more liquidity providers to this pool.
       </IncentivesBox2Paragraph>
       <Stepper
-        data={InsentiveFormValue < 100 ? LockInstructionData : IncentiveData}
+        data={InsentiveFormValue <= 0 ? LockInstructionData : IncentiveData}
       />
+      {isTokenAllowed && !isIncentiveAdded && (
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={() => {
+            handleAddIncentive()
+              .then(() => {
+                <SuccessPopup message="Incentive added Successfully" />;
+              })
+              .catch((error) => {
+                console.error('Error adding Incentive:', error);
+              });
+          }}
+        >
+          Add incentive{' '}
+        </GlobalButton>
+      )}
     </IncentiveLeftBarBox1>
   );
 };

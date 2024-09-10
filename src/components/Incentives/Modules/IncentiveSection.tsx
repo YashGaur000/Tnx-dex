@@ -45,7 +45,7 @@ import contractAddresses from '../../../constants/contract-address/address';
 const IncentiveSection: React.FC = () => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
   const [value, setValue] = useState<number>(0);
-  const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
+  // const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
   const [incentiveToken, setIncentiveToken] = useState<TokenInfo | undefined>(
     getTokenInfo(contractAddresses.TENEX)
   );
@@ -69,7 +69,6 @@ const IncentiveSection: React.FC = () => {
   const poolId = getParam('pool') ?? '';
   const { data: poolData } = useLiquidityPoolDataById(poolId);
 
-  console.log(tokenSymbol);
   useEffect(() => {
     if (poolData?.[0]) {
       const token1 = poolData[0].token0?.id.match(/0x[a-fA-F0-9]{40}/) ?? '';
@@ -95,7 +94,7 @@ const IncentiveSection: React.FC = () => {
   };
   const handleTokenSymbol = (token: TokenInfo) => {
     console.log('test ', token);
-    setTokenSymbol(token.symbol);
+    // setTokenSymbol(token.symbol);
     setIncentiveToken(token);
   };
 
