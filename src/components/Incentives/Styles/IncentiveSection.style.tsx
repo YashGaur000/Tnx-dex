@@ -53,9 +53,9 @@ export const Column40 = styled.div`
   }
 `;
 
-export const IncentiveLeftBar = styled.div``;
+export const IncentiveleftBar = styled.div``;
 
-export const IncentiveLeftBarBox1 = styled.div`
+export const IncentiveleftBarBox1 = styled.div`
   background: rgb(24, 38, 76);
   background: linear-gradient(
     180deg,
@@ -91,17 +91,17 @@ export const Img4 = styled.img`
   width: 18x;
 `;
 
-export const IncentiveLeftBarBox1info = styled.div`
+export const IncentiveleftBarBox1info = styled.div`
   display: flex;
 `;
 
-export const IncentiveLeftBarBox1infoCol1 = styled.div`
+export const IncentiveleftBarBox1infoCol1 = styled.div`
   width: 60%;
   display: flex;
   align-items: center;
 `;
 
-export const IncentiveLeftBarBox1infoCol1StableRow = styled.div`
+export const IncentiveleftBarBox1infoCol1StableRow = styled.div`
   display: flex;
   align-items: center;
 `;
@@ -119,40 +119,40 @@ export const LiquidityBoxHeading = styled.span`
   font-size: 16px;
 `;
 
-export const IncentiveLeftBarBox1infoCol1Stable = styled.div`
+export const IncentiveleftBarBox1infoCol1Stable = styled.div`
   margin-right: 13px;
   color: #16c062;
   font-size: 12px;
 `;
 
-export const IncentiveLeftBarBox1infoCol1Count = styled.div`
+export const IncentiveleftBarBox1infoCol1Count = styled.div`
   margin-right: 13px;
   font-size: 12px;
 `;
 
-export const IncentiveLeftBarBox1infoCol1Icon = styled.div`
+export const IncentiveleftBarBox1infoCol1Icon = styled.div`
   margin-right: 10px;
   display: flex;
   align-items: center;
 `;
 
-export const IncentiveLeftBarBox1UTM = styled.div`
+export const IncentiveleftBarBox1UTM = styled.div`
   margin-left: 24px;
 `;
 
-export const IncentiveLeftBarBox1infoCol2 = styled.div`
+export const IncentiveleftBarBox1infoCol2 = styled.div`
   width: 40%;
   text-align: end;
 `;
 
-export const IncentiveLeftBarBox1infoCol2Row1 = styled.article`
+export const IncentiveleftBarBox1infoCol2Row1 = styled.article`
   font-size: 16px;
   font-family: Kanit;
   line-height: 1.75;
   color: #16c062;
 `;
 
-export const IncentiveLeftBarBox1infoCol2Row2 = styled.span`
+export const IncentiveleftBarBox1infoCol2Row2 = styled.span`
   font-size: 16px;
   font-family: Kanit;
   line-height: 1.75;

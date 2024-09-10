@@ -90,7 +90,7 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
               placeholder="Search by symbol or address"
               width="100%"
               height="30px"
-              fontsize="12px"
+              fontSize="12px"
               value={InputData}
               onChange={handlePoolTabelSearchBox}
             />

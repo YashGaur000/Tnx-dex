@@ -76,8 +76,8 @@ export const SwTitle = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Description = styled.p<{ textAlign: string; theme: DefaultTheme }>`
-  text-align: ${({ textAlign }) => textAlign};
+export const Description = styled.p<{ textalign: string; theme: DefaultTheme }>`
+  text-align: ${({ textalign }) => textalign};
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -139,7 +139,7 @@ export const Input = styled.input<{ theme: DefaultTheme }>`
 
 export const TokenSelect = styled.div<{
   theme: DefaultTheme;
-  marginLeft?: string;
+  marginleft?: string;
 }>`
   width: 90px;
   height: 32px;
@@ -151,7 +151,7 @@ export const TokenSelect = styled.div<{
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
 
-  margin-left: ${({ marginLeft }) => (marginLeft ? marginLeft : '24px')};
+  margin-left: ${({ marginleft }) => (marginleft ? marginleft : '24px')};
   display: inline-block;
   img {
     color: ${({ theme }) => theme.colors.text};

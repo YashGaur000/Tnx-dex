@@ -57,7 +57,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
         <TableContains margin="0px 0px">
           <thead>
             <TableRow>
-              <TableHeader textAlign="left">
+              <TableHeader textalign="left">
                 <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
               </TableHeader>
 

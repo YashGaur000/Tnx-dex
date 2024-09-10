@@ -4,7 +4,8 @@ import { VotingEscrowContract } from '../types/VotingEscrow';
 import { Abi, Address } from 'viem';
 import votingEscrowAbi from '../constants/artifacts/contracts/VotingEscrow.json';
 import { useMultiCall } from './useMultiCall';
-import BigNumber from 'bignumber.js';
+//import BigNumber from 'bignumber.js';
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function useVotingEscrowContract(escrowAddress: string) {
   const votingEscrowContract = useContract(
@@ -80,20 +81,19 @@ export function useVotingEscrowContract(escrowAddress: string) {
     },
     [votingEscrowContract]
   );
-
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const getNFTCount = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
     async (owner: Address): Promise<number> => {
       if (!votingEscrowContract) return 0;
 
       try {
-        const count = new BigNumber(
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-          (await votingEscrowContract.balanceOf(owner)) as number
-        );
-        return count.toNumber();
-      } catch (error) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const NftCount: number = (await votingEscrowContract.balanceOf(
+          owner
+        )) as number; // Problem in this line Unsafe assignment of an `any` value @typescript-eslint/no-unsafe-assignment
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        return Number(NftCount);
+      } catch (error) {
         console.error('Error fetching NFT count:', error);
         return 0;
       }
@@ -109,13 +109,23 @@ export function useVotingEscrowContract(escrowAddress: string) {
 
       const nftCount = await getNFTCount(owner);
       console.log('User NFT Count: ', nftCount);
+      console.log('escrowAddress: ', escrowAddress);
 
-      const multicallRequests = Array.from({ length: nftCount }, (_, i) => ({
-        abi: votingEscrowAbi.abi as Abi,
-        functionName: 'ownerToNFTokenIdList',
-        args: [owner, i],
-        address: escrowAddress as Address,
-      }));
+      const multicallRequests: {
+        abi: Abi;
+        functionName: string;
+        args: [Address, number];
+        address: Address;
+      }[] = [];
+
+      for (let i = 0; i < nftCount; i++) {
+        multicallRequests.push({
+          abi: votingEscrowAbi.abi as Abi,
+          functionName: 'ownerToNFTokenIdList',
+          args: [owner, i],
+          address: escrowAddress as Address,
+        });
+      }
 
       console.log('multicallRequests: ', multicallRequests);
       if (!multicallRequests) throw new Error('Failed to fetch tokens');
@@ -123,14 +133,16 @@ export function useVotingEscrowContract(escrowAddress: string) {
       const tokenIdResults = await multicallClient?.multicall({
         contracts: multicallRequests,
       });
-
+      console.log('tokenIdResults: ', tokenIdResults);
       if (!tokenIdResults) throw new Error('Failed to fetch token IDs');
 
-      const tokenIds: bigint[] = tokenIdResults
-        .filter((result) => result.status === 'success')
-        .map((result) => result.result as bigint);
-
-      console.log('tokenIds: ', tokenIds);
+      const tokenIds: bigint[] = Array.from(
+        new Set(
+          tokenIdResults
+            .filter((result) => result.status === 'success')
+            .map((result) => result.result as bigint)
+        )
+      );
 
       const metadataRequests = tokenIds.map((tokenId) => ({
         abi: votingEscrowAbi.abi as Abi,
@@ -138,7 +150,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
         args: [tokenId],
         address: escrowAddress as Address,
       }));
-
+      console.log('metadataRequests Initial: ', metadataRequests);
       const metadataResults = await multicallClient?.multicall({
         contracts: metadataRequests,
       });
@@ -147,7 +159,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
 
       const nfts: { tokenId: bigint; metadata: string }[] =
         metadataResults?.map((result, index) => {
-          const metadata = result.result as string; // Ensure this is a string
+          const metadata = result.result as string;
           return { tokenId: tokenIds[index], metadata };
         }) ?? [];
 

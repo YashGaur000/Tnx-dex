@@ -23,7 +23,7 @@ const SettingModal: React.FC<SettingProps> = ({ isOpen, onClose }) => {
 
   return (
     <PopupScreen
-      isVisible={isOpen}
+      isvisible={isOpen}
       onClose={onClose}
       width="430px"
       height="466px"

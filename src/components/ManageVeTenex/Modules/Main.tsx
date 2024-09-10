@@ -31,10 +31,14 @@ import VeTenexTable from './VeTenexTable';
 import { useAccount } from '../../../hooks/useAccount';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
-
+/*  interface NFTData {
+  tokenId: bigint;
+  metadata: string;
+}  */
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isToolTipActive, setToolTipActive] = useState(false);
+  //const [decodedData, setDecodedData] = useState<NFTData[]>([]);
   const Navigate = useNavigate();
 
   const escrowAddress = contractAddress.VotingEscrow;
@@ -46,7 +50,18 @@ const Main = () => {
       try {
         if (address) {
           const nftData = await fetchUserNFTs(address);
-          console.log('User NFT Count: ', nftData);
+          /*  const decodedNftData : NFTData[] = nftData.map((nft) => {
+            // Remove the 'data:application/json;base64,' prefix before decoding
+            const base64String = nft.metadata.split(',')[1];
+            const decodedMetadata = JSON.parse(atob(base64String));
+      
+            return {
+              tokenId: nft.tokenId,
+              metadata: decodedMetadata,
+            }
+          }) */
+          // setDecodedData(decodedNftData);
+          console.log('User decodedNftData: ', nftData);
         } else {
           console.warn('Address is undefined');
         }
@@ -54,6 +69,7 @@ const Main = () => {
         console.error('Error fetching NFT count:', error);
       }
     }
+
     void fetchData();
   }, [address, fetchUserNFTs]);
 
@@ -156,7 +172,7 @@ const Main = () => {
 
       {isPopupVisible && (
         <PopupScreen
-          isVisible={isPopupVisible}
+          isvisible={isPopupVisible}
           onClose={closeModal}
           width="500px"
           height="518px"

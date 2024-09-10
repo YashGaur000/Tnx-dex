@@ -92,7 +92,7 @@ const CreatelockForm = () => {
                     value={LockTokenValue}
                     onChange={handleLockInputData}
                   />
-                  <TokenSelect marginLeft={'32px'}>
+                  <TokenSelect marginleft={'32px'}>
                     <TokenSelectAlign>
                       <img
                         src={lockTokenInfo.logoURI}
@@ -132,11 +132,11 @@ const CreatelockForm = () => {
               </FormRowWrapper>
             </FormFieldContainer>
 
-            <LockTitle fontSize={16} lineHeight={23.93}>
+            <LockTitle fontSize={16} lineheight={23.93}>
               Locking your TENEX tokens for 0.243 veTENEX voting power
             </LockTitle>
             <LockLoaderContainer>
-              <LoaderStatusWrapper fontSize={12} lineHeight={17.94}>
+              <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
                 <LoaderStatus>{lockDuration} weeks</LoaderStatus>
               </LoaderStatusWrapper>
               <LoaderStyle>

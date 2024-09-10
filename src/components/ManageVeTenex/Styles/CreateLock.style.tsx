@@ -4,12 +4,12 @@ import { DefaultTheme } from '../../../styles/Theme';
 export const LockTitle = styled.p<{
   theme: DefaultTheme;
   fontSize: number;
-  lineHeight?: number;
+  lineheight?: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
-  line-height: ${({ lineHeight }) => lineHeight}px;
+  line-height: ${({ lineheight }) => lineheight}px;
   padding-left: 5px;
   text-align: left;
   margin-top: 30px;
@@ -39,10 +39,10 @@ export const LockLoaderContainer = styled.div`
 export const LoaderStatusWrapper = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
-  lineHeight?: number;
+  lineheight?: number;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-  line-height: ${({ lineHeight }) => lineHeight}px;
+  line-height: ${({ lineheight }) => lineheight}px;
   padding: 10px;
   width: 100%;
   text-align: center;

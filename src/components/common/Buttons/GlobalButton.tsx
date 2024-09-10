@@ -11,7 +11,7 @@ export const GlobalButton = styled.button<{
   minwidth?: string;
   maxwidth?: string;
   margin?: string;
-  fontsize?: number;
+  fontSize?: number;
   smfontsize?: number;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
@@ -30,7 +30,7 @@ export const GlobalButton = styled.button<{
   cursor: ${({ disabled, inProgress }) =>
     disabled ? 'not-allowed' : inProgress ? 'progress' : 'pointer'};
   margin: ${({ margin }) => (margin ? margin : '20px 0px')};
-  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+  font-size: ${({ fontSize }) => fontSize ?? '16'}px;
   opacity: 1;
   transition: all 0.3s ease;
 

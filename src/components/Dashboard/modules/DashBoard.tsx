@@ -61,7 +61,7 @@ const DashBoard: React.FC = () => {
         </DashBoardCard>
       </DashBoardWrapper>
       <DashBoardWrapper>
-        <DashboardHeading fontsize="24px">
+        <DashboardHeading fontSize="24px">
           Locks <TipsIcon src={QuestionIcon} alt="wrong" />
         </DashboardHeading>
         <DashBoardLock>
