@@ -32,6 +32,7 @@ export const SidebarContainer = styled.div<{
 export const SidebarInner = styled.div<{ theme: DefaultTheme }>`
   width: 356px;
   margin-left: 24px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -69,7 +70,7 @@ export const SidebarTitle = styled.h2<{
 export const SidebarList = styled.ol<{ theme: DefaultTheme }>`
   list-style-type: decimal;
   line-height: 1.5;
-  padding-left: 20px;
+
   margin: 0;
   color: ${({ theme }) => theme.colors.text};
 
