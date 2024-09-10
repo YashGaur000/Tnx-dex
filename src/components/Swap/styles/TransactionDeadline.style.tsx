@@ -57,6 +57,7 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
 
 export const SliderContainer = styled.div<{ margin?: string }>`
   margin-left: ${({ margin }) => margin ?? '11px'};
+  color: rgba(184, 184, 184, 0.6);
 `;
 
 export const Slider = styled.input<{ theme: DefaultTheme }>`

@@ -6,7 +6,7 @@ export const LockCardstyle = styled.div<{ theme: DefaultTheme }>`
   padding: 30px 40px;
   width: 600px;
   height: 296px;
-  border-radius: 10px;
+  border-radius: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-family: ${({ theme }) => theme.fonts.main};

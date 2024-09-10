@@ -1,6 +1,6 @@
 import InformIcon from '../../../../assets/information.png';
 import { LockCardstyle } from '../../Styles/ManageVetenex.style';
-import SelectIcon from '../../../../assets/select.png';
+//import SelectIcon from '../../../../assets/select.png';
 import {
   Slider,
   SliderContainer,
@@ -36,7 +36,7 @@ import {
   PercentageSelectorContainer,
   TokenSelect,
   TokenSelectAlign,
-  TokenSelectAlignSelect,
+  //TokenSelectAlignSelect,
   WalletInfo,
 } from '../../../Swap/styles/SwapForm.style.';
 import { InputBox } from '../../../Swap/modules/InputBox';
@@ -92,7 +92,7 @@ const CreatelockForm = () => {
                     value={LockTokenValue}
                     onChange={handleLockInputData}
                   />
-                  <TokenSelect>
+                  <TokenSelect marginLeft={'32px'}>
                     <TokenSelectAlign>
                       <img
                         src={lockTokenInfo.logoURI}
@@ -102,14 +102,14 @@ const CreatelockForm = () => {
                       />
                     </TokenSelectAlign>
                     <TokenSelectAlign>{lockTokenInfo?.symbol}</TokenSelectAlign>
-                    <TokenSelectAlignSelect>
+                    {/* <TokenSelectAlignSelect>
                       <img
                         src={SelectIcon}
                         width={8}
                         height={4}
                         alt={SelectIcon}
                       />
-                    </TokenSelectAlignSelect>
+                    </TokenSelectAlignSelect> */}
                   </TokenSelect>
 
                   <PercentageSelectorContainer>
@@ -132,11 +132,11 @@ const CreatelockForm = () => {
               </FormRowWrapper>
             </FormFieldContainer>
 
-            <LockTitle fontSize={17}>
+            <LockTitle fontSize={16} lineHeight={23.93}>
               Locking your TENEX tokens for 0.243 veTENEX voting power
             </LockTitle>
             <LockLoaderContainer>
-              <LoaderStatusWrapper fontSize={14}>
+              <LoaderStatusWrapper fontSize={12} lineHeight={17.94}>
                 <LoaderStatus>{lockDuration} weeks</LoaderStatus>
               </LoaderStatusWrapper>
               <LoaderStyle>

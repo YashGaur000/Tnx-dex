@@ -137,7 +137,10 @@ export const Input = styled.input<{ theme: DefaultTheme }>`
   }
 `;
 
-export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
+export const TokenSelect = styled.div<{
+  theme: DefaultTheme;
+  marginLeft?: string;
+}>`
   width: 90px;
   height: 32px;
   border-spacing: 6px;
@@ -147,7 +150,8 @@ export const TokenSelect = styled.div<{ theme: DefaultTheme }>`
   font-size: 14px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   cursor: pointer;
-  margin-left: 24px;
+
+  margin-left: ${({ marginLeft }) => (marginLeft ? marginLeft : '24px')};
   display: inline-block;
   img {
     color: ${({ theme }) => theme.colors.text};

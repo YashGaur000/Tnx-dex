@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
-export const LockTitle = styled.p<{ theme: DefaultTheme; fontSize: number }>`
+export const LockTitle = styled.p<{
+  theme: DefaultTheme;
+  fontSize: number;
+  lineHeight?: number;
+}>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
+  line-height: ${({ lineHeight }) => lineHeight}px;
   padding-left: 5px;
   text-align: left;
   margin-top: 30px;
@@ -34,9 +39,10 @@ export const LockLoaderContainer = styled.div`
 export const LoaderStatusWrapper = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
+  lineHeight?: number;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-
+  line-height: ${({ lineHeight }) => lineHeight}px;
   padding: 10px;
   width: 100%;
   text-align: center;
@@ -64,17 +70,17 @@ export const SliderDeadlineStyle = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
 }>`
-display:flex;
-justify-content:space-between;
-margin:0px;  
-color:${({ theme }) => theme.colors.text}
-font-size: ${({ fontSize }) => fontSize}px;
-font-weight:${({ theme }) => theme.fontWeights.regular}
-
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ fontSize }) => fontSize}px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 export const LockScreenInstruction = styled.div`
   display: flex;
-  padding: 14px;
+  margin-top: 48px;
+  text-align: left;
   gap: 10px;
   align-items: flex-start;
 `;
