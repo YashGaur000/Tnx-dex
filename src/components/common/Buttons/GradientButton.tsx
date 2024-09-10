@@ -42,10 +42,10 @@ const StyledButton = styled.button<
   color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};
   margin-top: ${({ marginTop }) => marginTop ?? '0px'};
   opacity: 1;
-  transition: all 0.3s ease;
+  transition: all 0s ease;
 
   &:hover {
-    opacity: 0.9;
+    opacity: 1;
     transform: scale(1.05);
   }
 
