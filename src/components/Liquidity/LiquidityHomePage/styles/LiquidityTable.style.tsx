@@ -10,8 +10,7 @@ export const TokenCardContainer = styled.div`
   width: 206px;
 `;
 export const DepositeButtonWrapper = styled.div`
-  margin-top: 4px;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   display: inline-block;
 `;
 

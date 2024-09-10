@@ -1,6 +1,6 @@
 import InformIcon from '../../../../assets/information.png';
 import { LockCardstyle } from '../../Styles/ManageVetenex.style';
-//import SelectIcon from '../../../../assets/select.png';
+import SelectIcon from '../../../../assets/select.png';
 import {
   Slider,
   SliderContainer,
@@ -14,7 +14,6 @@ import {
   SliderDeadlineStyle,
   LockScreenInstruction,
   InformImg,
-  LockProgressStyle,
   LoaderStatusWrapper,
   WeeksLabel,
   LockCardtitle,
@@ -32,19 +31,28 @@ import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens';
 
 import {
+  InputBoxRow,
   InputWrapper,
+  PercentageButton,
+  PercentageOptions,
   PercentageSelectorContainer,
+  SwapPageIconWrapper,
   TokenSelect,
   TokenSelectAlign,
   //TokenSelectAlignSelect,
   WalletInfo,
+  WalletText,
 } from '../../../Swap/styles/SwapForm.style.';
 import { InputBox } from '../../../Swap/modules/InputBox';
+import React from 'react';
 
 const CreatelockForm = () => {
   const [lockDuration, SetlockDuration] = useState<number>(1);
   const [LockTokenValue, setLockTokenValue] = useState<string>('');
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
+  const [selectedPercentage, setSelectedPercentage] = React.useState<
+    number | null
+  >(null);
   //const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   //const lockTokenInfo = useTokenInfo(tokenInformation);
   const tokenList = [lockTokenInfo];
@@ -61,7 +69,9 @@ const CreatelockForm = () => {
     const TotalWeeks = e.target.value;
     SetlockDuration(Number(TotalWeeks));
   };
-
+  const handleSelectPercentage = (percentage: number) => {
+    setSelectedPercentage(percentage);
+  };
   const labels = [
     { value: 1, weeks: '1 week' },
     { value: 52, weeks: '1 year' },
@@ -83,50 +93,72 @@ const CreatelockForm = () => {
             <FormFieldContainer>
               <FormRowWrapper>
                 <InputWrapper>
-                  <InputBox
-                    type="number"
-                    border="none"
-                    placeholder="0"
-                    width="75%"
-                    padding="0px"
-                    value={LockTokenValue}
-                    onChange={handleLockInputData}
-                  />
-                  <TokenSelect marginleft={'32px'}>
-                    <TokenSelectAlign>
-                      <img
-                        src={lockTokenInfo.logoURI}
-                        width={20}
-                        height={20}
-                        alt={lockTokenInfo.logoURI}
+                  <InputBoxRow>
+                    <InputBox
+                      type="number"
+                      border="none"
+                      placeholder="0"
+                      width="70%"
+                      padding="0px"
+                      value={LockTokenValue}
+                      onChange={handleLockInputData}
+                    />
+                    <TokenSelect>
+                      <SwapPageIconWrapper
+                        src={lockTokenInfo?.logoURI}
+                        width="18px"
+                        height="18px"
+                        alt={lockTokenInfo?.logoURI}
                       />
-                    </TokenSelectAlign>
-                    <TokenSelectAlign>{lockTokenInfo?.symbol}</TokenSelectAlign>
-                    {/* <TokenSelectAlignSelect>
-                      <img
+
+                      <TokenSelectAlign>
+                        {lockTokenInfo?.symbol}
+                      </TokenSelectAlign>
+                      <SwapPageIconWrapper
+                        width="8px"
+                        height="4px"
                         src={SelectIcon}
-                        width={8}
-                        height={4}
-                        alt={SelectIcon}
                       />
-                    </TokenSelectAlignSelect> */}
-                  </TokenSelect>
+                    </TokenSelect>
+                  </InputBoxRow>
 
                   <PercentageSelectorContainer>
                     <WalletInfo>
-                      Wallet:{' '}
-                      {Number(
-                        lockTokenInfo && balances[lockTokenInfo?.address]
-                      )}{' '}
+                      Wallet:
+                      <WalletText>
+                        {Number(
+                          lockTokenInfo && balances[lockTokenInfo?.address]
+                        )}{' '}
+                      </WalletText>
+                      <WalletText margin={8}>~$0.00</WalletText>
                     </WalletInfo>
 
-                    <LockProgressStyle>
-                      <label>0%</label>
-                      <label>25%</label>
-                      <label>50%</label>
-                      <label>75%</label>
-                      <label>MAX</label>
-                    </LockProgressStyle>
+                    <PercentageOptions>
+                      <PercentageButton
+                        active={selectedPercentage === 25}
+                        onClick={() => handleSelectPercentage(25)}
+                      >
+                        25%
+                      </PercentageButton>
+                      <PercentageButton
+                        active={selectedPercentage === 50}
+                        onClick={() => handleSelectPercentage(50)}
+                      >
+                        50%
+                      </PercentageButton>
+                      <PercentageButton
+                        active={selectedPercentage === 75}
+                        onClick={() => handleSelectPercentage(75)}
+                      >
+                        75%
+                      </PercentageButton>
+                      <PercentageButton
+                        active={selectedPercentage === 100}
+                        onClick={() => handleSelectPercentage(100)}
+                      >
+                        MAX
+                      </PercentageButton>
+                    </PercentageOptions>
                   </PercentageSelectorContainer>
                 </InputWrapper>
               </FormRowWrapper>

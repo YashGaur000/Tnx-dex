@@ -40,16 +40,13 @@ const StyledButton = styled.button<
   letter-spacing: 0.02em;
   text-align: center;
   color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};
-  margin-top: ${({ margintop }) => margintop ?? '0'};
-  transition:
-    background-color 0.3s,
-    color 0.3s;
+  margin-top: ${({ margintop }) => margintop ?? '0px'};
+  opacity: 1;
+  transition: all 0s ease;
 
   &:hover {
-    background: ${({ theme }) => theme.colors.buttonBackground};
-    color: ${({ theme }) => theme.colors.text};
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
+    opacity: 1;
+    transform: scale(1.05);
   }
 
   &:hover span {
