@@ -6,7 +6,7 @@ import {
   SearchIcon,
   SearchInput,
   HeaderTokenContent,
-  HeaderLeftContent,
+  HeaderleftContent,
   HeaderRightContent,
   TableContainerList,
   TableList,
@@ -16,7 +16,7 @@ import {
   TableData,
   ImgRightIcon,
   TableCoinPairName,
-  ImgLeftIcon,
+  ImgleftIcon,
   HeaderButtonContent,
   FilterButtonContainer,
   FilterButton,
@@ -108,7 +108,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
         </SearchWrapper>
 
         <HeaderTokenContent>
-          <HeaderLeftContent>{filteredPools.length} Pools</HeaderLeftContent>
+          <HeaderleftContent>{filteredPools.length} Pools</HeaderleftContent>
           <HeaderRightContent>Pool Balance</HeaderRightContent>
         </HeaderTokenContent>
 
@@ -119,7 +119,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
                 {filteredPools.map((pool) => (
                   <TableRow key={pool.id} onClick={() => handleRowClick(pool)}>
                     <td>
-                      <ImgLeftIcon
+                      <ImgleftIcon
                         src={pool.icon1}
                         alt="Icon 1"
                         width={36}

@@ -98,7 +98,7 @@ const VotePoolTable: React.FC = () => {
       <TableContains
         padding="20px 30px "
         borderRadius="20px"
-        textAlign="center"
+        textalign="center"
         width="100%"
         margin="20px 0px"
       >

@@ -88,8 +88,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   const { selectedTolerance } = useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
-  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
-  const [isVisibleDeadline, setVisibleDealine] = useState(false);
+  const [isvisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isvisibleDeadline, setVisibleDealine] = useState(false);
 
   const minAmountOutWei = useMemo(() => {
     if (tokenInput2 && selectedTolerance) {
@@ -414,9 +414,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                   </GlobalButton>
                 )}
 
-              {isVisibleSlippage && (
+              {isvisibleSlippage && (
                 <PopupScreen
-                  isVisible={isVisibleSlippage}
+                  isvisible={isvisibleSlippage}
                   onClose={() => setVisibleSlippage(false)}
                 >
                   <PopupWrapper>
@@ -425,9 +425,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 </PopupScreen>
               )}
 
-              {isVisibleDeadline && (
+              {isvisibleDeadline && (
                 <PopupScreen
-                  isVisible={isVisibleDeadline}
+                  isvisible={isvisibleDeadline}
                   onClose={() => setVisibleDealine(false)}
                 >
                   <PopupWrapper>

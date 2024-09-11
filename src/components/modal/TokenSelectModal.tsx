@@ -6,7 +6,7 @@ import {
 } from '../../constants/tokens';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import {
-  HeaderLeftContent,
+  HeaderleftContent,
   HeaderRightContent,
   HeaderTokenContent,
   ModalContent,
@@ -91,7 +91,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
         </SearchWrapper>
 
         <HeaderTokenContent>
-          <HeaderLeftContent>{filteredTokens.length} Tokens</HeaderLeftContent>
+          <HeaderleftContent>{filteredTokens.length} Tokens</HeaderleftContent>
           <HeaderRightContent>Balance</HeaderRightContent>
         </HeaderTokenContent>
 

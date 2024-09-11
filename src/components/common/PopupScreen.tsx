@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { ReactNode } from 'react';
 import { DefaultTheme } from '../../styles/Theme';
 import CloseIcon from '../../assets/close.png';
-const ModalBackground = styled.div<{ isVisible: boolean; theme: DefaultTheme }>`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+const ModalBackground = styled.div<{ isvisible: boolean; theme: DefaultTheme }>`
+  display: ${({ isvisible }) => (isvisible ? 'block' : 'none')};
   position: fixed;
   top: 0;
   left: 0;
@@ -85,7 +85,7 @@ const DivOverflow = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 interface PopUpProps {
-  isVisible: boolean;
+  isvisible: boolean;
   onClose: () => void;
   children: ReactNode;
   top?: number;
@@ -93,25 +93,25 @@ interface PopUpProps {
   width?: string;
   height?: string;
   padding?: string;
-  isVisiblecloseIcon?: boolean;
+  isvisiblecloseIcon?: boolean;
 }
 
 const PopupScreen: React.FC<PopUpProps> = ({
-  isVisible,
+  isvisible,
   onClose,
   children,
   width,
   height,
-  isVisiblecloseIcon = true,
+  isvisiblecloseIcon = true,
 }) => {
   return (
-    <ModalBackground isVisible={isVisible} onClick={onClose}>
+    <ModalBackground isvisible={isvisible} onClick={onClose}>
       <ModalContent
         width={width}
         height={height}
         onClick={(e) => e.stopPropagation()}
       >
-        {isVisiblecloseIcon && (
+        {isvisiblecloseIcon && (
           <CloseButton onClick={onClose}>
             <CloseImg src={CloseIcon} />
           </CloseButton>

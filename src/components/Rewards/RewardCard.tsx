@@ -44,7 +44,7 @@ const RewardCard: React.FC<CardProps> = ({
           // background={theme.colors.cardLight}
           // color={theme.colors.buttonBackground}
           cursor="pointer"
-          marginTop="15px"
+          margintop="15px"
         >
           Claim
         </GradientButton>

@@ -42,7 +42,7 @@ const Relay = () => {
           <thead>
             <TableRow>
               <TableHeader>
-                <RelayTableheader> Relay</RelayTableheader>
+                <RelayTableheader> Relays</RelayTableheader>
               </TableHeader>
               <TableHeader>Voting Power</TableHeader>
               <TableHeader>APR</TableHeader>

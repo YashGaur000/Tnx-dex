@@ -126,7 +126,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
               width="90px"
               fontSize="13px"
               padding="0px 5px"
-              marginTop="10px"
+              margintop="10px"
             >
               Deposit
             </StyledGradientButton>

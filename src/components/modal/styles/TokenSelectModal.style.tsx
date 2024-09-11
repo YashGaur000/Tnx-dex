@@ -93,7 +93,7 @@ export const SearchIcon = styled(FontAwesomeIcon)`
 
 export const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>``;
 
-export const HeaderLeftContent = styled.span<{ theme: DefaultTheme }>``;
+export const HeaderleftContent = styled.span<{ theme: DefaultTheme }>``;
 
 export const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
   margin-left: 300px;
