@@ -27,10 +27,12 @@ import Relay from './Relaymodules/Relay';
 import PopupScreen from '../../common/PopupScreen';
 import LockToolTips from './LockToolTips';
 import RelayToolTips from './RelayToolTips';
-import VeTenexTable, { LockItemProps, Metadata } from './VeTenexTable';
 import { useAccount } from '../../../hooks/useAccount';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
+import { LockItemProps } from '../../../types/VotingEscrow';
+import VeTenexTable from './VeTenexTable';
+import { decodeBase64 } from '../../../utils/common/voteTenex';
 
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -41,18 +43,7 @@ const Main = () => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { fetchUserNFTs } = useVotingEscrowContract(escrowAddress);
   const { address } = useAccount();
-  const decodeBase64 = (base64: string): Metadata => {
-    const base64Data = base64.split(',')[1];
-    const binaryString = window.atob(base64Data);
-    const len = binaryString.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binaryString.charCodeAt(i);
-    }
-    const decodedString = new TextDecoder().decode(bytes);
-    const decodedStringJson = JSON.parse(decodedString) as Metadata;
-    return decodedStringJson;
-  };
+
   useEffect(() => {
     void (async function fetchData() {
       try {
@@ -156,10 +147,6 @@ const Main = () => {
         </LockheaderWrapper>
 
         <VeTenexTable nftData={nftData} />
-        {/* //Type '{ tokenId: bigint; metadata: string; }[]' is not assignable to type 'LockItemProps[]'.
-  Type '{ tokenId: bigint; metadata: string; }' is not assignable to type 'LockItemProps'.
-    Types of property 'metadata' are incompatible.
-      Type 'string' is not assignable to type 'Metadata'. */}
       </LockContainerWrapper>
 
       <LockContainerWrapper>

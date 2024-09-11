@@ -15,31 +15,12 @@ import {
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
 import TenexIcon from '../../../assets/Tenex.png';
-// LockItemTypes.ts
-
-export interface Attribute {
-  trait_type: string;
-  value: string;
-}
-
-export interface Metadata {
-  attributes: Attribute[];
-  background_color: string;
-  description: string;
-  image: string;
-  name: string;
-}
-
-export interface LockItemProps {
-  tokenId: bigint;
-  metadata: Metadata;
-}
+import { LockItemProps } from '../../../types/VotingEscrow';
 
 const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => (
   <LockListContainer>
     {nftData.length > 0 ? (
       nftData.map((lock, index) => {
-        // Check if metadata exists and has at least one element
         if (!lock.metadata) {
           console.warn(
             `No metadata found for lock with tokenId: ${lock.tokenId}`

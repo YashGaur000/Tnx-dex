@@ -30,3 +30,21 @@ export interface ContractTransaction {
 export interface ContractReceipt {
   transactionHash: string;
 }
+
+export interface Attribute {
+  trait_type: string;
+  value: string;
+}
+
+export interface Metadata {
+  attributes: Attribute[];
+  background_color: string;
+  description: string;
+  image: string;
+  name: string;
+}
+
+export interface LockItemProps {
+  tokenId: bigint;
+  metadata: Metadata;
+}
