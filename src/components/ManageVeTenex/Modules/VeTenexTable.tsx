@@ -48,7 +48,7 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => (
         }
 
         const metadata = lock.metadata;
-        if (!metadata ?? !metadata.attributes) {
+        if (!metadata.attributes) {
           console.warn(
             `No attributes found in metadata for lock with tokenId: ${lock.tokenId}`
           );
