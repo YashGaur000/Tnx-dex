@@ -8,7 +8,7 @@ export const StyledDepositContainer = styled.div<{
   background: ${({ theme }) => theme.colors.card};
   width: 40%;
   border-radius: 15px;
-  padding: 20px;
+  padding: 30px;
   display: flex;
   height: ${({ height }) => height};
   flex-direction: column;
