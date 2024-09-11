@@ -108,8 +108,6 @@ export function useVotingEscrowContract(escrowAddress: string) {
       if (!votingEscrowContract) return [];
 
       const nftCount = await getNFTCount(owner);
-      console.log('User NFT Count: ', nftCount);
-      console.log('escrowAddress: ', escrowAddress);
 
       const multicallRequests: {
         abi: Abi;
@@ -127,13 +125,12 @@ export function useVotingEscrowContract(escrowAddress: string) {
         });
       }
 
-      console.log('multicallRequests: ', multicallRequests);
       if (!multicallRequests) throw new Error('Failed to fetch tokens');
 
       const tokenIdResults = await multicallClient?.multicall({
         contracts: multicallRequests,
       });
-      console.log('tokenIdResults: ', tokenIdResults);
+
       if (!tokenIdResults) throw new Error('Failed to fetch token IDs');
 
       const tokenIds: bigint[] = Array.from(
@@ -150,12 +147,10 @@ export function useVotingEscrowContract(escrowAddress: string) {
         args: [tokenId],
         address: escrowAddress as Address,
       }));
-      console.log('metadataRequests Initial: ', metadataRequests);
+
       const metadataResults = await multicallClient?.multicall({
         contracts: metadataRequests,
       });
-
-      console.log('metadataResults contracts tokenURI: ', metadataResults);
 
       const nfts: { tokenId: bigint; metadata: string }[] =
         metadataResults?.map((result, index) => {
@@ -163,7 +158,6 @@ export function useVotingEscrowContract(escrowAddress: string) {
           return { tokenId: tokenIds[index], metadata };
         }) ?? [];
 
-      console.log('nfts:', nfts);
       return nfts;
     },
     [votingEscrowContract, multicallClient, getNFTCount]

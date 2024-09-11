@@ -53,17 +53,10 @@ const CreatelockForm = () => {
   const [selectedPercentage, setSelectedPercentage] = React.useState<
     number | null
   >(null);
-  //const [isTokenAllowed, setIsTokenAllowed] = useState(false);
-  //const lockTokenInfo = useTokenInfo(tokenInformation);
+
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
-  const totalBalanceToken = Number(
-    lockTokenInfo && balances[lockTokenInfo.address]
-  );
-  console.log(address);
-  console.log(totalBalanceToken);
-  console.log(lockTokenInfo);
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
@@ -81,7 +74,6 @@ const CreatelockForm = () => {
   ];
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     setLockTokenValue(e.target.value);
   };
 
@@ -196,6 +188,7 @@ const CreatelockForm = () => {
             </LockLoaderContainer>
           </LockCardstyle>
         </CreateLockFirstSection>
+        {}
         <LockDeposite
           LockTokenValue={LockTokenValue}
           LockTokenSymbol={lockTokenInfo.symbol}

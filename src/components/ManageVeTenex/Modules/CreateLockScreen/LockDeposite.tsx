@@ -113,7 +113,6 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
         ? {
             label: isLoading ? 'Approving...' : 'Allow ' + LockTokenSymbol,
             icon: Lock1Icon,
-            // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick: !isLoading ? handleAllowToken : undefined,
             tooltip: 'Click to allow ' + LockTokenSymbol + ' transactions',
             disabled: isLoading,

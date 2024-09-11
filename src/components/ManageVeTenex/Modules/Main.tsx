@@ -27,50 +27,53 @@ import Relay from './Relaymodules/Relay';
 import PopupScreen from '../../common/PopupScreen';
 import LockToolTips from './LockToolTips';
 import RelayToolTips from './RelayToolTips';
-import VeTenexTable from './VeTenexTable';
+import VeTenexTable, { LockItemProps, Metadata } from './VeTenexTable';
 import { useAccount } from '../../../hooks/useAccount';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
-/*  interface NFTData {
-  tokenId: bigint;
-  metadata: string;
-}  */
+
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isToolTipActive, setToolTipActive] = useState(false);
-  //const [decodedData, setDecodedData] = useState<NFTData[]>([]);
+  const [nftData, setNftData] = useState<LockItemProps[]>([]);
   const Navigate = useNavigate();
 
   const escrowAddress = contractAddress.VotingEscrow;
   const { fetchUserNFTs } = useVotingEscrowContract(escrowAddress);
   const { address } = useAccount();
-
+  const decodeBase64 = (base64: string): Metadata => {
+    const base64Data = base64.split(',')[1];
+    const binaryString = window.atob(base64Data);
+    const len = binaryString.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binaryString.charCodeAt(i);
+    }
+    const decodedString = new TextDecoder().decode(bytes);
+    const decodedStringJson = JSON.parse(decodedString) as Metadata;
+    return decodedStringJson;
+  };
   useEffect(() => {
-    async function fetchData() {
+    void (async function fetchData() {
       try {
         if (address) {
-          const nftData = await fetchUserNFTs(address);
-          /*  const decodedNftData : NFTData[] = nftData.map((nft) => {
-            // Remove the 'data:application/json;base64,' prefix before decoding
-            const base64String = nft.metadata.split(',')[1];
-            const decodedMetadata = JSON.parse(atob(base64String));
-      
-            return {
-              tokenId: nft.tokenId,
-              metadata: decodedMetadata,
-            }
-          }) */
-          // setDecodedData(decodedNftData);
-          console.log('User decodedNftData: ', nftData);
+          const fetchedNftData = await fetchUserNFTs(address);
+          console.log('User NFT Data:', fetchedNftData);
+
+          const formattedNftData = fetchedNftData.map((nft) => ({
+            tokenId: nft.tokenId,
+            metadata: decodeBase64(nft.metadata),
+          }));
+
+          setNftData(formattedNftData);
+          console.log('Updated User NFT Data:', formattedNftData);
         } else {
           console.warn('Address is undefined');
         }
       } catch (error) {
-        console.error('Error fetching NFT count:', error);
+        console.error('Error fetching NFT data:', error);
       }
-    }
-
-    void fetchData();
+    })();
   }, [address, fetchUserNFTs]);
 
   function handleCreateLock() {
@@ -128,7 +131,7 @@ const Main = () => {
               </AmountWithImg>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Total Voting power</StatsCardtitle>
+              <StatsCardtitle fontSize={16}>Total Voting Power</StatsCardtitle>
               <LockHeaderTitle fontSize={16}>0.00</LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>
@@ -152,8 +155,13 @@ const Main = () => {
           </ToolTipsWrapper>
         </LockheaderWrapper>
 
-        <VeTenexTable />
+        <VeTenexTable nftData={nftData} />
+        {/* //Type '{ tokenId: bigint; metadata: string; }[]' is not assignable to type 'LockItemProps[]'.
+  Type '{ tokenId: bigint; metadata: string; }' is not assignable to type 'LockItemProps'.
+    Types of property 'metadata' are incompatible.
+      Type 'string' is not assignable to type 'Metadata'. */}
       </LockContainerWrapper>
+
       <LockContainerWrapper>
         <LockheaderWrapper>
           <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>

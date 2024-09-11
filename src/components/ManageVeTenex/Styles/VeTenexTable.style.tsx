@@ -115,7 +115,7 @@ export const PaginationContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const LockImg = styled.img<{ theme: DefaultTheme }>`
+export const LockImg = styled.img`
   width: 36px;
   height: 36px;
   margin-bottom: 32px;
