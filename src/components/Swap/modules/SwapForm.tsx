@@ -361,10 +361,10 @@ const SwapForm: React.FC = () => {
                   />
                   <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
                     <SwapPageIconWrapper
-                      src={selectedToken1?.logoURI}
+                      src={selectedToken2?.logoURI}
                       width="18px"
                       height="18px"
-                      alt={selectedToken1?.logoURI}
+                      alt={selectedToken2?.logoURI}
                     />
 
                     <TokenSelectAlign>
