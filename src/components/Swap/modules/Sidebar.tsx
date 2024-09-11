@@ -44,6 +44,7 @@ import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 
 interface SidebarProps {
   isLoading: boolean;
+  isValid: boolean;
   setIsLoading: (loading: boolean) => void;
   exchangeRate: number;
   setExchangeRate: (exchangeRate: number) => void;
@@ -60,6 +61,7 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({
   isLoading,
+  isValid,
   setIsLoading,
   exchangeRate,
   setExchangeRate,
@@ -224,14 +226,18 @@ const Sidebar: React.FC<SidebarProps> = ({
     {
       step: 5,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
-      descriptions: {
-        labels:
-          isTokenAllow || token1.symbol === 'ETH'
-            ? 'Allowed the contracts to access ' + token1?.symbol
-            : 'Allowance not granted for ' + token1?.symbol,
-      },
+      descriptions: isValid
+        ? {
+            labels:
+              isTokenAllow || token1.symbol === 'ETH'
+                ? 'Allowed the contracts to access ' + token1?.symbol
+                : 'Allowance not granted for ' + token1?.symbol,
+          }
+        : {
+            labels: 'Insufficient Balance',
+          },
       buttons:
-        !isTokenAllow && token1.symbol !== 'ETH'
+        !isTokenAllow && token1.symbol !== 'ETH' && isValid
           ? {
               label: 'Allow ' + token1?.symbol,
               icon: LockIcon,
@@ -288,14 +294,18 @@ const Sidebar: React.FC<SidebarProps> = ({
     {
       step: 2,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
-      descriptions: {
-        labels:
-          isTokenAllow || token1.symbol === 'ETH'
-            ? 'Allowed the contracts to access ' + token1?.symbol
-            : 'Allowance not granted for ' + token1?.symbol,
-      },
+      descriptions: isValid
+        ? {
+            labels:
+              isTokenAllow || token1.symbol === 'ETH'
+                ? 'Allowed the contracts to access ' + token1?.symbol
+                : 'Allowance not granted for ' + token1?.symbol,
+          }
+        : {
+            labels: 'Insufficient Balance',
+          },
       buttons:
-        !isTokenAllow && token1.symbol !== 'ETH'
+        !isTokenAllow && token1.symbol !== 'ETH' && isValid
           ? {
               label: 'Allow ' + token1?.symbol,
               icon: LockIcon,
@@ -391,16 +401,18 @@ const Sidebar: React.FC<SidebarProps> = ({
           ) : exchangeRate > 0 && tokenInput1 ? (
             <>
               <Stepper data={SwapDepositData} />
-              {!isSwapped && (isTokenAllow || token1.symbol === 'ETH') && (
-                <GlobalButton
-                  width="100%"
-                  height="48px"
-                  margin="0px"
-                  onClick={() => void handleSwap()}
-                >
-                  Swap
-                </GlobalButton>
-              )}
+              {!isSwapped &&
+                isValid &&
+                (isTokenAllow || token1.symbol === 'ETH') && (
+                  <GlobalButton
+                    width="100%"
+                    height="48px"
+                    margin="0px"
+                    onClick={() => void handleSwap()}
+                  >
+                    Swap
+                  </GlobalButton>
+                )}
 
               {isVisibleSlippage && (
                 <PopupScreen
