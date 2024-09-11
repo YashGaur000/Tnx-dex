@@ -15,7 +15,7 @@ export const useCheckAllowance = (
   const { checkAllowance } = useTokenAllowance(token.address, testErc20Abi);
 
   const fetchAllowance = useCallback(async () => {
-    if (account && tokenInput && token) {
+    if (account && tokenInput && token && token.symbol !== 'ETH') {
       try {
         const allowance = await checkAllowance(account, spender);
         const formattedAllowance = formatAmounts(allowance, token.decimals);
