@@ -343,6 +343,51 @@ export function useRouterContract() {
     [routerContract]
   );
 
+  const UNSAFE_swapExactTokensForTokens = useCallback(
+    async (
+      amountsOut: bigint[],
+      routes: Route[],
+      to: Address,
+      deadline: bigint
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+
+      try {
+        // estimate gas for add liquidity
+        const gasEstimate =
+          await routerContract.estimateGas.UNSAFE_swapExactTokensForTokens(
+            amountsOut,
+            routes,
+            to,
+            deadline
+          );
+
+        if (!gasEstimate) {
+          console.error('Error estimating gas price');
+        }
+
+        const tx = await routerContract.UNSAFE_swapExactTokensForTokens(
+          amountsOut,
+          routes,
+          to,
+          deadline,
+          { gasLimit: gasEstimate ? gasEstimate : 3000000 }
+        );
+        console.log('Transaction sent:', tx);
+        await tx.wait();
+        console.log('Transaction confirmed');
+        return tx;
+      } catch (error) {
+        console.error('Error sending transaction:', error);
+        throw error;
+      }
+    },
+    [routerContract]
+  );
+
   const swapExactTokensForETH = useCallback(
     async (
       amountIn: bigint,
@@ -446,6 +491,7 @@ export function useRouterContract() {
     addLiquidityETH,
     poolFor,
     swapExactTokensForTokens,
+    UNSAFE_swapExactTokensForTokens,
     swapExactTokensForETH,
     swapExactETHForTokens,
   };

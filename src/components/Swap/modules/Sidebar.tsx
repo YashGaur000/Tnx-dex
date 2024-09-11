@@ -2,7 +2,11 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import DurationIcon from '../../../assets/Duration.svg';
-import InformationIcon from '../../../assets/redInformation.svg';
+import Check from '../../../assets/check.svg';
+import UnCheck from '../../../assets/uncheck.svg';
+import RedInformation from '../../../assets/redInformation.svg';
+import GreenInformation from '../../../assets/greenInformation.svg';
+
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import Exchange from '../../../assets/exchange.svg';
 
@@ -41,6 +45,7 @@ import TransactionDeadline from '../../common/TransactionDeadline';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
 import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
 import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
+import AllowUnsafeTrades from './AllowUnsafeTrades';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -56,6 +61,7 @@ interface SidebarProps {
   setTokenInput2: (input: string) => void;
   routes: Route[] | null;
   setRoute: (route: Route[] | null) => void;
+  amountsOut: bigint[] | null;
   setAmountsOut: (amountsOut: bigint[] | null) => void;
   graph: Graph;
 }
@@ -74,6 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   setTokenInput2,
   routes,
   setRoute,
+  amountsOut,
   setAmountsOut,
   graph,
 }) => {
@@ -82,16 +89,21 @@ const Sidebar: React.FC<SidebarProps> = ({
   const { address } = useAccount();
   const {
     swapExactTokensForTokens,
+    UNSAFE_swapExactTokensForTokens,
     swapExactTokensForETH,
     swapExactETHForTokens,
     getAmountsOut,
   } = useRouterContract();
   const { deadLineValue } = useLiquidityStore();
-  const { selectedTolerance, priceImpact } = useRootStore();
+  const { selectedTolerance, priceImpact, allowUnsafe, setAllowUnsafe } =
+    useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
+  const [isVisibleUnsafe, setVisibleUnsafe] = useState(false);
+
+  const [isUnsafe, setIsUnsafe] = useState(false);
 
   const minAmountOutWei = useMemo(() => {
     if (tokenInput2 && selectedTolerance) {
@@ -105,14 +117,17 @@ const Sidebar: React.FC<SidebarProps> = ({
   }, [tokenInput2, selectedTolerance, token2?.decimals]);
 
   useEffect(() => {
-    if (minAmountOutWei) {
+    if (minAmountOutWei && priceImpact) {
       const formattedMinAmount = ethers.formatUnits(
         minAmountOutWei.toString(),
         token2?.decimals
       );
       setMinAmountOut(formattedMinAmount);
+      if (Number(priceImpact) > 6) {
+        setIsUnsafe(true);
+      } else setIsUnsafe(false);
     }
-  }, [minAmountOutWei, token2?.decimals]);
+  }, [minAmountOutWei, token2?.decimals, priceImpact]);
 
   const { approveAllowance: approveAllowance1 } = useTokenAllowance(
     token1?.address,
@@ -193,7 +208,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         labels: `${selectedTolerance} % slippage applied...`,
         adjust: 'Adjust',
         onClick: () => {
-          handleAdjust('Slippage');
+          handleAdjust('slippage');
         },
       },
     },
@@ -210,24 +225,36 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
     {
       step: 4,
+      icon: isUnsafe ? RedInformation : GreenInformation,
+      descriptions: isUnsafe
+        ? {
+            labels: 'Allow unsafe trades',
+            adjust: 'Allow',
+            onClick: () => {
+              handleAdjust('unsafe');
+            },
+          }
+        : {
+            labels: 'Safe trade',
+          },
+    },
+
+    {
+      step: 5,
       icon: token2.logoURI,
       descriptions: {
         labels: `Minimum received ${Number(minAmountOut).toFixed(5)} ${token2.symbol}`,
       },
     },
     {
-      step: 4,
-      icon: InformationIcon,
-      unSafe: {
-        visible: false,
-        onClick: () => alert('cool'),
-      },
+      step: 6,
+      icon: isUnsafe ? UnCheck : Check,
       descriptions: {
-        labels: `Estimated price impact is ${priceImpact} %`,
+        labels: `${priceImpact} % price impact is ${isUnsafe ? 'unsafe' : 'safe'}`,
       },
     },
     {
-      step: 5,
+      step: 7,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
       descriptions: isValid
         ? {
@@ -251,7 +278,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           : undefined,
     },
     {
-      step: 6,
+      step: 8,
       icon: !isSwapped ? SearchIcon : SucessDepositIcon,
       descriptions: {
         labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
@@ -329,71 +356,99 @@ const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   const handleAdjust = (adjustbuttonName: string) => {
-    if (adjustbuttonName === 'Slippage') {
-      setVisibleSlippage(true);
-    } else if (adjustbuttonName === 'deadline') {
-      setVisibleDealine(true);
+    switch (adjustbuttonName) {
+      case 'slippage':
+        setVisibleSlippage(true);
+        break;
+      case 'deadline':
+        setVisibleDealine(true);
+        break;
+
+      case 'unsafe':
+        setVisibleUnsafe(true);
+        break;
+      default:
+        console.log('error in adjust');
     }
   };
 
   const handleSwap = async () => {
     try {
       const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
-
       const deadline = getDeadline(deadLineValue);
 
       if (
-        amountInWei &&
-        token1?.address &&
-        address &&
-        tokenInput2 &&
-        routes &&
-        selectedTolerance
+        !amountInWei ||
+        !token1?.address ||
+        !address ||
+        !tokenInput2 ||
+        !routes ||
+        !selectedTolerance
       ) {
-        const minAmountOutWei = calculateMinAmount(
-          Number(tokenInput2) ?? 0,
-          parseFloat(selectedTolerance) ?? 1,
-          token2?.decimals ?? 18
-        );
-        if (token2.symbol === 'ETH') {
-          const tx = await swapExactTokensForETH(
+        throw new Error('Missing required parameters');
+      }
+
+      const minAmountOutWei = calculateMinAmount(
+        Number(tokenInput2) ?? 0,
+        parseFloat(selectedTolerance) ?? 1,
+        token2?.decimals ?? 18
+      );
+
+      const isEthToToken = token2.symbol === 'ETH';
+      const isTokenToEth = token1.symbol === 'ETH';
+
+      const getTransaction = async () => {
+        if (isEthToToken) {
+          return await swapExactTokensForETH(
             amountInWei,
             minAmountOutWei,
             routes,
             address,
             deadline
           );
-          console.log('Swap added:', tx);
-        } else if (token1.symbol === 'ETH') {
-          const tx = await swapExactETHForTokens(
-            amountInWei,
-            minAmountOutWei,
-            routes,
-            address,
-            deadline
-          );
-          console.log('Swap added:', tx);
-        } else {
-          const tx = await swapExactTokensForTokens(
-            amountInWei,
-            minAmountOutWei,
-            routes,
-            address,
-            deadline
-          );
-          console.log('Swap added:', tx);
         }
 
-        setIsSwapped(true);
-        setTimeout(() => {
-          setTokenInput1('');
-          setTokenInput2('');
-        }, 1000);
-      }
+        if (isTokenToEth) {
+          return await swapExactETHForTokens(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+        }
+
+        if (allowUnsafe && isUnsafe && amountsOut) {
+          return await UNSAFE_swapExactTokensForTokens(
+            amountsOut,
+            routes,
+            address,
+            deadline
+          );
+        }
+
+        return await swapExactTokensForTokens(
+          amountInWei,
+          minAmountOutWei,
+          routes,
+          address,
+          deadline
+        );
+      };
+
+      const tx = await getTransaction();
+      console.log('Swap added:', tx);
+
+      setIsSwapped(true);
+      setTimeout(() => {
+        setTokenInput1('');
+        setTokenInput2('');
+      }, 1000);
     } catch (error) {
       console.error('Error swapping:', error);
     }
   };
+
   return (
     <>
       <SidebarInner>
@@ -435,6 +490,20 @@ const Sidebar: React.FC<SidebarProps> = ({
                 >
                   <PopupWrapper>
                     <TransactionDeadline />
+                  </PopupWrapper>
+                </PopupScreen>
+              )}
+
+              {isVisibleUnsafe && (
+                <PopupScreen
+                  isVisible={isVisibleUnsafe}
+                  onClose={() => setVisibleUnsafe(false)}
+                >
+                  <PopupWrapper>
+                    <AllowUnsafeTrades
+                      isChecked={allowUnsafe}
+                      handleToggle={() => setAllowUnsafe(!allowUnsafe)}
+                    />
                   </PopupWrapper>
                 </PopupScreen>
               )}

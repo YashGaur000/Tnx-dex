@@ -81,7 +81,7 @@ const SwapForm: React.FC = () => {
 
       setIsValid(walletBalanceCheck);
     }
-  }, [tokenInput1, selectedToken1]);
+  }, [tokenInput1, selectedToken1, balances, nativeBalance]);
 
   useEffect(() => {
     // 1. Update connection state
@@ -433,6 +433,7 @@ const SwapForm: React.FC = () => {
           setTokenInput2={setTokenInput2}
           routes={route}
           setRoute={setRoute}
+          amountsOut={amountsOut}
           setAmountsOut={setAmountsOut}
           graph={graph}
         />

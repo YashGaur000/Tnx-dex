@@ -42,8 +42,6 @@ export const fetchBestRouteAndUpdateState = async (
       getAmountsOut
     );
 
-    console.log('----->', bestQuote, bestRoute, bestAmounts);
-
     if (bestRoute && bestAmounts) {
       const formattedBestQuote = ethers.formatUnits(
         bestQuote,
