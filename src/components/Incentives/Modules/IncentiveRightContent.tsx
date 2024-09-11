@@ -152,7 +152,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   ];
 
   return (
-    <IncentiveleftBarBox1>
+    <IncentiveleftBarBox1 height="508px" width="440px">
       <IncentivesBox2>Incentivize</IncentivesBox2>
       <IncentivesBox2Paragraph>
         Voting and adding incentives for this epoch ends in 3 days and there

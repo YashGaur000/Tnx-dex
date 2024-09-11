@@ -23,9 +23,8 @@ export const LockListContainer = styled.div<{ theme: DefaultTheme }>`
   background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
   padding: 20px;
   border-radius: 10px;
-  color: #fff;
+  color: ${({ theme }) => theme.colors.title};
   width: 100%;
-  max-width: 1080px;
   margin: 0 auto;
 `;
 
