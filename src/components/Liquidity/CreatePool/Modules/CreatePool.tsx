@@ -223,7 +223,7 @@ const CreatePool = () => {
         )}
       </MainContainerStyle>
 
-      <PopupScreen isVisible={isPopUpVisible} onClose={closeModal}>
+      <PopupScreen isvisible={isPopUpVisible} onClose={closeModal}>
         <PopupWrapper onMouseLeave={handleTooltipHide}>
           {<LiquidityToolTips />}
         </PopupWrapper>

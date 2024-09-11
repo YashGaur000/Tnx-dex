@@ -22,7 +22,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veTENEX',
       id: '2342',
-      updated: '3 hours ago',
+      updated: 'Updated 3 hours ago',
       address: '0x2341...35287',
     },
     votingPower: {
@@ -36,7 +36,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veGAMMA',
       id: '1243',
-      updated: '2 hours ago',
+      updated: 'Updated 2 hours ago',
       address: '0x1234...56789',
     },
     votingPower: {
@@ -50,7 +50,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veDELTA',
       id: '5467',
-      updated: '1 hour ago',
+      updated: 'Updated 1 hour ago',
       address: '0x6789...12345',
     },
     votingPower: {
@@ -64,7 +64,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veOMEGA',
       id: '7689',
-      updated: '4 hours ago',
+      updated: 'Updated 4 hours ago',
       address: '0x9876...54321',
     },
     votingPower: {
@@ -78,7 +78,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veALPHA',
       id: '8390',
-      updated: '5 hours ago',
+      updated: 'Updated 5 hours ago',
       address: '0x0987...65432',
     },
     votingPower: {
@@ -92,7 +92,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veTENEX',
       id: '2342',
-      updated: '3 hours ago',
+      updated: 'Updated 3 hours ago',
       address: '0x2341...35287',
     },
     votingPower: {
@@ -106,7 +106,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veGAMMA',
       id: '1243',
-      updated: '2 hours ago',
+      updated: 'Updated 2 hours ago',
       address: '0x1234...56789',
     },
     votingPower: {
@@ -120,7 +120,7 @@ export const relayData: RelayData[] = [
     relay: {
       name: 'veDELTA',
       id: '5467',
-      updated: '1 hour ago',
+      updated: 'Updated 1 hour ago',
       address: '0x6789...12345',
     },
     votingPower: {

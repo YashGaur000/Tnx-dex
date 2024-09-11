@@ -474,7 +474,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
               {isVisibleSlippage && (
                 <PopupScreen
-                  isVisible={isVisibleSlippage}
+                  isvisible={isVisibleSlippage}
                   onClose={() => setVisibleSlippage(false)}
                 >
                   <PopupWrapper>
@@ -485,7 +485,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
               {isVisibleDeadline && (
                 <PopupScreen
-                  isVisible={isVisibleDeadline}
+                  isvisible={isVisibleDeadline}
                   onClose={() => setVisibleDealine(false)}
                 >
                   <PopupWrapper>
@@ -496,7 +496,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
               {isVisibleUnsafe && (
                 <PopupScreen
-                  isVisible={isVisibleUnsafe}
+                  isvisible={isVisibleUnsafe}
                   onClose={() => setVisibleUnsafe(false)}
                 >
                   <PopupWrapper>

@@ -46,8 +46,8 @@ const Deposite: React.FC<DepositProps> = ({
   const [isToken1Allowed, setIsToken1Allowed] = useState(false);
   const [isToken2Allowed, setIsToken2Allowed] = useState(false);
   const [isDeposited, setIsDeposited] = useState(false);
-  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
-  const [isVisibleDeadline, setVisibleDealine] = useState(false);
+  const [isvisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isvisibleDeadline, setVisibleDealine] = useState(false);
   const [isAllowingToken1, setIsAllowingToken1] = useState(false);
   const [isAllowingToken2, setIsAllowingToken2] = useState(false);
 
@@ -328,16 +328,16 @@ const Deposite: React.FC<DepositProps> = ({
         </GlobalButton>
       )}
 
-      {isVisibleSlippage && !isVisibleDeadline && (
-        <PopupScreen isVisible={isVisibleSlippage} onClose={closeModal}>
+      {isvisibleSlippage && !isvisibleDeadline && (
+        <PopupScreen isvisible={isvisibleSlippage} onClose={closeModal}>
           <PopupWrapper>
             <SlippageTolerance />
           </PopupWrapper>
         </PopupScreen>
       )}
 
-      {!isVisibleSlippage && isVisibleDeadline && (
-        <PopupScreen isVisible={isVisibleDeadline} onClose={closeModal}>
+      {!isvisibleSlippage && isvisibleDeadline && (
+        <PopupScreen isvisible={isvisibleDeadline} onClose={closeModal}>
           <PopupWrapper>
             <TransactionDeadline />
           </PopupWrapper>

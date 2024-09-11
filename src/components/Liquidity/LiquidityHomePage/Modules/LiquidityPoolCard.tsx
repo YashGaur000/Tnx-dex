@@ -66,10 +66,10 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
         <TableColumn>
           <TokenCardContainer>
             <GroupImgContains>
-              <IMG1Contains Top={10} Left={0}>
+              <IMG1Contains top={10} left={0}>
                 <Imgstyle src={getTokenLogo(data.token0.symbol)} />
               </IMG1Contains>
-              <IMG2Contains Top={10} Left={25}>
+              <IMG2Contains top={10} left={25}>
                 <Imgstyle src={getTokenLogo(data.token1.symbol)} />
               </IMG2Contains>
             </GroupImgContains>
@@ -159,8 +159,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               lineheight="0px"
               border="1.5px solid transparent"
               borderRadius="8px"
-              smFontSize={12}
-              smMargin="0px"
+              smfontsize={12}
+              smmargin="0px"
             >
               Deposit
             </GradientButton>

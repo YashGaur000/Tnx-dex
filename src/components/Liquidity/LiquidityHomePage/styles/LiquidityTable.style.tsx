@@ -30,22 +30,22 @@ export const TraidingSyleLabel = styled.label<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-export const IMG1Contains = styled.div<{ Top: number; Left: number }>`
+export const IMG1Contains = styled.div<{ top: number; left: number }>`
   display: block;
   position: absolute;
-  left: ${({ Left }) => Left}px;
-  top: ${({ Top }) => Top}px;
+  left: ${({ left }) => left}px;
+  top: ${({ top }) => top}px;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
   width: 36px;
   height: 36px;
 `;
-export const IMG2Contains = styled.div<{ Top: number; Left: number }>`
+export const IMG2Contains = styled.div<{ top: number; left: number }>`
   position: absolute;
   display: block;
-  left: ${({ Left }) => Left}px;
-  top: ${({ Top }) => Top}px;
+  left: ${({ left }) => left}px;
+  top: ${({ top }) => top}px;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
