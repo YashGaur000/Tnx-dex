@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
 import DurationIcon from '../../../assets/Duration.svg';
-//import InformationIcon from '../../../assets/redInformation.svg';
+import InformationIcon from '../../../assets/redInformation.svg';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import Exchange from '../../../assets/exchange.svg';
 
@@ -56,6 +56,7 @@ interface SidebarProps {
   setTokenInput2: (input: string) => void;
   routes: Route[] | null;
   setRoute: (route: Route[] | null) => void;
+  setAmountsOut: (amountsOut: bigint[] | null) => void;
   graph: Graph;
 }
 
@@ -73,6 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   setTokenInput2,
   routes,
   setRoute,
+  setAmountsOut,
   graph,
 }) => {
   //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
@@ -85,7 +87,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     getAmountsOut,
   } = useRouterContract();
   const { deadLineValue } = useLiquidityStore();
-  const { selectedTolerance } = useRootStore();
+  const { selectedTolerance, priceImpact } = useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
@@ -166,7 +168,8 @@ const Sidebar: React.FC<SidebarProps> = ({
         setTokenInput2,
         setExchangeRate,
         setRoute,
-        setIsLoading
+        setIsLoading,
+        setAmountsOut
       );
     }, ROUTING_DELAY);
   };
@@ -212,17 +215,17 @@ const Sidebar: React.FC<SidebarProps> = ({
         labels: `Minimum received ${Number(minAmountOut).toFixed(5)} ${token2.symbol}`,
       },
     },
-    // {
-    //   step: 4,
-    //   icon: InformationIcon,
-    //   unSafe: {
-    //     visible: true,
-    //     onClick: handleUnsafeAllowence,
-    //   },
-    //   descriptions: {
-    //     labels: 'Estimated price impact is too high 22.67% ',
-    //   },
-    // },
+    {
+      step: 4,
+      icon: InformationIcon,
+      unSafe: {
+        visible: false,
+        onClick: () => alert('cool'),
+      },
+      descriptions: {
+        labels: `Estimated price impact is ${priceImpact} %`,
+      },
+    },
     {
       step: 5,
       icon: !isTokenAllow ? RedLockIcon : UnLockIcon,

@@ -18,7 +18,8 @@ export const fetchBestRouteAndUpdateState = async (
   setTokenInput2: (input: string) => void,
   setExchangeRate: (input: number) => void,
   setRoute: (route: Route[] | null) => void,
-  setIsLoading: (loading: boolean) => void
+  setIsLoading: (loading: boolean) => void,
+  setAmountsOut: (amountsOut: bigint[]) => void
 ) => {
   try {
     // Handle token conversions for ETH to WETH
@@ -35,19 +36,26 @@ export const fetchBestRouteAndUpdateState = async (
     const routes = getAllRoutes(graph, srcToken!, destToken!, MAX_HOP); // maxhop
     const amountInWei = ethers.parseUnits(amount, selectedToken1.decimals);
 
-    const bestPath = await findBestRoute(amountInWei, routes, getAmountsOut);
+    const { bestQuote, bestRoute, bestAmounts } = await findBestRoute(
+      amountInWei,
+      routes,
+      getAmountsOut
+    );
 
-    if (bestPath?.bestQuote) {
-      const bestQuote = ethers.formatUnits(
-        bestPath.bestQuote,
+    console.log('----->', bestQuote, bestRoute, bestAmounts);
+
+    if (bestRoute && bestAmounts) {
+      const formattedBestQuote = ethers.formatUnits(
+        bestQuote,
         selectedToken2.decimals
       );
-      const exchangeRate = Number(bestQuote) / Number(amount);
+      const exchangeRate = Number(formattedBestQuote) / Number(amount);
 
       // Update state in one place
-      setTokenInput2(bestQuote);
+      setTokenInput2(formattedBestQuote);
       setExchangeRate(exchangeRate);
-      setRoute(bestPath.bestRoute);
+      setRoute(bestRoute);
+      setAmountsOut(bestAmounts);
     }
   } catch (error) {
     console.error('Error fetching reserves:', error);
