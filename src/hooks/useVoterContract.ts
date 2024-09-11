@@ -14,6 +14,7 @@ export function useVoterContract() {
     contractAddresses.Voter,
     voterAbi.abi
   ) as VoterContract;
+
   const createGauge = useCallback(
     async (_poolFactory: Address, _pool: Address) => {
       if (!voterContract) {
@@ -73,5 +74,21 @@ export function useVoterContract() {
     [voterContract]
   );
 
-  return { createGauge, gauges, gaugeToBribe };
+  const deposit = useCallback(
+    async (_amount: bigint) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const result = await voterContract.deposit(_amount);
+        return result;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+
+  return { createGauge, gauges, gaugeToBribe, deposit };
 }

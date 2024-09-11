@@ -3,7 +3,7 @@ import { LiquidityHeaderTitle } from '../../Liquidity/LiquidityHomePage/styles/L
 import LockIcon from '../../../assets/Lock1.svg';
 import RedLockIcon from '../../../assets/lock.png';
 import UnLockIcon from '../../../assets/unlock.png';
-import LoadingIcon from '../../../assets/search.png';
+import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import TimerIcon from '../../../assets/timer-red-logo.svg';
 import useQueryParams from '../../../hooks/useQueryParams';
@@ -19,6 +19,10 @@ import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import poolAbi from '../../../constants/artifacts/contracts/Pool.json';
 import { ethers } from 'ethers';
 import { GlobalButton } from '../../common/index';
+import { useGaugeContract } from '../../../hooks/useGaugeContract';
+import SuccessPopup from '../../common/SucessPopup';
+import SearchIcon from '../../../assets/search.png';
+
 interface StakeStepperProps {
   selectedStakeValue: number;
 }
@@ -31,17 +35,20 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
     undefined
   );
   const [gaugeExists, setGaugeExists] = useState(false);
+  const [amount, setAmount] = useState<bigint>(BigInt(0));
   const [gaugeAddress, setGaugeAddress] = useState<Address>(
     '0x0000000000000000000000000000000000000000'
   );
   const [isAllowingToken, setIsAllowingToken] = useState(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
+  const [isStaked, setIsStaked] = useState(false);
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
   const { metadata, balanceOf } = usePoolContract(poolId ?? '');
 
   const { gauges } = useVoterContract();
+  const { deposit } = useGaugeContract(gaugeAddress);
 
   useEffect(() => {
     metadata()
@@ -64,17 +71,12 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           ) {
             setGaugeExists(true);
             setGaugeAddress(gaugeAddress);
-            // if (gaugeExists) {
-            //   gaugeToBribe(gaugeAddress).then((bribeAddress)=>{
-            //     // setBribeAddress(bribeAddress);
-            //     console.log("bribe ",bribeAddress)
-            // })}
           }
         })
         .catch((error) => {
           console.log('Error finding gauge:', error);
         });
-  }, [poolId, metadata, gaugeAddress]);
+  }, [poolId, metadata, gaugeAddress, gauges]);
 
   const Navigate = useNavigate();
 
@@ -98,12 +100,19 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
       const amount =
         (parseFloat(balance.toString()) * selectedStakeValue) / 100;
       const amountInEth = ethers.parseUnits(amount.toString(), 18);
+      setAmount(amountInEth);
       const result = await approveAllowance(
         gaugeAddress,
         amountInEth.toString()
       );
       setIsTokenAllowed(result ? true : false);
     }
+  };
+
+  const handleStakeDeposit = async () => {
+    const result = await deposit(amount);
+    console.log(result);
+    // setIsStaked(true);
   };
 
   const StakeStepperInstructData = [
@@ -178,9 +187,11 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
     },
     {
       step: 4,
-      icon: LoadingIcon,
+      icon: !isStaked ? SearchIcon : SucessDepositIcon,
       descriptions: {
-        labels: 'Waiting for next actions...',
+        labels: isStaked
+          ? `Staked successfully`
+          : 'Waiting for next actions...',
       },
     },
   ];
@@ -193,16 +204,25 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           selectedStakeValue < 1 ? StakeStepperInstructData : StakeStepperData
         }
       />
-      {isTokenAllowed && (
+      {!isStaked && isTokenAllowed && (
         <GlobalButton
           width="100%"
           height="48px"
           margin="0px"
-          // onClick={handleStakeDeposit}
+          onClick={() => {
+            handleStakeDeposit()
+              .then(() => {
+                setIsStaked(true);
+              })
+              .catch((error) => {
+                console.error('Error staking:', error);
+              });
+          }}
         >
           Stake your Deposit{' '}
         </GlobalButton>
       )}
+      {isStaked && <SuccessPopup message="Staked Successfully" />}
     </>
   );
 };
