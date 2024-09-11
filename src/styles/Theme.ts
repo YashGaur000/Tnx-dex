@@ -87,7 +87,7 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundCreateLiquidity: `radial-gradient(circle at 50% 30%,#43d6cd2a 0%, transparent 60%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
-    backgroundDocs: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 40%),
+    backgroundDocs: `radial-gradient(circle at 60% 30%,#43d6cd3a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundAnalytics: `radial-gradient(circle at 50% 2%,#43d6cd7a 0%, transparent 8%),
                          radial-gradient(circle at -25% 23%,#43d6cd7a 0%, transparent 12%),
