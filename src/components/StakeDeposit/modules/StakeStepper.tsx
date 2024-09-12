@@ -22,6 +22,7 @@ import { GlobalButton } from '../../common/index';
 import { useGaugeContract } from '../../../hooks/useGaugeContract';
 import SuccessPopup from '../../common/SucessPopup';
 import SearchIcon from '../../../assets/search.png';
+import { AddressZero } from '@ethersproject/constants';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
@@ -36,9 +37,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   );
   const [gaugeExists, setGaugeExists] = useState(false);
   const [amount, setAmount] = useState<bigint>(BigInt(0));
-  const [gaugeAddress, setGaugeAddress] = useState<Address>(
-    '0x0000000000000000000000000000000000000000'
-  );
+  const [gaugeAddress, setGaugeAddress] = useState<Address>(AddressZero);
   const [isAllowingToken, setIsAllowingToken] = useState(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isStaked, setIsStaked] = useState(false);
@@ -65,10 +64,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
     poolId &&
       gauges(poolId as Address)
         .then((gaugeAddress: `0x${string}` | undefined) => {
-          if (
-            gaugeAddress != '0x0000000000000000000000000000000000000000' &&
-            gaugeAddress != undefined
-          ) {
+          if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
             setGaugeExists(true);
             setGaugeAddress(gaugeAddress);
           }

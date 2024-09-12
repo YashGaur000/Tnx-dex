@@ -21,6 +21,7 @@ import UnLockIcon from '../../../assets/unlock.png';
 import { GlobalButton } from '../../common/index';
 import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
 import SuccessPopup from '../../common/SucessPopup';
+import { AddressZero } from '@ethersproject/constants';
 
 interface IncentiveRightContent {
   InsentiveFormValue: number;
@@ -60,10 +61,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         poolData[0]?.id as Address
       );
       setIsGaugeBeingCreated(true);
-      if (
-        gaugeAddress != '0x0000000000000000000000000000000000000000' &&
-        gaugeAddress != undefined
-      ) {
+      if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
         setIsGaugeCreated(true);
         setGaugeAddress(gaugeAddress);
         console.log('gauge created ', gaugeAddress);
@@ -79,10 +77,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const getGaugeAddress = async () => {
     try {
       const gaugeAddress = await gauges(poolData[0]?.id as Address);
-      if (
-        gaugeAddress != '0x0000000000000000000000000000000000000000' &&
-        gaugeAddress != undefined
-      ) {
+      if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
         setGaugeAddress(gaugeAddress);
         setIsGaugeCreated(true);
       }
@@ -94,10 +89,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   useEffect(() => {
     void getGaugeAddress();
-    if (
-      gaugeAddress != '0x0000000000000000000000000000000000000000' &&
-      gaugeAddress != undefined
-    ) {
+    if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
       gaugeToBribe(gaugeAddress)
         .then((bribeAddress) => {
           setIsGaugeBeingCreated(false);
