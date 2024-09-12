@@ -103,7 +103,7 @@ export const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>`
   padding-bottom: 18px;
 `;
 
-export const HeaderLeftContent = styled.span<{ theme: DefaultTheme }>`
+export const HeaderleftContent = styled.span<{ theme: DefaultTheme }>`
   font-weight: 300;
   font-family: 'Kanit';
   font-size: 16px;
@@ -149,7 +149,7 @@ export const TableBalanceColumn = styled.td`
   font-family: 'Kanit';
   font-size: 16px;
 `;
-export const ImgLeftIcon = styled.img``;
+export const ImgleftIcon = styled.img``;
 export const ImgRightIcon = styled.img`
   margin-left: -10px;
 `;

@@ -1,5 +1,5 @@
 import {
-  IncentiveLeftBarBox1,
+  IncentiveleftBarBox1,
   IncentivesBox2,
   IncentivesBox2Paragraph,
 } from '../Styles/IncentiveSection.style';
@@ -152,7 +152,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   ];
 
   return (
-    <IncentiveLeftBarBox1>
+    <IncentiveleftBarBox1 height="508px" width="440px">
       <IncentivesBox2>Incentivize</IncentivesBox2>
       <IncentivesBox2Paragraph>
         Voting and adding incentives for this epoch ends in 3 days and there
@@ -162,7 +162,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       <Stepper
         data={InsentiveFormValue < 100 ? LockInstructionData : IncentiveData}
       />
-    </IncentiveLeftBarBox1>
+    </IncentiveleftBarBox1>
   );
 };
 

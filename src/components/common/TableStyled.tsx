@@ -12,7 +12,7 @@ interface TableProps {
   padding?: string;
   background?: string;
   borderRadius?: string;
-  textAlign?: string;
+  textalign?: string;
 }
 
 export const TableWrapper = styled.div<{
@@ -80,7 +80,7 @@ export const TableHeader = styled.th<TableProps>`
 
   line-height: 23.92px;
 
-  text-align: ${({ textAlign }) => textAlign ?? 'right'};
+  text-align: ${({ textalign }) => textalign ?? 'right'};
 `;
 
 export const TableColumn = styled.td<TableProps>`
@@ -93,7 +93,7 @@ export const TableColumn = styled.td<TableProps>`
 
   width: ${({ width }) => width};
   padding: ${({ padding }) => padding ?? '0px 24px 0px 0px'};
-  text-align: ${({ textAlign }) => textAlign ?? 'right'};
+  text-align: ${({ textalign }) => textalign ?? 'right'};
 `;
 export const TableRow = styled.tr`
   padding: 0px;

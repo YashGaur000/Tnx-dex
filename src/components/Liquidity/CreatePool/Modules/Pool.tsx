@@ -77,10 +77,10 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
     <LiquidityPoolCardStyles>
       <PoolcardStatus>
         <GroupImgContains>
-          <IMG1Contains Top={5} Left={0}>
+          <IMG1Contains top={5} left={0}>
             <Imgstyle src={selectedToken1.logoURI} />
           </IMG1Contains>
-          <IMG2Contains Top={5} Left={20}>
+          <IMG2Contains top={5} left={20}>
             <Imgstyle src={selectedToken2.logoURI} />
           </IMG2Contains>
         </GroupImgContains>
@@ -115,8 +115,8 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
           fontSize="12"
           width="80px"
           height="26px"
-          smFontSize={12}
-          smMargin="0px"
+          smfontsize={12}
+          smmargin="0px"
         >
           Deposit
         </GradientButton>

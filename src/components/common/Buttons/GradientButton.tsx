@@ -12,10 +12,10 @@ interface GradientButtonProps {
   background?: string;
   color?: string;
   cursor?: string;
-  marginTop?: string;
+  margintop?: string;
   className?: string;
-  smFontSize?: number;
-  smMargin?: string;
+  smfontsize?: number;
+  smmargin?: string;
   lineheight?: string;
   children: React.ReactNode;
 }
@@ -39,8 +39,8 @@ const StyledButton = styled.button<
   font-family: ${({ theme }) => theme.fonts.main};
   letter-spacing: 0.02em;
   text-align: center;
-  color: ${({ theme, color }) => color ?? theme.colors.whiteBorder};
-  margin-top: ${({ marginTop }) => marginTop ?? '0px'};
+  color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};
+  margin-top: ${({ margintop }) => margintop ?? '0px'};
   opacity: 1;
   transition:
     transform 0.3s,
@@ -73,8 +73,8 @@ const StyledButton = styled.button<
   }
 
   @media (max-width: 768px) {
-    font-size: ${({ smFontSize }) => smFontSize ?? 18}px;
-    margin: ${({ smMargin }) => smMargin ?? '10px'};
+    font-size: ${({ smfontsize }) => smfontsize ?? 18}px;
+    margin: ${({ smmargin }) => smmargin ?? '10px'};
   }
 `;
 
@@ -137,10 +137,10 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   background,
   color,
   cursor,
-  marginTop,
+  margintop,
   lineheight,
-  smFontSize,
-  smMargin,
+  smfontsize,
+  smmargin,
   children,
 }: GradientButtonProps) => {
   return (
@@ -154,10 +154,10 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       background={background}
       color={color}
       cursor={cursor}
-      marginTop={marginTop}
+      margintop={margintop}
       lineheight={lineheight}
-      smMargin={smMargin}
-      smFontSize={smFontSize}
+      smmargin={smmargin}
+      smfontsize={smfontsize}
     >
       <GradientSpan>{children}</GradientSpan>
     </StyledButton>

@@ -11,10 +11,10 @@ export const DashBoardMainContainer = styled.div`
 
 export const DashboardHeading = styled.p<{
   theme: DefaultTheme;
-  fontsize?: string;
+  fontSize?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontsize }) => fontsize ?? '24px'};
+  font-size: ${({ fontSize }) => fontSize ?? '24px'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   text-align: left;

@@ -108,10 +108,10 @@ const StakeDeposit = () => {
           <DepositeContentWrapper>
             <DepositeTokenWithImage>
               <GroupImgContains>
-                <IMG1Contains Top={5} Left={0}>
+                <IMG1Contains top={5} left={0}>
                   <Imgstyle src={selectedToken1?.logoURI} />
                 </IMG1Contains>
-                <IMG2Contains Top={5} Left={26}>
+                <IMG2Contains top={5} left={26}>
                   <Imgstyle src={selectedToken2?.logoURI} />
                 </IMG2Contains>
               </GroupImgContains>

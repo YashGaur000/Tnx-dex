@@ -73,8 +73,8 @@ export const SwTitle = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Description = styled.p<{ textAlign: string; theme: DefaultTheme }>`
-  text-align: ${({ textAlign }) => textAlign};
+export const Description = styled.p<{ textalign: string; theme: DefaultTheme }>`
+  text-align: ${({ textalign }) => textalign};
   margin-bottom: 10px;
   font-size: 13px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -316,7 +316,6 @@ export const SwapTitle = styled.div<{ theme: DefaultTheme }>`
   margin-bottom: 16px;
 
   @media only screen and (max-width: 600px) {
-    width: 72%;
     padding: 8px;
   
 `;

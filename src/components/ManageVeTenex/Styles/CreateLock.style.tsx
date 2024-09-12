@@ -1,10 +1,15 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
-export const LockTitle = styled.p<{ theme: DefaultTheme; fontSize: number }>`
+export const LockTitle = styled.p<{
+  theme: DefaultTheme;
+  fontSize: number;
+  lineheight?: number;
+}>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
+  line-height: ${({ lineheight }) => lineheight}px;
   padding-left: 5px;
   text-align: left;
   margin-top: 30px;
@@ -29,18 +34,17 @@ export const CreateLockFirstSection = styled.div`
 export const LockLoaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-
   padding: 15px;
 `;
 export const LoaderStatusWrapper = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
+  lineheight?: number;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-
+  line-height: ${({ lineheight }) => lineheight}px;
   padding: 10px;
   width: 100%;
-  border: 1px solid;
   text-align: center;
   display: block;
 `;
@@ -66,23 +70,24 @@ export const SliderDeadlineStyle = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
 }>`
-display:flex;
-justify-content:space-between;
-margin:0px;  
-color:${({ theme }) => theme.colors.text}
-font-size: ${({ fontSize }) => fontSize}px;
-font-weight:${({ theme }) => theme.fontWeights.regular}
-
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ fontSize }) => fontSize}px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 export const LockScreenInstruction = styled.div`
   display: flex;
+  margin-top: 48px;
+  text-align: left;
   gap: 10px;
   align-items: flex-start;
 `;
 export const InformImg = styled.img`
-  width: 27px;
-  height: 27px;
-  padding-top: 5px;
+  width: 24px;
+  height: 24px;
+  padding-top: 1px;
 `;
 
 export const LockInputBox = styled.input<{ theme: DefaultTheme }>`
@@ -124,4 +129,14 @@ export const LockHeaderStyle = styled.div`
 
 export const WeeksLabel = styled.label`
   cursor: pointer;
+`;
+
+export const LockCardtitle = styled.label<{
+  theme: DefaultTheme;
+  fontSize: number;
+  lineheight?: number;
+}>`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ fontSize }) => fontSize}px;
+  line-height: ${({ lineheight }) => lineheight};
 `;
