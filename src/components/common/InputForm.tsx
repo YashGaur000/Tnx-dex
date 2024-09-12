@@ -346,7 +346,11 @@ const InputForm: React.FC = () => {
             />
           </SwapBox>
           {tokenInput1 && (
-            <LiquityRouting route={route} isLoading={isLoading} />
+            <LiquityRouting
+              route={route}
+              isLoading={isLoading}
+              amountsOut={null}
+            />
           )}
         </SwapBoxWrapper>
       </SwapFormContainer>

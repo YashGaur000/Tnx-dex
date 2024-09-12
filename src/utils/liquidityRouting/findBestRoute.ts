@@ -7,8 +7,13 @@ export const findBestRoute = async (
     amountIn: bigint,
     routes: Route[][]
   ) => Promise<bigint[][] | undefined>
-): Promise<{ bestQuote: bigint; bestRoute: Route[] | null }> => {
-  if (allRoutes.length === 0) return { bestQuote: BigInt(0), bestRoute: null };
+): Promise<{
+  bestQuote: bigint;
+  bestRoute: Route[] | null;
+  bestAmounts: bigint[] | null;
+}> => {
+  if (allRoutes.length === 0)
+    return { bestQuote: BigInt(0), bestRoute: null, bestAmounts: null };
 
   try {
     // Fetch amounts out for all routes in one go
@@ -17,6 +22,7 @@ export const findBestRoute = async (
 
     let bestQuote = BigInt(0);
     let bestRoute: Route[] | null = null;
+    let bestAmounts: bigint[] | null = [];
 
     for (let i = 0; i < amounts.length; i++) {
       const amountsOut = amounts[i];
@@ -27,12 +33,13 @@ export const findBestRoute = async (
       if (lastAmount && lastAmount > bestQuote) {
         bestQuote = lastAmount;
         bestRoute = allRoutes[i];
+        bestAmounts = amountsOut;
       }
     }
 
-    return { bestQuote, bestRoute };
+    return { bestQuote, bestRoute, bestAmounts };
   } catch (error) {
     console.error('Error finding best route:', error);
-    return { bestQuote: BigInt(0), bestRoute: null };
+    return { bestQuote: BigInt(0), bestRoute: null, bestAmounts: null };
   }
 };
