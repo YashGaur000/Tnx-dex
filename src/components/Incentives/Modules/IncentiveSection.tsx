@@ -41,6 +41,7 @@ import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataByI
 import { TokenInfo } from '../../../constants/tokens';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import contractAddresses from '../../../constants/contract-address/address';
+import { usePoolBalances } from '../../../hooks/usePoolBalances';
 
 const IncentiveSection: React.FC = () => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,6 +69,11 @@ const IncentiveSection: React.FC = () => {
   const getParam = useQueryParams();
   const poolId = getParam('pool') ?? '';
   const { data: poolData } = useLiquidityPoolDataById(poolId);
+  const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
+    poolId ?? '',
+    selectedToken1?.decimals ?? 18,
+    selectedToken2?.decimals ?? 18
+  );
 
   useEffect(() => {
     if (poolData?.[0]) {
@@ -92,6 +98,7 @@ const IncentiveSection: React.FC = () => {
   const handleIncentiveFormValue = (inputValue: number) => {
     setValue(inputValue);
   };
+
   const handleTokenSymbol = (token: TokenInfo) => {
     console.log('test ', token);
     // setTokenSymbol(token.symbol);
@@ -158,10 +165,10 @@ const IncentiveSection: React.FC = () => {
                   <LiquidityBox>
                     <LiquidityBoxHeading>Liquidity</LiquidityBoxHeading>
                     <LiquidityText1>
-                      {poolData[0]?.reserve0} {poolData[0]?.token0.symbol}
+                      {reserve0} {poolData[0]?.token0.symbol}
                     </LiquidityText1>
                     <LiquidityText2>
-                      {poolData[0]?.reserve1} {poolData[0]?.token1.symbol}
+                      {reserve1} {poolData[0]?.token1.symbol}
                     </LiquidityText2>
                   </LiquidityBox>
                 </IncentiveLeftBarBox1infoCol1>
@@ -169,10 +176,10 @@ const IncentiveSection: React.FC = () => {
                   <YourDepositsBox>
                     <LiquidityBoxHeading>Your Deposits</LiquidityBoxHeading>
                     <LiquidityText1>
-                      0.0 {poolData[0]?.token0.symbol}
+                      {balance0} {poolData[0]?.token0.symbol}
                     </LiquidityText1>
                     <LiquidityText2>
-                      0.0 {poolData[0]?.token1.symbol}
+                      {balance1} {poolData[0]?.token1.symbol}
                     </LiquidityText2>
                   </YourDepositsBox>
                 </IncentiveLeftBarBox1infoCol2>

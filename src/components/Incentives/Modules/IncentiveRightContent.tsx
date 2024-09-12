@@ -36,6 +36,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   // const [isAllowingToken, setIsAllowingToken] = useState(false);
   // const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isGaugeCreated, setIsGaugeCreated] = useState(false);
+  const [isGaugeBeingCreated, setIsGaugeBeingCreated] = useState(false);
   const [gaugeAddress, setGaugeAddress] = useState<Address>();
   const [bribeAddress, setBribeAddress] = useState<string>('');
 
@@ -53,16 +54,25 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const { createGauge, gauges, gaugeToBribe } = useVoterContract();
 
   const handleCreateGauge = async () => {
-    const gaugeAddress = await createGauge(
-      contractAddresses.PoolFactory,
-      poolData[0]?.id as Address
-    );
-    if (
-      gaugeAddress != '0x0000000000000000000000000000000000000000' &&
-      gaugeAddress != undefined
-    ) {
-      setIsGaugeCreated(true);
-      setGaugeAddress(gaugeAddress);
+    try {
+      const gaugeAddress = await createGauge(
+        contractAddresses.PoolFactory,
+        poolData[0]?.id as Address
+      );
+      setIsGaugeBeingCreated(true);
+      if (
+        gaugeAddress != '0x0000000000000000000000000000000000000000' &&
+        gaugeAddress != undefined
+      ) {
+        setIsGaugeCreated(true);
+        setGaugeAddress(gaugeAddress);
+        console.log('gauge created ', gaugeAddress);
+        setIsGaugeBeingCreated(false);
+
+        // window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error during token approval', error);
     }
   };
 
@@ -77,6 +87,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         setIsGaugeCreated(true);
       }
     } catch (error) {
+      setIsGaugeCreated(false);
       console.error('Error creating gauge:', error);
     }
   };
@@ -89,6 +100,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     ) {
       gaugeToBribe(gaugeAddress)
         .then((bribeAddress) => {
+          setIsGaugeBeingCreated(false);
           setBribeAddress(bribeAddress as string);
         })
         .catch((error) => {
@@ -114,7 +126,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
     if (tokenSymbol && amount) {
       const result = await notifyRewardAmount(tokenSymbol.address, amount);
-      console.log(result);
+      console.log('result', result);
       setIsIncentiveAdded(result ? true : false);
     }
   };
@@ -142,9 +154,11 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     {
       step: 1,
       descriptions: {
-        labels: !isGaugeCreated
-          ? `Create gauge for the ${poolData[0]?.name} pool`
-          : `Gauge found for this Pool`,
+        labels: !gaugeAddress
+          ? isGaugeCreated
+            ? `Create gauge for the ${poolData[0]?.name} pool`
+            : `Gauge is created for the ${poolData[0]?.name} pool`
+          : `Gauge found for this Pool.`,
       },
       icon: !isGaugeCreated ? RedLockIcon : UnLockIcon,
       buttons: !isGaugeCreated
@@ -155,6 +169,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
             tooltip: `Click to allow ${poolData[0]?.token0.symbol}-${poolData[0]?.token1.symbol} transactions`,
           }
         : undefined,
+      actionCompleted: isGaugeBeingCreated && !isGaugeCreated,
     },
     {
       step: 2,
@@ -164,15 +179,16 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
           : `Allowance not granted for ${tokenSymbol?.symbol}`,
       },
       icon: !isTokenAllowed ? RedLockIcon : UnLockIcon,
-      buttons: !isTokenAllowed
-        ? {
-            label: `Allow ${tokenSymbol?.symbol}`,
-            icon: Lock1Icon,
-            onClick: handleAllowance,
-            tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
-            inProgress: isAllowingToken,
-          }
-        : undefined,
+      buttons:
+        !isTokenAllowed && bribeAddress
+          ? {
+              label: `Allow ${tokenSymbol?.symbol}`,
+              icon: Lock1Icon,
+              onClick: handleAllowance,
+              tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
+              inProgress: isAllowingToken,
+            }
+          : undefined,
     },
     {
       step: 2,
@@ -213,6 +229,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         >
           Add incentive{' '}
         </GlobalButton>
+      )}
+      {isIncentiveAdded && (
+        <SuccessPopup message="Incentive added Successfully" />
       )}
     </IncentiveLeftBarBox1>
   );

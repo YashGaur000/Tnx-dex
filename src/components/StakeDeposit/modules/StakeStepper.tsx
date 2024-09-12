@@ -97,13 +97,15 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
     setIsAllowingToken(true);
     const balance = await balanceOf();
     if (balance) {
-      const amount =
-        (parseFloat(balance.toString()) * selectedStakeValue) / 100;
-      const amountInEth = ethers.parseUnits(amount.toString(), 18);
-      setAmount(amountInEth);
+      const amount = (Number(balance.etherBalance) * selectedStakeValue) / 100;
+      const amountInWei = ethers.parseUnits(
+        amount.toFixed(balance.decimals).toString(),
+        balance.decimals
+      );
+      setAmount(amountInWei);
       const result = await approveAllowance(
         gaugeAddress,
-        amountInEth.toString()
+        amountInWei.toString()
       );
       setIsTokenAllowed(result ? true : false);
     }
@@ -155,16 +157,14 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           ? 'Create the gauge by incentivizing first'
           : `Gauge found for ${selectedToken1?.symbol} - ${selectedToken2?.symbol}`,
       },
-      buttons: !gaugeExists
-        ? {
-            label:
-              'Incentivize ' +
-              selectedToken1?.symbol +
-              '-' +
-              selectedToken2?.symbol,
-            onClick: handleIncentive,
-          }
-        : undefined,
+      buttons: {
+        label:
+          'Incentivize ' +
+          selectedToken1?.symbol +
+          '-' +
+          selectedToken2?.symbol,
+        onClick: handleIncentive,
+      },
     },
     {
       step: 3,

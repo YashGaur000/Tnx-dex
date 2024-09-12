@@ -41,7 +41,7 @@ export function usePoolContract(poolId: string) {
         balance ? balance.toString() : '0',
         decimals
       );
-      return etherBalance;
+      return { etherBalance, decimals };
     } catch (error) {
       console.log(error);
     }
