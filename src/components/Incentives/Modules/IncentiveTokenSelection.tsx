@@ -28,6 +28,7 @@ import { TokenInfo } from '../../../constants/tokens';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import contractAddresses from '../../../constants/contract-address/address';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import { AddressZero } from '@ethersproject/constants';
 
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
@@ -48,10 +49,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const { address } = useAccount();
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
-  const { balances } = useTokenBalances(
-    tokenList,
-    address ?? '0x0000000000000000000000000000000000000000'
-  );
+  const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
   const totalBalanceIncentiveToken =
     selectedIncentiveToken && Number(balances[selectedIncentiveToken?.address]);
 

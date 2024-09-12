@@ -51,6 +51,7 @@ const SwapForm: React.FC = () => {
 
   const [exchangeRate, setExchangeRate] = useState(0);
   const [route, setRoute] = useState<Route[] | null>(null);
+  const [amountsOut, setAmountsOut] = useState<bigint[] | null>(null);
 
   const [tokenInput1, setTokenInput1] = useState('');
   const [tokenInput2, setTokenInput2] = useState('');
@@ -80,7 +81,7 @@ const SwapForm: React.FC = () => {
 
       setIsValid(walletBalanceCheck);
     }
-  }, [tokenInput1, selectedToken1]);
+  }, [tokenInput1, selectedToken1, balances, nativeBalance]);
 
   useEffect(() => {
     // 1. Update connection state
@@ -131,7 +132,8 @@ const SwapForm: React.FC = () => {
         setTokenInput2,
         setExchangeRate,
         setRoute,
-        setIsLoading
+        setIsLoading,
+        setAmountsOut
       );
     }, ROUTING_DELAY);
   };
@@ -191,7 +193,8 @@ const SwapForm: React.FC = () => {
         setTokenInput2,
         setExchangeRate,
         setRoute,
-        setIsLoading
+        setIsLoading,
+        setAmountsOut
       );
     }, ROUTING_DELAY);
   };
@@ -243,7 +246,8 @@ const SwapForm: React.FC = () => {
         setTokenInput2,
         setExchangeRate,
         setRoute,
-        setIsLoading
+        setIsLoading,
+        setAmountsOut
       );
     }, ROUTING_DELAY);
   };
@@ -278,6 +282,7 @@ const SwapForm: React.FC = () => {
                     padding="0px"
                     value={tokenInput1}
                     onChange={handleTokenInput1}
+                    style={{ color: isValid ? '' : 'red' }}
                   />
                   <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
                     <SwapPageIconWrapper
@@ -404,7 +409,11 @@ const SwapForm: React.FC = () => {
             />
           </SwapBox>
           {tokenInput1 && (
-            <LiquityRouting route={route} isLoading={isLoading} />
+            <LiquityRouting
+              route={route}
+              isLoading={isLoading}
+              amountsOut={amountsOut}
+            />
           )}
         </SwapBoxWrapper>
       </SwapFormContainer>
@@ -424,6 +433,8 @@ const SwapForm: React.FC = () => {
           setTokenInput2={setTokenInput2}
           routes={route}
           setRoute={setRoute}
+          amountsOut={amountsOut}
+          setAmountsOut={setAmountsOut}
           graph={graph}
         />
       </SidebarContainer>
