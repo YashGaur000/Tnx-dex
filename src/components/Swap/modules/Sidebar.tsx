@@ -46,6 +46,7 @@ import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/re
 import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
 import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 import AllowUnsafeTrades from './AllowUnsafeTrades';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -99,6 +100,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const [isVisibleSlippage, setVisibleSlippage] = useState(false);
   const [isVisibleDeadline, setVisibleDealine] = useState(false);
   const [isVisibleUnsafe, setVisibleUnsafe] = useState(false);
@@ -145,6 +148,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleAllowToken1 = async () => {
     try {
+      setIsDisabled(true);
       const amount1InWei =
         tokenInput1 &&
         ethers.parseUnits(tokenInput1.toString(), token1?.decimals);
@@ -154,9 +158,11 @@ const Sidebar: React.FC<SidebarProps> = ({
           amount1InWei.toString()
         );
         setIsTokenAllow(true);
+        setIsDisabled(false);
       }
     } catch (error) {
       console.error('Error during token approval', error);
+      setIsDisabled(false);
     }
   };
 
@@ -273,7 +279,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               icon: LockIcon,
               onClick: handleAllowToken1,
               tooltip: `Click to allow ${token1.symbol} transactions`,
-              disabled: false,
+              disabled: isDisabled,
             }
           : undefined,
     },
@@ -341,7 +347,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               icon: LockIcon,
               onClick: handleAllowToken1,
               tooltip: `Click to allow ${token1.symbol} transactions`,
-              disabled: false,
+              disabled: isDisabled,
             }
           : undefined,
     },
@@ -374,6 +380,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleSwap = async () => {
     try {
+      setIsDisabled(true);
       const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
       const deadline = getDeadline(deadLineValue);
 
@@ -440,12 +447,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       console.log('Swap added:', tx);
 
       setIsSwapped(true);
+      setIsDisabled(false);
       setTimeout(() => {
         setTokenInput1('');
         setTokenInput2('');
       }, 1000);
     } catch (error) {
       console.error('Error swapping:', error);
+      setIsDisabled(false);
     }
   };
 
@@ -467,8 +476,23 @@ const Sidebar: React.FC<SidebarProps> = ({
                     height="48px"
                     margin="0px"
                     onClick={() => void handleSwap()}
+                    disabled={isDisabled}
                   >
-                    Swap
+                    {isDisabled ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center', // Center items horizontally
+                          alignItems: 'center', // Center items vertically
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Swapping</p>
+                      </div>
+                    ) : (
+                      <p>Swap</p>
+                    )}
                   </GlobalButton>
                 )}
 

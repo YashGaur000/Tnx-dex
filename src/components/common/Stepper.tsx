@@ -4,6 +4,7 @@ import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
 import ArrowIcon from './../../assets/doubleHederArrow.svg';
 import { StepperDataProps } from '../../types/Stepper';
+import { LoadingSpinner } from './Loader';
 
 interface StepperProps {
   data: StepperDataProps[];
@@ -243,15 +244,29 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                 disabled={item.buttons?.disabled}
                 inProgress={item.buttons?.inProgress}
               >
-                <ButtonWrapperTitle>
-                  {item.buttons?.label}
-                  {item.buttons?.icon && (
-                    <ButtonIcon
-                      src={item.buttons?.icon}
-                      alt={`${item.buttons?.label} icon`}
-                    />
-                  )}
-                </ButtonWrapperTitle>
+                {item.buttons?.disabled ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center', // Center items horizontally
+                      alignItems: 'center', // Center items vertically
+                      gap: '15px',
+                    }}
+                  >
+                    <LoadingSpinner width="10px" height="10px" />
+                    <p>{item.buttons?.label.split(' ')[0] + 'ing'}</p>
+                  </div>
+                ) : (
+                  <ButtonWrapperTitle>
+                    {item.buttons?.label}
+                    {item.buttons?.icon && (
+                      <ButtonIcon
+                        src={item.buttons?.icon}
+                        alt={`${item.buttons?.label} icon`}
+                      />
+                    )}
+                  </ButtonWrapperTitle>
+                )}
               </GlobalButton>
             )}
           </Content>

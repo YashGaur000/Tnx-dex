@@ -86,7 +86,9 @@ const Deposite: React.FC<DepositProps> = ({
     } catch (error) {
       console.error('Error during token approval', error);
     } finally {
-      setIsAllowingToken1(false); // Re-enable the button after the operation completes
+      setIsAllowingToken1(false);
+
+      // Re-enable the button after the operation completes
     }
   };
 
@@ -107,7 +109,8 @@ const Deposite: React.FC<DepositProps> = ({
     } catch (error) {
       console.error('Error during token approval', error);
     } finally {
-      setIsAllowingToken2(false); // Re-enable the button after the operation completes
+      setIsAllowingToken2(false);
+      // Re-enable the button after the operation completes
     }
   };
 
@@ -257,7 +260,7 @@ const Deposite: React.FC<DepositProps> = ({
             icon: LockIcon,
             onClick: handleAllowToken1,
             tooltip: 'Click to allow USDT transactions',
-            disabled: disabled1,
+            disabled: isAllowingToken1,
             inProgress: isAllowingToken1,
           }
         : undefined,
@@ -279,7 +282,7 @@ const Deposite: React.FC<DepositProps> = ({
             icon: LockIcon,
             onClick: handleAllowToken2,
             tooltip: 'Click to allow FTM transactions',
-            disabled: disabled2,
+            disabled: isAllowingToken2,
             inProgress: isAllowingToken2,
           }
         : undefined,
