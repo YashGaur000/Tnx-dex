@@ -47,15 +47,6 @@ export const TimerButton = styled.button<{ theme: DefaultTheme }>`
   background-origin: padding-box, border-box;
   border-radius: 8px;
   cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.greyLight};
-    border: 2px solid transparent;
-    background: ${({ theme }) => theme.colors.cardLight},
-      ${({ theme }) => theme.colors.buttonBackground};
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
-  }
 `;
 
 export const SliderContainer = styled.div<{ margin?: string }>`

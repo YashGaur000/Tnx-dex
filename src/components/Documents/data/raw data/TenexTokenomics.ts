@@ -115,13 +115,13 @@ export const TOKENOMICS_RAW_DATA = {
               </tr>
               <tr>
                   <td>LGE (veTENEX)</td>
-                  <td>1.5%</td>
-                  <td>6,000,000</td>
+                  <td>1%</td>
+                  <td>4,000,000</td>
               </tr>
               <tr>
                   <td>Initial Investor/Private Sale(TENEX)</td>
-                  <td>2%</td>
-                  <td>8,000,000</td>
+                  <td>2.5%</td>
+                  <td>10,000,000</td>
               </tr>
               <tr>
                   <td>Marketing and KOLs</td>

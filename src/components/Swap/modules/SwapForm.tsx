@@ -3,7 +3,7 @@ import { useAccount } from '../../../hooks/useAccount';
 import { TokenInfo } from './../../../constants/tokens';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import SelectIcon from '../../../assets/select.svg';
-import SwapSettingIcon from '../../../assets/swapSetting.png';
+import SwapSettingIcon from '../../../assets/setting.svg';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
   InputWrapper,

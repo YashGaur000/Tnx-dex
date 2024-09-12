@@ -48,7 +48,10 @@ export const ToleranceButtons = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
+export const ToleranceButton = styled.div<{
+  theme: DefaultTheme;
+  selected: boolean;
+}>`
   flex: 1;
   padding: 8px;
   height: 25px;
@@ -66,13 +69,14 @@ export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.colors.whiteBorder};
-  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
-  }
+  border: 1px solid ${({ theme, selected }) => (!selected ? theme.colors.whiteBorder : 'transparent')};
+  
+  color: ${({ theme, selected }) => selected && theme.colors.whiteBorder};
+  background: ${({ theme, selected }) => selected && theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+ 
 
   @media (max-width: 600px) {
     padding: 6px;
@@ -108,16 +112,19 @@ export const SlippageInput = styled.input<{ theme: DefaultTheme }>`
   background-origin: padding-box, border-box;
   border-radius: 8px;
   text-align: center;
-  
+
   &:focus {
-  outline:none;
+    outline: none;
   }
- &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 2px solid transparent;
-     background: ${({ theme }) => theme.colors.cardLight},
-    ${({ theme }) => theme.colors.buttonBackground};
-  background-clip: padding-box, border-box;
-  background-origin: padding-box, border-box;
- 
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  & {
+    -moz-appearance: textfield;
+  }
 `;
