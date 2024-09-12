@@ -7,6 +7,7 @@ interface PoolContract extends Contract {
   reserve1(): Promise<bigint>;
   totalSupply(): Promise<bigint>;
   metadata(): Promise<Metadata>;
+  decimals(): Promise<number>;
 }
 
 interface Metadata {
