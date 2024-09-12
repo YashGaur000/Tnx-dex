@@ -4,7 +4,7 @@ import {
   //TOKEN_LIST,
   TokenInfo,
 } from '../../constants/tokens';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import SearchIcons from '../../assets/search-icon.png';
 import {
   HeaderleftContent,
   HeaderRightContent,
@@ -18,6 +18,10 @@ import {
   TokenList,
   TokenItemImage,
   TokenItemData,
+  TokenNameWrapper,
+  TokenListsWrapper,
+  ScrollContainer,
+  TokenItemWithAdressWrapper,
 } from './styles/TokenSelectModal.style';
 import tenex from '../../assets/Tenex.png';
 import { useTokenBalances } from '../../hooks/useTokenBalance';
@@ -81,47 +85,55 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
     <ModalWrapper onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <SearchWrapper>
-          <SearchIcon icon={faSearch} />
+          <SearchIcon src={SearchIcons} />
           <SearchInput
             type="text"
-            placeholder=""
+            marginbottom="0px"
+            placeholder="Search by symbol or address"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </SearchWrapper>
-
-        <HeaderTokenContent>
-          <HeaderleftContent>{filteredTokens.length} Tokens</HeaderleftContent>
-          <HeaderRightContent>Balance</HeaderRightContent>
-        </HeaderTokenContent>
-
-        <TokenList>
-          {filteredTokens.map((token) => (
-            <TokenItem
-              key={token.symbol}
-              onClick={() => handleSelectToken(token)}
-            >
-              <TokenItemImage
-                src={token.logoURI ? token.logoURI : tenex}
-                width={21}
-                height={22}
-                alt={token.symbol}
-              />
-              {token.symbol} <br /> {truncateString(token.address)}
-              <TokenItemData
-                style={{
-                  marginLeft: '150px',
-                }}
-              >
-                {account && token.symbol == 'ETH' ? (
-                  <BalanceDisplay address={account} />
-                ) : (
-                  balances[token.address].toString()
-                )}
-              </TokenItemData>
-            </TokenItem>
-          ))}
-        </TokenList>
+        <TokenListsWrapper>
+          <HeaderTokenContent>
+            <HeaderleftContent>
+              {filteredTokens.length} Tokens
+            </HeaderleftContent>
+            <HeaderRightContent>Balance</HeaderRightContent>
+          </HeaderTokenContent>
+          <ScrollContainer>
+            <TokenList>
+              {filteredTokens.map((token) => (
+                <TokenItem
+                  key={token.symbol}
+                  onClick={() => handleSelectToken(token)}
+                >
+                  <TokenItemWithAdressWrapper>
+                    <TokenItemImage
+                      src={token.logoURI ? token.logoURI : tenex}
+                      width={36}
+                      height={36}
+                      alt={token.symbol}
+                    />
+                    <TokenNameWrapper>
+                      <TokenItemData>{token.symbol}</TokenItemData>
+                      <TokenItemData fontsize={12}>
+                        {truncateString(token.address)}
+                      </TokenItemData>
+                    </TokenNameWrapper>
+                  </TokenItemWithAdressWrapper>
+                  <TokenItemData fontsize={16}>
+                    {account && token.symbol == 'ETH' ? (
+                      <BalanceDisplay address={account} />
+                    ) : (
+                      balances[token.address].toString()
+                    )}
+                  </TokenItemData>
+                </TokenItem>
+              ))}
+            </TokenList>
+          </ScrollContainer>
+        </TokenListsWrapper>
       </ModalContent>
     </ModalWrapper>
   );
