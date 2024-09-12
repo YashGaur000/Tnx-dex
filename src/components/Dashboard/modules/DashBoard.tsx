@@ -21,6 +21,7 @@ import PopupScreen from '../../common/PopupScreen';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import LiquidityToolTips from '../../Liquidity/LiquidityHomePage/Modules/LiquidityToolTips';
 import LockToolTips from '../../ManageVeTenex/Modules/LockToolTips';
+import VotingToolTips from '../../Voting/modules/VotingToolTips';
 // import DepositAndStake from "./DepositAndStake";
 // import LiquidityRewards from "./LiquidityRewards";
 // import DashBoardLocks from "./DashBoardLocks";
@@ -61,7 +62,7 @@ const DashBoard: React.FC = () => {
       case 'lock':
         return <LockToolTips />;
       case 'voting':
-        return <div>Voting Tooltip Content</div>;
+        return <VotingToolTips />;
       default:
         return null;
     }
