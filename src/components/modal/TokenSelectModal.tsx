@@ -24,10 +24,12 @@ import {
   TokenItemWithAdressWrapper,
 } from './styles/TokenSelectModal.style';
 import tenex from '../../assets/Tenex.png';
+
 import { useTokenBalances } from '../../hooks/useTokenBalance';
 import { Address } from 'viem';
 import useQueryParams from '../../hooks/useQueryParams';
 import BalanceDisplay from '../Swap/modules/BalanceDisplay';
+import Copy from '../common/Copy';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
@@ -117,9 +119,8 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                     />
                     <TokenNameWrapper>
                       <TokenItemData>{token.symbol}</TokenItemData>
-                      <TokenItemData fontsize={12}>
-                        {truncateString(token.address)}
-                      </TokenItemData>
+                      <Copy copydata={truncateString(token.address)} />
+                      {/* {truncateString(token.address)}  */}
                     </TokenNameWrapper>
                   </TokenItemWithAdressWrapper>
                   <TokenItemData fontsize={16}>

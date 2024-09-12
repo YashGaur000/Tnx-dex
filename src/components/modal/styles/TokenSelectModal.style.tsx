@@ -25,6 +25,13 @@ export const ModalContent = styled.div<{ theme: DefaultTheme }>`
   padding: 20px;
   width: 550px;
   max-height: 540px;
+
+  @media (max-width: 700px) {
+    width: 400px;
+  }
+  @media (max-width: 500px) {
+    width: 90%;
+  }
 `;
 export const ScrollContainer = styled.div<{ theme: DefaultTheme }>`
   width: 100%;
@@ -122,6 +129,7 @@ export const TokenItemImage = styled.img<{
 export const TokenNameWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 `;
 export const TokenItemData = styled.p<{
   theme: DefaultTheme;
