@@ -99,7 +99,7 @@ const LiquidityHeroSection = () => {
 
       {isPopupVisible && (
         <PopupScreen
-          isVisible={isPopupVisible}
+          isvisible={isPopupVisible}
           onClose={closeModal}
           width="500px"
           height="518px"

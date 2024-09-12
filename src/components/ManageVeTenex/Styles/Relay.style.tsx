@@ -41,6 +41,7 @@ export const RelayCardsection2 = styled.div`
 `;
 export const RelayIdStatus = styled.div<{ theme: DefaultTheme }>`
   block: inline-block;
+  font-size: 10px;
   background: ${({ theme }) => theme.colors.cardLight};
   font-size: ${({ theme }) => theme.fontSize.small};
   padding: 3px 10px;

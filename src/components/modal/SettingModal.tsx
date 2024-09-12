@@ -6,13 +6,13 @@ import SlippageTolerance from '../common/SlippageTolerance';
 
 import TransactionDeadline from '../common/TransactionDeadline';
 import PopupScreen from '../common/PopupScreen';
+import { useRootStore } from '../../store/root';
 
 interface SettingProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
 }
-
 const PopupContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,11 +20,13 @@ const PopupContainer = styled.div`
 `;
 
 const SettingModal: React.FC<SettingProps> = ({ isOpen, onClose }) => {
+  const { allowUnsafe, setAllowUnsafe } = useRootStore();
+
   if (!isOpen) return null;
 
   return (
     <PopupScreen
-      isVisible={isOpen}
+      isvisible={isOpen}
       onClose={onClose}
       width="430px"
       height="466px"
@@ -33,10 +35,8 @@ const SettingModal: React.FC<SettingProps> = ({ isOpen, onClose }) => {
         <SlippageTolerance />
         <TransactionDeadline />
         <AllowUnsafeTrades
-          isChecked={false}
-          handleToggle={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          isChecked={allowUnsafe}
+          handleToggle={() => setAllowUnsafe(!allowUnsafe)}
         />
       </PopupContainer>
     </PopupScreen>

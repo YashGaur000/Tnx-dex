@@ -11,21 +11,21 @@ import {
   Row,
   Column60,
   Column40,
-  IncentiveLeftBar,
-  IncentiveLeftBarBox1,
+  IncentiveleftBar,
+  IncentiveleftBarBox1,
   ImgUSTDFTM,
   Img4,
-  IncentiveLeftBarBox1info,
-  IncentiveLeftBarBox1infoCol1,
-  IncentiveLeftBarBox1infoCol1StableRow,
+  IncentiveleftBarBox1info,
+  IncentiveleftBarBox1infoCol1,
+  IncentiveleftBarBox1infoCol1StableRow,
   UtmLabel,
-  IncentiveLeftBarBox1infoCol1Stable,
-  IncentiveLeftBarBox1infoCol1Count,
-  IncentiveLeftBarBox1infoCol1Icon,
-  IncentiveLeftBarBox1UTM,
-  IncentiveLeftBarBox1infoCol2,
-  IncentiveLeftBarBox1infoCol2Row1,
-  IncentiveLeftBarBox1infoCol2Row2,
+  IncentiveleftBarBox1infoCol1Stable,
+  IncentiveleftBarBox1infoCol1Count,
+  IncentiveleftBarBox1infoCol1Icon,
+  IncentiveleftBarBox1UTM,
+  IncentiveleftBarBox1infoCol2,
+  IncentiveleftBarBox1infoCol2Row1,
+  IncentiveleftBarBox1infoCol2Row2,
   LiquidityBox,
   LiquidityText1,
   LiquidityText2,
@@ -33,7 +33,7 @@ import {
   LiquidityBoxHeading,
 } from '../Styles/IncentiveSection.style';
 
-import { ImgRightIcon, ImgLeftIcon } from '../Styles/IncentiveTokenPopup.style';
+import { ImgRightIcon, ImgleftIcon } from '../Styles/IncentiveTokenPopup.style';
 // import { useAccount } from '../../../hooks/useAccount';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
@@ -109,13 +109,13 @@ const IncentiveSection: React.FC = () => {
     <Section>
       <Row>
         <Column60>
-          <IncentiveLeftBar>
-            <IncentiveLeftBarBox1>
-              <IncentiveLeftBarBox1info>
-                <IncentiveLeftBarBox1infoCol1>
+          <IncentiveleftBar>
+            <IncentiveleftBarBox1 height="232px" width="600px">
+              <IncentiveleftBarBox1info>
+                <IncentiveleftBarBox1infoCol1>
                   {selectedToken1 ? (
                     <>
-                      <ImgLeftIcon
+                      <ImgleftIcon
                         src={selectedToken1?.logoURI}
                         alt="Icon 1"
                         width={36}
@@ -131,23 +131,23 @@ const IncentiveSection: React.FC = () => {
                   ) : (
                     <ImgUSTDFTM src={USDTFTM} alt="Default Icon" />
                   )}
-                  <IncentiveLeftBarBox1UTM>
+                  <IncentiveleftBarBox1UTM>
                     <UtmLabel>{poolData[0]?.name}</UtmLabel>
-                    <IncentiveLeftBarBox1infoCol1StableRow>
-                      <IncentiveLeftBarBox1infoCol1Stable>
+                    <IncentiveleftBarBox1infoCol1StableRow>
+                      <IncentiveleftBarBox1infoCol1Stable>
                         {poolData[0]?.isStable ? 'stable' : 'volatile'}
-                      </IncentiveLeftBarBox1infoCol1Stable>
-                      <IncentiveLeftBarBox1infoCol1Count>
+                      </IncentiveleftBarBox1infoCol1Stable>
+                      <IncentiveleftBarBox1infoCol1Count>
                         0.01%
-                      </IncentiveLeftBarBox1infoCol1Count>
-                      <IncentiveLeftBarBox1infoCol1Icon>
+                      </IncentiveleftBarBox1infoCol1Count>
+                      <IncentiveleftBarBox1infoCol1Icon>
                         <Img4 src={USDTFTMi} />
-                      </IncentiveLeftBarBox1infoCol1Icon>
-                    </IncentiveLeftBarBox1infoCol1StableRow>
-                  </IncentiveLeftBarBox1UTM>
-                </IncentiveLeftBarBox1infoCol1>
-                <IncentiveLeftBarBox1infoCol2>
-                  <IncentiveLeftBarBox1infoCol2Row1>
+                      </IncentiveleftBarBox1infoCol1Icon>
+                    </IncentiveleftBarBox1infoCol1StableRow>
+                  </IncentiveleftBarBox1UTM>
+                </IncentiveleftBarBox1infoCol1>
+                <IncentiveleftBarBox1infoCol2>
+                  <IncentiveleftBarBox1infoCol2Row1>
                     <GlobalButton
                       height="40px"
                       width="80px"
@@ -156,12 +156,12 @@ const IncentiveSection: React.FC = () => {
                     >
                       Change
                     </GlobalButton>
-                  </IncentiveLeftBarBox1infoCol2Row1>
-                  <IncentiveLeftBarBox1infoCol2Row2 />
-                </IncentiveLeftBarBox1infoCol2>
-              </IncentiveLeftBarBox1info>
-              <IncentiveLeftBarBox1info>
-                <IncentiveLeftBarBox1infoCol1>
+                  </IncentiveleftBarBox1infoCol2Row1>
+                  <IncentiveleftBarBox1infoCol2Row2 />
+                </IncentiveleftBarBox1infoCol2>
+              </IncentiveleftBarBox1info>
+              <IncentiveleftBarBox1info>
+                <IncentiveleftBarBox1infoCol1>
                   <LiquidityBox>
                     <LiquidityBoxHeading>Liquidity</LiquidityBoxHeading>
                     <LiquidityText1>
@@ -171,8 +171,8 @@ const IncentiveSection: React.FC = () => {
                       {reserve1} {poolData[0]?.token1.symbol}
                     </LiquidityText2>
                   </LiquidityBox>
-                </IncentiveLeftBarBox1infoCol1>
-                <IncentiveLeftBarBox1infoCol2>
+                </IncentiveleftBarBox1infoCol1>
+                <IncentiveleftBarBox1infoCol2>
                   <YourDepositsBox>
                     <LiquidityBoxHeading>Your Deposits</LiquidityBoxHeading>
                     <LiquidityText1>
@@ -182,14 +182,14 @@ const IncentiveSection: React.FC = () => {
                       {balance1} {poolData[0]?.token1.symbol}
                     </LiquidityText2>
                   </YourDepositsBox>
-                </IncentiveLeftBarBox1infoCol2>
-              </IncentiveLeftBarBox1info>
-            </IncentiveLeftBarBox1>
+                </IncentiveleftBarBox1infoCol2>
+              </IncentiveleftBarBox1info>
+            </IncentiveleftBarBox1>
             <IncentiveTokenSelection
               handleIncentiveFormValue={handleIncentiveFormValue}
               handleTokenSymbol={handleTokenSymbol}
             />
-          </IncentiveLeftBar>
+          </IncentiveleftBar>
         </Column60>
         <Column40>
           <IncentiveRightContent

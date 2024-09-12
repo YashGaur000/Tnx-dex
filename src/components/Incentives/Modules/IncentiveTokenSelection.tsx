@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import tenexarrow from '../../../assets/tenex-arrow.png';
 import {
-  IncentiveLeftBarBox1,
+  IncentiveleftBarBox1,
   Img2,
   Img4,
   Box2Container,
@@ -76,7 +76,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   }
 
   return (
-    <IncentiveLeftBarBox1>
+    <IncentiveleftBarBox1 margintop="40px" height="236px" width="600px">
       <Box2Container>
         <Box2DataPoint1>
           <Box2Title>APR</Box2Title>
@@ -97,7 +97,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
           <Box2Container>
             <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
               <Img2
-                width={20}
+                width={19.5}
                 height={20}
                 src={selectedIncentiveToken?.logoURI}
                 alt={selectedIncentiveToken?.symbol}
@@ -129,7 +129,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         onSelect={handleIncentiveToken}
         account={address}
       />
-    </IncentiveLeftBarBox1>
+    </IncentiveleftBarBox1>
   );
 };
 
