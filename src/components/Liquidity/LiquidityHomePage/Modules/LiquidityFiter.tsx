@@ -29,19 +29,12 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>('All Pools');
   const [InputData, setInputData] = useState('');
-  const ButtonData: string[] = [
-    'All Pools',
-    'Stable',
-    'Volatile',
-    'Concentrated',
-    'Low TVL',
-  ];
+  const ButtonData: string[] = ['All Pools', 'Stable', 'Volatile', 'Low TVL'];
 
   const options: Option[] = [
     { id: 1, label: 'Active' },
     { id: 2, label: 'New' },
     { id: 3, label: 'Participant' },
-    { id: 4, label: 'Others' },
   ];
 
   const handleFilterClick = (item: string): void => {

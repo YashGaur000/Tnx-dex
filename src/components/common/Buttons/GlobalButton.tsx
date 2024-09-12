@@ -11,7 +11,7 @@ export const GlobalButton = styled.button<{
   minwidth?: string;
   maxwidth?: string;
   margin?: string;
-  fontSize?: number;
+  fontsize?: number;
   smfontsize?: number;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
@@ -30,15 +30,25 @@ export const GlobalButton = styled.button<{
   cursor: ${({ disabled, inProgress }) =>
     disabled ? 'not-allowed' : inProgress ? 'progress' : 'pointer'};
   margin: ${({ margin }) => (margin ? margin : '20px 0px')};
-  font-size: ${({ fontSize }) => fontSize ?? '16'}px;
+  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+  transition: 0.3s;
   opacity: 1;
-  transition: all 0.3s ease;
-
   &:hover {
-    opacity: 0.9;
-    transform: scale(1.05);
+    animation: pulse 1s infinite;
+    transition: 0.3s;
   }
 
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    70% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
   @media (max-width: 768px) {
     padding: 6px 12px;
     font-size: ${({ smfontsize }) => smfontsize ?? '16'}px;

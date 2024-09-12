@@ -35,24 +35,41 @@ const StyledButton = styled.button<
   cursor: ${({ cursor }) => cursor ?? 'pointer'};
   font-size: ${({ fontSize }) => fontSize ?? '20px'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
+  line-height: ${({ lineheight }) => lineheight ?? '16.9px'};
   font-family: ${({ theme }) => theme.fonts.main};
   letter-spacing: 0.02em;
   text-align: center;
   color: ${({ theme, color }) => color ?? theme.colors.buttonBackground};
   margin-top: ${({ margintop }) => margintop ?? '0px'};
   opacity: 1;
-  transition: all 0s ease;
+  transition:
+    transform 0.3s,
+    background-color 0.3s,
+    border 0.3s,
+    padding 0.3s;
 
   &:hover {
-    opacity: 1;
-    transform: scale(1.05);
+    animation: pulse 1s infinite;
+    box-shadow: none;
+    outline: none;
   }
 
-  &:hover span {
-    background: white;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    70% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  span:hover {
+    animation: none;
+    transition: none;
+    box-shadow: none;
   }
 
   @media (max-width: 768px) {
