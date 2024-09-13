@@ -7,6 +7,8 @@ export interface BribeVotingRewardContract extends Contract {
     amount: bigint,
     { gasLimit: bigInt }
   ): Promise<ContractTransaction>;
+  rewardsListLength(): Promise<number>;
+  rewards(index: number): Promise<Address>;
   estimateGas: {
     notifyRewardAmount(token: Address, amount: bigint): Promise<bigint>;
   };
