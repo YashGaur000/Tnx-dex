@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const ModalWrapper = styled.div<{ theme: DefaultTheme }>`
   position: fixed;
@@ -14,87 +13,169 @@ export const ModalWrapper = styled.div<{ theme: DefaultTheme }>`
   align-items: center;
   z-index: 1000;
 `;
-
+export const TokenListsWrapper = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 10px;
+`;
 export const ModalContent = styled.div<{ theme: DefaultTheme }>`
-  background: linear-gradient(90deg, #18264c 0%, #1f305f 100%);
+  background: ${({ theme }) => theme.colors.card};
   border-radius: 10px;
   padding: 20px;
-  width: 500px;
-  max-height: 80vh;
+  width: 550px;
+  max-height: 540px;
+
+  @media (max-width: 700px) {
+    width: 400px;
+  }
+  @media (max-width: 500px) {
+    width: 90%;
+  }
+`;
+export const ScrollContainer = styled.div<{ theme: DefaultTheme }>`
+  width: 100%;
+  overflow-y: scroll;
+  max-height: 350px;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 20px;
+    width: 6px;
+    margin-bottom: 20px;
+    background: ${({ theme }) => theme.colors.swapIconBackground};
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.bordercolor};
+    border-radius: 10px;
+    margin-right: 5px;
+  }
 `;
 
-export const SearchInput = styled.input<{ theme: DefaultTheme }>`
-  width: 95%;
+export const SearchInput = styled.input<{
+  theme: DefaultTheme;
+  marginbottom?: string;
+}>`
+  width: 100%;
   padding: 8px;
-  margin-bottom: 10px;
-  border: 1px solid grey;
+  margin-bottom: ${({ marginbottom }) => marginbottom ?? '10px'};
+  border: none;
+  background: transparent;
   border-radius: 21px;
-  color: grey;
-  background: linear-gradient(90deg, #18264c 0%, #1f305f 100%);
-  padding: 12px 20px 12px 40px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
+  display: flex;
+  align-items: center;
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.greyDark};
+    padding-left: 10px;
+    font-size: 16px;
+  }
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const TokenList = styled.ul<{ theme: DefaultTheme }>`
   list-style: none;
-  padding: 0;
-  margin: 0;
-  max-height: 60vh;
-  text-align: left;
-  overflow-y: auto;
-  scrollbar-width: thin;
 
-  &::-webkit-scrollbar {
-    width: 8px;
-    border-radius: 21px;
-  }
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 
-  &::-webkit-scrollbar-track {
-    background: #000;
-    border-radius: 21px;
-  }
+  padding: 0px 20px 0px 10px;
 
-  &::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #16c062 0%, #3eacfc 100%);
-    border-radius: 10px;
-  }
+  gap: 8px;
 `;
 
+export const TokenItemWithAdressWrapper = styled.div`
+  display: flex;
+
+  gap: 16px;
+  justify-content: center;
+  height: 42px;
+`;
 export const TokenItem = styled.li<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
-  padding: 10px 10px 10px 5px;
+
+  padding: 5px;
   justify-content: space-between;
   cursor: pointer;
   line-height: 23.92px;
   color: ${({ theme }) => theme.colors.textGreyColor};
   &:hover {
-    background: grey;
+    background: ${({ theme }) => theme.colors.cardLight};
+    border-radius: 8px;
   }
 `;
-export const TokenItemImage = styled.img<{ theme: DefaultTheme }>`
-  width: 30px;
-  height: 30px;
-  border-radius: 30px;
+export const TokenItemImage = styled.img<{
+  theme: DefaultTheme;
+  width?: number;
+  height?: number;
+}>`
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
+
+  border-radius: 50%;
   object-fit: cover;
 `;
-export const TokenItemData = styled.p<{ theme: DefaultTheme }>``;
+export const TokenNameWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+`;
+export const TokenItemData = styled.p<{
+  theme: DefaultTheme;
+  fontsize?: number;
+}>`
+  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
+`;
 export const SearchWrapper = styled.div<{ theme: DefaultTheme }>`
-  position: relative;
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  padding: 10px 16px;
+  margin: 10px 16px;
+  border: 1px solid ${({ theme }) => theme.colors.greyBorder};
+  background: transparent;
+  border-radius: 12px;
+  height: 40px;
 `;
 
-export const SearchIcon = styled(FontAwesomeIcon)`
-  position: absolute;
-  top: 42%;
-  left: 20px;
-  transform: translateY(-50%);
-  color: #888;
+export const SearchIcon = styled.img`
+  width: 20px;
+  height: 20px;
 `;
 
-export const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>``;
+export const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>`
+  width: 100%;
+  padding: 0px 20px;
 
-export const HeaderleftContent = styled.span<{ theme: DefaultTheme }>``;
+  display: flex;
+  justify-content: space-between;
+`;
+
+export const HeaderleftContent = styled.span<{ theme: DefaultTheme }>`
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
+`;
 
 export const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
-  margin-left: 300px;
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
 `;

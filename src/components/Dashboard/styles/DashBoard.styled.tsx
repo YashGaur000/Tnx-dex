@@ -96,7 +96,7 @@ export const DashboardNavigation = styled.p<{ theme: DefaultTheme }>`
   position: relative;
   display: inline-block;
   text-decoration: none;
-
+  cursor: pointer;
   &::after {
     content: '';
     position: absolute;

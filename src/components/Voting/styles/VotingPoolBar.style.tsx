@@ -160,13 +160,6 @@ export const VotingActiveTabs = styled.button<{
   }
 `;
 
-export const VotingPoolsTooltip = styled.img`
-  width: 20px;
-  height: 20px;
-  margin-left: 1px;
-  margin-top: 10px;
-`;
-
 export const SearchBarWrapper = styled.div`
   flex-grow: 1;
 
@@ -179,81 +172,4 @@ export const SearchBarWrapper = styled.div`
 export const TooltipContainer = styled.div`
   position: relative;
   display: inline-block;
-`;
-
-export const TriggerElement = styled.div<{ theme: DefaultTheme }>`
-  padding: 10px;
-  // background-color: #004466; /* Example background color */
-  color: #fff;
-  //
-  border-radius: 4px;
-`;
-
-export const TooltipBox = styled.div<{ theme: DefaultTheme }>`
-  display: grid;
-  // flex-template-rows: repeat(2, 1fr);
-  visibility: hidden;
-  width: 868px;
-  height: auto;
-  background: ${({ theme }) => theme.colors.card};
-  color: #fff;
-  text-align: left;
-  border-radius: 8px;
-  padding: 10px;
-  position: absolute;
-  z-index: 1;
-  // bottom: 100%; /* Position the tooltip above the trigger element */
-  top: 50%;
-  left: 480px;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s;
-  box-shadow: 5px 5px 5px rgba(19, 29, 60, 1);
-`;
-
-export const VotingTimelineBox = styled.div<{ theme: DefaultTheme }>`
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-`;
-
-export const InstructionRewardsBox = styled.div<{ theme: DefaultTheme }>`
-  display: flex;
-  gap: 10px;
-`;
-
-export const TooltipContainerHover = styled(TooltipContainer)`
-  &:hover ${TooltipBox} {
-    visibility: visible;
-    opacity: 1;
-  }
-`;
-
-export const TooltipsQuadrant1 = styled.div<{ theme: DefaultTheme }>``;
-
-export const TooltipsQuadrant2 = styled.div<{ theme: DefaultTheme }>`
-  margin-left: 55px;
-`;
-
-export const TooltipsQuadrant3 = styled.div<{ theme: DefaultTheme }>``;
-
-export const TooltipsQuadrant4 = styled.div<{ theme: DefaultTheme }>`
-  margin-right: 100px;
-`;
-
-export const TooltipText = styled.p<{
-  lineheight?: string;
-  fontSize?: string;
-  fontWeight?: string;
-  theme: DefaultTheme;
-}>`
-  line-height: ${({ lineheight }) => lineheight};
-  font-size: ${({ fontSize }) => fontSize};
-  font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-family: ${({ theme }) => theme.fonts.main};
-  padding: 10px;
-
-  @media (max-width: 768px) {
-    font-size: ${({ fontSize }) => fontSize};
-  }
 `;
