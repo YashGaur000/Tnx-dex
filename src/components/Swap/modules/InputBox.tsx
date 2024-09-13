@@ -9,6 +9,7 @@ interface InputboxStyledProps {
   margin?: string;
   padding?: string;
   isValid?: boolean;
+  borderradius?: number;
   theme?: DefaultTheme;
 }
 
@@ -22,10 +23,10 @@ export const InputBox = styled.input<InputboxStyledProps>`
   font-size: ${({ fontSize }) => fontSize ?? '16px'};
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-
+  border-radius: ${({ borderradius }) => borderradius ?? '4'}px;
   background: none;
   color: white;
-  border-radius: 4px;
+
   &:focus {
     outline: none;
   }

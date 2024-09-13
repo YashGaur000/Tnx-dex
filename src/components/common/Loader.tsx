@@ -6,34 +6,26 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Loader = styled.div`
+const Loader = styled.div<{ height?: string; width?: string }>`
   border-width: 0.5rem;
   border-style: solid;
   border-color: white white white white;
-  width: 3.625rem;
-  height: 3.625rem;
+  width: ${({ width }) => (width ? width : '3.625rem')};
+  height: ${({ height }) => (height ? height : '3.625rem')};
   border-radius: 50%;
   position: relative;
   -webkit-animation: spin 2s infinite;
   animation: spin 2s infinite;
 
-  &:before,
-  &:after {
+  &:before {
     content: '';
     width: 0.5rem;
     height: 0.5rem;
-    border-radius: 50%;
     background: purple;
+    border-radius: 50%;
     position: absolute;
     left: 0.125rem;
-  }
-
-  &:before {
-    top: 0.063rem;
-  }
-
-  &:after {
-    bottom: 0.063rem;
+    top: 0.125rem; /* Adjust the position as needed */
   }
 
   @keyframes spin {
@@ -44,10 +36,16 @@ const Loader = styled.div`
 `;
 
 //Create functional component
-export const LoadingSpinner = () => {
+export const LoadingSpinner = ({
+  height,
+  width,
+}: {
+  height?: string;
+  width?: string;
+}) => {
   return (
     <Container>
-      <Loader />
+      <Loader width={width} height={height} />
     </Container>
   );
 };
