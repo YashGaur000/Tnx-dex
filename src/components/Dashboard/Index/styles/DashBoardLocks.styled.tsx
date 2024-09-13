@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { DefaultTheme } from '../../../styles/Theme';
+import { DefaultTheme } from '../../../../styles/Theme';
 
 export const DashBoardLockMainContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import tenxLogo from '../../../assets/Tenex.png';
+import tenxLogo from '../../../../assets/Tenex.png';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
 import {
   DashBoardLockMainContainer,

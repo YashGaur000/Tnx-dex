@@ -1,7 +1,6 @@
-import { GlobalButton } from '../../../common';
-import { StyledDepositContainer } from '../../../Liquidity/ManageLiquidity/styles/LiquidityDeposit.style';
-import { LockDescriptonTitle } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
-
+import { GlobalButton } from '../../common';
+import { StyledDepositContainer } from '../../Liquidity/ManageLiquidity/styles/LiquidityDeposit.style';
+import { LockDescriptonTitle } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 import {
   SteperWrapper,
   TransferLockTitle,

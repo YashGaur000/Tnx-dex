@@ -1,10 +1,10 @@
-import { MainContainerStyle } from '../../../common/MainContainerStyle';
-import { CreateMainContainer } from '../../../Liquidity/ManageLiquidity/styles/Managepool.style';
+import { MainContainerStyle } from '../../common/MainContainerStyle';
+import { CreateMainContainer } from '../../Liquidity/ManageLiquidity/styles/Managepool.style';
 import {
   LockDescriptonTitle,
   LockHeaderTitle,
-} from '../../../ManageVeTenex/Styles/ManageVetenex.style';
-import { InputBox } from '../../../Swap/modules/InputBox';
+} from '../../ManageVeTenex/Styles/ManageVetenex.style';
+import { InputBox } from '../../Swap/modules/InputBox';
 import {
   LockHeaderWrapper,
   LockleftSection,

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import QuestionIcon from '../../../assets/questionmark.svg';
-import { GlobalButton } from '../../common';
+import QuestionIcon from '../../../../assets/questionmark.svg';
 
 import {
   DashBoardCard,
@@ -17,14 +16,16 @@ import {
   TipsIcon,
 } from '../styles/DashBoard.styled';
 import { useState } from 'react';
-import PopupScreen from '../../common/PopupScreen';
-import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
-import LiquidityToolTips from '../../Liquidity/LiquidityHomePage/Modules/LiquidityToolTips';
-import LockToolTips from '../../ManageVeTenex/Modules/LockToolTips';
-import VotingToolTips from '../../Voting/modules/VotingToolTips';
+
 // import DepositAndStake from "./DepositAndStake";
 // import LiquidityRewards from "./LiquidityRewards";
 import DashBoardLocks from './DashBoardLocks';
+import { GlobalButton } from '../../../common';
+import LiquidityToolTips from '../../../Liquidity/LiquidityHomePage/Modules/LiquidityToolTips';
+import LockToolTips from '../../../ManageVeTenex/Modules/LockToolTips';
+import VotingToolTips from '../../../Voting/modules/VotingToolTips';
+import PopupScreen from '../../../common/PopupScreen';
+import { PopupWrapper } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 // import Dashboarddata from "../../../constants/dashboard.json";
 
 const DashBoard: React.FC = () => {

@@ -1,16 +1,17 @@
-import { StepperDataProps } from '../../../../../types/Stepper';
-import Stepper from '../../../../common/Stepper';
-import { StyledDepositContainer } from '../../../../Liquidity/ManageLiquidity/styles/LiquidityDeposit.style';
+import DateTimeIcon from '../../../../assets/date-time.svg';
+import WaitingIcon from '../../../../assets/search.png';
+import VotingPowerIcon from '../../../../assets/star.svg';
+import InformIcon from '../../../../assets/information.svg';
+
+import { SteperWrapper, TipsContainer } from '../styles/Extendlock.style';
+import { StepperDataProps } from '../../../../types/Stepper';
+import Stepper from '../../../common/Stepper';
+import { StyledDepositContainer } from '../../../Liquidity/ManageLiquidity/styles/LiquidityDeposit.style';
 import {
   ImageContainer,
   LockHeaderTitle,
-} from '../../../../ManageVeTenex/Styles/ManageVetenex.style';
-import DateTimeIcon from '../../../../../assets/date-time.svg';
-import WaitingIcon from '../../../../../assets/search.png';
-import VotingPowerIcon from '../../../../../assets/star.svg';
-import InformIcon from '../../../../../assets/information.svg';
-import { GlobalButton } from '../../../../common';
-import { SteperWrapper, TipsContainer } from '../styles/Extendlock.style';
+} from '../../../ManageVeTenex/Styles/ManageVetenex.style';
+import { GlobalButton } from '../../../common';
 const ExtendStepper = () => {
   const ExtendStepperData: StepperDataProps[] = [
     {

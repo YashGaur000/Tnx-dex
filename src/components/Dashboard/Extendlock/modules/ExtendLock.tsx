@@ -1,14 +1,4 @@
-import { MainContainerStyle } from '../../../../common/MainContainerStyle';
-
-import { CreateMainContainer } from '../../../../Liquidity/ManageLiquidity/styles/Managepool.style';
-import ExchangeIcon from '../../../../../assets/exchange-image.svg';
-import {
-  ImageContainer,
-  LockDescriptonTitle,
-  LockHeaderTitle,
-} from '../../../../ManageVeTenex/Styles/ManageVetenex.style';
-import SwitchComponent from '../../../../Swap/modules/SwitchComponent';
-
+import ExchangeIcon from '../../../../assets/exchange-image.svg';
 import {
   LockHeaderWrapper,
   LockleftSection,
@@ -17,6 +7,17 @@ import {
   HeaderWithImgContainer,
   SliderMainContainer,
 } from '../styles/Extendlock.style';
+
+import { ChangeEvent, useState } from 'react';
+import ExtendStepper from './ExtendStepper';
+import { MainContainerStyle } from '../../../common/MainContainerStyle';
+import { CreateMainContainer } from '../../../Liquidity/ManageLiquidity/styles/Managepool.style';
+import {
+  LockHeaderTitle,
+  ImageContainer,
+  LockDescriptonTitle,
+} from '../../../ManageVeTenex/Styles/ManageVetenex.style';
+import SwitchComponent from '../../../Swap/modules/SwitchComponent';
 import {
   LoaderStatus,
   LoaderStatusWrapper,
@@ -24,13 +25,11 @@ import {
   LockLoaderContainer,
   SliderDeadlineStyle,
   WeeksLabel,
-} from '../../../../ManageVeTenex/Styles/CreateLock.style';
+} from '../../../ManageVeTenex/Styles/CreateLock.style';
 import {
   Slider,
   SliderContainer,
-} from '../../../../Swap/styles/TransactionDeadline.style';
-import { ChangeEvent, useState } from 'react';
-import ExtendStepper from './ExtendStepper';
+} from '../../../Swap/styles/TransactionDeadline.style';
 
 const ExtendLock = () => {
   const [lockDuration, SetlockDuration] = useState<number>(1);
