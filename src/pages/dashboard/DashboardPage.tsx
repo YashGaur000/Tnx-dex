@@ -1,5 +1,5 @@
 import { MainContainerStyle } from '../../components/common/MainContainerStyle';
-import DashBoard from '../../components/Dashboard/modules/DashBoard';
+import DashBoard from '../../components/Dashboard/Index/modules/DashBoard';
 
 const DashboardPage = () => {
   return (

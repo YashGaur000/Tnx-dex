@@ -31,10 +31,10 @@ export const CreateLockFirstSection = styled.div`
   }
 `;
 
-export const LockLoaderContainer = styled.div`
+export const LockLoaderContainer = styled.div<{ padding?: string }>`
   display: flex;
   flex-direction: column;
-  padding: 15px;
+  padding: ${({ padding }) => padding ?? '5px'};
 `;
 export const LoaderStatusWrapper = styled.div<{
   theme: DefaultTheme;

@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import QuestionIcon from '../../../assets/questionmark.svg';
-import { GlobalButton } from '../../common';
+import QuestionIcon from '../../../../assets/questionmark.svg';
 
 import {
   DashBoardCard,
@@ -17,20 +16,22 @@ import {
   TipsIcon,
 } from '../styles/DashBoard.styled';
 import { useState } from 'react';
-import PopupScreen from '../../common/PopupScreen';
-import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
-import LiquidityToolTips from '../../Liquidity/LiquidityHomePage/Modules/LiquidityToolTips';
-import LockToolTips from '../../ManageVeTenex/Modules/LockToolTips';
-import VotingToolTips from '../../Voting/modules/VotingToolTips';
+
 // import DepositAndStake from "./DepositAndStake";
 // import LiquidityRewards from "./LiquidityRewards";
-// import DashBoardLocks from "./DashBoardLocks";
+import DashBoardLocks from './DashBoardLocks';
+import { GlobalButton } from '../../../common';
+import LiquidityToolTips from '../../../Liquidity/LiquidityHomePage/Modules/LiquidityToolTips';
+import LockToolTips from '../../../ManageVeTenex/Modules/LockToolTips';
+import VotingToolTips from '../../../Voting/modules/VotingToolTips';
+import PopupScreen from '../../../common/PopupScreen';
+import { PopupWrapper } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 // import Dashboarddata from "../../../constants/dashboard.json";
 
 const DashBoard: React.FC = () => {
   // const[isStakeVisible, setIsStakeVisible]=useState<boolean>(true);
   // const[isLiquidityVisible, setIsLiquidityvisible]=useState(true);
-  // const[isLockVisible, setIsLockVisible]=useState(true);
+  const [isLockVisible, setIsLockVisible] = useState(true);
   // const [showAllStakes, setShowAllStakes] = useState<boolean>(false);
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string>('');
@@ -66,6 +67,7 @@ const DashBoard: React.FC = () => {
       default:
         return null;
     }
+    setIsLockVisible(false); //Todo: please remove This line when add Lock functionality
   };
   return (
     <>
@@ -122,6 +124,7 @@ const DashBoard: React.FC = () => {
             </DashBoardCardData>
           </DashBoardCard>
         </DashBoardWrapper>
+
         <DashBoardWrapper>
           <DashboardHeading fontSize="24px">
             Locks{' '}
@@ -131,12 +134,17 @@ const DashBoard: React.FC = () => {
               onMouseEnter={() => handleTooltipShow('lock')}
             />
           </DashboardHeading>
+
           <DashBoardLock>
-            <DashBoardCard>
-              <DashBoardCardData>
-                To receive incentives and fees create a lock and vote with it.
-              </DashBoardCardData>
-            </DashBoardCard>
+            {isLockVisible ? (
+              <DashBoardLocks />
+            ) : (
+              <DashBoardCard>
+                <DashBoardCardData>
+                  To receive incentives and fees create a lock and vote with it.
+                </DashBoardCardData>
+              </DashBoardCard>
+            )}
 
             <DashBoardCard height={88}>
               <DashBoardCardWrapper>
