@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import tenexarrow from '../../../assets/tenex-arrow.png';
 import {
   IncentiveleftBarBox1,
   Img2,
   Img4,
+  IncentivesValues,
   Box2Container,
   Box2DataPoint1,
   Box2DataPoint2,
@@ -29,7 +30,12 @@ import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import contractAddresses from '../../../constants/contract-address/address';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { AddressZero } from '@ethersproject/constants';
-
+import { useIncentiveStore } from '../../../store/slices/useIncentiveStore';
+import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
+import { useMultiCall } from '../../../hooks/useMultiCall';
+import { Address } from 'viem';
+import { ethers } from 'ethers';
+import { PublicClient } from 'viem';
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
@@ -50,8 +56,43 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
   const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
+  const {
+    bribeAddress,
+    balances: rewardBalances,
+    rewardTokens,
+    setRewardTokens,
+    getTokenBalances,
+    setTokenBalances,
+  } = useIncentiveStore();
+
+  const { rewards } = useBribeVotingReward(bribeAddress);
+  const multicall = useMultiCall();
+
   const totalBalanceIncentiveToken =
     selectedIncentiveToken && Number(balances[selectedIncentiveToken?.address]);
+
+  useEffect(() => {
+    if (bribeAddress && multicall) {
+      rewards()
+        .then(async (tokens) => {
+          const filteredTokens = (tokens ?? []).filter(
+            (token): token is TokenInfo => token !== undefined
+          );
+          setRewardTokens(filteredTokens);
+          if (filteredTokens) {
+            const tokenBalance = (await getTokenBalances(
+              multicall as PublicClient,
+              filteredTokens,
+              bribeAddress
+            )) as unknown as Record<Address, ethers.Numeric>;
+            setTokenBalances(tokenBalance);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching rewards:', error);
+        });
+    }
+  }, [bribeAddress, rewards, multicall, getTokenBalances]);
 
   const handleTokenSelectOpen2 = () => {
     // setTokenSelectTarget2(target);
@@ -86,7 +127,24 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         </Box2DataPoint2>
         <Box2DataPoint3>
           <Box2Title>Current Incentives</Box2Title>
-          <Box2Value>~$0.0</Box2Value>
+          {rewardTokens.length > 0 ? (
+            rewardTokens
+              .filter((token: TokenInfo) => {
+                // Check if the token balance is non-zero
+                const balance = rewardBalances[token.address];
+                return balance && Number(balance) > 0;
+              })
+              .map((token: TokenInfo) => (
+                <IncentivesValues key={token.address}>
+                  {rewardBalances[token.address]
+                    ? rewardBalances[token.address].toString()
+                    : '0'}{' '}
+                  {token.symbol}{' '}
+                </IncentivesValues>
+              ))
+          ) : (
+            <Box2Value>~$0.0</Box2Value>
+          )}
         </Box2DataPoint3>
       </Box2Container>
       <Box2ContainerBorder>
