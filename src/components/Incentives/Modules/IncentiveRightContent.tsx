@@ -22,6 +22,7 @@ import { GlobalButton } from '../../common/index';
 import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
 import SuccessPopup from '../../common/SucessPopup';
 import { AddressZero } from '@ethersproject/constants';
+import { useIncentiveStore } from '../../../store/slices/useIncentiveStore';
 
 interface IncentiveRightContent {
   InsentiveFormValue: number;
@@ -38,8 +39,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   // const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isGaugeCreated, setIsGaugeCreated] = useState(false);
   const [isGaugeBeingCreated, setIsGaugeBeingCreated] = useState(false);
-  const [gaugeAddress, setGaugeAddress] = useState<Address>();
-  const [bribeAddress, setBribeAddress] = useState<string>('');
+
+  const { gaugeAddress, bribeAddress, setGaugeAddress, setBribeAddress } =
+    useIncentiveStore();
 
   const [isAllowingToken, setIsAllowingToken] = useState(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
@@ -50,7 +52,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     erc20Abi
   );
 
-  const { notifyRewardAmount } = useBribeVotingReward(bribeAddress as Address);
+  const { notifyRewardAmount } = useBribeVotingReward(bribeAddress);
 
   const { createGauge, gauges, gaugeToBribe } = useVoterContract();
 
@@ -92,8 +94,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
       gaugeToBribe(gaugeAddress)
         .then((bribeAddress) => {
-          setIsGaugeBeingCreated(false);
-          setBribeAddress(bribeAddress as string);
+          if (bribeAddress) {
+            setIsGaugeBeingCreated(false);
+            setBribeAddress(bribeAddress);
+          }
         })
         .catch((error) => {
           console.log('error loading bribe address', error);
@@ -106,10 +110,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
     const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
     if (bribeAddress && amount) {
-      const result = await approveAllowance(
-        bribeAddress as Address,
-        amount.toString()
-      );
+      const result = await approveAllowance(bribeAddress, amount.toString());
       setIsTokenAllowed(result ? true : false);
     }
   };

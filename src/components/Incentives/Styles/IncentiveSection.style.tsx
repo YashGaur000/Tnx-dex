@@ -265,6 +265,15 @@ export const Box2Value = styled.p<{
   margin-bottom: 20px;
 `;
 
+export const IncentivesValues = styled.span<{
+  theme: DefaultTheme;
+}>`
+  color: #ccc;
+  font-size: 12px;
+  font-weight: 300;
+  margin-bottom: 20px;
+`;
+
 export const Box2ValueAvailable = styled.p<{
   theme: DefaultTheme;
 }>`
