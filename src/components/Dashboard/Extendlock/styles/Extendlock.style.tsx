@@ -68,11 +68,12 @@ export const WalletAdressConainer = styled.div`
 export const TransferLockTitle = styled.p<{
   theme: DefaultTheme;
   fontsize: number;
+  color?: string;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontsize }) => fontsize}px;
   font-family: ${({ theme }) => theme.fonts.main};
-  color: ${({ theme }) => theme.colors.redToggle};
+  color: ${({ theme, color }) => color ?? theme.colors.redToggle};
 `;
 export const UnderlineText = styled.span<{
   theme: DefaultTheme;
