@@ -53,10 +53,32 @@ export const SliderContainer = styled.div<{ margin?: string }>`
   margin-left: ${({ margin }) => margin ?? '0px'};
 `;
 
-export const Slider = styled.input<{ theme: DefaultTheme }>`
+export const Slider = styled.input<{
+  theme: DefaultTheme;
+  isdisable?: boolean;
+}>`
   width: 100%;
   height: 2px;
   accent-color: darkcyan;
+  cursor: ${({ isdisable }) => (isdisable ? 'not-allowed' : ' pointer')};
+
+  &:hover {
+    accent-color: darkcyan;
+  }
+
+  &:focus {
+    accent-color: darkcyan;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    accent-color: darkcyan;
+
+    &::-webkit-slider-thumb,
+    &::-moz-range-thumb {
+      background-color: darkcyan;
+    }
+  }
 `;
 
 export const TdText = styled.div<{ theme: DefaultTheme }>`

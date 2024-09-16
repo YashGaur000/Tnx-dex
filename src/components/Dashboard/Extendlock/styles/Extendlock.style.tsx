@@ -50,7 +50,11 @@ export const HeaderWithImgContainer = styled.div`
   gap: 8px;
   margin-bottom: 16px;
 `;
-export const SteperWrapper = styled.div<{ theme: DefaultTheme }>``;
+export const SteperWrapper = styled.div<{ theme: DefaultTheme; gap?: number }>`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ gap }) => gap ?? '8'}px;
+`;
 export const TipsContainer = styled.div`
   display: flex;
   gap: 16px;

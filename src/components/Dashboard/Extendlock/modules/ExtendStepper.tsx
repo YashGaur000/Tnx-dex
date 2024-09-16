@@ -1,6 +1,6 @@
-import DateTimeIcon from '../../../../assets/date-time.svg';
+import DateTimeIcon from '../../../../assets/date-time-gradient.svg';
 import WaitingIcon from '../../../../assets/search.png';
-import VotingPowerIcon from '../../../../assets/star.svg';
+import VotingPowerIcon from '../../../../assets/star-gradient.svg';
 import InformIcon from '../../../../assets/information.svg';
 
 import { SteperWrapper, TipsContainer } from '../styles/Extendlock.style';

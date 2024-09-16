@@ -22,6 +22,7 @@ import PageLoader from '../components/common/PageLoader';
 import DashboardPage from '../pages/dashboard/DashboardPage';
 import ExtendLock from '../components/Dashboard/Extendlock/modules/ExtendLock';
 import Transferlock from '../components/Dashboard/Transferlock/Transferlock';
+import MergeLock from '../components/Dashboard/Mergelock/modules/MergeLock';
 
 const ManagePool = lazy(
   () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
@@ -57,9 +58,22 @@ const AppRoutes: React.FC = () => {
               <Route path="/liquidity/manage" element={<ManagePool />} />
               <Route path="/liquidity/create" element={<CreatePool />} />
               <Route path="/dashboard" element={<DashboardPage />} />
-              <Route path="/dashboard/extend" element={<ExtendLock />} />
-              <Route path="/dashboard/transfer" element={<Transferlock />} />
-
+              <Route
+                path="/governance/managevetenex/extend"
+                element={<ExtendLock />}
+              />
+              <Route
+                path="/governance/managevetenex/transfer"
+                element={<Transferlock />}
+              />
+              <Route
+                path="/governance/managevetenex/merge"
+                element={<MergeLock />}
+              />
+              <Route
+                path="/governance/managevetenex/increase"
+                element={<Createlock />}
+              />
               <Route path="/stake" element={<StakeDeposit />} />
               <Route
                 path="/concentrated-liquidity-farms"

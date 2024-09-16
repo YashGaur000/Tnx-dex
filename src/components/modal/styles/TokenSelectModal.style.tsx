@@ -179,3 +179,9 @@ export const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
+
+export const LockTokenContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
