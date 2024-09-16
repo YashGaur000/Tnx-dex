@@ -55,16 +55,20 @@ const CloseImg = styled.img`
   width: 25px;
   height: 25px;
 `;
-const DivOverflow = styled.div<{ theme: DefaultTheme }>`
+const DivOverflow = styled.div<{
+  theme: DefaultTheme;
+  padding?: string;
+  scroll?: string;
+}>`
   display: flex;
   flex-direction: column;
   width: 100%;
   max-height: 450px;
   height: auto;
-  padding: 20px;
+  padding: ${({ padding }) => padding ?? '20px'};
   padding-top: 0px;
 
-  overflow-y: auto;
+  overflow-y: ${({ scroll }) => scroll ?? 'auto'};
   margin-top: 20px;
   &::-webkit-scrollbar {
     width: 6px;
@@ -94,6 +98,7 @@ interface PopUpProps {
   height?: string;
   padding?: string;
   isvisiblecloseIcon?: boolean;
+  scroll?: string;
 }
 
 const PopupScreen: React.FC<PopUpProps> = ({
@@ -102,6 +107,8 @@ const PopupScreen: React.FC<PopUpProps> = ({
   children,
   width,
   height,
+  padding,
+  scroll,
   isvisiblecloseIcon = true,
 }) => {
   return (
@@ -116,7 +123,9 @@ const PopupScreen: React.FC<PopUpProps> = ({
             <CloseImg src={CloseIcon} />
           </CloseButton>
         )}
-        <DivOverflow>{children}</DivOverflow>
+        <DivOverflow padding={padding} scroll={scroll}>
+          {children}
+        </DivOverflow>
       </ModalContent>
     </ModalBackground>
   );

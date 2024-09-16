@@ -30,6 +30,11 @@ export const InputBox = styled.input<InputboxStyledProps>`
   &:focus {
     outline: none;
   }
+  &::placeholder {
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.greyBorder};
+    text-align: left;
+  }
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;

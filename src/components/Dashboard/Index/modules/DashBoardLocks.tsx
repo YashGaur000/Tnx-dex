@@ -20,22 +20,10 @@ const DashBoardLocks = () => {
   const Navigate = useNavigate();
 
   const handleLockButton = (option: string) => {
-    switch (option) {
-      case 'increase':
-        console.log('increase Lock');
-
-        break;
-      case 'extend':
-        Navigate('/dashboard/extend');
-        break;
-      case 'merge':
-        console.log('Merge lock');
-        break;
-      case 'transfer':
-        Navigate('/dashboard/transfer');
-        break;
-      default:
-        console.log('Invalid option');
+    if (option) {
+      Navigate(`/governance/managevetenex/${option}`);
+    } else {
+      console.log('Route is undefine ');
     }
   };
   return (

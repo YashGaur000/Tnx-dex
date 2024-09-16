@@ -15,10 +15,13 @@ export const ToolTipsWrapper = styled.span``;
 export const LockHeaderTitle = styled.label<{
   theme: DefaultTheme;
   fontSize: number;
+  margin?: string;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
+  font-family: ${({ theme }) => theme.fonts.main};
+  margin: ${({ margin }) => margin ?? '0px'};
 `;
 
 export const LockDescriptonTitle = styled.p<{
