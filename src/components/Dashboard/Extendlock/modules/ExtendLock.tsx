@@ -8,7 +8,6 @@ import {
   SliderMainContainer,
 } from '../styles/Extendlock.style';
 
-import { ChangeEvent, useState } from 'react';
 import ExtendStepper from './ExtendStepper';
 import { MainContainerStyle } from '../../../common/MainContainerStyle';
 import { CreateMainContainer } from '../../../Liquidity/ManageLiquidity/styles/Managepool.style';
@@ -32,14 +31,8 @@ import {
 } from '../../../Swap/styles/TransactionDeadline.style';
 
 const ExtendLock = () => {
-  const [lockDuration, SetlockDuration] = useState<number>(1);
   const handleToggle = () => {
     console.log('toggle button');
-  };
-
-  const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
-    const TotalWeeks = e.target.value;
-    SetlockDuration(Number(TotalWeeks));
   };
 
   const labels = [
@@ -98,7 +91,7 @@ const ExtendLock = () => {
             </LockHeaderTitle>
             <LockLoaderContainer padding="0px">
               <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
-                <LoaderStatus>{lockDuration} weeks</LoaderStatus>
+                <LoaderStatus>{'208'} weeks</LoaderStatus>
               </LoaderStatusWrapper>
               <LoaderStyle>
                 <SliderContainer>
@@ -107,18 +100,15 @@ const ExtendLock = () => {
                     min="1"
                     max="208"
                     step={1}
-                    value={lockDuration}
+                    value={208}
+                    isdisable={true}
                     disabled
-                    onChange={HandleWeeksStatus}
                   />
                 </SliderContainer>
               </LoaderStyle>
               <SliderDeadlineStyle fontSize={10}>
                 {labels.map(({ value, weeks }) => (
-                  <WeeksLabel
-                    key={value}
-                    onClick={() => SetlockDuration(value)}
-                  >
+                  <WeeksLabel key={value} isdisable={true}>
                     {weeks}
                   </WeeksLabel>
                 ))}
