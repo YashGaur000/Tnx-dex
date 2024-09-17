@@ -13,17 +13,12 @@ import { GlobalButton } from '../../../common';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
 import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
-
-interface LockDepositeProps {
-  setLockTokenValue: (input: string) => void;
-  SetlockDuration: (input: number) => void;
-  LockTokenValue: string;
-  LockTokenSymbol: string;
-  LocTokenAddress: string;
-  LockTokenDecimal?: number;
-  lockDuration: number;
-  setSuccessLock: (input: boolean) => void;
-}
+import { LockDepositeProps } from '../../../../types/VotingEscrow';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../../types/Transaction';
+import { useRootStore } from '../../../../store/root';
 
 const LockDeposite: React.FC<LockDepositeProps> = ({
   setLockTokenValue,
@@ -48,6 +43,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   );
 
   const { createLock } = useVotingEscrowContract(escrowAddress);
+  const { setTransactionStatus } = useRootStore();
 
   const handleAllowToken = async () => {
     try {
@@ -66,6 +62,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
   const handleLock = useCallback(async () => {
     try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!LockTokenValue || !isTokenAllowed) return;
       setIsLocking(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
@@ -73,13 +70,14 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       const tx = await createLock(amountInWei, durationInSeconds);
       console.log('Transaction successful:', tx);
       setIsLocked(true);
-
+      setTransactionStatus(TransactionStatus.DONE);
       //setIsDisabled(false);
       setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
         setLockTokenValue('');
         SetlockDuration(1);
         setSuccessLock(true);
-      }, 1000);
+      }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during token lock:', error);
     } finally {

@@ -48,3 +48,14 @@ export interface LockItemProps {
   tokenId: bigint;
   metadata: Metadata;
 }
+
+export interface LockDepositeProps {
+  setLockTokenValue: (input: string) => void;
+  SetlockDuration: (input: number) => void;
+  LockTokenValue: string;
+  LockTokenSymbol: string;
+  LocTokenAddress: string;
+  LockTokenDecimal?: number;
+  lockDuration: number;
+  setSuccessLock: (input: boolean) => void;
+}
