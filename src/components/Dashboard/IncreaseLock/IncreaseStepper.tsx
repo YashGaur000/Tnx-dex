@@ -34,7 +34,7 @@ const IncreaseStepper = () => {
     <StyledDepositContainer>
       <LockHeaderTitle fontSize={24}>Increase lock</LockHeaderTitle>
       <Stepper data={IncreaseStepperData} />
-      <GlobalButton margin="0px">Merge </GlobalButton>
+      <GlobalButton margin="0px">Increse </GlobalButton>
     </StyledDepositContainer>
   );
 };

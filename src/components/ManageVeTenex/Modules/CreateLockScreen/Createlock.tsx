@@ -44,23 +44,39 @@ import {
 import { InputBox } from '../../../Swap/modules/InputBox';
 import React from 'react';
 import { LockleftSection } from '../../../Dashboard/Extendlock/styles/Extendlock.style';
+import SuccessPopup from '../../../common/SucessPopup';
 
 const CreatelockForm = () => {
-  const [lockDuration, SetlockDuration] = useState<number>(1);
-  const [LockTokenValue, setLockTokenValue] = useState<string>('');
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
   const [selectedPercentage, setSelectedPercentage] = React.useState<
     number | null
   >(null);
-
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
+  const [lockDuration, SetlockDuration] = useState<number>(1);
+  const [LockTokenValue, setLockTokenValue] = useState<string>('');
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [voteCalPower, setVotePower] = useState<number>(0);
+  const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
+
+  //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
     SetlockDuration(Number(TotalWeeks));
+    void handleVotingPower();
   };
+
+  const handleVotingPower = () => {
+    const votePower = (
+      (Number(LockTokenValue) * Number(lockDuration)) /
+      208
+    ).toFixed(5);
+
+    setVotePower(Number(votePower));
+  };
+
   const handleSelectPercentage = (percentage: number) => {
     setSelectedPercentage(percentage);
   };
@@ -71,9 +87,18 @@ const CreatelockForm = () => {
     { value: 156, weeks: '3 year' },
     { value: 208, weeks: '4 year' },
   ];
+  const handleDurationYearClick = (vlueWeek: number) => {
+    const TotalWeeks = vlueWeek;
+    SetlockDuration(Number(TotalWeeks));
+    void handleVotingPower();
+  };
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     setLockTokenValue(e.target.value);
+    const remainingBal =
+      Number(balances[lockTokenInfo?.address]) - Number(e.target.value);
+    setUserCurrentBalance(remainingBal);
+    void handleVotingPower();
   };
 
   return (
@@ -109,13 +134,12 @@ const CreatelockForm = () => {
                   <WalletInfo>
                     Wallet:
                     <WalletText>
-                      {Number(
-                        lockTokenInfo && balances[lockTokenInfo?.address]
-                      )}{' '}
+                      {UserCurrentBalance
+                        ? UserCurrentBalance
+                        : Number(balances[lockTokenInfo?.address])}
                     </WalletText>
                     <WalletText margin={8}>~$0.00</WalletText>
                   </WalletInfo>
-
                   <PercentageOptions>
                     <PercentageButton
                       active={selectedPercentage === 25}
@@ -148,7 +172,7 @@ const CreatelockForm = () => {
           </FormFieldContainer>
 
           <LockTitle fontSize={16} lineheight={23.93}>
-            Locking your TENEX tokens for 0.243 veTENEX voting power
+            Locking your TENEX tokens for {voteCalPower} veTENEX voting power
           </LockTitle>
           <LockLoaderContainer>
             <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
@@ -168,7 +192,10 @@ const CreatelockForm = () => {
             </LoaderStyle>
             <SliderDeadlineStyle fontSize={10}>
               {labels.map(({ value, weeks }) => (
-                <WeeksLabel key={value} onClick={() => SetlockDuration(value)}>
+                <WeeksLabel
+                  key={value}
+                  onClick={() => handleDurationYearClick(value)}
+                >
                   {weeks}
                 </WeeksLabel>
               ))}
@@ -177,10 +204,13 @@ const CreatelockForm = () => {
         </LockleftSection>
         <LockDeposite
           LockTokenValue={LockTokenValue}
+          SetlockDuration={SetlockDuration}
+          setLockTokenValue={setLockTokenValue}
           LockTokenSymbol={lockTokenInfo.symbol}
           LocTokenAddress={lockTokenInfo.address}
           LockTokenDecimal={lockTokenInfo.decimals}
           lockDuration={Number(lockDuration)}
+          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
       <LockScreenInstruction>
@@ -190,6 +220,7 @@ const CreatelockForm = () => {
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>
       </LockScreenInstruction>
+      {iSuccessLock && <SuccessPopup message="Locked confirmed" />}
     </MainContainerStyle>
   );
 };
