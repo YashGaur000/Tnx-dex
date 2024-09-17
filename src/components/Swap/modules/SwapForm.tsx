@@ -28,7 +28,7 @@ import {
 import LiquityRouting from './LiquityRouting';
 import Sidebar from './Sidebar';
 import { useRootStore } from '../../../store/root';
-import { useTokenInfo } from '../../../hooks/useTokenInfo';
+import { findTokenByAddress, useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
@@ -108,6 +108,7 @@ const SwapForm: React.FC = () => {
 
     if (!amount) {
       setIsLoading(false);
+      setRoute(null);
       return;
     }
 
@@ -143,17 +144,50 @@ const SwapForm: React.FC = () => {
   };
 
   const handleTokenSelect = (token: TokenInfo) => {
+    if (!selectedToken1 || !selectedToken2 || !graph) return;
+
     const queryParams = new URLSearchParams(window.location.search);
+
+    let tokenFrom = findTokenByAddress(from);
+    let tokenTo = findTokenByAddress(to);
 
     if (tokenSelectTarget === 'token1') {
       setFrom(token.address);
+      tokenFrom = findTokenByAddress(token.address);
       queryParams.set('from', token.address);
     } else {
       setTo(token.address);
+      tokenTo = findTokenByAddress(token.address);
+
       queryParams.set('to', token.address);
     }
     const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
     window.history.pushState(null, '', newUrl);
+
+    setIsLoading(true);
+    setTokenInput2('');
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      // Call the async function
+      void fetchBestRouteAndUpdateState(
+        tokenFrom!,
+        tokenTo!,
+        tokenInput1,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading,
+        setAmountsOut
+      );
+    }, ROUTING_DELAY);
   };
 
   const handleSelectPercentage = (percentage: number) => {
@@ -277,7 +311,7 @@ const SwapForm: React.FC = () => {
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0.0"
                     width="70%"
                     padding="0px"
                     value={tokenInput1}
@@ -347,18 +381,11 @@ const SwapForm: React.FC = () => {
               </SwitchButton>
 
               <InputWrapper>
-                {/* <Input
-              type="number"
-              inputMode="numeric"
-              placeholder="0"
-              value={''}
-              //onChange={(e) => setInputValue2(e.target.value)}
-            /> */}
                 <InputBoxRow>
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0.0"
                     width="75%"
                     padding="0px"
                     value={tokenInput1 ? tokenInput2 : ''}

@@ -69,13 +69,6 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
     onClose();
   };
 
-  const truncateString = (str: string): string => {
-    if (str.length <= 15) {
-      return str;
-    }
-    return `${str.slice(0, 6)}...${str.slice(-9)}`;
-  };
-
   const filteredTokens = ERC20_TEST_TOKEN_LIST.filter(
     (token) =>
       token.symbol.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -119,8 +112,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                     />
                     <TokenNameWrapper>
                       <TokenItemData>{token.symbol}</TokenItemData>
-                      <Copy copydata={truncateString(token.address)} />
-                      {/* {truncateString(token.address)}  */}
+                      <Copy copydata={token.address} />
                     </TokenNameWrapper>
                   </TokenItemWithAdressWrapper>
                   <TokenItemData fontsize={16}>
