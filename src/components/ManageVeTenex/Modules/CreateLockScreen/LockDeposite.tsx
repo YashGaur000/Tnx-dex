@@ -12,25 +12,33 @@ import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
 import { GlobalButton } from '../../../common';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
 import { testErc20Abi } from '../../../../constants/abis/testErc20';
+import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 
 interface LockDepositeProps {
+  setLockTokenValue: (input: string) => void;
+  SetlockDuration: (input: number) => void;
   LockTokenValue: string;
   LockTokenSymbol: string;
   LocTokenAddress: string;
   LockTokenDecimal?: number;
   lockDuration: number;
+  setSuccessLock: (input: boolean) => void;
 }
 
 const LockDeposite: React.FC<LockDepositeProps> = ({
+  setLockTokenValue,
+  SetlockDuration,
   LockTokenValue,
   LockTokenSymbol,
   LocTokenAddress,
   LockTokenDecimal,
   lockDuration,
+  setSuccessLock,
 }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
 
   const escrowAddress = contractAddress.VotingEscrow;
 
@@ -64,6 +72,14 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       const durationInSeconds = lockDuration * 7 * 24 * 60 * 60;
       const tx = await createLock(amountInWei, durationInSeconds);
       console.log('Transaction successful:', tx);
+      setIsLocked(true);
+
+      //setIsDisabled(false);
+      setTimeout(() => {
+        setLockTokenValue('');
+        SetlockDuration(1);
+        setSuccessLock(true);
+      }, 1000);
     } catch (error) {
       console.error('Error during token lock:', error);
     } finally {
@@ -119,11 +135,14 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
           }
         : undefined,
     },
+
     {
       step: 2,
-      descriptions: { labels: 'Waiting for next actions...' },
-      icon: SearchIcon,
-      actionCompleted: isLoading,
+      icon: !isLocked ? SearchIcon : SucessDepositIcon,
+      descriptions: {
+        labels: isLocked ? 'Locked confirmed' : 'Waiting for next actions...',
+      },
+      actionCompleted: !isLocked,
     },
   ];
 
@@ -131,7 +150,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
     <StyledDepositContainer height="296px">
       <LockHeaderTitle fontSize={24}>Lock</LockHeaderTitle>
       <Stepper data={!LockTokenValue ? LockInstructionData : LockData} />
-      {isTokenAllowed && (
+      {isTokenAllowed && !isLocked && (
         <GlobalButton
           width="100%"
           height="48px"

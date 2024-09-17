@@ -45,10 +45,13 @@ import {
 } from '../../../Swap/styles/SwapForm.style.';
 import { InputBox } from '../../../Swap/modules/InputBox';
 import React from 'react';
+import SuccessPopup from '../../../common/SucessPopup';
 
 const CreatelockForm = () => {
   const [lockDuration, SetlockDuration] = useState<number>(1);
   const [LockTokenValue, setLockTokenValue] = useState<string>('');
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [voteCalPower, setVotePower] = useState<number>(0);
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
   const [selectedPercentage, setSelectedPercentage] = React.useState<
     number | null
@@ -61,20 +64,37 @@ const CreatelockForm = () => {
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
     SetlockDuration(Number(TotalWeeks));
+    void handleVotingPower();
   };
+
+  const handleVotingPower = () => {
+    const votePower = (
+      (Number(LockTokenValue) * Number(lockDuration)) /
+      208
+    ).toFixed(5);
+
+    setVotePower(Number(votePower));
+  };
+
   const handleSelectPercentage = (percentage: number) => {
     setSelectedPercentage(percentage);
   };
   const labels = [
-    { value: 1, weeks: '1 week' },
+    { value: 7, weeks: '1 week' },
     { value: 52, weeks: '1 year' },
     { value: 104, weeks: '2 year' },
     { value: 156, weeks: '3 year' },
     { value: 208, weeks: '4 year' },
   ];
+  const handleDurationYearClick = (vlueWeek: number) => {
+    const TotalWeeks = vlueWeek;
+    SetlockDuration(Number(TotalWeeks));
+    void handleVotingPower();
+  };
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     setLockTokenValue(e.target.value);
+    void handleVotingPower();
   };
 
   return (
@@ -157,7 +177,7 @@ const CreatelockForm = () => {
             </FormFieldContainer>
 
             <LockTitle fontSize={16} lineheight={23.93}>
-              Locking your TENEX tokens for 0.243 veTENEX voting power
+              Locking your TENEX tokens for {voteCalPower} veTENEX voting power
             </LockTitle>
             <LockLoaderContainer>
               <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
@@ -179,7 +199,9 @@ const CreatelockForm = () => {
                 {labels.map(({ value, weeks }) => (
                   <WeeksLabel
                     key={value}
-                    onClick={() => SetlockDuration(value)}
+                    onClick={() => {
+                      handleDurationYearClick(value);
+                    }}
                   >
                     {weeks}
                   </WeeksLabel>
@@ -191,10 +213,13 @@ const CreatelockForm = () => {
         {}
         <LockDeposite
           LockTokenValue={LockTokenValue}
+          SetlockDuration={SetlockDuration}
+          setLockTokenValue={setLockTokenValue}
           LockTokenSymbol={lockTokenInfo.symbol}
           LocTokenAddress={lockTokenInfo.address}
           LockTokenDecimal={lockTokenInfo.decimals}
           lockDuration={Number(lockDuration)}
+          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
       <LockScreenInstruction>
@@ -204,6 +229,7 @@ const CreatelockForm = () => {
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>
       </LockScreenInstruction>
+      {iSuccessLock && <SuccessPopup message="Locked confirmed" />}
     </MainContainerStyle>
   );
 };
