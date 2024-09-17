@@ -79,9 +79,10 @@ export const LockButtonConatainer = styled.div`
   margin-bottom: 3px;
 `;
 
-export const AmountWithImg = styled.div`
+export const AmountWithImg = styled.div<{ gap?: number }>`
   display: flex;
   align-items: center;
+  gap: ${({ gap }) => gap ?? '0'}px;
 `;
 
 /* tableContainer*/

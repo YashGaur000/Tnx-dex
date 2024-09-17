@@ -12,7 +12,6 @@ export const LockTitle = styled.p<{
   line-height: ${({ lineheight }) => lineheight}px;
   padding-left: 5px;
   text-align: left;
-  margin-top: 30px;
 `;
 
 export const CreateLockFirstSection = styled.div`
