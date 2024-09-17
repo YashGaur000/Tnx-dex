@@ -53,12 +53,12 @@ const DashBoardLocks = () => {
       </LockContainer>
 
       <StakedContainer>
-        <DepositeStakedHeading>Emissions APR</DepositeStakedHeading>
+        <DepositeStakedHeading>Rebases APR</DepositeStakedHeading>
         <DepositeStakedData>40.43%</DepositeStakedData>
       </StakedContainer>
 
       <StakedContainer>
-        <DepositeStakedHeading>Emissions </DepositeStakedHeading>
+        <DepositeStakedHeading>Rebases </DepositeStakedHeading>
         <DepositeStakedData>0.00 USDT</DepositeStakedData>
       </StakedContainer>
     </DashBoardLockMainContainer>

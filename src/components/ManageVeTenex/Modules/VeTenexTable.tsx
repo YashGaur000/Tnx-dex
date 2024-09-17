@@ -16,6 +16,7 @@ import {
 import TenexIcon from '../../../assets/Tenex.png';
 import { LockItemProps } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -36,6 +37,15 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  const Navigate = useNavigate();
+
+  const handleLockButton = (option: string) => {
+    if (option) {
+      Navigate(`/governance/managevetenex/${option}`);
+    } else {
+      console.log('Route is undefine ');
     }
   };
 
@@ -84,10 +94,22 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
                     {lockedVELO} VELO locked until {unlockDate}
                   </LockInfoDes>
                   <LockInfoCheck>
-                    <LockInfoAction>Increase</LockInfoAction>
-                    <LockInfoAction>Extend</LockInfoAction>
-                    <LockInfoAction>Merge</LockInfoAction>
-                    <LockInfoAction>Transfer</LockInfoAction>
+                    <LockInfoAction
+                      onClick={() => handleLockButton('increase')}
+                    >
+                      Increase
+                    </LockInfoAction>
+                    <LockInfoAction onClick={() => handleLockButton('extend')}>
+                      Extend
+                    </LockInfoAction>
+                    <LockInfoAction onClick={() => handleLockButton('merge')}>
+                      Merge
+                    </LockInfoAction>
+                    <LockInfoAction
+                      onClick={() => handleLockButton('transfer')}
+                    >
+                      Transfer
+                    </LockInfoAction>
                   </LockInfoCheck>
                 </LockInfo>
               </LockDetails>

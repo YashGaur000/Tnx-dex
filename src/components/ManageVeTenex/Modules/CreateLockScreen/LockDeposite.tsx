@@ -147,7 +147,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   ];
 
   return (
-    <StyledDepositContainer height="296px">
+    <StyledDepositContainer>
       <LockHeaderTitle fontSize={24}>Lock</LockHeaderTitle>
       <Stepper data={!LockTokenValue ? LockInstructionData : LockData} />
       {isTokenAllowed && !isLocked && (

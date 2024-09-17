@@ -69,6 +69,7 @@ export const LockInfoAction = styled.span<{ theme: DefaultTheme }>`
   display: inline-block;
   text-decoration: none;
   gap: 15px;
+  cursor: pointer;
 
   &::after {
     content: '';
