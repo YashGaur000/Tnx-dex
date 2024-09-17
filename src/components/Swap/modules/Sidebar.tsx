@@ -179,6 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleRefresh = () => {
     setIsLoading(true);
     setTokenInput2('');
+    setRoute(null);
 
     // Clear any previous timeouts before setting a new one
     if (inputTimeout.current) {

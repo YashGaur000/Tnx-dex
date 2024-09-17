@@ -148,6 +148,7 @@ const SwapForm: React.FC = () => {
       const amount = event.target.value;
       setTokenInput1(amount);
       setTokenInput2(''); // Reset the second token input
+      setRoute(null);
 
       if (!amount || !selectedToken1 || !selectedToken2 || !graph) {
         setIsLoading(false);
@@ -190,6 +191,7 @@ const SwapForm: React.FC = () => {
       updateUrl(fromToken.address, toToken.address);
       setIsLoading(true);
       setTokenInput2('');
+      setRoute(null);
 
       debounceFetchRoute(
         fromToken,
@@ -230,6 +232,8 @@ const SwapForm: React.FC = () => {
       const amount = walletBalance.toFixed(5);
       setTokenInput1(amount);
       setTokenInput2(''); // Reset the second token input
+      setRoute(null);
+
       setIsLoading(true);
 
       debounceFetchRoute(
@@ -263,6 +267,7 @@ const SwapForm: React.FC = () => {
 
     updateUrl(selectedToken2.address, selectedToken1.address);
     setTokenInput2(''); // Reset the second token input
+    setRoute(null);
 
     if (!tokenInput1) {
       setIsLoading(false);
