@@ -48,18 +48,20 @@ import React from 'react';
 import SuccessPopup from '../../../common/SucessPopup';
 
 const CreatelockForm = () => {
-  const [lockDuration, SetlockDuration] = useState<number>(1);
-  const [LockTokenValue, setLockTokenValue] = useState<string>('');
-  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
-  const [voteCalPower, setVotePower] = useState<number>(0);
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
   const [selectedPercentage, setSelectedPercentage] = React.useState<
     number | null
   >(null);
-
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
+  const [lockDuration, SetlockDuration] = useState<number>(1);
+  const [LockTokenValue, setLockTokenValue] = useState<string>('');
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [voteCalPower, setVotePower] = useState<number>(0);
+  const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
+
+  //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
@@ -94,6 +96,9 @@ const CreatelockForm = () => {
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     setLockTokenValue(e.target.value);
+    const remainingBal =
+      Number(balances[lockTokenInfo?.address]) - Number(e.target.value);
+    setUserCurrentBalance(remainingBal);
     void handleVotingPower();
   };
 
@@ -138,9 +143,9 @@ const CreatelockForm = () => {
                     <WalletInfo>
                       Wallet:
                       <WalletText>
-                        {Number(
-                          lockTokenInfo && balances[lockTokenInfo?.address]
-                        )}{' '}
+                        {UserCurrentBalance
+                          ? UserCurrentBalance
+                          : Number(balances[lockTokenInfo?.address])}
                       </WalletText>
                       <WalletText margin={8}>~$0.00</WalletText>
                     </WalletInfo>
