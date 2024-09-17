@@ -26,6 +26,13 @@ interface copyProps {
 const Copy: React.FC<copyProps> = ({ copydata }) => {
   const [isCopied, setIsCopied] = useState(false);
 
+  const truncateString = (str: string): string => {
+    if (str.length <= 15) {
+      return str;
+    }
+    return `${str.slice(0, 6)}...${str.slice(-9)}`;
+  };
+
   const handleCopy = () => {
     navigator.clipboard
       .writeText(copydata)
@@ -42,7 +49,7 @@ const Copy: React.FC<copyProps> = ({ copydata }) => {
 
   return (
     <CopyContainer>
-      <Copytext fontsize={12}>{copydata}</Copytext>
+      <Copytext fontsize={12}>{truncateString(copydata)}</Copytext>
       <CopyIconWrapper onClick={(e) => e.stopPropagation()}>
         {isCopied ? (
           <CopyIconstyle src={SucessIcon} />
