@@ -108,6 +108,7 @@ const SwapForm: React.FC = () => {
 
     if (!amount) {
       setIsLoading(false);
+      setRoute(null);
       return;
     }
 
@@ -277,7 +278,7 @@ const SwapForm: React.FC = () => {
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0.0"
                     width="70%"
                     padding="0px"
                     value={tokenInput1}
@@ -347,18 +348,11 @@ const SwapForm: React.FC = () => {
               </SwitchButton>
 
               <InputWrapper>
-                {/* <Input
-              type="number"
-              inputMode="numeric"
-              placeholder="0"
-              value={''}
-              //onChange={(e) => setInputValue2(e.target.value)}
-            /> */}
                 <InputBoxRow>
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0.0"
                     width="75%"
                     padding="0px"
                     value={tokenInput1 ? tokenInput2 : ''}

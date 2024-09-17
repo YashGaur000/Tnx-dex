@@ -29,6 +29,10 @@ import { parseAmounts } from './../../../../utils/transaction/parseAmounts';
 import { calculateMinAmount } from './../../../../utils/transaction/calculateMinAmounts';
 import { getDeadline } from './../../../../utils/transaction/getDeadline';
 import { useNavigate } from 'react-router-dom';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../../types/Transaction';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -152,8 +156,11 @@ const Deposite: React.FC<DepositProps> = ({
 
   const { address } = useAccount();
 
+  const { setTransactionStatus } = useRootStore();
+
   const handleDeposit = async () => {
     try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const amount1InWei = parseAmounts(amount1, selectedToken1?.decimals);
       const amount2InWei = parseAmounts(amount2, selectedToken2?.decimals);
 
@@ -204,10 +211,15 @@ const Deposite: React.FC<DepositProps> = ({
           );
           console.log('Liquidity added:', tx);
           setIsDeposited(true);
+          setTransactionStatus(TransactionStatus.DONE);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         }
       }
     } catch (error) {
       console.error('Error adding liquidity:', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     }
   };
 
