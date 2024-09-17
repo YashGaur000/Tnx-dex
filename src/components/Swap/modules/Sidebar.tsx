@@ -89,7 +89,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   setAmountsOut,
   graph,
 }) => {
-  //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setIsTokenAllow] = useState(false);
   const { address } = useAccount();
   const {
@@ -301,10 +300,6 @@ const Sidebar: React.FC<SidebarProps> = ({
       actionCompleted: !isSwapped,
     },
   ];
-
-  // const [SwapDepositData, setSwapDepositData] = useState<StepperDataProps[]>(
-  //   SwapDepositInitialData
-  // );
 
   const SwapInstructData: StepperDataProps[] = [
     {
