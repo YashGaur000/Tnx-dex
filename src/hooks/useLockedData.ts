@@ -7,11 +7,9 @@ export const useLockedDataWithVotingPower = (tokenId: string | undefined) => {
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  //const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
-  //const [totalLockedVELO, setTotalLockedVELO] = useState<number>(0);
 
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
-  //const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
+
   useEffect(() => {
     const fetchLockData = async () => {
       if (!tokenId) return;
@@ -35,7 +33,6 @@ export const useLockedDataWithVotingPower = (tokenId: string | undefined) => {
       }
     };
 
-    // Invoke the async function and handle errors explicitly
     void fetchLockData;
   }, [tokenId, getLockData]);
 

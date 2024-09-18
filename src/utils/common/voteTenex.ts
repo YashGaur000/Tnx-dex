@@ -1,6 +1,6 @@
 import { Metadata } from '../../types/VotingEscrow';
 import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../constants/tokens';
-
+export const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
 export const decodeBase64 = (base64: string): Metadata => {
   const base64Data = base64.split(',')[1];
   const binaryString = window.atob(base64Data);
@@ -38,4 +38,7 @@ export const calculateRemainingDays = (timestamp: number): string => {
 export const convertToDecimal = (value: number): string => {
   const newVele = (value / 1e18).toFixed(1);
   return newVele.toString();
+};
+export const formatTokenAmount = (amount: number): string => {
+  return (Number(amount) / 1e18).toFixed(2);
 };

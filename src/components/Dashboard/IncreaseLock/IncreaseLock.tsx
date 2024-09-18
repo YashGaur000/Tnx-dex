@@ -25,15 +25,13 @@ import { LockedBalance } from '../../../types/VotingEscrow';
 import {
   calculateRemainingDays,
   convertToDecimal,
+  formatTokenAmount,
   locktokeninfo,
+  MAX_LOCK_TIME,
 } from '../../../utils/common/voteTenex';
 import { useAccount } from '../../../hooks/useAccount';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 //import BigNumber from 'bignumber.js';
-
-const formatTokenAmount = (amount: number): string => {
-  return (Number(amount) / 1e18).toFixed(2);
-};
 
 const IncreaseLock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
@@ -42,6 +40,9 @@ const IncreaseLock = () => {
   //const [isLoading, setIsLoading] = useState(false);
   //const [isLocking, setIsLocking] = useState(false);
   //const [isLocked, setIsLocked] = useState(false);
+  const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
+  //const [totalLockedVELO, setTotalLockedVELO] = useState<number>(0);
+  const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   useEffect(() => {
@@ -51,6 +52,21 @@ const IncreaseLock = () => {
           // setIsLoading(true);
           const data = await getLockData(Number(tokenId));
           console.log('lock data inc:', data);
+          if (data) {
+            const LockedAmt = formatTokenAmount(Number(data.amount));
+            setLockedTENEX(Number(LockedAmt));
+
+            const currentTime = Math.floor(Date.now() / 1000);
+            const timeRemaining =
+              data.end > currentTime ? data.end - currentTime : 0;
+            const votingPower =
+              (data.amount * (timeRemaining / MAX_LOCK_TIME)) / 2;
+            const setVotePw = convertToDecimal(Number(votingPower));
+            setTotalVotingPower(Number(setVotePw));
+            //setTotalLockedVELO(prevTotal => prevTotal + Number(data.amount));
+            //setTotalVotingPower(prevTotal => prevTotal + setVotePw);
+          }
+
           setLockData(data);
         } catch (error) {
           console.error('Error fetching lock data:', error);
@@ -78,15 +94,14 @@ const IncreaseLock = () => {
           <PercentageSelectorContainer>
             <LockHeaderTitle fontSize={24}>Increase Lock</LockHeaderTitle>
             <LockDescriptonTitle fontSize={14}>
-              Current Lock{' '}
-              {lockData ? formatTokenAmount(Number(lockData.amount)) : '...'}{' '}
+              Current Lock {lockedTENEX ? lockedTENEX : '0'}{' '}
               {lockTokenInfo?.symbol}
             </LockDescriptonTitle>
           </PercentageSelectorContainer>
 
           <LockHeaderWrapper>
             <LockDescriptonTitle fontSize={14}>
-              {lockData ? formatTokenAmount(Number(lockData.amount)) : '...'}{' '}
+              {lockedTENEX ? lockedTENEX : '0'}{' '}
               <LockHeaderTitle fontSize={14}>
                 {lockTokenInfo?.symbol}
               </LockHeaderTitle>{' '}
@@ -94,9 +109,7 @@ const IncreaseLock = () => {
               {lockData ? calculateRemainingDays(Number(lockData.end)) : '...'}
             </LockDescriptonTitle>
             <LockDescriptonTitle fontSize={14}>
-              {lockData
-                ? convertToDecimal(Number(lockData.votingPower))
-                : '...'}{' '}
+              {totalVotingPower ? totalVotingPower : '0.00'}{' '}
               <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
