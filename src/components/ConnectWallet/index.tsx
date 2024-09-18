@@ -5,6 +5,7 @@ import { Container, FlexContainer, IconContainer } from './style';
 import { useRootStore } from '../../store/root';
 import { TransactionStatus } from '../../types/Transaction';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //import { getPoolInfo } from '../../graphql';
 
@@ -19,10 +20,13 @@ interface ChainProps {
 export const ConnectWallet = () => {
   const { address } = useAccount();
   const { setTransactionStatus } = useRootStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (address) {
       setTransactionStatus(TransactionStatus.IDEAL);
+    } else {
+      navigate('/');
     }
   }, [address]);
 
