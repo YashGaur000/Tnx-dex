@@ -294,7 +294,7 @@ const Header: React.FC = () => {
                 },
                 {
                   main: 'Governance',
-                  to: '/incentives',
+                  to: `/incentives`,
                   label: 'Incentives',
                   description: 'Protocol liquidity incentivization',
                 },

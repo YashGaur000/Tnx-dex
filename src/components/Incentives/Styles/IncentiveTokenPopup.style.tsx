@@ -140,7 +140,7 @@ export const TableData = styled.div`
 export const TableRow = styled.tr`
   padding: 8px 0px 8px 0px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 `;
 export const TableBalanceColumn = styled.td`
   text-align: right;
@@ -155,7 +155,9 @@ export const ImgRightIcon = styled.img`
 `;
 export const TableCoinPairName = styled.text`
   font-weight: 300;
+  align-content: center;
   font-family: 'Kanit';
+  padding-left: 20px;
 `;
 export const FilterButtonList = styled.li``;
 export const FilterButton = styled.button<FilterButtonProps>`
