@@ -48,7 +48,8 @@ const Main = () => {
     void (async function fetchData() {
       try {
         if (address) {
-          const fetchedNftData = await fetchUserNFTs(address);
+          const fetchedNftVal = await fetchUserNFTs(address);
+          const fetchedNftData = fetchedNftVal.sort();
           console.log('User NFT Data:', fetchedNftData);
 
           const formattedNftData = fetchedNftData.map((nft) => ({
