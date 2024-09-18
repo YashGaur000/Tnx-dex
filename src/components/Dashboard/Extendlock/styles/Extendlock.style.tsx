@@ -50,7 +50,11 @@ export const HeaderWithImgContainer = styled.div`
   gap: 8px;
   margin-bottom: 16px;
 `;
-export const SteperWrapper = styled.div<{ theme: DefaultTheme }>``;
+export const SteperWrapper = styled.div<{ theme: DefaultTheme; gap?: number }>`
+  display: flex;
+  flex-direction: column;
+  gap: ${({ gap }) => gap ?? '8'}px;
+`;
 export const TipsContainer = styled.div`
   display: flex;
   gap: 16px;
@@ -64,11 +68,12 @@ export const WalletAdressConainer = styled.div`
 export const TransferLockTitle = styled.p<{
   theme: DefaultTheme;
   fontsize: number;
+  color?: string;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontsize }) => fontsize}px;
   font-family: ${({ theme }) => theme.fonts.main};
-  color: ${({ theme }) => theme.colors.redToggle};
+  color: ${({ theme, color }) => color ?? theme.colors.redToggle};
 `;
 export const UnderlineText = styled.span<{
   theme: DefaultTheme;

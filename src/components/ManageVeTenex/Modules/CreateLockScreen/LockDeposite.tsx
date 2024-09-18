@@ -12,25 +12,28 @@ import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
 import { GlobalButton } from '../../../common';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
 import { testErc20Abi } from '../../../../constants/abis/testErc20';
-
-interface LockDepositeProps {
-  LockTokenValue: string;
-  LockTokenSymbol: string;
-  LocTokenAddress: string;
-  LockTokenDecimal?: number;
-  lockDuration: number;
-}
+import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
+import { LockDepositeProps } from '../../../../types/VotingEscrow';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../../types/Transaction';
+import { useRootStore } from '../../../../store/root';
 
 const LockDeposite: React.FC<LockDepositeProps> = ({
+  setLockTokenValue,
+  SetlockDuration,
   LockTokenValue,
   LockTokenSymbol,
   LocTokenAddress,
   LockTokenDecimal,
   lockDuration,
+  setSuccessLock,
 }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
+  const [isLocked, setIsLocked] = useState(false);
 
   const escrowAddress = contractAddress.VotingEscrow;
 
@@ -40,6 +43,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   );
 
   const { createLock } = useVotingEscrowContract(escrowAddress);
+  const { setTransactionStatus } = useRootStore();
 
   const handleAllowToken = async () => {
     try {
@@ -58,12 +62,22 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
   const handleLock = useCallback(async () => {
     try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!LockTokenValue || !isTokenAllowed) return;
       setIsLocking(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       const durationInSeconds = lockDuration * 7 * 24 * 60 * 60;
       const tx = await createLock(amountInWei, durationInSeconds);
       console.log('Transaction successful:', tx);
+      setIsLocked(true);
+      setTransactionStatus(TransactionStatus.DONE);
+      //setIsDisabled(false);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+        setLockTokenValue('');
+        SetlockDuration(1);
+        setSuccessLock(true);
+      }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during token lock:', error);
     } finally {
@@ -111,7 +125,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       icon: LockIcon,
       buttons: !isTokenAllowed
         ? {
-            label: isLoading ? 'Approving...' : 'Allow ' + LockTokenSymbol,
+            label: isLoading ? 'Approving......' : 'Allow ' + LockTokenSymbol,
             icon: Lock1Icon,
             onClick: !isLoading ? handleAllowToken : undefined,
             tooltip: 'Click to allow ' + LockTokenSymbol + ' transactions',
@@ -119,19 +133,22 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
           }
         : undefined,
     },
+
     {
       step: 2,
-      descriptions: { labels: 'Waiting for next actions...' },
-      icon: SearchIcon,
-      actionCompleted: isLoading,
+      icon: !isLocked ? SearchIcon : SucessDepositIcon,
+      descriptions: {
+        labels: isLocked ? 'Locked confirmed' : 'Waiting for next actions...',
+      },
+      actionCompleted: !isLocked,
     },
   ];
 
   return (
-    <StyledDepositContainer height="296px">
+    <StyledDepositContainer>
       <LockHeaderTitle fontSize={24}>Lock</LockHeaderTitle>
       <Stepper data={!LockTokenValue ? LockInstructionData : LockData} />
-      {isTokenAllowed && (
+      {isTokenAllowed && !isLocked && (
         <GlobalButton
           width="100%"
           height="48px"

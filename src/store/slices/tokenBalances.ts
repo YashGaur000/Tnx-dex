@@ -5,11 +5,14 @@ import { RootStore } from '../root';
 import { testErc20Abi } from '../../constants/abis/testErc20';
 import { wethAbi } from '../../constants/abis/weth';
 import { ethers } from 'ethers';
+import { TransactionStatus } from '../../types/Transaction';
 
 export interface TokenBalancesSlice {
   balances: Record<Address, ethers.Numeric>; // Mapping of token address to balance
   loading: boolean;
   error: string | null;
+  transactionStatus: TransactionStatus;
+  setTransactionStatus: (status: TransactionStatus) => void;
   getTokenBalances: (
     multicallClient: PublicClient,
     tokens: TokenInfo[],
@@ -26,6 +29,10 @@ export const createTokenBalancesSlice: StateCreator<
   balances: {},
   loading: false,
   error: null,
+  transactionStatus: TransactionStatus.IDEAL,
+  setTransactionStatus(status) {
+    set({ transactionStatus: status });
+  },
   getTokenBalances: async (multicallClient, tokens, account) => {
     try {
       set({ loading: true, error: null });

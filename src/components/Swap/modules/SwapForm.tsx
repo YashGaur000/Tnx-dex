@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
 import { TokenInfo } from './../../../constants/tokens';
 import TokenSelectModal from '../../modal/TokenSelectModal';
@@ -32,7 +32,10 @@ import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
-import { Route } from '../../../utils/liquidityRouting/generateAllRoutes';
+import {
+  Graph,
+  Route,
+} from '../../../utils/liquidityRouting/generateAllRoutes';
 import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
 import { SidebarContainer } from '../styles/Sidebar.style';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
@@ -62,6 +65,8 @@ const SwapForm: React.FC = () => {
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
   const { balance: nativeBalance } = useNativeBalance(address!);
 
+  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
+
   const { getAmountsOut } = useRouterContract();
 
   const graph = useLiquidityRouting();
@@ -83,108 +88,76 @@ const SwapForm: React.FC = () => {
     }
   }, [tokenInput1, selectedToken1, balances, nativeBalance]);
 
-  useEffect(() => {
-    // 1. Update connection state
-    //setIsConnected(!!address);
-
-    // 2. Scroll to the top when the component is mounted
-    window.scrollTo(0, 0);
-
-    // 3. Restore state from URL query parameters
+  // Helper function to update the URL
+  const updateUrl = (fromAddress: Address, toAddress: Address) => {
     const queryParams = new URLSearchParams(window.location.search);
-    const fromAddress = queryParams.get('from');
-    const toAddress = queryParams.get('to');
-
-    if (fromAddress) setFrom(fromAddress as Address);
-    if (toAddress) setTo(toAddress as Address);
-  }, [address, setFrom, setTo]);
-
-  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
-
-  const handleTokenInput1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const amount = event.target.value;
-    setTokenInput1(amount);
-    setTokenInput2(''); // Reset the second token input
-
-    if (!amount) {
-      setIsLoading(false);
-      return;
-    }
-
-    if (!selectedToken1 || !selectedToken2 || !graph) return;
-
-    setIsLoading(true);
-
-    // Clear any previous timeouts before setting a new one
-    if (inputTimeout.current) {
-      clearTimeout(inputTimeout.current);
-    }
-
-    // Regular function wrapping the async logic
-    inputTimeout.current = setTimeout(() => {
-      // Call the async function
-      void fetchBestRouteAndUpdateState(
-        selectedToken1,
-        selectedToken2,
-        amount,
-        graph,
-        getAmountsOut,
-        setTokenInput2,
-        setExchangeRate,
-        setRoute,
-        setIsLoading,
-        setAmountsOut
-      );
-    }, ROUTING_DELAY);
+    queryParams.set('from', fromAddress);
+    queryParams.set('to', toAddress);
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.pushState(null, '', newUrl);
   };
+
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
     setTokenSelectTarget(target);
     setIsModalOpen(true);
   };
 
-  const handleTokenSelect = (token: TokenInfo) => {
-    const queryParams = new URLSearchParams(window.location.search);
+  // Function to debounce async calls
+  const debounceFetchRoute = useCallback(
+    (
+      fromToken: TokenInfo,
+      toToken: TokenInfo,
+      amount: string,
+      graph: Graph,
+      getAmountsOut: (
+        amountIn: bigint,
+        routes: Route[][]
+      ) => Promise<bigint[][] | undefined>,
+      setTokenInput2: (val: string) => void,
+      setExchangeRate: (val: number) => void,
+      setRoute: (route: Route[] | null) => void,
+      setIsLoading: (loading: boolean) => void,
+      setAmountsOut: (amountsOut: bigint[]) => void
+    ) => {
+      // Clear any previous timeouts before setting a new one
+      if (inputTimeout.current) {
+        clearTimeout(inputTimeout.current);
+      }
 
-    if (tokenSelectTarget === 'token1') {
-      setFrom(token.address);
-      queryParams.set('from', token.address);
-    } else {
-      setTo(token.address);
-      queryParams.set('to', token.address);
-    }
-    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState(null, '', newUrl);
-  };
+      // Regular function wrapping the async logic
+      inputTimeout.current = setTimeout(() => {
+        void fetchBestRouteAndUpdateState(
+          fromToken,
+          toToken,
+          amount,
+          graph,
+          getAmountsOut,
+          setTokenInput2,
+          setExchangeRate,
+          setRoute,
+          setIsLoading,
+          setAmountsOut
+        );
+      }, ROUTING_DELAY);
+    },
+    []
+  );
 
-  const handleSelectPercentage = (percentage: number) => {
-    if (!selectedToken1 || !selectedToken2 || !graph) return;
+  const handleTokenInput1 = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const amount = event.target.value;
+      setTokenInput1(amount);
+      setTokenInput2(''); // Reset the second token input
+      setRoute(null);
 
-    let walletBalance = 0;
-    if (selectedToken1.symbol === 'ETH') {
-      walletBalance = (Number(nativeBalance?.formatted) * percentage) / 100;
-    } else {
-      walletBalance =
-        (Number(balances[selectedToken1?.address].toString()) * percentage) /
-        100;
-    }
+      if (!amount || !selectedToken1 || !selectedToken2 || !graph) {
+        setIsLoading(false);
+        setRoute(null);
+        return;
+      }
 
-    const amount = walletBalance.toFixed(5);
-
-    setTokenInput1(amount);
-
-    setTokenInput2(''); // Reset the second token input
-
-    setIsLoading(true);
-
-    // Clear any previous timeouts before setting a new one
-    if (inputTimeout.current) {
-      clearTimeout(inputTimeout.current);
-    }
-
-    // Regular function wrapping the async logic
-    inputTimeout.current = setTimeout(() => {
-      // Call the async function
-      void fetchBestRouteAndUpdateState(
+      setIsLoading(true);
+      debounceFetchRoute(
         selectedToken1,
         selectedToken2,
         amount,
@@ -196,50 +169,33 @@ const SwapForm: React.FC = () => {
         setIsLoading,
         setAmountsOut
       );
-    }, ROUTING_DELAY);
-  };
+    },
+    [selectedToken1, selectedToken2, graph, debounceFetchRoute]
+  );
 
-  const handleIconClick = () => {
-    setIsSettingModelOpen(true);
-  };
+  const handleTokenSelect = useCallback(
+    (token: TokenInfo) => {
+      if (!selectedToken1 || !selectedToken2 || !graph) return;
 
-  const handleCloseClick = () => {
-    setIsSettingModelOpen(false);
-  };
+      let fromToken = selectedToken1;
+      let toToken = selectedToken2;
 
-  const handleReverse = () => {
-    if (!selectedToken1 || !selectedToken2 || !graph) return;
-    const queryParams = new URLSearchParams(window.location.search);
+      if (tokenSelectTarget === 'token1') {
+        setFrom(token.address);
+        fromToken = token;
+      } else {
+        setTo(token.address);
+        toToken = token;
+      }
 
-    setFrom(selectedToken2.address);
-    queryParams.set('from', selectedToken2.address);
+      updateUrl(fromToken.address, toToken.address);
+      setIsLoading(true);
+      setTokenInput2('');
+      setRoute(null);
 
-    setTo(selectedToken1.address);
-    queryParams.set('to', selectedToken1.address);
-
-    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState(null, '', newUrl);
-
-    setTokenInput2(''); // Reset the second token input
-
-    if (!tokenInput1) {
-      setIsLoading(false);
-      return;
-    }
-
-    setIsLoading(true);
-
-    // Clear any previous timeouts before setting a new one
-    if (inputTimeout.current) {
-      clearTimeout(inputTimeout.current);
-    }
-
-    // Regular function wrapping the async logic
-    inputTimeout.current = setTimeout(() => {
-      // Call the async function
-      void fetchBestRouteAndUpdateState(
-        selectedToken2,
-        selectedToken1,
+      debounceFetchRoute(
+        fromToken,
+        toToken,
         tokenInput1,
         graph,
         getAmountsOut,
@@ -249,8 +205,90 @@ const SwapForm: React.FC = () => {
         setIsLoading,
         setAmountsOut
       );
-    }, ROUTING_DELAY);
-  };
+    },
+    [
+      selectedToken1,
+      selectedToken2,
+      graph,
+      tokenSelectTarget,
+      tokenInput1,
+      debounceFetchRoute,
+    ]
+  );
+
+  const handleSelectPercentage = useCallback(
+    (percentage: number) => {
+      if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+      let walletBalance = 0;
+      if (selectedToken1.symbol === 'ETH') {
+        walletBalance = (Number(nativeBalance?.formatted) * percentage) / 100;
+      } else {
+        walletBalance =
+          (Number(balances[selectedToken1?.address].toString()) * percentage) /
+          100;
+      }
+
+      const amount = walletBalance.toFixed(5);
+      setTokenInput1(amount);
+      setTokenInput2(''); // Reset the second token input
+      setRoute(null);
+
+      setIsLoading(true);
+
+      debounceFetchRoute(
+        selectedToken1,
+        selectedToken2,
+        amount,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading,
+        setAmountsOut
+      );
+    },
+    [
+      selectedToken1,
+      selectedToken2,
+      graph,
+      nativeBalance,
+      balances,
+      debounceFetchRoute,
+    ]
+  );
+
+  const handleReverse = useCallback(() => {
+    if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+    setFrom(selectedToken2.address);
+    setTo(selectedToken1.address);
+
+    updateUrl(selectedToken2.address, selectedToken1.address);
+    setTokenInput2(''); // Reset the second token input
+    setRoute(null);
+
+    if (!tokenInput1) {
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    debounceFetchRoute(
+      selectedToken2,
+      selectedToken1,
+      tokenInput1,
+      graph,
+      getAmountsOut,
+      setTokenInput2,
+      setExchangeRate,
+      setRoute,
+      setIsLoading,
+      setAmountsOut
+    );
+  }, [selectedToken1, selectedToken2, tokenInput1, graph, debounceFetchRoute]);
 
   return (
     <>
@@ -262,11 +300,11 @@ const SwapForm: React.FC = () => {
               <SettingIcon
                 src={SwapSettingIcon}
                 alt="Setting"
-                onClick={handleIconClick}
+                onClick={() => setIsSettingModelOpen(true)}
               />
               <SettingModal
                 isOpen={isSettingModelOpen}
-                onClose={handleCloseClick}
+                onClose={() => setIsSettingModelOpen(false)}
               >
                 <p>Settings content goes here...</p>
               </SettingModal>
@@ -277,7 +315,7 @@ const SwapForm: React.FC = () => {
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0.0"
                     width="70%"
                     padding="0px"
                     value={tokenInput1}
@@ -347,18 +385,11 @@ const SwapForm: React.FC = () => {
               </SwitchButton>
 
               <InputWrapper>
-                {/* <Input
-              type="number"
-              inputMode="numeric"
-              placeholder="0"
-              value={''}
-              //onChange={(e) => setInputValue2(e.target.value)}
-            /> */}
                 <InputBoxRow>
                   <InputBox
                     type="number"
                     border="none"
-                    placeholder=""
+                    placeholder="0.0"
                     width="75%"
                     padding="0px"
                     value={tokenInput1 ? tokenInput2 : ''}

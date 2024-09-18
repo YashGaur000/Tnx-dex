@@ -1,13 +1,11 @@
 import InformIcon from '../../../../assets/information.png';
-import { LockCardstyle } from '../../Styles/ManageVetenex.style';
-import SelectIcon from '../../../../assets/select.png';
+
 import {
   Slider,
   SliderContainer,
 } from '../../../Swap/styles/TransactionDeadline.style';
 import {
   LockTitle,
-  CreateLockFirstSection,
   LockLoaderContainer,
   LoaderStatus,
   LoaderStyle,
@@ -45,23 +43,40 @@ import {
 } from '../../../Swap/styles/SwapForm.style.';
 import { InputBox } from '../../../Swap/modules/InputBox';
 import React from 'react';
+import { LockleftSection } from '../../../Dashboard/Extendlock/styles/Extendlock.style';
+import SuccessPopup from '../../../common/SucessPopup';
 
 const CreatelockForm = () => {
-  const [lockDuration, SetlockDuration] = useState<number>(1);
-  const [LockTokenValue, setLockTokenValue] = useState<string>('');
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
   const [selectedPercentage, setSelectedPercentage] = React.useState<
     number | null
   >(null);
-
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
+  const [lockDuration, SetlockDuration] = useState<number>(1);
+  const [LockTokenValue, setLockTokenValue] = useState<string>('');
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [voteCalPower, setVotePower] = useState<number>(0);
+  const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
+
+  //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
     const TotalWeeks = e.target.value;
     SetlockDuration(Number(TotalWeeks));
+    void handleVotingPower();
   };
+
+  const handleVotingPower = () => {
+    const votePower = (
+      (Number(LockTokenValue) * Number(lockDuration)) /
+      208
+    ).toFixed(5);
+
+    setVotePower(Number(votePower));
+  };
+
   const handleSelectPercentage = (percentage: number) => {
     setSelectedPercentage(percentage);
   };
@@ -72,129 +87,130 @@ const CreatelockForm = () => {
     { value: 156, weeks: '3 year' },
     { value: 208, weeks: '4 year' },
   ];
+  const handleDurationYearClick = (vlueWeek: number) => {
+    const TotalWeeks = vlueWeek;
+    SetlockDuration(Number(TotalWeeks));
+    void handleVotingPower();
+  };
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     setLockTokenValue(e.target.value);
+    const remainingBal =
+      Number(balances[lockTokenInfo?.address]) - Number(e.target.value);
+    setUserCurrentBalance(remainingBal);
+    void handleVotingPower();
   };
 
   return (
     <MainContainerStyle>
       <CreateMainContainer>
-        <CreateLockFirstSection>
-          <LockCardstyle>
-            <FormFieldContainer>
-              <FormRowWrapper>
-                <InputWrapper>
-                  <InputBoxRow>
-                    <InputBox
-                      type="number"
-                      border="none"
-                      placeholder="0"
-                      width="70%"
-                      padding="0px"
-                      value={LockTokenValue}
-                      onChange={handleLockInputData}
-                    />
-                    <TokenSelect>
-                      <SwapPageIconWrapper
-                        src={lockTokenInfo?.logoURI}
-                        width="18px"
-                        height="18px"
-                        alt={lockTokenInfo?.logoURI}
-                      />
-
-                      <TokenSelectAlign>
-                        {lockTokenInfo?.symbol}
-                      </TokenSelectAlign>
-                      <SwapPageIconWrapper
-                        width="8px"
-                        height="4px"
-                        src={SelectIcon}
-                      />
-                    </TokenSelect>
-                  </InputBoxRow>
-
-                  <PercentageSelectorContainer>
-                    <WalletInfo>
-                      Wallet:
-                      <WalletText>
-                        {Number(
-                          lockTokenInfo && balances[lockTokenInfo?.address]
-                        )}{' '}
-                      </WalletText>
-                      <WalletText margin={8}>~$0.00</WalletText>
-                    </WalletInfo>
-
-                    <PercentageOptions>
-                      <PercentageButton
-                        active={selectedPercentage === 25}
-                        onClick={() => handleSelectPercentage(25)}
-                      >
-                        25%
-                      </PercentageButton>
-                      <PercentageButton
-                        active={selectedPercentage === 50}
-                        onClick={() => handleSelectPercentage(50)}
-                      >
-                        50%
-                      </PercentageButton>
-                      <PercentageButton
-                        active={selectedPercentage === 75}
-                        onClick={() => handleSelectPercentage(75)}
-                      >
-                        75%
-                      </PercentageButton>
-                      <PercentageButton
-                        active={selectedPercentage === 100}
-                        onClick={() => handleSelectPercentage(100)}
-                      >
-                        MAX
-                      </PercentageButton>
-                    </PercentageOptions>
-                  </PercentageSelectorContainer>
-                </InputWrapper>
-              </FormRowWrapper>
-            </FormFieldContainer>
-
-            <LockTitle fontSize={16} lineheight={23.93}>
-              Locking your TENEX tokens for 0.243 veTENEX voting power
-            </LockTitle>
-            <LockLoaderContainer>
-              <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
-                <LoaderStatus>{lockDuration} weeks</LoaderStatus>
-              </LoaderStatusWrapper>
-              <LoaderStyle>
-                <SliderContainer>
-                  <Slider
-                    type="range"
-                    min="1"
-                    max="208"
-                    step={1}
-                    value={lockDuration}
-                    onChange={HandleWeeksStatus}
+        <LockleftSection height={322}>
+          <FormFieldContainer>
+            <FormRowWrapper>
+              <InputWrapper>
+                <InputBoxRow>
+                  <InputBox
+                    type="number"
+                    border="none"
+                    placeholder="0"
+                    width="70%"
+                    padding="0px"
+                    value={LockTokenValue}
+                    onChange={handleLockInputData}
                   />
-                </SliderContainer>
-              </LoaderStyle>
-              <SliderDeadlineStyle fontSize={10}>
-                {labels.map(({ value, weeks }) => (
-                  <WeeksLabel
-                    key={value}
-                    onClick={() => SetlockDuration(value)}
-                  >
-                    {weeks}
-                  </WeeksLabel>
-                ))}
-              </SliderDeadlineStyle>
-            </LockLoaderContainer>
-          </LockCardstyle>
-        </CreateLockFirstSection>
-        {}
+                  <TokenSelect>
+                    <SwapPageIconWrapper
+                      src={lockTokenInfo?.logoURI}
+                      width="18px"
+                      height="18px"
+                      alt={lockTokenInfo?.logoURI}
+                    />
+
+                    <TokenSelectAlign>{lockTokenInfo?.symbol}</TokenSelectAlign>
+                  </TokenSelect>
+                </InputBoxRow>
+
+                <PercentageSelectorContainer>
+                  <WalletInfo>
+                    Wallet:
+                    <WalletText>
+                      {UserCurrentBalance
+                        ? UserCurrentBalance
+                        : Number(balances[lockTokenInfo?.address])}
+                    </WalletText>
+                    <WalletText margin={8}>~$0.00</WalletText>
+                  </WalletInfo>
+                  <PercentageOptions>
+                    <PercentageButton
+                      active={selectedPercentage === 25}
+                      onClick={() => handleSelectPercentage(25)}
+                    >
+                      25%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 50}
+                      onClick={() => handleSelectPercentage(50)}
+                    >
+                      50%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 75}
+                      onClick={() => handleSelectPercentage(75)}
+                    >
+                      75%
+                    </PercentageButton>
+                    <PercentageButton
+                      active={selectedPercentage === 100}
+                      onClick={() => handleSelectPercentage(100)}
+                    >
+                      MAX
+                    </PercentageButton>
+                  </PercentageOptions>
+                </PercentageSelectorContainer>
+              </InputWrapper>
+            </FormRowWrapper>
+          </FormFieldContainer>
+
+          <LockTitle fontSize={16} lineheight={23.93}>
+            Locking your TENEX tokens for {voteCalPower} veTENEX voting power
+          </LockTitle>
+          <LockLoaderContainer>
+            <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
+              <LoaderStatus>{lockDuration} weeks</LoaderStatus>
+            </LoaderStatusWrapper>
+            <LoaderStyle>
+              <SliderContainer>
+                <Slider
+                  type="range"
+                  min="1"
+                  max="208"
+                  step={1}
+                  value={lockDuration}
+                  onChange={HandleWeeksStatus}
+                />
+              </SliderContainer>
+            </LoaderStyle>
+            <SliderDeadlineStyle fontSize={10}>
+              {labels.map(({ value, weeks }) => (
+                <WeeksLabel
+                  key={value}
+                  onClick={() => handleDurationYearClick(value)}
+                >
+                  {weeks}
+                </WeeksLabel>
+              ))}
+            </SliderDeadlineStyle>
+          </LockLoaderContainer>
+        </LockleftSection>
         <LockDeposite
           LockTokenValue={LockTokenValue}
+          SetlockDuration={SetlockDuration}
+          setLockTokenValue={setLockTokenValue}
           LockTokenSymbol={lockTokenInfo.symbol}
           LocTokenAddress={lockTokenInfo.address}
           LockTokenDecimal={lockTokenInfo.decimals}
           lockDuration={Number(lockDuration)}
+          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
       <LockScreenInstruction>
@@ -204,6 +220,7 @@ const CreatelockForm = () => {
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>
       </LockScreenInstruction>
+      {iSuccessLock && <SuccessPopup message="Locked confirmed" />}
     </MainContainerStyle>
   );
 };

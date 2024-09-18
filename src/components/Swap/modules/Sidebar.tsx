@@ -47,6 +47,10 @@ import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
 import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 import AllowUnsafeTrades from './AllowUnsafeTrades';
 import { LoadingSpinner } from '../../common/Loader';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -85,7 +89,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   setAmountsOut,
   graph,
 }) => {
-  //const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
   const [isTokenAllow, setIsTokenAllow] = useState(false);
   const { address } = useAccount();
   const {
@@ -96,8 +99,13 @@ const Sidebar: React.FC<SidebarProps> = ({
     getAmountsOut,
   } = useRouterContract();
   const { deadLineValue } = useLiquidityStore();
-  const { selectedTolerance, priceImpact, allowUnsafe, setAllowUnsafe } =
-    useRootStore();
+  const {
+    selectedTolerance,
+    priceImpact,
+    allowUnsafe,
+    setAllowUnsafe,
+    setTransactionStatus,
+  } = useRootStore();
   const [minAmountOut, setMinAmountOut] = useState('');
   const [isSwapped, setIsSwapped] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
@@ -171,6 +179,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleRefresh = () => {
     setIsLoading(true);
     setTokenInput2('');
+    setRoute(null);
 
     // Clear any previous timeouts before setting a new one
     if (inputTimeout.current) {
@@ -293,10 +302,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     },
   ];
 
-  // const [SwapDepositData, setSwapDepositData] = useState<StepperDataProps[]>(
-  //   SwapDepositInitialData
-  // );
-
   const SwapInstructData: StepperDataProps[] = [
     {
       step: 1,
@@ -380,6 +385,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
   const handleSwap = async () => {
     try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
       setIsDisabled(true);
       const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
       const deadline = getDeadline(deadLineValue);
@@ -448,13 +454,18 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       setIsSwapped(true);
       setIsDisabled(false);
+      setTransactionStatus(TransactionStatus.DONE);
+
       setTimeout(() => {
         setTokenInput1('');
         setTokenInput2('');
-      }, 1000);
+
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error swapping:', error);
       setIsDisabled(false);
+      setTransactionStatus(TransactionStatus.IDEAL);
     }
   };
 
@@ -465,7 +476,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         <SidebarList>
           {isLoading ? (
             <Stepper data={SwapLoadingData} />
-          ) : exchangeRate > 0 && tokenInput1 ? (
+          ) : exchangeRate > 0 && tokenInput1 && routes ? (
             <>
               <Stepper data={SwapDepositData} />
               {!isSwapped &&

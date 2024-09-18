@@ -12,7 +12,6 @@ export const LockTitle = styled.p<{
   line-height: ${({ lineheight }) => lineheight}px;
   padding-left: 5px;
   text-align: left;
-  margin-top: 30px;
 `;
 
 export const CreateLockFirstSection = styled.div`
@@ -127,8 +126,8 @@ export const LockHeaderStyle = styled.div`
   gap: 25px;
 `;
 
-export const WeeksLabel = styled.label`
-  cursor: pointer;
+export const WeeksLabel = styled.label<{ isdisable?: boolean }>`
+  cursor: ${({ isdisable }) => (!isdisable ? 'pointer' : 'not-allowed')};
 `;
 
 export const LockCardtitle = styled.label<{
