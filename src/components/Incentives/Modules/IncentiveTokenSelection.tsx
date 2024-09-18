@@ -100,7 +100,6 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   };
 
   const handleIncentiveToken = (token: TokenInfo) => {
-    console.log('test', token);
     setSelectedIncentiveToken(token);
     handleTokenSymbol(token);
   };

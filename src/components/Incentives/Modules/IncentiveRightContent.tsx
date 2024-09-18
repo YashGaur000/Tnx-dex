@@ -82,6 +82,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
         setGaugeAddress(gaugeAddress);
         setIsGaugeCreated(true);
+      } else {
+        setGaugeAddress(AddressZero);
+        setIsGaugeCreated(false);
       }
     } catch (error) {
       setIsGaugeCreated(false);
@@ -147,11 +150,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     {
       step: 1,
       descriptions: {
-        labels: !gaugeAddress
-          ? isGaugeCreated
-            ? `Create gauge for the ${poolData[0]?.name} pool`
-            : `Gauge is created for the ${poolData[0]?.name} pool`
-          : `Gauge found for this Pool.`,
+        labels: !isGaugeCreated
+          ? `Create gauge for the ${poolData[0]?.name} pool`
+          : `Gauge is created for the ${poolData[0]?.name} pool`,
       },
       icon: !isGaugeCreated ? RedLockIcon : UnLockIcon,
       buttons: !isGaugeCreated
@@ -173,7 +174,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       },
       icon: !isTokenAllowed ? RedLockIcon : UnLockIcon,
       buttons:
-        !isTokenAllowed && bribeAddress
+        !isTokenAllowed && bribeAddress != AddressZero
           ? {
               label: `Allow ${tokenSymbol?.symbol}`,
               icon: Lock1Icon,
