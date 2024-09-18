@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../../styles/Theme';
 
-export const TokenCardContainer = styled.div`
+export const TokenCardContainer = styled.div<{ height?: number }>`
   display: flex;
   gap: 15px;
 
   justify-content: flex-start;
-  height: 74px;
-  width: 206px;
+  height: ${({ height }) => height ?? '74'}px;
+  width: fit-content;
 `;
 export const DepositeButtonWrapper = styled.div`
   margin-bottom: 4px;
@@ -64,7 +64,7 @@ export const PairContain = styled.div`
 `;
 
 export const SuggestImg = styled.img`
-  width: 18px;
+  width: 16px;
   height: 18px;
 `;
 export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`

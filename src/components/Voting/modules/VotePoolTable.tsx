@@ -3,6 +3,7 @@ import TableContains, {
   TableWrapper,
   TableHeader,
   TableHeaderWrapper,
+  TableRow,
 } from '../../common/TableStyled';
 import Teth from '../../../assets/tether.png';
 import BTC from '../../../assets/Btc.svg';
@@ -10,7 +11,9 @@ import SOL from '../../../assets/sol.png';
 import USDC from '../../../assets/usdc.png';
 import FTM from '../../../assets/ftm.png';
 import VotingPoolCard from './VotingPoolCard';
-import SortIcon from '../../../assets/sorting.png';
+import SortIcon from '../../../assets/short.svg';
+import { StatsCardtitle } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 
 interface voteData {
   id?: string;
@@ -94,48 +97,45 @@ const VotePoolTable: React.FC = () => {
   ];
 
   return (
-    <TableWrapper>
-      <TableContains
-        padding="20px 30px "
-        borderRadius="20px"
-        textalign="center"
-        width="100%"
-        margin="20px 0px"
-      >
+    <TableWrapper padding="20px 40px">
+      <TableContains margin="0px 0px">
         <thead>
-          <tr>
-            <TableHeader>Pool</TableHeader>
+          <TableRow>
+            <TableHeader textalign="left">
+              <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
+            </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
-                {' '}
-                Fees <img src={SortIcon} />
+                <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
+                <ImageContainer width="16px" height="16px" src={SortIcon} />
+              </TableHeaderWrapper>
+            </TableHeader>
+
+            <TableHeader>
+              <TableHeaderWrapper>
+                <StatsCardtitle fontSize={16}>Incentives</StatsCardtitle>
+                <ImageContainer width="16px" height="16px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
-                {' '}
-                Incentives <img src={SortIcon} />
+                <StatsCardtitle fontSize={16}>Total Rewards</StatsCardtitle>
+                <ImageContainer width="16px" height="16px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
-                {' '}
-                Total Rewards <img src={SortIcon} />
+                <StatsCardtitle fontSize={16}>vAPR</StatsCardtitle>
+                <ImageContainer width="16px" height="16px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
             <TableHeader>
               <TableHeaderWrapper>
-                {' '}
-                vAPR <img src={SortIcon} />
+                <StatsCardtitle fontSize={16}>Vote Pools</StatsCardtitle>
+                <ImageContainer width="16px" height="16px" src={SortIcon} />
               </TableHeaderWrapper>
             </TableHeader>
-            <TableHeader>
-              <TableHeaderWrapper>
-                {' '}
-                Vote Pool <img src={SortIcon} />
-              </TableHeaderWrapper>
-            </TableHeader>
-          </tr>
+          </TableRow>
         </thead>
         <tbody>
           {voteData.map((item, key) => (

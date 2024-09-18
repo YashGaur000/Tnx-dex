@@ -104,8 +104,8 @@ export const TableColumnWrapper = styled.div<{ gap?: number; height?: string }>`
   gap: ${({ gap }) => gap ?? '8'}px;
   height: ${({ height }) => height ?? '73px'};
   justify-content: flex-start;
-
   margin-top: 5px;
+  align-items: flex-end;
 `;
 export const TableHeaderWrapper = styled.div`
   display: flex;

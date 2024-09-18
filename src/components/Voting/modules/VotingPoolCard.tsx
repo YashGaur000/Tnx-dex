@@ -1,16 +1,31 @@
-import ImpIcon from '../../../assets/information.png';
-import { TableColumn } from '../../common/TableStyled';
+import ImpIcon from '../../../assets/Tips.svg';
 import {
-  CardContainer,
-  GroupImg,
+  TableColumn,
+  TableColumnWrapper,
+  TableRow,
+} from '../../common/TableStyled';
+import {
+  LiquidityTitle,
+  StatsCardtitle,
+} from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import {
+  GroupImgContains,
+  IMG1Contains,
+  IMG2Contains,
+  LiquidityTokenWrapper,
+  SugestImgWrapper,
+  SuggestImg,
+  TokenAmountTitle,
+  TokenCardContainer,
+} from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+import USDTIcon from '../../../assets/usdt.png';
+import BtcIcon from '../../../assets/Btc.svg';
+import ArrowIcon from '../../../assets/arrow.svg';
+import {
   Img,
-  IMG1,
-  IMG2,
   Imgstyle,
   Label,
   PairContain,
-  Span,
-  StyledGradientButton,
   TooltipContainer,
   TooltipContent,
   TooltipText,
@@ -18,10 +33,10 @@ import {
   TooltipValue,
   TooltipValueBox,
   TraidingSyleLabel,
-  VolumeStyles,
-  VoteButtonContainer,
-  VoteTooltip,
 } from '../styles/VotingPoolCard.style';
+import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
+import { GradientButton } from '../../common';
+import { Title } from '../styles/VotingBanner.style';
 
 interface TableProps {
   data: DataProps;
@@ -49,60 +64,104 @@ interface DataProps {
 
 const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
   return (
-    <tr>
+    <TableRow>
       <TableColumn>
-        <CardContainer>
-          <GroupImg>
-            <IMG1>
-              <Imgstyle src={data.icon1} />
-            </IMG1>
-            <IMG2>
-              <Imgstyle src={data.icon2} />
-            </IMG2>
-          </GroupImg>
+        <TokenCardContainer height={96}>
+          <GroupImgContains>
+            <IMG1Contains top={10} left={0}>
+              <Imgstyle src={USDTIcon} />
+            </IMG1Contains>
+            <IMG2Contains top={10} left={25}>
+              <Imgstyle src={BtcIcon} />
+            </IMG2Contains>
+          </GroupImgContains>
+
           <PairContain>
-            <TraidingSyleLabel>{data.pair}</TraidingSyleLabel>
-            <Label>
-              <Span>Stable</Span> {data.stablePercentage}% <Img src={ImpIcon} />
-            </Label>
-            <Label>
-              <Span>Votes</Span> <label>{data.votes}</label>
-            </Label>
-            <Label>
-              <Span>TVL</Span> <label>{data.tvl}</label>
-            </Label>
+            <TraidingSyleLabel>USDT-BTC</TraidingSyleLabel>
+            <LiquidityTokenWrapper>
+              <TokenAmountTitle>
+                <StatsCardtitle lineheight="17px" fontSize={12}>
+                  stable
+                </StatsCardtitle>
+
+                <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
+                <SugestImgWrapper>
+                  <SuggestImg src={ImpIcon} />
+                </SugestImgWrapper>
+              </TokenAmountTitle>
+              <TokenAmountTitle>
+                <StatsCardtitle lineheight="17px" fontSize={12}>
+                  Votes
+                </StatsCardtitle>{' '}
+                <LiquidityTitle fontSize={12} textalign="right">
+                  8,428,176.46
+                </LiquidityTitle>
+                <ImageContainer src={ArrowIcon} width="12px" height="10px" />
+                <LiquidityTitle fontSize={12} textalign="right">
+                  8,428,176.4
+                </LiquidityTitle>
+              </TokenAmountTitle>
+              <TokenAmountTitle>
+                <StatsCardtitle lineheight="17px" fontSize={12}>
+                  TVL
+                </StatsCardtitle>{' '}
+                <LiquidityTitle fontSize={12} textalign="right">
+                  ~$7,428,176,4
+                </LiquidityTitle>
+              </TokenAmountTitle>
+            </LiquidityTokenWrapper>
           </PairContain>
-        </CardContainer>
-      </TableColumn>
-      <td>
-        <VolumeStyles>
-          <label>{data.fees}</label>
-          <Label>{data.feesUSDT}</Label>
-          <Label>{data.feesBTC}</Label>
-        </VolumeStyles>
-      </td>
-      <TableColumn>
-        <VolumeStyles>
-          <label>{data.volume}</label>
-          <u>
-            <Label>{data.volumeDesc}</Label>
-          </u>
-          <Label>{data.volumeSubDesc}</Label>
-        </VolumeStyles>
+        </TokenCardContainer>
       </TableColumn>
       <TableColumn>
-        <VolumeStyles>
-          <label>{data.fees}</label>
-          <Label>{data.feesDesc}</Label>
-          <Label>{data.feesSubDesc}</Label>
-        </VolumeStyles>
+        <TableColumnWrapper height="96px">
+          <Title fontSize={14}>{data.fees}</Title>
+          <LiquidityTokenWrapper>
+            <LiquidityTitle fontSize={12} textalign="right">
+              {data.feesUSDT}
+            </LiquidityTitle>
+            <LiquidityTitle fontSize={12} textalign="right">
+              {data.feesBTC}
+            </LiquidityTitle>
+          </LiquidityTokenWrapper>
+        </TableColumnWrapper>
       </TableColumn>
+
       <TableColumn>
-        <VolumeStyles>
+        <TableColumnWrapper height="96px">
+          <Title fontSize={14}>{data.volume}</Title>
+          <LiquidityTokenWrapper>
+            <LiquidityTitle
+              fontSize={12}
+              textalign="right"
+              textdecoration="underline"
+            >
+              {data.volumeDesc}
+            </LiquidityTitle>
+          </LiquidityTokenWrapper>
+        </TableColumnWrapper>
+      </TableColumn>
+
+      <TableColumn>
+        <TableColumnWrapper height="96px">
+          <Title fontSize={14}>{data.fees}</Title>
+          <LiquidityTokenWrapper>
+            <LiquidityTitle fontSize={12} textalign="right">
+              {data.feesDesc}
+            </LiquidityTitle>
+            <LiquidityTitle fontSize={12} textalign="right">
+              {data.feesSubDesc}
+            </LiquidityTitle>
+          </LiquidityTokenWrapper>
+        </TableColumnWrapper>
+      </TableColumn>
+
+      <TableColumn padding="0px">
+        <TableColumnWrapper height="96px">
           <TooltipContainer>
-            <label>
+            <Title fontSize={14}>
               {data.poolBalance} <Img src={ImpIcon} />
-            </label>
+            </Title>
             <TooltipContent className="tooltip-content">
               <TooltipValueBox>
                 <TooltipValue>3.65%</TooltipValue>
@@ -117,30 +176,28 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
             </TooltipContent>
           </TooltipContainer>
           <Label>{data.balanceDesc}</Label>
-        </VolumeStyles>
+        </TableColumnWrapper>
       </TableColumn>
+
       <TableColumn>
-        <VolumeStyles>
-          <VoteButtonContainer>
-            <StyledGradientButton
-              width="90px"
-              fontSize="13px"
-              padding="0px 5px"
-              margintop="10px"
-            >
-              Deposit
-            </StyledGradientButton>
-            <VoteTooltip>
-              You need to create a Lock in
-              <br /> order to start voting. Locking
-              <br />
-              will give you an NFT, also
-              <br /> referred to as a veNFT
-            </VoteTooltip>
-          </VoteButtonContainer>
-        </VolumeStyles>
+        <TableColumnWrapper height="95px">
+          <GradientButton
+            color="#ffffff"
+            padding="4px 10px"
+            fontSize="12px"
+            width="70px"
+            height="26px"
+            lineheight="0px"
+            border="1.5px solid transparent"
+            borderRadius="8px"
+            smfontsize={12}
+            smmargin="0px"
+          >
+            Vote
+          </GradientButton>
+        </TableColumnWrapper>
       </TableColumn>
-    </tr>
+    </TableRow>
   );
 };
 
