@@ -79,7 +79,7 @@ const Sidebar: React.FC = () => {
               icon={visibleSections.introduction ? faChevronUp : faChevronDown}
             />
           </SectionTitle>
-          <NestedSectionLinks isVisible={visibleSections.introduction}>
+          <NestedSectionLinks isvisible={visibleSections.introduction}>
             <SectionLink
               className={activeTab === '/tenex' ? 'active' : ''}
               to="introduction/tenex"
@@ -105,7 +105,7 @@ const Sidebar: React.FC = () => {
                 }
               />
             </SectionLink>
-            <NestedSectionLinks isVisible={visibleSections.fundamentals}>
+            <NestedSectionLinks isvisible={visibleSections.fundamentals}>
               <SectionLink to="introduction/glossary">Glossary</SectionLink>
               <SectionLink to="introduction/veTenex">
                 veTENEX(veNFT)
@@ -124,7 +124,7 @@ const Sidebar: React.FC = () => {
                 icon={visibleSections.veTenex ? faChevronUp : faChevronDown}
               />
             </SectionLink>
-            <NestedSectionLinks isVisible={visibleSections.veTenex}>
+            <NestedSectionLinks isvisible={visibleSections.veTenex}>
               <SectionLink
                 to="introduction/revenue"
                 className={activeTab === '/revenue' ? 'active' : ''}
@@ -177,7 +177,7 @@ const Sidebar: React.FC = () => {
               icon={visibleSections.liquidity ? faChevronUp : faChevronDown}
             />
           </SectionTitle>
-          <NestedSectionLinks isVisible={visibleSections.liquidity}>
+          <NestedSectionLinks isvisible={visibleSections.liquidity}>
             <SectionLink
               to="liquidity/pools"
               className={activeTab === '/pools' ? 'active' : ''}
@@ -191,7 +191,7 @@ const Sidebar: React.FC = () => {
                 icon={visibleSections.pools ? faChevronUp : faChevronDown}
               />
             </SectionLink>
-            <NestedSectionLinks isVisible={visibleSections.pools}>
+            <NestedSectionLinks isvisible={visibleSections.pools}>
               <SectionLink
                 to="liquidity/volatile"
                 className={activeTab === '/volatile' ? 'active' : ''}
@@ -235,7 +235,7 @@ const Sidebar: React.FC = () => {
                 icon={visibleSections.busl ? faChevronUp : faChevronDown}
               />
             </SectionLink>
-            <NestedSectionLinks isVisible={visibleSections.busl}>
+            <NestedSectionLinks isvisible={visibleSections.busl}>
               <SectionLink
                 to="liquidity/protected-contracts"
                 className={activeTab === '/protected-contract' ? 'active' : ''}
@@ -256,7 +256,7 @@ const Sidebar: React.FC = () => {
               icon={visibleSections.tokenomics ? faChevronUp : faChevronDown}
             />
           </SectionTitle>
-          <NestedSectionLinks isVisible={visibleSections.tokenomics}>
+          <NestedSectionLinks isvisible={visibleSections.tokenomics}>
             <SectionLink
               to="tokenomics/distribution"
               className={activeTab === '/distribution' ? 'active' : ''}
@@ -300,7 +300,7 @@ const Sidebar: React.FC = () => {
                 }
               />
             </SectionLink>
-            <NestedSectionLinks isVisible={visibleSections.liquidityEvent}>
+            <NestedSectionLinks isvisible={visibleSections.liquidityEvent}>
               <SectionLink
                 to="tokenomics/price"
                 className={activeTab === '/price' ? 'active' : ''}
@@ -322,7 +322,7 @@ const Sidebar: React.FC = () => {
               icon={visibleSections.v2 ? faChevronUp : faChevronDown}
             />
           </SectionTitle>
-          <NestedSectionLinks isVisible={visibleSections.v2}>
+          <NestedSectionLinks isvisible={visibleSections.v2}>
             <SectionLink
               to="v2/v2"
               className={activeTab === '/v2' ? 'active' : ''}
@@ -348,7 +348,7 @@ const Sidebar: React.FC = () => {
               />
             </SectionLink>
             <NestedSectionLinks
-              isVisible={visibleSections.functionalitiesUpgrade}
+              isvisible={visibleSections.functionalitiesUpgrade}
             >
               <SectionLink
                 to="v2/functionalitiesUpgrade/swap"
@@ -444,7 +444,7 @@ const Sidebar: React.FC = () => {
               />
             </SectionLink>
             <NestedSectionLinks
-              isVisible={visibleSections.liquidityProvisioning}
+              isvisible={visibleSections.liquidityProvisioning}
             >
               <SectionLink
                 to="v2/liquidityProvisioning/multiAssetsPool"
@@ -474,7 +474,7 @@ const Sidebar: React.FC = () => {
               </SectionLink>
 
               <NestedSectionLinks
-                isVisible={visibleSections.liquidityConcentrated}
+                isvisible={visibleSections.liquidityConcentrated}
               >
                 <SectionLink
                   to="v2/liquidityProvisioning/liquidityConcentrated/clGauges"
@@ -545,7 +545,7 @@ const Sidebar: React.FC = () => {
               icon={visibleSections.security ? faChevronUp : faChevronDown}
             />
           </SectionTitle>
-          <NestedSectionLinks isVisible={visibleSections.security}>
+          <NestedSectionLinks isvisible={visibleSections.security}>
             <SectionLink
               to="security/legal"
               className={activeTab === '/legal' ? 'active' : ''}

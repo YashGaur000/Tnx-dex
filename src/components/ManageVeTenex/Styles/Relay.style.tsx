@@ -6,7 +6,7 @@ export const RelayScreenContainer = styled.div<{ theme: DefaultTheme }>`
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
-  margin-top: 10px;
+
   width: 100%;
   height: auto;
   border-radius: 15px;
@@ -41,6 +41,7 @@ export const RelayCardsection2 = styled.div`
 `;
 export const RelayIdStatus = styled.div<{ theme: DefaultTheme }>`
   block: inline-block;
+  font-size: 10px;
   background: ${({ theme }) => theme.colors.cardLight};
   font-size: ${({ theme }) => theme.fontSize.small};
   padding: 3px 10px;

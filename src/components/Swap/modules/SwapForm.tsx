@@ -1,16 +1,11 @@
-import React, { useState, useEffect } from 'react';
-
-import { faWallet } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
-import SwitchComponent from './SwitchComponent';
 import { TokenInfo } from './../../../constants/tokens';
-import BalanceDisplay from './BalanceDisplay';
 import TokenSelectModal from '../../modal/TokenSelectModal';
-import { GlobalButton } from '../../common';
 import SelectIcon from '../../../assets/select.svg';
+import SwapSettingIcon from '../../../assets/setting.svg';
 import faSwitchAlt from '../../../assets/faSwitchAlt.svg';
 import {
-  Description,
   InputWrapper,
   PercentageButton,
   PercentageOptions,
@@ -19,127 +14,87 @@ import {
   SwapBoxWrapper,
   SwapFormContainer,
   SwitchButton,
-  Title,
   TokenSelect,
   TokenSelectAlign,
-  TokenSelectAlignSelect,
-  WalletButton,
-  WalletIcon,
-  WalletInfo,
   WalletText,
-  WalletWrapper,
-  InputBoxWithTokenSelectWrapper,
-  TokenIcon,
+  SwapTitle,
+  SwTitle,
+  SwapboxInner,
+  WalletInfo,
+  SettingIcon,
+  InputBoxRow,
+  SwapPageIconWrapper,
 } from '../styles/SwapForm.style.';
 import LiquityRouting from './LiquityRouting';
 import Sidebar from './Sidebar';
 import { useRootStore } from '../../../store/root';
 import { useTokenInfo } from '../../../hooks/useTokenInfo';
 import { Address } from 'viem';
-import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { InputBox } from './InputBox';
-import { LoadingSpinner } from '../../common/Loader';
+import {
+  Graph,
+  Route,
+} from '../../../utils/liquidityRouting/generateAllRoutes';
+import { useLiquidityRouting } from '../../../hooks/useLiquidityRouting';
+import { SidebarContainer } from '../styles/Sidebar.style';
+import { useTokenBalances } from '../../../hooks/useTokenBalance';
+import SettingModal from '../../modal/SettingModal';
+
+import BalanceDisplay from './BalanceDisplay';
+import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
+import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
+import { useNativeBalance } from '../../../hooks/useNativeBalance';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
-  const [isConnected, setIsConnected] = useState(false);
+  const [isSettingModelOpen, setIsSettingModelOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isValid, setIsValid] = useState(true);
+
   const [exchangeRate, setExchangeRate] = useState(0);
+  const [route, setRoute] = useState<Route[] | null>(null);
+  const [amountsOut, setAmountsOut] = useState<bigint[] | null>(null);
 
   const [tokenInput1, setTokenInput1] = useState('');
   const [tokenInput2, setTokenInput2] = useState('');
-
   const { from, to, setFrom, setTo } = useRootStore();
-
   const selectedToken1 = useTokenInfo(from);
-
   const selectedToken2 = useTokenInfo(to);
-
   const tokenList = [selectedToken1, selectedToken2];
-
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
+  const { balance: nativeBalance } = useNativeBalance(address!);
 
-  const { getReserves } = useRouterContract();
+  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const { getAmountsOut } = useRouterContract();
+
+  const graph = useLiquidityRouting();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
   >('token1');
-  const [selectedPercentage, setSelectedPercentage] = React.useState<
-    number | null
-  >(null);
 
   useEffect(() => {
-    // 1. Update connection state
-    setIsConnected(!!address);
+    if (tokenInput1 && selectedToken1) {
+      const walletBalanceCheck =
+        Number(tokenInput1) <=
+          Number(balances[selectedToken1.address].toString()) ||
+        (selectedToken1.symbol === 'ETH' &&
+          Number(tokenInput1) <= Number(nativeBalance?.formatted));
 
-    // 2. Scroll to the top when the component is mounted
-    window.scrollTo(0, 0);
+      setIsValid(walletBalanceCheck);
+    }
+  }, [tokenInput1, selectedToken1, balances, nativeBalance]);
 
-    // 3. Restore state from URL query parameters
+  // Helper function to update the URL
+  const updateUrl = (fromAddress: Address, toAddress: Address) => {
     const queryParams = new URLSearchParams(window.location.search);
-    const fromAddress = queryParams.get('from');
-    const toAddress = queryParams.get('to');
-
-    if (fromAddress) setFrom(fromAddress as Address);
-    if (toAddress) setTo(toAddress as Address);
-  }, [address, setFrom, setTo]);
-
-  const handleTokenInput1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const amount = event.target.value;
-    setTokenInput1(amount);
-    setTokenInput2('');
-
-    if (!amount) setIsLoading(false);
-
-    if (selectedToken1 && selectedToken2 && amount != '') {
-      setIsLoading(true);
-      setTimeout(() => {
-        void (async () => {
-          try {
-            const reserves = await getReserves(
-              selectedToken1,
-              selectedToken2,
-              false
-            );
-
-            const exchangeRate =
-              reserves &&
-              Number(reserves.formatedReserveB) /
-                Number(reserves.formatedReserveA);
-
-            let token2Value = 0;
-            if (exchangeRate) {
-              setExchangeRate(exchangeRate);
-              token2Value = Number(amount) * exchangeRate;
-            }
-
-            setTokenInput2(token2Value.toString());
-          } catch (error) {
-            console.error('Error fetching reserves:', error);
-          } finally {
-            setIsLoading(false);
-          }
-        })();
-      }, 5000);
-    }
-  };
-
-  const handleToggleChange = () => {
-    if (isConnected) {
-      //disconnect();
-    } else {
-      // logic to open wallet connect modal
-    }
-    setIsConnected(!isConnected);
-  };
-
-  const handleSwap = () => {
-    //setSelectedToken1(selectedToken2);
-    //setSelectedToken2(selectedToken1);
-    // setInputValue1(''); //to clear the input fields when we click on swap
-    // setInputValue2('');
+    queryParams.set('from', fromAddress);
+    queryParams.set('to', toAddress);
+    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
+    window.history.pushState(null, '', newUrl);
   };
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
@@ -147,184 +102,374 @@ const SwapForm: React.FC = () => {
     setIsModalOpen(true);
   };
 
-  const handleTokenSelect = (token: TokenInfo) => {
-    const queryParams = new URLSearchParams(window.location.search);
+  // Function to debounce async calls
+  const debounceFetchRoute = useCallback(
+    (
+      fromToken: TokenInfo,
+      toToken: TokenInfo,
+      amount: string,
+      graph: Graph,
+      getAmountsOut: (
+        amountIn: bigint,
+        routes: Route[][]
+      ) => Promise<bigint[][] | undefined>,
+      setTokenInput2: (val: string) => void,
+      setExchangeRate: (val: number) => void,
+      setRoute: (route: Route[] | null) => void,
+      setIsLoading: (loading: boolean) => void,
+      setAmountsOut: (amountsOut: bigint[]) => void
+    ) => {
+      // Clear any previous timeouts before setting a new one
+      if (inputTimeout.current) {
+        clearTimeout(inputTimeout.current);
+      }
 
-    if (tokenSelectTarget === 'token1') {
-      setFrom(token.address);
-      queryParams.set('from', token.address);
-    } else {
-      setTo(token.address);
-      queryParams.set('to', token.address);
+      // Regular function wrapping the async logic
+      inputTimeout.current = setTimeout(() => {
+        void fetchBestRouteAndUpdateState(
+          fromToken,
+          toToken,
+          amount,
+          graph,
+          getAmountsOut,
+          setTokenInput2,
+          setExchangeRate,
+          setRoute,
+          setIsLoading,
+          setAmountsOut
+        );
+      }, ROUTING_DELAY);
+    },
+    []
+  );
+
+  const handleTokenInput1 = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      const amount = event.target.value;
+      setTokenInput1(amount);
+      setTokenInput2(''); // Reset the second token input
+      setRoute(null);
+
+      if (!amount || !selectedToken1 || !selectedToken2 || !graph) {
+        setIsLoading(false);
+        setRoute(null);
+        return;
+      }
+
+      setIsLoading(true);
+      debounceFetchRoute(
+        selectedToken1,
+        selectedToken2,
+        amount,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading,
+        setAmountsOut
+      );
+    },
+    [selectedToken1, selectedToken2, graph, debounceFetchRoute]
+  );
+
+  const handleTokenSelect = useCallback(
+    (token: TokenInfo) => {
+      if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+      let fromToken = selectedToken1;
+      let toToken = selectedToken2;
+
+      if (tokenSelectTarget === 'token1') {
+        setFrom(token.address);
+        fromToken = token;
+      } else {
+        setTo(token.address);
+        toToken = token;
+      }
+
+      updateUrl(fromToken.address, toToken.address);
+      setIsLoading(true);
+      setTokenInput2('');
+      setRoute(null);
+
+      debounceFetchRoute(
+        fromToken,
+        toToken,
+        tokenInput1,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading,
+        setAmountsOut
+      );
+    },
+    [
+      selectedToken1,
+      selectedToken2,
+      graph,
+      tokenSelectTarget,
+      tokenInput1,
+      debounceFetchRoute,
+    ]
+  );
+
+  const handleSelectPercentage = useCallback(
+    (percentage: number) => {
+      if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+      let walletBalance = 0;
+      if (selectedToken1.symbol === 'ETH') {
+        walletBalance = (Number(nativeBalance?.formatted) * percentage) / 100;
+      } else {
+        walletBalance =
+          (Number(balances[selectedToken1?.address].toString()) * percentage) /
+          100;
+      }
+
+      const amount = walletBalance.toFixed(5);
+      setTokenInput1(amount);
+      setTokenInput2(''); // Reset the second token input
+      setRoute(null);
+
+      setIsLoading(true);
+
+      debounceFetchRoute(
+        selectedToken1,
+        selectedToken2,
+        amount,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading,
+        setAmountsOut
+      );
+    },
+    [
+      selectedToken1,
+      selectedToken2,
+      graph,
+      nativeBalance,
+      balances,
+      debounceFetchRoute,
+    ]
+  );
+
+  const handleReverse = useCallback(() => {
+    if (!selectedToken1 || !selectedToken2 || !graph) return;
+
+    setFrom(selectedToken2.address);
+    setTo(selectedToken1.address);
+
+    updateUrl(selectedToken2.address, selectedToken1.address);
+    setTokenInput2(''); // Reset the second token input
+    setRoute(null);
+
+    if (!tokenInput1) {
+      setIsLoading(false);
+      return;
     }
-    const newUrl = `${window.location.pathname}?${queryParams.toString()}`;
-    window.history.pushState(null, '', newUrl);
-  };
 
-  const handleSelectPercentage = (percentage: number) => {
-    setSelectedPercentage(percentage);
-  };
+    setIsLoading(true);
+
+    debounceFetchRoute(
+      selectedToken2,
+      selectedToken1,
+      tokenInput1,
+      graph,
+      getAmountsOut,
+      setTokenInput2,
+      setExchangeRate,
+      setRoute,
+      setIsLoading,
+      setAmountsOut
+    );
+  }, [selectedToken1, selectedToken2, tokenInput1, graph, debounceFetchRoute]);
 
   return (
-    <SwapFormContainer>
-      <SwapBoxWrapper>
-        <SwapBox>
-          <Title>Swap</Title>
-          <Description textAlign="center">
-            Our unique engine automatically chooses the best route for your
-            trade
-          </Description>
-          <WalletWrapper>
-            <WalletButton>
-              <WalletIcon icon={faWallet} />
-              {address && <BalanceDisplay address={address} />}
-            </WalletButton>
-            <SwitchComponent
-              isChecked={isConnected}
-              handleToggle={handleToggleChange}
-              onText=""
-              offText=""
-              isDisabled={true}
+    <>
+      <SwapFormContainer>
+        <SwapBoxWrapper>
+          <SwapBox>
+            <SwapTitle>
+              <SwTitle>Swap</SwTitle>
+              <SettingIcon
+                src={SwapSettingIcon}
+                alt="Setting"
+                onClick={() => setIsSettingModelOpen(true)}
+              />
+              <SettingModal
+                isOpen={isSettingModelOpen}
+                onClose={() => setIsSettingModelOpen(false)}
+              >
+                <p>Settings content goes here...</p>
+              </SettingModal>
+            </SwapTitle>
+            <SwapboxInner>
+              <InputWrapper>
+                <InputBoxRow>
+                  <InputBox
+                    type="number"
+                    border="none"
+                    placeholder="0.0"
+                    width="70%"
+                    padding="0px"
+                    value={tokenInput1}
+                    onChange={handleTokenInput1}
+                    style={{ color: isValid ? '' : 'red' }}
+                  />
+                  <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
+                    <SwapPageIconWrapper
+                      src={selectedToken1?.logoURI}
+                      width="18px"
+                      height="18px"
+                      alt={selectedToken1?.logoURI}
+                    />
+
+                    <TokenSelectAlign>
+                      {selectedToken1?.symbol}
+                    </TokenSelectAlign>
+                    <SwapPageIconWrapper
+                      width="8px"
+                      height="4px"
+                      src={SelectIcon}
+                    />
+                  </TokenSelect>
+                </InputBoxRow>
+
+                <PercentageSelectorContainer>
+                  <WalletInfo>
+                    Wallet:
+                    <WalletText>
+                      {selectedToken1 &&
+                        (selectedToken1.symbol === 'ETH' ? (
+                          <BalanceDisplay address={address!} />
+                        ) : (
+                          balances[selectedToken1.address]?.toString()
+                        ))}
+                    </WalletText>
+                    <WalletText margin={8}>~$0.00</WalletText>
+                  </WalletInfo>
+
+                  <PercentageOptions>
+                    <PercentageButton
+                      onClick={() => handleSelectPercentage(25)}
+                    >
+                      25%
+                    </PercentageButton>
+                    <PercentageButton
+                      onClick={() => handleSelectPercentage(50)}
+                    >
+                      50%
+                    </PercentageButton>
+                    <PercentageButton
+                      onClick={() => handleSelectPercentage(75)}
+                    >
+                      75%
+                    </PercentageButton>
+                    <PercentageButton
+                      onClick={() => handleSelectPercentage(100)}
+                    >
+                      MAX
+                    </PercentageButton>
+                  </PercentageOptions>
+                </PercentageSelectorContainer>
+              </InputWrapper>
+
+              <SwitchButton onClick={handleReverse}>
+                <img src={faSwitchAlt} alt={faSwitchAlt} />
+              </SwitchButton>
+
+              <InputWrapper>
+                <InputBoxRow>
+                  <InputBox
+                    type="number"
+                    border="none"
+                    placeholder="0.0"
+                    width="75%"
+                    padding="0px"
+                    value={tokenInput1 ? tokenInput2 : ''}
+                    disabled={true}
+                  />
+                  <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
+                    <SwapPageIconWrapper
+                      src={selectedToken2?.logoURI}
+                      width="18px"
+                      height="18px"
+                      alt={selectedToken2?.logoURI}
+                    />
+
+                    <TokenSelectAlign>
+                      {selectedToken2?.symbol}
+                    </TokenSelectAlign>
+
+                    <SwapPageIconWrapper
+                      width="8px"
+                      height="4px"
+                      src={SelectIcon}
+                      alt="wrong"
+                    />
+                  </TokenSelect>
+                </InputBoxRow>
+                <PercentageSelectorContainer>
+                  <WalletInfo>
+                    Wallet:
+                    <WalletText>
+                      {selectedToken2 &&
+                        (selectedToken2.symbol === 'ETH' ? (
+                          <BalanceDisplay address={address!} />
+                        ) : (
+                          balances[selectedToken2.address]?.toString()
+                        ))}
+                    </WalletText>
+                  </WalletInfo>
+                  <WalletText margin={8}>~$0.00</WalletText>
+                  <PercentageOptions></PercentageOptions>
+                </PercentageSelectorContainer>
+              </InputWrapper>
+            </SwapboxInner>
+            <TokenSelectModal
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onSelect={handleTokenSelect}
+              account={address!}
             />
-          </WalletWrapper>
-          <InputWrapper>
-            <InputBoxWithTokenSelectWrapper>
-              <InputBox
-                type="number"
-                border="none"
-                placeholder=""
-                width="75%"
-                padding="0px"
-                value={tokenInput1}
-                onChange={handleTokenInput1}
-              />
-              <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
-                <TokenSelectAlign>
-                  <TokenIcon
-                    src={selectedToken1?.logoURI}
-                    width={20}
-                    height={20}
-                    alt={selectedToken1?.logoURI}
-                  />
-                </TokenSelectAlign>
-                <TokenSelectAlign>{selectedToken1?.symbol}</TokenSelectAlign>
-                <TokenSelectAlignSelect>
-                  <TokenIcon
-                    src={SelectIcon}
-                    width={8}
-                    height={4}
-                    alt={SelectIcon}
-                  />
-                </TokenSelectAlignSelect>
-              </TokenSelect>
-            </InputBoxWithTokenSelectWrapper>
-            <PercentageSelectorContainer>
-              <WalletInfo>
-                Wallet:{' '}
-                {Number(selectedToken1 && balances[selectedToken1?.address])}{' '}
-              </WalletInfo>
+          </SwapBox>
+          {tokenInput1 && (
+            <LiquityRouting
+              route={route}
+              isLoading={isLoading}
+              amountsOut={amountsOut}
+            />
+          )}
+        </SwapBoxWrapper>
+      </SwapFormContainer>
 
-              <PercentageOptions>
-                <PercentageButton
-                  active={selectedPercentage === 0}
-                  onClick={() => handleSelectPercentage(0)}
-                >
-                  0%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 25}
-                  onClick={() => handleSelectPercentage(25)}
-                >
-                  25%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 50}
-                  onClick={() => handleSelectPercentage(50)}
-                >
-                  50%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 75}
-                  onClick={() => handleSelectPercentage(75)}
-                >
-                  75%
-                </PercentageButton>
-                <PercentageButton
-                  active={selectedPercentage === 100}
-                  onClick={() => handleSelectPercentage(100)}
-                >
-                  MAX
-                </PercentageButton>
-              </PercentageOptions>
-            </PercentageSelectorContainer>
-          </InputWrapper>
-
-          <SwitchButton onClick={handleSwap}>
-            <img src={faSwitchAlt} alt={faSwitchAlt} />
-          </SwitchButton>
-          <InputWrapper>
-            <InputBoxWithTokenSelectWrapper>
-              <InputBox
-                type="number"
-                border="none"
-                placeholder=""
-                width="75%"
-                padding="0px"
-                value={tokenInput1 ? tokenInput2 : ''}
-                disabled={true}
-              />
-              <TokenSelect onClick={() => handleTokenSelectOpen('token2')}>
-                <TokenSelectAlign>
-                  <img
-                    src={selectedToken2?.logoURI}
-                    width={20}
-                    height={20}
-                    alt={selectedToken2?.logoURI}
-                  />
-                </TokenSelectAlign>
-                <TokenSelectAlign>{selectedToken2?.symbol}</TokenSelectAlign>
-                <TokenSelectAlign>
-                  <img
-                    src={SelectIcon}
-                    width={8}
-                    height={4}
-                    alt="src/assets/select.png"
-                  />
-                </TokenSelectAlign>
-              </TokenSelect>
-            </InputBoxWithTokenSelectWrapper>
-            <WalletText>
-              Wallet:{' '}
-              {Number(selectedToken2 && balances[selectedToken2?.address])}{' '}
-            </WalletText>
-          </InputWrapper>
-          <TokenSelectModal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onSelect={handleTokenSelect}
-            account={address!}
-          />
-          <GlobalButton padding="15px">Swap</GlobalButton>
-          <Description textAlign="center">
-            TenEx&#39; Meta Aggregator sources quotes from TenEx pools and Odos
-          </Description>
-        </SwapBox>
-        {tokenInput1 ? (
-          isLoading ? (
-            <LoadingSpinner />
-          ) : (
-            <LiquityRouting />
-          )
-        ) : (
-          <></>
-        )}
-      </SwapBoxWrapper>
-
-      <Sidebar
-        isLoading={isLoading}
-        exchangeRate={tokenInput1 ? exchangeRate : 0}
-      />
-    </SwapFormContainer>
+      <SidebarContainer height={tokenInput1 ? 540 : 348}>
+        <Sidebar
+          isLoading={isLoading}
+          isValid={isValid}
+          setIsLoading={setIsLoading}
+          exchangeRate={exchangeRate}
+          setExchangeRate={setExchangeRate}
+          token1={selectedToken1!}
+          token2={selectedToken2!}
+          tokenInput1={tokenInput1}
+          tokenInput2={tokenInput2}
+          setTokenInput1={setTokenInput1}
+          setTokenInput2={setTokenInput2}
+          routes={route}
+          setRoute={setRoute}
+          amountsOut={amountsOut}
+          setAmountsOut={setAmountsOut}
+          graph={graph}
+        />
+      </SidebarContainer>
+    </>
   );
 };
 

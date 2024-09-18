@@ -3,66 +3,69 @@ import { DefaultTheme } from '../../../../styles/Theme';
 
 export const TokenCardContainer = styled.div`
   display: flex;
-  gap: 25px;
+  gap: 15px;
 
-  justify-content: center;
-
-  width: 200px;
+  justify-content: flex-start;
+  height: 74px;
+  width: 206px;
+`;
+export const DepositeButtonWrapper = styled.div`
+  margin-bottom: 4px;
+  display: inline-block;
 `;
 
 export const GroupImgContains = styled.div`
-  display: block;
   position: relative;
 
-  width: 60px;
+  width: 64px;
   height: 50px;
+  z-index: 9999;
+  box-sizing: border-box;
 `;
 export const TraidingSyleLabel = styled.label<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: 16px;
+  line-height: 23.92px;
+  font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-export const IMG1Contains = styled.div<{ Top: number; Left: number }>`
+export const IMG1Contains = styled.div<{ top: number; left: number }>`
   display: block;
   position: absolute;
-  left: ${({ Left }) => Left}px;
-  top: ${({ Top }) => Top}px;
+  left: ${({ left }) => left}px;
+  top: ${({ top }) => top}px;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 `;
-export const IMG2Contains = styled.div<{ Top: number; Left: number }>`
+export const IMG2Contains = styled.div<{ top: number; left: number }>`
   position: absolute;
-  left: ${({ Left }) => Left}px;
-  top: ${({ Top }) => Top}px;
+  display: block;
+  left: ${({ left }) => left}px;
+  top: ${({ top }) => top}px;
   border-radius: 50%;
   overflow: hidden;
   object-fit: cover;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 `;
 export const Imgstyle = styled.img`
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 `;
 export const PairContain = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 7px;
+  align-items: baseline;
 `;
 
-export const VolumeStyles = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding-right: 20px;
-  align-items: flex-end;
-`;
 export const SuggestImg = styled.img`
-  width: 15px;
-  height: 15px;
+  width: 18px;
+  height: 18px;
 `;
 export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   display: flex;
@@ -70,41 +73,37 @@ export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
 
   gap: 8px;
 
-  margin-top: 5px;
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: ${({ theme }) => theme.fontSize.small};
-`;
-export const LiquidityHeaderColumn = styled.div`
-  float: left;
-  margin-left: 40px;
-`;
-
-export const TableHeaderWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: 5px 10px;
-  gap: 7px;
-
-  cursor: pointer;
-`;
-export const AprDataWrapper = styled.div`
-  display: flex;
-  justify-content: end;
-  padding-right: 20px;
-  height: 95px;
 `;
 
 export const SugestImgWrapper = styled.div`
   position: relative;
   overflow: visible;
+  display: flex;
+  align-items: center;
 `;
 
-export const TitleWrapper = styled.label<{
+export const TitleWrapper = styled.p<{
   theme: DefaultTheme;
   fontSize: string;
+  lineheight?: string;
 }>`
+  line-height: ${({ lineheight }) => lineheight ?? '20.93px'};
+  font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.whiteBorder};
+`;
+
+export const LiquidityTokenWrapper = styled.label`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`;
+export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.card};
+  padding: 16px 40px 40px;
+  margin: 0px;
+  border-radius: 24px;
 `;

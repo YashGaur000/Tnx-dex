@@ -38,7 +38,11 @@ export const ConnectWallet = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <GlobalButton padding="10px 20px" onClick={openConnectModal}>
+                  <GlobalButton
+                    padding="10px 20px"
+                    margin="0px"
+                    onClick={openConnectModal}
+                  >
                     Connect Wallet
                   </GlobalButton>
                 );
@@ -47,6 +51,7 @@ export const ConnectWallet = () => {
               if ((chain as ChainProps)?.unsupported) {
                 return (
                   <GlobalButton
+                    margin="0px"
                     padding="10px 20px"
                     onClick={openChainModal}
                     type="button"
@@ -58,7 +63,12 @@ export const ConnectWallet = () => {
 
               return (
                 <FlexContainer>
-                  <ChainButton onClick={openChainModal} padding="11px 20px">
+                  <ChainButton
+                    onClick={openChainModal}
+                    width="74"
+                    height="40"
+                    padding="11px 20px"
+                  >
                     {(chain as ChainProps).hasIcon && (
                       <IconContainer
                         background={(chain as ChainProps).iconBackground}
@@ -74,8 +84,13 @@ export const ConnectWallet = () => {
                     )}
                   </ChainButton>
 
-                  <ChainButton onClick={openAccountModal} padding="12px 20px">
-                    {address.substring(0, 6)}
+                  <ChainButton
+                    onClick={openAccountModal}
+                    width="fit-content"
+                    height="40"
+                    padding="12px 20px"
+                  >
+                    {address.substring(0, 6)}...
                   </ChainButton>
                 </FlexContainer>
               );

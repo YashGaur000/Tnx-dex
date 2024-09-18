@@ -7,7 +7,7 @@ export const MainContainerStyle = styled.section<{ theme: DefaultTheme }>`
   margin-top: 15px;
   margin-bottom: 10px;
   min-height: 100vh;
-  padding: 10px 60px;
+  padding: 10px 45px;
   background-color: ${({ theme }) => theme.colors.background};
 
   @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {

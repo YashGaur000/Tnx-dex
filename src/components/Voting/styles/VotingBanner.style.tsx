@@ -10,6 +10,12 @@ export const VoteBoxWrapper = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
+export const VotingTitle = styled.p<{ theme: DefaultTheme; fontsize?: number }>`
+  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
+  color: ${({ theme }) => theme.colors.titleColor};
+`;
 export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   line-height: 53.82px;
@@ -49,7 +55,9 @@ export const VoteDesc = styled.p<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.titleColor};
-
+  display: flex;
+  gap: 8px;
+  align-items: center;
   @media (max-width: 768px) {
     font-size: 16px;
   }

@@ -2,6 +2,7 @@ import { Contract, ContractTransaction } from '@ethersproject/contracts';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
 import { TokenInfo } from '../constants/tokens';
+import { Route } from '../utils/liquidityRouting/generateAllRoutes';
 
 interface RouterContract extends Contract {
   getReserves(
@@ -13,6 +14,37 @@ interface RouterContract extends Contract {
     reserveA: bigint;
     reserveB: bigint;
   }>;
+  getAmountsOut(amountIn: bigint, routes: Route[]): Promise<bigint[]>;
+  swapExactTokensForTokens(
+    amountIn: bigint,
+    amountOutMin: bigint,
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
+  swapExactTokensForETH(
+    amountIn: bigint,
+    amountOutMin: bigint,
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
+  swapExactETHForTokens(
+    amountOutMin: bigint,
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt, value: BigInt }
+  ): Promise<ContractTransaction>;
+  UNSAFE_swapExactTokensForTokens(
+    amounts: bigint[],
+    routes: Route[],
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
   addLiquidity(
     tokenA: Address,
     tokenB: Address,
@@ -25,8 +57,33 @@ interface RouterContract extends Contract {
     deadline: bigint,
     { gasLimit: BigInt }
   ): Promise<ContractTransaction>;
+  addLiquidityETH(
+    token: Address,
+    stable: boolean,
+    amountTokenDesired: bigint,
+    amountTokenMin: bigint,
+    amountETHMin: bigint,
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt, value: BigInt }
+  ): Promise<ContractTransaction>;
+  quoteAddLiquidity(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    _factory: Address,
+    amountADesired: ethers.Numeric,
+    amountBDesired: ethers.Numeric,
+    { gasLimit: BigInt }
+  ): Promise<QuoteAddLiquidityResponse>;
   factoryRegistry(): Promise<[Address]>;
   sortTokens(tokenA: Address, tokenB: Address): Promise<[Address]>;
+  poolFor(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    _factory: Address
+  ): Promise<Address>;
   estimateGas: {
     addLiquidity(
       tokenA: Address,
@@ -39,7 +96,58 @@ interface RouterContract extends Contract {
       to: Address,
       deadline: bigint
     ): Promise<bigint>;
+    addLiquidityETH(
+      token: Address,
+      stable: boolean,
+      amountTokenDesired: bigint,
+      amountTokenMin: bigint,
+      amountETHMin: bigint,
+      to: Address,
+      deadline: bigint,
+      { value: BigInt }
+    ): Promise<bigint>;
+    quoteAddLiquidity(
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      _factory: Address,
+      amountADesired: ethers.Numeric,
+      amountBDesired: ethers.Numeric
+    ): Promise<bigint>;
+    swapExactTokensForTokens(
+      amountIn: bigint,
+      amountOutMin: bigint,
+      routes: Route[],
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
+    swapExactTokensForETH(
+      amountIn: bigint,
+      amountOutMin: bigint,
+      routes: Route[],
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
+    swapExactETHForTokens(
+      amountOutMin: bigint,
+      routes: Route[],
+      to: Address,
+      deadline: bigint,
+      { value: BigInt }
+    ): Promise<bigint>;
+    UNSAFE_swapExactTokensForTokens(
+      amounts: bigint[],
+      routes: Route[],
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
   };
+}
+
+export interface QuoteAddLiquidityResponse {
+  amountA: bigint;
+  amountB: bigint;
+  liquidity: bigint;
 }
 
 export interface AddLiquidityParams {

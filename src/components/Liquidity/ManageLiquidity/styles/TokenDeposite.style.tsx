@@ -9,7 +9,7 @@ export const CreateVoliteLiquiditySection = styled.div<{ theme: DefaultTheme }>`
   gap: 15px;
   padding-left: 20px;
   padding-right: 20px;
-  height: 70px;
+  height: 56px;
   background: ${({ theme }) => theme.colors.card};
   border-radius: 16px;
 `;
@@ -28,8 +28,9 @@ export const LiquidityCardSection = styled.section<{ theme: DefaultTheme }>`
   border-radius: 15px;
   padding: 10px;
 
-  height: auto;
-  gap: 30px;
+  height: 232px;
+
+  gap: 24px;
   padding: 40px;
 `;
 
@@ -41,7 +42,7 @@ export const DepositeTokenWithImage = styled.div`
   display: flex;
 
   align-items: center;
-  gap: 20px;
+  gap: 16px;
 `;
 
 export const ImgTokenIcon = styled.img`
@@ -52,14 +53,14 @@ export const ImgTokenIcon = styled.img`
 export const TokenStatus = styled.div<{ theme: DefaultTheme }>`
   display: flex;
 
-  gap: 10px;
+  gap: 13px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ theme }) => theme.fontSize.small};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 export const TokenDescription = styled.div`
   display: flex;
-  gap: 5px;
+  gap: 8px;
   flex-direction: column;
   align-items: flex-start;
 `;
@@ -68,6 +69,8 @@ export const TokenContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: space-between;
+
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -76,11 +79,12 @@ export const TokenContainer = styled.div<{ theme: DefaultTheme }>`
 export const LiquidityStyleContainer = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 15px;
   align-items: flex-start;
 `;
 export const DepositeStyle = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 12px;
   align-items: flex-end;
 `;

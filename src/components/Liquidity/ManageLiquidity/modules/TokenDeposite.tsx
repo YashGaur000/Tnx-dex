@@ -1,4 +1,4 @@
-import InformIcon from '../../../../assets/information.png';
+import InformIcon from '../../../../assets/Tips.svg';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import {
   LiquidityImgStyle,
@@ -20,10 +20,11 @@ import {
   IMG1Contains,
   IMG2Contains,
   Imgstyle,
+  LiquidityTokenWrapper,
 } from '../../LiquidityHomePage/styles/LiquidityTable.style';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
-import { usePoolContract } from '../../../../hooks/usePoolContract';
+import { usePoolBalances } from '../../../../hooks/usePoolBalances';
 
 const TokenDeposite = () => {
   const getParam = useQueryParams();
@@ -34,7 +35,7 @@ const TokenDeposite = () => {
   const poolType = getParam('type') === '0' ? 'stable' : 'volatile';
 
   // Fetch balances from pool contract
-  const { balance0, balance1, reserve0, reserve1 } = usePoolContract(
+  const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
     selectedToken1?.decimals ?? 18,
     selectedToken2?.decimals ?? 18
@@ -46,24 +47,24 @@ const TokenDeposite = () => {
         <DepositeContentWrapper>
           <DepositeTokenWithImage>
             <GroupImgContains>
-              <IMG1Contains Top={5} Left={0}>
+              <IMG1Contains top={5} left={0}>
                 <Imgstyle src={selectedToken1.logoURI} />
               </IMG1Contains>
-              <IMG2Contains Top={5} Left={26}>
+              <IMG2Contains top={5} left={26}>
                 <Imgstyle src={selectedToken2.logoURI} />
               </IMG2Contains>
             </GroupImgContains>
 
             <TokenDescription>
-              <LiquidityHeaderTitle fontSize={20}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken1.symbol}-{selectedToken2.symbol}
               </LiquidityHeaderTitle>
               <TokenStatus>
                 <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
-                <label>0.01%</label>
+                <LiquidityTitle fontSize={12}>0.01%</LiquidityTitle>
                 <LiquidityImgStyle
-                  width={'15'}
-                  height={'15'}
+                  width={'18px'}
+                  height={'18px'}
                   src={InformIcon}
                 />
               </TokenStatus>
@@ -72,30 +73,36 @@ const TokenDeposite = () => {
 
           <TokenContainer>
             <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
+            <LiquidityHeaderTitle fontSize={14}>{''}</LiquidityHeaderTitle>
           </TokenContainer>
         </DepositeContentWrapper>
 
         <DepositeContentWrapper>
           <LiquidityStyleContainer>
             <LiquidityHeaderTitle fontSize={16}>Liquidity</LiquidityHeaderTitle>
-            <LiquidityTitle fontSize={12}>
-              {reserve0} {selectedToken1.symbol}
-            </LiquidityTitle>
-            <LiquidityTitle fontSize={12}>
-              {reserve1} {selectedToken2.symbol}
-            </LiquidityTitle>
+
+            <LiquidityTokenWrapper>
+              <LiquidityTitle fontSize={12}>
+                {reserve0} {selectedToken1.symbol}
+              </LiquidityTitle>
+              <LiquidityTitle fontSize={12}>
+                {reserve1} {selectedToken2.symbol}
+              </LiquidityTitle>
+            </LiquidityTokenWrapper>
           </LiquidityStyleContainer>
 
           <DepositeStyle>
             <LiquidityHeaderTitle fontSize={16}>
               Your Deposits
             </LiquidityHeaderTitle>
-            <LiquidityTitle fontSize={12}>
-              {balance0} {selectedToken1.symbol}
-            </LiquidityTitle>
-            <LiquidityTitle fontSize={12}>
-              {balance1} {selectedToken2.symbol}
-            </LiquidityTitle>
+            <LiquidityTokenWrapper>
+              <LiquidityTitle textalign="right" fontSize={12}>
+                {balance0} {selectedToken1.symbol}
+              </LiquidityTitle>
+              <LiquidityTitle textalign="right" fontSize={12}>
+                {balance1} {selectedToken2.symbol}
+              </LiquidityTitle>
+            </LiquidityTokenWrapper>
           </DepositeStyle>
         </DepositeContentWrapper>
       </LiquidityCardSection>

@@ -15,8 +15,9 @@ import {
   InformImageStye,
   TitleUnderLine,
   PopupWrapper,
+  TitleWithImgWrapper,
 } from '../styles/LiquidityHeroSection.style';
-import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import PopupScreen from '../../../common/PopupScreen';
 import LiquidityToolTips from './LiquidityToolTips';
 import { TitleWrapper } from '../styles/LiquidityTable.style';
 
@@ -45,19 +46,23 @@ const LiquidityHeroSection = () => {
     <>
       <LiquidityHeroSectionMain>
         <LiquidityHeroSectionContent>
-          <div>
-            <LiquidityDespcriptionWrap>
+          <LiquidityDespcriptionWrap>
+            <TitleWithImgWrapper>
               <LiquidityTitle fontSize={16}>
                 Liquidity Providers (LPs) make low-slippage swaps possible.
-                <span onMouseEnter={handleTooltipShow}>
-                  <InformImageStye src={QuestionIcon} />
-                </span>
               </LiquidityTitle>
-              <LiquidityTitle fontSize={16}>
-                Deposit and Stake liquidity to earn TENEX
-              </LiquidityTitle>
-            </LiquidityDespcriptionWrap>
-          </div>
+
+              <InformImageStye
+                src={QuestionIcon}
+                onMouseEnter={handleTooltipShow}
+              />
+            </TitleWithImgWrapper>
+
+            <LiquidityTitle fontSize={16}>
+              Deposit and Stake liquidity to earn TENEX
+            </LiquidityTitle>
+          </LiquidityDespcriptionWrap>
+
           <LiquidityTitle fontSize={12}>
             There are currently 100 tokens listed.{' '}
             <TitleUnderLine>See all tokens</TitleUnderLine> or{' '}
@@ -93,7 +98,12 @@ const LiquidityHeroSection = () => {
       </LiquidityHeroSectionMain>
 
       {isPopupVisible && (
-        <PopupScreen isVisible={isPopupVisible} onClose={closeModal}>
+        <PopupScreen
+          isvisible={isPopupVisible}
+          onClose={closeModal}
+          width="500px"
+          height="518px"
+        >
           <PopupWrapper onMouseLeave={handleTooltipHide}>
             <LiquidityToolTips />
           </PopupWrapper>

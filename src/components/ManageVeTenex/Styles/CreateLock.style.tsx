@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
-export const LockTitle = styled.p<{ theme: DefaultTheme; fontSize: number }>`
+export const LockTitle = styled.p<{
+  theme: DefaultTheme;
+  fontSize: number;
+  lineheight?: number;
+}>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
+  line-height: ${({ lineheight }) => lineheight}px;
   padding-left: 5px;
   text-align: left;
-  margin-top: 30px;
 `;
 
 export const CreateLockFirstSection = styled.div`
@@ -26,33 +30,37 @@ export const CreateLockFirstSection = styled.div`
   }
 `;
 
-export const LockLoaderContainer = styled.div`
+export const LockLoaderContainer = styled.div<{ padding?: string }>`
   display: flex;
   flex-direction: column;
-
-  padding: 15px;
+  padding: ${({ padding }) => padding ?? '5px'};
 `;
 export const LoaderStatusWrapper = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
+  lineheight?: number;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-
+  line-height: ${({ lineheight }) => lineheight}px;
   padding: 10px;
   width: 100%;
-
   text-align: center;
   display: block;
 `;
-export const LoaderStatus = styled.p<{ theme: DefaultTheme }>`
+export const LoaderStatus = styled.p<{
+  theme: DefaultTheme;
+  fontSize?: number;
+}>`
   background: ${({ theme }) => theme.colors.hover};
   display: inline-block;
-
-  padding: 10px;
+  font-size: ${({ fontSize }) => fontSize}px;
+  padding: 4px 6px;
   float: right;
-  border-radius: 10px;
+  border-radius: 6px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  min-width: 39px;
+  text-align: center;
 `;
 export const LoaderStyle = styled.div`
   width: 100%;
@@ -61,23 +69,24 @@ export const SliderDeadlineStyle = styled.div<{
   theme: DefaultTheme;
   fontSize: number;
 }>`
-display:flex;
-justify-content:space-between;
-margin:0px;  
-color:${({ theme }) => theme.colors.text}
-font-size: ${({ fontSize }) => fontSize}px;
-font-weight:${({ theme }) => theme.fontWeights.regular}
-
+  display: flex;
+  justify-content: space-between;
+  margin: 0px;
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ fontSize }) => fontSize}px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 export const LockScreenInstruction = styled.div`
   display: flex;
+  margin-top: 48px;
+  text-align: left;
   gap: 10px;
   align-items: flex-start;
 `;
 export const InformImg = styled.img`
-  width: 27px;
-  height: 27px;
-  padding-top: 5px;
+  width: 24px;
+  height: 24px;
+  padding-top: 1px;
 `;
 
 export const LockInputBox = styled.input<{ theme: DefaultTheme }>`
@@ -117,6 +126,16 @@ export const LockHeaderStyle = styled.div`
   gap: 25px;
 `;
 
-export const WeeksLabel = styled.label`
-  cursor: pointer;
+export const WeeksLabel = styled.label<{ isdisable?: boolean }>`
+  cursor: ${({ isdisable }) => (!isdisable ? 'pointer' : 'not-allowed')};
+`;
+
+export const LockCardtitle = styled.label<{
+  theme: DefaultTheme;
+  fontSize: number;
+  lineheight?: number;
+}>`
+  color: ${({ theme }) => theme.colors.text};
+  font-size: ${({ fontSize }) => fontSize}px;
+  line-height: ${({ lineheight }) => lineheight};
 `;

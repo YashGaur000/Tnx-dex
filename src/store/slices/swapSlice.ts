@@ -6,10 +6,14 @@ import { Address } from 'viem';
 export interface SwapSlice {
   from: Address;
   to: Address;
-  selectedTolerance: number;
+  selectedTolerance: string;
+  priceImpact: string;
+  allowUnsafe: boolean;
   setFrom: (tokenAddress: Address) => void;
   setTo: (tokenAddress: Address) => void;
-  setSelectedTolerance: (tolerance: number) => void;
+  setSelectedTolerance: (tolerance: string) => void;
+  setPriceImpact: (impact: string) => void;
+  setAllowUnsafe: (allowUnsafe: boolean) => void;
   resetTokens: () => void;
 }
 
@@ -21,7 +25,9 @@ export const createSwapSlice: StateCreator<
 > = (set) => ({
   from: ERC20_TEST_TOKEN_LIST[0].address,
   to: ERC20_TEST_TOKEN_LIST[1].address,
-  selectedTolerance: 0.5,
+  selectedTolerance: '1',
+  priceImpact: '',
+  allowUnsafe: false,
   setFrom(tokenAddress) {
     set({ from: tokenAddress });
   },
@@ -30,6 +36,12 @@ export const createSwapSlice: StateCreator<
   },
   setSelectedTolerance(value) {
     set({ selectedTolerance: value });
+  },
+  setPriceImpact(value) {
+    set({ priceImpact: value });
+  },
+  setAllowUnsafe(value) {
+    set({ allowUnsafe: value });
   },
   resetTokens: () =>
     set({

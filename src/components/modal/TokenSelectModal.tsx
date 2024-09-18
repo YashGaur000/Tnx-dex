@@ -4,9 +4,9 @@ import {
   //TOKEN_LIST,
   TokenInfo,
 } from '../../constants/tokens';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import SearchIcons from '../../assets/search-icon.png';
 import {
-  HeaderLeftContent,
+  HeaderleftContent,
   HeaderRightContent,
   HeaderTokenContent,
   ModalContent,
@@ -16,11 +16,20 @@ import {
   SearchWrapper,
   TokenItem,
   TokenList,
+  TokenItemImage,
+  TokenItemData,
+  TokenNameWrapper,
+  TokenListsWrapper,
+  ScrollContainer,
+  TokenItemWithAdressWrapper,
 } from './styles/TokenSelectModal.style';
 import tenex from '../../assets/Tenex.png';
+
 import { useTokenBalances } from '../../hooks/useTokenBalance';
 import { Address } from 'viem';
 import useQueryParams from '../../hooks/useQueryParams';
+import BalanceDisplay from '../Swap/modules/BalanceDisplay';
+import Copy from '../common/Copy';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
@@ -60,13 +69,6 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
     onClose();
   };
 
-  const truncateString = (str: string): string => {
-    if (str.length <= 15) {
-      return str;
-    }
-    return `${str.slice(0, 6)}...${str.slice(-9)}`;
-  };
-
   const filteredTokens = ERC20_TEST_TOKEN_LIST.filter(
     (token) =>
       token.symbol.toLowerCase().includes(searchQuery.toLowerCase()) &&
@@ -78,43 +80,53 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
     <ModalWrapper onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <SearchWrapper>
-          <SearchIcon icon={faSearch} />
+          <SearchIcon src={SearchIcons} />
           <SearchInput
             type="text"
-            placeholder=""
+            marginbottom="0px"
+            placeholder="Search by symbol or address"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </SearchWrapper>
-
-        <HeaderTokenContent>
-          <HeaderLeftContent>{filteredTokens.length} Tokens</HeaderLeftContent>
-          <HeaderRightContent>Balance</HeaderRightContent>
-        </HeaderTokenContent>
-
-        <TokenList>
-          {filteredTokens.map((token) => (
-            <TokenItem
-              key={token.symbol}
-              onClick={() => handleSelectToken(token)}
-            >
-              <img
-                src={token.logoURI ? token.logoURI : tenex}
-                width={21}
-                height={22}
-                alt={token.symbol}
-              />
-              {token.symbol} <br /> {truncateString(token.address)}
-              <p
-                style={{
-                  marginLeft: '150px',
-                }}
-              >
-                {account && balances[token.address].toString()}
-              </p>
-            </TokenItem>
-          ))}
-        </TokenList>
+        <TokenListsWrapper>
+          <HeaderTokenContent>
+            <HeaderleftContent>
+              {filteredTokens.length} Tokens
+            </HeaderleftContent>
+            <HeaderRightContent>Balance</HeaderRightContent>
+          </HeaderTokenContent>
+          <ScrollContainer>
+            <TokenList>
+              {filteredTokens.map((token) => (
+                <TokenItem
+                  key={token.symbol}
+                  onClick={() => handleSelectToken(token)}
+                >
+                  <TokenItemWithAdressWrapper>
+                    <TokenItemImage
+                      src={token.logoURI ? token.logoURI : tenex}
+                      width={36}
+                      height={36}
+                      alt={token.symbol}
+                    />
+                    <TokenNameWrapper>
+                      <TokenItemData>{token.symbol}</TokenItemData>
+                      <Copy copydata={token.address} />
+                    </TokenNameWrapper>
+                  </TokenItemWithAdressWrapper>
+                  <TokenItemData fontsize={16}>
+                    {account && token.symbol == 'ETH' ? (
+                      <BalanceDisplay address={account} />
+                    ) : (
+                      balances[token.address].toString()
+                    )}
+                  </TokenItemData>
+                </TokenItem>
+              ))}
+            </TokenList>
+          </ScrollContainer>
+        </TokenListsWrapper>
       </ModalContent>
     </ModalWrapper>
   );

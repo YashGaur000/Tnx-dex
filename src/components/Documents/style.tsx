@@ -76,8 +76,8 @@ export const SectionLink = styled(Link)<{ theme: DefaultTheme }>`
   }
 `;
 
-export const NestedSectionLinks = styled.div<{ isVisible: boolean }>`
-  display: ${({ isVisible }) => (isVisible ? 'block' : 'none')};
+export const NestedSectionLinks = styled.div<{ isvisible: boolean }>`
+  display: ${({ isvisible }) => (isvisible ? 'block' : 'none')};
   margin-left: 5px;
 `;
 

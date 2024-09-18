@@ -19,10 +19,20 @@ import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
 import { StepperDataProps } from '../../../../types/Stepper';
 import SuccessPopup from '../../../common/SucessPopup';
-import SlippageTolerance from '../../../Swap/modules/SlippageTolerance';
-import PopupScreen from '../../../ManageVeTenex/Modules/PopupScreen';
+import SlippageTolerance from '../../../common/SlippageTolerance';
+import PopupScreen from '../../../common/PopupScreen';
 import { PopupWrapper } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
-import TransactionDeadline from '../../../Swap/modules/TransactionDeadline';
+import TransactionDeadline from '../../../common/TransactionDeadline';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import { useRootStore } from '../../../../store/root';
+import { parseAmounts } from './../../../../utils/transaction/parseAmounts';
+import { calculateMinAmount } from './../../../../utils/transaction/calculateMinAmounts';
+import { getDeadline } from './../../../../utils/transaction/getDeadline';
+import { useNavigate } from 'react-router-dom';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../../types/Transaction';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -40,14 +50,19 @@ const Deposite: React.FC<DepositProps> = ({
   const [isToken1Allowed, setIsToken1Allowed] = useState(false);
   const [isToken2Allowed, setIsToken2Allowed] = useState(false);
   const [isDeposited, setIsDeposited] = useState(false);
-  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
-  const [isVisibleDeadline, setVisibleDealine] = useState(false);
+  const [isvisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isvisibleDeadline, setVisibleDealine] = useState(false);
+  const [isAllowingToken1, setIsAllowingToken1] = useState(false);
+  const [isAllowingToken2, setIsAllowingToken2] = useState(false);
+
   const getParam = useQueryParams();
+  const Navigate = useNavigate();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const routerAddress = contractAddress.Router;
-
+  const { deadLineValue } = useLiquidityStore();
+  const { selectedTolerance } = useRootStore();
   const { approveAllowance: approveAllowance1 } = useTokenAllowance(
     selectedToken1!.address,
     testErc20Abi
@@ -59,30 +74,66 @@ const Deposite: React.FC<DepositProps> = ({
   );
 
   const handleAllowToken1 = async () => {
+    setIsAllowingToken1(true);
     try {
       const amount1InWei =
         amount1 &&
         ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
       if (amount1InWei && selectedToken1?.address) {
-        await approveAllowance1(routerAddress, amount1InWei.toString());
-        setIsToken1Allowed(true);
+        if (selectedToken1?.symbol === 'WETH') {
+          setIsToken1Allowed(true);
+        } else {
+          await approveAllowance1(routerAddress, amount1InWei.toString());
+          setIsToken1Allowed(true);
+        }
       }
     } catch (error) {
       console.error('Error during token approval', error);
+    } finally {
+      setIsAllowingToken1(false);
+
+      // Re-enable the button after the operation completes
     }
   };
 
   const handleAllowToken2 = async () => {
+    setIsAllowingToken2(true);
     try {
       const amount2InWei =
         amount2 &&
         ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
       if (amount2InWei && selectedToken2?.address) {
-        await approveAllowance2(routerAddress, amount2InWei.toString());
-        setIsToken2Allowed(true);
+        if (selectedToken2?.symbol === 'WETH') {
+          setIsToken1Allowed(true);
+        } else {
+          await approveAllowance2(routerAddress, amount2InWei.toString());
+          setIsToken2Allowed(true);
+        }
       }
     } catch (error) {
       console.error('Error during token approval', error);
+    } finally {
+      setIsAllowingToken2(false);
+      // Re-enable the button after the operation completes
+    }
+  };
+
+  const handleStakeDeposit = () => {
+    const type = getParam('type') == '0';
+    const factoryAddress = contractAddress.PoolFactory;
+    if (selectedToken1 && selectedToken2) {
+      poolFor(selectedToken1, selectedToken2, type, factoryAddress)
+        .then((poolAddress) => {
+          if (poolAddress) {
+            Navigate({
+              pathname: '/stake',
+              search: `?pool=${poolAddress.toString()}`,
+            });
+          }
+        })
+        .catch((error) => {
+          console.error('Error loading stake:', error);
+        });
     }
   };
 
@@ -101,19 +152,31 @@ const Deposite: React.FC<DepositProps> = ({
     setVisibleDealine(false);
     setVisibleSlippage(false);
   };
-  const { addLiquidity } = useRouterContract();
+  const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
+
   const { address } = useAccount();
+
+  const { setTransactionStatus } = useRootStore();
 
   const handleDeposit = async () => {
     try {
-      const amount1InWei =
-        amount1 &&
-        ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
-      const amount2InWei =
-        amount2 &&
-        ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
-      const type = getParam('type') == '0' ? true : false;
-      const deadline = BigInt(Math.floor(Date.now() / 1000) + 1800); // 30 minutes deadline
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      const amount1InWei = parseAmounts(amount1, selectedToken1?.decimals);
+      const amount2InWei = parseAmounts(amount2, selectedToken2?.decimals);
+
+      const minAmount1InWei = calculateMinAmount(
+        amount1 ?? 0,
+        parseFloat(selectedTolerance) ?? 1,
+        selectedToken1?.decimals ?? 18
+      );
+      const minAmount2InWei = calculateMinAmount(
+        amount2 ?? 0,
+        parseFloat(selectedTolerance) ?? 1,
+        selectedToken2?.decimals ?? 18
+      );
+
+      const type = getParam('type') == '0';
+      const deadline = getDeadline(deadLineValue);
 
       if (
         amount1InWei &&
@@ -122,22 +185,41 @@ const Deposite: React.FC<DepositProps> = ({
         selectedToken2?.address &&
         address
       ) {
-        const tx = await addLiquidity(
-          selectedToken1?.address,
-          selectedToken2?.address,
-          type,
-          amount1InWei,
-          amount2InWei,
-          amount1InWei,
-          amount2InWei,
-          address,
-          deadline
-        );
-        console.log('Liquidity added:', tx);
-        setIsDeposited(true);
+        if (selectedToken1?.symbol === 'WETH') {
+          const tx = await addLiquidityETH(
+            selectedToken2?.address,
+            type,
+            amount2InWei,
+            minAmount2InWei,
+            amount1InWei,
+            address,
+            deadline
+          );
+          console.log('Eth Liquidity added:', tx);
+          setIsDeposited(true);
+        } else {
+          const tx = await addLiquidity(
+            selectedToken1?.address,
+            selectedToken2?.address,
+            type,
+            amount1InWei,
+            amount2InWei,
+            minAmount1InWei,
+            minAmount2InWei,
+            address,
+            deadline
+          );
+          console.log('Liquidity added:', tx);
+          setIsDeposited(true);
+          setTransactionStatus(TransactionStatus.DONE);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
+        }
       }
     } catch (error) {
       console.error('Error adding liquidity:', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     }
   };
 
@@ -146,14 +228,16 @@ const Deposite: React.FC<DepositProps> = ({
       step: 1,
       icon: CalIcon,
       descriptions: {
-        labels: 'Using your quote for new liquidity pool deposits',
+        labels: `Using your quote for new liquidity pool deposits `,
+        token1: `${amount1} ${selectedToken1?.symbol}`,
+        token2: `${amount2} ${selectedToken2?.symbol}`,
       },
     },
     {
       step: 2,
       icon: PlusIcon,
       descriptions: {
-        labels: '1.0 % slippage applied...',
+        labels: `${selectedTolerance} % slippage applied...`,
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('Slippage');
@@ -164,7 +248,7 @@ const Deposite: React.FC<DepositProps> = ({
       step: 3,
       icon: DurationIcon,
       descriptions: {
-        labels: '30 min transaction deadline applied...',
+        labels: `${deadLineValue} min transaction deadline applied...`,
         adjust: 'Adjust',
         onClick: () => {
           handleAdjust('deadline');
@@ -173,7 +257,7 @@ const Deposite: React.FC<DepositProps> = ({
     },
   ];
 
-  if (!disabled1) {
+  if (!disabled1 && selectedToken1?.symbol !== 'WETH') {
     CreatepoolDepositeData.push({
       step: 3,
       icon: !isToken1Allowed ? RedLockIcon : UnLockIcon,
@@ -188,13 +272,14 @@ const Deposite: React.FC<DepositProps> = ({
             icon: LockIcon,
             onClick: handleAllowToken1,
             tooltip: 'Click to allow USDT transactions',
-            disabled: disabled1,
+            disabled: isAllowingToken1,
+            inProgress: isAllowingToken1,
           }
         : undefined,
     });
   }
 
-  if (!disabled2) {
+  if (!disabled2 && selectedToken2?.symbol !== 'WETH') {
     CreatepoolDepositeData.push({
       step: 4,
       icon: !isToken2Allowed ? RedLockIcon : UnLockIcon,
@@ -209,7 +294,8 @@ const Deposite: React.FC<DepositProps> = ({
             icon: LockIcon,
             onClick: handleAllowToken2,
             tooltip: 'Click to allow FTM transactions',
-            disabled: disabled2,
+            disabled: isAllowingToken2,
+            inProgress: isAllowingToken2,
           }
         : undefined,
     });
@@ -221,6 +307,7 @@ const Deposite: React.FC<DepositProps> = ({
     descriptions: {
       labels: isDeposited ? 'Deposit confirmed' : 'Waiting for next actions...',
     },
+    actionCompleted: !isDeposited,
   });
 
   return (
@@ -246,21 +333,26 @@ const Deposite: React.FC<DepositProps> = ({
       )}
 
       {isDeposited && (
-        <GlobalButton width="100%" height="48px" margin="0px">
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={handleStakeDeposit}
+        >
           Stake your Deposit{' '}
         </GlobalButton>
       )}
 
-      {isVisibleSlippage && !isVisibleDeadline && (
-        <PopupScreen isVisible={isVisibleSlippage} onClose={closeModal}>
+      {isvisibleSlippage && !isvisibleDeadline && (
+        <PopupScreen isvisible={isvisibleSlippage} onClose={closeModal}>
           <PopupWrapper>
             <SlippageTolerance />
           </PopupWrapper>
         </PopupScreen>
       )}
 
-      {!isVisibleSlippage && isVisibleDeadline && (
-        <PopupScreen isVisible={isVisibleDeadline} onClose={closeModal}>
+      {!isvisibleSlippage && isvisibleDeadline && (
+        <PopupScreen isvisible={isvisibleDeadline} onClose={closeModal}>
           <PopupWrapper>
             <TransactionDeadline />
           </PopupWrapper>

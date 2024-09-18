@@ -7,15 +7,14 @@ export const SlippageWrapper = styled.div<{
 }>`
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.cardLight};
-  padding: 10px;
-  width: 100%;
-  border-radius: 20px;
-  margin: 15px 0;
+  padding: 24px;
+  width: 360px;
+  height: 118px;
+  border-radius: 12px;
+
   @media (max-width: 900px) {
-    margin-top: 40px;
   }
   @media (max-width: 600px) {
-    padding: 8px;
     border-radius: 15px;
     margin: 10px 0;
   }
@@ -49,7 +48,10 @@ export const ToleranceButtons = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
+export const ToleranceButton = styled.div<{
+  theme: DefaultTheme;
+  selected: boolean;
+}>`
   flex: 1;
   padding: 8px;
   height: 25px;
@@ -60,19 +62,21 @@ export const ToleranceButton = styled.div<{ theme: DefaultTheme }>`
   border-radius: 8px;
   cursor: pointer;
   margin-top: 2px;
+  line-height:20.93px
   width: 50px;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme }) => theme.colors.text};
-  border: 1px solid ${({ theme }) => theme.colors.text};
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
-  }
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  border: 1px solid ${({ theme, selected }) => (!selected ? theme.colors.whiteBorder : 'transparent')};
+  
+  color: ${({ theme, selected }) => selected && theme.colors.whiteBorder};
+  background: ${({ theme, selected }) => selected && theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+ 
 
   @media (max-width: 600px) {
     padding: 6px;
@@ -97,18 +101,30 @@ export const SlippageAlign = styled.div`
 `;
 
 export const SlippageInput = styled.input<{ theme: DefaultTheme }>`
-  width: 74px;
-  height: 32px;
+  width: 53px;
+  height: 25px;
   padding: 8px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.greyDark};
-  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
-  border-radius: 10px;
+  border: 1px solid transparent;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  background: ${({ theme }) => theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  border-radius: 8px;
   text-align: center;
 
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
+  &:focus {
+    outline: none;
+  }
+
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  & {
+    -moz-appearance: textfield;
   }
 `;

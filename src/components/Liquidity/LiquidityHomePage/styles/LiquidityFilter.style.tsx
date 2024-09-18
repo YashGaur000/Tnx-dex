@@ -10,59 +10,41 @@ interface FilterButtonProps {
 export const FilterWrapper = styled.main`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin: 5px 0px;
+  align-items: flex-start;
+
+  margin-top: 16px;
+  margin-bottom: 24px;
   width: 100%;
 
   @media screen and (max-width: 800px) {
     flex-direction: column;
-    gap: 20px;
+    gap: 5px;
   }
 `;
 export const FilterButton = styled.div<FilterButtonProps>`
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   white-space: nowrap;
   position: relative;
   height: 29px;
 
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: 14px;
+  border: 1px solid
+    ${({ theme, selected }) =>
+      !selected ? theme.colors.greyBorder : 'transparent'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  background: ${({ theme, selected }) =>
-    selected ? theme.colors.bordercolor : theme.colors.whiteBorder};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  background: ${({ theme, selected }) => selected && theme.colors.cardLight},
+    ${({ theme, selected }) => selected && theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+
   cursor: pointer;
   padding: 4px 16px;
   color: ${({ theme }) => theme.colors.whiteBorder};
-  z-index: 1;
 
-  &::before {
-    content: '';
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    border: ${({ selected, theme }) =>
-      selected ? 'none' : `1px solid ${theme.colors.greyBorder}`};
-    background-image: ${({ theme, selected }) =>
-      selected && theme.colors.bordercolor};
-    top: 0px;
-    left: 0px;
-    border-radius: 8px;
-
-    padding: 1px;
-
-    -webkit-mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    mask:
-      linear-gradient(#fff 0 0) content-box,
-      linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    z-index: -1;
-  }
-
+  border-radius: 8px;
   @media screen and (max-width: 600px) {
     font-size: ${({ theme }) => theme.fontSize.small};
     padding: 8px 8px;
@@ -72,16 +54,22 @@ export const FilterContainerStyle = styled.section`
   display: flex;
   width: 100%;
   flex-direction: column;
-  margin-top: 35px;
+  margin-top: 16px;
+
+  height: 87px;
+  margin-bottom: 12px;
+  @media screen and (max-width: 700px) {
+    height: 140px;
+  }
 `;
 export const FilterButtonContainer = styled.div`
   display: flex;
   gap: 16px;
-  padding-top: 10px;
-  width: 50%;
 
+  width: 50%;
+  height: 45px;
   overflow-x: scroll;
-  padding-bottom: 10px;
+
   &::-webkit-scrollbar {
     height: 3px;
   }
@@ -131,7 +119,7 @@ export const SelectOption = styled.option<{ theme: DefaultTheme }>`
 export const FilterWithSearchStyle = styled.div`
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 16px;
 
   @media screen and (max-width: 800px) {
     width: 100%;
@@ -142,12 +130,12 @@ export const SearchBoxContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   border: 1px solid ${({ theme }) => theme.colors.greyBorder};
   color: ${({ theme }) => theme.colors.whiteBorder};
-  height: 31px;
+  height: 29px;
+  width: 285px;
   border-radius: 8px;
   align-items: center;
-  padding: 2px 10px;
-  gap: 10px;
-  width: 100%;
+  padding: 2px 16px;
+  gap: 6px;
 `;
 
 export const DropDownWrapper = styled.div``;

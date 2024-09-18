@@ -6,17 +6,26 @@ import { AddressZero } from '@ethersproject/constants';
 import { isAddress } from './../utils/addresses/index';
 import { Address } from 'viem';
 import { RouterContract } from '../types/Liquidity';
+import { VoterContract } from '../types/Voter';
+import { BribeVotingRewardContract } from '../types/Bribe';
 
 export function useContract(
   contractAddress: Address,
   ABI: ContractInterface
-): Contract | RouterContract | undefined {
+):
+  | Contract
+  | RouterContract
+  | VoterContract
+  | BribeVotingRewardContract
+  | undefined {
   const { chainId, address: userAddress } = useAccount();
   const provider = useEthersProvider({ chainId });
 
   return useMemo(() => {
     if (!isAddress(contractAddress) || contractAddress === AddressZero) {
-      throw new Error(`Invalid 'address' parameter '${contractAddress}'.`);
+      // throw new Error(`Invalid 'address' parameter '${contractAddress}'.`);
+      console.error(`Invalid 'address' parameter '${contractAddress}'.`);
+      return undefined;
     }
 
     if (!provider) {

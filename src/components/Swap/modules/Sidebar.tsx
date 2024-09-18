@@ -1,201 +1,553 @@
-import React, { useEffect, useState } from 'react';
-import TransactionDeadline from './TransactionDeadline';
-import SlippageTolerance from './SlippageTolerance';
-import AllowUnsafeTrades from './AllowUnsafeTrades';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import CalIcon from '../../../assets/phone.png';
 import PlusIcon from '../../../assets/plusminus.png';
-import SolIcon from '../../../assets/sol.png';
-import InformationIcon from '../../../assets/redInformation.svg';
+import DurationIcon from '../../../assets/Duration.svg';
+import Check from '../../../assets/check.svg';
+import UnCheck from '../../../assets/uncheck.svg';
+import RedInformation from '../../../assets/redInformation.svg';
+import GreenInformation from '../../../assets/greenInformation.svg';
+
+import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
+import Exchange from '../../../assets/exchange.svg';
+
 import RedLockIcon from '../../../assets/lock.png';
-import CheckIcon from '../../../assets/check.svg';
 import UnLockIcon from '../../../assets/LockSucess.svg';
 import LockIcon from '../../../assets/Lock1.svg';
 import SearchIcon from '../../../assets/search.png';
 import {
-  SidebarContainer,
   SidebarInner,
   SidebarList,
   SidebarTitle,
 } from '../styles/Sidebar.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
+import { TokenInfo } from '../../../constants/tokens';
+import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
+import { useRootStore } from '../../../store/root';
+import { calculateMinAmount } from '../../../utils/transaction/calculateMinAmounts';
+import { ethers } from 'ethers';
+import { testErc20Abi } from '../../../constants/abis/testErc20';
+import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
+import contractAddresses from '../../../constants/contract-address/address';
+import { GlobalButton } from '../../common';
+import { getDeadline } from '../../../utils/transaction/getDeadline';
+import { parseAmounts } from '../../../utils/transaction/parseAmounts';
+import { useAccount } from '../../../hooks/useAccount';
+import { useRouterContract } from '../../../hooks/useRouterContract';
+import {
+  Graph,
+  Route,
+} from '../../../utils/liquidityRouting/generateAllRoutes';
+import PopupScreen from '../../common/PopupScreen';
+import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import SlippageTolerance from '../../common/SlippageTolerance';
+import TransactionDeadline from '../../common/TransactionDeadline';
+import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
+import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
+import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
+import AllowUnsafeTrades from './AllowUnsafeTrades';
 import { LoadingSpinner } from '../../common/Loader';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
 
 interface SidebarProps {
   isLoading: boolean;
+  isValid: boolean;
+  setIsLoading: (loading: boolean) => void;
   exchangeRate: number;
+  setExchangeRate: (exchangeRate: number) => void;
+  token1: TokenInfo;
+  token2: TokenInfo;
+  tokenInput1: string;
+  tokenInput2: string;
+  setTokenInput1: (input: string) => void;
+  setTokenInput2: (input: string) => void;
+  routes: Route[] | null;
+  setRoute: (route: Route[] | null) => void;
+  amountsOut: bigint[] | null;
+  setAmountsOut: (amountsOut: bigint[] | null) => void;
+  graph: Graph;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isLoading, exchangeRate }) => {
-  const [isUnsafeTradesAllowed, setIsUnsafeTradesAllowed] = useState(false);
-  const [isTokenAllow, setTokenAllow] = useState(false);
-  const handleUnsafeAllowence = () => {
-    setTokenAllow(false); //temperory writing this statement
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+const Sidebar: React.FC<SidebarProps> = ({
+  isLoading,
+  isValid,
+  setIsLoading,
+  exchangeRate,
+  setExchangeRate,
+  token1,
+  token2,
+  tokenInput1,
+  tokenInput2,
+  setTokenInput1,
+  setTokenInput2,
+  routes,
+  setRoute,
+  amountsOut,
+  setAmountsOut,
+  graph,
+}) => {
+  const [isTokenAllow, setIsTokenAllow] = useState(false);
+  const { address } = useAccount();
+  const {
+    swapExactTokensForTokens,
+    UNSAFE_swapExactTokensForTokens,
+    swapExactTokensForETH,
+    swapExactETHForTokens,
+    getAmountsOut,
+  } = useRouterContract();
+  const { deadLineValue } = useLiquidityStore();
+  const {
+    selectedTolerance,
+    priceImpact,
+    allowUnsafe,
+    setAllowUnsafe,
+    setTransactionStatus,
+  } = useRootStore();
+  const [minAmountOut, setMinAmountOut] = useState('');
+  const [isSwapped, setIsSwapped] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const [isVisibleSlippage, setVisibleSlippage] = useState(false);
+  const [isVisibleDeadline, setVisibleDealine] = useState(false);
+  const [isVisibleUnsafe, setVisibleUnsafe] = useState(false);
+
+  const [isUnsafe, setIsUnsafe] = useState(false);
+
+  const minAmountOutWei = useMemo(() => {
+    if (tokenInput2 && selectedTolerance) {
+      return calculateMinAmount(
+        Number(tokenInput2) ?? 0,
+        parseFloat(selectedTolerance) ?? 1,
+        token2?.decimals
+      );
+    }
+    return null;
+  }, [tokenInput2, selectedTolerance, token2?.decimals]);
+
+  useEffect(() => {
+    if (minAmountOutWei && priceImpact) {
+      const formattedMinAmount = ethers.formatUnits(
+        minAmountOutWei.toString(),
+        token2?.decimals
+      );
+      setMinAmountOut(formattedMinAmount);
+      if (Number(priceImpact) > 6) {
+        setIsUnsafe(true);
+      } else setIsUnsafe(false);
+    }
+  }, [minAmountOutWei, token2?.decimals, priceImpact]);
+
+  const { approveAllowance: approveAllowance1 } = useTokenAllowance(
+    token1?.address,
+    testErc20Abi
+  );
+
+  // allowance check
+  useCheckAllowance(
+    token1,
+    tokenInput1,
+    address!,
+    contractAddresses.Router,
+    setIsTokenAllow
+  );
+
+  const handleAllowToken1 = async () => {
+    try {
+      setIsDisabled(true);
+      const amount1InWei =
+        tokenInput1 &&
+        ethers.parseUnits(tokenInput1.toString(), token1?.decimals);
+      if (amount1InWei && token1?.address) {
+        await approveAllowance1(
+          contractAddresses.Router,
+          amount1InWei.toString()
+        );
+        setIsTokenAllow(true);
+        setIsDisabled(false);
+      }
+    } catch (error) {
+      console.error('Error during token approval', error);
+      setIsDisabled(false);
+    }
   };
-  const SwapDepositInitialData: StepperDataProps[] = [
+
+  const inputTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  const handleRefresh = () => {
+    setIsLoading(true);
+    setTokenInput2('');
+    setRoute(null);
+
+    // Clear any previous timeouts before setting a new one
+    if (inputTimeout.current) {
+      clearTimeout(inputTimeout.current);
+    }
+
+    // Regular function wrapping the async logic
+    inputTimeout.current = setTimeout(() => {
+      // Call the async function
+      void fetchBestRouteAndUpdateState(
+        token1,
+        token2,
+        tokenInput1,
+        graph,
+        getAmountsOut,
+        setTokenInput2,
+        setExchangeRate,
+        setRoute,
+        setIsLoading,
+        setAmountsOut
+      );
+    }, ROUTING_DELAY);
+  };
+
+  const SwapDepositData: StepperDataProps[] = [
     {
       step: 1,
       icon: CalIcon,
       descriptions: {
         labels: 'Exchange Rate Found',
         adjust: 'Refresh',
-        token1: '1 tEnvio',
-        token2: `${exchangeRate} tBlast`,
+        onClick: handleRefresh,
+        token1: `1 ${token1.symbol}`,
+        token2: `${exchangeRate.toFixed(5)} ${token2.symbol}`,
       },
     },
     {
       step: 2,
       icon: PlusIcon,
       descriptions: {
-        labels: '1.0 % slippage applied...',
+        labels: `${selectedTolerance} % slippage applied...`,
         adjust: 'Adjust',
         onClick: () => {
-          handleAdjust('Slippage');
+          handleAdjust('slippage');
         },
       },
     },
     {
       step: 3,
-      icon: SolIcon,
+      icon: DurationIcon,
       descriptions: {
-        labels: 'Minimum received 5.86 SOL',
+        labels: `${deadLineValue} min transaction deadline applied...`,
+        adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('deadline');
+        },
       },
     },
     {
       step: 4,
-      icon: InformationIcon,
-      unSafe: {
-        visible: true,
-        onClick: handleUnsafeAllowence,
-      },
+      icon: isUnsafe ? RedInformation : GreenInformation,
+      descriptions: isUnsafe
+        ? {
+            labels: 'Allow unsafe trades',
+            adjust: 'Allow',
+            onClick: () => {
+              handleAdjust('unsafe');
+            },
+          }
+        : {
+            labels: 'Safe trade',
+          },
+    },
+
+    {
+      step: 5,
+      icon: token2.logoURI,
       descriptions: {
-        labels: 'Estimated price impact is too high 22.67% ',
+        labels: `Minimum received ${Number(minAmountOut).toFixed(5)} ${token2.symbol}`,
       },
     },
+    {
+      step: 6,
+      icon: isUnsafe ? UnCheck : Check,
+      descriptions: {
+        labels: `${priceImpact} % price impact is ${isUnsafe ? 'unsafe' : 'safe'}`,
+      },
+    },
+    {
+      step: 7,
+      icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
+      descriptions: isValid
+        ? {
+            labels:
+              isTokenAllow || token1.symbol === 'ETH'
+                ? 'Allowed the contracts to access ' + token1?.symbol
+                : 'Allowance not granted for ' + token1?.symbol,
+          }
+        : {
+            labels: 'Insufficient Balance',
+          },
+      buttons:
+        !isTokenAllow && token1.symbol !== 'ETH' && isValid
+          ? {
+              label: 'Allow ' + token1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: `Click to allow ${token1.symbol} transactions`,
+              disabled: isDisabled,
+            }
+          : undefined,
+    },
+    {
+      step: 8,
+      icon: !isSwapped ? SearchIcon : SucessDepositIcon,
+      descriptions: {
+        labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
+      },
+      actionCompleted: !isSwapped,
+    },
   ];
-  const [SwapDepositData, setSwapDepositData] = useState<StepperDataProps[]>(
-    SwapDepositInitialData
-  );
 
   const SwapInstructData: StepperDataProps[] = [
     {
       step: 1,
       descriptions: {
         labels:
-          'Start by selecting the token to swap from and the amount you want to exchange.',
+          'Choose the token you want to swap and enter the amount you would like to trade.',
       },
     },
     {
       step: 2,
       descriptions: {
-        labels: 'Pick the token you want to exchange for.',
+        labels: 'Choose the token you want to swap into.',
       },
     },
     {
       step: 3,
       descriptions: {
-        labels: 'The quote will be ready in a moment!',
-      },
-    },
-    {
-      step: 4,
-      descriptions: {
-        labels:
-          ' Slippage tolerance 0.5% and transaction deadline 30 mins are set. To change, please click below.',
+        labels: "Just a moment, we're preparing your quote!",
       },
     },
   ];
 
-  // const handleTokenAllow=async()=>{
-  //       try {
-
-  //         console.log(abc);
-  //          setTokenAllow(true);
-  //       } catch (error) {
-  //         console.log(error);
-
-  //       }
-  // }
-
-  useEffect(() => {
-    const updatedData = [...SwapDepositInitialData];
-
-    if (isUnsafeTradesAllowed) {
-      updatedData.pop();
-      updatedData.push({
-        step: 5,
-        icon: CheckIcon,
-        descriptions: {
-          labels: '22.41% price impact is unsafe',
-        },
-      });
-      updatedData.push({
-        step: 6,
-        icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
-
-        descriptions: {
-          labels: !isTokenAllow
-            ? 'Allowance not granted for SUI'
-            : 'Allowed the contracts to access SUI',
-        },
-        buttons: !isTokenAllow
+  const SwapLoadingData: StepperDataProps[] = [
+    {
+      step: 1,
+      icon: Exchange,
+      descriptions: {
+        labels: 'Getting the Exchange Rate ...',
+      },
+    },
+    {
+      step: 2,
+      icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
+      descriptions: isValid
+        ? {
+            labels:
+              isTokenAllow || token1.symbol === 'ETH'
+                ? 'Allowed the contracts to access ' + token1?.symbol
+                : 'Allowance not granted for ' + token1?.symbol,
+          }
+        : {
+            labels: 'Insufficient Balance',
+          },
+      buttons:
+        !isTokenAllow && token1.symbol !== 'ETH' && isValid
           ? {
-              label: 'Allow SUI',
+              label: 'Allow ' + token1?.symbol,
               icon: LockIcon,
-              // onClick:handleTokenAllow
+              onClick: handleAllowToken1,
+              tooltip: `Click to allow ${token1.symbol} transactions`,
+              disabled: isDisabled,
             }
           : undefined,
-      });
-      updatedData.push({
-        step: 7,
-        icon: SearchIcon,
-        descriptions: {
-          labels: 'Waiting for next actions...',
-        },
-      });
-    }
-
-    setSwapDepositData(updatedData);
-  }, [isUnsafeTradesAllowed, isTokenAllow]);
+    },
+    {
+      step: 3,
+      icon: SearchIcon,
+      descriptions: {
+        labels: 'Waiting for next actions ...',
+      },
+      actionCompleted: isLoading,
+    },
+  ];
 
   const handleAdjust = (adjustbuttonName: string) => {
-    if (adjustbuttonName === 'Slippage') {
-      console.log('Slippage');
-    } else if (adjustbuttonName === 'deadline') {
-      {
-        console.log('Deadline');
-      }
-    } else {
-      console.log('wrong button');
+    switch (adjustbuttonName) {
+      case 'slippage':
+        setVisibleSlippage(true);
+        break;
+      case 'deadline':
+        setVisibleDealine(true);
+        break;
+
+      case 'unsafe':
+        setVisibleUnsafe(true);
+        break;
+      default:
+        console.log('error in adjust');
     }
   };
 
-  const handleToggleChange = () => {
-    setIsUnsafeTradesAllowed(!isUnsafeTradesAllowed);
+  const handleSwap = async () => {
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      setIsDisabled(true);
+      const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
+      const deadline = getDeadline(deadLineValue);
+
+      if (
+        !amountInWei ||
+        !token1?.address ||
+        !address ||
+        !tokenInput2 ||
+        !routes ||
+        !selectedTolerance
+      ) {
+        throw new Error('Missing required parameters');
+      }
+
+      const minAmountOutWei = calculateMinAmount(
+        Number(tokenInput2) ?? 0,
+        parseFloat(selectedTolerance) ?? 1,
+        token2?.decimals ?? 18
+      );
+
+      const isEthToToken = token2.symbol === 'ETH';
+      const isTokenToEth = token1.symbol === 'ETH';
+
+      const getTransaction = async () => {
+        if (isEthToToken) {
+          return await swapExactTokensForETH(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+        }
+
+        if (isTokenToEth) {
+          return await swapExactETHForTokens(
+            amountInWei,
+            minAmountOutWei,
+            routes,
+            address,
+            deadline
+          );
+        }
+
+        if (allowUnsafe && isUnsafe && amountsOut) {
+          return await UNSAFE_swapExactTokensForTokens(
+            amountsOut,
+            routes,
+            address,
+            deadline
+          );
+        }
+
+        return await swapExactTokensForTokens(
+          amountInWei,
+          minAmountOutWei,
+          routes,
+          address,
+          deadline
+        );
+      };
+
+      const tx = await getTransaction();
+      console.log('Swap added:', tx);
+
+      setIsSwapped(true);
+      setIsDisabled(false);
+      setTransactionStatus(TransactionStatus.DONE);
+
+      setTimeout(() => {
+        setTokenInput1('');
+        setTokenInput2('');
+
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      console.error('Error swapping:', error);
+      setIsDisabled(false);
+      setTransactionStatus(TransactionStatus.IDEAL);
+    }
   };
+
   return (
     <>
-      <SidebarContainer>
-        <SidebarInner>
-          <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
-          <SidebarList>
-            {isLoading ? (
-              <LoadingSpinner />
-            ) : exchangeRate > 0 ? (
+      <SidebarInner>
+        <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
+        <SidebarList>
+          {isLoading ? (
+            <Stepper data={SwapLoadingData} />
+          ) : exchangeRate > 0 && tokenInput1 && routes ? (
+            <>
               <Stepper data={SwapDepositData} />
-            ) : (
-              <Stepper data={SwapInstructData} />
-            )}
-          </SidebarList>
-          <SlippageTolerance />
-          <TransactionDeadline />
-          <AllowUnsafeTrades
-            isChecked={isUnsafeTradesAllowed}
-            handleToggle={handleToggleChange}
-          />
-        </SidebarInner>
-      </SidebarContainer>
+              {!isSwapped &&
+                isValid &&
+                (isTokenAllow || token1.symbol === 'ETH') && (
+                  <GlobalButton
+                    width="100%"
+                    height="48px"
+                    margin="0px"
+                    onClick={() => void handleSwap()}
+                    disabled={isDisabled}
+                  >
+                    {isDisabled ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center', // Center items horizontally
+                          alignItems: 'center', // Center items vertically
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Swapping</p>
+                      </div>
+                    ) : (
+                      <p>Swap</p>
+                    )}
+                  </GlobalButton>
+                )}
+
+              {isVisibleSlippage && (
+                <PopupScreen
+                  isvisible={isVisibleSlippage}
+                  onClose={() => setVisibleSlippage(false)}
+                >
+                  <PopupWrapper>
+                    <SlippageTolerance />
+                  </PopupWrapper>
+                </PopupScreen>
+              )}
+
+              {isVisibleDeadline && (
+                <PopupScreen
+                  isvisible={isVisibleDeadline}
+                  onClose={() => setVisibleDealine(false)}
+                >
+                  <PopupWrapper>
+                    <TransactionDeadline />
+                  </PopupWrapper>
+                </PopupScreen>
+              )}
+
+              {isVisibleUnsafe && (
+                <PopupScreen
+                  isvisible={isVisibleUnsafe}
+                  onClose={() => setVisibleUnsafe(false)}
+                >
+                  <PopupWrapper>
+                    <AllowUnsafeTrades
+                      isChecked={allowUnsafe}
+                      handleToggle={() => setAllowUnsafe(!allowUnsafe)}
+                    />
+                  </PopupWrapper>
+                </PopupScreen>
+              )}
+            </>
+          ) : (
+            <Stepper data={SwapInstructData} />
+          )}
+        </SidebarList>
+      </SidebarInner>
     </>
   );
 };

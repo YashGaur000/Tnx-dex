@@ -1,9 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 import { GlobalButton } from './Buttons/GlobalButton';
 import { DefaultTheme } from '../../styles/Theme';
 import ArrowIcon from './../../assets/doubleHederArrow.svg';
 import { StepperDataProps } from '../../types/Stepper';
+import { LoadingSpinner } from './Loader';
 
 interface StepperProps {
   data: StepperDataProps[];
@@ -13,7 +14,6 @@ const StepperContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   gap: 2px;
-  margin-top: 15px;
 `;
 
 const Step = styled.div`
@@ -28,7 +28,16 @@ const VerticalStep = styled.div`
   align-items: center;
 `;
 
-const Circle = styled.div<{ theme: DefaultTheme }>`
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const Circle = styled.div<{ theme: DefaultTheme; actionCompleted?: boolean }>`
   border-radius: 50%;
 
   width: 26px;
@@ -41,6 +50,11 @@ const Circle = styled.div<{ theme: DefaultTheme }>`
   flex-shrink: 0;
   color: white;
   overflow: hidden;
+  ${({ actionCompleted }) =>
+    actionCompleted &&
+    css`
+      animation: ${rotate} 2s linear infinite;
+    `}
 `;
 
 const IconImage = styled.img`
@@ -48,9 +62,9 @@ const IconImage = styled.img`
   height: 16px;
 `;
 
-const Line = styled.div`
+const Line = styled.div<{ theme: DefaultTheme }>`
   height: 100%;
-  border-left: 2px dotted rgb(64, 120, 146);
+  border-left: 1px dotted ${({ theme }) => theme.colors.greyBorder};
 `;
 
 const Content = styled.div<{ theme: DefaultTheme }>`
@@ -59,9 +73,8 @@ const Content = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  gap: 12px;
+  margin-bottom: 12px;
 
-  margin-bottom: 16px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.titleColor};
@@ -73,7 +86,6 @@ const Content = styled.div<{ theme: DefaultTheme }>`
 const ButtonIcon = styled.img`
   width: 15px;
   height: 15px;
-  margin-left: 5px;
 `;
 const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
   display: flex;
@@ -81,11 +93,35 @@ const BalanceShowWrapper = styled.div<{ theme: DefaultTheme }>`
   gap: 10px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
-const StepperTitle = styled.span<{ theme: DefaultTheme }>`
+const StepperTitle = styled.span<{
+  theme: DefaultTheme;
+  actionCompleted?: boolean;
+}>`
   color: ${({ theme }) => theme.colors.titleColor};
   font-size: 14px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  /* Add loading shimmer effect when actionCompleted is false */
+  ${({ actionCompleted, theme }) =>
+    actionCompleted &&
+    `
+    background: ${theme.colors.loaderBackground};
+    background-size: 200% 100%;
+    animation: shimmer 3s infinite;
+    color: transparent; /* Text is transparent while the shimmer is active */
+    -webkit-background-clip: text;
+    background-clip: text;
+  `}
+
+  /* Keyframes for shimmer effect */
+  @keyframes shimmer {
+    0% {
+      background-position: 200% 0;
+    }
+    100% {
+      background-position: -200% 0;
+    }
+  }
 `;
 
 const UnderlinedText = styled.span<{ theme: DefaultTheme }>`
@@ -115,14 +151,19 @@ const StepperRedTitle = styled.p<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
-
+const ButtonWrapperTitle = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+`;
 const Stepper: React.FC<StepperProps> = ({ data }) => {
   return (
     <StepperContainer>
       {data.map((item, index) => (
         <Step key={index}>
           <VerticalStep>
-            <Circle>
+            <Circle actionCompleted={item.actionCompleted}>
               {item.icon ? (
                 <IconImage src={item.icon} alt="Step Icon" />
               ) : (
@@ -145,7 +186,9 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                       or try with smaller amount{' '}
                     </StepperRedTitle>
                   ) : (
-                    <StepperTitle>{item.descriptions.labels} </StepperTitle>
+                    <StepperTitle actionCompleted={item.actionCompleted}>
+                      {item.descriptions.labels}
+                    </StepperTitle>
                   ))}
                 {item.descriptions.isSplit &&
                   item.descriptions.labels.split('\n').map((line, index) => (
@@ -178,9 +221,12 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
 
             {item.buttons && (
               <GlobalButton
-                padding="8px"
+                padding="8px 24px"
                 margin="0px"
-                width="176px"
+                width="fit-content"
+                minwidth="163px"
+                fontsize={14}
+                smfontsize={14}
                 height="37px"
                 tabIndex={0}
                 onClick={() => {
@@ -196,12 +242,31 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                   }
                 }}
                 disabled={item.buttons?.disabled}
+                inProgress={item.buttons?.inProgress}
               >
-                {item.buttons?.label}
-                <ButtonIcon
-                  src={item.buttons?.icon}
-                  alt={`${item.buttons?.label} icon`}
-                />
+                {item.buttons?.disabled ? (
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center', // Center items horizontally
+                      alignItems: 'center', // Center items vertically
+                      gap: '15px',
+                    }}
+                  >
+                    <LoadingSpinner width="10px" height="10px" />
+                    <p>{item.buttons?.label.split(' ')[0] + 'ing'}</p>
+                  </div>
+                ) : (
+                  <ButtonWrapperTitle>
+                    {item.buttons?.label}
+                    {item.buttons?.icon && (
+                      <ButtonIcon
+                        src={item.buttons?.icon}
+                        alt={`${item.buttons?.label} icon`}
+                      />
+                    )}
+                  </ButtonWrapperTitle>
+                )}
               </GlobalButton>
             )}
           </Content>

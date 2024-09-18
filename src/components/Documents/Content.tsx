@@ -13,6 +13,23 @@ const Content = styled.div<{ theme: DefaultTheme }>`
 
   font-family: ${({ theme }) => theme.fonts.main};
 
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 20px;
+    width: 6px;
+    margin-top: 50px;
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: transparent;
+    border-radius: 10px;
+    margin-right: 5px;
+  }
+
   h1 {
     font-size: 24px;
     font-weight: ${({ theme }) => theme.fontWeights.regular};

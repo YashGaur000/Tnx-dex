@@ -7,7 +7,12 @@ export const GlobalButton = styled.button<{
   width?: string;
   height?: string;
   disabled?: boolean;
+  inProgress?: boolean;
+  minwidth?: string;
+  maxwidth?: string;
   margin?: string;
+  fontsize?: number;
+  smfontsize?: number;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -16,28 +21,37 @@ export const GlobalButton = styled.button<{
   color: ${({ theme }) => theme.colors.text};
   width: ${({ width }) => (width ? width : '100%')};
   height: ${({ height }) => (height ? height : '50px')};
-
+  min-width: ${({ minwidth }) => minwidth};
+  max-width: ${({ maxwidth }) => maxwidth};
   padding: ${({ padding }) => padding};
   border-radius: 12px;
   border: none;
-  font-size: 16px;
-  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+
+  cursor: ${({ disabled, inProgress }) =>
+    disabled ? 'not-allowed' : inProgress ? 'progress' : 'pointer'};
   margin: ${({ margin }) => (margin ? margin : '20px 0px')};
-
+  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+  transition: 0.3s;
+  opacity: 1;
   &:hover {
-    border-radius: 12px;
-
-    border: 1px solid transparent;
-    background:
-      padding-box
-        ${({ theme, disabled }) =>
-          disabled ? theme.colors.grey : theme.colors.cardLight},
-      border-box ${({ theme }) => theme.colors.buttonBackground};
+    animation: pulse 1s infinite;
+    transition: 0.3s;
   }
 
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    70% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
   @media (max-width: 768px) {
     padding: 6px 12px;
-    font-size: 16px;
+    font-size: ${({ smfontsize }) => smfontsize ?? '16'}px;
     margin-top: 10px;
   }
 `;
@@ -45,7 +59,11 @@ export const GlobalButton = styled.button<{
 export const ChainButton = styled.button<{
   padding: string;
   theme: DefaultTheme;
+  width?: string;
+  height?: string;
 }>`
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
   display: flex;
   align-items: center;
   padding: ${({ padding }) => padding};

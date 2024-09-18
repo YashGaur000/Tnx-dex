@@ -1,18 +1,17 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
-export const SlippageWrapper = styled.div<{
+export const TransactionWrapper = styled.div<{
   display: string;
   theme: DefaultTheme;
 }>`
   display: ${({ display }) => display};
   background: ${({ theme }) => theme.colors.cardLight};
-  padding: 16px;
-  width: 100%;
-  height: 115px;
+  padding: 24px;
+  width: 360px;
+  height: 118px;
 
-  border-radius: 20px;
-  margin: 15px 0px;
+  border-radius: 12px;
 `;
 
 export const SidebarTitle = styled.h2<{
@@ -20,43 +19,66 @@ export const SidebarTitle = styled.h2<{
   theme: DefaultTheme;
 }>`
   font-size: ${({ fontSize }) => fontSize}px;
-  text-align: justify;
+  font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  margin-bottom: 20px;
-  margin-left: 11px;
+  margin-bottom: 12px;
+
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
 export const Align = styled.div`
   display: flex;
   justify-content: space-between;
+  height: 25px;
 `;
 
 export const TimerButton = styled.button<{ theme: DefaultTheme }>`
   width: 67px;
   height: 25px;
   padding: 2px, 12px, 2px, 12px;
-  background: transparent;
-  color: ${({ theme }) => theme.colors.text};
-  border: 1px solid ${({ theme }) => theme.colors.whiteBorder};
-  border-radius: 10px;
+  border: 1px solid transparent;
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-size: 14px;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  background: ${({ theme }) => theme.colors.cardLight},
+    ${({ theme }) => theme.colors.buttonBackground};
+  background-clip: padding-box, border-box;
+  background-origin: padding-box, border-box;
+  border-radius: 8px;
   cursor: pointer;
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.text};
-    border: 1px solid ${({ theme }) => theme.colors.text};
-    background: ${({ theme }) => theme.colors.hover};
-  }
 `;
 
-export const SliderContainer = styled.div`
-  margin-left: 11px;
+export const SliderContainer = styled.div<{ margin?: string }>`
+  margin-left: ${({ margin }) => margin ?? '0px'};
 `;
 
-export const Slider = styled.input`
+export const Slider = styled.input<{
+  theme: DefaultTheme;
+  isdisable?: boolean;
+}>`
   width: 100%;
   height: 2px;
   accent-color: darkcyan;
+  cursor: ${({ isdisable }) => (isdisable ? 'not-allowed' : ' pointer')};
+
+  &:hover {
+    accent-color: darkcyan;
+  }
+
+  &:focus {
+    accent-color: darkcyan;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    accent-color: darkcyan;
+
+    &::-webkit-slider-thumb,
+    &::-moz-range-thumb {
+      background-color: darkcyan;
+    }
+  }
 `;
 
 export const TdText = styled.div<{ theme: DefaultTheme }>`
@@ -64,5 +86,6 @@ export const TdText = styled.div<{ theme: DefaultTheme }>`
   margin-top: 5px;
   float: right;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.text};
 `;
