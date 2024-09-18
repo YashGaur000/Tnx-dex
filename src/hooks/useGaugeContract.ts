@@ -31,5 +31,19 @@ export function useGaugeContract(gaugeAddress: Address) {
     [gaugeContract]
   );
 
-  return { deposit };
+  const totalSupply = useCallback(async () => {
+    if (!gaugeContract) {
+      console.error('Gauge contract instance not available');
+      return;
+    }
+    try {
+      const result = await gaugeContract.totalSupply();
+
+      return result;
+    } catch (error) {
+      console.log(error);
+    }
+  }, [gaugeContract]);
+
+  return { deposit, totalSupply };
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   ModalWrapper,
   ModalContent,
@@ -14,41 +14,28 @@ import {
   TableBalanceColumn,
   TableRow,
   TableData,
-  ImgRightIcon,
   TableCoinPairName,
-  ImgleftIcon,
   HeaderButtonContent,
   FilterButtonContainer,
   FilterButton,
 } from '../Styles/IncentiveTokenPopup.style';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Address } from 'viem';
-import PoolData from '../../../constants/poolData';
-
-interface PoolInfo {
-  id: string;
-  pair: string;
-  icon1: string;
-  icon2: string;
-  stablePercentage: number;
-  tvl: string;
-  apr: number;
-  volume: string;
-  volumeDesc: string;
-  volumeSubDesc: string;
-  fees: string;
-  feesDesc: string;
-  feesSubDesc: string;
-  poolBalance: string;
-  balanceDesc: string;
-  liquidityType: string;
-}
+import { useLiquidityPoolData } from '../../../hooks/useLiquidityPoolData';
+import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+import PageLoader from '../../common/PageLoader';
+import {
+  GroupImgContains,
+  IMG1Contains,
+  IMG2Contains,
+  Imgstyle,
+} from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+import { getTokenLogo } from '../../../utils/getTokenLogo';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSelect: (pool: PoolInfo) => void;
-  account: Address;
+  onSelect: (pool: LiquidityPoolNewType) => void;
+  // account: Address;
 }
 
 const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
@@ -56,26 +43,20 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
   onClose,
   onSelect,
 }) => {
+  const { loading, error, data: poolData } = useLiquidityPoolData();
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredPools, setFilteredPools] = useState<PoolInfo[]>(PoolData);
-  const [filterType, setFilterType] = useState<string>('All');
 
-  console.log('pool pop up ');
-  useEffect(() => {
-    setFilteredPools(
-      PoolData.filter(
-        (pool) =>
-          (filterType === 'All' || pool.liquidityType === filterType) &&
-          pool.pair.toLowerCase().includes(searchQuery.toLowerCase())
-      )
-    );
-  }, [searchQuery, filterType]);
+  // const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
+  // const getParam = useQueryParams();
+  // const poolId = getParam('pool') ?? '';
+
+  if (error) return `Error! ${error.message}`;
 
   if (!isOpen) {
     return null;
   }
 
-  const handleRowClick = (pool: PoolInfo) => {
+  const handleRowClick = (pool: LiquidityPoolNewType) => {
     onSelect(pool);
     onClose();
   };
@@ -85,15 +66,9 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <HeaderButtonContent>
           <FilterButtonContainer>
-            <FilterButton onClick={() => setFilterType('All')}>
-              All
-            </FilterButton>
-            <FilterButton onClick={() => setFilterType('Stable')}>
-              Stable
-            </FilterButton>
-            <FilterButton onClick={() => setFilterType('Volatile')}>
-              Volatile
-            </FilterButton>
+            <FilterButton>All</FilterButton>
+            <FilterButton>Stable</FilterButton>
+            <FilterButton>Volatile</FilterButton>
           </FilterButtonContainer>
         </HeaderButtonContent>
 
@@ -108,38 +83,48 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
         </SearchWrapper>
 
         <HeaderTokenContent>
-          <HeaderleftContent>{filteredPools.length} Pools</HeaderleftContent>
-          <HeaderRightContent>Pool Balance</HeaderRightContent>
+          <HeaderleftContent>{poolData.length} Pools</HeaderleftContent>
+          <HeaderRightContent>Deposited/Staked</HeaderRightContent>
         </HeaderTokenContent>
-
-        <TableContainerList>
-          <TableList>
-            <TableBody>
-              <TableData>
-                {filteredPools.map((pool) => (
-                  <TableRow key={pool.id} onClick={() => handleRowClick(pool)}>
-                    <td>
-                      <ImgleftIcon
-                        src={pool.icon1}
-                        alt="Icon 1"
-                        width={36}
-                        height={36}
-                      />
-                      <ImgRightIcon
-                        src={pool.icon2}
-                        alt="Icon 2"
-                        width={36}
-                        height={36}
-                      />
-                    </td>
-                    <TableCoinPairName>{pool.pair}</TableCoinPairName>
-                    <TableBalanceColumn>{pool.poolBalance}</TableBalanceColumn>
-                  </TableRow>
-                ))}
-              </TableData>
-            </TableBody>
-          </TableList>
-        </TableContainerList>
+        {loading ? (
+          <>
+            <PageLoader />
+          </>
+        ) : (
+          <TableContainerList>
+            <TableList>
+              <TableBody>
+                <TableData>
+                  {poolData.map((pool) =>
+                    pool.reserve0 && pool.reserve1 ? (
+                      <TableRow
+                        key={pool.id}
+                        onClick={() => handleRowClick(pool)}
+                      >
+                        <td>
+                          <GroupImgContains>
+                            <IMG1Contains top={10} left={0}>
+                              <Imgstyle
+                                src={getTokenLogo(pool.token0.symbol)}
+                              />
+                            </IMG1Contains>
+                            <IMG2Contains top={10} left={25}>
+                              <Imgstyle
+                                src={getTokenLogo(pool.token1.symbol)}
+                              />
+                            </IMG2Contains>
+                          </GroupImgContains>
+                        </td>
+                        <TableCoinPairName>{pool.name}</TableCoinPairName>
+                        <TableBalanceColumn> </TableBalanceColumn>
+                      </TableRow>
+                    ) : undefined
+                  )}
+                </TableData>
+              </TableBody>
+            </TableList>
+          </TableContainerList>
+        )}
       </ModalContent>
     </ModalWrapper>
   );
