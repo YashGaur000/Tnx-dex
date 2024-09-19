@@ -146,6 +146,16 @@ const SwapForm: React.FC = () => {
   const handleTokenInput1 = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const amount = event.target.value;
+
+      const validInput = /^[0-9]*\.?[0-9]*$/.test(amount);
+      if (!validInput) return;
+
+      // Check the number of decimals
+      if (amount.includes('.') && selectedToken1) {
+        const decimalPlaces = amount.split('.')[1]?.length || 0;
+        if (decimalPlaces > selectedToken1.decimals) return;
+      }
+
       setTokenInput1(amount);
       setTokenInput2(''); // Reset the second token input
       setRoute(null);
@@ -189,6 +199,9 @@ const SwapForm: React.FC = () => {
       }
 
       updateUrl(fromToken.address, toToken.address);
+
+      if (!tokenInput1) return;
+
       setIsLoading(true);
       setTokenInput2('');
       setRoute(null);
