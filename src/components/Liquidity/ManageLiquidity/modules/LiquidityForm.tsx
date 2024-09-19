@@ -53,10 +53,14 @@ const LiquidityForm: FC<FormComponentProps> = ({
       setToken2Amount(value);
     }
 
+    console.log(value);
+
     // Fetch values for new deposit in an existing pool (quote liquidity).
     if (selectedToken1 && selectedToken2 && exists) {
       if (!value) {
-        setToken2Amount('0');
+        //Reset values
+        setToken2Amount('');
+        onTokenValueChange(0, 0, totalBalanceToken1, totalBalanceToken2);
       } else {
         quoteAddLiquidity(
           selectedToken1,
@@ -88,7 +92,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
     } else {
       onTokenValueChange(
         parseFloat(value),
-        parseFloat(token2Value),
+        type ? parseFloat(value) : parseFloat(token2Value),
         totalBalanceToken1,
         totalBalanceToken2
       );

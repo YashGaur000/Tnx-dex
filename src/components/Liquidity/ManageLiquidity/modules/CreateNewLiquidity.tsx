@@ -28,8 +28,11 @@ const CreateNewLiquidity = () => {
     const searchParams = new URLSearchParams(location.search);
     searchParams.set('type', newType);
 
+    const token1 = searchParams.get('token1');
+    const token2 = searchParams.get('token2');
+
     // Update the query parameter in the URL
-    navigate(`${location.pathname}?${searchParams.toString()}`, {
+    navigate(`/liquidity/create?token1=${token1}&token2=${token2}`, {
       replace: true,
     });
   };
