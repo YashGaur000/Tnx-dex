@@ -2,6 +2,10 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useAccount } from '../../hooks/useAccount';
 import { ChainButton, GlobalButton } from '../common';
 import { Container, FlexContainer, IconContainer } from './style';
+import { useRootStore } from '../../store/root';
+import { TransactionStatus } from '../../types/Transaction';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //import { getPoolInfo } from '../../graphql';
 
@@ -15,6 +19,16 @@ interface ChainProps {
 
 export const ConnectWallet = () => {
   const { address } = useAccount();
+  const { setTransactionStatus } = useRootStore();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (address) {
+      setTransactionStatus(TransactionStatus.IDEAL);
+    } else {
+      navigate('/');
+    }
+  }, [address]);
 
   return (
     <ConnectButton.Custom>
@@ -33,6 +47,11 @@ export const ConnectWallet = () => {
           chain &&
           (!authenticationStatus || authenticationStatus === 'authenticated');
 
+        const openWallet = () => {
+          setTransactionStatus(TransactionStatus.IN_PROGRESS);
+          openConnectModal();
+        };
+
         return (
           <Container ready={ready.toString()}>
             {(() => {
@@ -41,7 +60,7 @@ export const ConnectWallet = () => {
                   <GlobalButton
                     padding="10px 20px"
                     margin="0px"
-                    onClick={openConnectModal}
+                    onClick={openWallet}
                   >
                     Connect Wallet
                   </GlobalButton>

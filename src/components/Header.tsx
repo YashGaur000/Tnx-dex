@@ -13,6 +13,7 @@ import { ConnectWallet } from './ConnectWallet';
 import SubTabs from './SubTabsComponent';
 import { DefaultTheme } from '../styles/Theme';
 import { useHeaderStore, useRootStore } from '../store/root';
+import { useAccount } from '../hooks/useAccount';
 
 const HeaderContainer = styled.header<{ theme: DefaultTheme; sticky: string }>`
   display: flex;
@@ -152,6 +153,7 @@ const Header: React.FC = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { isConnected } = useAccount();
   const isSticky = location.pathname.includes('/documentation');
 
   const handleMouseEnter = (setShow: (value: boolean) => void) => setShow(true);
@@ -189,6 +191,19 @@ const Header: React.FC = () => {
       </Toggler>
 
       <Nav isopen={navOpen.toString()}>
+        {isConnected && (
+          <NavItem>
+            <NavLink
+              isactive={activeMainTab === 'Dashboard' ? ' true' : ''}
+              onClick={() => {
+                navigate('/dashboard');
+                setActiveMainTab('Dashboard');
+              }}
+            >
+              Dashboard
+            </NavLink>
+          </NavItem>
+        )}
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowTradeSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowTradeSubTabs)}
@@ -294,7 +309,7 @@ const Header: React.FC = () => {
                 },
                 {
                   main: 'Governance',
-                  to: '/incentives',
+                  to: `/incentives`,
                   label: 'Incentives',
                   description: 'Protocol liquidity incentivization',
                 },
@@ -306,17 +321,6 @@ const Header: React.FC = () => {
           )}
         </NavItem>
 
-        <NavItem>
-          <NavLink
-            isactive={activeMainTab === 'Dashboard' ? ' true' : ''}
-            onClick={() => {
-              navigate('/dashboard');
-              setActiveMainTab('Rewards');
-            }}
-          >
-            Dashboard
-          </NavLink>
-        </NavItem>
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
           onMouseLeave={() => handleMouseLeave(setShowToolsSubTabs)}
@@ -349,6 +353,7 @@ const Header: React.FC = () => {
                   to: '/bridge',
                   label: 'Bridge',
                   description: 'Bridge tokens to and from other chain',
+                  disabled: true,
                 },
               ]}
               showTabs={showToolsSubTabs}
