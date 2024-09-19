@@ -5,6 +5,7 @@ import { formatUnits } from 'ethers';
 import { useAccount } from './useAccount';
 import { PoolContract } from '../types/Pool';
 import { Address } from 'viem';
+import { useRootStore } from '../store/root';
 
 /**
  * Hook to interact with the POOL contract.
@@ -24,6 +25,7 @@ export function usePoolBalances(
     poolAbi.abi
   ) as PoolContract;
   const { address } = useAccount();
+  const { transactionStatus } = useRootStore();
 
   useEffect(() => {
     if (!poolId) {
@@ -87,7 +89,7 @@ export function usePoolBalances(
     };
 
     void fetchBalances(); // Explicitly mark the promise as ignore
-  }, [poolContract, address, decimal0, decimal1, poolId]);
+  }, [poolContract, address, decimal0, decimal1, poolId, transactionStatus]);
 
   return { balance0, balance1, reserve0, reserve1 };
 }

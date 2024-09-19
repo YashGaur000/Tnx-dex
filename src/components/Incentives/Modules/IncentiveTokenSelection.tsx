@@ -37,6 +37,7 @@ import { Address } from 'viem';
 import { ethers } from 'ethers';
 import { PublicClient } from 'viem';
 import { useNativeBalance } from '../../../hooks/useNativeBalance';
+import { useRootStore } from '../../../store/root';
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
@@ -58,6 +59,8 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const { address } = useAccount();
 
   const { balance: nativeBalance } = useNativeBalance(address!);
+
+  const { transactionStatus } = useRootStore();
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
   const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
@@ -97,7 +100,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
           console.error('Error fetching rewards:', error);
         });
     }
-  }, [bribeAddress, rewards, multicall, getTokenBalances]);
+  }, [bribeAddress, rewards, multicall, getTokenBalances, transactionStatus]);
 
   const handleTokenSelectOpen2 = () => {
     // setTokenSelectTarget2(target);

@@ -25,6 +25,11 @@ import { AddressZero } from '@ethersproject/constants';
 import { useIncentiveStore } from '../../../store/slices/useIncentiveStore';
 import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
 import { useAccount } from '../../../hooks/useAccount';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
+import { useRootStore } from '../../../store/root';
 
 interface IncentiveRightContent {
   InsentiveFormValue: number;
@@ -49,6 +54,8 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const [isAllowingToken, setIsAllowingToken] = useState(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isIncentiveAdded, setIsIncentiveAdded] = useState(false);
+
+  const { setTransactionStatus } = useRootStore();
 
   const { approveAllowance } = useTokenAllowance(
     tokenSymbol!.address,
@@ -130,11 +137,19 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   };
 
   const handleAddIncentive = async () => {
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
     const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
     if (tokenSymbol && amount) {
       const result = await notifyRewardAmount(tokenSymbol.address, amount);
-      console.log('result', result);
-      setIsIncentiveAdded(result ? true : false);
+      if (result) {
+        setTransactionStatus(TransactionStatus.DONE);
+        setIsIncentiveAdded(true);
+      } else {
+        setTimeout(
+          () => setTransactionStatus(TransactionStatus.IDEAL),
+          TRANSACTION_DELAY
+        );
+      }
     }
   };
 

@@ -31,7 +31,9 @@ export function useBribeVotingReward(bribeAddress: Address) {
           gasLimit: gasEstimate,
         });
 
-        return result;
+        const tx = result.wait();
+
+        return tx;
       } catch (error) {
         console.log(error);
       }

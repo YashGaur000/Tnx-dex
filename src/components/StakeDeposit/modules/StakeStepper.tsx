@@ -23,6 +23,11 @@ import { useGaugeContract } from '../../../hooks/useGaugeContract';
 import SuccessPopup from '../../common/SucessPopup';
 import SearchIcon from '../../../assets/search.png';
 import { AddressZero } from '@ethersproject/constants';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
+import { useRootStore } from '../../../store/root';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
@@ -41,6 +46,8 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   const [isAllowingToken, setIsAllowingToken] = useState(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isStaked, setIsStaked] = useState(false);
+
+  const { setTransactionStatus } = useRootStore();
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
@@ -108,9 +115,18 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   };
 
   const handleStakeDeposit = async () => {
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
     const result = await deposit(amount);
-    console.log(result);
-    // setIsStaked(true);
+
+    if (result) {
+      setTransactionStatus(TransactionStatus.DONE);
+      setIsStaked(true);
+    } else {
+      setTimeout(
+        () => setTransactionStatus(TransactionStatus.IDEAL),
+        TRANSACTION_DELAY
+      );
+    }
   };
 
   const StakeStepperInstructData = [
@@ -189,6 +205,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           ? `Staked successfully`
           : 'Waiting for next actions...',
       },
+      actionCompleted: !isStaked,
     },
   ];
 
