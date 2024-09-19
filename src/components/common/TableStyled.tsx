@@ -11,7 +11,7 @@ interface TableProps {
   color?: string;
   padding?: string;
   background?: string;
-  borderRadius?: string;
+  borderradius?: string;
   textalign?: string;
 }
 

@@ -59,7 +59,7 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
       <TableColumn>
         <DepositeLockButtonWrapper onClick={handleDepositeLock}>
           <GradientButton
-            borderRadius="6px"
+            borderradius="6px"
             color="#ffffff"
             padding="10px"
             lineheight="0px"

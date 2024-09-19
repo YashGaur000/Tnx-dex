@@ -39,10 +39,7 @@ const RewardCard: React.FC<CardProps> = ({
           height="38px"
           padding="0px"
           fontSize="14px"
-          borderRadius="10px"
-          // border="none"
-          // background={theme.colors.cardLight}
-          // color={theme.colors.buttonBackground}
+          borderradius="10px"
           cursor="pointer"
           margintop="15px"
         >

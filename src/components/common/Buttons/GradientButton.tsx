@@ -7,7 +7,7 @@ interface GradientButtonProps {
   height?: string;
   padding?: string;
   fontSize?: string;
-  borderRadius?: string;
+  borderradius?: string;
   border?: string;
   background?: string;
   color?: string;
@@ -27,7 +27,7 @@ const StyledButton = styled.button<
   height: ${({ height }) => height ?? 'auto'};
   padding: ${({ padding }) => padding ?? '12px 31.5px'};
   border: ${({ border }) => border ?? '2px solid transparent'};
-  border-radius: ${({ borderRadius }) => borderRadius ?? '12px'};
+  border-radius: ${({ borderradius }) => borderradius ?? '12px'};
   background: ${({ theme, background }) => background ?? theme.colors.cardLight},
     ${({ theme, background }) => background ?? theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
@@ -132,7 +132,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   height,
   padding,
   fontSize,
-  borderRadius,
+  borderradius,
   border,
   background,
   color,
@@ -149,7 +149,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       height={height}
       padding={padding}
       fontSize={fontSize}
-      borderRadius={borderRadius}
+      borderradius={borderradius}
       border={border}
       background={background}
       color={color}

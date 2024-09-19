@@ -158,7 +158,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               height="26px"
               lineheight="0px"
               border="1.5px solid transparent"
-              borderRadius="8px"
+              borderradius="8px"
               smfontsize={12}
               smmargin="0px"
             >

@@ -107,7 +107,7 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
 
       <PoolButton onClick={handleDeposit}>
         <GradientButton
-          borderRadius="8px"
+          borderradius="8px"
           color="#ffffff"
           padding="4px 16px"
           lineheight="17.94px"
