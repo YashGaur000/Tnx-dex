@@ -21,7 +21,7 @@ export const TableWrapper = styled.div<{
   background?: string;
 }>`
   overflow-x: scroll;
-
+  overflow-y: hidden;
   border-radius: 16px;
   padding: ${({ padding }) => padding ?? '16px 40px 16px'};
   background: ${({ theme, background }) => background ?? theme.colors.card};
@@ -46,7 +46,7 @@ export const TableWrapper = styled.div<{
 const TableContains = styled.table<TableProps>`
   width: ${({ width }) => width ?? '100%'};
 
-  table-layout: fixed;
+  table-layout: auto;
   margin: ${({ margin }) => margin ?? '0px 0px'};
   height: auto;
   font-family: ${({ theme }) => theme.fonts.main};
@@ -56,7 +56,7 @@ const TableContains = styled.table<TableProps>`
   line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
   border-spacing: 0 20px;
   color: ${({ color }) => color ?? '#ffffff'};
-  overflow-x: scroll;
+
   border-radius: 24px;
 
   @media screen and (max-width: 500px) {

@@ -105,5 +105,7 @@ export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   padding: 16px 40px 40px;
   margin: 0px;
+  width: 100%;
   border-radius: 24px;
+  position: relative;
 `;
