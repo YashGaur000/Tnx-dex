@@ -23,11 +23,12 @@ export function useGaugeContract(gaugeAddress: Address) {
       try {
         const result = await gaugeContract.deposit(_amount);
 
-        const tx = result.wait();
+        const { transactionHash } = await result.wait();
 
-        return tx;
+        return transactionHash;
       } catch (error) {
         console.log(error);
+        return undefined;
       }
     },
     [gaugeContract]

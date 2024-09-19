@@ -126,6 +126,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
         () => setTransactionStatus(TransactionStatus.IDEAL),
         TRANSACTION_DELAY
       );
+      setIsStaked(false);
     }
   };
 
@@ -222,15 +223,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           width="100%"
           height="48px"
           margin="0px"
-          onClick={() => {
-            handleStakeDeposit()
-              .then(() => {
-                setIsStaked(true);
-              })
-              .catch((error) => {
-                console.error('Error staking:', error);
-              });
-          }}
+          onClick={handleStakeDeposit}
         >
           Stake your Deposit{' '}
         </GlobalButton>

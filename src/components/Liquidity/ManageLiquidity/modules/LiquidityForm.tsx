@@ -249,9 +249,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
             />
           </InputBoxContainer>
           <LiquidityProgress>
-            <AmountLabel onClick={() => handleAmountValue(0, 'token1')}>
-              0%
-            </AmountLabel>
             <AmountLabel onClick={() => handleAmountValue(25, 'token1')}>
               25%
             </AmountLabel>
