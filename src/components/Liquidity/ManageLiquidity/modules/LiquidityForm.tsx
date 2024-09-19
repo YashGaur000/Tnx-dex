@@ -46,17 +46,32 @@ const LiquidityForm: FC<FormComponentProps> = ({
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    let stableValue = value;
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(value);
+    if (!validInput) return;
+
+    // Check the number of decimals
+    if (value.includes('.') && selectedToken1 && selectedToken2) {
+      const decimalPlaces = value.split('.')[1]?.length || 0;
+      if (decimalPlaces > selectedToken2.decimals && type) {
+        stableValue = Number(value).toFixed(selectedToken2.decimals);
+      }
+      if (decimalPlaces > selectedToken1.decimals) return;
+    }
+
     setToken1Amount(value);
 
     // Set values for creating a new stable pool deposit.
     if (!exists && type) {
-      setToken2Amount(value);
+      setToken2Amount(stableValue);
     }
 
     // Fetch values for new deposit in an existing pool (quote liquidity).
     if (selectedToken1 && selectedToken2 && exists) {
       if (!value) {
-        setToken2Amount('0');
+        //Reset values
+        setToken2Amount('');
+        onTokenValueChange(0, 0, totalBalanceToken1, totalBalanceToken2);
       } else {
         quoteAddLiquidity(
           selectedToken1,
@@ -88,7 +103,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
     } else {
       onTokenValueChange(
         parseFloat(value),
-        parseFloat(token2Value),
+        type ? parseFloat(stableValue) : parseFloat(token2Value),
         totalBalanceToken1,
         totalBalanceToken2
       );
@@ -97,6 +112,14 @@ const LiquidityForm: FC<FormComponentProps> = ({
 
   const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(value);
+    if (!validInput) return;
+
+    // Check the number of decimals
+    if (value.includes('.') && selectedToken2) {
+      const decimalPlaces = value.split('.')[1]?.length || 0;
+      if (decimalPlaces > selectedToken2.decimals) return;
+    }
     setToken2Amount(value);
     onTokenValueChange(
       parseFloat(token1Value),
@@ -226,9 +249,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
             />
           </InputBoxContainer>
           <LiquidityProgress>
-            <AmountLabel onClick={() => handleAmountValue(0, 'token1')}>
-              0%
-            </AmountLabel>
             <AmountLabel onClick={() => handleAmountValue(25, 'token1')}>
               25%
             </AmountLabel>

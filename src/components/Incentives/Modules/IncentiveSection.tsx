@@ -197,6 +197,7 @@ const IncentiveSection: React.FC = () => {
             </IncentiveleftBarBox1>
             <IncentiveTokenSelection
               handleIncentiveFormValue={handleIncentiveFormValue}
+              incentive={value}
               handleTokenSymbol={handleTokenSymbol}
             />
           </IncentiveleftBar>

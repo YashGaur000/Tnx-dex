@@ -31,9 +31,12 @@ export function useBribeVotingReward(bribeAddress: Address) {
           gasLimit: gasEstimate,
         });
 
-        return result;
+        const { transactionHash } = await result.wait();
+
+        return transactionHash;
       } catch (error) {
         console.log(error);
+        return undefined;
       }
     },
     [bribeContract]
