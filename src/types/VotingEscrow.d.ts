@@ -29,7 +29,7 @@ export interface VotingEscrowContract extends Contract {
   transferFrom(
     owner: Address,
     address: Address,
-    _tokenId: bigint,
+    _tokenId: number,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
   isApprovedOrOwner(spender: Address, tokenId: bigint): Promise<boolean>;

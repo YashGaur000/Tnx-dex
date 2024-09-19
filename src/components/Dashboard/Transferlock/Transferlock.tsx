@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { MainContainerStyle } from '../../common/MainContainerStyle';
 import { CreateMainContainer } from '../../Liquidity/ManageLiquidity/styles/Managepool.style';
 import {
@@ -23,14 +23,21 @@ import { useParams } from 'react-router-dom';
 import { LockedBalance } from '../../../types/VotingEscrow';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address'; // Contract addresses
+//import { Address } from 'viem';
+import { useAccount } from '../../../hooks/useAccount';
 
 const Transferlock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
-  //const [totalLockedVELO, setTotalLockedVELO] = useState<number>(0);
+  const [toAddres, setToAddres] = useState<`0x${string}` | undefined>(
+    undefined
+  );
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
+  const { address } = useAccount();
+
+  console.log('address:', address);
 
   useEffect(() => {
     const fetchLockData = async () => {
@@ -64,8 +71,15 @@ const Transferlock = () => {
     };
 
     void fetchLockData(); // Fetch lock data and handle floating promise
-  }, [tokenId, getLockData]);
-
+  }, [getLockData]);
+  const handleTransferAddress = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    if (inputValue.startsWith('0x') && inputValue.length === 42) {
+      setToAddres(inputValue as `0x${string}`);
+    } else {
+      setToAddres(undefined);
+    }
+  };
   const lockTokenInfo = locktokeninfo();
 
   return (
@@ -93,15 +107,22 @@ const Transferlock = () => {
           <WalletAdressConainer>
             <LockHeaderTitle fontSize={16}>To wallet address</LockHeaderTitle>
             <InputBox
+              type="text"
               height="48px"
               border="1px solid #B8B8B899"
               borderradius={12}
+              value={toAddres}
               padding="12px  24px"
+              onChange={handleTransferAddress}
             />
           </WalletAdressConainer>
         </LockleftSection>
 
-        <TransferLockSidebar />
+        <TransferLockSidebar
+          tokenId={Number(tokenId)}
+          toAddress={toAddres!}
+          fromOwner={address!}
+        />
       </CreateMainContainer>
     </MainContainerStyle>
   );

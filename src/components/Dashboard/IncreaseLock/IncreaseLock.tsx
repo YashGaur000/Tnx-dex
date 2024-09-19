@@ -59,8 +59,7 @@ const IncreaseLock = () => {
             const currentTime = Math.floor(Date.now() / 1000);
             const timeRemaining =
               data.end > currentTime ? data.end - currentTime : 0;
-            const votingPower =
-              (data.amount * (timeRemaining / MAX_LOCK_TIME)) / 2;
+            const votingPower = data.amount * (timeRemaining / MAX_LOCK_TIME);
             const setVotePw = convertToDecimal(Number(votingPower));
             setTotalVotingPower(Number(setVotePw));
             //setTotalLockedVELO(prevTotal => prevTotal + Number(data.amount));

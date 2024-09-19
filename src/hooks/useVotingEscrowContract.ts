@@ -72,7 +72,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
   }, [votingEscrowContract]);
 
   const transferFrom = useCallback(
-    async (owner: Address, address: Address, _tokenId: bigint) => {
+    async (owner: Address, address: Address, _tokenId: number) => {
       if (!votingEscrowContract) return;
 
       const gasEstimate = await votingEscrowContract.estimateGas.transferFrom(
