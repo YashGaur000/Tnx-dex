@@ -16,8 +16,13 @@ import {
 import TenexLogo from '../../../assets/Tenex.png';
 import TenexLockData from '../../../constants/TEnexLockData.json';
 import { GradientButton } from '../../common';
-
-const VoteSelectModel = () => {
+import { SelectLockDataType } from './VoteSelectedCard';
+interface VoteSelectedCardProps {
+  handleSelectToken: (token: SelectLockDataType) => void;
+}
+const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
+  handleSelectToken,
+}) => {
   return (
     <LockTokenContainer>
       <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>
@@ -27,7 +32,7 @@ const VoteSelectModel = () => {
         <ScrollContainer>
           <TokenList>
             {TenexLockData.map((token, index) => (
-              <TokenItem key={index}>
+              <TokenItem key={index} onClick={() => handleSelectToken(token)}>
                 <TokenItemWithAdressWrapper>
                   <TokenItemImage
                     src={TenexLogo}

@@ -19,16 +19,29 @@ import PopupScreen from '../../common/PopupScreen';
 import VoteSelectModel from './VoteSelectModel';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import VottingPowerModel from './VottingPowerModel';
+import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+
+export interface SelectLockDataType {
+  id: string;
+  amount: string;
+  time: string;
+}
 
 interface VoteSelectedCardProps {
   countSelectedItem: number;
+  VoteSelectPoolData: LiquidityPoolNewType[];
 }
 const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   countSelectedItem,
+  VoteSelectPoolData,
 }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isModelOpen, setModelOpen] = useState(false);
-
+  const [selectLockData, setSelectLockData] = useState<SelectLockDataType>({
+    id: '416',
+    amount: '50.0',
+    time: '12 hours',
+  }); //Todo: remove static Data when Make Dynamic
   function handleModel(option: string) {
     setModelOpen(option === 'ChangeLock');
     setPopupVisible(true);
@@ -37,6 +50,12 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   function handleModelHide() {
     setPopupVisible(false);
   }
+  const handleSelectToken = (token: SelectLockDataType) => {
+    console.log(token);
+
+    setSelectLockData(token);
+    setPopupVisible(false);
+  };
 
   return (
     <>
@@ -50,7 +69,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
           />
           <TokenNameWrapper>
             <SelectedDataWrapper gap={8}>
-              <TokenItemData>Lock #{'7242'}</TokenItemData>
+              <TokenItemData>Lock #{selectLockData.id}</TokenItemData>
               <DashboardNavigation
                 fontsize={14}
                 onClick={() => handleModel('ChangeLock')}
@@ -59,7 +78,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
               </DashboardNavigation>
             </SelectedDataWrapper>
             <LockDescriptonTitle fontSize={12}>
-              {'50.0'} TENEX locked for {'11 hours'}
+              {selectLockData.amount} TENEX locked for {selectLockData.time}
             </LockDescriptonTitle>
           </TokenNameWrapper>
         </TokenItemWithAdressWrapper>
@@ -87,7 +106,14 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
         scroll="none"
       >
         <PopupWrapper onClick={handleModelHide}></PopupWrapper>
-        {isModelOpen ? <VoteSelectModel /> : <VottingPowerModel />}
+        {isModelOpen ? (
+          <VoteSelectModel handleSelectToken={handleSelectToken} />
+        ) : (
+          <VottingPowerModel
+            selectLockData={selectLockData}
+            VoteSelectPoolData={VoteSelectPoolData}
+          />
+        )}
       </PopupScreen>
     </>
   );

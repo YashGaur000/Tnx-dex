@@ -14,13 +14,25 @@ import { useLiquidityPoolData } from '../../../hooks/useLiquidityPoolData';
 import PageLoader from '../../common/PageLoader';
 import VoteSelectedCard from './VoteSelectedCard';
 import { LiquidityTableWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 
 const VotePoolTable: React.FC = () => {
   const [selectedPoolsCount, setSelectedPoolsCount] = useState<number>(0);
-  const handleSelectPool = (isSelected: boolean) => {
+  const [VoteSelectPool, setVoteSelectPool] = useState<LiquidityPoolNewType[]>(
+    []
+  );
+
+  const handleSelectPool = (
+    isSelected: boolean,
+    pool: LiquidityPoolNewType
+  ) => {
     if (isSelected) {
       setSelectedPoolsCount((Count) => Count + 1);
+      setVoteSelectPool((prevPools) => [...prevPools, pool]);
     } else {
+      setVoteSelectPool((prevPools) =>
+        prevPools.filter((selectedPool) => selectedPool.id !== pool.id)
+      );
       setSelectedPoolsCount((Count) => Count - 1);
     }
   };
@@ -80,13 +92,18 @@ const VotePoolTable: React.FC = () => {
               <VotingPoolCard
                 key={key}
                 data={item}
-                handleSelectPool={handleSelectPool}
+                handleSelectPool={(isSelected) =>
+                  handleSelectPool(isSelected, item)
+                }
               />
             ))}
           </tbody>
         </TableContains>
         {selectedPoolsCount > 0 && (
-          <VoteSelectedCard countSelectedItem={selectedPoolsCount} />
+          <VoteSelectedCard
+            countSelectedItem={selectedPoolsCount}
+            VoteSelectPoolData={VoteSelectPool}
+          />
         )}
       </TableWrapper>
     </LiquidityTableWrapper>
