@@ -36,14 +36,17 @@ import { useMultiCall } from '../../../hooks/useMultiCall';
 import { Address } from 'viem';
 import { ethers } from 'ethers';
 import { PublicClient } from 'viem';
+import { useNativeBalance } from '../../../hooks/useNativeBalance';
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
+  incentive: number;
 }
 
 const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   handleIncentiveFormValue,
   handleTokenSymbol,
+  incentive,
 }) => {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [selectedIncentiveToken, setSelectedIncentiveToken] = useState<
@@ -53,6 +56,8 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   //   useState<'token1'>('token1');
 
   const { address } = useAccount();
+
+  const { balance: nativeBalance } = useNativeBalance(address!);
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
   const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
@@ -97,6 +102,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const handleTokenSelectOpen2 = () => {
     // setTokenSelectTarget2(target);
     setIsModalOpen2(true);
+    handleIncentiveFormValue(0);
   };
 
   const handleIncentiveToken = (token: TokenInfo) => {
@@ -112,6 +118,24 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   if (!address) {
     return <div>No account connected.</div>;
   }
+
+  const handleSelectPercentage = (percentage: number) => {
+    if (!selectedIncentiveToken) return;
+
+    let walletBalance = 0;
+    if (selectedIncentiveToken.symbol === 'ETH') {
+      walletBalance = (Number(nativeBalance?.formatted) * percentage) / 100;
+    } else {
+      walletBalance =
+        (Number(balances[selectedIncentiveToken?.address].toString()) *
+          percentage) /
+        100;
+    }
+
+    const amount = walletBalance.toFixed(5);
+
+    handleIncentiveFormValue(Number(amount));
+  };
 
   return (
     <IncentiveleftBarBox1 margintop="40px" height="236px" width="600px">
@@ -148,7 +172,11 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
       </Box2Container>
       <Box2ContainerBorder>
         <Box2ProgressContainer>
-          <Box2ProgressBar type="number" onChange={handleChange} />
+          <Box2ProgressBar
+            type="number"
+            onChange={handleChange}
+            value={incentive}
+          />
           <Box2Container>
             <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
               <Img2
@@ -171,11 +199,19 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             {/* <Box2ValueAvailable>~</Box2ValueAvailable>
             <Box2ValueAvailable>$0.00</Box2ValueAvailable> */}
           </Box2DataPoint4>
-          <Box2Percentage>0%</Box2Percentage>
-          <Box2Percentage>25%</Box2Percentage>
-          <Box2Percentage>50%</Box2Percentage>
-          <Box2Percentage>75%</Box2Percentage>
-          <Box2Percentage>MAX%</Box2Percentage>
+
+          <Box2Percentage onClick={() => handleSelectPercentage(25)}>
+            25%
+          </Box2Percentage>
+          <Box2Percentage onClick={() => handleSelectPercentage(50)}>
+            50%
+          </Box2Percentage>
+          <Box2Percentage onClick={() => handleSelectPercentage(75)}>
+            75%
+          </Box2Percentage>
+          <Box2Percentage onClick={() => handleSelectPercentage(100)}>
+            MAX
+          </Box2Percentage>
         </Box2PercentageBar>
       </Box2ContainerBorder>
       <TokenSelectModal

@@ -33,6 +33,7 @@ import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../../types/Transaction';
+import { useCheckAllowance } from '../../../../hooks/useCheckAllowance';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -57,6 +58,7 @@ const Deposite: React.FC<DepositProps> = ({
 
   const getParam = useQueryParams();
   const Navigate = useNavigate();
+  const { address } = useAccount();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
@@ -71,6 +73,22 @@ const Deposite: React.FC<DepositProps> = ({
   const { approveAllowance: approveAllowance2 } = useTokenAllowance(
     selectedToken2!.address,
     testErc20Abi
+  );
+
+  useCheckAllowance(
+    selectedToken1!,
+    amount1?.toString() ?? '0',
+    address!,
+    routerAddress,
+    setIsToken1Allowed
+  );
+
+  useCheckAllowance(
+    selectedToken2!,
+    amount2?.toString() ?? '0',
+    address!,
+    routerAddress,
+    setIsToken2Allowed
   );
 
   const handleAllowToken1 = async () => {
@@ -153,8 +171,6 @@ const Deposite: React.FC<DepositProps> = ({
     setVisibleSlippage(false);
   };
   const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
-
-  const { address } = useAccount();
 
   const { setTransactionStatus } = useRootStore();
 

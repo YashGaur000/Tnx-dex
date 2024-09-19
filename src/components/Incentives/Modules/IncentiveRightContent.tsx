@@ -23,6 +23,8 @@ import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
 import SuccessPopup from '../../common/SucessPopup';
 import { AddressZero } from '@ethersproject/constants';
 import { useIncentiveStore } from '../../../store/slices/useIncentiveStore';
+import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
+import { useAccount } from '../../../hooks/useAccount';
 
 interface IncentiveRightContent {
   InsentiveFormValue: number;
@@ -39,6 +41,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   // const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isGaugeCreated, setIsGaugeCreated] = useState(false);
   const [isGaugeBeingCreated, setIsGaugeBeingCreated] = useState(false);
+  const { address } = useAccount();
 
   const { gaugeAddress, bribeAddress, setGaugeAddress, setBribeAddress } =
     useIncentiveStore();
@@ -50,6 +53,14 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const { approveAllowance } = useTokenAllowance(
     tokenSymbol!.address,
     erc20Abi
+  );
+
+  useCheckAllowance(
+    tokenSymbol!,
+    InsentiveFormValue.toString(),
+    address!,
+    bribeAddress,
+    setIsTokenAllowed
   );
 
   const { notifyRewardAmount } = useBribeVotingReward(bribeAddress);
@@ -192,6 +203,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
           : 'Waiting for next actions...',
       },
       icon: SearchIcon,
+      actionCompleted: !isIncentiveAdded,
     },
   ];
 
