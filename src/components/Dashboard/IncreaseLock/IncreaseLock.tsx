@@ -130,7 +130,7 @@ const IncreaseLock = () => {
             <InputBox
               type="number"
               border="none"
-              pattern="d\+\.\d\d$"
+              pattern="\d*\.?\d{0,2}"
               value={additionalAmount}
               onChange={handleLockInputData}
               placeholder="0"
