@@ -12,7 +12,7 @@ import contractAddress from '../../../constants/contract-address/address';
 import { ethers } from 'ethers';
 import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import { locktokeninfo } from '../../../utils/common/voteTenex';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { testErc20Abi } from '../../../constants/abis/testErc20';
 import { useRootStore } from '../../../store/root';
 import {
@@ -29,7 +29,6 @@ interface LockIncreaseProps {
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
-  //setAdditionalAmount
 }) => {
   console.log('additionalAmount', additionalAmount);
   const { increaseLockAmount } = useVotingEscrowContract(
@@ -86,10 +85,6 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
 
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
-        //setAdditionalAmount('')
-        //setLockTokenValue('');
-        // SetlockDuration(1);
-        // setSuccessLock(true);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error increasing lock:', error);

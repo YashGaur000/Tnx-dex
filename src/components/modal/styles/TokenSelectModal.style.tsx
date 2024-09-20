@@ -33,10 +33,13 @@ export const ModalContent = styled.div<{ theme: DefaultTheme }>`
     width: 90%;
   }
 `;
-export const ScrollContainer = styled.div<{ theme: DefaultTheme }>`
+export const ScrollContainer = styled.div<{
+  theme: DefaultTheme;
+  height?: string;
+}>`
   width: 100%;
   overflow-y: scroll;
-  max-height: 350px;
+  height: ${({ height }) => height ?? '350px'};
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -180,8 +183,9 @@ export const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
 `;
 
-export const LockTokenContainer = styled.div`
+export const LockTokenContainer = styled.div<{ padding?: string }>`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding: ${({ padding }) => padding ?? '0px'};
 `;

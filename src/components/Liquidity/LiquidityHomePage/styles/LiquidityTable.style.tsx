@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../../styles/Theme';
 
-export const TokenCardContainer = styled.div`
+export const TokenCardContainer = styled.div<{ height?: number }>`
   display: flex;
   gap: 15px;
 
   justify-content: flex-start;
-  height: 74px;
-  width: 206px;
+  height: ${({ height }) => height ?? '74'}px;
+  width: fit-content;
 `;
 export const DepositeButtonWrapper = styled.div`
   margin-bottom: 4px;
@@ -64,7 +64,7 @@ export const PairContain = styled.div`
 `;
 
 export const SuggestImg = styled.img`
-  width: 18px;
+  width: 16px;
   height: 18px;
 `;
 export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
@@ -96,14 +96,17 @@ export const TitleWrapper = styled.p<{
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-export const LiquidityTokenWrapper = styled.label`
+export const LiquidityTokenWrapper = styled.label<{ alignitem?: string }>`
   display: flex;
   flex-direction: column;
+
   gap: 4px;
 `;
 export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   padding: 16px 40px 40px;
   margin: 0px;
+  width: 100%;
   border-radius: 24px;
+  position: relative;
 `;

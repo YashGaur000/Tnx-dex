@@ -9,8 +9,8 @@ const ModalBackground = styled.div<{ isvisible: boolean; theme: DefaultTheme }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1000;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 10002;
 `;
 
 const ModalContent = styled.div<{
@@ -21,7 +21,7 @@ const ModalContent = styled.div<{
   position: fixed;
 
   width: ${({ width }) => width ?? 'auto'};
-  max-width: 664px;
+
   max-height: 666px;
   height: ${({ height }) => height ?? 'auto'};
   overflow: hidden;

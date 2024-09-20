@@ -1,7 +1,8 @@
 // src/utils/tokenUtils.ts
 
 import { Address } from 'viem';
-import { ERC20_TEST_TOKEN_LIST, TokenInfo } from '../../constants/tokens';
+import { TokenInfo } from '../../constants/tokens/type';
+import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 
 /**
  * Finds a token by its address in the ERC20 test token list.

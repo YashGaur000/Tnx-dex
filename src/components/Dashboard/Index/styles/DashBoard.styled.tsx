@@ -88,8 +88,12 @@ export const DashBoardWrapper = styled.div`
   gap: 26px;
 `;
 
-export const DashboardNavigation = styled.p<{ theme: DefaultTheme }>`
+export const DashboardNavigation = styled.p<{
+  theme: DefaultTheme;
+  fontsize?: number;
+}>`
   background: ${({ theme }) => theme.colors.title};
+  font-size: ${({ fontsize }) => fontsize}px;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

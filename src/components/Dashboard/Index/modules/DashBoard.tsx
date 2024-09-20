@@ -26,13 +26,12 @@ import LockToolTips from '../../../ManageVeTenex/Modules/LockToolTips';
 import VotingToolTips from '../../../Voting/modules/VotingToolTips';
 import PopupScreen from '../../../common/PopupScreen';
 import { PopupWrapper } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
-// import Dashboarddata from "../../../constants/dashboard.json";
+// import LiquidityRewards from './LiquidityRewards';
+// import DepositAndStake from './DepositAndStake';
 
 const DashBoard: React.FC = () => {
-  // const[isStakeVisible, setIsStakeVisible]=useState<boolean>(true);
-  // const[isLiquidityVisible, setIsLiquidityvisible]=useState(true);
   const [isLockVisible, setIsLockVisible] = useState(true);
-  // const [showAllStakes, setShowAllStakes] = useState<boolean>(false);
+
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string>('');
   const Navigate = useNavigate();
@@ -102,6 +101,8 @@ const DashBoard: React.FC = () => {
               your liquidity first.
             </DashBoardCardData>
           </DashBoardCard>
+          {/*Todo: make Dynamic  */}
+          {/* <DepositAndStake/>  */}
         </DashBoardWrapper>
         <DashBoardWrapper>
           <DashboardHeading>
@@ -123,6 +124,8 @@ const DashBoard: React.FC = () => {
               liquidity.
             </DashBoardCardData>
           </DashBoardCard>
+          {/* todo: Make Dynamic */}
+          {/* <LiquidityRewards/> */}
         </DashBoardWrapper>
 
         <DashBoardWrapper>

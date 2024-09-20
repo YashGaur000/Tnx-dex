@@ -5,7 +5,7 @@ import { Abi, Address } from 'viem';
 import { ethers } from 'ethers';
 import contractAddress from '../constants/contract-address/address';
 import routerAbi from '../constants/artifacts/contracts/Router.json';
-import { TokenInfo } from '../constants/tokens';
+import { TokenInfo } from '../constants/tokens/type';
 import { Route } from '../utils/liquidityRouting/generateAllRoutes';
 import { useMultiCall } from './useMultiCall';
 import {

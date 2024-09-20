@@ -38,7 +38,7 @@ import { ImgRightIcon, ImgleftIcon } from '../Styles/IncentiveTokenPopup.style';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
 
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import contractAddresses from '../../../constants/contract-address/address';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';
@@ -47,7 +47,7 @@ import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 
 const IncentiveSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState('');
   // const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
   const [incentiveToken, setIncentiveToken] = useState<TokenInfo | undefined>(
     getTokenInfo(contractAddresses.TENEX)
@@ -106,7 +106,7 @@ const IncentiveSection: React.FC = () => {
     }
   };
 
-  const handleIncentiveFormValue = (inputValue: number) => {
+  const handleIncentiveFormValue = (inputValue: string) => {
     setValue(inputValue);
   };
 
@@ -197,6 +197,7 @@ const IncentiveSection: React.FC = () => {
             </IncentiveleftBarBox1>
             <IncentiveTokenSelection
               handleIncentiveFormValue={handleIncentiveFormValue}
+              incentive={value}
               handleTokenSymbol={handleTokenSymbol}
             />
           </IncentiveleftBar>

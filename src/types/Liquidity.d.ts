@@ -1,7 +1,7 @@
 import { Contract, ContractTransaction } from '@ethersproject/contracts';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
-import { TokenInfo } from '../constants/tokens';
+import { TokenInfo } from '../constants/tokens/type';
 import { Route } from '../utils/liquidityRouting/generateAllRoutes';
 
 interface RouterContract extends Contract {

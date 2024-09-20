@@ -1,7 +1,7 @@
 import { StateCreator } from 'zustand';
 import { RootStore } from '../root';
-import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens';
 import { Address } from 'viem';
+import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 
 export interface SwapSlice {
   from: Address;

@@ -46,7 +46,7 @@ import useQueryParams from '../../../hooks/useQueryParams';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';
 import { usePoolContract } from '../../../hooks/usePoolContract';
 import { Metadata } from '../../../types/Pool';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 
 const StakeDeposit = () => {

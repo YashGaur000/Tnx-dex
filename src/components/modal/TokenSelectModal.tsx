@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import {
-  ERC20_TEST_TOKEN_LIST,
-  //TOKEN_LIST,
-  TokenInfo,
-} from '../../constants/tokens';
+import { TokenInfo } from '../../constants/tokens/type';
 import SearchIcons from '../../assets/search-icon.png';
 import {
   HeaderleftContent,
@@ -30,6 +26,7 @@ import { Address } from 'viem';
 import useQueryParams from '../../hooks/useQueryParams';
 import BalanceDisplay from '../Swap/modules/BalanceDisplay';
 import Copy from '../common/Copy';
+import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 
 interface TokenSelectModalProps {
   isOpen: boolean;
