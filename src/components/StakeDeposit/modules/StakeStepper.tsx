@@ -52,7 +52,25 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
-  const { metadata, balanceOf } = usePoolContract(poolId ?? '');
+  const { metadata, balanceOf, fetchAllowance } = usePoolContract(poolId ?? '');
+
+  useEffect(() => {
+    async function isAllownace() {
+      const balance = await balanceOf();
+      if (gaugeAddress != AddressZero && balance) {
+        const amount =
+          (Number(balance.etherBalance) * selectedStakeValue) / 100;
+        const amountInWei = ethers.parseUnits(
+          amount.toFixed(balance.decimals).toString(),
+          balance.decimals
+        );
+        setAmount(amountInWei);
+        await fetchAllowance(amount, gaugeAddress, setIsTokenAllowed);
+      }
+    }
+
+    void isAllownace();
+  }, [selectedStakeValue]);
 
   const { gauges } = useVoterContract();
   const { deposit } = useGaugeContract(gaugeAddress);
