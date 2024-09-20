@@ -1,5 +1,5 @@
 import { Metadata } from '../../types/VotingEscrow';
-import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../constants/tokens';
+import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 export const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
 export const decodeBase64 = (base64: string): Metadata => {
   const base64Data = base64.split(',')[1];
