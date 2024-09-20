@@ -28,18 +28,18 @@ const LiquidityInfo = () => {
     <HoverContainer width="180px" height="200px">
       <InfoHoverContainer>
         <InfoHoverSection>
-          <LiquidityHeaderTitle fontSize={14}>
+          <LiquidityHeaderTitle fontsize={14}>
             Pool Address
           </LiquidityHeaderTitle>
-          <LiquidityHeaderTitle fontSize={12}>
+          <LiquidityHeaderTitle fontsize={12}>
             0x921da13....d23f0 <CopyImg src={CopyIcon} />
           </LiquidityHeaderTitle>
         </InfoHoverSection>
         <InfoHoverSection>
-          <LiquidityHeaderTitle fontSize={14}>
+          <LiquidityHeaderTitle fontsize={14}>
             Gauge Address
           </LiquidityHeaderTitle>
-          <LiquidityHeaderTitle fontSize={12}>
+          <LiquidityHeaderTitle fontsize={12}>
             0x921da13....d23f0 <CopyImg src={CopyIcon} />
           </LiquidityHeaderTitle>
         </InfoHoverSection>

@@ -79,7 +79,6 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
       console.log('increse amountInWei amount:', amountInWei);
       await increaseLockAmount(BigInt(tokenId), amountInWei);
 
-      //setAdditionalAmount('')
       console.log('Lock increased!');
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
@@ -92,7 +91,13 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     } finally {
       setIsLocking(false);
     }
-  }, [tokenId, additionalAmount, increaseLockAmount]);
+  }, [
+    tokenId,
+    additionalAmount,
+    increaseLockAmount,
+    setTransactionStatus,
+    tokenLockInfo.decimals,
+  ]);
 
   const IncreaseStepperData: StepperDataProps[] = [
     {
@@ -156,7 +161,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
 
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontSize={24}>Increase lock</LockHeaderTitle>
+      <LockHeaderTitle fontsize={24}>Increase lock</LockHeaderTitle>
       <Stepper data={!additionalAmount ? IncreaseStepperData : LockData} />
       {isTokenAllowed && !isLocked && (
         <GlobalButton

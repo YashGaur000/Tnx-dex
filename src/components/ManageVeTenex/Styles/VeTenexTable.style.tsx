@@ -123,11 +123,11 @@ export const LockImg = styled.img`
 
 export const LockInfoDes = styled.div<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   lineheight: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   line-height: ${({ lineheight }) => lineheight}px;
   text-align: left;
 `;

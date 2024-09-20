@@ -71,6 +71,27 @@ export function useVotingEscrowContract(escrowAddress: string) {
     return tx;
   }, [votingEscrowContract]);
 
+  const transferFrom = useCallback(
+    async (owner: Address, address: Address, _tokenId: number) => {
+      if (!votingEscrowContract) return;
+
+      const gasEstimate = await votingEscrowContract.estimateGas.transferFrom(
+        owner,
+        address,
+        _tokenId
+      );
+      const tx = await votingEscrowContract.transferFrom(
+        owner,
+        address,
+        _tokenId,
+        { gasLimit: gasEstimate.toBigInt() }
+      );
+      await tx.wait();
+      return tx;
+    },
+    [votingEscrowContract]
+  );
+
   const getApproved = useCallback(
     async (tokenId: bigint) => {
       if (!votingEscrowContract) return;
@@ -242,5 +263,6 @@ export function useVotingEscrowContract(escrowAddress: string) {
     getNFTCount,
     getLockData,
     fetchUserNFTs,
+    transferFrom,
   };
 }

@@ -8,7 +8,7 @@ export const ManageLiquidityFormSection = styled.form<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
   border-radius: 15px;
   padding: 40px;
-  fontsize: ${({ theme }) => theme.fontSize.medium};
+  fontsize: ${({ theme }) => theme.fontsize.medium};
   gap: 20px;
 `;
 
@@ -23,7 +23,7 @@ export const FormRowWrapper = styled.div<{ theme: DefaultTheme }>`
   justify-content: space-between;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   color: ${({ theme }) => theme.colors.whiteBorder};
   text-align: left;
 `;

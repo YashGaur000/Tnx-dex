@@ -89,9 +89,9 @@ const Main = () => {
     <>
       <LockHeroSection>
         <LockHeroSectionContent>
-          <LockHeaderTitle fontSize={36}>Manage veTENEX</LockHeaderTitle>
+          <LockHeaderTitle fontsize={36}>Manage veTENEX</LockHeaderTitle>
           <LockheaderContentStyle>
-            <LockDescriptonTitle fontSize={16}>
+            <LockDescriptonTitle fontsize={16}>
               Maximize your voting power and boost rewards by locking more
               tokens for longer durations.
             </LockDescriptonTitle>
@@ -111,7 +111,7 @@ const Main = () => {
           </LockButtonConatainer>
           <MetricDisplayWrapper>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Locked TENEX</StatsCardtitle>
+              <StatsCardtitle fontsize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
                 4,376,987.82{' '}
                 <ImageContainer
@@ -123,12 +123,12 @@ const Main = () => {
               </AmountWithImg>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Total Voting Power</StatsCardtitle>
-              <LockHeaderTitle fontSize={16}>0.00</LockHeaderTitle>
+              <StatsCardtitle fontsize={16}>Total Voting Power</StatsCardtitle>
+              <LockHeaderTitle fontsize={16}>0.00</LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Total Value Locked</StatsCardtitle>
-              <LockHeaderTitle fontSize={16}>$0.00</LockHeaderTitle>
+              <StatsCardtitle fontsize={16}>Total Value Locked</StatsCardtitle>
+              <LockHeaderTitle fontsize={16}>$0.00</LockHeaderTitle>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
@@ -136,7 +136,7 @@ const Main = () => {
 
       <LockContainerWrapper>
         <LockheaderWrapper>
-          <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
+          <LockHeaderTitle fontsize={24}>Locks</LockHeaderTitle>
           <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('lock')}>
             <ImageContainer
               width={'16px'}
@@ -152,7 +152,7 @@ const Main = () => {
 
       <LockContainerWrapper>
         <LockheaderWrapper>
-          <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
+          <LockHeaderTitle fontsize={24}>Relay</LockHeaderTitle>
           <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('relay')}>
             <ImageContainer
               width={'16px'}

@@ -170,14 +170,14 @@ export const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const HeaderleftContent = styled.span<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
 
 export const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};

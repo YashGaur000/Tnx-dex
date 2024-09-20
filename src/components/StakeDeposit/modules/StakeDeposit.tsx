@@ -117,12 +117,12 @@ const StakeDeposit = () => {
               </GroupImgContains>
 
               <TokenDescription>
-                <LiquidityHeaderTitle fontSize={16}>
+                <LiquidityHeaderTitle fontsize={16}>
                   {selectedToken1?.symbol}-{selectedToken2?.symbol}
                 </LiquidityHeaderTitle>
                 <TokenStatus>
-                  <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
-                  <LiquidityTitle fontSize={12}>0.01%</LiquidityTitle>
+                  <StatsCardtitle fontsize={12}>{poolType}</StatsCardtitle>
+                  <LiquidityTitle fontsize={12}>0.01%</LiquidityTitle>
                   <LiquidityImgStyle
                     width={'17px'}
                     height={'17px'}
@@ -133,45 +133,45 @@ const StakeDeposit = () => {
             </DepositeTokenWithImage>
 
             <TokenContainer>
-              <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
-              <LiquidityHeaderTitle fontSize={14}>226.18%</LiquidityHeaderTitle>
+              <StatsCardtitle fontsize={16}>APR</StatsCardtitle>
+              <LiquidityHeaderTitle fontsize={14}>226.18%</LiquidityHeaderTitle>
             </TokenContainer>
           </DepositeContentWrapper>
 
           <DepositeContentWrapper>
             <LiquidityStyleContainer>
-              <LiquidityHeaderTitle fontSize={16}>
+              <LiquidityHeaderTitle fontsize={16}>
                 Liquidity
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle fontSize={12}>
+                <LiquidityTitle fontsize={12}>
                   {reserve0 + ' ' + selectedToken1?.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle fontSize={12}>
+                <LiquidityTitle fontsize={12}>
                   {reserve1 + ' ' + selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </LiquidityStyleContainer>
 
             <DepositeStyle>
-              <LiquidityHeaderTitle fontSize={16}>
+              <LiquidityHeaderTitle fontsize={16}>
                 Your Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle textalign="right" fontSize={12}>
+                <LiquidityTitle textalign="right" fontsize={12}>
                   {balance0 + ' ' + selectedToken1?.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle textalign="right" fontSize={12}>
+                <LiquidityTitle textalign="right" fontsize={12}>
                   {balance1 + ' ' + selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
           </DepositeContentWrapper>
           <StakeRangeWrapper>
-            <StakeTitle fontSize={16}>Staking {SelectStakeValue}%</StakeTitle>
+            <StakeTitle fontsize={16}>Staking {SelectStakeValue}%</StakeTitle>
 
             <SliderStatusWrapper>
-              <LoaderStatus fontSize={12}>{SelectStakeValue}%</LoaderStatus>
+              <LoaderStatus fontsize={12}>{SelectStakeValue}%</LoaderStatus>
             </SliderStatusWrapper>
             <LoaderStyle>
               <SliderContainer margin="0px">
@@ -184,7 +184,7 @@ const StakeDeposit = () => {
                   onChange={HandleStakeSlider}
                 />
               </SliderContainer>
-              <SliderDeadlineStyle fontSize={10}>
+              <SliderDeadlineStyle fontsize={10}>
                 {SliderPercentage.map(({ value, id }) => (
                   <SliderLabel
                     key={id}

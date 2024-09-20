@@ -15,7 +15,7 @@ const AvailablePool = ({ poolData }: AvailablePoolProps) => {
   // }))
   return (
     <PoolSection>
-      <LiquidityHeaderTitle fontSize={20}>Available Pools</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontsize={20}>Available Pools</LiquidityHeaderTitle>
       <PoolWrapper>
         {poolData.map((pool) => (
           <Pool

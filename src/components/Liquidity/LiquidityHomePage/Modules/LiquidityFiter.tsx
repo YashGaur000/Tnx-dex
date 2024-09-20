@@ -53,7 +53,7 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
 
   return (
     <FilterContainerStyle>
-      <LiquidityHeaderTitle fontSize={20}>Liquidity Pools</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontsize={20}>Liquidity Pools</LiquidityHeaderTitle>
       <FilterWrapper>
         <FilterButtonContainer>
           {ButtonData.map((item, key) => (
@@ -83,7 +83,7 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
               placeholder="Search by symbol or address"
               width="100%"
               height="30px"
-              fontSize="12px"
+              fontsize="12px"
               value={InputData}
               onChange={handlePoolTabelSearchBox}
             />

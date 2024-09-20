@@ -27,7 +27,7 @@ const RelayDeposit = () => {
 
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontSize={24}>New Deposit</LockHeaderTitle>
+      <LockHeaderTitle fontsize={24}>New Deposit</LockHeaderTitle>
       <Stepper data={RelayDepositData} />
     </StyledDepositContainer>
   );

@@ -87,10 +87,10 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
                   <LockImg src={TenexIcon} alt="Lock Icon" />
                 </LockIcon>
                 <LockInfo>
-                  <LockInfoDes fontSize={16} lineheight={23.92}>
+                  <LockInfoDes fontsize={16} lineheight={23.92}>
                     {metadata.name}
                   </LockInfoDes>
-                  <LockInfoDes fontSize={12} lineheight={17.94}>
+                  <LockInfoDes fontsize={12} lineheight={17.94}>
                     {lockedVELO} VELO locked until {unlockDate}
                   </LockInfoDes>
                   <LockInfoCheck>
