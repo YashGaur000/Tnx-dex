@@ -30,6 +30,7 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface IncentiveRightContent {
   InsentiveFormValue: string;
@@ -55,7 +56,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isIncentiveAdded, setIsIncentiveAdded] = useState(false);
 
-  const { setTransactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const { approveAllowance } = useTokenAllowance(
     tokenSymbol!.address,
@@ -253,8 +254,23 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
                 console.error('Error adding Incentive:', error);
               });
           }}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Add incentive{' '}
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Adding</p>
+            </div>
+          ) : (
+            <p>Add Incentive</p>
+          )}
         </GlobalButton>
       )}
       {isIncentiveAdded && (

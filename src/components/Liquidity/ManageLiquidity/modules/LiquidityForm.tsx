@@ -1,4 +1,3 @@
-import SwapIcon from '../../../../assets/swap.png';
 import { ChangeEvent, FC, useState } from 'react';
 import {
   ManageLiquidityFormSection,
@@ -8,7 +7,6 @@ import {
   TokenImgLiquidity,
   LiquidityInputBox,
   LiquidityProgress,
-  SwapImgConatiner,
   InputBoxContainer,
 } from '../styles/LiquidityForm.style';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
@@ -217,10 +215,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
     selectedToken2 && balances[selectedToken2.address]
   );
 
-  function handleSwapFeatures() {
-    console.log('swap button');
-  }
-
   if (selectedToken1 && selectedToken2) {
     return (
       <ManageLiquidityFormSection>
@@ -264,9 +258,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
             </AmountLabel>
           </LiquidityProgress>
         </FormFieldContainer>
-        <SwapImgConatiner onClick={handleSwapFeatures}>
-          <img src={SwapIcon} alt="Swap logo" />
-        </SwapImgConatiner>
         <FormFieldContainer>
           <FormRowWrapper>
             <ImageWithTitleWrap>

@@ -28,6 +28,7 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
@@ -47,7 +48,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isStaked, setIsStaked] = useState(false);
 
-  const { setTransactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
@@ -224,8 +225,23 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           height="48px"
           margin="0px"
           onClick={handleStakeDeposit}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Stake your Deposit{' '}
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Staking</p>
+            </div>
+          ) : (
+            <p>Stake Your Deposit</p>
+          )}
         </GlobalButton>
       )}
       {isStaked && <SuccessPopup message="Staked Successfully" />}
