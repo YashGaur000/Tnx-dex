@@ -24,12 +24,14 @@ interface TransferFromOwnerProps {
   fromOwner: Address;
   toAddress: Address;
   tokenId: number;
+  setSuccessLock: (input: boolean) => void;
 }
 
 const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   fromOwner,
   toAddress,
   tokenId,
+  setSuccessLock,
 }) => {
   const { transferFrom } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -37,7 +39,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   const { setTransactionStatus } = useRootStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const [isLockTransfer, setIsLockTransfer] = useState<boolean>(false);
+  const [isLockTransfer, setIsLockTransfer] = useState<boolean>(false);
 
   const handleTransferLock = useCallback(async () => {
     try {
@@ -51,10 +53,12 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
       await transferFrom(fromOwner, toAddress, tokenId);
 
       console.log('Lock transferred!');
-      // setIsLockTransfer(true);
+      setIsLockTransfer(true);
+
       setTransactionStatus(TransactionStatus.DONE);
 
       setTimeout(() => {
+        setSuccessLock(true);
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
     } catch (error) {
@@ -77,10 +81,17 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
           </UnderlineText>
           .
         </LockDescriptonTitle>
+        {isLockTransfer && (
+          <LockDescriptonTitle fontsize={14}>
+            Transfer a lock Confirmed!
+          </LockDescriptonTitle>
+        )}
 
-        <GlobalButton onClick={handleTransferLock} disabled={isLoading}>
-          {isLoading ? 'Processing...' : 'Continue'}
-        </GlobalButton>
+        {!isLockTransfer && (
+          <GlobalButton onClick={handleTransferLock} disabled={isLoading}>
+            {isLoading ? 'Processing...' : 'Continue'}
+          </GlobalButton>
+        )}
       </SteperWrapper>
     </StyledDepositContainer>
   );

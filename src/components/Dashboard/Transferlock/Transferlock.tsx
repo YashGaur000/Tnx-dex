@@ -25,6 +25,7 @@ import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract'
 import contractAddress from '../../../constants/contract-address/address'; // Contract addresses
 //import { Address } from 'viem';
 import { useAccount } from '../../../hooks/useAccount';
+import SuccessPopup from '../../common/SucessPopup';
 
 const Transferlock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
@@ -33,6 +34,7 @@ const Transferlock = () => {
   const [toAddres, setToAddres] = useState<`0x${string}` | undefined>(
     undefined
   );
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address } = useAccount();
@@ -123,8 +125,10 @@ const Transferlock = () => {
           tokenId={Number(tokenId)}
           toAddress={toAddres!}
           fromOwner={address!}
+          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
+      {iSuccessLock && <SuccessPopup message="Transfer Succesfuly" />}
     </MainContainerStyle>
   );
 };

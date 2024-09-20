@@ -19,18 +19,12 @@ import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../types/Transaction';
-
-interface LockIncreaseProps {
-  tokenId: number;
-  additionalAmount: number;
-  setAdditionalAmount?: (input: string) => void;
-}
+import { LockIncreaseProps } from '../../../types/VotingEscrow';
 
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
 }) => {
-  console.log('additionalAmount', additionalAmount);
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
   );
@@ -76,7 +70,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         additionalAmount.toString(),
         tokenLockInfo.decimals
       );
-      console.log('increse amountInWei amount:', amountInWei);
+
       await increaseLockAmount(BigInt(tokenId), amountInWei);
 
       console.log('Lock increased!');

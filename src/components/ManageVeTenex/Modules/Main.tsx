@@ -30,14 +30,18 @@ import RelayToolTips from './RelayToolTips';
 import { useAccount } from '../../../hooks/useAccount';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
-import { LockItemProps } from '../../../types/VotingEscrow';
+import { Nft } from '../../../types/VotingEscrow';
 import VeTenexTable from './VeTenexTable';
-import { decodeBase64 } from '../../../utils/common/voteTenex';
+import {
+  decodeBase64,
+  filterNftsByUnlockDate,
+  sortNftsByUnlockDateDesc,
+} from '../../../utils/common/voteTenex';
 
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isToolTipActive, setToolTipActive] = useState(false);
-  const [nftData, setNftData] = useState<LockItemProps[]>([]);
+  const [nftData, setNftData] = useState<Nft[]>([]);
   const Navigate = useNavigate();
 
   const escrowAddress = contractAddress.VotingEscrow;
@@ -49,16 +53,17 @@ const Main = () => {
       try {
         if (address) {
           const fetchedNftVal = await fetchUserNFTs(address);
-          const fetchedNftData = fetchedNftVal.sort();
-          console.log('User NFT Data:', fetchedNftData);
 
-          const formattedNftData = fetchedNftData.map((nft) => ({
+          const formattedNftFormateData = fetchedNftVal.map((nft) => ({
             tokenId: nft.tokenId,
             metadata: decodeBase64(nft.metadata),
           }));
 
+          const filteredNftVal = filterNftsByUnlockDate(
+            formattedNftFormateData
+          );
+          const formattedNftData = sortNftsByUnlockDateDesc(filteredNftVal);
           setNftData(formattedNftData);
-          console.log('Updated User NFT Data:', formattedNftData);
         } else {
           console.warn('Address is undefined');
         }

@@ -47,10 +47,36 @@ export function useVotingEscrowContract(escrowAddress: string) {
         const gasEstimate =
           await votingEscrowContract.estimateGas.increaseAmount(tokenId, value);
         const tx = await votingEscrowContract.increaseAmount(tokenId, value, {
-          gasLimit: gasEstimate, // Optional but usually safe
+          gasLimit: gasEstimate,
         });
 
-        // Wait for the transaction to be mined
+        await tx.wait();
+      } catch (error) {
+        console.error('Failed to increase lock amount:', error);
+        throw error;
+      }
+    },
+    [votingEscrowContract]
+  );
+
+  const increaseUnlockTime = useCallback(
+    async (tokenId: bigint, value: bigint): Promise<void> => {
+      if (!votingEscrowContract) throw new Error('Contract is not initialized');
+
+      try {
+        const gasEstimate =
+          await votingEscrowContract.estimateGas.increaseUnlockTime(
+            tokenId,
+            value
+          );
+        const tx = await votingEscrowContract.increaseUnlockTime(
+          tokenId,
+          value,
+          {
+            gasLimit: gasEstimate,
+          }
+        );
+
         await tx.wait();
       } catch (error) {
         console.error('Failed to increase lock amount:', error);
@@ -256,6 +282,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
   return {
     createLock,
     increaseLockAmount,
+    increaseUnlockTime,
     withdraw,
     getApproved,
     isApprovedForAll,
