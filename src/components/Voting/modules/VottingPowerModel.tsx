@@ -117,9 +117,11 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                       <SuggestImg src={ImpIcon} />
                     </SugestImgWrapper>
                   </TokenAmountTitle>
-                  <DashboardNavigation fontsize={12}>
-                    Clear Vote
-                  </DashboardNavigation>
+                  <TokenAmountTitle>
+                    <DashboardNavigation fontsize={12}>
+                      Clear Vote
+                    </DashboardNavigation>
+                  </TokenAmountTitle>
                 </LiquidityTokenWrapper>
               </PairContain>
             </TokenCardContainer>

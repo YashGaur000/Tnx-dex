@@ -99,7 +99,7 @@ export const TitleWrapper = styled.p<{
 export const LiquidityTokenWrapper = styled.label<{ alignitem?: string }>`
   display: flex;
   flex-direction: column;
-  align-items: ${({ alignitem }) => alignitem ?? 'flex-end'};
+
   gap: 4px;
 `;
 export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
