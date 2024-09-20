@@ -1,5 +1,5 @@
 import { StateCreator } from 'zustand';
-import { TokenInfo } from '../../constants/tokens';
+import { TokenInfo } from '../../constants/tokens/type';
 import { Abi, Address, PublicClient } from 'viem';
 import { RootStore } from '../root';
 import { testErc20Abi } from '../../constants/abis/testErc20';

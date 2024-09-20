@@ -26,7 +26,7 @@ import {
 import { ChangeEvent, useState } from 'react';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
-import { TokenInfo, ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens';
+import { TokenInfo } from '../../../../constants/tokens/type';
 
 import {
   InputBoxRow,
@@ -45,6 +45,7 @@ import { InputBox } from '../../../Swap/modules/InputBox';
 import React from 'react';
 import { LockleftSection } from '../../../Dashboard/Extendlock/styles/Extendlock.style';
 import SuccessPopup from '../../../common/SucessPopup';
+import { ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens/testnetTokens';
 
 const CreatelockForm = () => {
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];

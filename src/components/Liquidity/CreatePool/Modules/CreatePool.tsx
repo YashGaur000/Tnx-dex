@@ -5,7 +5,7 @@ import InformIcon from '../../../../assets/information.svg';
 import LowLiquidityPool from './LowLiquidityPool';
 import QuestionIcon from '../../../../assets/questionmark.svg';
 import SelectIcon from '../../../../assets/select.svg';
-import { TokenInfo } from './../../../../constants/tokens';
+import { TokenInfo } from '../../../../constants/tokens/type';
 import TokenSelectModal from '../../../modal/TokenSelectModal';
 import PopupScreen from '../../../common/PopupScreen';
 

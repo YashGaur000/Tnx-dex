@@ -1,5 +1,5 @@
 import { useEffect, useCallback } from 'react';
-import { TokenInfo } from '../constants/tokens';
+import { TokenInfo } from '../constants/tokens/type';
 import { Address } from 'viem';
 import { useTokenAllowance } from './useTokenAllowance';
 import { testErc20Abi } from '../constants/abis/testErc20';

@@ -7,7 +7,7 @@ import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
 import SearchIcon from '../../../assets/search.png';
 import Lock1Icon from '../../../assets/Lock1.svg';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { useEffect, useState } from 'react';
 import contractAddresses from '../../../constants/contract-address/address';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';

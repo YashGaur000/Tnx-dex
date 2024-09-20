@@ -1,6 +1,6 @@
 import { ethers } from 'ethers';
 import { findTokenBySymbol } from '../transaction/getTokenInfo';
-import { TokenInfo } from '../../constants/tokens';
+import { TokenInfo } from '../../constants/tokens/type';
 import { getAllRoutes, Graph, Route } from './generateAllRoutes';
 import { findBestRoute } from './findBestRoute';
 
