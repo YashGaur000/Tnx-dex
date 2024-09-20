@@ -7,7 +7,6 @@ import {
   VoteDescBox,
   VoteInfo,
   VoteInfoSubtitle,
-  VoteInfoValues,
   VoteTitleBox,
   VotingTitle,
 } from '../styles/VotingBanner.style';
@@ -40,7 +39,7 @@ const VoteBanner: React.FC = () => {
         <VoteDescBox>
           <VoteDesc>
             <VotingTitle>
-              Vote weekly to earn Fees & Bribes from your veTENEX NFT{' '}
+              Vote weekly to earn Fees & Bribes from your veTENEX NFT
             </VotingTitle>
             <ImageContainer
               width="16px"
@@ -51,28 +50,26 @@ const VoteBanner: React.FC = () => {
           </VoteDesc>
         </VoteDescBox>
         <VoteInfo>
-          <VoteInfoValues>
-            <InfoItem>
-              <Title fontSize={24}>4d : 12h : 20m: 12s</Title>
-              <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
-            </InfoItem>
-            <InfoItem>
-              <Title fontSize={24}>~$547,658.28</Title>
-              <VoteInfoSubtitle>Total Fees</VoteInfoSubtitle>
-            </InfoItem>
-            <InfoItem>
-              <Title fontSize={24}>8,417,070.70</Title>
-              <VoteInfoSubtitle>New Emissions</VoteInfoSubtitle>
-            </InfoItem>
-            <InfoItem>
-              <Title fontSize={24}>~$248.64</Title>
-              <VoteInfoSubtitle>Total Incentives</VoteInfoSubtitle>
-            </InfoItem>
-            <InfoItem>
-              <Title fontSize={24}>~$147,070.40</Title>
-              <VoteInfoSubtitle>Total Rewards</VoteInfoSubtitle>
-            </InfoItem>
-          </VoteInfoValues>
+          <InfoItem>
+            <Title fontSize={24}>4d : 12h : 20m: 12s</Title>
+            <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
+          </InfoItem>
+          <InfoItem>
+            <Title fontSize={24}>~$547,658.28</Title>
+            <VoteInfoSubtitle>Total Fees</VoteInfoSubtitle>
+          </InfoItem>
+          <InfoItem>
+            <Title fontSize={24}>8,417,070.70</Title>
+            <VoteInfoSubtitle>New Emissions</VoteInfoSubtitle>
+          </InfoItem>
+          <InfoItem>
+            <Title fontSize={24}>~$248.64</Title>
+            <VoteInfoSubtitle>Total Incentives</VoteInfoSubtitle>
+          </InfoItem>
+          <InfoItem>
+            <Title fontSize={24}>~$147,070.40</Title>
+            <VoteInfoSubtitle>Total Rewards</VoteInfoSubtitle>
+          </InfoItem>
         </VoteInfo>
       </VoteBoxWrapper>
 
