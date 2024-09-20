@@ -9,7 +9,7 @@ import TimerIcon from '../../../assets/timer-red-logo.svg';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useEffect, useState } from 'react';
 import { usePoolContract } from '../../../hooks/usePoolContract';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { Metadata } from '../../../types/Pool';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { useNavigate } from 'react-router-dom';
@@ -23,6 +23,12 @@ import { useGaugeContract } from '../../../hooks/useGaugeContract';
 import SuccessPopup from '../../common/SucessPopup';
 import SearchIcon from '../../../assets/search.png';
 import { AddressZero } from '@ethersproject/constants';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
+import { useRootStore } from '../../../store/root';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
@@ -42,9 +48,29 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isStaked, setIsStaked] = useState(false);
 
+  const { transactionStatus, setTransactionStatus } = useRootStore();
+
   const getParam = useQueryParams();
   const poolId = getParam('pool');
-  const { metadata, balanceOf } = usePoolContract(poolId ?? '');
+  const { metadata, balanceOf, fetchAllowance } = usePoolContract(poolId ?? '');
+
+  useEffect(() => {
+    async function isAllownace() {
+      const balance = await balanceOf();
+      if (gaugeAddress != AddressZero && balance) {
+        const amount =
+          (Number(balance.etherBalance) * selectedStakeValue) / 100;
+        const amountInWei = ethers.parseUnits(
+          amount.toFixed(balance.decimals).toString(),
+          balance.decimals
+        );
+        setAmount(amountInWei);
+        await fetchAllowance(amount, gaugeAddress, setIsTokenAllowed);
+      }
+    }
+
+    void isAllownace();
+  }, [selectedStakeValue]);
 
   const { gauges } = useVoterContract();
   const { deposit } = useGaugeContract(gaugeAddress);
@@ -108,9 +134,19 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
   };
 
   const handleStakeDeposit = async () => {
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
     const result = await deposit(amount);
-    console.log(result);
-    // setIsStaked(true);
+
+    if (result) {
+      setTransactionStatus(TransactionStatus.DONE);
+      setIsStaked(true);
+    } else {
+      setTimeout(
+        () => setTransactionStatus(TransactionStatus.IDEAL),
+        TRANSACTION_DELAY
+      );
+      setIsStaked(false);
+    }
   };
 
   const StakeStepperInstructData = [
@@ -189,6 +225,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           ? `Staked successfully`
           : 'Waiting for next actions...',
       },
+      actionCompleted: !isStaked,
     },
   ];
 
@@ -205,17 +242,24 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           width="100%"
           height="48px"
           margin="0px"
-          onClick={() => {
-            handleStakeDeposit()
-              .then(() => {
-                setIsStaked(true);
-              })
-              .catch((error) => {
-                console.error('Error staking:', error);
-              });
-          }}
+          onClick={handleStakeDeposit}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Stake your Deposit{' '}
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Staking</p>
+            </div>
+          ) : (
+            <p>Stake Your Deposit</p>
+          )}
         </GlobalButton>
       )}
       {isStaked && <SuccessPopup message="Staked Successfully" />}

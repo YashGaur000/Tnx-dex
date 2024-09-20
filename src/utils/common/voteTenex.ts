@@ -1,5 +1,7 @@
 import { Metadata } from '../../types/VotingEscrow';
-
+import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
+import { TokenInfo } from '../../constants/tokens/type';
+export const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
 export const decodeBase64 = (base64: string): Metadata => {
   const base64Data = base64.split(',')[1];
   const binaryString = window.atob(base64Data);
@@ -11,4 +13,33 @@ export const decodeBase64 = (base64: string): Metadata => {
   const decodedString = new TextDecoder().decode(bytes);
   const decodedStringJson = JSON.parse(decodedString) as Metadata;
   return decodedStringJson;
+};
+
+export const locktokeninfo = () => {
+  const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
+  return lockTokenInfo;
+};
+
+export const calculateRemainingDays = (timestamp: number): string => {
+  const now = Date.now(); // Current timestamp in milliseconds
+  const timeDifference = timestamp * 1000 - now; // Convert timestamp to milliseconds
+
+  if (timeDifference <= 0) {
+    return 'The date has passed.';
+  }
+
+  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+
+  if (daysRemaining <= 0) {
+    return 'The date has passed.';
+  }
+  return `${daysRemaining} days remaining.`;
+};
+
+export const convertToDecimal = (value: number): string => {
+  const newVele = (value / 1e18).toFixed(1);
+  return newVele.toString();
+};
+export const formatTokenAmount = (amount: number): string => {
+  return (Number(amount) / 1e18).toFixed(2);
 };

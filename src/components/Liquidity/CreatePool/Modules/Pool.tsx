@@ -68,7 +68,7 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
   const poolName =
     exists === 'true'
       ? poolDetails?.name
-      : `vAMM-${selectedToken1.symbol}/${selectedToken2.symbol}`;
+      : `${poolType === 'stable' ? 'Stable ' : 'Volatile '}AMM-${selectedToken1.symbol}/${selectedToken2.symbol}`;
 
   const tvl = exists === 'true' ? `${poolDetails?.totalVolumeUSD} $` : '0.000$';
   const fee = poolType === 'stable' ? '0.03%' : '0.5%';

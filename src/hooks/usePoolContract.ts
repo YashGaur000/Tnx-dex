@@ -5,6 +5,8 @@ import { Address } from 'viem';
 import poolAbi from '../constants/artifacts/contracts/Pool.json';
 import { useAccount } from './useAccount';
 import { ethers } from 'ethers';
+import { useTokenAllowance } from './useTokenAllowance';
+import { formatAmounts } from '../utils/transaction/parseAmounts';
 /**
  * Hook to interact with the router contract.
  * @returns An object containing the functions to interact with the pool contract.
@@ -47,5 +49,28 @@ export function usePoolContract(poolId: string) {
     }
   }, [poolContract, address]);
 
-  return { metadata, balanceOf };
+  const { checkAllowance } = useTokenAllowance(poolId as Address, poolAbi.abi);
+
+  const fetchAllowance = useCallback(
+    async (
+      stakeAmount: number,
+      spender: Address,
+      setIsSufficientAllowance: (isAllow: boolean) => void
+    ) => {
+      if (address && stakeAmount) {
+        try {
+          const allowance = await checkAllowance(address, spender);
+          const decimals = await poolContract.decimals();
+          const formattedAllowance = formatAmounts(allowance, decimals);
+          setIsSufficientAllowance(Number(formattedAllowance) >= stakeAmount);
+        } catch (error) {
+          console.error('Error checking allowance:', error);
+          setIsSufficientAllowance(false);
+        }
+      }
+    },
+    [address, checkAllowance]
+  );
+
+  return { metadata, balanceOf, fetchAllowance };
 }

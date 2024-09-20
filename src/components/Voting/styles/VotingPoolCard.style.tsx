@@ -1,43 +1,5 @@
 import { styled } from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
-import { GradientButton } from '../../common';
-
-export const CardContainer = styled.div`
-  display: flex;
-  gap: 15px;
-  justify-content: center;
-  margin-left: 30px;
-  width: 200px;
-
-  @media (max-width: 768px) {
-    margin-left: 10px;
-    width: 150px;
-  }
-
-  @media (max-width: 480px) {
-    margin-left: 5px;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-export const GroupImg = styled.div`
-  display: block;
-  position: relative;
-  width: 60px;
-  height: 50px;
-
-  @media (max-width: 768px) {
-    width: 50px;
-    height: 40px;
-  }
-
-  @media (max-width: 480px) {
-    width: 40px;
-    height: 30px;
-  }
-`;
 
 export const TraidingSyleLabel = styled.label`
   display: flex;
@@ -51,36 +13,6 @@ export const TraidingSyleLabel = styled.label`
   @media (max-width: 480px) {
     font-size: 12px;
     gap: 3px;
-  }
-`;
-
-export const IMG1 = styled.div`
-  display: block;
-  position: absolute;
-  left: 0px;
-  top: 20px;
-
-  @media (max-width: 768px) {
-    top: 15px;
-  }
-  git @media (max-width: 480px) {
-    top: 10px;
-  }
-`;
-
-export const IMG2 = styled.div`
-  position: absolute;
-  left: 20px;
-  top: 20px;
-
-  @media (max-width: 768px) {
-    left: 15px;
-    top: 15px;
-  }
-
-  @media (max-width: 480px) {
-    left: 10px;
-    top: 10px;
   }
 `;
 
@@ -98,18 +30,6 @@ export const Label = styled.label<{ theme: DefaultTheme }>`
 
   @media (max-width: 480px) {
     font-size: 10px;
-  }
-`;
-
-export const Span = styled.span`
-  background: linear-gradient(209.3deg, #16c062 7.44%, #3eacfc 86.34%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  padding-right: 10px;
-
-  @media (max-width: 480px) {
-    padding-right: 5px;
   }
 `;
 
@@ -150,7 +70,6 @@ export const PairContain = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-
   @media (max-width: 480px) {
     align-items: center;
   }
@@ -199,27 +118,6 @@ export const VoteTooltip = styled.div<{
     color: #3498db;
     cursor: pointer;
     text-decoration: underline;
-  }
-`;
-
-export const VolumeStyles = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  align-items: flex-end;
-  width: 60%;
-  position: relative;
-
-  &:hover ${VoteTooltip} {
-    display: block;
-  }
-
-  @media (max-width: 768px) {
-    width: 80%;
-  }
-
-  @media (max-width: 480px) {
-    width: 100%;
   }
 `;
 
@@ -310,19 +208,5 @@ export const TooltipText = styled.span`
 
   @media (max-width: 480px) {
     font-size: 10px;
-  }
-`;
-
-export const VoteButtonContainer = styled.div`
-  position: relative;
-
-  &:hover ${VoteTooltip} {
-    display: block;
-  }
-`;
-
-export const StyledGradientButton = styled(GradientButton)`
-  &:hover + ${VoteTooltip} {
-    display: block;
   }
 `;

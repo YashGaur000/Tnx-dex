@@ -33,6 +33,8 @@ import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../../types/Transaction';
+import { useCheckAllowance } from '../../../../hooks/useCheckAllowance';
+import { LoadingSpinner } from '../../../common/Loader';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -57,6 +59,7 @@ const Deposite: React.FC<DepositProps> = ({
 
   const getParam = useQueryParams();
   const Navigate = useNavigate();
+  const { address } = useAccount();
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
@@ -71,6 +74,22 @@ const Deposite: React.FC<DepositProps> = ({
   const { approveAllowance: approveAllowance2 } = useTokenAllowance(
     selectedToken2!.address,
     testErc20Abi
+  );
+
+  useCheckAllowance(
+    selectedToken1!,
+    amount1?.toString() ?? '0',
+    address!,
+    routerAddress,
+    setIsToken1Allowed
+  );
+
+  useCheckAllowance(
+    selectedToken2!,
+    amount2?.toString() ?? '0',
+    address!,
+    routerAddress,
+    setIsToken2Allowed
   );
 
   const handleAllowToken1 = async () => {
@@ -154,9 +173,7 @@ const Deposite: React.FC<DepositProps> = ({
   };
   const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
 
-  const { address } = useAccount();
-
-  const { setTransactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const handleDeposit = async () => {
     try {
@@ -227,11 +244,16 @@ const Deposite: React.FC<DepositProps> = ({
     {
       step: 1,
       icon: CalIcon,
-      descriptions: {
-        labels: `Using your quote for new liquidity pool deposits `,
-        token1: `${amount1} ${selectedToken1?.symbol}`,
-        token2: `${amount2} ${selectedToken2?.symbol}`,
-      },
+      descriptions:
+        amount1 && amount2
+          ? {
+              labels: `Using your quote for new liquidity pool deposits `,
+              token1: `${amount1} ${selectedToken1?.symbol}`,
+              token2: `${amount2} ${selectedToken2?.symbol}`,
+            }
+          : {
+              labels: `Setting  quote for new liquidity pool deposits`,
+            },
     },
     {
       step: 2,
@@ -327,8 +349,23 @@ const Deposite: React.FC<DepositProps> = ({
                 console.error('Error adding liquidity:', error);
               });
           }}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Deposit
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Depositing</p>
+            </div>
+          ) : (
+            <p>Deposit</p>
+          )}
         </GlobalButton>
       )}
 

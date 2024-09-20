@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { DefaultTheme } from '../../../styles/Theme';
 
 export const VotingPoolContainer = styled.div<{ theme: DefaultTheme }>`
-  margin-bottom: 5px;
+  margin-top: 29px;
   display: flex;
   flex-direction: column;
   width: 100%;

@@ -63,7 +63,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
   return (
     <>
       <TableRow>
-        <TableColumn>
+        <TableColumn width="260px">
           <TokenCardContainer>
             <GroupImgContains>
               <IMG1Contains top={10} left={0}>

@@ -25,7 +25,7 @@ import {
 
 import { useAccount } from '../../../hooks/useAccount';
 import TokenSelectModal from '../../modal/TokenSelectModal';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import contractAddresses from '../../../constants/contract-address/address';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
@@ -36,14 +36,18 @@ import { useMultiCall } from '../../../hooks/useMultiCall';
 import { Address } from 'viem';
 import { ethers } from 'ethers';
 import { PublicClient } from 'viem';
+import { useNativeBalance } from '../../../hooks/useNativeBalance';
+import { useRootStore } from '../../../store/root';
 interface IncentiveTokenSelectionProps {
-  handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
+  handleIncentiveFormValue: (inputValue: string) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
+  incentive: string;
 }
 
 const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   handleIncentiveFormValue,
   handleTokenSymbol,
+  incentive,
 }) => {
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [selectedIncentiveToken, setSelectedIncentiveToken] = useState<
@@ -53,6 +57,10 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   //   useState<'token1'>('token1');
 
   const { address } = useAccount();
+
+  const { balance: nativeBalance } = useNativeBalance(address!);
+
+  const { transactionStatus } = useRootStore();
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
   const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
@@ -92,27 +100,53 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
           console.error('Error fetching rewards:', error);
         });
     }
-  }, [bribeAddress, rewards, multicall, getTokenBalances]);
+  }, [bribeAddress, rewards, multicall, getTokenBalances, transactionStatus]);
 
   const handleTokenSelectOpen2 = () => {
     // setTokenSelectTarget2(target);
     setIsModalOpen2(true);
+    handleIncentiveFormValue('0');
   };
 
   const handleIncentiveToken = (token: TokenInfo) => {
-    console.log('test', token);
     setSelectedIncentiveToken(token);
     handleTokenSymbol(token);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = Number(e.target.value); // Ensure inputValue is a number
+    const inputValue = e.target.value; // Ensure inputValue is a number
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(inputValue);
+    if (!validInput) return;
+
+    // Check the number of decimals
+    if (inputValue.includes('.') && selectedIncentiveToken) {
+      const decimalPlaces = inputValue.split('.')[1]?.length || 0;
+      if (decimalPlaces > selectedIncentiveToken.decimals) return;
+    }
     handleIncentiveFormValue(inputValue); // Call the function
   };
 
   if (!address) {
     return <div>No account connected.</div>;
   }
+
+  const handleSelectPercentage = (percentage: number) => {
+    if (!selectedIncentiveToken) return;
+
+    let walletBalance = 0;
+    if (selectedIncentiveToken.symbol === 'ETH') {
+      walletBalance = (Number(nativeBalance?.formatted) * percentage) / 100;
+    } else {
+      walletBalance =
+        (Number(balances[selectedIncentiveToken?.address].toString()) *
+          percentage) /
+        100;
+    }
+
+    const amount = walletBalance.toFixed(5);
+
+    handleIncentiveFormValue(amount);
+  };
 
   return (
     <IncentiveleftBarBox1 margintop="40px" height="236px" width="600px">
@@ -149,7 +183,11 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
       </Box2Container>
       <Box2ContainerBorder>
         <Box2ProgressContainer>
-          <Box2ProgressBar type="number" onChange={handleChange} />
+          <Box2ProgressBar
+            type="text"
+            onChange={handleChange}
+            value={incentive}
+          />
           <Box2Container>
             <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
               <Img2
@@ -172,11 +210,19 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             {/* <Box2ValueAvailable>~</Box2ValueAvailable>
             <Box2ValueAvailable>$0.00</Box2ValueAvailable> */}
           </Box2DataPoint4>
-          <Box2Percentage>0%</Box2Percentage>
-          <Box2Percentage>25%</Box2Percentage>
-          <Box2Percentage>50%</Box2Percentage>
-          <Box2Percentage>75%</Box2Percentage>
-          <Box2Percentage>MAX%</Box2Percentage>
+
+          <Box2Percentage onClick={() => handleSelectPercentage(25)}>
+            25%
+          </Box2Percentage>
+          <Box2Percentage onClick={() => handleSelectPercentage(50)}>
+            50%
+          </Box2Percentage>
+          <Box2Percentage onClick={() => handleSelectPercentage(75)}>
+            75%
+          </Box2Percentage>
+          <Box2Percentage onClick={() => handleSelectPercentage(100)}>
+            MAX
+          </Box2Percentage>
         </Box2PercentageBar>
       </Box2ContainerBorder>
       <TokenSelectModal

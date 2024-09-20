@@ -1,4 +1,3 @@
-import SwapIcon from '../../../../assets/swap.png';
 import { ChangeEvent, FC, useState } from 'react';
 import {
   ManageLiquidityFormSection,
@@ -8,14 +7,13 @@ import {
   TokenImgLiquidity,
   LiquidityInputBox,
   LiquidityProgress,
-  SwapImgConatiner,
   InputBoxContainer,
 } from '../styles/LiquidityForm.style';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
-import { TokenInfo } from '../../../../constants/tokens';
+import { TokenInfo } from '../../../../constants/tokens/type';
 import { ethers } from 'ethers';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import contractAddress from '../../../../constants/contract-address/address';
@@ -46,17 +44,32 @@ const LiquidityForm: FC<FormComponentProps> = ({
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    let stableValue = value;
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(value);
+    if (!validInput) return;
+
+    // Check the number of decimals
+    if (value.includes('.') && selectedToken1 && selectedToken2) {
+      const decimalPlaces = value.split('.')[1]?.length || 0;
+      if (decimalPlaces > selectedToken2.decimals && type) {
+        stableValue = Number(value).toFixed(selectedToken2.decimals);
+      }
+      if (decimalPlaces > selectedToken1.decimals) return;
+    }
+
     setToken1Amount(value);
 
     // Set values for creating a new stable pool deposit.
     if (!exists && type) {
-      setToken2Amount(value);
+      setToken2Amount(stableValue);
     }
 
     // Fetch values for new deposit in an existing pool (quote liquidity).
     if (selectedToken1 && selectedToken2 && exists) {
       if (!value) {
-        setToken2Amount('0');
+        //Reset values
+        setToken2Amount('');
+        onTokenValueChange(0, 0, totalBalanceToken1, totalBalanceToken2);
       } else {
         quoteAddLiquidity(
           selectedToken1,
@@ -88,7 +101,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
     } else {
       onTokenValueChange(
         parseFloat(value),
-        parseFloat(token2Value),
+        type ? parseFloat(stableValue) : parseFloat(token2Value),
         totalBalanceToken1,
         totalBalanceToken2
       );
@@ -97,6 +110,14 @@ const LiquidityForm: FC<FormComponentProps> = ({
 
   const handleChangeToken2Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(value);
+    if (!validInput) return;
+
+    // Check the number of decimals
+    if (value.includes('.') && selectedToken2) {
+      const decimalPlaces = value.split('.')[1]?.length || 0;
+      if (decimalPlaces > selectedToken2.decimals) return;
+    }
     setToken2Amount(value);
     onTokenValueChange(
       parseFloat(token1Value),
@@ -112,11 +133,12 @@ const LiquidityForm: FC<FormComponentProps> = ({
   ) => {
     if (tokenType === 'token1') {
       const calculatedValue = (Number(totalBalanceToken1) * percentage) / 100;
-      setToken1Amount(calculatedValue.toString());
+      const desiredValue = calculatedValue.toFixed(5); // Fix decimal issue need to check
+      setToken1Amount(desiredValue);
 
       // to set values for creating new stable pool deposit.
       if (!exists && type) {
-        setToken2Amount(calculatedValue.toString());
+        setToken2Amount(desiredValue);
       }
 
       // to fetch values for new deposit in an existing pool (quote liquidity).
@@ -129,7 +151,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
             selectedToken2,
             type,
             contractAddress.PoolFactory,
-            calculatedValue,
+            parseFloat(desiredValue),
             totalBalanceToken2
           )
             .then((tx) => {
@@ -146,7 +168,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
               setToken1Amount(value1 ? value1.toString() : '0');
               setToken2Amount(value2 ? value2.toString() : '0');
               onTokenValueChange(
-                calculatedValue,
+                Number(desiredValue),
                 value2 ?? 0,
                 totalBalanceToken1,
                 totalBalanceToken2
@@ -158,7 +180,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
         }
       } else {
         onTokenValueChange(
-          calculatedValue,
+          Number(desiredValue),
           parseFloat(token2Value),
           totalBalanceToken1,
           totalBalanceToken2
@@ -193,10 +215,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
     selectedToken2 && balances[selectedToken2.address]
   );
 
-  function handleSwapFeatures() {
-    console.log('swap button');
-  }
-
   if (selectedToken1 && selectedToken2) {
     return (
       <ManageLiquidityFormSection>
@@ -226,9 +244,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
             />
           </InputBoxContainer>
           <LiquidityProgress>
-            <AmountLabel onClick={() => handleAmountValue(0, 'token1')}>
-              0%
-            </AmountLabel>
             <AmountLabel onClick={() => handleAmountValue(25, 'token1')}>
               25%
             </AmountLabel>
@@ -243,9 +258,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
             </AmountLabel>
           </LiquidityProgress>
         </FormFieldContainer>
-        <SwapImgConatiner onClick={handleSwapFeatures}>
-          <img src={SwapIcon} alt="Swap logo" />
-        </SwapImgConatiner>
         <FormFieldContainer>
           <FormRowWrapper>
             <ImageWithTitleWrap>
@@ -271,23 +283,22 @@ const LiquidityForm: FC<FormComponentProps> = ({
               disabled={exists ? exists : type}
             />
           </InputBoxContainer>
-          <LiquidityProgress>
-            <AmountLabel onClick={() => handleAmountValue(0, 'token2')}>
-              0%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
-              25%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(50, 'token2')}>
-              50%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(75, 'token2')}>
-              75%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(100, 'token2')}>
-              MAX
-            </AmountLabel>
-          </LiquidityProgress>
+          {!exists && (
+            <LiquidityProgress>
+              <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
+                25%
+              </AmountLabel>
+              <AmountLabel onClick={() => handleAmountValue(50, 'token2')}>
+                50%
+              </AmountLabel>
+              <AmountLabel onClick={() => handleAmountValue(75, 'token2')}>
+                75%
+              </AmountLabel>
+              <AmountLabel onClick={() => handleAmountValue(100, 'token2')}>
+                MAX
+              </AmountLabel>
+            </LiquidityProgress>
+          )}
         </FormFieldContainer>
       </ManageLiquidityFormSection>
     );

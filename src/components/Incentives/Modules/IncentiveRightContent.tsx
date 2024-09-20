@@ -7,7 +7,7 @@ import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
 import SearchIcon from '../../../assets/search.png';
 import Lock1Icon from '../../../assets/Lock1.svg';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { useEffect, useState } from 'react';
 import contractAddresses from '../../../constants/contract-address/address';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
@@ -23,9 +23,17 @@ import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
 import SuccessPopup from '../../common/SucessPopup';
 import { AddressZero } from '@ethersproject/constants';
 import { useIncentiveStore } from '../../../store/slices/useIncentiveStore';
+import { useCheckAllowance } from '../../../hooks/useCheckAllowance';
+import { useAccount } from '../../../hooks/useAccount';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
+import { useRootStore } from '../../../store/root';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface IncentiveRightContent {
-  InsentiveFormValue: number;
+  InsentiveFormValue: string;
   tokenSymbol: TokenInfo | undefined;
   poolData: LiquidityPoolNewType[];
 }
@@ -39,6 +47,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   // const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isGaugeCreated, setIsGaugeCreated] = useState(false);
   const [isGaugeBeingCreated, setIsGaugeBeingCreated] = useState(false);
+  const { address } = useAccount();
 
   const { gaugeAddress, bribeAddress, setGaugeAddress, setBribeAddress } =
     useIncentiveStore();
@@ -47,9 +56,19 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isIncentiveAdded, setIsIncentiveAdded] = useState(false);
 
+  const { transactionStatus, setTransactionStatus } = useRootStore();
+
   const { approveAllowance } = useTokenAllowance(
     tokenSymbol!.address,
     erc20Abi
+  );
+
+  useCheckAllowance(
+    tokenSymbol!,
+    InsentiveFormValue.toString(),
+    address!,
+    bribeAddress,
+    setIsTokenAllowed
   );
 
   const { notifyRewardAmount } = useBribeVotingReward(bribeAddress);
@@ -82,6 +101,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
         setGaugeAddress(gaugeAddress);
         setIsGaugeCreated(true);
+      } else {
+        setGaugeAddress(AddressZero);
+        setIsGaugeCreated(false);
       }
     } catch (error) {
       setIsGaugeCreated(false);
@@ -108,7 +130,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const handleAllowance = async () => {
     setIsAllowingToken(true);
 
-    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    const amount = parseAmounts(
+      Number(InsentiveFormValue),
+      tokenSymbol?.decimals
+    );
     if (bribeAddress && amount) {
       const result = await approveAllowance(bribeAddress, amount.toString());
       setIsTokenAllowed(result ? true : false);
@@ -116,11 +141,22 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   };
 
   const handleAddIncentive = async () => {
-    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    const amount = parseAmounts(
+      Number(InsentiveFormValue),
+      tokenSymbol?.decimals
+    );
     if (tokenSymbol && amount) {
       const result = await notifyRewardAmount(tokenSymbol.address, amount);
-      console.log('result', result);
-      setIsIncentiveAdded(result ? true : false);
+      if (result) {
+        setTransactionStatus(TransactionStatus.DONE);
+        setIsIncentiveAdded(true);
+      } else {
+        setTimeout(
+          () => setTransactionStatus(TransactionStatus.IDEAL),
+          TRANSACTION_DELAY
+        );
+      }
     }
   };
 
@@ -147,11 +183,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     {
       step: 1,
       descriptions: {
-        labels: !gaugeAddress
-          ? isGaugeCreated
-            ? `Create gauge for the ${poolData[0]?.name} pool`
-            : `Gauge is created for the ${poolData[0]?.name} pool`
-          : `Gauge found for this Pool.`,
+        labels: !isGaugeCreated
+          ? `Create gauge for the ${poolData[0]?.name} pool`
+          : `Gauge is created for the ${poolData[0]?.name} pool`,
       },
       icon: !isGaugeCreated ? RedLockIcon : UnLockIcon,
       buttons: !isGaugeCreated
@@ -173,7 +207,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       },
       icon: !isTokenAllowed ? RedLockIcon : UnLockIcon,
       buttons:
-        !isTokenAllowed && bribeAddress
+        !isTokenAllowed && bribeAddress != AddressZero
           ? {
               label: `Allow ${tokenSymbol?.symbol}`,
               icon: Lock1Icon,
@@ -191,6 +225,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
           : 'Waiting for next actions...',
       },
       icon: SearchIcon,
+      actionCompleted: !isIncentiveAdded,
     },
   ];
 
@@ -203,7 +238,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         providing an incentive, you draw more liquidity providers to this pool.
       </IncentivesBox2Paragraph>
       <Stepper
-        data={InsentiveFormValue <= 0 ? LockInstructionData : IncentiveData}
+        data={InsentiveFormValue ? IncentiveData : LockInstructionData}
       />
       {isTokenAllowed && !isIncentiveAdded && (
         <GlobalButton
@@ -219,8 +254,23 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
                 console.error('Error adding Incentive:', error);
               });
           }}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Add incentive{' '}
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Adding</p>
+            </div>
+          ) : (
+            <p>Add Incentive</p>
+          )}
         </GlobalButton>
       )}
       {isIncentiveAdded && (

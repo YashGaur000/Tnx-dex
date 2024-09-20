@@ -38,14 +38,16 @@ import { ImgRightIcon, ImgleftIcon } from '../Styles/IncentiveTokenPopup.style';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
 
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import contractAddresses from '../../../constants/contract-address/address';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';
+import IncentiveTokenPopup from './IncentiveTokenPopup';
+import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 
 const IncentiveSection: React.FC = () => {
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  const [value, setValue] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [value, setValue] = useState('');
   // const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
   const [incentiveToken, setIncentiveToken] = useState<TokenInfo | undefined>(
     getTokenInfo(contractAddresses.TENEX)
@@ -62,12 +64,9 @@ const IncentiveSection: React.FC = () => {
   //   undefined
   // );
 
-  // const [tokenSelectTarget, setTokenSelectTarget] = useState<
-  //   'token1' | 'token2'
-  // >('token1');
-
   const getParam = useQueryParams();
-  const poolId = getParam('pool') ?? '';
+  const poolId =
+    getParam('pool') ?? '0x04d106e887f3381634cd518AA1b0A8A1DfB0b98F';
   const { data: poolData } = useLiquidityPoolDataById(poolId);
   const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
@@ -90,17 +89,28 @@ const IncentiveSection: React.FC = () => {
   //   setIsModalOpen(true);
   // };
 
-  // const handleTokenSelect = (token: TokenInfo) => {
-  //   if (tokenSelectTarget === 'token1') {
-  //     setSelectedToken1(token);
-  //   }
-  // };
-  const handleIncentiveFormValue = (inputValue: number) => {
+  const handlePoolSelect = (pool: LiquidityPoolNewType) => {
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set('pool', pool.id);
+
+    // Update the URL in the browser without reloading the page
+    const newRelativePathQuery =
+      window.location.pathname + '?' + searchParams.toString();
+    window.history.pushState(null, '', newRelativePathQuery);
+    window.location.reload();
+    if (pool) {
+      const token1 = pool.token0?.id.match(/0x[a-fA-F0-9]{40}/) ?? '';
+      const token2 = pool.token1?.id.match(/0x[a-fA-F0-9]{40}/) ?? '';
+      setSelectedToken1(getTokenInfo(token1[0]));
+      setSelectedToken2(getTokenInfo(token2[0]));
+    }
+  };
+
+  const handleIncentiveFormValue = (inputValue: string) => {
     setValue(inputValue);
   };
 
   const handleTokenSymbol = (token: TokenInfo) => {
-    console.log('test ', token);
     // setTokenSymbol(token.symbol);
     setIncentiveToken(token);
   };
@@ -152,7 +162,7 @@ const IncentiveSection: React.FC = () => {
                       height="40px"
                       width="80px"
                       margin="0px"
-                      // onClick={() => handleTokenSelectOpen('token1')}
+                      onClick={() => setIsModalOpen(true)}
                     >
                       Change
                     </GlobalButton>
@@ -187,6 +197,7 @@ const IncentiveSection: React.FC = () => {
             </IncentiveleftBarBox1>
             <IncentiveTokenSelection
               handleIncentiveFormValue={handleIncentiveFormValue}
+              incentive={value}
               handleTokenSymbol={handleTokenSymbol}
             />
           </IncentiveleftBar>
@@ -197,12 +208,12 @@ const IncentiveSection: React.FC = () => {
             tokenSymbol={incentiveToken}
             poolData={poolData}
           />
-          {/* <IncentiveTokenPopup
+          <IncentiveTokenPopup
             isOpen={isModalOpen}
             onClose={() => setIsModalOpen(false)}
-            onSelect={handleTokenSelect}
-            account={address!}
-          /> */}
+            onSelect={handlePoolSelect}
+            // account={address!}
+          />
         </Column40>
       </Row>
     </Section>
