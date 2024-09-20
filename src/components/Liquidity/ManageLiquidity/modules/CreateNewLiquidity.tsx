@@ -42,7 +42,7 @@ const CreateNewLiquidity = () => {
           height={'24px'}
           src={InformationIcon}
         />
-        <LiquidityHeaderTitle fontSize={14}>
+        <LiquidityHeaderTitle fontsize={14}>
           You&apos;r about to create a new{' '}
           {poolType == '0' ? 'stable' : 'volatile'} liquidity Pool...
         </LiquidityHeaderTitle>

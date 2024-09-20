@@ -3,11 +3,11 @@ import { DefaultTheme } from '../../../styles/Theme';
 
 export const LockTitle = styled.p<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   lineheight?: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
   line-height: ${({ lineheight }) => lineheight}px;
   padding-left: 5px;
@@ -37,10 +37,10 @@ export const LockLoaderContainer = styled.div<{ padding?: string }>`
 `;
 export const LoaderStatusWrapper = styled.div<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   lineheight?: number;
 }>`
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   line-height: ${({ lineheight }) => lineheight}px;
   padding: 10px;
   width: 100%;
@@ -49,11 +49,11 @@ export const LoaderStatusWrapper = styled.div<{
 `;
 export const LoaderStatus = styled.p<{
   theme: DefaultTheme;
-  fontSize?: number;
+  fontsize?: number;
 }>`
   background: ${({ theme }) => theme.colors.hover};
   display: inline-block;
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   padding: 4px 6px;
   float: right;
   border-radius: 6px;
@@ -67,13 +67,13 @@ export const LoaderStyle = styled.div`
 `;
 export const SliderDeadlineStyle = styled.div<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
 }>`
   display: flex;
   justify-content: space-between;
   margin: 0px;
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 export const LockScreenInstruction = styled.div`
@@ -132,10 +132,10 @@ export const WeeksLabel = styled.label<{ isdisable?: boolean }>`
 
 export const LockCardtitle = styled.label<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   lineheight?: number;
 }>`
   color: ${({ theme }) => theme.colors.text};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   line-height: ${({ lineheight }) => lineheight};
 `;

@@ -69,7 +69,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
     <StyledDepositContainer>
       <TransferLockTitle fontsize={24}>Transfer Lock</TransferLockTitle>
       <SteperWrapper>
-        <LockDescriptonTitle fontSize={14}>
+        <LockDescriptonTitle fontsize={14}>
           Transferring a lock will also transfer any rewards and rebases! Before
           continuing, please make sure you have
           <UnderlineText fontsize={14}>

@@ -169,7 +169,7 @@ export const FilterButton = styled.button<FilterButtonProps>`
   padding: 6px 15px;
   border-radius: 13px;
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   background: ${({ theme, selected }) =>
     selected ? theme.colors.bordercolor : theme.colors.titleColor};
@@ -202,7 +202,7 @@ export const FilterButton = styled.button<FilterButtonProps>`
   }
 
   @media screen and (max-width: 600px) {
-    font-size: ${({ theme }) => theme.fontSize.small};
+    font-size: ${({ theme }) => theme.fontsize.small};
     padding: 8px 8px;
   }
 `;

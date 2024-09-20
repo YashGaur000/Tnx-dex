@@ -124,7 +124,7 @@ const VotingPoolCard: React.FC<TableProps> = ({ data }) => {
           <VoteButtonContainer>
             <StyledGradientButton
               width="90px"
-              fontSize="13px"
+              fontsize="13px"
               padding="0px 5px"
               margintop="10px"
             >

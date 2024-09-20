@@ -11,7 +11,7 @@ const MergeLockScreen = () => {
     <>
       <SplitContainer>
         <SplitDatacontain>
-          <LockHeaderTitle fontSize={23}>Select NFTs to merge</LockHeaderTitle>
+          <LockHeaderTitle fontsize={23}>Select NFTs to merge</LockHeaderTitle>
 
           <SplitCardContainer>
             <MergeCard />

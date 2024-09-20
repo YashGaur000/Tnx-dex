@@ -3,13 +3,13 @@ import { DefaultTheme } from '../../../../styles/Theme';
 
 export const LiquidityTitle = styled.label<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   margin?: string;
   lineheight?: string;
   textalign?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ lineheight }) => lineheight ?? '17.94px'};
   text-align: ${({ textalign }) => textalign ?? 'left'};
@@ -36,14 +36,14 @@ export const InformImageStye = styled.img`
 
 export const StatsCardtitle = styled.label<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   lineheight?: string;
 }>`
   background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   line-height: ${({ lineheight }) => lineheight};
 `;
 
@@ -104,7 +104,7 @@ export const MetricDisplayWrapper = styled.div<{
   gap: 16px;
 
   color: ${({ theme }) => theme.colors.whiteBorder};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   justify-content: flex-end;
   width: 100%;
   height: 55px;
@@ -141,7 +141,7 @@ export const MetricDisplay = styled.div<{ theme: DefaultTheme }>`
 
   border-radius: 8px;
 
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 
   @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {

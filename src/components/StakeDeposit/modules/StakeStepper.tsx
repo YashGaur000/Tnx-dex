@@ -194,7 +194,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
 
   return (
     <>
-      <LiquidityHeaderTitle fontSize={24}>Staking</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontsize={24}>Staking</LiquidityHeaderTitle>
       <Stepper
         data={
           selectedStakeValue < 1 ? StakeStepperInstructData : StakeStepperData

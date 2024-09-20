@@ -15,10 +15,10 @@ export const TransactionWrapper = styled.div<{
 `;
 
 export const SidebarTitle = styled.h2<{
-  fontSize: number;
+  fontsize: number;
   theme: DefaultTheme;
 }>`
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 12px;

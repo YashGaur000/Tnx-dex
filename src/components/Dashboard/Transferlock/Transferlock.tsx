@@ -70,8 +70,9 @@ const Transferlock = () => {
       }
     };
 
-    void fetchLockData(); // Fetch lock data and handle floating promise
-  }, [getLockData]);
+    void fetchLockData();
+  }, [tokenId, getLockData]);
+
   const handleTransferAddress = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (inputValue.startsWith('0x') && inputValue.length === 42) {
@@ -87,25 +88,25 @@ const Transferlock = () => {
       <CreateMainContainer>
         <LockleftSection height={278}>
           <LockHeaderWrapper>
-            <LockHeaderTitle fontSize={16}>
+            <LockHeaderTitle fontsize={16}>
               Transferring Lock #{tokenId}
             </LockHeaderTitle>
-            <LockDescriptonTitle fontSize={14}>
+            <LockDescriptonTitle fontsize={14}>
               {lockedTENEX ? lockedTENEX : '0.00'}{' '}
-              <LockHeaderTitle fontSize={14}>
+              <LockHeaderTitle fontsize={14}>
                 {lockTokenInfo?.symbol}
               </LockHeaderTitle>{' '}
               locked for{' '}
               {lockData ? calculateRemainingDays(Number(lockData.end)) : '...'}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontSize={14}>
+            <LockDescriptonTitle fontsize={14}>
               {totalVotingPower ? totalVotingPower : '0.00'}{' '}
-              <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
+              <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
           <WalletAdressConainer>
-            <LockHeaderTitle fontSize={16}>To wallet address</LockHeaderTitle>
+            <LockHeaderTitle fontsize={16}>To wallet address</LockHeaderTitle>
             <InputBox
               type="text"
               height="48px"

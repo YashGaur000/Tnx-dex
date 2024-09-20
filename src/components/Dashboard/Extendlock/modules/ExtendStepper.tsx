@@ -12,16 +12,30 @@ import {
   LockHeaderTitle,
 } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import { GlobalButton } from '../../../common';
-const ExtendStepper = () => {
+
+interface ExtendStepperProps {
+  tokenId: number;
+  timeStampValue: number;
+  selectedWeeks: number;
+  votingPower: number;
+}
+
+const ExtendStepper: React.FC<ExtendStepperProps> = ({
+  tokenId,
+  selectedWeeks,
+  votingPower,
+}) => {
   const ExtendStepperData: StepperDataProps[] = [
     {
       step: 1,
-      descriptions: { labels: 'New lock time Tue, 08 Aug 2028 00:00:00 GMT ' },
+      descriptions: { labels: `New lock time for ${selectedWeeks} weeks` },
       icon: DateTimeIcon,
     },
     {
       step: 2,
-      descriptions: { labels: 'New estimated voting power 50.0 veTENEX' },
+      descriptions: {
+        labels: `New estimated voting power: ${votingPower} veTENEX`,
+      },
       icon: VotingPowerIcon,
     },
     {
@@ -30,16 +44,17 @@ const ExtendStepper = () => {
       icon: WaitingIcon,
     },
   ];
+
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontSize={24}>Extend Lock</LockHeaderTitle>
+      <LockHeaderTitle fontsize={24}>Extend Lock #{tokenId}</LockHeaderTitle>
       <SteperWrapper>
         <Stepper data={ExtendStepperData} />
         <GlobalButton>Extend</GlobalButton>
       </SteperWrapper>
       <TipsContainer>
         <ImageContainer width="24px" height="24px" src={InformIcon} />
-        <LockHeaderTitle fontSize={14}>
+        <LockHeaderTitle fontsize={14}>
           You can extend the lock or increase the lock amount. These actions
           will increase your voting power. The maximum lock time is 4 years!
         </LockHeaderTitle>

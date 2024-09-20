@@ -19,7 +19,7 @@ const LowLiquidityPool = ({
 }: LowLiquidityPoolProps) => {
   return (
     <PoolSection>
-      <LiquidityHeaderTitle fontSize={20}>
+      <LiquidityHeaderTitle fontsize={20}>
         Low Liquidity Pools
       </LiquidityHeaderTitle>
       <LiquidityPoolStyle>

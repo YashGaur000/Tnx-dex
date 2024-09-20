@@ -35,9 +35,9 @@ export const calculateRemainingDays = (timestamp: number): string => {
   return `${daysRemaining} days remaining.`;
 };
 
-export const convertToDecimal = (value: number): string => {
+export const convertToDecimal = (value: number): number => {
   const newVele = (value / 1e18).toFixed(1);
-  return newVele.toString();
+  return Number(newVele);
 };
 export const formatTokenAmount = (amount: number): string => {
   return (Number(amount) / 1e18).toFixed(2);

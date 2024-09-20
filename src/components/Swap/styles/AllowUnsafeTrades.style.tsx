@@ -21,10 +21,10 @@ export const AllowUnsafeWrapper = styled.div<{
 `;
 
 export const SidebarTitle = styled.h2<{
-  fontSize: number;
+  fontsize: number;
   theme: DefaultTheme;
 }>`
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   text-align: justify;
   margin-bottom: 10px;

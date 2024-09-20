@@ -3,9 +3,9 @@ import { DefaultTheme } from '../../../../styles/Theme';
 
 export const LiquidityHeaderTitle = styled.p<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
 }>`
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.whiteBorder};
   text-align: left;
