@@ -14,11 +14,11 @@ import {
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
 import TenexIcon from '../../../assets/Tenex.png';
-import { LockItemProps } from '../../../types/VotingEscrow';
+import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 
-const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
+const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
 
