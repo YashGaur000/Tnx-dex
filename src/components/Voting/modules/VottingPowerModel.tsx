@@ -106,7 +106,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 <TraidingSyleLabel>
                   {data.token0.symbol}-{data.token1.symbol}
                 </TraidingSyleLabel>
-                <LiquidityTokenWrapper>
+                <LiquidityTokenWrapper alignitem="flex-start">
                   <TokenAmountTitle>
                     <StatsCardtitle lineheight="17px" fontSize={12}>
                       {data.isStable ? 'Stable' : 'Volatile'}
@@ -128,7 +128,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
               <LockDescriptonTitle fontSize={12}>
                 Votes 8,923,342.27
               </LockDescriptonTitle>
-              <LiquidityTokenWrapper>
+              <LiquidityTokenWrapper alignitem="flex-start">
                 <LockDescriptonTitle fontSize={12}>
                   Total rewards ~$10,180
                 </LockDescriptonTitle>
@@ -140,14 +140,14 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
 
             <PairContain>
               <Title fontSize="14">0.0 veTENEX</Title>
-              <LiquidityTokenWrapper>
+              <LiquidityTokenWrapper alignitem="flex-start">
                 <LockDescriptonTitle fontSize={12}>
                   0.0 veTENEX
                 </LockDescriptonTitle>
               </LiquidityTokenWrapper>
             </PairContain>
 
-            <LiquidityTokenWrapper>
+            <LiquidityTokenWrapper alignitem="flex-start">
               <VoteInput type="number" />
 
               <PercentageSelectorContainer>

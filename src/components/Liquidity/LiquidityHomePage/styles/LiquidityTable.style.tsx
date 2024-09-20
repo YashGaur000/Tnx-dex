@@ -96,10 +96,10 @@ export const TitleWrapper = styled.p<{
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-export const LiquidityTokenWrapper = styled.label`
+export const LiquidityTokenWrapper = styled.label<{ alignitem?: string }>`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: ${({ alignitem }) => alignitem ?? 'flex-end'};
   gap: 4px;
 `;
 export const LiquidityTableWrapper = styled.section<{ theme: DefaultTheme }>`
