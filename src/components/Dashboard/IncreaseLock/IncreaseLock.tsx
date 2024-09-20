@@ -1,3 +1,7 @@
+import { ChangeEvent, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom'; // To get tokenId from the URL
+import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract'; // Hook for contract interactions
+import contractAddress from '../../../constants/contract-address/address'; // Contract addresses
 import { MainContainerStyle } from '../../common/MainContainerStyle';
 import { CreateMainContainer } from '../../Liquidity/ManageLiquidity/styles/Managepool.style';
 import {
@@ -15,10 +19,74 @@ import {
   UnderlineText,
 } from '../Extendlock/styles/Extendlock.style';
 import { DropDownContainer } from '../Mergelock/styles/MergeLock.style';
-import TenexIcon from '../../../assets/tether.png';
 import InformIcon from '../../../assets/information.svg';
 import IncreaseStepper from './IncreaseStepper';
+import { LockedBalance } from '../../../types/VotingEscrow';
+import {
+  calculateRemainingDays,
+  convertToDecimal,
+  formatTokenAmount,
+  locktokeninfo,
+  MAX_LOCK_TIME,
+} from '../../../utils/common/voteTenex';
+import { useAccount } from '../../../hooks/useAccount';
+import { useTokenBalances } from '../../../hooks/useTokenBalance';
+//import BigNumber from 'bignumber.js';
+
 const IncreaseLock = () => {
+  const { tokenId } = useParams<{ tokenId: string }>();
+  const [lockData, setLockData] = useState<LockedBalance | null>(null);
+  const [additionalAmount, setAdditionalAmount] = useState<string>('');
+  //const [isLoading, setIsLoading] = useState(false);
+  //const [isLocking, setIsLocking] = useState(false);
+  //const [isLocked, setIsLocked] = useState(false);
+  const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
+  //const [totalLockedVELO, setTotalLockedVELO] = useState<number>(0);
+  const [lockedTENEX, setLockedTENEX] = useState<number>(0);
+  const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
+
+  useEffect(() => {
+    const fetchLockData = async () => {
+      if (tokenId) {
+        try {
+          // setIsLoading(true);
+          const data = await getLockData(Number(tokenId));
+          console.log('lock data inc:', data);
+          if (data) {
+            const LockedAmt = formatTokenAmount(Number(data.amount));
+            setLockedTENEX(Number(LockedAmt));
+
+            const currentTime = Math.floor(Date.now() / 1000);
+            const timeRemaining =
+              data.end > currentTime ? data.end - currentTime : 0;
+            const votingPower =
+              (data.amount * (timeRemaining / MAX_LOCK_TIME)) / 2;
+            const setVotePw = convertToDecimal(Number(votingPower));
+            setTotalVotingPower(Number(setVotePw));
+            //setTotalLockedVELO(prevTotal => prevTotal + Number(data.amount));
+            //setTotalVotingPower(prevTotal => prevTotal + setVotePw);
+          }
+
+          setLockData(data);
+        } catch (error) {
+          console.error('Error fetching lock data:', error);
+          return null;
+        } finally {
+          //setIsLoading(false);
+        }
+      }
+    };
+
+    void fetchLockData(); // Fetch lock data and handle floating promise
+  }, [tokenId, getLockData]);
+
+  const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
+    setAdditionalAmount(e.target.value);
+  };
+  const lockTokenInfo = locktokeninfo();
+  const tokenList = [lockTokenInfo];
+  const { address } = useAccount();
+  const { balances } = useTokenBalances(tokenList, address!);
   return (
     <MainContainerStyle>
       <CreateMainContainer>
@@ -26,18 +94,24 @@ const IncreaseLock = () => {
           <PercentageSelectorContainer>
             <LockHeaderTitle fontSize={24}>Increase Lock</LockHeaderTitle>
             <LockDescriptonTitle fontSize={14}>
-              Current Lock 100 TENEX
+              Current Lock {lockedTENEX ? lockedTENEX : '0'}{' '}
+              {lockTokenInfo?.symbol}
             </LockDescriptonTitle>
           </PercentageSelectorContainer>
 
           <LockHeaderWrapper>
             <LockDescriptonTitle fontSize={14}>
-              50.0 <LockHeaderTitle fontSize={14}>TENEX</LockHeaderTitle> locked
-              for 11 hours
+              {lockedTENEX ? lockedTENEX : '0'}{' '}
+              <LockHeaderTitle fontSize={14}>
+                {lockTokenInfo?.symbol}
+              </LockHeaderTitle>{' '}
+              locked until{' '}
+              {lockData ? calculateRemainingDays(Number(lockData.end)) : '...'}
             </LockDescriptonTitle>
             <LockDescriptonTitle fontSize={14}>
-              0.015 <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle>{' '}
-              voting power granted
+              {totalVotingPower ? totalVotingPower : '0.00'}{' '}
+              <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
+              power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
 
@@ -45,15 +119,30 @@ const IncreaseLock = () => {
             <LockHeaderTitle fontSize={16}>Add to lock</LockHeaderTitle>
             <LockDescriptonTitle fontSize={14}>
               Available{' '}
-              <LockHeaderTitle fontSize={14}>106.48 TENEX</LockHeaderTitle>
+              <LockHeaderTitle fontSize={14}>
+                {Number(balances[lockTokenInfo?.address])}{' '}
+                {lockTokenInfo?.symbol}
+              </LockHeaderTitle>
             </LockDescriptonTitle>
           </PercentageSelectorContainer>
 
           <DropDownContainer>
-            <InputBox type="number" border="none" />
+            <InputBox
+              type="number"
+              border="none"
+              value={additionalAmount}
+              onChange={handleLockInputData}
+              placeholder="0"
+            />
             <AmountWithImg gap={8}>
-              <ImageContainer src={TenexIcon} width="20px" height="20px" />
-              <LockHeaderTitle fontSize={14}>TENEX</LockHeaderTitle>
+              <ImageContainer
+                src={lockTokenInfo?.logoURI}
+                width="20px"
+                height="20px"
+              />
+              <LockHeaderTitle fontSize={14}>
+                {lockTokenInfo?.symbol}
+              </LockHeaderTitle>
             </AmountWithImg>
           </DropDownContainer>
 
@@ -67,7 +156,16 @@ const IncreaseLock = () => {
           </TipsContainer>
         </LockleftSection>
 
-        <IncreaseStepper />
+        {/* Stepper or confirmation UI */}
+        <IncreaseStepper
+          tokenId={Number(tokenId)}
+          additionalAmount={Number(additionalAmount)}
+          setAdditionalAmount={setAdditionalAmount}
+        />
+
+        {/* <button onClick={handleIncreaseLock} disabled={!additionalAmount || isLoading}>
+          {isLoading ? 'Loading...' : 'Increase Lock'}
+        </button> */}
       </CreateMainContainer>
     </MainContainerStyle>
   );

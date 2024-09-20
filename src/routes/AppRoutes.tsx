@@ -60,19 +60,19 @@ const AppRoutes: React.FC = () => {
               <Route path="/liquidity/create" element={<CreatePool />} />
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route
-                path="/governance/managevetenex/extend"
+                path="/governance/managevetenex/extend/:tokenId"
                 element={<ExtendLock />}
               />
               <Route
-                path="/governance/managevetenex/transfer"
+                path="/governance/managevetenex/transfer/:tokenId"
                 element={<Transferlock />}
               />
               <Route
-                path="/governance/managevetenex/merge"
+                path="/governance/managevetenex/merge/:tokenId"
                 element={<MergeLock />}
               />
               <Route
-                path="/governance/managevetenex/increase"
+                path="/governance/managevetenex/increase/:tokenId"
                 element={<IncreaseLock />}
               />
               <Route path="/stake" element={<StakeDeposit />} />

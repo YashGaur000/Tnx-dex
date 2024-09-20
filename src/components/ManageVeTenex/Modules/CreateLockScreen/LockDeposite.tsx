@@ -125,7 +125,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       icon: LockIcon,
       buttons: !isTokenAllowed
         ? {
-            label: isLoading ? 'Approving......' : 'Allow ' + LockTokenSymbol,
+            label: isLoading ? 'Approving..' : 'Allow ' + LockTokenSymbol,
             icon: Lock1Icon,
             onClick: !isLoading ? handleAllowToken : undefined,
             tooltip: 'Click to allow ' + LockTokenSymbol + ' transactions',

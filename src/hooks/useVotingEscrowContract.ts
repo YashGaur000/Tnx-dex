@@ -1,11 +1,12 @@
 import { useCallback } from 'react';
 import { useContract } from './useContract';
-import { VotingEscrowContract } from '../types/VotingEscrow';
+import { LockedBalance, VotingEscrowContract } from '../types/VotingEscrow'; //LockDataNew,
 import { Abi, Address } from 'viem';
 import votingEscrowAbi from '../constants/artifacts/contracts/VotingEscrow.json';
 import { useMultiCall } from './useMultiCall';
 //import BigNumber from 'bignumber.js';
-
+//import BigNumber from 'bignumber.js';
+//const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function useVotingEscrowContract(escrowAddress: string) {
   const votingEscrowContract = useContract(
@@ -32,17 +33,29 @@ export function useVotingEscrowContract(escrowAddress: string) {
     [votingEscrowContract]
   );
 
+  /**
+   * Increases the lock amount for a specific tokenId.
+   * @param tokenId - The token ID whose lock amount is to be increased.
+   * @param value - The value to be added to the existing lock amount.
+   * @returns A Promise that resolves to the transaction receipt or an error if the transaction fails.
+   */
   const increaseLockAmount = useCallback(
-    async (amount: bigint) => {
-      if (!votingEscrowContract) return;
+    async (tokenId: bigint, value: bigint): Promise<void> => {
+      if (!votingEscrowContract) throw new Error('Contract is not initialized');
 
-      const gasEstimate =
-        await votingEscrowContract.estimateGas.increaseAmount(amount);
-      const tx = await votingEscrowContract.increaseAmount(amount, {
-        gasLimit: gasEstimate.toBigInt(),
-      });
-      await tx.wait();
-      return tx;
+      try {
+        const gasEstimate =
+          await votingEscrowContract.estimateGas.increaseAmount(tokenId, value);
+        const tx = await votingEscrowContract.increaseAmount(tokenId, value, {
+          gasLimit: gasEstimate, // Optional but usually safe
+        });
+
+        // Wait for the transaction to be mined
+        await tx.wait();
+      } catch (error) {
+        console.error('Failed to increase lock amount:', error);
+        throw error;
+      }
     },
     [votingEscrowContract]
   );
@@ -67,9 +80,19 @@ export function useVotingEscrowContract(escrowAddress: string) {
   );
 
   const isApprovedForAll = useCallback(
-    async (owner: Address, operator: Address) => {
-      if (!votingEscrowContract) return false;
-      return await votingEscrowContract.isApprovedForAll(owner, operator);
+    async (owner: Address, operator: Address): Promise<boolean> => {
+      if (!votingEscrowContract) throw new Error('Contract is not initialized');
+
+      try {
+        const isApproved = await votingEscrowContract.isApprovedForAll(
+          owner,
+          operator
+        );
+        return isApproved;
+      } catch (error) {
+        console.error('Error checking approval for all:', error);
+        throw error;
+      }
     },
     [votingEscrowContract]
   );
@@ -162,6 +185,52 @@ export function useVotingEscrowContract(escrowAddress: string) {
     },
     [votingEscrowContract, multicallClient, getNFTCount]
   );
+  /*  const getLockData = useCallback(
+    async (tokenId: number): Promise<LockDataNew | null> => {
+      if (!votingEscrowContract) {
+        console.error('Voting Escrow contract is not initialized');
+        return null;
+      }
+
+      try {
+        
+        const lockData = await votingEscrowContract.locked(tokenId);
+        const currentTime = Math.floor(Date.now() / 1000); 
+        const timeRemaining = lockData.end > currentTime ? lockData.end - currentTime : 0; 
+        const votingPower = Number(lockData.amount) * (timeRemaining / MAX_LOCK_TIME); 
+
+       const retrnData  =  {
+          tokenId,
+          amount: lockData.amount,
+          end: Number(lockData.end),
+          isPermanent: lockData.isPermanent,
+          votingPower 
+        };
+        return retrnData;
+      } catch (error) {
+        return null
+      }
+    },
+    [votingEscrowContract]
+  ); */
+  const getLockData = useCallback(
+    async (tokenId: number): Promise<LockedBalance | null> => {
+      if (!votingEscrowContract) {
+        console.error('Voting Escrow contract is not initialized');
+        return null;
+      }
+
+      try {
+        const lockData: LockedBalance =
+          await votingEscrowContract.locked(tokenId);
+        return lockData;
+      } catch (error) {
+        console.log('Error fetching lock data:', error);
+        return null;
+      }
+    },
+    [votingEscrowContract]
+  );
 
   return {
     createLock,
@@ -171,6 +240,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
     isApprovedForAll,
     isApprovedOrOwner,
     getNFTCount,
+    getLockData,
     fetchUserNFTs,
   };
 }

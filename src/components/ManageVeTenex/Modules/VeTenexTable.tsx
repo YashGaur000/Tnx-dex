@@ -41,9 +41,9 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
   };
   const Navigate = useNavigate();
 
-  const handleLockButton = (option: string) => {
+  const handleLockButton = (option: string, pageID: bigint) => {
     if (option) {
-      Navigate(`/governance/managevetenex/${option}`);
+      Navigate(`/governance/managevetenex/${option}/${pageID}`);
     } else {
       console.log('Route is undefine ');
     }
@@ -95,18 +95,22 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
                   </LockInfoDes>
                   <LockInfoCheck>
                     <LockInfoAction
-                      onClick={() => handleLockButton('increase')}
+                      onClick={() => handleLockButton('increase', lock.tokenId)}
                     >
                       Increase
                     </LockInfoAction>
-                    <LockInfoAction onClick={() => handleLockButton('extend')}>
+                    <LockInfoAction
+                      onClick={() => handleLockButton('extend', lock.tokenId)}
+                    >
                       Extend
                     </LockInfoAction>
-                    <LockInfoAction onClick={() => handleLockButton('merge')}>
+                    <LockInfoAction
+                      onClick={() => handleLockButton('merge', lock.tokenId)}
+                    >
                       Merge
                     </LockInfoAction>
                     <LockInfoAction
-                      onClick={() => handleLockButton('transfer')}
+                      onClick={() => handleLockButton('transfer', lock.tokenId)}
                     >
                       Transfer
                     </LockInfoAction>
