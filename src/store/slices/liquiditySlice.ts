@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { TokenInfo } from '../../constants/tokens';
+import { TokenInfo } from '../../constants/tokens/type';
 
 interface LiquidityState {
   selectedToken1: TokenInfo | null;

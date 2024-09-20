@@ -1,4 +1,5 @@
-import { ERC20_TEST_TOKEN_LIST, TokenInfo } from '../constants/tokens';
+import { ERC20_TEST_TOKEN_LIST } from '../constants/tokens/testnetTokens';
+import { TokenInfo } from '../constants/tokens/type';
 
 export function findTokenByAddress(address: string): TokenInfo | undefined {
   return ERC20_TEST_TOKEN_LIST.find(

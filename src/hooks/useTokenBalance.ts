@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useRootStore } from '../store/root';
-import { TokenInfo } from '../constants/tokens';
+import { TokenInfo } from '../constants/tokens/type';
 import { Address, PublicClient } from 'viem';
 import { ethers } from 'ethers';
 import { useMultiCall } from './useMultiCall';

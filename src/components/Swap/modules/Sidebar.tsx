@@ -21,7 +21,7 @@ import {
 } from '../styles/Sidebar.style';
 import Stepper from '../../common/Stepper';
 import { StepperDataProps } from '../../../types/Stepper';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
 import { useRootStore } from '../../../store/root';
 import { calculateMinAmount } from '../../../utils/transaction/calculateMinAmounts';

@@ -11,7 +11,7 @@ import FwdIcon from '../../../assets/fwd-arrow.png';
 import { Route } from '../../../utils/liquidityRouting/generateAllRoutes';
 import { useEffect, useState } from 'react';
 import { findTokenByAddress } from '../../../hooks/useTokenInfo';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { LoadingSpinner } from '../../common/Loader';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { formatAmounts } from '../../../utils/transaction/parseAmounts';

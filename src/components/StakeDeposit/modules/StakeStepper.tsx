@@ -9,7 +9,7 @@ import TimerIcon from '../../../assets/timer-red-logo.svg';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useEffect, useState } from 'react';
 import { usePoolContract } from '../../../hooks/usePoolContract';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { Metadata } from '../../../types/Pool';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { useNavigate } from 'react-router-dom';

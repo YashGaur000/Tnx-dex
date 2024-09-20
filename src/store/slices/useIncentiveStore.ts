@@ -1,6 +1,6 @@
 import create from 'zustand';
 import { Address } from 'viem';
-import { TokenInfo } from '../../constants/tokens';
+import { TokenInfo } from '../../constants/tokens/type';
 import { Abi, PublicClient } from 'viem';
 import { testErc20Abi } from '../../constants/abis/testErc20';
 import { wethAbi } from '../../constants/abis/weth';

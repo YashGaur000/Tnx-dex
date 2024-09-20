@@ -25,7 +25,7 @@ import {
 
 import { useAccount } from '../../../hooks/useAccount';
 import TokenSelectModal from '../../modal/TokenSelectModal';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import contractAddresses from '../../../constants/contract-address/address';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';

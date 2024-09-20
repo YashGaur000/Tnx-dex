@@ -15,7 +15,7 @@ import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
-import { TokenInfo } from '../../../../constants/tokens';
+import { TokenInfo } from '../../../../constants/tokens/type';
 import { ethers } from 'ethers';
 import { LiquidityHeaderTitle } from '../../LiquidityHomePage/styles/Liquiditypool.style';
 import contractAddress from '../../../../constants/contract-address/address';

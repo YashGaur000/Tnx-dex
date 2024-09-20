@@ -1,4 +1,4 @@
-import { ERC20_TEST_TOKEN_LIST } from '../constants/tokens';
+import { ERC20_TEST_TOKEN_LIST } from '../constants/tokens/testnetTokens';
 
 export const getTokenLogo = (symbol: string) => {
   const token = ERC20_TEST_TOKEN_LIST.find((token) => token.symbol === symbol);

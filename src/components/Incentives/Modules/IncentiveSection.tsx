@@ -38,7 +38,7 @@ import { ImgRightIcon, ImgleftIcon } from '../Styles/IncentiveTokenPopup.style';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
 
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import contractAddresses from '../../../constants/contract-address/address';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';

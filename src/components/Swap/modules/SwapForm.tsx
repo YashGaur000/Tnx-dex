@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
-import { TokenInfo } from './../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import TokenSelectModal from '../../modal/TokenSelectModal';
 import SelectIcon from '../../../assets/select.svg';
 import SwapSettingIcon from '../../../assets/setting.svg';
