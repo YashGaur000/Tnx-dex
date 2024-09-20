@@ -58,16 +58,12 @@ const Main = () => {
             tokenId: nft.tokenId,
             metadata: decodeBase64(nft.metadata),
           }));
-          console.log('Format NFT Data:', formattedNftFormateData);
 
           const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData
           );
-          console.log('NFT Data:', filteredNftVal);
-          // Then, sort the filtered NFTs by unlock date in descending order
           const formattedNftData = sortNftsByUnlockDateDesc(filteredNftVal);
           setNftData(formattedNftData);
-          console.log('Updated User NFT Data:', formattedNftData);
         } else {
           console.warn('Address is undefined');
         }

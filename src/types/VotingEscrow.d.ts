@@ -92,9 +92,9 @@ export interface VotingEscrowContract extends Contract {
 
 export interface LockedBalance {
   tokenId?: string;
-  amount: BigNumber; // Locked token amount (in BigNumber)
-  end: BigNumber; // Timestamp when the lock ends (in BigNumber)
-  isPermanent: boolean; // Whether the lock is permanent
+  amount: BigNumber;
+  end: BigNumber;
+  isPermanent: boolean;
   votingPower?: number;
 }
 
@@ -111,4 +111,9 @@ export interface NftMetadata {
 export interface Nft {
   tokenId: bigint;
   metadata: NftMetadata;
+}
+interface LockIncreaseProps {
+  tokenId: number;
+  additionalAmount: number;
+  setAdditionalAmount?: (input: string) => void;
 }

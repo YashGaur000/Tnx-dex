@@ -21,8 +21,8 @@ export const locktokeninfo = () => {
 };
 
 export const calculateRemainingDays = (timestamp: number): string => {
-  const now = Date.now(); // Current timestamp in milliseconds
-  const timeDifference = timestamp * 1000 - now; // Convert timestamp to milliseconds
+  const now = Date.now();
+  const timeDifference = timestamp * 1000 - now;
 
   if (timeDifference <= 0) {
     return 'The date has passed.';
@@ -50,14 +50,11 @@ export const formatTokenAmount = (amount: number): string => {
  * @returns Filtered NFTs where the unlock date is greater than the current timestamp.
  */
 export const filterNftsByUnlockDate = (nfts: Nft[]): Nft[] => {
-  const currentTime = Math.floor(Date.now() / 1000); // Current timestamp in seconds
-
+  const currentTime = Math.floor(Date.now() / 1000);
   return nfts.filter((nft) => {
     const unlockDate = nft.metadata.attributes.find(
       (attr: NftAttribute) => attr.trait_type === 'Unlock Date'
     )?.value;
-    console.log('unlockDate:', unlockDate);
-    console.log('typeof unlockDate:', typeof unlockDate);
     const unlockTimestamp =
       typeof unlockDate === 'string'
         ? convertDateStringToTimestamp(unlockDate)
@@ -106,7 +103,7 @@ export const sortNftsByUnlockDateDesc = (nfts: Nft[]): Nft[] => {
         : null;
 
     if (aUnlockTimestamp !== null && bUnlockTimestamp !== null) {
-      return bUnlockTimestamp - aUnlockTimestamp; // Descending order
+      return bUnlockTimestamp - aUnlockTimestamp;
     }
     return 0;
   });
