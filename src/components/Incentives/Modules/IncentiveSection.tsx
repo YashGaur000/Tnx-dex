@@ -47,7 +47,7 @@ import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 
 const IncentiveSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [value, setValue] = useState<number>(0);
+  const [value, setValue] = useState('');
   // const [tokenSymbol, setTokenSymbol] = useState<string>('TENEX');
   const [incentiveToken, setIncentiveToken] = useState<TokenInfo | undefined>(
     getTokenInfo(contractAddresses.TENEX)
@@ -106,7 +106,7 @@ const IncentiveSection: React.FC = () => {
     }
   };
 
-  const handleIncentiveFormValue = (inputValue: number) => {
+  const handleIncentiveFormValue = (inputValue: string) => {
     setValue(inputValue);
   };
 

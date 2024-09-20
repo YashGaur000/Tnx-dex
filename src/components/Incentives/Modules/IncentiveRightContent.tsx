@@ -32,7 +32,7 @@ import {
 import { useRootStore } from '../../../store/root';
 
 interface IncentiveRightContent {
-  InsentiveFormValue: number;
+  InsentiveFormValue: string;
   tokenSymbol: TokenInfo | undefined;
   poolData: LiquidityPoolNewType[];
 }
@@ -129,7 +129,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const handleAllowance = async () => {
     setIsAllowingToken(true);
 
-    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    const amount = parseAmounts(
+      Number(InsentiveFormValue),
+      tokenSymbol?.decimals
+    );
     if (bribeAddress && amount) {
       const result = await approveAllowance(bribeAddress, amount.toString());
       setIsTokenAllowed(result ? true : false);
@@ -138,7 +141,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   const handleAddIncentive = async () => {
     setTransactionStatus(TransactionStatus.IN_PROGRESS);
-    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    const amount = parseAmounts(
+      Number(InsentiveFormValue),
+      tokenSymbol?.decimals
+    );
     if (tokenSymbol && amount) {
       const result = await notifyRewardAmount(tokenSymbol.address, amount);
       if (result) {
@@ -231,7 +237,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         providing an incentive, you draw more liquidity providers to this pool.
       </IncentivesBox2Paragraph>
       <Stepper
-        data={InsentiveFormValue <= 0 ? LockInstructionData : IncentiveData}
+        data={InsentiveFormValue ? IncentiveData : LockInstructionData}
       />
       {isTokenAllowed && !isIncentiveAdded && (
         <GlobalButton

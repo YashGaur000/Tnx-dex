@@ -135,11 +135,12 @@ const LiquidityForm: FC<FormComponentProps> = ({
   ) => {
     if (tokenType === 'token1') {
       const calculatedValue = (Number(totalBalanceToken1) * percentage) / 100;
-      setToken1Amount(calculatedValue.toString());
+      const desiredValue = calculatedValue.toFixed(5); // Fix decimal issue need to check
+      setToken1Amount(desiredValue);
 
       // to set values for creating new stable pool deposit.
       if (!exists && type) {
-        setToken2Amount(calculatedValue.toString());
+        setToken2Amount(desiredValue);
       }
 
       // to fetch values for new deposit in an existing pool (quote liquidity).
@@ -152,7 +153,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
             selectedToken2,
             type,
             contractAddress.PoolFactory,
-            calculatedValue,
+            parseFloat(desiredValue),
             totalBalanceToken2
           )
             .then((tx) => {
@@ -169,7 +170,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
               setToken1Amount(value1 ? value1.toString() : '0');
               setToken2Amount(value2 ? value2.toString() : '0');
               onTokenValueChange(
-                calculatedValue,
+                Number(desiredValue),
                 value2 ?? 0,
                 totalBalanceToken1,
                 totalBalanceToken2
@@ -181,7 +182,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
         }
       } else {
         onTokenValueChange(
-          calculatedValue,
+          Number(desiredValue),
           parseFloat(token2Value),
           totalBalanceToken1,
           totalBalanceToken2
@@ -291,23 +292,22 @@ const LiquidityForm: FC<FormComponentProps> = ({
               disabled={exists ? exists : type}
             />
           </InputBoxContainer>
-          <LiquidityProgress>
-            <AmountLabel onClick={() => handleAmountValue(0, 'token2')}>
-              0%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
-              25%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(50, 'token2')}>
-              50%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(75, 'token2')}>
-              75%
-            </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(100, 'token2')}>
-              MAX
-            </AmountLabel>
-          </LiquidityProgress>
+          {!exists && (
+            <LiquidityProgress>
+              <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
+                25%
+              </AmountLabel>
+              <AmountLabel onClick={() => handleAmountValue(50, 'token2')}>
+                50%
+              </AmountLabel>
+              <AmountLabel onClick={() => handleAmountValue(75, 'token2')}>
+                75%
+              </AmountLabel>
+              <AmountLabel onClick={() => handleAmountValue(100, 'token2')}>
+                MAX
+              </AmountLabel>
+            </LiquidityProgress>
+          )}
         </FormFieldContainer>
       </ManageLiquidityFormSection>
     );
