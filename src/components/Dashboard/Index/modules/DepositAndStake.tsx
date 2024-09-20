@@ -28,8 +28,19 @@ import {
   IMG2Contains,
   Imgstyle,
 } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useUserPosition } from '../../../../hooks/useUserPosition';
+import { useEffect } from 'react';
+import { useRootStore } from '../../../../store/root';
 
 const DepositAndStake: React.FC = () => {
+  const { address } = useAccount();
+  const lp = useUserPosition(address!);
+  const { refetch, setRefetch } = useRootStore();
+  console.log('lp------->', lp);
+  useEffect(() => {
+    setInterval(() => setRefetch(!refetch), 10000);
+  }, []);
   return (
     <DepositMainContainer>
       <PoolContainer>

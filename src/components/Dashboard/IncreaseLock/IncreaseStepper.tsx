@@ -12,7 +12,7 @@ import contractAddress from '../../../constants/contract-address/address';
 import { ethers } from 'ethers';
 import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import { locktokeninfo } from '../../../utils/common/voteTenex';
-import { TokenInfo } from '../../../constants/tokens';
+import { TokenInfo } from '../../../constants/tokens/type';
 import { testErc20Abi } from '../../../constants/abis/testErc20';
 import { useRootStore } from '../../../store/root';
 import {
