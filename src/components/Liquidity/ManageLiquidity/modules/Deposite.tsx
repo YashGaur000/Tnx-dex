@@ -34,6 +34,7 @@ import {
   TransactionStatus,
 } from '../../../../types/Transaction';
 import { useCheckAllowance } from '../../../../hooks/useCheckAllowance';
+import { LoadingSpinner } from '../../../common/Loader';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -172,7 +173,7 @@ const Deposite: React.FC<DepositProps> = ({
   };
   const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
 
-  const { setTransactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const handleDeposit = async () => {
     try {
@@ -348,8 +349,23 @@ const Deposite: React.FC<DepositProps> = ({
                 console.error('Error adding liquidity:', error);
               });
           }}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Deposit
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Depositing</p>
+            </div>
+          ) : (
+            <p>Deposit</p>
+          )}
         </GlobalButton>
       )}
 

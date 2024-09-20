@@ -51,6 +51,7 @@ import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../types/Transaction';
+import SuccessPopup from '../../common/SucessPopup';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -506,6 +507,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     )}
                   </GlobalButton>
                 )}
+              {isSwapped && <SuccessPopup message="Swapped Successfully" />}
 
               {isVisibleSlippage && (
                 <PopupScreen

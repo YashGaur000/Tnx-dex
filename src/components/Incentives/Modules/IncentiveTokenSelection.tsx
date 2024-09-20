@@ -39,9 +39,9 @@ import { PublicClient } from 'viem';
 import { useNativeBalance } from '../../../hooks/useNativeBalance';
 import { useRootStore } from '../../../store/root';
 interface IncentiveTokenSelectionProps {
-  handleIncentiveFormValue: (inputValue: number) => void; // Updated to be a function
+  handleIncentiveFormValue: (inputValue: string) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
-  incentive: number;
+  incentive: string;
 }
 
 const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
@@ -105,7 +105,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const handleTokenSelectOpen2 = () => {
     // setTokenSelectTarget2(target);
     setIsModalOpen2(true);
-    handleIncentiveFormValue(0);
+    handleIncentiveFormValue('0');
   };
 
   const handleIncentiveToken = (token: TokenInfo) => {
@@ -114,7 +114,15 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = Number(e.target.value); // Ensure inputValue is a number
+    const inputValue = e.target.value; // Ensure inputValue is a number
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(inputValue);
+    if (!validInput) return;
+
+    // Check the number of decimals
+    if (inputValue.includes('.') && selectedIncentiveToken) {
+      const decimalPlaces = inputValue.split('.')[1]?.length || 0;
+      if (decimalPlaces > selectedIncentiveToken.decimals) return;
+    }
     handleIncentiveFormValue(inputValue); // Call the function
   };
 
@@ -137,7 +145,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
 
     const amount = walletBalance.toFixed(5);
 
-    handleIncentiveFormValue(Number(amount));
+    handleIncentiveFormValue(amount);
   };
 
   return (
@@ -176,7 +184,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
       <Box2ContainerBorder>
         <Box2ProgressContainer>
           <Box2ProgressBar
-            type="number"
+            type="text"
             onChange={handleChange}
             value={incentive}
           />

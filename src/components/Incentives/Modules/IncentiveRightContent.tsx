@@ -30,9 +30,10 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
+import { LoadingSpinner } from '../../common/Loader';
 
 interface IncentiveRightContent {
-  InsentiveFormValue: number;
+  InsentiveFormValue: string;
   tokenSymbol: TokenInfo | undefined;
   poolData: LiquidityPoolNewType[];
 }
@@ -55,7 +56,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isIncentiveAdded, setIsIncentiveAdded] = useState(false);
 
-  const { setTransactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const { approveAllowance } = useTokenAllowance(
     tokenSymbol!.address,
@@ -129,7 +130,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const handleAllowance = async () => {
     setIsAllowingToken(true);
 
-    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    const amount = parseAmounts(
+      Number(InsentiveFormValue),
+      tokenSymbol?.decimals
+    );
     if (bribeAddress && amount) {
       const result = await approveAllowance(bribeAddress, amount.toString());
       setIsTokenAllowed(result ? true : false);
@@ -138,7 +142,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   const handleAddIncentive = async () => {
     setTransactionStatus(TransactionStatus.IN_PROGRESS);
-    const amount = parseAmounts(InsentiveFormValue, tokenSymbol?.decimals);
+    const amount = parseAmounts(
+      Number(InsentiveFormValue),
+      tokenSymbol?.decimals
+    );
     if (tokenSymbol && amount) {
       const result = await notifyRewardAmount(tokenSymbol.address, amount);
       if (result) {
@@ -231,7 +238,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         providing an incentive, you draw more liquidity providers to this pool.
       </IncentivesBox2Paragraph>
       <Stepper
-        data={InsentiveFormValue <= 0 ? LockInstructionData : IncentiveData}
+        data={InsentiveFormValue ? IncentiveData : LockInstructionData}
       />
       {isTokenAllowed && !isIncentiveAdded && (
         <GlobalButton
@@ -247,8 +254,23 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
                 console.error('Error adding Incentive:', error);
               });
           }}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
         >
-          Add incentive{' '}
+          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Center items horizontally
+                alignItems: 'center', // Center items vertically
+                gap: '15px',
+              }}
+            >
+              <LoadingSpinner width="10px" height="10px" />
+              <p>Adding</p>
+            </div>
+          ) : (
+            <p>Add Incentive</p>
+          )}
         </GlobalButton>
       )}
       {isIncentiveAdded && (
