@@ -460,8 +460,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       setTimeout(() => {
         setTokenInput1('');
         setTokenInput2('');
-
         setTransactionStatus(TransactionStatus.IDEAL);
+        setIsSwapped(false);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error swapping:', error);

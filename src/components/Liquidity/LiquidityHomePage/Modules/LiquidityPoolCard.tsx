@@ -84,7 +84,9 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                     {data.isStable ? 'Stable' : 'Volatile'}
                   </StatsCardtitle>
                   {/* <p> {data.stablePercentage}%</p>{' '} */}
-                  <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
+                  <LiquidityTitle fontSize={12}>
+                    {data.isStable ? '0.05' : '0.3'} %
+                  </LiquidityTitle>
                   <SugestImgWrapper
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}

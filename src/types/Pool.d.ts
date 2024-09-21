@@ -19,3 +19,44 @@ interface Metadata {
   t0: Address;
   t1: Address;
 }
+
+interface UserPosition {
+  lp: Address;
+  //   symbol: string;
+  //   decimals: number;
+  //   totalSupply: string;
+  isStable: boolean;
+  token0: {
+    id: string; // token address
+    symbol: string; // token symbol;
+  };
+  token1: {
+    id: string; // token address
+    symbol: string; // token symbol;
+  };
+  reserve0: string;
+  //claimable0?: bigint;
+
+  //   token1: string;
+  reserve1: string;
+  //claimable1?: bigint;
+
+  //   gauge: string;
+  //   gaugeTotalSupply: string;
+  //   gaugeAlive: boolean;
+
+  //   fee: string;
+  //   bribe: string;
+  //   factory: string;
+
+  //   emissions: string;
+  //   emissionsToken: string;
+
+  accountBalance: string;
+  //   accountEarned: string;
+  //   accountStaked: string;
+
+  //   poolFee: string;
+  //   token0Fees: string;
+  //   token1Fees: string;
+}
