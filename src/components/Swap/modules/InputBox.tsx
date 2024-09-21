@@ -11,6 +11,7 @@ interface InputboxStyledProps {
   isValid?: boolean;
   borderradius?: number;
   theme?: DefaultTheme;
+  errortextcode?: string;
 }
 
 export const InputBox = styled.input<InputboxStyledProps>`
@@ -25,7 +26,7 @@ export const InputBox = styled.input<InputboxStyledProps>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   border-radius: ${({ borderradius }) => borderradius ?? '4'}px;
   background: none;
-  color: white;
+  color: ${({ errortextcode }) => errortextcode ?? '#FFFFFF'};
 
   &:focus {
     outline: none;

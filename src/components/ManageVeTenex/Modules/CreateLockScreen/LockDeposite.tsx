@@ -67,14 +67,17 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       setIsLocking(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       const durationInSeconds = lockDuration * 7 * 24 * 60 * 60;
-      const tx = await createLock(amountInWei, durationInSeconds);
-      console.log('Transaction successful:', tx);
+      await createLock(amountInWei, durationInSeconds);
+
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
       //setIsDisabled(false);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setLockTokenValue('');
+        setIsLocking(false);
+        setIsLocked(true);
+        setIsLoading(false);
         SetlockDuration(1);
         setSuccessLock(true);
       }, TRANSACTION_DELAY);
