@@ -108,3 +108,41 @@ export const sortNftsByUnlockDateDesc = (nfts: Nft[]): Nft[] => {
     return 0;
   });
 };
+
+export const getTimeDifference = (targetDateString: string): string => {
+  const currentDate = new Date();
+  const targetDate = new Date(targetDateString);
+
+  // Calculate the difference in milliseconds
+  const diffTime = targetDate.getTime() - currentDate.getTime();
+
+  if (diffTime <= 0) {
+    return 'Expired'; // If the date is in the past or today
+  }
+
+  const years = targetDate.getFullYear() - currentDate.getFullYear();
+  let months = targetDate.getMonth() - currentDate.getMonth();
+  let days = targetDate.getDate() - currentDate.getDate();
+
+  // Adjust days and months if days are negative
+  if (days < 0) {
+    months--;
+    const lastDayOfPreviousMonth = new Date(
+      targetDate.getFullYear(),
+      targetDate.getMonth(),
+      0
+    ).getDate();
+    days += lastDayOfPreviousMonth;
+  }
+
+  // Adjust months and years if months are negative
+  if (months < 0) {
+    months += 12;
+  }
+
+  return `${years === 0 ? `${years} year, ` : ''}${years > 1 ? `${years} years, ` : ''}${
+    months > 1 ? `${months} months, ` : ''
+  }${
+    months === 1 ? `${months} month, ` : ''
+  }${days === 1 ? `${days} day` : ''}${days > 1 ? `${days} days` : ''}`;
+};
