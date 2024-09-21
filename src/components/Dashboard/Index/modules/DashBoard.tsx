@@ -129,7 +129,7 @@ const DashBoard: React.FC = () => {
         </DashBoardWrapper>
 
         <DashBoardWrapper>
-          <DashboardHeading fontSize="24px">
+          <DashboardHeading fontsize="24px">
             Locks{' '}
             <TipsIcon
               src={QuestionIcon}

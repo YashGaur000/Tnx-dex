@@ -8,17 +8,17 @@ export const LockCardstyle = styled.div<{ theme: DefaultTheme }>`
   height: 296px;
   border-radius: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontsize.medium};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
 export const ToolTipsWrapper = styled.span``;
 export const LockHeaderTitle = styled.label<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
   margin?: string;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-family: ${({ theme }) => theme.fonts.main};
   margin: ${({ margin }) => margin ?? '0px'};
@@ -26,10 +26,10 @@ export const LockHeaderTitle = styled.label<{
 
 export const LockDescriptonTitle = styled.p<{
   theme: DefaultTheme;
-  fontSize: number;
+  fontsize: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   color: ${({ theme }) => theme.colors.titleColor};
 `;
 

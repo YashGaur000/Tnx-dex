@@ -24,7 +24,7 @@ interface LockModelProps {
 const LockModel: React.FC<LockModelProps> = ({ handleSelectToken }) => {
   return (
     <LockTokenContainer>
-      <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>
+      <LockHeaderTitle margin="0px 0px 0px 25px" fontsize={24}>
         Select your lock to merge
       </LockHeaderTitle>
       <TokenListsWrapper>
@@ -48,7 +48,7 @@ const LockModel: React.FC<LockModelProps> = ({ handleSelectToken }) => {
                   />
                   <TokenNameWrapper>
                     <TokenItemData>Lock #{token.id}</TokenItemData>
-                    <LockDescriptonTitle fontSize={12}>
+                    <LockDescriptonTitle fontsize={12}>
                       {token.amount} TENEX locked for {token.time}
                     </LockDescriptonTitle>
                   </TokenNameWrapper>

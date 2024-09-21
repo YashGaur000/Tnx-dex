@@ -15,6 +15,12 @@ export interface VotingEscrowContract extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
+  increaseUnlockTime(
+    tokenIds: bigint,
+    amount: bigint,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+
   withdraw(overrides?: Overrides): Promise<ContractTransaction>;
   increaseLockAmount(
     tokenId: bigint,
@@ -26,6 +32,12 @@ export interface VotingEscrowContract extends Contract {
     operator: Address,
     overrides?: Overrides
   ): Promise<boolean>;
+  transferFrom(
+    owner: Address,
+    address: Address,
+    _tokenId: number,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
   isApprovedOrOwner(spender: Address, tokenId: bigint): Promise<boolean>;
 }
 
@@ -80,8 +92,28 @@ export interface VotingEscrowContract extends Contract {
 
 export interface LockedBalance {
   tokenId?: string;
-  amount: BigNumber; // Locked token amount (in BigNumber)
-  end: BigNumber; // Timestamp when the lock ends (in BigNumber)
-  isPermanent: boolean; // Whether the lock is permanent
+  amount: BigNumber;
+  end: BigNumber;
+  isPermanent: boolean;
   votingPower?: number;
+}
+
+export interface NftAttribute {
+  trait_type: string;
+  value: string;
+}
+
+export interface NftMetadata {
+  name: string;
+  attributes: NftAttribute[];
+}
+
+export interface Nft {
+  tokenId: bigint;
+  metadata: NftMetadata;
+}
+interface LockIncreaseProps {
+  tokenId: number;
+  additionalAmount: number;
+  setAdditionalAmount?: (input: string) => void;
 }

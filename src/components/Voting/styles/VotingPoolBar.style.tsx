@@ -20,13 +20,13 @@ export const PoolTitleBox = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Title = styled.p<{ fontSize?: string; theme: DefaultTheme }>`
-  font-size: ${({ fontSize }) => fontSize};
+export const Title = styled.p<{ fontsize?: string; theme: DefaultTheme }>`
+  font-size: ${({ fontsize }) => fontsize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 
   @media (max-width: 768px) {
-    font-size: ${({ fontSize }) => fontSize};
+    font-size: ${({ fontsize }) => fontsize};
   }
 `;
 

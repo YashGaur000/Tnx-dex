@@ -69,7 +69,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
             <TokenItemData>Lock #{selectLockData.id}</TokenItemData>
 
             <TokenItemWithAdressWrapper>
-              <LockDescriptonTitle fontSize={12}>
+              <LockDescriptonTitle fontsize={12}>
                 {selectLockData.amount} TENEX locked for {selectLockData.time}
               </LockDescriptonTitle>
               <DashboardNavigation fontsize={14}>Increase</DashboardNavigation>
@@ -82,10 +82,10 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         </TokenItemWithAdressWrapper>
 
         <VotingPowerContainer>
-          <LockDescriptonTitle fontSize={12}>
+          <LockDescriptonTitle fontsize={12}>
             Total voting power
           </LockDescriptonTitle>
-          <LockHeaderTitle fontSize={14}>15.0% available</LockHeaderTitle>
+          <LockHeaderTitle fontsize={14}>15.0% available</LockHeaderTitle>
         </VotingPowerContainer>
       </VotingLockWrapper>
 
@@ -108,11 +108,11 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 </TraidingSyleLabel>
                 <LiquidityTokenWrapper alignitem="flex-start">
                   <TokenAmountTitle>
-                    <StatsCardtitle lineheight="17px" fontSize={12}>
+                    <StatsCardtitle lineheight="17px" fontsize={12}>
                       {data.isStable ? 'Stable' : 'Volatile'}
                     </StatsCardtitle>
 
-                    <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
+                    <LiquidityTitle fontsize={12}>{0.01} %</LiquidityTitle>
                     <SugestImgWrapper>
                       <SuggestImg src={ImpIcon} />
                     </SugestImgWrapper>
@@ -127,23 +127,23 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
             </TokenCardContainer>
 
             <PairContain>
-              <LockDescriptonTitle fontSize={12}>
+              <LockDescriptonTitle fontsize={12}>
                 Votes 8,923,342.27
               </LockDescriptonTitle>
               <LiquidityTokenWrapper alignitem="flex-start">
-                <LockDescriptonTitle fontSize={12}>
+                <LockDescriptonTitle fontsize={12}>
                   Total rewards ~$10,180
                 </LockDescriptonTitle>
-                <LockDescriptonTitle fontSize={12}>
+                <LockDescriptonTitle fontsize={12}>
                   Voting APR 45.9%
                 </LockDescriptonTitle>
               </LiquidityTokenWrapper>
             </PairContain>
 
             <PairContain>
-              <Title fontSize="14">0.0 veTENEX</Title>
+              <Title fontsize="14">0.0 veTENEX</Title>
               <LiquidityTokenWrapper alignitem="flex-start">
-                <LockDescriptonTitle fontSize={12}>
+                <LockDescriptonTitle fontsize={12}>
                   0.0 veTENEX
                 </LockDescriptonTitle>
               </LiquidityTokenWrapper>

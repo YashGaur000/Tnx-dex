@@ -17,7 +17,7 @@ const AllowUnsafeTrades: React.FC<{
     <AllowUnsafeWrapper display="flex">
       <ContentWrapper>
         <AllowUnsafeAlign>
-          <SidebarTitle fontSize={16}>Allow unsafe trades</SidebarTitle>
+          <SidebarTitle fontsize={16}>Allow unsafe trades</SidebarTitle>
         </AllowUnsafeAlign>
         <AllowUnsafeListDes>
           Enabling this will allow trading on high quotes with high price impact

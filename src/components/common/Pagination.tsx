@@ -7,7 +7,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
 }
-const PaginationStyle = styled.div<{ theme: DefaultTheme; fontSize: number }>`
+const PaginationStyle = styled.div<{ theme: DefaultTheme; fontsize: number }>`
   display: flex;
   align-items: center;
   gap: 8px;
@@ -15,7 +15,7 @@ const PaginationStyle = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   height: 18px;
 
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontSize }) => fontSize}px;
+  font-size: ${({ fontsize }) => fontsize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 const PageNuberShower = styled.p<{ theme: DefaultTheme }>`
@@ -65,7 +65,7 @@ const Pagination: React.FC<PaginationProps> = ({
 }) => {
   return (
     <PaginationWrapper>
-      <PaginationStyle fontSize={12}>
+      <PaginationStyle fontsize={12}>
         <PageChenges onClick={handlePrevpage} disabled={currentPage === 1}>
           Prev
         </PageChenges>

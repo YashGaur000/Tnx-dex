@@ -11,10 +11,10 @@ import {
 
 const RelayToolTips = () => {
   return (
-    <ToolTipSection fontSize={12}>
-      <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
+    <ToolTipSection fontsize={12}>
+      <LockHeaderTitle fontsize={24}>Relay</LockHeaderTitle>
       <ToolTipsMainContainer>
-        <LockDescriptonTitle fontSize={12}>
+        <LockDescriptonTitle fontsize={12}>
           Relay was designed to automate the process of managing veNFTs :
           <UnorderListStyle>
             <li>
@@ -32,7 +32,7 @@ const RelayToolTips = () => {
           </UnorderListStyle>
         </LockDescriptonTitle>
 
-        <LockDescriptonTitle fontSize={12}>
+        <LockDescriptonTitle fontsize={12}>
           $TENEX is distributed to liquidity providers through emissions.
         </LockDescriptonTitle>
 
@@ -41,7 +41,7 @@ const RelayToolTips = () => {
           maximum!
         </ToolTipsconentCard>
 
-        <LockDescriptonTitle fontSize={12}>
+        <LockDescriptonTitle fontsize={12}>
           Withdrawal of the veNFTs is possible only after the first week. Please
           make sure the automation was run before you withdraw, the latest
           update date should be recent.

@@ -5,13 +5,13 @@ interface TableProps {
   theme: DefaultTheme;
   width?: string;
   margin?: string;
-  fontSize?: string;
+  fontsize?: string;
   fontWeight?: number;
   lineheight?: string;
   color?: string;
   padding?: string;
   background?: string;
-  borderRadius?: string;
+  borderradius?: string;
   textalign?: string;
 }
 
@@ -50,7 +50,7 @@ const TableContains = styled.table<TableProps>`
   margin: ${({ margin }) => margin ?? '0px 0px'};
   height: auto;
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-size: ${({ fontsize }) => fontsize ?? '16px'};
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   line-height: ${({ lineheight }) => lineheight ?? '29.9px'};
@@ -60,13 +60,13 @@ const TableContains = styled.table<TableProps>`
   border-radius: 24px;
 
   @media screen and (max-width: 500px) {
-    font-size: ${({ fontSize }) => fontSize ?? '12px'};
+    font-size: ${({ fontsize }) => fontsize ?? '12px'};
   }
 `;
 export const TableHeader = styled.th<TableProps>`
   white-space: nowrap;
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-size: ${({ fontsize }) => fontsize ?? '16px'};
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   text-overflow: ellipsis;
@@ -86,7 +86,7 @@ export const TableHeader = styled.th<TableProps>`
 export const TableColumn = styled.td<TableProps>`
   white-space: nowrap;
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontSize }) => fontSize ?? '14px'};
+  font-size: ${({ fontsize }) => fontsize ?? '14px'};
   font-weight: ${({ fontWeight, theme }) =>
     fontWeight ?? theme.fontWeights.regular};
   text-overflow: ellipsis;

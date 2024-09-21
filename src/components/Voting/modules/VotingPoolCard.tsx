@@ -78,32 +78,32 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               </TraidingSyleLabel>
               <LiquidityTokenWrapper>
                 <TokenAmountTitle>
-                  <StatsCardtitle lineheight="17px" fontSize={12}>
+                  <StatsCardtitle lineheight="17px" fontsize={12}>
                     {data.isStable ? 'Stable' : 'Volatile'}
                   </StatsCardtitle>
 
-                  <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
+                  <LiquidityTitle fontsize={12}>{0.01} %</LiquidityTitle>
                   <SugestImgWrapper>
                     <SuggestImg src={ImpIcon} />
                   </SugestImgWrapper>
                 </TokenAmountTitle>
                 <TokenAmountTitle>
-                  <StatsCardtitle lineheight="17px" fontSize={12}>
+                  <StatsCardtitle lineheight="17px" fontsize={12}>
                     Votes
                   </StatsCardtitle>{' '}
-                  <LiquidityTitle fontSize={12} textalign="right">
+                  <LiquidityTitle fontsize={12} textalign="right">
                     8,428,176.46
                   </LiquidityTitle>
                   <ImageContainer src={ArrowIcon} width="12px" height="10px" />
-                  <LiquidityTitle fontSize={12} textalign="right">
+                  <LiquidityTitle fontsize={12} textalign="right">
                     8,428,176.4
                   </LiquidityTitle>
                 </TokenAmountTitle>
                 <TokenAmountTitle>
-                  <StatsCardtitle lineheight="17px" fontSize={12}>
+                  <StatsCardtitle lineheight="17px" fontsize={12}>
                     TVL
                   </StatsCardtitle>{' '}
-                  <LiquidityTitle fontSize={12} textalign="right">
+                  <LiquidityTitle fontsize={12} textalign="right">
                     {data.totalVolumeUSD.toString()}
                   </LiquidityTitle>
                 </TokenAmountTitle>
@@ -113,12 +113,12 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
         </TableColumn>
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontSize={14}> ~$ {data.totalFeesUSD.toString()}</Title>
+            <Title fontsize={14}> ~$ {data.totalFeesUSD.toString()}</Title>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontSize={12} textalign="right">
+              <LiquidityTitle fontsize={12} textalign="right">
                 {data.totalFees0.toString()} {data.token0.symbol}
               </LiquidityTitle>
-              <LiquidityTitle fontSize={12} textalign="right">
+              <LiquidityTitle fontsize={12} textalign="right">
                 {data.totalFees1.toString()} {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
@@ -127,10 +127,10 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontSize={14}>{'No available incentive'}</Title>
+            <Title fontsize={14}>{'No available incentive'}</Title>
             <LiquidityTokenWrapper>
               <LiquidityTitle
-                fontSize={12}
+                fontsize={12}
                 textalign="right"
                 textdecoration="underline"
               >
@@ -142,12 +142,12 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontSize={14}>{}</Title>
+            <Title fontsize={14}>{}</Title>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontSize={12} textalign="right">
+              <LiquidityTitle fontsize={12} textalign="right">
                 {}
               </LiquidityTitle>
-              <LiquidityTitle fontSize={12} textalign="right">
+              <LiquidityTitle fontsize={12} textalign="right">
                 {'Fees + Incentives'}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
@@ -157,7 +157,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
         <TableColumn padding="0px">
           <TableColumnWrapper height="96px">
             <TooltipContainer>
-              <Title fontSize={14}>
+              <Title fontsize={14}>
                 {'226.18%'} <Img src={ImpIcon} />
               </Title>
               <TooltipContent className="tooltip-content">
@@ -183,12 +183,12 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               <GradientButton
                 color="#ffffff"
                 padding="4px 10px"
-                fontSize="12px"
+                fontsize="12px"
                 width="auto"
                 height="26px"
                 lineheight="0px"
                 border="1.5px solid transparent"
-                borderRadius="8px"
+                borderradius="8px"
                 smfontsize={12}
                 smmargin="0px"
               >
