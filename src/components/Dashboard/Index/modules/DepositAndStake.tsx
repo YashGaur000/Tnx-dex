@@ -29,7 +29,7 @@ import {
 import { useAccount } from '../../../../hooks/useAccount';
 import { useUserPosition } from '../../../../hooks/useUserPosition';
 import { LoadingSpinner } from '../../../common/Loader';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens/testnetTokens';
 import { Address } from 'viem';
@@ -39,6 +39,7 @@ import { useNavigate } from 'react-router-dom';
 const DepositAndStake: React.FC = () => {
   const { address } = useAccount();
   const { data: userPools, isError } = useUserPosition(address!);
+  const [isLoading, setIsLoading] = useState(true);
   const { balances } = useTokenBalances(ERC20_TEST_TOKEN_LIST, address!);
   const navigate = useNavigate();
 
@@ -76,12 +77,24 @@ const DepositAndStake: React.FC = () => {
     });
   };
 
+  useEffect(() => {
+    if (isLoading && userPools && userPools.length === 0) {
+      setTimeout(() => setIsLoading(false), 10000);
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
+
+  if (userPools && userPools.length === 0 && !isLoading) {
+    return <p>No Data Available</p>;
+  }
+
   return (
     <>
       {isError && <p>Error in Fetching....</p>}
-      {userPools && userPools.length == 0 && <LoadingSpinner />}
-      {userPools && userPools.length > 0 && !isError ? (
-        userPools.map((userPool, index) => (
+      {isLoading && <LoadingSpinner />}
+      {!isError &&
+        userPools?.map((userPool, index) => (
           <React.Fragment key={index}>
             <DepositMainContainer>
               <PoolContainer>
@@ -127,10 +140,10 @@ const DepositAndStake: React.FC = () => {
                 <UnstackedHeading>Unstaked</UnstackedHeading>
                 <UnstackedData>
                   <DashBoardParagraph>
-                    4.999 {userPool.token0.symbol}
+                    {userPool.accountUnstaked0} {userPool.token0.symbol}
                   </DashBoardParagraph>
                   <DashBoardParagraph>
-                    0.003 {userPool.token1.symbol}
+                    {userPool.accountUnstaked1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </UnstackedData>
                 <UnstackedData1>
@@ -146,10 +159,10 @@ const DepositAndStake: React.FC = () => {
                 </DepositeStakedHeading>
                 <DepositeStakedData>
                   <DashBoardParagraph>
-                    0.00 {userPool.token0.symbol}
+                    {userPool.accountStaked0} {userPool.token0.symbol}
                   </DashBoardParagraph>
                   <DashBoardParagraph>
-                    0.00 {userPool.token1.symbol}
+                    {userPool.accountStaked1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
               </StakedContainer>
@@ -180,10 +193,7 @@ const DepositAndStake: React.FC = () => {
               </WalletContainer>
             </DepositMainContainer>
           </React.Fragment>
-        ))
-      ) : (
-        <p>No data available.</p>
-      )}
+        ))}
     </>
   );
 };

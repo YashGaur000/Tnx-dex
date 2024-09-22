@@ -22,10 +22,12 @@ interface Metadata {
 
 interface UserPosition {
   lp: Address;
+  gauge: Address;
   //   symbol: string;
   //   decimals: number;
   //   totalSupply: string;
   isStable: boolean;
+
   token0: {
     id: string; // token address
     symbol: string; // token symbol;
@@ -34,14 +36,13 @@ interface UserPosition {
     id: string; // token address
     symbol: string; // token symbol;
   };
-  reserve0: string;
-  //claimable0?: bigint;
 
-  //   token1: string;
+  reserve0: string;
   reserve1: string;
+
+  //claimable0?: bigint;
   //claimable1?: bigint;
 
-  //   gauge: string;
   //   gaugeTotalSupply: string;
   //   gaugeAlive: boolean;
 
@@ -52,9 +53,18 @@ interface UserPosition {
   //   emissions: string;
   //   emissionsToken: string;
 
-  accountBalance: string;
+  poolBalance: string;
+  accountDeposit0: string;
+  accountDeposit1: string;
+
   //   accountEarned: string;
-  //   accountStaked: string;
+
+  gaugeBalance: string;
+  accountStaked0: string;
+  accountStaked1: string;
+
+  accountUnstaked0: string;
+  accountUnstaked1: string;
 
   //   poolFee: string;
   //   token0Fees: string;

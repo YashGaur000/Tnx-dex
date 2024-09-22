@@ -3,11 +3,15 @@ import { useMultiCall } from './useMultiCall';
 import { Abi, Address, PublicClient } from 'viem';
 import { LiquidityPoolNewType } from '../graphql/types/LiquidityPoolNew';
 import poolAbi from '../constants/artifacts/contracts/Pool.json';
+import voterAbi from '../constants/artifacts/contracts/Voter.json';
+import gaugeAbi from '../constants/artifacts/contracts/Gauge.json';
 import { useQuery } from '@tanstack/react-query';
 import { queryClient } from '../web3Provider/wagmi';
 import { formatAmounts } from '../utils/transaction/parseAmounts';
 import { ethers } from 'ethers';
 import { UserPosition } from '../types/Pool';
+import contractAddresses from '../constants/contract-address/address';
+import { AddressZero } from '@ethersproject/constants';
 
 const fetchUserPools = async (
   multicallClient: PublicClient,
@@ -42,7 +46,7 @@ const fetchUserPools = async (
     if (Number(accountBalance) > 0) {
       acc.push({
         lp: poolId,
-        accountBalance,
+        gauge: AddressZero,
         isStable: pool.isStable,
         token0: {
           id: pool.token0.id.split('-')[0] ?? '',
@@ -54,17 +58,104 @@ const fetchUserPools = async (
         },
         reserve0: pool.reserve0?.toString() ?? '0',
         reserve1: pool.reserve1?.toString() ?? '0',
+        poolBalance: accountBalance,
+        accountDeposit0: '0',
+        accountDeposit1: '0',
+        gaugeBalance: '0',
+        accountStaked0: '0',
+        accountStaked1: '0',
+        accountUnstaked0: '0',
+        accountUnstaked1: '0',
       });
     }
 
     return acc;
   }, [] as UserPosition[]);
 
+  const totalSupplyPoolCalls = userPools.map(({ lp }) => ({
+    abi: poolAbi.abi as Abi,
+    functionName: 'totalSupply',
+    args: [],
+    address: lp,
+  }));
+
+  const totalSupplyPoolResults = await multicallClient.multicall({
+    contracts: totalSupplyPoolCalls,
+  });
+
+  const gaugesCalls = userPools.map(({ lp }) => ({
+    abi: voterAbi.abi as Abi,
+    functionName: 'gauges',
+    args: [lp],
+    address: contractAddresses.Voter,
+  }));
+
+  const gaugesResults = await multicallClient.multicall({
+    contracts: gaugesCalls,
+  });
+
+  const stakeBalanceCalls = gaugesResults
+    .filter(({ result }) => (result as Address) != AddressZero)
+    .map(({ result }) => ({
+      abi: gaugeAbi.abi as Abi,
+      functionName: 'balanceOf',
+      args: [account],
+      address: result as Address,
+    }));
+
+  const stakeResults = await multicallClient.multicall({
+    contracts: stakeBalanceCalls,
+  });
+
+  userPools.forEach((pool, index) => {
+    const totalSupplyPool =
+      formatAmounts(
+        totalSupplyPoolResults[index].result as ethers.Numeric,
+        18
+      ) ?? '0';
+    pool.accountDeposit0 = (
+      (Number(pool.poolBalance) * Number(totalSupplyPool)) /
+      Number(pool.reserve0)
+    ).toFixed(5);
+    pool.accountDeposit1 = (
+      (Number(pool.poolBalance) * Number(totalSupplyPool)) /
+      Number(pool.reserve1)
+    ).toFixed(5);
+
+    const gaugeAddress = gaugesResults[index]?.result as Address;
+
+    if (gaugeAddress != AddressZero) {
+      pool.gauge = gaugeAddress;
+
+      const accountStaked =
+        formatAmounts(stakeResults[index].result as ethers.Numeric, 18) ?? '0';
+
+      pool.gaugeBalance = accountStaked;
+
+      pool.accountStaked0 = (
+        (Number(accountStaked) * Number(totalSupplyPool)) /
+        Number(pool.reserve0)
+      ).toFixed(5);
+
+      pool.accountStaked1 = (
+        (Number(accountStaked) * Number(totalSupplyPool)) /
+        Number(pool.reserve1)
+      ).toFixed(5);
+
+      pool.accountUnstaked0 = (
+        Number(pool.accountDeposit0) - Number(pool.accountStaked0)
+      ).toFixed(5);
+      pool.accountUnstaked1 = (
+        Number(pool.accountDeposit1) - Number(pool.accountStaked1)
+      ).toFixed(5);
+    }
+  });
+
   return userPools;
 };
 
 export const useUserPosition = (account: Address) => {
-  const { data: poolData } = useLiquidityPoolData(); // Assuming you still use Zustand for this
+  const { data: poolData } = useLiquidityPoolData();
   const multicallClient = useMultiCall();
 
   const fetchPoolData = async () => {
@@ -80,25 +171,24 @@ export const useUserPosition = (account: Address) => {
 
   const { data, isError, refetch, isFetching } = useQuery<UserPosition[]>(
     {
-      queryKey: ['userPosition', account], // Unique query key for this data
-      queryFn: fetchPoolData, // Function to fetch pool data
-      gcTime: 60 * 1000, // Time in ms before unused data is garbage collected
-      enabled: !!account && !!multicallClient, // Only enable query if account exists
-      placeholderData: [], // Placeholder data until query resolves
-      refetchInterval: 10000, // Refetch every 10 seconds
-      refetchIntervalInBackground: true, // Continue refetching in the background
-      refetchOnMount: true, // Refetch data when component mounts
-      refetchOnReconnect: true, // Refetch when the app reconnects to the network
-      refetchOnWindowFocus: true, // Refetch when window regains focus
-      retry: 3, // Number of retry attempts on failure
-      retryOnMount: true, // Retry the query if it fails on mount
-      retryDelay: (retryCount) => Math.min(retryCount * 1000, 3000), // Retry delay logic
-      staleTime: 5000, // Consider data fresh for 5 seconds
+      queryKey: ['userPosition', account],
+      queryFn: fetchPoolData,
+      gcTime: 60 * 1000,
+      enabled: !!account && !!multicallClient,
+      placeholderData: [],
+      refetchInterval: 10000,
+      refetchIntervalInBackground: true,
+      refetchOnMount: true,
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: true,
+      retry: 3,
+      retryOnMount: true,
+      retryDelay: (retryCount) => Math.min(retryCount * 1000, 3000),
+      staleTime: 5000,
     },
-    queryClient // Query client instance
+    queryClient
   );
 
-  // Return the necessary values or the whole object as per your needs
   return {
     data,
     isError,
