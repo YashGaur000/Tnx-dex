@@ -30,14 +30,18 @@ import RelayToolTips from './RelayToolTips';
 import { useAccount } from '../../../hooks/useAccount';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
-import { LockItemProps } from '../../../types/VotingEscrow';
+import { Nft } from '../../../types/VotingEscrow';
 import VeTenexTable from './VeTenexTable';
-import { decodeBase64 } from '../../../utils/common/voteTenex';
+import {
+  decodeBase64,
+  filterNftsByUnlockDate,
+  sortNftsByUnlockDateDesc,
+} from '../../../utils/common/voteTenex';
 
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isToolTipActive, setToolTipActive] = useState(false);
-  const [nftData, setNftData] = useState<LockItemProps[]>([]);
+  const [nftData, setNftData] = useState<Nft[]>([]);
   const Navigate = useNavigate();
 
   const escrowAddress = contractAddress.VotingEscrow;
@@ -49,16 +53,17 @@ const Main = () => {
       try {
         if (address) {
           const fetchedNftVal = await fetchUserNFTs(address);
-          const fetchedNftData = fetchedNftVal.sort();
-          console.log('User NFT Data:', fetchedNftData);
 
-          const formattedNftData = fetchedNftData.map((nft) => ({
+          const formattedNftFormateData = fetchedNftVal.map((nft) => ({
             tokenId: nft.tokenId,
             metadata: decodeBase64(nft.metadata),
           }));
 
+          const filteredNftVal = filterNftsByUnlockDate(
+            formattedNftFormateData
+          );
+          const formattedNftData = sortNftsByUnlockDateDesc(filteredNftVal);
           setNftData(formattedNftData);
-          console.log('Updated User NFT Data:', formattedNftData);
         } else {
           console.warn('Address is undefined');
         }
@@ -89,9 +94,9 @@ const Main = () => {
     <>
       <LockHeroSection>
         <LockHeroSectionContent>
-          <LockHeaderTitle fontSize={36}>Manage veTENEX</LockHeaderTitle>
+          <LockHeaderTitle fontsize={36}>Manage veTENEX</LockHeaderTitle>
           <LockheaderContentStyle>
-            <LockDescriptonTitle fontSize={16}>
+            <LockDescriptonTitle fontsize={16}>
               Maximize your voting power and boost rewards by locking more
               tokens for longer durations.
             </LockDescriptonTitle>
@@ -111,7 +116,7 @@ const Main = () => {
           </LockButtonConatainer>
           <MetricDisplayWrapper>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Locked TENEX</StatsCardtitle>
+              <StatsCardtitle fontsize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
                 4,376,987.82{' '}
                 <ImageContainer
@@ -123,12 +128,12 @@ const Main = () => {
               </AmountWithImg>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Total Voting Power</StatsCardtitle>
-              <LockHeaderTitle fontSize={16}>0.00</LockHeaderTitle>
+              <StatsCardtitle fontsize={16}>Total Voting Power</StatsCardtitle>
+              <LockHeaderTitle fontsize={16}>0.00</LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Total Value Locked</StatsCardtitle>
-              <LockHeaderTitle fontSize={16}>$0.00</LockHeaderTitle>
+              <StatsCardtitle fontsize={16}>Total Value Locked</StatsCardtitle>
+              <LockHeaderTitle fontsize={16}>$0.00</LockHeaderTitle>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
@@ -136,7 +141,7 @@ const Main = () => {
 
       <LockContainerWrapper>
         <LockheaderWrapper>
-          <LockHeaderTitle fontSize={24}>Locks</LockHeaderTitle>
+          <LockHeaderTitle fontsize={24}>Locks</LockHeaderTitle>
           <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('lock')}>
             <ImageContainer
               width={'16px'}
@@ -152,7 +157,7 @@ const Main = () => {
 
       <LockContainerWrapper>
         <LockheaderWrapper>
-          <LockHeaderTitle fontSize={24}>Relay</LockHeaderTitle>
+          <LockHeaderTitle fontsize={24}>Relay</LockHeaderTitle>
           <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('relay')}>
             <ImageContainer
               width={'16px'}

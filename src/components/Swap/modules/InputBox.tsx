@@ -5,12 +5,13 @@ interface InputboxStyledProps {
   width?: string;
   height?: string;
   border?: string;
-  fontSize?: string;
+  fontsize?: string;
   margin?: string;
   padding?: string;
   isValid?: boolean;
   borderradius?: number;
   theme?: DefaultTheme;
+  errortextcode?: string;
 }
 
 export const InputBox = styled.input<InputboxStyledProps>`
@@ -20,12 +21,12 @@ export const InputBox = styled.input<InputboxStyledProps>`
   padding: ${({ padding }) => padding ?? '8px'};
   border: ${({ border, isValid }) =>
     border ?? `1px solid ${isValid ? 'green' : 'red'}`};
-  font-size: ${({ fontSize }) => fontSize ?? '16px'};
+  font-size: ${({ fontsize }) => fontsize ?? '16px'};
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   border-radius: ${({ borderradius }) => borderradius ?? '4'}px;
   background: none;
-  color: white;
+  color: ${({ errortextcode }) => errortextcode ?? '#FFFFFF'};
 
   &:focus {
     outline: none;

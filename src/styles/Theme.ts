@@ -3,7 +3,7 @@ export interface DefaultTheme {
   fonts: FontType;
   fontWeights: FontWeight;
   screenSizes: ScreenSizes;
-  fontSize: FontSize;
+  fontsize: FontSize;
 }
 
 interface ScreenSizes {
@@ -144,7 +144,7 @@ const theme: DefaultTheme = {
     large: '1024px',
     extraLarge: '1200px',
   },
-  fontSize: {
+  fontsize: {
     large: '36px',
     medium: '16px',
     small: '12px',

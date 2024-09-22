@@ -19,19 +19,12 @@ import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../types/Transaction';
-
-interface LockIncreaseProps {
-  tokenId: number;
-  additionalAmount: number;
-  setAdditionalAmount?: (input: string) => void;
-}
+import { LockIncreaseProps } from '../../../types/VotingEscrow';
 
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
-  //setAdditionalAmount
 }) => {
-  console.log('additionalAmount', additionalAmount);
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
   );
@@ -77,27 +70,28 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         additionalAmount.toString(),
         tokenLockInfo.decimals
       );
-      console.log('increse amountInWei amount:', amountInWei);
+
       await increaseLockAmount(BigInt(tokenId), amountInWei);
 
-      //setAdditionalAmount('')
       console.log('Lock increased!');
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
 
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
-        //setAdditionalAmount('')
-        //setLockTokenValue('');
-        // SetlockDuration(1);
-        // setSuccessLock(true);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error increasing lock:', error);
     } finally {
       setIsLocking(false);
     }
-  }, [tokenId, additionalAmount, increaseLockAmount]);
+  }, [
+    tokenId,
+    additionalAmount,
+    increaseLockAmount,
+    setTransactionStatus,
+    tokenLockInfo.decimals,
+  ]);
 
   const IncreaseStepperData: StepperDataProps[] = [
     {
@@ -161,7 +155,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
 
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontSize={24}>Increase lock</LockHeaderTitle>
+      <LockHeaderTitle fontsize={24}>Increase lock</LockHeaderTitle>
       <Stepper data={!additionalAmount ? IncreaseStepperData : LockData} />
       {isTokenAllowed && !isLocked && (
         <GlobalButton

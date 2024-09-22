@@ -31,17 +31,17 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
       <TableColumn>
         <RelayCardSection>
           <RelayCardDataContains>
-            <LockHeaderTitle fontSize={16}>
+            <LockHeaderTitle fontsize={16}>
               {Relaydata.relay.name}
             </LockHeaderTitle>
             <RelayIdStatus>ID {Relaydata.relay.id}</RelayIdStatus>
           </RelayCardDataContains>
 
           <RelayCardDataContains>
-            <LockDescriptonTitle fontSize={12}>
+            <LockDescriptonTitle fontsize={12}>
               {Relaydata.relay.updated}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontSize={12}>
+            <LockDescriptonTitle fontsize={12}>
               {Relaydata.relay.address}
             </LockDescriptonTitle>
             <ImageContainer width="15px" height="15px" src={CopyIcon} />
@@ -49,22 +49,22 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
         </RelayCardSection>
       </TableColumn>
       <TableColumn>
-        <LockHeaderTitle fontSize={12}>
+        <LockHeaderTitle fontsize={12}>
           {Relaydata.votingPower.value} ~ {Relaydata.votingPower.percentage}
         </LockHeaderTitle>
       </TableColumn>
       <TableColumn>
-        <LockHeaderTitle fontSize={12}>{Relaydata.apr}</LockHeaderTitle>
+        <LockHeaderTitle fontsize={12}>{Relaydata.apr}</LockHeaderTitle>
       </TableColumn>
       <TableColumn>
         <DepositeLockButtonWrapper onClick={handleDepositeLock}>
           <GradientButton
-            borderRadius="6px"
+            borderradius="6px"
             color="#ffffff"
             padding="10px"
             lineheight="0px"
             border="1.5px solid transparent"
-            fontSize="12px"
+            fontsize="12px"
             width="95px"
             height="26px"
             smfontsize={12}

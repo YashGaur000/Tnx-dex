@@ -23,7 +23,7 @@ import {
   FormFieldContainer,
   FormRowWrapper,
 } from '../../../Liquidity/ManageLiquidity/styles/LiquidityForm.style';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useCallback, useState } from 'react';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo } from '../../../../constants/tokens/type';
@@ -59,6 +59,7 @@ const CreatelockForm = () => {
   const [LockTokenValue, setLockTokenValue] = useState<string>('');
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [voteCalPower, setVotePower] = useState<number>(0);
+  const [errorColor, setErrorColor] = useState<string>('#FFFFFF');
   const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
 
   //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
@@ -78,9 +79,27 @@ const CreatelockForm = () => {
     setVotePower(Number(votePower));
   };
 
-  const handleSelectPercentage = (percentage: number) => {
-    setSelectedPercentage(percentage);
-  };
+  const handleSelectPercentage = useCallback(
+    (percentage: number) => {
+      setSuccessLock(false);
+      //if (!LockTokenValue ) return;
+      setSelectedPercentage(percentage);
+      const walletBalance =
+        (Number(Number(balances[lockTokenInfo?.address]).toString()) *
+          percentage) /
+        100;
+      const amount = walletBalance.toFixed(5);
+      setLockTokenValue(amount);
+    },
+    [
+      LockTokenValue,
+      balances,
+      setLockTokenValue,
+      setSuccessLock,
+      lockTokenInfo?.address,
+    ]
+  );
+
   const labels = [
     { value: 1, weeks: '1 week' },
     { value: 52, weeks: '1 year' },
@@ -89,12 +108,21 @@ const CreatelockForm = () => {
     { value: 208, weeks: '4 year' },
   ];
   const handleDurationYearClick = (vlueWeek: number) => {
+    setSuccessLock(false);
     const TotalWeeks = vlueWeek;
     SetlockDuration(Number(TotalWeeks));
     void handleVotingPower();
   };
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
+    setLockTokenValue(e.target.value);
+    setErrorColor('#FFFFFF');
+    if (Number(e.target.value) > Number(balances[lockTokenInfo?.address])) {
+      setErrorColor('#FF0000');
+      setLockTokenValue('');
+      return;
+    }
+
     setLockTokenValue(e.target.value);
     const remainingBal =
       Number(balances[lockTokenInfo?.address]) - Number(e.target.value);
@@ -111,6 +139,7 @@ const CreatelockForm = () => {
               <InputWrapper>
                 <InputBoxRow>
                   <InputBox
+                    errortextcode={errorColor}
                     type="number"
                     border="none"
                     placeholder="0"
@@ -172,11 +201,11 @@ const CreatelockForm = () => {
             </FormRowWrapper>
           </FormFieldContainer>
 
-          <LockTitle fontSize={16} lineheight={23.93}>
+          <LockTitle fontsize={16} lineheight={23.93}>
             Locking your TENEX tokens for {voteCalPower} veTENEX voting power
           </LockTitle>
           <LockLoaderContainer>
-            <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
+            <LoaderStatusWrapper fontsize={12} lineheight={17.94}>
               <LoaderStatus>{lockDuration} weeks</LoaderStatus>
             </LoaderStatusWrapper>
             <LoaderStyle>
@@ -191,7 +220,7 @@ const CreatelockForm = () => {
                 />
               </SliderContainer>
             </LoaderStyle>
-            <SliderDeadlineStyle fontSize={10}>
+            <SliderDeadlineStyle fontsize={10}>
               {labels.map(({ value, weeks }) => (
                 <WeeksLabel
                   key={value}
@@ -216,7 +245,7 @@ const CreatelockForm = () => {
       </CreateMainContainer>
       <LockScreenInstruction>
         <InformImg src={InformIcon} />
-        <LockCardtitle fontSize={16}>
+        <LockCardtitle fontsize={16}>
           Locking will give you an NFT, referred to as a veNFT. You can increase
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>

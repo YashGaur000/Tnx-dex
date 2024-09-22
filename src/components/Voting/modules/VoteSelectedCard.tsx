@@ -77,13 +77,13 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
                 Change lock
               </DashboardNavigation>
             </SelectedDataWrapper>
-            <LockDescriptonTitle fontSize={12}>
+            <LockDescriptonTitle fontsize={12}>
               {selectLockData.amount} TENEX locked for {selectLockData.time}
             </LockDescriptonTitle>
           </TokenNameWrapper>
         </TokenItemWithAdressWrapper>
         <SelectedDataWrapper>
-          <Title fontSize="16px">{countSelectedItem} pools selected</Title>
+          <Title fontsize="16px">{countSelectedItem} pools selected</Title>
           <GlobalButton
             margin="0px"
             height="40px"

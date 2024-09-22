@@ -25,7 +25,7 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
 }) => {
   return (
     <LockTokenContainer>
-      <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>
+      <LockHeaderTitle margin="0px 0px 0px 25px" fontsize={24}>
         Select lock to vote
       </LockHeaderTitle>
       <TokenListsWrapper>
@@ -42,19 +42,19 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
                   />
                   <TokenNameWrapper>
                     <TokenItemData>Lock #{token.id}</TokenItemData>
-                    <LockDescriptonTitle fontSize={12}>
+                    <LockDescriptonTitle fontsize={12}>
                       {token.amount} TENEX locked for {token.time}
                     </LockDescriptonTitle>
                   </TokenNameWrapper>
                 </TokenItemWithAdressWrapper>
                 <GradientButton
                   padding="4px 10px"
-                  fontSize="12px"
+                  fontsize="12px"
                   width="auto"
                   height="26px"
                   lineheight="0px"
                   border="1.5px solid transparent"
-                  borderRadius="8px"
+                  borderradius="8px"
                   smfontsize={12}
                   smmargin="0px"
                 >

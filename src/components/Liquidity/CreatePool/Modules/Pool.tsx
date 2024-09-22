@@ -88,31 +88,31 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
         <TokenPairWrapper>
           <TraidingSyleLabel>{poolName}</TraidingSyleLabel>
           <TokenAmountTitle>
-            <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
-            <LiquidityTitle fontSize={12}>{fee}</LiquidityTitle>
+            <StatsCardtitle fontsize={12}>{poolType}</StatsCardtitle>
+            <LiquidityTitle fontsize={12}>{fee}</LiquidityTitle>
             <SuggestImg src={ImpImage} />
           </TokenAmountTitle>
         </TokenPairWrapper>
       </PoolcardStatus>
 
       <Tvlstyle>
-        <TitleWrapper fontSize="14px">TVL</TitleWrapper>
-        <TitleWrapper fontSize="14px">{tvl}</TitleWrapper>
+        <TitleWrapper fontsize="14px">TVL</TitleWrapper>
+        <TitleWrapper fontsize="14px">{tvl}</TitleWrapper>
       </Tvlstyle>
 
       <Tvlstyle>
-        <TitleWrapper fontSize="14px">APR</TitleWrapper>
-        <TitleWrapper fontSize="14px">0.000%</TitleWrapper>
+        <TitleWrapper fontsize="14px">APR</TitleWrapper>
+        <TitleWrapper fontsize="14px">0.000%</TitleWrapper>
       </Tvlstyle>
 
       <PoolButton onClick={handleDeposit}>
         <GradientButton
-          borderRadius="8px"
+          borderradius="8px"
           color="#ffffff"
           padding="4px 16px"
           lineheight="17.94px"
           border="1px solid transparent"
-          fontSize="12"
+          fontsize="12"
           width="80px"
           height="26px"
           smfontsize={12}

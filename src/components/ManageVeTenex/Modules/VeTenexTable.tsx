@@ -14,11 +14,12 @@ import {
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
 import TenexIcon from '../../../assets/Tenex.png';
-import { LockItemProps } from '../../../types/VotingEscrow';
+import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { getTimeDifference } from '../../../utils/common/voteTenex';
 
-const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
+const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
 
@@ -72,7 +73,8 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
 
           const unlockDate =
             attributes.find((attr) => attr.trait_type === 'Unlock Date')
-              ?.value ?? 'N/A';
+              ?.value ?? '';
+          const formatUnloackData = getTimeDifference(unlockDate);
           const votingPower =
             attributes.find((attr) => attr.trait_type === 'Voting Power')
               ?.value ?? 'N/A';
@@ -87,11 +89,11 @@ const VeTenexTable: React.FC<{ nftData: LockItemProps[] }> = ({ nftData }) => {
                   <LockImg src={TenexIcon} alt="Lock Icon" />
                 </LockIcon>
                 <LockInfo>
-                  <LockInfoDes fontSize={16} lineheight={23.92}>
+                  <LockInfoDes fontsize={16} lineheight={23.92}>
                     {metadata.name}
                   </LockInfoDes>
-                  <LockInfoDes fontSize={12} lineheight={17.94}>
-                    {lockedVELO} VELO locked until {unlockDate}
+                  <LockInfoDes fontsize={12} lineheight={17.94}>
+                    {lockedVELO} Tenex locked for {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
                     <LockInfoAction

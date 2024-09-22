@@ -40,8 +40,8 @@ export const TokenAmountWrapper = styled.div`
   justify-content: end;
   gap: 4px;
 `;
-export const StakeTitle = styled.p<{ theme: DefaultTheme; fontSize: number }>`
-font-size: ${({ fontSize }) => fontSize}px;
+export const StakeTitle = styled.p<{ theme: DefaultTheme; fontsize: number }>`
+font-size: ${({ fontsize }) => fontsize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color:${({ theme }) => theme.colors.whiteBorder}
   text-align: left;
@@ -58,12 +58,12 @@ export const SliderStatusWrapper = styled.div<{ theme: DefaultTheme }>`
   height: 26px;
 
   justify-content: right;
-  font-size: ${({ theme }) => theme.fontSize.small};
+  font-size: ${({ theme }) => theme.fontsize.small};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
 export const SliderLabel = styled.label<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontSize.small};
+  font-size: ${({ theme }) => theme.fontsize.small};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   margin-top: 4px;

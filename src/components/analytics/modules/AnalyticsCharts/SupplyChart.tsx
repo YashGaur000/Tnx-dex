@@ -113,7 +113,7 @@ const SupplyChart: React.FC = () => (
         left: 0,
         bottom: 0,
       }}
-      style={{ borderRadius: '8px', padding: '10px' }}
+      style={{ borderradius: '8px', padding: '10px' }}
     >
       <CartesianGrid
         horizontal={true}
