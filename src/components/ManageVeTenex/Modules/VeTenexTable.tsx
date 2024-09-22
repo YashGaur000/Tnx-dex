@@ -84,7 +84,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
 
           return (
             <LockItemContainer key={index}>
-              <LockDetails>
+              <LockDetails width="279px">
                 <LockIcon>
                   <LockImg src={TenexIcon} alt="Lock Icon" />
                 </LockIcon>
@@ -96,26 +96,48 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                     {lockedVELO} Tenex locked for {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('increase', lock.tokenId)}
-                    >
-                      Increase
-                    </LockInfoAction>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('extend', lock.tokenId)}
-                    >
-                      Extend
-                    </LockInfoAction>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('merge', lock.tokenId)}
-                    >
-                      Merge
-                    </LockInfoAction>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('transfer', lock.tokenId)}
-                    >
-                      Transfer
-                    </LockInfoAction>
+                    {formatUnloackData !== 'Expired' ? (
+                      <>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('increase', lock.tokenId)
+                          }
+                        >
+                          Increase
+                        </LockInfoAction>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('extend', lock.tokenId)
+                          }
+                        >
+                          Extend
+                        </LockInfoAction>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('merge', lock.tokenId)
+                          }
+                        >
+                          Merge
+                        </LockInfoAction>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('transfer', lock.tokenId)
+                          }
+                        >
+                          Transfer
+                        </LockInfoAction>
+                      </>
+                    ) : (
+                      <>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('withdraw', lock.tokenId)
+                          }
+                        >
+                          Withdraw
+                        </LockInfoAction>
+                      </>
+                    )}
                   </LockInfoCheck>
                 </LockInfo>
               </LockDetails>

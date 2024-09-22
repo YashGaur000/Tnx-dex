@@ -140,9 +140,9 @@ export const getTimeDifference = (targetDateString: string): string => {
     months += 12;
   }
 
-  return `${years === 0 ? `${years} year, ` : ''}${years > 1 ? `${years} years, ` : ''}${
-    months > 1 ? `${months} months, ` : ''
+  return `${years < 2 ? ` ${years} year` : ''}${years > 1 ? ` ${years} years, ` : ''}${
+    months > 1 ? ` ${months} months, ` : ''
   }${
     months === 1 ? `${months} month, ` : ''
-  }${days === 1 ? `${days} day` : ''}${days > 1 ? `${days} days` : ''}`;
+  }${days === 1 ? ` ${days} day` : ''}${days > 1 ? ` ${days} days` : ''}`;
 };

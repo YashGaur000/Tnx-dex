@@ -34,8 +34,8 @@ import { Nft } from '../../../types/VotingEscrow';
 import VeTenexTable from './VeTenexTable';
 import {
   decodeBase64,
-  filterNftsByUnlockDate,
-  sortNftsByUnlockDateDesc,
+  // filterNftsByUnlockDate,
+  //sortNftsByUnlockDateDesc,
 } from '../../../utils/common/voteTenex';
 
 const Main = () => {
@@ -59,11 +59,11 @@ const Main = () => {
             metadata: decodeBase64(nft.metadata),
           }));
 
-          const filteredNftVal = filterNftsByUnlockDate(
+          /* const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData
-          );
-          const formattedNftData = sortNftsByUnlockDateDesc(filteredNftVal);
-          setNftData(formattedNftData);
+          ); */
+          // const formattedNftData = sortNftsByUnlockDateDesc(filteredNftVal);
+          setNftData(formattedNftFormateData);
         } else {
           console.warn('Address is undefined');
         }
