@@ -17,6 +17,7 @@ import TenexIcon from '../../../assets/Tenex.png';
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
+import { getTimeDifference } from '../../../utils/common/voteTenex';
 
 const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -72,7 +73,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
 
           const unlockDate =
             attributes.find((attr) => attr.trait_type === 'Unlock Date')
-              ?.value ?? 'N/A';
+              ?.value ?? '';
+          const formatUnloackData = getTimeDifference(unlockDate);
           const votingPower =
             attributes.find((attr) => attr.trait_type === 'Voting Power')
               ?.value ?? 'N/A';
@@ -91,7 +93,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                     {metadata.name}
                   </LockInfoDes>
                   <LockInfoDes fontsize={12} lineheight={17.94}>
-                    {lockedVELO} VELO locked until {unlockDate}
+                    {lockedVELO} Tenex locked for {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
                     <LockInfoAction
