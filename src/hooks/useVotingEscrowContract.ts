@@ -4,9 +4,7 @@ import { LockedBalance, VotingEscrowContract } from '../types/VotingEscrow'; //L
 import { Abi, Address } from 'viem';
 import votingEscrowAbi from '../constants/artifacts/contracts/VotingEscrow.json';
 import { useMultiCall } from './useMultiCall';
-//import BigNumber from 'bignumber.js';
-//import BigNumber from 'bignumber.js';
-//const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function useVotingEscrowContract(escrowAddress: string) {
   const votingEscrowContract = useContract(
@@ -86,16 +84,20 @@ export function useVotingEscrowContract(escrowAddress: string) {
     [votingEscrowContract]
   );
 
-  const withdraw = useCallback(async () => {
-    if (!votingEscrowContract) return;
+  const withdraw = useCallback(
+    async (tokenId: bigint) => {
+      if (!votingEscrowContract) return;
 
-    const gasEstimate = await votingEscrowContract.estimateGas.withdraw();
-    const tx = await votingEscrowContract.withdraw({
-      gasLimit: gasEstimate.toBigInt(),
-    });
-    await tx.wait();
-    return tx;
-  }, [votingEscrowContract]);
+      const gasEstimate =
+        await votingEscrowContract.estimateGas.withdraw(tokenId);
+      const tx = await votingEscrowContract.withdraw(tokenId, {
+        gasLimit: gasEstimate.toBigInt(),
+      });
+      await tx.wait();
+      return tx;
+    },
+    [votingEscrowContract]
+  );
 
   const transferFrom = useCallback(
     async (owner: Address, address: Address, _tokenId: number) => {

@@ -21,7 +21,10 @@ export interface VotingEscrowContract extends Contract {
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  withdraw(overrides?: Overrides): Promise<ContractTransaction>;
+  withdraw(
+    tokenId: bigint,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
   increaseLockAmount(
     tokenId: bigint,
     value: bigint

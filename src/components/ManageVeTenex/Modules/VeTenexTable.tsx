@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   LockItemContainer,
   LockListContainer,
@@ -18,7 +18,8 @@ import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 import { getTimeDifference } from '../../../utils/common/voteTenex';
-
+import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
+import contractAddress from '../../../constants/contract-address/address';
 const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const itemsPerPage = 5;
@@ -28,6 +29,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const currentItems = nftData.slice(firstItemIndex, lastItemIndex);
 
   const totalPages = Math.ceil(nftData.length / itemsPerPage);
+  const escrowAddress = contractAddress.VotingEscrow;
+  const { withdraw } = useVotingEscrowContract(escrowAddress);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
@@ -49,6 +52,19 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
       console.log('Route is undefine ');
     }
   };
+
+  const handleWithdraw = useCallback(
+    async (tokenId: bigint): Promise<void> => {
+      try {
+        if (!tokenId) return;
+
+        await withdraw(BigInt(tokenId)); // Use the withdraw function from your contract hook
+      } catch (error) {
+        console.error('Error during token withdrawal:', error);
+      }
+    },
+    [withdraw]
+  );
 
   return (
     <LockListContainer>
@@ -130,9 +146,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                     ) : (
                       <>
                         <LockInfoAction
-                          onClick={() =>
-                            handleLockButton('withdraw', lock.tokenId)
-                          }
+                          onClick={() => handleWithdraw(lock.tokenId)}
                         >
                           Withdraw
                         </LockInfoAction>

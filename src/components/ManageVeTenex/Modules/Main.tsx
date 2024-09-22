@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import TenexIcon from '../../../assets/Tenex.png';
 import { GlobalButton } from '../../common';
 import { useNavigate } from 'react-router-dom';
@@ -72,7 +72,29 @@ const Main = () => {
       }
     })();
   }, [address, fetchUserNFTs]);
+  const totalValues = useMemo(() => {
+    const totalLockedTENEX = nftData.reduce((total, lock) => {
+      const lockedVELO = lock.metadata?.attributes.find(
+        (attr) => attr.trait_type === 'Locked VELO'
+      )?.value;
+      return total + (lockedVELO ? parseFloat(lockedVELO) : 0);
+    }, 0);
 
+    const totalVotingPower = nftData.reduce((total, lock) => {
+      const votingPower = lock.metadata?.attributes.find(
+        (attr) => attr.trait_type === 'Voting Power'
+      )?.value;
+      return total + (votingPower ? parseFloat(votingPower) : 0);
+    }, 0);
+
+    const totalValueLocked = totalLockedTENEX * 1.0; // Replace 1.0 with the current price of TENEX
+
+    return {
+      totalLockedTENEX,
+      totalVotingPower,
+      totalValueLocked,
+    };
+  }, [nftData]);
   function handleCreateLock() {
     Navigate('/governance/create');
   }
@@ -118,7 +140,7 @@ const Main = () => {
             <MetricDisplay>
               <StatsCardtitle fontsize={16}>Locked TENEX</StatsCardtitle>
               <AmountWithImg>
-                4,376,987.82{' '}
+                {totalValues.totalLockedTENEX.toLocaleString()}{' '}
                 <ImageContainer
                   width={'15'}
                   height={'15'}
@@ -129,11 +151,15 @@ const Main = () => {
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontsize={16}>Total Voting Power</StatsCardtitle>
-              <LockHeaderTitle fontsize={16}>0.00</LockHeaderTitle>
+              <LockHeaderTitle fontsize={16}>
+                {totalValues.totalVotingPower}
+              </LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>
               <StatsCardtitle fontsize={16}>Total Value Locked</StatsCardtitle>
-              <LockHeaderTitle fontsize={16}>$0.00</LockHeaderTitle>
+              <LockHeaderTitle fontsize={16}>
+                {totalValues.totalValueLocked.toLocaleString()}
+              </LockHeaderTitle>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
