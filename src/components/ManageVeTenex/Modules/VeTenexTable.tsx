@@ -20,8 +20,12 @@ import { useNavigate } from 'react-router-dom';
 import { getTimeDifference } from '../../../utils/common/voteTenex';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
+import SuccessPopup from '../../common/SucessPopup';
 const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [withdrawTknId, setWithdrawTknId] = useState<bigint>(0n);
+
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const itemsPerPage = 5;
 
   const lastItemIndex = currentPage * itemsPerPage;
@@ -58,7 +62,11 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
       try {
         if (!tokenId) return;
 
-        await withdraw(BigInt(tokenId)); // Use the withdraw function from your contract hook
+        await withdraw(BigInt(tokenId));
+
+        setWithdrawTknId(tokenId);
+
+        setSuccessLock(true);
       } catch (error) {
         console.error('Error during token withdrawal:', error);
       }
@@ -76,7 +84,9 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
             );
             return null;
           }
-
+          if (lock.tokenId === withdrawTknId) {
+            return null;
+          }
           const metadata = lock.metadata;
           if (!metadata.attributes) {
             console.warn(
@@ -176,6 +186,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
         currentPage={currentPage}
         totalPages={totalPages}
       />
+      {iSuccessLock && <SuccessPopup message="Withdrawal successful!" />}
     </LockListContainer>
   );
 };

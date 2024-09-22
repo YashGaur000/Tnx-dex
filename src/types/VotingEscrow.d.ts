@@ -114,6 +114,7 @@ export interface NftMetadata {
 export interface Nft {
   tokenId: bigint;
   metadata: NftMetadata;
+  setSuccessLock?: (nftData: string[]) => void;
 }
 interface LockIncreaseProps {
   tokenId: number;
