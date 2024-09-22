@@ -20,8 +20,10 @@ import { useState } from 'react';
 
 import PopupScreen from '../../../common/PopupScreen';
 import LockModel from '../../../modal/LockModel';
+import { useParams } from 'react-router-dom';
 
 const MergeLock = () => {
+  const { tokenId } = useParams<{ tokenId: string }>();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectLockToken, setSelectLockToken] = useState('Your locks...');
   const handleSelectToken = (option: string) => {
@@ -91,7 +93,10 @@ const MergeLock = () => {
         padding="0px"
         scroll="none"
       >
-        <LockModel handleSelectToken={handleSelectToken} />
+        <LockModel
+          handleSelectToken={handleSelectToken}
+          tokenId={Number(tokenId)}
+        />
       </PopupScreen>
     </MainContainerStyle>
   );
