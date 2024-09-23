@@ -1,4 +1,4 @@
-import { Contract } from '@ethersproject/contracts';
+import { Contract, ContractTransaction } from '@ethersproject/contracts';
 import { Address } from 'viem';
 
 interface PoolContract extends Contract {
@@ -8,6 +8,10 @@ interface PoolContract extends Contract {
   totalSupply(): Promise<bigint>;
   metadata(): Promise<Metadata>;
   decimals(): Promise<number>;
+  claimFees({ gasLimit: BigInt }): Promise<ContractTransaction>;
+  estimateGas: {
+    claimFees(): Promise<bigint>;
+  };
 }
 
 interface Metadata {
@@ -40,8 +44,8 @@ interface UserPosition {
   reserve0: string;
   reserve1: string;
 
-  //claimable0?: bigint;
-  //claimable1?: bigint;
+  claimable0: string;
+  claimable1: string;
 
   //   gaugeTotalSupply: string;
   //   gaugeAlive: boolean;
@@ -50,16 +54,15 @@ interface UserPosition {
   //   bribe: string;
   //   factory: string;
 
-  //   emissions: string;
-  //   emissionsToken: string;
+  emissions: string;
+  emissionsToken: string;
 
   poolBalance: string;
   accountDeposit0: string;
   accountDeposit1: string;
 
-  //   accountEarned: string;
-
   gaugeBalance: string;
+
   accountStaked0: string;
   accountStaked1: string;
 
