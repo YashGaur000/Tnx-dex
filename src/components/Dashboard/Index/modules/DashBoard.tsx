@@ -26,6 +26,8 @@ import LockToolTips from '../../../ManageVeTenex/Modules/LockToolTips';
 import VotingToolTips from '../../../Voting/modules/VotingToolTips';
 import PopupScreen from '../../../common/PopupScreen';
 import { PopupWrapper } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import DepositAndStake from './DepositAndStake';
+import LiquidityRewards from './LiquidityRewards';
 // import LiquidityRewards from './LiquidityRewards';
 // import DepositAndStake from './DepositAndStake';
 
@@ -102,7 +104,7 @@ const DashBoard: React.FC = () => {
             </DashBoardCardData>
           </DashBoardCard>
           {/*Todo: make Dynamic  */}
-          {/* <DepositAndStake/>  */}
+          <DepositAndStake />
         </DashBoardWrapper>
         <DashBoardWrapper>
           <DashboardHeading>
@@ -125,7 +127,7 @@ const DashBoard: React.FC = () => {
             </DashBoardCardData>
           </DashBoardCard>
           {/* todo: Make Dynamic */}
-          {/* <LiquidityRewards/> */}
+          <LiquidityRewards />
         </DashBoardWrapper>
 
         <DashBoardWrapper>
