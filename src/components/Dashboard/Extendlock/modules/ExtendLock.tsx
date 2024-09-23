@@ -47,7 +47,7 @@ const ExtendLock = () => {
   const [isMaxLockMode, setIsMaxLockMode] = useState<boolean>(false);
   const [sliderValue, setSliderValue] = useState<number>(1);
   const [timeStampValue, setTimeStamp] = useState<number>(1);
-  const [calculatedVotingPower, setCalculatedVotingPower] = useState<number>(0);
+  const [votingPower, setCalculatedVotingPower] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   const calculateVotingPower = useCallback(
@@ -65,9 +65,10 @@ const ExtendLock = () => {
   );
 
   const handleToggle = () => {
-    setIsMaxLockMode((prev) => !prev);
+    const newMaxLockMode = !isMaxLockMode;
+    setIsMaxLockMode(true);
 
-    if (!isMaxLockMode) {
+    if (newMaxLockMode) {
       setSliderValue(208);
       calculateVotingPower(208);
     }
@@ -89,9 +90,13 @@ const ExtendLock = () => {
             const weeksRemaining = Math.floor(
               timeRemaining / (7 * 24 * 60 * 60)
             );
-            setSliderValue(weeksRemaining);
-            calculateVotingPower(weeksRemaining);
-            setLockData(data);
+
+            if (sliderValue === 1) {
+              setSliderValue(weeksRemaining);
+              calculateVotingPower(weeksRemaining);
+              setLockData(data);
+            }
+            //
           }
         } catch (error) {
           console.error('Error fetching lock data:', error);
@@ -100,12 +105,17 @@ const ExtendLock = () => {
     };
 
     void fetchLockData();
-  }, [tokenId, calculateVotingPower, getLockData]);
+  }, [calculateVotingPower, getLockData]);
 
-  // Function to handle slider changes
-  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /* const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const weeks = Number(e.target.value);
-    console.log('WWWWWWW:', weeks);
+    console.log('Selected Weeks:', weeks);
+    setSliderValue(weeks);
+    calculateVotingPower(weeks);
+  }; */
+
+  // Function to handle clicking on week labels
+  const handleLabelClick = (weeks: number) => {
     setSliderValue(weeks);
     calculateVotingPower(weeks);
   };
@@ -133,9 +143,7 @@ const ExtendLock = () => {
               {timeStampValue ? calculateRemainingDays(timeStampValue) : '0'}
             </LockDescriptonTitle>
             <LockDescriptonTitle fontsize={14}>
-              {calculatedVotingPower
-                ? convertToDecimal(calculatedVotingPower)
-                : 0.0}{' '}
+              {votingPower ? convertToDecimal(votingPower) : 0.0}{' '}
               <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
@@ -168,8 +176,8 @@ const ExtendLock = () => {
 
           <SliderMainContainer>
             <LockHeaderTitle fontsize={16}>
-              Locking your TENEX tokens for{' '}
-              {convertToDecimal(calculatedVotingPower)} veTENEX voting power
+              Locking your TENEX tokens for {convertToDecimal(votingPower)}{' '}
+              veTENEX voting power
             </LockHeaderTitle>
             <LockLoaderContainer padding="0px">
               <LoaderStatusWrapper fontsize={12} lineheight={17.94}>
@@ -183,7 +191,7 @@ const ExtendLock = () => {
                     max="208"
                     step={1}
                     value={sliderValue}
-                    onChange={handleSliderChange}
+                    //onChange={handleSliderChange}
                     disabled={isMaxLockMode}
                   />
                 </SliderContainer>
@@ -192,7 +200,7 @@ const ExtendLock = () => {
                 {labels.map(({ value, weeks }) => (
                   <WeeksLabel
                     key={value}
-                    onClick={void handleSliderChange}
+                    onClick={() => handleLabelClick(value)}
                     isdisable={isMaxLockMode}
                   >
                     {weeks}
@@ -202,12 +210,12 @@ const ExtendLock = () => {
             </LockLoaderContainer>
           </SliderMainContainer>
         </LockleftSection>
-        {/* error  Unsafe argument of type `BigNumber` assigned to a parameter of type `number`  @typescript-eslint/no-unsafe-argument*/}
+        {/* Pass relevant data to ExtendStepper */}
         <ExtendStepper
           tokenId={Number(tokenId)}
           timeStampValue={timeStampValue}
           selectedWeeks={sliderValue}
-          votingPower={convertToDecimal(calculatedVotingPower)}
+          votingPower={convertToDecimal(votingPower)}
         />
       </CreateMainContainer>
     </MainContainerStyle>

@@ -12,7 +12,9 @@ import {
   LockHeaderTitle,
 } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import { GlobalButton } from '../../../common';
-
+import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
+import contractAddress from '../../../../constants/contract-address/address';
+import { useCallback } from 'react';
 interface ExtendStepperProps {
   tokenId: number;
   timeStampValue: number;
@@ -25,6 +27,24 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   selectedWeeks,
   votingPower,
 }) => {
+  const escrowAddress = contractAddress.VotingEscrow;
+  const { increaseUnlockTime } = useVotingEscrowContract(escrowAddress);
+  const handleExtend = useCallback(
+    async (tokenId: number, duration: number): Promise<void> => {
+      try {
+        if (!tokenId) return;
+
+        await increaseUnlockTime(BigInt(tokenId), BigInt(duration));
+
+        //setWithdrawTknId(tokenId);
+
+        //setSuccessLock(true);
+      } catch (error) {
+        console.error('Error during token withdrawal:', error);
+      }
+    },
+    [increaseUnlockTime, tokenId, selectedWeeks]
+  );
   const ExtendStepperData: StepperDataProps[] = [
     {
       step: 1,
@@ -50,7 +70,15 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       <LockHeaderTitle fontsize={24}>Extend Lock #{tokenId}</LockHeaderTitle>
       <SteperWrapper>
         <Stepper data={ExtendStepperData} />
-        <GlobalButton>Extend</GlobalButton>
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={() => handleExtend(tokenId, selectedWeeks)}
+          //disabled={isLocking}
+        >
+          Extend
+        </GlobalButton>
       </SteperWrapper>
       <TipsContainer>
         <ImageContainer width="24px" height="24px" src={InformIcon} />
