@@ -22,36 +22,43 @@ import { UserPositionData } from './DashBoard';
 import React from 'react';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
 import { LoadingSpinner } from '../../../common/Loader';
-// import { usePoolContract } from '../../../../hooks/usePoolContract';
-// import { TRANSACTION_DELAY, TransactionStatus } from '../../../../types/Transaction';
-// import { useRootStore } from '../../../../store/root';
+import { usePoolContract } from '../../../../hooks/usePoolContract';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../../types/Transaction';
+import { useRootStore } from '../../../../store/root';
+import { Address } from 'viem';
 
 const LiquidityRewards = ({
   userPools,
   isError,
   isLoading,
 }: UserPositionData) => {
-  //const { claimFees } = usePoolContract('');
+  const { claimFees, getPoolContract } = usePoolContract('');
 
-  //const { setTransactionStatus } = useRootStore();
+  const { setTransactionStatus } = useRootStore();
 
   if (userPools && userPools.length === 0 && !isLoading) {
     return <p>No Data Available</p>;
   }
 
-  const handleFeeClaim = (lp: string) => {
-    // setTransactionStatus(TransactionStatus.IN_PROGRESS);
+  const handleFeeClaim = async (lp: Address) => {
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
 
-    // const result = await claimFees(lp);
-    // if (result) {
-    //   setTransactionStatus(TransactionStatus.DONE);
-    // } else {
-    //   setTimeout(
-    //     () => setTransactionStatus(TransactionStatus.IDEAL),
-    //     TRANSACTION_DELAY
-    //   );
-    // }
-    alert(`${lp}`);
+    const poolInstance = getPoolContract(lp);
+
+    if (!poolInstance) return;
+
+    const result = await claimFees(poolInstance);
+    if (result) {
+      setTransactionStatus(TransactionStatus.DONE);
+    } else {
+      setTimeout(
+        () => setTransactionStatus(TransactionStatus.IDEAL),
+        TRANSACTION_DELAY
+      );
+    }
   };
 
   return (
