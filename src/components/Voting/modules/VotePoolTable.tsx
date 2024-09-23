@@ -25,7 +25,7 @@ const VotePoolTable: React.FC = () => {
   const [islockPresent, setLockPresent] = useState<boolean>(false);
 
   const nftData = useNftData();
-  console.log(nftData);
+
   useEffect(() => {
     if (nftData.length > 0 && !islockPresent) {
       setLockPresent(true);

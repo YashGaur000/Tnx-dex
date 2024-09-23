@@ -16,7 +16,7 @@ export const VotingPowerContainer = styled.div``;
 export const VoteInputWrapper = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;
-  width: 61px;
+  width: 58px;
   height: 25px;
   padding: 4px 8px;
   border: 1px solid transparent;
@@ -38,10 +38,13 @@ export const VoteInput = styled.input<{ theme: DefaultTheme }>`
   background: transparent;
   max-width: 80%;
   min-width: 40%;
+  text-align: center;
   &:focus {
     outline: none;
   }
-
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.whiteBorder};
+  }
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;

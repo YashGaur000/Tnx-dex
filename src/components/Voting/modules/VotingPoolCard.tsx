@@ -28,10 +28,6 @@ import {
   PairContain,
   TooltipContainer,
   TooltipContent,
-  TooltipText,
-  TooltipTextBox,
-  TooltipValue,
-  TooltipValueBox,
   TraidingSyleLabel,
 } from '../styles/VotingPoolCard.style';
 import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
@@ -173,18 +169,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               <Title fontsize={14}>
                 {'226.18%'} <Img src={ImpIcon} />
               </Title>
-              <TooltipContent className="tooltip-content">
-                <TooltipValueBox>
-                  <TooltipValue>3.65%</TooltipValue>
-                  <TooltipTextBox>
-                    <TooltipText>Rebase APR</TooltipText>
-                  </TooltipTextBox>
-                </TooltipValueBox>
-                <TooltipValueBox>
-                  <TooltipValue>2.01%</TooltipValue>
-                  <TooltipText>Fees + Incentives APR</TooltipText>
-                </TooltipValueBox>
-              </TooltipContent>
+              <TooltipContent className="tooltip-content"></TooltipContent>
             </TooltipContainer>
             <Label>{}</Label>
           </TableColumnWrapper>
@@ -228,13 +213,13 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                   </>
                 )}
               </GradientButton>
+              <PopupWrapper onMouseLeave={handleHoverHide}>
+                {!islock && isHoverPopUpshow && <VoteButtonHover />}
+              </PopupWrapper>
             </SelectedButtonWrapper>
           </TableColumnWrapper>
         </TableColumn>
       </TableRow>
-      <PopupWrapper onMouseLeave={handleHoverHide}>
-        {!islock && isHoverPopUpshow && <VoteButtonHover />}
-      </PopupWrapper>
     </>
   );
 };
