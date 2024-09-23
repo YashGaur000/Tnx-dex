@@ -8,6 +8,7 @@ import { Address } from 'viem';
 import { RouterContract } from '../types/Liquidity';
 import { VoterContract } from '../types/Voter';
 import { BribeVotingRewardContract } from '../types/Bribe';
+import { PoolContract } from '../types/Pool';
 
 export function useContract(
   contractAddress: Address,
@@ -17,6 +18,7 @@ export function useContract(
   | RouterContract
   | VoterContract
   | BribeVotingRewardContract
+  | PoolContract
   | undefined {
   const { chainId, address: userAddress } = useAccount();
   const provider = useEthersProvider({ chainId });

@@ -26,20 +26,21 @@ import {
   IMG2Contains,
   Imgstyle,
 } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
-import { useAccount } from '../../../../hooks/useAccount';
-import { useUserPosition } from '../../../../hooks/useUserPosition';
 import { LoadingSpinner } from '../../../common/Loader';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens/testnetTokens';
 import { Address } from 'viem';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
 import { useNavigate } from 'react-router-dom';
+import { UserPositionData } from './DashBoard';
 
-const DepositAndStake: React.FC = () => {
-  const { address } = useAccount();
-  const { data: userPools, isError } = useUserPosition(address!);
-  const [isLoading, setIsLoading] = useState(true);
+const DepositAndStake = ({
+  address,
+  userPools,
+  isError,
+  isLoading,
+}: UserPositionData) => {
   const { balances } = useTokenBalances(ERC20_TEST_TOKEN_LIST, address!);
   const navigate = useNavigate();
 
@@ -76,14 +77,6 @@ const DepositAndStake: React.FC = () => {
       search: `?${queryParams.toString()}`,
     });
   };
-
-  useEffect(() => {
-    if (isLoading && userPools && userPools.length === 0) {
-      setTimeout(() => setIsLoading(false), 10000);
-    } else {
-      setIsLoading(false);
-    }
-  }, []);
 
   if (userPools && userPools.length === 0 && !isLoading) {
     return <p>No Data Available</p>;

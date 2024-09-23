@@ -15,7 +15,7 @@ import {
   DashBoardWrapperHeading,
   TipsIcon,
 } from '../styles/DashBoard.styled';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 // import DepositAndStake from "./DepositAndStake";
 // import LiquidityRewards from "./LiquidityRewards";
@@ -28,15 +28,38 @@ import PopupScreen from '../../../common/PopupScreen';
 import { PopupWrapper } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import DepositAndStake from './DepositAndStake';
 import LiquidityRewards from './LiquidityRewards';
+import { useAccount } from '../../../../hooks/useAccount';
+import { useUserPosition } from '../../../../hooks/useUserPosition';
+import { Address } from 'viem';
+import { UserPosition } from '../../../../types/Pool';
 // import LiquidityRewards from './LiquidityRewards';
 // import DepositAndStake from './DepositAndStake';
 
+export interface UserPositionData {
+  address?: Address;
+  userPools: UserPosition[] | undefined;
+  isError: boolean;
+  isLoading: boolean;
+}
+
 const DashBoard: React.FC = () => {
+  const { address } = useAccount();
+  const { userPools, userRewardPools, isError } = useUserPosition(address!);
+  const [isLoading, setIsLoading] = useState(true);
+
   const [isLockVisible, setIsLockVisible] = useState(true);
 
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [activeTooltip, setActiveTooltip] = useState<string>('');
   const Navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoading && userPools && userPools.length === 0) {
+      setTimeout(() => setIsLoading(false), 10000);
+    } else {
+      setIsLoading(false);
+    }
+  }, []);
 
   function handleTooltipShow(option: string) {
     setActiveTooltip(option);
@@ -104,7 +127,14 @@ const DashBoard: React.FC = () => {
             </DashBoardCardData>
           </DashBoardCard>
           {/*Todo: make Dynamic  */}
-          <DepositAndStake />
+          {address && (
+            <DepositAndStake
+              address={address}
+              userPools={userPools}
+              isError={isError}
+              isLoading={isLoading}
+            />
+          )}
         </DashBoardWrapper>
         <DashBoardWrapper>
           <DashboardHeading>
@@ -127,7 +157,14 @@ const DashBoard: React.FC = () => {
             </DashBoardCardData>
           </DashBoardCard>
           {/* todo: Make Dynamic */}
-          <LiquidityRewards />
+          {address && (
+            <LiquidityRewards
+              address={address}
+              userPools={userRewardPools}
+              isError={isError}
+              isLoading={isLoading}
+            />
+          )}
         </DashBoardWrapper>
 
         <DashBoardWrapper>
