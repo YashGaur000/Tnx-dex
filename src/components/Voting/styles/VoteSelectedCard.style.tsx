@@ -26,4 +26,6 @@ export const SelectedDataWrapper = styled.div<{ gap?: number }>`
   align-items: center;
   gap: ${({ gap }) => gap ?? '24'}px;
 `;
-export const SelectedButtonWrapper = styled.div<{ theme: DefaultTheme }>``;
+export const SelectedButtonWrapper = styled.div<{ theme: DefaultTheme }>`
+  position: relative;
+`;

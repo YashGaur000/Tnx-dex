@@ -6,6 +6,7 @@ import {
 } from '../../common/TableStyled';
 import {
   LiquidityTitle,
+  PopupWrapper,
   StatsCardtitle,
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
@@ -42,22 +43,34 @@ import { useState } from 'react';
 import { SelectedButtonWrapper } from '../styles/VoteSelectedCard.style';
 import SelectedIcon from '../../../assets/Selected.svg';
 
+import VoteButtonHover from './VoteButtonHover';
+
 interface VotingPoolCardProps {
   data: LiquidityPoolNewType;
   handleSelectPool: (isSelected: boolean) => void;
+  islock: boolean;
 }
 
 const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   data,
   handleSelectPool,
+  islock,
 }) => {
   const [isSelectCardOpen, setSelectCardOpen] = useState<boolean>(false);
+  const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
 
   const handleVote = () => {
     const newState = !isSelectCardOpen;
     setSelectCardOpen(newState);
     handleSelectPool(newState);
   };
+  const handleHoverShow = () => {
+    setHoverPopUpShow(true);
+  };
+  const handleHoverHide = () => {
+    setHoverPopUpShow(false);
+  };
+
   return (
     <>
       <TableRow>
@@ -179,7 +192,10 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn padding="5px">
           <TableColumnWrapper height="95px">
-            <SelectedButtonWrapper onClick={handleVote}>
+            <SelectedButtonWrapper
+              onClick={islock ? handleVote : undefined}
+              onMouseEnter={!islock ? handleHoverShow : undefined}
+            >
               <GradientButton
                 color="#ffffff"
                 padding="4px 10px"
@@ -192,24 +208,33 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                 smfontsize={12}
                 smmargin="0px"
               >
-                {isSelectCardOpen ? (
-                  <>
-                    Selected
-                    <ImageContainer
-                      width="10px"
-                      height="10px"
-                      margin="0px 0px 0px 5px"
-                      src={SelectedIcon}
-                    />
-                  </>
+                {!islock ? (
+                  <>Vote</>
                 ) : (
-                  'Select'
+                  <>
+                    {isSelectCardOpen ? (
+                      <>
+                        Selected
+                        <ImageContainer
+                          width="10px"
+                          height="10px"
+                          margin="0px 0px 0px 5px"
+                          src={SelectedIcon}
+                        />
+                      </>
+                    ) : (
+                      'Select'
+                    )}
+                  </>
                 )}
               </GradientButton>
             </SelectedButtonWrapper>
           </TableColumnWrapper>
         </TableColumn>
       </TableRow>
+      <PopupWrapper onMouseLeave={handleHoverHide}>
+        {!islock && isHoverPopUpshow && <VoteButtonHover />}
+      </PopupWrapper>
     </>
   );
 };

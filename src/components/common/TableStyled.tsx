@@ -97,6 +97,7 @@ export const TableColumn = styled.td<TableProps>`
 `;
 export const TableRow = styled.tr`
   padding: 0px;
+  position: relative;
 `;
 export const TableColumnWrapper = styled.div<{ gap?: number; height?: string }>`
   display: flex;

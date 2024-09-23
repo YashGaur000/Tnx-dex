@@ -13,10 +13,11 @@ import {
 } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 import {
   VoteInput,
+  VoteInputWrapper,
   VotingLockWrapper,
   VotingPowerContainer,
 } from '../styles/VottingPowerModel.style';
-import { SelectLockDataType } from './VoteSelectedCard';
+
 import { DashboardNavigation } from '../../Dashboard/Index/styles/DashBoard.styled';
 import {
   GroupImgContains,
@@ -46,14 +47,16 @@ import {
   PercentageOptions,
   PercentageSelectorContainer,
 } from '../../Swap/styles/SwapForm.style.';
+import { Nft } from '../../../types/VotingEscrow';
+
 interface VottingPowerModelProps {
-  selectLockData: SelectLockDataType;
   VoteSelectPoolData: LiquidityPoolNewType[];
+  selectedNftData: Nft;
 }
 
 const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
-  selectLockData,
   VoteSelectPoolData,
+  selectedNftData,
 }) => {
   return (
     <LockTokenContainer padding="20px">
@@ -66,11 +69,14 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
             alt={'wrong'}
           />
           <TokenNameWrapper>
-            <TokenItemData>Lock #{selectLockData.id}</TokenItemData>
+            <TokenItemData>
+              Lock #{selectedNftData?.tokenId.toString()}
+            </TokenItemData>
 
             <TokenItemWithAdressWrapper>
               <LockDescriptonTitle fontsize={12}>
-                {selectLockData.amount} TENEX locked for {selectLockData.time}
+                {selectedNftData?.metadata.attributes[2].value} VELO locked
+                until {selectedNftData?.metadata.attributes[0].value}
               </LockDescriptonTitle>
               <DashboardNavigation fontsize={14}>Increase</DashboardNavigation>
               <DashboardNavigation fontsize={14}>Extend</DashboardNavigation>
@@ -150,8 +156,9 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
             </PairContain>
 
             <LiquidityTokenWrapper alignitem="flex-start">
-              <VoteInput type="number" />
-
+              <VoteInputWrapper>
+                <VoteInput type="number" />%
+              </VoteInputWrapper>
               <PercentageSelectorContainer>
                 <PercentageOptions>
                   <PercentageButton
