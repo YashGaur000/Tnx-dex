@@ -122,6 +122,9 @@ const fetchUserPools = async (
       Number(pool.reserve1)
     ).toFixed(5);
 
+    pool.accountUnstaked0 = pool.accountDeposit0;
+    pool.accountUnstaked1 = pool.accountDeposit1;
+
     const gaugeAddress = gaugesResults[index]?.result as Address;
 
     if (gaugeAddress != AddressZero) {
