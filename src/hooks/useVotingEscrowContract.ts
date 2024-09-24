@@ -4,9 +4,7 @@ import { LockedBalance, VotingEscrowContract } from '../types/VotingEscrow'; //L
 import { Abi, Address } from 'viem';
 import votingEscrowAbi from '../constants/artifacts/contracts/VotingEscrow.json';
 import { useMultiCall } from './useMultiCall';
-//import BigNumber from 'bignumber.js';
-//import BigNumber from 'bignumber.js';
-//const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function useVotingEscrowContract(escrowAddress: string) {
   const votingEscrowContract = useContract(
@@ -58,11 +56,32 @@ export function useVotingEscrowContract(escrowAddress: string) {
     },
     [votingEscrowContract]
   );
+  const mergeLocks = useCallback(
+    async (_from: bigint, _to: bigint): Promise<void> => {
+      if (!votingEscrowContract) {
+        throw new Error('VotingEscrowContract not initialized');
+      }
+
+      try {
+        const gasEstimate = await votingEscrowContract.estimateGas.merge(
+          _from,
+          _to
+        );
+        const tx = await votingEscrowContract.merge(_from, _to, {
+          gasLimit: gasEstimate,
+        });
+        await tx.wait();
+      } catch (error) {
+        console.error('Error merging locks:', error);
+        throw error;
+      }
+    },
+    [votingEscrowContract]
+  );
 
   const increaseUnlockTime = useCallback(
-    async (tokenId: bigint, value: bigint): Promise<void> => {
+    async (tokenId: number, value: number): Promise<void> => {
       if (!votingEscrowContract) throw new Error('Contract is not initialized');
-
       try {
         const gasEstimate =
           await votingEscrowContract.estimateGas.increaseUnlockTime(
@@ -86,16 +105,20 @@ export function useVotingEscrowContract(escrowAddress: string) {
     [votingEscrowContract]
   );
 
-  const withdraw = useCallback(async () => {
-    if (!votingEscrowContract) return;
+  const withdraw = useCallback(
+    async (tokenId: bigint) => {
+      if (!votingEscrowContract) return;
 
-    const gasEstimate = await votingEscrowContract.estimateGas.withdraw();
-    const tx = await votingEscrowContract.withdraw({
-      gasLimit: gasEstimate.toBigInt(),
-    });
-    await tx.wait();
-    return tx;
-  }, [votingEscrowContract]);
+      const gasEstimate =
+        await votingEscrowContract.estimateGas.withdraw(tokenId);
+      const tx = await votingEscrowContract.withdraw(tokenId, {
+        gasLimit: gasEstimate.toBigInt(),
+      });
+      await tx.wait();
+      return tx;
+    },
+    [votingEscrowContract]
+  );
 
   const transferFrom = useCallback(
     async (owner: Address, address: Address, _tokenId: number) => {
@@ -232,34 +255,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
     },
     [votingEscrowContract, multicallClient, getNFTCount]
   );
-  /*  const getLockData = useCallback(
-    async (tokenId: number): Promise<LockDataNew | null> => {
-      if (!votingEscrowContract) {
-        console.error('Voting Escrow contract is not initialized');
-        return null;
-      }
 
-      try {
-        
-        const lockData = await votingEscrowContract.locked(tokenId);
-        const currentTime = Math.floor(Date.now() / 1000); 
-        const timeRemaining = lockData.end > currentTime ? lockData.end - currentTime : 0; 
-        const votingPower = Number(lockData.amount) * (timeRemaining / MAX_LOCK_TIME); 
-
-       const retrnData  =  {
-          tokenId,
-          amount: lockData.amount,
-          end: Number(lockData.end),
-          isPermanent: lockData.isPermanent,
-          votingPower 
-        };
-        return retrnData;
-      } catch (error) {
-        return null
-      }
-    },
-    [votingEscrowContract]
-  ); */
   const getLockData = useCallback(
     async (tokenId: number): Promise<LockedBalance | null> => {
       if (!votingEscrowContract) {
@@ -282,6 +278,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
   return {
     createLock,
     increaseLockAmount,
+    mergeLocks,
     increaseUnlockTime,
     withdraw,
     getApproved,

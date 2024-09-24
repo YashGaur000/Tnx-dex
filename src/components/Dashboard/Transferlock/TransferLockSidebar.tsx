@@ -44,17 +44,12 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   const handleTransferLock = useCallback(async () => {
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      console.log('To Address:', toAddress);
-      console.log('Token ID:', tokenId);
 
       setIsLoading(true);
-
-      // Transfer the lock
+      if (!fromOwner && !toAddress && !tokenId) return;
       await transferFrom(fromOwner, toAddress, tokenId);
 
-      console.log('Lock transferred!');
       setIsLockTransfer(true);
-
       setTransactionStatus(TransactionStatus.DONE);
 
       setTimeout(() => {

@@ -38,9 +38,25 @@ export const LockItemContainer = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const LockDetails = styled.div<{ theme: DefaultTheme }>`
+export const LockDetails = styled.div<{ theme: DefaultTheme; width?: string }>`
   display: flex;
   align-items: center;
+  min-width: ${({ width }) => (width ? width : '100%')};
+
+  @media (max-width: 768px) {
+    display: flex;
+    width: 100%;
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    flex-direction: row;
+    width: 80%;
+  }
+
+  @media (min-width: 1025px) {
+    flex-direction: row;
+    width: 60%;
+  }
 `;
 
 export const LockIcon = styled.div<{ theme: DefaultTheme }>`
@@ -61,6 +77,7 @@ export const LockInfoAction = styled.span<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.title};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   -webkit-background-clip: text;
+  text-align: justify;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   position: relative;
