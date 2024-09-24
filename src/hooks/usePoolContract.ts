@@ -95,29 +95,26 @@ export function usePoolContract(poolId: string) {
     [address, checkAllowance]
   );
 
-  const claimFees = useCallback(
-    async (poolInstance: PoolContract) => {
-      if (!poolInstance) {
-        console.error('Pool contract instance not available');
-        return;
-      }
-      try {
-        const gasEstimate = await poolInstance.estimateGas.claimFees();
+  const claimFees = useCallback(async (poolInstance: PoolContract) => {
+    if (!poolInstance) {
+      console.error('Pool contract instance not available');
+      return;
+    }
+    try {
+      const gasEstimate = await poolInstance.estimateGas.claimFees();
 
-        const result = await poolInstance.claimFees({
-          gasLimit: gasEstimate,
-        });
+      const result = await poolInstance.claimFees({
+        gasLimit: gasEstimate,
+      });
 
-        const { transactionHash } = await result.wait();
+      const { transactionHash } = await result.wait();
 
-        return transactionHash;
-      } catch (error) {
-        console.log(error);
-        return undefined;
-      }
-    },
-    [poolContract]
-  );
+      return transactionHash;
+    } catch (error) {
+      console.log(error);
+      return undefined;
+    }
+  }, []);
 
   return { metadata, balanceOf, fetchAllowance, claimFees, getPoolContract };
 }

@@ -29,13 +29,16 @@ import {
 } from '../../../../types/Transaction';
 import { useRootStore } from '../../../../store/root';
 import { Address } from 'viem';
+import { useGaugeContract } from '../../../../hooks/useGaugeContract';
+import { AddressZero } from '@ethersproject/constants';
 
 const LiquidityRewards = ({
   userPools,
   isError,
   isLoading,
 }: UserPositionData) => {
-  const { claimFees, getPoolContract } = usePoolContract('');
+  const { claimFees, getPoolContract } = usePoolContract(AddressZero);
+  const { getReward, getGaugeContract } = useGaugeContract(AddressZero);
 
   const { setTransactionStatus } = useRootStore();
 
@@ -44,20 +47,46 @@ const LiquidityRewards = ({
   }
 
   const handleFeeClaim = async (lp: Address) => {
-    setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
 
-    const poolInstance = getPoolContract(lp);
+      const poolInstance = getPoolContract(lp);
 
-    if (!poolInstance) return;
+      if (!poolInstance) return;
 
-    const result = await claimFees(poolInstance);
-    if (result) {
-      setTransactionStatus(TransactionStatus.DONE);
-    } else {
+      const result = await claimFees(poolInstance);
+      if (result) {
+        setTransactionStatus(TransactionStatus.DONE);
+      }
       setTimeout(
         () => setTransactionStatus(TransactionStatus.IDEAL),
         TRANSACTION_DELAY
       );
+    } catch (error) {
+      console.error('Error during fee claim transaction:', error);
+    }
+  };
+
+  const handleReward = async (gauge: Address) => {
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+
+      const gaugeInstance = getGaugeContract(gauge);
+
+      if (!gaugeInstance) throw new Error('Gauge contract not found');
+
+      const result = await getReward(gaugeInstance);
+
+      if (result) {
+        setTransactionStatus(TransactionStatus.DONE);
+      }
+
+      setTimeout(
+        () => setTransactionStatus(TransactionStatus.IDEAL),
+        TRANSACTION_DELAY
+      );
+    } catch (error) {
+      console.error('Error during reward transaction:', error);
     }
   };
 
@@ -110,6 +139,13 @@ const LiquidityRewards = ({
                 <DepositeStakedData>
                   {userPool.emissions} {userPool.emissionsToken}
                 </DepositeStakedData>
+                {Number(userPool.emissions) > 0 && (
+                  <DashBoardParagraph
+                    onClick={() => handleReward(userPool.gauge)}
+                  >
+                    Claim Emissions
+                  </DashBoardParagraph>
+                )}
               </StakedContainer>
 
               <StakedContainer>
@@ -124,9 +160,14 @@ const LiquidityRewards = ({
                 </DepositeStakedData>
               </StakedContainer>
               <Stable>
-                <DashBoardParagraph onClick={() => handleFeeClaim(userPool.lp)}>
-                  Claim
-                </DashBoardParagraph>
+                {(Number(userPool.claimable0) > 0 ||
+                  Number(userPool.claimable1) > 0) && (
+                  <DashBoardParagraph
+                    onClick={() => handleFeeClaim(userPool.lp)}
+                  >
+                    Claim Fees
+                  </DashBoardParagraph>
+                )}
               </Stable>
             </LiquityMainContainer>
           </React.Fragment>
