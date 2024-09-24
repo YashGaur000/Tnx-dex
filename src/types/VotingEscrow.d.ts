@@ -134,3 +134,13 @@ export interface ExtendStepperProps {
   votingPower: number;
   setSuccessLock: (input: boolean) => void;
 }
+
+export interface LockModelProps {
+  handleSelectToken: (
+    option: string,
+    toTokenId: number,
+    selectVotingPower: number,
+    toLockDate: string
+  ) => void;
+  tokenId: number;
+}
