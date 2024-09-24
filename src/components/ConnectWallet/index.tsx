@@ -4,9 +4,11 @@ import { ChainButton, GlobalButton } from '../common';
 import { Container, FlexContainer, IconContainer } from './style';
 import { useRootStore } from '../../store/root';
 import { TransactionStatus } from '../../types/Transaction';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDisconnect } from 'wagmi';
+import { PopupWrapper } from '../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import PopupScreen from '../common/PopupScreen';
 
 //import { getPoolInfo } from '../../graphql';
 
@@ -26,9 +28,12 @@ export const ConnectWallet = () => {
   const { setTransactionStatus } = useRootStore();
   const navigate = useNavigate();
   const { disconnect } = useDisconnect();
+  const [showAlert, setShowAlert] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
 
   useEffect(() => {
     if (address) {
+      setElapsedTime(0); // Reset elapsed time
       setTransactionStatus(TransactionStatus.IDEAL);
       const disconnectTimeout = setTimeout(() => {
         disconnect();
@@ -36,16 +41,32 @@ export const ConnectWallet = () => {
 
       // Set timeout to alert user 10 seconds before expiration
       const alertTimeout = setTimeout(() => {
-        alert('Your session is about to expire in 10 seconds.');
+        //alert('Your session is about to expire in 10 seconds.');
+        setShowAlert(true);
       }, ALERT_USER_DURATION);
+
+      const timerInterval = setInterval(() => {
+        setElapsedTime((prev) => prev + 1000); // Increment elapsed time by 1000ms (1 second)
+      }, 1000);
+
       return () => {
         clearTimeout(disconnectTimeout);
         clearTimeout(alertTimeout);
+        clearInterval(timerInterval);
       };
     } else {
       navigate('/');
     }
   }, [address]);
+
+  const formatElapsedTime = (elapsed: number) => {
+    const totalSeconds = Math.floor(elapsed / 1000);
+    const hours = Math.floor(totalSeconds / 3600); // Get hours
+    const minutes = Math.floor((totalSeconds % 3600) / 60); // Get remaining minutes
+    const seconds = totalSeconds % 60; // Get remaining seconds
+
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+  };
 
   return (
     <ConnectButton.Custom>
@@ -103,6 +124,7 @@ export const ConnectWallet = () => {
 
               return (
                 <FlexContainer>
+                  <p>{formatElapsedTime(elapsedTime)}</p>
                   <ChainButton
                     onClick={openChainModal}
                     width="74"
@@ -135,6 +157,16 @@ export const ConnectWallet = () => {
                 </FlexContainer>
               );
             })()}
+            {showAlert && (
+              <PopupScreen
+                isvisible={showAlert}
+                onClose={() => setShowAlert(false)}
+              >
+                <PopupWrapper>
+                  <p>Your Session is about to expire in 10 seconds</p>
+                </PopupWrapper>
+              </PopupScreen>
+            )}
           </Container>
         );
       }}
