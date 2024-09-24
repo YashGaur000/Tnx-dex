@@ -20,28 +20,21 @@ import VoteSelectModel from './VoteSelectModel';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import VottingPowerModel from './VottingPowerModel';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
-
-export interface SelectLockDataType {
-  id: string;
-  amount: string;
-  time: string;
-}
+import { Nft } from '../../../types/VotingEscrow';
 
 interface VoteSelectedCardProps {
   countSelectedItem: number;
   VoteSelectPoolData: LiquidityPoolNewType[];
+  nftData: Nft[];
 }
 const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   countSelectedItem,
   VoteSelectPoolData,
+  nftData,
 }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isModelOpen, setModelOpen] = useState(false);
-  const [selectLockData, setSelectLockData] = useState<SelectLockDataType>({
-    id: '416',
-    amount: '50.0',
-    time: '12 hours',
-  }); //Todo: remove static Data when Make Dynamic
+  const [selectedNftData, setSelectedNftData] = useState<Nft>(nftData[0]);
   function handleModel(option: string) {
     setModelOpen(option === 'ChangeLock');
     setPopupVisible(true);
@@ -50,10 +43,10 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   function handleModelHide() {
     setPopupVisible(false);
   }
-  const handleSelectToken = (token: SelectLockDataType) => {
-    console.log(token);
+  const handleSelectedNft = (selectedNft: Nft) => {
+    console.log(selectedNft);
 
-    setSelectLockData(token);
+    setSelectedNftData(selectedNft);
     setPopupVisible(false);
   };
 
@@ -69,7 +62,9 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
           />
           <TokenNameWrapper>
             <SelectedDataWrapper gap={8}>
-              <TokenItemData>Lock #{selectLockData.id}</TokenItemData>
+              <TokenItemData>
+                Lock #{selectedNftData?.tokenId.toString()}
+              </TokenItemData>
               <DashboardNavigation
                 fontsize={14}
                 onClick={() => handleModel('ChangeLock')}
@@ -78,7 +73,8 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
               </DashboardNavigation>
             </SelectedDataWrapper>
             <LockDescriptonTitle fontsize={12}>
-              {selectLockData.amount} TENEX locked for {selectLockData.time}
+              {selectedNftData?.metadata.attributes[2].value} VELO locked until{' '}
+              {selectedNftData?.metadata.attributes[0].value}
             </LockDescriptonTitle>
           </TokenNameWrapper>
         </TokenItemWithAdressWrapper>
@@ -107,11 +103,14 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
       >
         <PopupWrapper onClick={handleModelHide}></PopupWrapper>
         {isModelOpen ? (
-          <VoteSelectModel handleSelectToken={handleSelectToken} />
+          <VoteSelectModel
+            handleSelectedNft={handleSelectedNft}
+            nftData={nftData}
+          />
         ) : (
           <VottingPowerModel
-            selectLockData={selectLockData}
             VoteSelectPoolData={VoteSelectPoolData}
+            selectedNftData={selectedNftData}
           />
         )}
       </PopupScreen>

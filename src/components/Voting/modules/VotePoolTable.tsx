@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TableContains, {
   TableWrapper,
   TableHeader,
@@ -15,12 +15,24 @@ import PageLoader from '../../common/PageLoader';
 import VoteSelectedCard from './VoteSelectedCard';
 import { LiquidityTableWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+import useNftData from '../../../hooks/useUserNFTs';
 
 const VotePoolTable: React.FC = () => {
   const [selectedPoolsCount, setSelectedPoolsCount] = useState<number>(0);
   const [VoteSelectPool, setVoteSelectPool] = useState<LiquidityPoolNewType[]>(
     []
   );
+  const [islockPresent, setLockPresent] = useState<boolean>(false);
+
+  const nftData = useNftData();
+
+  useEffect(() => {
+    if (nftData.length > 0 && !islockPresent) {
+      setLockPresent(true);
+    } else if (nftData.length === 0 && islockPresent) {
+      setLockPresent(false);
+    }
+  }, [nftData, islockPresent]);
 
   const handleSelectPool = (
     isSelected: boolean,
@@ -92,6 +104,7 @@ const VotePoolTable: React.FC = () => {
               <VotingPoolCard
                 key={key}
                 data={item}
+                islock={islockPresent}
                 handleSelectPool={(isSelected) =>
                   handleSelectPool(isSelected, item)
                 }
@@ -103,6 +116,7 @@ const VotePoolTable: React.FC = () => {
           <VoteSelectedCard
             countSelectedItem={selectedPoolsCount}
             VoteSelectPoolData={VoteSelectPool}
+            nftData={nftData}
           />
         )}
       </TableWrapper>

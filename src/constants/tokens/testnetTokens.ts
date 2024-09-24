@@ -42,7 +42,7 @@ export const ERC20_TEST_TOKEN_LIST: TokenInfo[] = [
     name: 'Usdb',
     symbol: 'USDB',
     chainId: 168587773,
-    decimals: 6,
+    decimals: 18,
     logoURI:
       'https://raw.githubusercontent.com/SpaceFinance/default-token-list/master/assets/0x4200000000000000000000000000000000000022.png',
   },

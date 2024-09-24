@@ -6,6 +6,7 @@ import {
 } from '../../common/TableStyled';
 import {
   LiquidityTitle,
+  PopupWrapper,
   StatsCardtitle,
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import {
@@ -27,10 +28,6 @@ import {
   PairContain,
   TooltipContainer,
   TooltipContent,
-  TooltipText,
-  TooltipTextBox,
-  TooltipValue,
-  TooltipValueBox,
   TraidingSyleLabel,
 } from '../styles/VotingPoolCard.style';
 import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
@@ -42,22 +39,34 @@ import { useState } from 'react';
 import { SelectedButtonWrapper } from '../styles/VoteSelectedCard.style';
 import SelectedIcon from '../../../assets/Selected.svg';
 
+import VoteButtonHover from './VoteButtonHover';
+
 interface VotingPoolCardProps {
   data: LiquidityPoolNewType;
   handleSelectPool: (isSelected: boolean) => void;
+  islock: boolean;
 }
 
 const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   data,
   handleSelectPool,
+  islock,
 }) => {
   const [isSelectCardOpen, setSelectCardOpen] = useState<boolean>(false);
+  const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
 
   const handleVote = () => {
     const newState = !isSelectCardOpen;
     setSelectCardOpen(newState);
     handleSelectPool(newState);
   };
+  const handleHoverShow = () => {
+    setHoverPopUpShow(true);
+  };
+  const handleHoverHide = () => {
+    setHoverPopUpShow(false);
+  };
+
   return (
     <>
       <TableRow>
@@ -160,18 +169,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               <Title fontsize={14}>
                 {'226.18%'} <Img src={ImpIcon} />
               </Title>
-              <TooltipContent className="tooltip-content">
-                <TooltipValueBox>
-                  <TooltipValue>3.65%</TooltipValue>
-                  <TooltipTextBox>
-                    <TooltipText>Rebase APR</TooltipText>
-                  </TooltipTextBox>
-                </TooltipValueBox>
-                <TooltipValueBox>
-                  <TooltipValue>2.01%</TooltipValue>
-                  <TooltipText>Fees + Incentives APR</TooltipText>
-                </TooltipValueBox>
-              </TooltipContent>
+              <TooltipContent className="tooltip-content"></TooltipContent>
             </TooltipContainer>
             <Label>{}</Label>
           </TableColumnWrapper>
@@ -179,7 +177,10 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn padding="5px">
           <TableColumnWrapper height="95px">
-            <SelectedButtonWrapper onClick={handleVote}>
+            <SelectedButtonWrapper
+              onClick={islock ? handleVote : undefined}
+              onMouseEnter={!islock ? handleHoverShow : undefined}
+            >
               <GradientButton
                 color="#ffffff"
                 padding="4px 10px"
@@ -192,20 +193,29 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                 smfontsize={12}
                 smmargin="0px"
               >
-                {isSelectCardOpen ? (
-                  <>
-                    Selected
-                    <ImageContainer
-                      width="10px"
-                      height="10px"
-                      margin="0px 0px 0px 5px"
-                      src={SelectedIcon}
-                    />
-                  </>
+                {!islock ? (
+                  <>Vote</>
                 ) : (
-                  'Select'
+                  <>
+                    {isSelectCardOpen ? (
+                      <>
+                        Selected
+                        <ImageContainer
+                          width="10px"
+                          height="10px"
+                          margin="0px 0px 0px 5px"
+                          src={SelectedIcon}
+                        />
+                      </>
+                    ) : (
+                      'Select'
+                    )}
+                  </>
                 )}
               </GradientButton>
+              <PopupWrapper onMouseLeave={handleHoverHide}>
+                {!islock && isHoverPopUpshow && <VoteButtonHover />}
+              </PopupWrapper>
             </SelectedButtonWrapper>
           </TableColumnWrapper>
         </TableColumn>

@@ -37,7 +37,7 @@ const TransactionDeadline: React.FC = () => {
       <SliderContainer>
         <Slider
           type="range"
-          min="0"
+          min="5"
           max="30"
           value={deadLineValue}
           onChange={handleSliderChange}
