@@ -76,6 +76,8 @@ const fetchUserPools = async (
     return acc;
   }, [] as UserPosition[]);
 
+  if (userPools.length === 0) return [];
+
   const totalSupplyPoolCalls = userPools.map(({ lp }) => ({
     abi: poolAbi.abi as Abi,
     functionName: 'totalSupply',
@@ -190,6 +192,8 @@ const fetchUserPools = async (
     contracts: earnedCalls,
   });
 
+  let stakeIndex = 0;
+
   userPools.forEach((pool, index) => {
     const totalSupplyPool =
       formatAmounts(
@@ -256,7 +260,8 @@ const fetchUserPools = async (
       pool.gauge = gaugeAddress;
 
       const accountStaked =
-        formatAmounts(stakeResults[index].result as ethers.Numeric, 18) ?? '0';
+        formatAmounts(stakeResults[stakeIndex].result as ethers.Numeric, 18) ??
+        '0';
 
       pool.gaugeBalance = accountStaked;
 
@@ -279,7 +284,10 @@ const fetchUserPools = async (
 
       // earned
       pool.emissions =
-        formatAmounts(earnedResults[index].result as ethers.Numeric, 18) ?? '0';
+        formatAmounts(earnedResults[stakeIndex].result as ethers.Numeric, 18) ??
+        '0';
+
+      stakeIndex++;
     }
   });
 
