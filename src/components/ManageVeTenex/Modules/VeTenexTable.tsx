@@ -13,11 +13,14 @@ import {
   LockInfoText,
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
-import TenexIcon from '../../../assets/Tenex.png';
+
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
-import { getTimeDifference } from '../../../utils/common/voteTenex';
+import {
+  getTimeDifference,
+  locktokeninfo,
+} from '../../../utils/common/voteTenex';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
 import SuccessPopup from '../../common/SucessPopup';
@@ -35,7 +38,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const totalPages = Math.ceil(nftData.length / itemsPerPage);
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
-
+  const lockTokenInfo = locktokeninfo();
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -112,14 +115,15 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
             <LockItemContainer key={index}>
               <LockDetails width="279px">
                 <LockIcon>
-                  <LockImg src={TenexIcon} alt="Lock Icon" />
+                  <LockImg src={lockTokenInfo.logoURI} alt="Lock Icon" />
                 </LockIcon>
                 <LockInfo>
                   <LockInfoDes fontsize={16} lineheight={23.92}>
                     {metadata.name}
                   </LockInfoDes>
                   <LockInfoDes fontsize={12} lineheight={17.94}>
-                    {lockedVELO} Tenex locked for {formatUnloackData}
+                    {lockedVELO} {lockTokenInfo.symbol} locked for{' '}
+                    {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
                     {formatUnloackData !== 'Expired' ? (
@@ -171,7 +175,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
               </Column>
               <Column>
                 <LockInfoText>Emissions</LockInfoText>
-                <LockInfoTextValue>0 USD</LockInfoTextValue>
+                <LockInfoTextValue>0 </LockInfoTextValue>
               </Column>
             </LockItemContainer>
           );

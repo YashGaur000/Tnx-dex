@@ -40,7 +40,8 @@ import {
 
 const Main = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [isToolTipActive, setToolTipActive] = useState(false);
+  const [isToolTipActive, setToolTipActive] = useState(true);
+  const [isRelayActive, setRelayActive] = useState(false);
   const [nftData, setNftData] = useState<Nft[]>([]);
   const Navigate = useNavigate();
 
@@ -51,6 +52,7 @@ const Main = () => {
   useEffect(() => {
     void (async function fetchData() {
       try {
+        setRelayActive(false);
         if (address) {
           const fetchedNftVal = await fetchUserNFTs(address);
 
@@ -180,22 +182,23 @@ const Main = () => {
 
         <VeTenexTable nftData={nftData} />
       </LockContainerWrapper>
+      {isRelayActive && (
+        <LockContainerWrapper>
+          <LockheaderWrapper>
+            <LockHeaderTitle fontsize={24}>Relay</LockHeaderTitle>
+            <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('relay')}>
+              <ImageContainer
+                width={'16px'}
+                height={'16px'}
+                margin="7px 0px 0px 0px"
+                src={QuestionIcon}
+              ></ImageContainer>
+            </ToolTipsWrapper>
+          </LockheaderWrapper>
 
-      <LockContainerWrapper>
-        <LockheaderWrapper>
-          <LockHeaderTitle fontsize={24}>Relay</LockHeaderTitle>
-          <ToolTipsWrapper onMouseEnter={() => handleTooltipShow('relay')}>
-            <ImageContainer
-              width={'16px'}
-              height={'16px'}
-              margin="7px 0px 0px 0px"
-              src={QuestionIcon}
-            ></ImageContainer>
-          </ToolTipsWrapper>
-        </LockheaderWrapper>
-
-        <Relay />
-      </LockContainerWrapper>
+          <Relay />
+        </LockContainerWrapper>
+      )}
 
       {isPopupVisible && (
         <PopupScreen

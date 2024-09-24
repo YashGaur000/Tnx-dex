@@ -24,10 +24,10 @@ import IncreaseStepper from './IncreaseStepper';
 import { LockedBalance } from '../../../types/VotingEscrow';
 import {
   calculateRemainingDays,
+  calVotingPower,
   convertToDecimal,
   formatTokenAmount,
   locktokeninfo,
-  MAX_LOCK_TIME,
 } from '../../../utils/common/voteTenex';
 import { useAccount } from '../../../hooks/useAccount';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
@@ -37,6 +37,7 @@ const IncreaseLock = () => {
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [additionalAmount, setAdditionalAmount] = useState<string>('');
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
+  const [isLockDuration, isSetLockDuration] = useState<number>(0);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
@@ -45,17 +46,17 @@ const IncreaseLock = () => {
       if (tokenId) {
         try {
           const data = await getLockData(Number(tokenId));
-          console.log('lock data inc:', data);
           if (data) {
-            const LockedAmt = formatTokenAmount(Number(data.amount));
+            const LockedAmt = formatTokenAmount(data.amount);
             setLockedTENEX(Number(LockedAmt));
-
-            const currentTime = Math.floor(Date.now() / 1000);
-            const timeRemaining =
-              data.end > currentTime ? data.end - currentTime : 0;
-            const votingPower = data.amount * (timeRemaining / MAX_LOCK_TIME);
+            const lockDuration = data?.end;
+            isSetLockDuration(lockDuration);
+            const votingPower = calVotingPower(data?.end, data?.amount);
             const setVotePw = convertToDecimal(Number(votingPower));
-            setTotalVotingPower(Number(setVotePw));
+            if (!totalVotingPower) {
+              setTotalVotingPower(Number(setVotePw));
+            }
+
             //setTotalLockedVELO(prevTotal => prevTotal + Number(data.amount));
             //setTotalVotingPower(prevTotal => prevTotal + setVotePw);
           }
@@ -69,10 +70,14 @@ const IncreaseLock = () => {
     };
 
     void fetchLockData();
-  }, [tokenId, getLockData]);
+  }, [tokenId, getLockData, convertToDecimal]);
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     setAdditionalAmount(e.target.value);
+    const increaseValue = Number(e.target.value) + lockedTENEX;
+    const votePower = calVotingPower(isLockDuration, increaseValue);
+    const votePowerVal = votePower.toFixed(1);
+    setTotalVotingPower(Number(votePowerVal));
   };
   const lockTokenInfo = locktokeninfo();
   const tokenList = [lockTokenInfo];
@@ -151,6 +156,7 @@ const IncreaseLock = () => {
           tokenId={Number(tokenId)}
           additionalAmount={Number(additionalAmount)}
           setAdditionalAmount={setAdditionalAmount}
+          totalVotingPower={totalVotingPower}
         />
       </CreateMainContainer>
     </MainContainerStyle>

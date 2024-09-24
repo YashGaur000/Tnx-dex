@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   LockDescriptonTitle,
   LockHeaderTitle,
@@ -17,15 +17,24 @@ import {
   TokenListsWrapper,
   TokenNameWrapper,
 } from './styles/TokenSelectModal.style';
-import TenexLogo from '../../assets/Tenex.png';
+
 import { Nft } from '../../types/VotingEscrow'; // Define the Nft type based on your fetched lock data
 import { useVotingEscrowContract } from '../../hooks/useVotingEscrowContract';
 import { useAccount } from '../../hooks/useAccount';
 import contractAddress from '../../constants/contract-address/address';
-import { decodeBase64, getTimeDifference } from '../../utils/common/voteTenex';
+import {
+  decodeBase64,
+  getTimeDifference,
+  locktokeninfo,
+} from '../../utils/common/voteTenex';
 
 interface LockModelProps {
-  handleSelectToken: (option: string) => void;
+  handleSelectToken: (
+    option: string,
+    toTokenId: number,
+    selectVotingPower: number,
+    toLockDate: string
+  ) => void;
   tokenId: number;
 }
 
@@ -38,26 +47,29 @@ const LockModel: React.FC<LockModelProps> = ({
   const { fetchUserNFTs } = useVotingEscrowContract(
     contractAddress.VotingEscrow
   );
+  const lockTokenInfo = locktokeninfo();
 
-  useEffect(() => {
-    const fetchLocks = async () => {
-      if (address) {
-        try {
-          const fetchedLocks = await fetchUserNFTs(address);
-          const formattedNftFormateData = fetchedLocks.map((nft) => ({
-            tokenId: nft.tokenId,
-            metadata: decodeBase64(nft.metadata),
-          }));
-          console.log('formattedNftFormateData', formattedNftFormateData);
-          setUserLocks(formattedNftFormateData);
-        } catch (error) {
-          console.error('Error fetching user locks:', error);
-        }
+  const fetchLocks = useCallback(async () => {
+    if (address) {
+      try {
+        const fetchedLocks = await fetchUserNFTs(address);
+        const formattedNftData = fetchedLocks.map((nft) => ({
+          tokenId: nft.tokenId,
+          metadata: decodeBase64(nft.metadata),
+        }));
+        setUserLocks(formattedNftData);
+      } catch (error) {
+        console.error('Error fetching user locks:', error);
       }
-    };
-
-    void fetchLocks();
+    }
   }, [address, fetchUserNFTs]);
+
+  // Only fetch locks once when the address changes
+  useEffect(() => {
+    if (address) {
+      void fetchLocks();
+    }
+  }, [address, fetchLocks]);
 
   return (
     <LockTokenContainer>
@@ -88,38 +100,44 @@ const LockModel: React.FC<LockModelProps> = ({
                 const unlockDate =
                   attributes.find((attr) => attr.trait_type === 'Unlock Date')
                     ?.value ?? '';
-                const formatUnloackData = getTimeDifference(unlockDate);
-                if (formatUnloackData === 'Expired') {
+                const formattedUnlockDate = getTimeDifference(unlockDate);
+
+                if (formattedUnlockDate === 'Expired') {
                   return null;
                 }
-                console.log('formatUnloackData:', formatUnloackData);
                 const votingPower =
                   attributes.find((attr) => attr.trait_type === 'Voting Power')
                     ?.value ?? 'N/A';
                 const lockedVELO =
                   attributes.find((attr) => attr.trait_type === 'Locked VELO')
                     ?.value ?? 'N/A';
+
                 return (
                   <TokenItem
                     key={index}
                     onClick={() =>
-                      handleSelectToken(`Lock #${Number(lock.tokenId)}`)
+                      handleSelectToken(
+                        `Lock #${Number(lock.tokenId)} with ${parseFloat(lockedVELO).toFixed(2)} veTenex`,
+                        Number(lock.tokenId),
+                        Number(parseFloat(votingPower).toFixed(2)),
+                        unlockDate
+                      )
                     }
                   >
                     <TokenItemWithAdressWrapper>
                       <TokenItemImage
-                        src={TenexLogo}
+                        src={lockTokenInfo.logoURI}
                         width={36}
                         height={36}
-                        alt={'wrong'}
+                        alt={'Lock icon'}
                       />
                       <TokenNameWrapper>
                         <TokenItemData>
                           Lock #{Number(lock.tokenId)}
                         </TokenItemData>
                         <LockDescriptonTitle fontsize={12}>
-                          {Number(lockedVELO)} TENEX locked for{' '}
-                          {formatUnloackData}
+                          {Number(lockedVELO)} {lockTokenInfo.symbol} locked for{' '}
+                          {formattedUnlockDate}
                         </LockDescriptonTitle>
                       </TokenNameWrapper>
                     </TokenItemWithAdressWrapper>

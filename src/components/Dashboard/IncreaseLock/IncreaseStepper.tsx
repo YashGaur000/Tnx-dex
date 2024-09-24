@@ -24,6 +24,7 @@ import { LockIncreaseProps } from '../../../types/VotingEscrow';
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
+  totalVotingPower,
 }) => {
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -61,22 +62,14 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const handleIncreaseLock = useCallback(async () => {
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      console.log('increse amount:', additionalAmount);
-      console.log('tokenId:', tokenId);
-
       setIsLocking(true);
-      console.log('increse string amount:', additionalAmount.toString());
       const amountInWei = ethers.parseUnits(
         additionalAmount.toString(),
         tokenLockInfo.decimals
       );
-
       await increaseLockAmount(BigInt(tokenId), amountInWei);
-
-      console.log('Lock increased!');
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
-
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
@@ -101,7 +94,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     },
     {
       step: 2,
-      descriptions: { labels: 'New estimated voting power 50.0 veTENEX' },
+      descriptions: {
+        labels: `New estimated voting power ${totalVotingPower} veTENEX`,
+      },
       icon: VotingPowerIcon,
     },
 
@@ -127,7 +122,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     },
     {
       step: 2,
-      descriptions: { labels: 'New estimated voting power 50.0 veTENEX' },
+      descriptions: {
+        labels: `New estimated voting power ${totalVotingPower} veTENEX`,
+      },
       icon: VotingPowerIcon,
     },
     {

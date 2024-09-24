@@ -33,91 +33,39 @@ import {
   calculateRemainingDays,
   convertToDecimal,
   formatTokenAmount,
-  MAX_LOCK_TIME,
 } from '../../../../utils/common/voteTenex';
-import { useCallback, useEffect, useState } from 'react';
-import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
-import { LockedBalance } from '../../../../types/VotingEscrow';
+import { useState } from 'react';
+import { useVotingPowerCalculation } from '../../../../hooks/useVotingNftData';
 import { useParams } from 'react-router-dom';
-import contractAddress from '../../../../constants/contract-address/address';
+import SuccessPopup from '../../../common/SucessPopup';
 
 const ExtendLock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
-  const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [isMaxLockMode, setIsMaxLockMode] = useState<boolean>(false);
-  const [sliderValue, setSliderValue] = useState<number>(1);
-  const [timeStampValue, setTimeStamp] = useState<number>(1);
-  const [votingPower, setCalculatedVotingPower] = useState<number>(0);
-  const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
 
-  const calculateVotingPower = useCallback(
-    (weeks: number) => {
-      if (lockData) {
-        const currentTime = Math.floor(Date.now() / 1000);
-        const selectedEndTime = currentTime + weeks * 7 * 24 * 60 * 60;
-        const timeRemaining = selectedEndTime - currentTime;
-        const votingPower =
-          Number(lockData.amount) * (timeRemaining / MAX_LOCK_TIME);
-        setCalculatedVotingPower(Number(votingPower));
-      }
-    },
-    [lockData]
-  );
+  const {
+    votingPower,
+    lockData,
+    timeStampValue,
+    sliderValue,
+    updateSliderValue,
+  } = useVotingPowerCalculation(tokenId);
 
   const handleToggle = () => {
-    const newMaxLockMode = !isMaxLockMode;
-    setIsMaxLockMode(true);
-
-    if (newMaxLockMode) {
-      setSliderValue(208);
-      calculateVotingPower(208);
+    setIsMaxLockMode((prev) => !prev);
+    if (!isMaxLockMode) {
+      updateSliderValue(208);
     }
   };
 
-  useEffect(() => {
-    const fetchLockData = async () => {
-      if (tokenId) {
-        try {
-          const data = await getLockData(Number(tokenId));
-          console.log('lock data:', data);
-          if (data) {
-            setTimeStamp(Number(data.end));
-            const currentTime = Math.floor(Date.now() / 1000);
-            const timeRemaining =
-              Number(data.end) > currentTime
-                ? Number(data.end) - currentTime
-                : 0;
-            const weeksRemaining = Math.floor(
-              timeRemaining / (7 * 24 * 60 * 60)
-            );
-
-            if (sliderValue === 1) {
-              setSliderValue(weeksRemaining);
-              calculateVotingPower(weeksRemaining);
-              setLockData(data);
-            }
-            //
-          }
-        } catch (error) {
-          console.error('Error fetching lock data:', error);
-        }
-      }
-    };
-
-    void fetchLockData();
-  }, [calculateVotingPower, getLockData]);
-
-  /* const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const weeks = Number(e.target.value);
-    console.log('Selected Weeks:', weeks);
-    setSliderValue(weeks);
-    calculateVotingPower(weeks);
-  }; */
+    updateSliderValue(weeks);
+  };
 
-  // Function to handle clicking on week labels
   const handleLabelClick = (weeks: number) => {
-    setSliderValue(weeks);
-    calculateVotingPower(weeks);
+    updateSliderValue(weeks);
   };
 
   const labels = [
@@ -143,7 +91,7 @@ const ExtendLock = () => {
               {timeStampValue ? calculateRemainingDays(timeStampValue) : '0'}
             </LockDescriptonTitle>
             <LockDescriptonTitle fontsize={14}>
-              {votingPower ? convertToDecimal(votingPower) : 0.0}{' '}
+              {votingPower ? convertToDecimal(votingPower).toString() : 0.0}{' '}
               <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
@@ -191,7 +139,7 @@ const ExtendLock = () => {
                     max="208"
                     step={1}
                     value={sliderValue}
-                    //onChange={handleSliderChange}
+                    onChange={handleSliderChange}
                     disabled={isMaxLockMode}
                   />
                 </SliderContainer>
@@ -210,14 +158,14 @@ const ExtendLock = () => {
             </LockLoaderContainer>
           </SliderMainContainer>
         </LockleftSection>
-        {/* Pass relevant data to ExtendStepper */}
         <ExtendStepper
           tokenId={Number(tokenId)}
-          timeStampValue={timeStampValue}
           selectedWeeks={sliderValue}
           votingPower={convertToDecimal(votingPower)}
+          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
+      {iSuccessLock && <SuccessPopup message="Merge lock confirmed" />}
     </MainContainerStyle>
   );
 };

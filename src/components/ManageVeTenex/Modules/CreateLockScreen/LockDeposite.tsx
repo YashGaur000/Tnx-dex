@@ -11,8 +11,8 @@ import contractAddress from '../../../../constants/contract-address/address';
 import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
 import { GlobalButton } from '../../../common';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
-import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
+import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import { LockDepositeProps } from '../../../../types/VotingEscrow';
 import {
   TRANSACTION_DELAY,
@@ -35,13 +35,11 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const [isLocking, setIsLocking] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
 
-  const escrowAddress = contractAddress.VotingEscrow;
-
   const { approveAllowance: approveAllowance } = useTokenAllowance(
     LocTokenAddress as `0x${string}`,
     testErc20Abi
   );
-
+  const escrowAddress = contractAddress.VotingEscrow;
   const { createLock } = useVotingEscrowContract(escrowAddress);
   const { setTransactionStatus } = useRootStore();
 

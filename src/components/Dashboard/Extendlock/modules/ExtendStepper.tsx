@@ -2,7 +2,6 @@ import DateTimeIcon from '../../../../assets/date-time-gradient.svg';
 import WaitingIcon from '../../../../assets/search.png';
 import VotingPowerIcon from '../../../../assets/star-gradient.svg';
 import InformIcon from '../../../../assets/information.svg';
-
 import { SteperWrapper, TipsContainer } from '../styles/Extendlock.style';
 import { StepperDataProps } from '../../../../types/Stepper';
 import Stepper from '../../../common/Stepper';
@@ -14,37 +13,40 @@ import {
 import { GlobalButton } from '../../../common';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../../constants/contract-address/address';
-import { useCallback } from 'react';
-interface ExtendStepperProps {
-  tokenId: number;
-  timeStampValue: number;
-  selectedWeeks: number;
-  votingPower: number;
-}
+import { useCallback, useState } from 'react';
+import { ExtendStepperProps } from '../../../../types/VotingEscrow';
 
 const ExtendStepper: React.FC<ExtendStepperProps> = ({
   tokenId,
   selectedWeeks,
   votingPower,
+  setSuccessLock,
 }) => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { increaseUnlockTime } = useVotingEscrowContract(escrowAddress);
+  const [isExtending, setIsExtending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const handleExtend = useCallback(
     async (tokenId: number, duration: number): Promise<void> => {
       try {
         if (!tokenId) return;
-
-        await increaseUnlockTime(BigInt(tokenId), BigInt(duration));
-
-        //setWithdrawTknId(tokenId);
-
-        //setSuccessLock(true);
+        setIsExtending(true);
+        setError(null);
+        const durationInSeconds = duration * 7 * 24 * 60 * 60;
+        await increaseUnlockTime(tokenId, durationInSeconds);
+        setSuccessLock(true);
+        // Handle success here if needed
       } catch (error) {
-        console.error('Error during token withdrawal:', error);
+        console.error('Error during lock extension:', error);
+        setError('Failed to extend lock. Please try again.');
+      } finally {
+        setIsExtending(false);
       }
     },
-    [increaseUnlockTime, tokenId, selectedWeeks]
+    [increaseUnlockTime]
   );
+
   const ExtendStepperData: StepperDataProps[] = [
     {
       step: 1,
@@ -54,14 +56,19 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
     {
       step: 2,
       descriptions: {
-        labels: `New estimated voting power: ${votingPower} veTENEX`,
+        labels: `New estimated voting power: ${votingPower.toLocaleString()} veTENEX`,
       },
       icon: VotingPowerIcon,
     },
     {
       step: 3,
-      descriptions: { labels: 'Waiting for next actions...' },
+      descriptions: {
+        labels: isExtending
+          ? 'Extend lock confirmed'
+          : 'Waiting for next actions...',
+      },
       icon: WaitingIcon,
+      actionCompleted: !isExtending,
     },
   ];
 
@@ -75,10 +82,11 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
           height="48px"
           margin="0px"
           onClick={() => handleExtend(tokenId, selectedWeeks)}
-          //disabled={isLocking}
+          disabled={isExtending}
         >
-          Extend
+          {isExtending ? 'Extending...' : 'Extend'}
         </GlobalButton>
+        {error && <p style={{ color: 'red' }}>{error}</p>}
       </SteperWrapper>
       <TipsContainer>
         <ImageContainer width="24px" height="24px" src={InformIcon} />
