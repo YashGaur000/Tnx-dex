@@ -13,10 +13,12 @@ export const VotingLockWrapper = styled.div`
 
 export const VotingPowerContainer = styled.div``;
 
-export const VoteInput = styled.input<{ theme: DefaultTheme }>`
-  width: 53px;
+export const VoteInputWrapper = styled.div<{ theme: DefaultTheme }>`
+  display: flex;
+  align-items: center;
+  width: 58px;
   height: 25px;
-  padding: 8px;
+  padding: 4px 8px;
   border: 1px solid transparent;
   color: ${({ theme }) => theme.colors.whiteBorder};
   background: ${({ theme }) => theme.colors.cardLight},
@@ -24,12 +26,25 @@ export const VoteInput = styled.input<{ theme: DefaultTheme }>`
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   border-radius: 8px;
+  margin-left: auto;
+`;
+
+export const VoteInput = styled.input<{ theme: DefaultTheme }>`
+  color: ${({ theme }) => theme.colors.whiteBorder};
+  font-size: 14px;
+  border: none;
+  font-family: ${({ theme }) => theme.fonts.main};
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  background: transparent;
+  max-width: 80%;
+  min-width: 40%;
   text-align: center;
-  margin-left: 90px;
   &:focus {
     outline: none;
   }
-
+  &::placeholder {
+    color: ${({ theme }) => theme.colors.whiteBorder};
+  }
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
     -webkit-appearance: none;
