@@ -159,7 +159,6 @@ const DashBoard: React.FC = () => {
           {/* todo: Make Dynamic */}
           {address && (
             <LiquidityRewards
-              address={address}
               userPools={userRewardPools}
               isError={isError}
               isLoading={isLoading}
