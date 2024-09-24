@@ -21,19 +21,50 @@ export const locktokeninfo = () => {
 };
 
 export const calculateRemainingDays = (timestamp: number): string => {
-  const now = Date.now();
-  const timeDifference = timestamp * 1000 - now;
+  const now = new Date();
+  const timeDifference = timestamp * 1000;
 
-  if (timeDifference <= 0) {
-    return 'The date has passed.';
+  const targetDate = new Date(timeDifference);
+  let years = targetDate.getFullYear() - now.getFullYear();
+  let months = targetDate.getMonth() - now.getMonth();
+  let days = targetDate.getDate() - now.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    days += new Date(
+      targetDate.getFullYear(),
+      targetDate.getMonth() + 1,
+      0
+    ).getDate();
   }
 
-  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  // Construct the output based on the conditions
+  let output = '';
+
+  if (years > 0) {
+    output += `${years} years `;
+  }
+
+  if (months > 0) {
+    output += `${months} months `;
+  }
+
+  if (days > 0) {
+    output += `${days} days `;
+  }
+
+  return output.trim() || '0 days'; // Return '0 days' if all are 0
+  /* const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
   if (daysRemaining <= 0) {
     return 'The date has passed.';
   }
-  return `${daysRemaining} days remaining.`;
+  return `${daysRemaining} days remaining.`; */
 };
 
 export const convertToDecimal = (value: number): number => {
@@ -115,34 +146,54 @@ export const getTimeDifference = (targetDateString: string): string => {
   const diffTime = targetDate.getTime() - currentDate.getTime();
 
   if (diffTime <= 0) {
-    return 'Expired'; // If the date is in the past or today
+    return 'Expired';
   }
 
-  const years = targetDate.getFullYear() - currentDate.getFullYear();
+  let years = targetDate.getFullYear() - currentDate.getFullYear();
   let months = targetDate.getMonth() - currentDate.getMonth();
   let days = targetDate.getDate() - currentDate.getDate();
 
   // Adjust days and months if days are negative
   if (days < 0) {
-    months--;
-    const lastDayOfPreviousMonth = new Date(
+    months -= 1;
+    days += new Date(
       targetDate.getFullYear(),
-      targetDate.getMonth(),
+      targetDate.getMonth() + 1,
       0
     ).getDate();
-    days += lastDayOfPreviousMonth;
   }
 
-  // Adjust months and years if months are negative
   if (months < 0) {
+    years -= 1;
     months += 12;
   }
 
-  return `${years < 2 ? ` ${years} year` : ''}${years > 1 ? ` ${years} years, ` : ''}${
+  // Construct the output based on the conditions
+  let output = '';
+
+  if (years > 0) {
+    output += `${years} years `;
+  }
+
+  if (months > 0) {
+    output += `${months} months `;
+  }
+
+  if (days > 0) {
+    output += `${days} days `;
+  }
+
+  if (years === 0 && days === 0 && months) {
+    output += `date has passed.`;
+  }
+
+  return output.trim();
+
+  /* return `${years < 2 ? ` ${years} year` : ''}${years > 1 ? ` ${years} years, ` : ''}${
     months > 1 ? ` ${months} months, ` : ''
   }${
     months === 1 ? `${months} month, ` : ''
-  }${days === 1 ? ` ${days} day` : ''}${days > 1 ? ` ${days} days` : ''}`;
+  }${days === 1 ? ` ${days} day` : ''}${days > 1 ? ` ${days} days` : ''}`; */
 };
 
 export const convertDateToTimestamp = (dateString: string): number => {
@@ -151,9 +202,9 @@ export const convertDateToTimestamp = (dateString: string): number => {
 };
 
 export function convertTimestampToDate(timestamp: number): string {
-  const date = new Date(timestamp * 1000); // Multiply by 1000 to convert seconds to milliseconds
+  const date = new Date(timestamp * 1000);
   const year = date.getFullYear();
-  const month = ('0' + (date.getMonth() + 1)).slice(-2); // Months are 0-based, so add 1
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
   const day = ('0' + date.getDate()).slice(-2);
   const hours = ('0' + date.getHours()).slice(-2);
   const minutes = ('0' + date.getMinutes()).slice(-2);
@@ -164,7 +215,7 @@ export function convertTimestampToDate(timestamp: number): string {
 
 export function calVotingPower(end: number, amount: number) {
   const currentTime = Math.floor(Date.now() / 1000);
-  const timeRemaining = end > currentTime ? end - currentTime : 0;
-  const votingPower = amount * (timeRemaining / MAX_LOCK_TIME);
+  const timeRemaining = Number(end) > currentTime ? end - currentTime : 0;
+  const votingPower = Number(amount) * (timeRemaining / MAX_LOCK_TIME);
   return votingPower;
 }

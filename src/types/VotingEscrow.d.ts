@@ -124,8 +124,9 @@ export interface Nft {
 interface LockIncreaseProps {
   tokenId: number;
   additionalAmount: number;
-  setAdditionalAmount?: (input: string) => void;
+  setAdditionalAmount: (input: string) => void;
   totalVotingPower: number;
+  setSuccessLock: (input: boolean) => void;
 }
 export interface ExtendStepperProps {
   tokenId: number;

@@ -1,5 +1,6 @@
 import DateTimeIcon from '../../../../assets/date-time-gradient.svg';
 import WaitingIcon from '../../../../assets/search.png';
+import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import VotingPowerIcon from '../../../../assets/star-gradient.svg';
 import InformIcon from '../../../../assets/information.svg';
 import { SteperWrapper, TipsContainer } from '../styles/Extendlock.style';
@@ -25,6 +26,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   const escrowAddress = contractAddress.VotingEscrow;
   const { increaseUnlockTime } = useVotingEscrowContract(escrowAddress);
   const [isExtending, setIsExtending] = useState(false);
+  const [isExtend, setIsExtend] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleExtend = useCallback(
@@ -36,7 +38,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
         const durationInSeconds = duration * 7 * 24 * 60 * 60;
         await increaseUnlockTime(tokenId, durationInSeconds);
         setSuccessLock(true);
-        // Handle success here if needed
+        setIsExtend(true);
       } catch (error) {
         console.error('Error during lock extension:', error);
         setError('Failed to extend lock. Please try again.');
@@ -63,12 +65,12 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
     {
       step: 3,
       descriptions: {
-        labels: isExtending
+        labels: isExtend
           ? 'Extend lock confirmed'
           : 'Waiting for next actions...',
       },
-      icon: WaitingIcon,
-      actionCompleted: !isExtending,
+      icon: !isExtend ? WaitingIcon : SucessDepositIcon,
+      actionCompleted: !isExtend,
     },
   ];
 
@@ -77,15 +79,17 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       <LockHeaderTitle fontsize={24}>Extend Lock #{tokenId}</LockHeaderTitle>
       <SteperWrapper>
         <Stepper data={ExtendStepperData} />
-        <GlobalButton
-          width="100%"
-          height="48px"
-          margin="0px"
-          onClick={() => handleExtend(tokenId, selectedWeeks)}
-          disabled={isExtending}
-        >
-          {isExtending ? 'Extending...' : 'Extend'}
-        </GlobalButton>
+        {!isExtend && (
+          <GlobalButton
+            width="100%"
+            height="48px"
+            margin="0px"
+            onClick={() => handleExtend(tokenId, selectedWeeks)}
+            disabled={isExtending}
+          >
+            {isExtending ? 'Extending...' : 'Extend'}
+          </GlobalButton>
+        )}
         {error && <p style={{ color: 'red' }}>{error}</p>}
       </SteperWrapper>
       <TipsContainer>

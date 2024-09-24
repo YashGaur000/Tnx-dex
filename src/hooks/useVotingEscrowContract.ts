@@ -82,12 +82,11 @@ export function useVotingEscrowContract(escrowAddress: string) {
   const increaseUnlockTime = useCallback(
     async (tokenId: number, value: number): Promise<void> => {
       if (!votingEscrowContract) throw new Error('Contract is not initialized');
-
       try {
         const gasEstimate =
           await votingEscrowContract.estimateGas.increaseUnlockTime(
-            BigInt(tokenId),
-            BigInt(value)
+            tokenId,
+            value
           );
         const tx = await votingEscrowContract.increaseUnlockTime(
           tokenId,

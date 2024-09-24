@@ -8,21 +8,23 @@ import {
   TransferLockTitle,
 } from '../../Extendlock/styles/Extendlock.style';
 import { MergeStepperContainer } from '../styles/MergeLock.style';
-import DateTimeIcon from '../../../../assets/date-time.svg';
 import WaitingIcon from '../../../../assets/search.png';
 import VotingPowerIcon from '../../../../assets/star.svg';
 import Lock from '../../../../assets/lock.png';
+import LockTime from '../../../../assets/lockTime.svg';
 import { useCallback, useState } from 'react';
 import MergeLockSidebar from './MergeLockSidebar';
 import contractAddress from '../../../../constants/contract-address/address';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
-import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import { useRootStore } from '../../../../store/root';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../../types/Transaction';
 import { convertToDecimal } from '../../../../utils/common/voteTenex';
+
+import VotingPowerIconGr from '../../../../assets/star-gradient.svg';
+import LockIconGr from '../../../../assets/LockSucess.svg';
 
 interface MergeStepperProps {
   fromTokenId: string | undefined;
@@ -103,7 +105,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       descriptions: {
         labels: `Depositing TENEX .`,
       },
-      icon: DateTimeIcon,
+      icon: LockIconGr,
     },
 
     {
@@ -111,19 +113,19 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       descriptions: {
         labels: `New estimated lock time is ${isTotalDuration}.`,
       },
-      icon: DateTimeIcon,
+      icon: LockTime,
     },
     {
       step: 4,
       descriptions: {
         labels: `New estimated voting power ${totalVotingPower} veTENEX`,
       },
-      icon: WaitingIcon,
+      icon: VotingPowerIconGr,
     },
 
     {
       step: 5,
-      icon: !isMergeLocked ? WaitingIcon : SucessDepositIcon,
+      icon: !isMergeLocked ? WaitingIcon : LockIconGr,
       descriptions: {
         labels: isMergeLocked
           ? `Reset done for Lock #${toTokenId}`

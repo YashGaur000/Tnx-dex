@@ -31,6 +31,7 @@ import {
 } from '../../../utils/common/voteTenex';
 import { useAccount } from '../../../hooks/useAccount';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
+import SuccessPopup from '../../common/SucessPopup';
 
 const IncreaseLock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
@@ -39,6 +40,7 @@ const IncreaseLock = () => {
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
   const [isLockDuration, isSetLockDuration] = useState<number>(0);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   useEffect(() => {
@@ -73,6 +75,9 @@ const IncreaseLock = () => {
   }, [tokenId, getLockData, convertToDecimal]);
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
+    setSuccessLock(false);
+    if (Number(e.target.value) > Number(balances[lockTokenInfo?.address]))
+      return;
     setAdditionalAmount(e.target.value);
     const increaseValue = Number(e.target.value) + lockedTENEX;
     const votePower = calVotingPower(isLockDuration, increaseValue);
@@ -157,8 +162,10 @@ const IncreaseLock = () => {
           additionalAmount={Number(additionalAmount)}
           setAdditionalAmount={setAdditionalAmount}
           totalVotingPower={totalVotingPower}
+          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
+      {iSuccessLock && <SuccessPopup message="Increase Lock confirmed" />}
     </MainContainerStyle>
   );
 };
