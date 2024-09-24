@@ -6,6 +6,7 @@ import { useRootStore } from '../../store/root';
 import { TransactionStatus } from '../../types/Transaction';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useDisconnect } from 'wagmi';
 
 //import { getPoolInfo } from '../../graphql';
 
@@ -17,14 +18,30 @@ interface ChainProps {
   unsupported: boolean;
 }
 
+const SESSION_DURATION = 60 * 1000;
+const ALERT_USER_DURATION = SESSION_DURATION - 10 * 1000;
+
 export const ConnectWallet = () => {
   const { address } = useAccount();
   const { setTransactionStatus } = useRootStore();
   const navigate = useNavigate();
+  const { disconnect } = useDisconnect();
 
   useEffect(() => {
     if (address) {
       setTransactionStatus(TransactionStatus.IDEAL);
+      const disconnectTimeout = setTimeout(() => {
+        disconnect();
+      }, SESSION_DURATION);
+
+      // Set timeout to alert user 10 seconds before expiration
+      const alertTimeout = setTimeout(() => {
+        alert('Your session is about to expire in 10 seconds.');
+      }, ALERT_USER_DURATION);
+      return () => {
+        clearTimeout(disconnectTimeout);
+        clearTimeout(alertTimeout);
+      };
     } else {
       navigate('/');
     }
@@ -50,6 +67,10 @@ export const ConnectWallet = () => {
         const openWallet = () => {
           setTransactionStatus(TransactionStatus.IN_PROGRESS);
           openConnectModal();
+        };
+
+        const disconnectWallet = () => {
+          openAccountModal();
         };
 
         return (
@@ -104,7 +125,7 @@ export const ConnectWallet = () => {
                   </ChainButton>
 
                   <ChainButton
-                    onClick={openAccountModal}
+                    onClick={disconnectWallet}
                     width="fit-content"
                     height="40"
                     padding="12px 20px"
