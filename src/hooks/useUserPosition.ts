@@ -201,12 +201,12 @@ const fetchUserPools = async (
         18
       ) ?? '0';
     pool.accountDeposit0 = (
-      (Number(pool.poolBalance) * Number(totalSupplyPool)) /
-      Number(pool.reserve0)
+      (Number(pool.poolBalance) * Number(pool.reserve0)) /
+      Number(totalSupplyPool)
     ).toFixed(5);
     pool.accountDeposit1 = (
-      (Number(pool.poolBalance) * Number(totalSupplyPool)) /
-      Number(pool.reserve1)
+      (Number(pool.poolBalance) * Number(pool.reserve1)) /
+      Number(totalSupplyPool)
     ).toFixed(5);
 
     const claim0 =
@@ -275,13 +275,6 @@ const fetchUserPools = async (
         Number(pool.reserve1)
       ).toFixed(5);
 
-      pool.accountUnstaked0 = (
-        Number(pool.accountDeposit0) - Number(pool.accountStaked0)
-      ).toFixed(5);
-      pool.accountUnstaked1 = (
-        Number(pool.accountDeposit1) - Number(pool.accountStaked1)
-      ).toFixed(5);
-
       // earned
       pool.emissions =
         formatAmounts(earnedResults[stakeIndex].result as ethers.Numeric, 18) ??
@@ -334,13 +327,8 @@ export const useUserPosition = (account: Address) => {
     queryClient
   );
 
-  const userRewardPools = userPools?.filter(
-    (userPool) => Number(userPool.gaugeBalance) > 0
-  );
-
   return {
     userPools,
-    userRewardPools,
     isError,
     isFetching,
     refetch,
