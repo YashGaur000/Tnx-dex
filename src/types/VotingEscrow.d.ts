@@ -133,6 +133,7 @@ export interface ExtendStepperProps {
   selectedWeeks: number;
   votingPower: number;
   setSuccessLock: (input: boolean) => void;
+  isExtendDisable: boolean;
 }
 
 export interface LockModelProps {

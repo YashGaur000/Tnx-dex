@@ -178,7 +178,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
           margin="0px"
           onClick={handleIncreaseLock}
         >
-          {isLocking ? 'Incresing...' : 'Increse'}
+          {isLocking ? 'Increasing...' : 'Increase'}
         </GlobalButton>
       )}
     </StyledDepositContainer>
