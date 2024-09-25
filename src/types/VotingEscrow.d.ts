@@ -1,7 +1,7 @@
 import { Address } from 'viem';
 import { Contract } from '@ethersproject/contracts';
 import { Overrides } from '@ethersproject/contracts';
-import { BigNumber } from 'ethers';
+
 export interface VotingEscrowContract extends Contract {
   createLock(
     amount: bigint,
@@ -16,12 +16,20 @@ export interface VotingEscrowContract extends Contract {
   ): Promise<ContractTransaction>;
 
   increaseUnlockTime(
-    tokenIds: bigint,
-    amount: bigint,
+    tokenIds: number,
+    value: number,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
 
-  withdraw(overrides?: Overrides): Promise<ContractTransaction>;
+  withdraw(
+    tokenId: bigint,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
+  merge(
+    _from: bigint,
+    _to: bigint,
+    overrides?: Overrides
+  ): Promise<ContractTransaction>;
   increaseLockAmount(
     tokenId: bigint,
     value: bigint
@@ -92,8 +100,8 @@ export interface VotingEscrowContract extends Contract {
 
 export interface LockedBalance {
   tokenId?: string;
-  amount: BigNumber;
-  end: BigNumber;
+  amount: number;
+  end: number;
   isPermanent: boolean;
   votingPower?: number;
 }
@@ -111,9 +119,18 @@ export interface NftMetadata {
 export interface Nft {
   tokenId: bigint;
   metadata: NftMetadata;
+  setSuccessLock?: (nftData: string[]) => void;
 }
 interface LockIncreaseProps {
   tokenId: number;
   additionalAmount: number;
-  setAdditionalAmount?: (input: string) => void;
+  setAdditionalAmount: (input: string) => void;
+  totalVotingPower: number;
+  setSuccessLock: (input: boolean) => void;
+}
+export interface ExtendStepperProps {
+  tokenId: number;
+  selectedWeeks: number;
+  votingPower: number;
+  setSuccessLock: (input: boolean) => void;
 }

@@ -38,8 +38,7 @@ const Transferlock = () => {
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address } = useAccount();
-
-  console.log('address:', address);
+  const lockTokenInfo = locktokeninfo();
 
   useEffect(() => {
     const fetchLockData = async () => {
@@ -47,7 +46,6 @@ const Transferlock = () => {
         try {
           // setIsLoading(true);
           const data = await getLockData(Number(tokenId));
-          console.log('lock data inc:', data);
           if (data) {
             const LockedAmt = formatTokenAmount(Number(data.amount));
             setLockedTENEX(Number(LockedAmt));
@@ -83,7 +81,6 @@ const Transferlock = () => {
       setToAddres(undefined);
     }
   };
-  const lockTokenInfo = locktokeninfo();
 
   return (
     <MainContainerStyle>

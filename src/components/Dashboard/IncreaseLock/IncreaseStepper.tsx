@@ -15,6 +15,7 @@ import { locktokeninfo } from '../../../utils/common/voteTenex';
 import { TokenInfo } from '../../../constants/tokens/type';
 import { testErc20Abi } from '../../../constants/abis/testErc20';
 import { useRootStore } from '../../../store/root';
+import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -24,6 +25,9 @@ import { LockIncreaseProps } from '../../../types/VotingEscrow';
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
+  totalVotingPower,
+  setSuccessLock,
+  setAdditionalAmount,
 }) => {
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -61,27 +65,22 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const handleIncreaseLock = useCallback(async () => {
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      console.log('increse amount:', additionalAmount);
-      console.log('tokenId:', tokenId);
-
       setIsLocking(true);
-      console.log('increse string amount:', additionalAmount.toString());
       const amountInWei = ethers.parseUnits(
         additionalAmount.toString(),
         tokenLockInfo.decimals
       );
-
       await increaseLockAmount(BigInt(tokenId), amountInWei);
-
-      console.log('Lock increased!');
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
-
       setTimeout(() => {
+        setSuccessLock(true);
+        setAdditionalAmount('');
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error increasing lock:', error);
+      setIsLocked(false);
     } finally {
       setIsLocking(false);
     }
@@ -91,6 +90,8 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     increaseLockAmount,
     setTransactionStatus,
     tokenLockInfo.decimals,
+    setAdditionalAmount,
+    setSuccessLock,
   ]);
 
   const IncreaseStepperData: StepperDataProps[] = [
@@ -101,7 +102,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     },
     {
       step: 2,
-      descriptions: { labels: 'New estimated voting power 50.0 veTENEX' },
+      descriptions: {
+        labels: `New estimated voting power ${totalVotingPower} veTENEX`,
+      },
       icon: VotingPowerIcon,
     },
 
@@ -114,7 +117,10 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     },
     {
       step: 4,
-      descriptions: { labels: 'Waiting for next actions...' },
+      descriptions: {
+        labels: 'Waiting for next actions...',
+      },
+
       icon: WaitingIcon,
     },
   ];
@@ -127,7 +133,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     },
     {
       step: 2,
-      descriptions: { labels: 'New estimated voting power 50.0 veTENEX' },
+      descriptions: {
+        labels: `New estimated voting power ${totalVotingPower} veTENEX`,
+      },
       icon: VotingPowerIcon,
     },
     {
@@ -148,8 +156,14 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     },
     {
       step: 4,
-      descriptions: { labels: 'Waiting for next actions...' },
-      icon: WaitingIcon,
+      descriptions: {
+        labels: isLocked
+          ? 'Increase lock confirmed'
+          : 'Waiting for next actions...',
+      },
+      actionCompleted: !isLocked,
+
+      icon: !isLocked ? WaitingIcon : SucessDepositIcon,
     },
   ];
 
