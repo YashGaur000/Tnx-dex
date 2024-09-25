@@ -78,6 +78,17 @@ const DepositAndStake = ({
     });
   };
 
+  const handleUnstake = (lp: string) => {
+    const queryParams = new URLSearchParams(location.search);
+
+    queryParams.set('pool', lp);
+
+    navigate({
+      pathname: '/unstake',
+      search: `?${queryParams.toString()}`,
+    });
+  };
+
   if (userPools && userPools.length === 0 && !isLoading) {
     return <p>No Data Available</p>;
   }
@@ -141,9 +152,14 @@ const DepositAndStake = ({
                 </UnstackedData>
                 <UnstackedData1>
                   <UnderLineStyle>Withdraw</UnderLineStyle>
-                  <DashboardNavigation onClick={() => handleStake(userPool.lp)}>
-                    Stake
-                  </DashboardNavigation>
+                  {Number(userPool.accountUnstaked0) > 0 &&
+                    Number(userPool.accountUnstaked1) > 0 && (
+                      <DashboardNavigation
+                        onClick={() => handleStake(userPool.lp)}
+                      >
+                        Stake
+                      </DashboardNavigation>
+                    )}
                 </UnstackedData1>
               </UnstackedContainer>
               <StakedContainer>
@@ -158,6 +174,14 @@ const DepositAndStake = ({
                     {userPool.accountStaked1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
+                {Number(userPool.accountStaked0) > 0 &&
+                  Number(userPool.accountStaked1) > 0 && (
+                    <DashboardNavigation
+                      onClick={() => handleUnstake(userPool.lp)}
+                    >
+                      Unstake
+                    </DashboardNavigation>
+                  )}
               </StakedContainer>
               <WalletContainer>
                 <DepositeStakedHeading>In Wallet</DepositeStakedHeading>
