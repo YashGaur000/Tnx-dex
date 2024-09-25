@@ -19,7 +19,6 @@ import {
 import { DashboardNavigation } from '../styles/DashBoard.styled';
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import InformationIcon from '../../../../assets/Tips.svg';
-import { UnderLineStyle } from '../../../ManageVeTenex/Styles/Relay.style';
 import {
   GroupImgContains,
   IMG1Contains,
@@ -74,6 +73,17 @@ const DepositAndStake = ({
 
     navigate({
       pathname: '/stake',
+      search: `?${queryParams.toString()}`,
+    });
+  };
+
+  const handleWithdraw = (lp: string) => {
+    const queryParams = new URLSearchParams(location.search);
+
+    queryParams.set('pool', lp);
+
+    navigate({
+      pathname: '/withdraw',
       search: `?${queryParams.toString()}`,
     });
   };
@@ -140,7 +150,12 @@ const DepositAndStake = ({
                   </DashBoardParagraph>
                 </UnstackedData>
                 <UnstackedData1>
-                  <UnderLineStyle>Withdraw</UnderLineStyle>
+                  {/* <UnderLineStyle>Withdraw</UnderLineStyle> */}
+                  <DashboardNavigation
+                    onClick={() => handleWithdraw(userPool.lp)}
+                  >
+                    Withdraw
+                  </DashboardNavigation>
                   <DashboardNavigation onClick={() => handleStake(userPool.lp)}>
                     Stake
                   </DashboardNavigation>

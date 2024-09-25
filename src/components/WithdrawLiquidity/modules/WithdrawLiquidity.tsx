@@ -39,13 +39,49 @@ import {
   SliderContainer,
 } from '../../Swap/styles/TransactionDeadline.style';
 
-import UsdIcon from '../../../assets/usdc.png';
-import FtmIcon from '../../../assets/ftm.png';
 import InformationIcon from '../../../assets/Tips.svg';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import WithdrawStepper from './WithdrawStepper';
+import { TokenInfo } from '../../../constants/tokens/type';
+import useQueryParams from '../../../hooks/useQueryParams';
+import { usePoolContract } from '../../../hooks/usePoolContract';
+import { Metadata } from '../../../types/Pool';
+import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import { usePoolBalances } from '../../../hooks/usePoolBalances';
+
 const WithdrawLiquidity = () => {
   const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(0);
+  const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [poolType, setPoolType] = useState(false);
+
+  const getParam = useQueryParams();
+  const poolId = getParam('pool');
+  const { metadata } = usePoolContract(poolId ?? '');
+
+  useEffect(() => {
+    metadata()
+      .then((data: Metadata | undefined) => {
+        if (data) {
+          setSelectedToken1(getTokenInfo(data.t0));
+          setSelectedToken2(getTokenInfo(data.t1));
+          setPoolType(data.st);
+        }
+      })
+      .catch((error) => {
+        console.error('error loading metadata', error);
+      });
+  }, [poolId, metadata]);
+
+  const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
+    poolId ?? '',
+    selectedToken1?.decimals ?? 18,
+    selectedToken2?.decimals ?? 18
+  );
 
   const handleCustomSliderValue = (value: number) => {
     SetSelectWithdrawValue(Number(value));
@@ -71,19 +107,21 @@ const WithdrawLiquidity = () => {
             <DepositeTokenWithImage>
               <GroupImgContains>
                 <IMG1Contains top={5} left={0}>
-                  <Imgstyle src={UsdIcon} />
+                  <Imgstyle src={selectedToken1?.logoURI} />
                 </IMG1Contains>
                 <IMG2Contains top={5} left={26}>
-                  <Imgstyle src={FtmIcon} />
+                  <Imgstyle src={selectedToken2?.logoURI} />
                 </IMG2Contains>
               </GroupImgContains>
 
               <TokenDescription>
                 <LiquidityHeaderTitle fontsize={16}>
-                  USDT-FTM
+                  {selectedToken1?.symbol}-{selectedToken2?.symbol}
                 </LiquidityHeaderTitle>
                 <TokenStatus>
-                  <StatsCardtitle fontsize={12}>Stable</StatsCardtitle>
+                  <StatsCardtitle fontsize={12}>
+                    {poolType ? 'stable' : 'volatile'}
+                  </StatsCardtitle>
                   <LiquidityTitle fontsize={12}>0.01%</LiquidityTitle>
                   <LiquidityImgStyle
                     width={'17px'}
@@ -107,9 +145,11 @@ const WithdrawLiquidity = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle fontsize={12}>
-                  1,003,212.5643 USDT
+                  {reserve0} {selectedToken1?.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle fontsize={12}>2,783,860.003 FTM</LiquidityTitle>
+                <LiquidityTitle fontsize={12}>
+                  {reserve1} {selectedToken2?.symbol}
+                </LiquidityTitle>
               </TokenAmountWrapper>
             </LiquidityStyleContainer>
 
@@ -119,10 +159,10 @@ const WithdrawLiquidity = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  0.0 USDT
+                  {balance0} {selectedToken1?.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  0.0 FTM
+                  {balance1} {selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
