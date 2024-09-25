@@ -20,7 +20,7 @@ interface ChainProps {
   unsupported: boolean;
 }
 
-const SESSION_DURATION = 60 * 1000;
+const SESSION_DURATION = 2 * 60 * 60 * 1000;
 const ALERT_USER_DURATION = SESSION_DURATION - 10 * 1000;
 
 export const ConnectWallet = () => {
