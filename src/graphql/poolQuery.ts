@@ -12,6 +12,7 @@ export const LiquidityPoolNew = `
     totalFees0
     totalFees1
     totalFeesUSD
+    totalBribesUSD
     token0 {
         id
         symbol
