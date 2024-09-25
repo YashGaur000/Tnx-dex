@@ -46,7 +46,6 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
   excludeToken2,
 }) => {
   const [searchQuery, setSearchQuery] = useState('');
-  // console.log("actual rtoken list:",ERC20_TEST_TOKEN_LIST)
   const getParam = useQueryParams();
 
   excludeToken1 = getParam('token1') as Address;

@@ -21,27 +21,59 @@ export const locktokeninfo = () => {
 };
 
 export const calculateRemainingDays = (timestamp: number): string => {
-  const now = Date.now();
-  const timeDifference = timestamp * 1000 - now;
+  const now = new Date();
+  const timeDifference = timestamp * 1000;
 
-  if (timeDifference <= 0) {
-    return 'The date has passed.';
+  const targetDate = new Date(timeDifference);
+  let years = targetDate.getFullYear() - now.getFullYear();
+  let months = targetDate.getMonth() - now.getMonth();
+  let days = targetDate.getDate() - now.getDate();
+
+  if (days < 0) {
+    months -= 1;
+    days += new Date(
+      targetDate.getFullYear(),
+      targetDate.getMonth() + 1,
+      0
+    ).getDate();
   }
 
-  const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  // Construct the output based on the conditions
+  let output = '';
+
+  if (years > 0) {
+    output += `${years} years `;
+  }
+
+  if (months > 0) {
+    output += `${months} months `;
+  }
+
+  if (days > 0) {
+    output += `${days} days `;
+  }
+
+  return output.trim() || '0 days'; // Return '0 days' if all are 0
+  /* const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
   if (daysRemaining <= 0) {
     return 'The date has passed.';
   }
-  return `${daysRemaining} days remaining.`;
+  return `${daysRemaining} days remaining.`; */
 };
 
 export const convertToDecimal = (value: number): number => {
   const newVele = (value / 1e18).toFixed(1);
   return Number(newVele);
 };
-export const formatTokenAmount = (amount: number): string => {
-  return (Number(amount) / 1e18).toFixed(2);
+export const formatTokenAmount = (amount: number): number => {
+  const frmTknAmt = (Number(amount) / 1e18).toFixed(2);
+  return Number(frmTknAmt);
 };
 
 /**
@@ -59,8 +91,6 @@ export const filterNftsByUnlockDate = (nfts: Nft[]): Nft[] => {
       typeof unlockDate === 'string'
         ? convertDateStringToTimestamp(unlockDate)
         : null;
-
-    console.log('unlockTimestamp', unlockTimestamp);
     return Number(unlockTimestamp) > currentTime;
   });
 };
@@ -72,7 +102,6 @@ export const filterNftsByUnlockDate = (nfts: Nft[]): Nft[] => {
 export const convertDateStringToTimestamp = (
   dateString: string
 ): number | null => {
-  console.log('dateString:', dateString);
   const [year, month, day] = dateString.split('-').map(Number); // Split and convert to numbers
   const timestampInMillis = Date.UTC(year, month - 1, day); // Create a UTC timestamp (month is 0-indexed)
   return !isNaN(timestampInMillis)
@@ -108,3 +137,85 @@ export const sortNftsByUnlockDateDesc = (nfts: Nft[]): Nft[] => {
     return 0;
   });
 };
+
+export const getTimeDifference = (targetDateString: string): string => {
+  const currentDate = new Date();
+  const targetDate = new Date(targetDateString);
+
+  // Calculate the difference in milliseconds
+  const diffTime = targetDate.getTime() - currentDate.getTime();
+
+  if (diffTime <= 0) {
+    return 'Expired';
+  }
+
+  let years = targetDate.getFullYear() - currentDate.getFullYear();
+  let months = targetDate.getMonth() - currentDate.getMonth();
+  let days = targetDate.getDate() - currentDate.getDate();
+
+  // Adjust days and months if days are negative
+  if (days < 0) {
+    months -= 1;
+    days += new Date(
+      targetDate.getFullYear(),
+      targetDate.getMonth() + 1,
+      0
+    ).getDate();
+  }
+
+  if (months < 0) {
+    years -= 1;
+    months += 12;
+  }
+
+  // Construct the output based on the conditions
+  let output = '';
+
+  if (years > 0) {
+    output += `${years} years `;
+  }
+
+  if (months > 0) {
+    output += `${months} months `;
+  }
+
+  if (days > 0) {
+    output += `${days} days `;
+  }
+
+  if (years === 0 && days === 0 && months) {
+    output += `date has passed.`;
+  }
+
+  return output.trim();
+
+  /* return `${years < 2 ? ` ${years} year` : ''}${years > 1 ? ` ${years} years, ` : ''}${
+    months > 1 ? ` ${months} months, ` : ''
+  }${
+    months === 1 ? `${months} month, ` : ''
+  }${days === 1 ? ` ${days} day` : ''}${days > 1 ? ` ${days} days` : ''}`; */
+};
+
+export const convertDateToTimestamp = (dateString: string): number => {
+  const date = new Date(dateString);
+  return Math.floor(date.getTime() / 1000);
+};
+
+export function convertTimestampToDate(timestamp: number): string {
+  const date = new Date(timestamp * 1000);
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  const hours = ('0' + date.getHours()).slice(-2);
+  const minutes = ('0' + date.getMinutes()).slice(-2);
+  const seconds = ('0' + date.getSeconds()).slice(-2);
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+
+export function calVotingPower(end: number, amount: number) {
+  const currentTime = Math.floor(Date.now() / 1000);
+  const timeRemaining = Number(end) > currentTime ? end - currentTime : 0;
+  const votingPower = Number(amount) * (timeRemaining / MAX_LOCK_TIME);
+  return votingPower;
+}

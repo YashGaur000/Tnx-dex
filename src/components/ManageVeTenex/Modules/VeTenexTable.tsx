@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   LockItemContainer,
   LockListContainer,
@@ -13,13 +13,22 @@ import {
   LockInfoText,
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
-import TenexIcon from '../../../assets/Tenex.png';
+
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
-
+import {
+  getTimeDifference,
+  locktokeninfo,
+} from '../../../utils/common/voteTenex';
+import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
+import contractAddress from '../../../constants/contract-address/address';
+import SuccessPopup from '../../common/SucessPopup';
 const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [withdrawTknId, setWithdrawTknId] = useState<bigint>(0n);
+
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const itemsPerPage = 5;
 
   const lastItemIndex = currentPage * itemsPerPage;
@@ -27,7 +36,9 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const currentItems = nftData.slice(firstItemIndex, lastItemIndex);
 
   const totalPages = Math.ceil(nftData.length / itemsPerPage);
-
+  const escrowAddress = contractAddress.VotingEscrow;
+  const { withdraw } = useVotingEscrowContract(escrowAddress);
+  const lockTokenInfo = locktokeninfo();
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -49,6 +60,23 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
     }
   };
 
+  const handleWithdraw = useCallback(
+    async (tokenId: bigint): Promise<void> => {
+      try {
+        if (!tokenId) return;
+
+        await withdraw(BigInt(tokenId));
+
+        setWithdrawTknId(tokenId);
+
+        setSuccessLock(true);
+      } catch (error) {
+        console.error('Error during token withdrawal:', error);
+      }
+    },
+    [withdraw]
+  );
+
   return (
     <LockListContainer>
       {currentItems.length > 0 ? (
@@ -59,7 +87,9 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
             );
             return null;
           }
-
+          if (lock.tokenId === withdrawTknId) {
+            return null;
+          }
           const metadata = lock.metadata;
           if (!metadata.attributes) {
             console.warn(
@@ -72,7 +102,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
 
           const unlockDate =
             attributes.find((attr) => attr.trait_type === 'Unlock Date')
-              ?.value ?? 'N/A';
+              ?.value ?? '';
+          const formatUnloackData = getTimeDifference(unlockDate);
           const votingPower =
             attributes.find((attr) => attr.trait_type === 'Voting Power')
               ?.value ?? 'N/A';
@@ -82,38 +113,59 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
 
           return (
             <LockItemContainer key={index}>
-              <LockDetails>
+              <LockDetails width="279px">
                 <LockIcon>
-                  <LockImg src={TenexIcon} alt="Lock Icon" />
+                  <LockImg src={lockTokenInfo.logoURI} alt="Lock Icon" />
                 </LockIcon>
                 <LockInfo>
                   <LockInfoDes fontsize={16} lineheight={23.92}>
                     {metadata.name}
                   </LockInfoDes>
                   <LockInfoDes fontsize={12} lineheight={17.94}>
-                    {lockedVELO} VELO locked until {unlockDate}
+                    {lockedVELO} {lockTokenInfo.symbol} locked for{' '}
+                    {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('increase', lock.tokenId)}
-                    >
-                      Increase
-                    </LockInfoAction>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('extend', lock.tokenId)}
-                    >
-                      Extend
-                    </LockInfoAction>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('merge', lock.tokenId)}
-                    >
-                      Merge
-                    </LockInfoAction>
-                    <LockInfoAction
-                      onClick={() => handleLockButton('transfer', lock.tokenId)}
-                    >
-                      Transfer
-                    </LockInfoAction>
+                    {formatUnloackData !== 'Expired' ? (
+                      <>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('increase', lock.tokenId)
+                          }
+                        >
+                          Increase
+                        </LockInfoAction>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('extend', lock.tokenId)
+                          }
+                        >
+                          Extend
+                        </LockInfoAction>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('merge', lock.tokenId)
+                          }
+                        >
+                          Merge
+                        </LockInfoAction>
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('transfer', lock.tokenId)
+                          }
+                        >
+                          Transfer
+                        </LockInfoAction>
+                      </>
+                    ) : (
+                      <>
+                        <LockInfoAction
+                          onClick={() => handleWithdraw(lock.tokenId)}
+                        >
+                          Withdraw
+                        </LockInfoAction>
+                      </>
+                    )}
                   </LockInfoCheck>
                 </LockInfo>
               </LockDetails>
@@ -123,7 +175,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
               </Column>
               <Column>
                 <LockInfoText>Emissions</LockInfoText>
-                <LockInfoTextValue>0 USD</LockInfoTextValue>
+                <LockInfoTextValue>0 </LockInfoTextValue>
               </Column>
             </LockItemContainer>
           );
@@ -138,6 +190,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
         currentPage={currentPage}
         totalPages={totalPages}
       />
+      {iSuccessLock && <SuccessPopup message="Withdrawal successful!" />}
     </LockListContainer>
   );
 };

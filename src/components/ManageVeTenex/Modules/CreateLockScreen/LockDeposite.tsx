@@ -11,8 +11,8 @@ import contractAddress from '../../../../constants/contract-address/address';
 import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
 import { GlobalButton } from '../../../common';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
-import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
+import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import { LockDepositeProps } from '../../../../types/VotingEscrow';
 import {
   TRANSACTION_DELAY,
@@ -35,13 +35,11 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const [isLocking, setIsLocking] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
 
-  const escrowAddress = contractAddress.VotingEscrow;
-
   const { approveAllowance: approveAllowance } = useTokenAllowance(
     LocTokenAddress as `0x${string}`,
     testErc20Abi
   );
-
+  const escrowAddress = contractAddress.VotingEscrow;
   const { createLock } = useVotingEscrowContract(escrowAddress);
   const { setTransactionStatus } = useRootStore();
 
@@ -67,14 +65,17 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       setIsLocking(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       const durationInSeconds = lockDuration * 7 * 24 * 60 * 60;
-      const tx = await createLock(amountInWei, durationInSeconds);
-      console.log('Transaction successful:', tx);
+      await createLock(amountInWei, durationInSeconds);
+
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
       //setIsDisabled(false);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setLockTokenValue('');
+        setIsLocking(false);
+        setIsLocked(true);
+        setIsLoading(false);
         SetlockDuration(1);
         setSuccessLock(true);
       }, TRANSACTION_DELAY);

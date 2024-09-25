@@ -14,14 +14,17 @@ import {
   TokenNameWrapper,
 } from '../../modal/styles/TokenSelectModal.style';
 import TenexLogo from '../../../assets/Tenex.png';
-import TenexLockData from '../../../constants/TEnexLockData.json';
+
 import { GradientButton } from '../../common';
-import { SelectLockDataType } from './VoteSelectedCard';
+
+import { Nft } from '../../../types/VotingEscrow';
 interface VoteSelectedCardProps {
-  handleSelectToken: (token: SelectLockDataType) => void;
+  handleSelectedNft: (selectedNft: Nft) => void;
+  nftData: Nft[];
 }
 const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
-  handleSelectToken,
+  handleSelectedNft,
+  nftData,
 }) => {
   return (
     <LockTokenContainer>
@@ -31,19 +34,22 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
       <TokenListsWrapper>
         <ScrollContainer>
           <TokenList>
-            {TenexLockData.map((token, index) => (
-              <TokenItem key={index} onClick={() => handleSelectToken(token)}>
+            {nftData.map((nft, index) => (
+              <TokenItem key={index} onClick={() => handleSelectedNft(nft)}>
                 <TokenItemWithAdressWrapper>
                   <TokenItemImage
                     src={TenexLogo}
                     width={36}
                     height={36}
-                    alt={'wrong'}
+                    alt={'Tenex Logo'}
                   />
                   <TokenNameWrapper>
-                    <TokenItemData>Lock #{token.id}</TokenItemData>
+                    <TokenItemData>
+                      Lock #{nft.tokenId.toString()}
+                    </TokenItemData>
                     <LockDescriptonTitle fontsize={12}>
-                      {token.amount} TENEX locked for {token.time}
+                      {nft.metadata.attributes[2].value} VELO locked until{' '}
+                      {nft.metadata.attributes[0].value}
                     </LockDescriptonTitle>
                   </TokenNameWrapper>
                 </TokenItemWithAdressWrapper>

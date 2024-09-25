@@ -16,23 +16,67 @@ import InformIcon from '../../../../assets/information.svg';
 import MergeStepper from './MergeStepper';
 import { DropDownContainer, DropdownTitle } from '../styles/MergeLock.style';
 
-import { useState } from 'react';
-
+import { useCallback, useState } from 'react';
 import PopupScreen from '../../../common/PopupScreen';
 import LockModel from '../../../modal/LockModel';
+import { useParams } from 'react-router-dom';
+import { useVotingPowerCalculation } from '../../../../hooks/useVotingNftData';
+import {
+  calculateRemainingDays,
+  convertDateToTimestamp,
+  convertTimestampToDate,
+  convertToDecimal,
+  formatTokenAmount,
+  getTimeDifference,
+  locktokeninfo,
+} from '../../../../utils/common/voteTenex';
+import SuccessPopup from '../../../common/SucessPopup';
 
 const MergeLock = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { tokenId } = useParams<{ tokenId: string }>();
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isToTokenId, setIsToTokenId] = useState<number>(0);
+  const [isToVotingPower, setIsToVotingPower] = useState<number>(0);
+  const [isTotalDuration, setIsTotalDuration] = useState<string>('');
+  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [selectLockToken, setSelectLockToken] = useState('Your locks...');
-  const handleSelectToken = (option: string) => {
-    console.log(option);
-    setSelectLockToken(option);
-    setIsModalOpen(false);
-  };
+
+  const { votingPower, lockData, timeStampValue } =
+    useVotingPowerCalculation(tokenId);
+  const lockTokenInfo = locktokeninfo();
+
+  const handleSelectToken = useCallback(
+    (
+      option: string,
+      toTokenId: number,
+      toVotingPower: number,
+      toLockDate: string
+    ) => {
+      setIsToVotingPower(toVotingPower);
+
+      const toTillDate = convertDateToTimestamp(toLockDate);
+      if (lockData) {
+        const lockdataEnd = lockData.end;
+        console.log('lockdataEnd:', lockdataEnd);
+        const fromTillDate = convertDateToTimestamp(lockdataEnd.toString());
+
+        const Duration = fromTillDate >= toTillDate ? fromTillDate : toTillDate;
+        const totalDuration = convertTimestampToDate(Duration);
+        const formatUnlockData = getTimeDifference(totalDuration);
+        setIsToVotingPower(toVotingPower);
+        setIsTotalDuration(formatUnlockData);
+      }
+      setIsToTokenId(toTokenId);
+      setSelectLockToken(option);
+      setIsModalOpen(false);
+    },
+    [lockData, setIsToTokenId, setIsToVotingPower]
+  );
 
   const handleInputBox = () => {
     setIsModalOpen(true);
   };
+
   return (
     <MainContainerStyle>
       <CreateMainContainer>
@@ -45,7 +89,7 @@ const MergeLock = () => {
             <DropDownContainer onClick={handleInputBox}>
               <DropdownTitle
                 color={
-                  selectLockToken !== 'Your locks...' ? '#FFFFFF' : ' #CCCCCC'
+                  selectLockToken !== 'Your locks...' ? '#FFFFFF' : '#CCCCCC'
                 }
               >
                 {selectLockToken}
@@ -56,15 +100,20 @@ const MergeLock = () => {
 
           <LockHeaderWrapper>
             <LockHeaderTitle fontsize={16}>
-              Extending your Lock #24947
+              Extending your Lock #{tokenId}
             </LockHeaderTitle>
             <LockDescriptonTitle fontsize={14}>
-              50.0 <LockHeaderTitle fontsize={14}>TENEX</LockHeaderTitle> locked
-              for 11 hours
+              {lockData ? formatTokenAmount(Number(lockData.amount)) : 0.0}{' '}
+              <LockHeaderTitle fontsize={14}>
+                {lockTokenInfo.symbol}
+              </LockHeaderTitle>{' '}
+              locked for{' '}
+              {timeStampValue ? calculateRemainingDays(timeStampValue) : '0'}
             </LockDescriptonTitle>
             <LockDescriptonTitle fontsize={14}>
-              0.015 <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle>{' '}
-              voting power granted
+              {votingPower ? convertToDecimal(votingPower).toString() : 0.0}{' '}
+              <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
+              power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
 
@@ -73,26 +122,39 @@ const MergeLock = () => {
             <LockDescriptonTitle fontsize={14}>
               Merging two locks will inherit the longest lock time of the two
               and will increase the final lock (veNFT) voting power by adding up
-              the two underlying locked amount based ont he new lock time.
+              the two underlying locked amounts based on the new lock time.
             </LockDescriptonTitle>
           </TipsContainer>
         </LockleftSection>
 
-        <MergeStepper />
+        <MergeStepper
+          fromTokenId={tokenId}
+          toTokenId={isToTokenId}
+          setIsToVotingPower={setIsToVotingPower}
+          isToVotingPower={isToVotingPower}
+          votingPower={Number(votingPower)}
+          isTotalDuration={isTotalDuration}
+          setSuccessLock={setSuccessLock}
+        />
       </CreateMainContainer>
-
-      <PopupScreen
-        isvisible={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-        }}
-        height="540px"
-        width="540px"
-        padding="0px"
-        scroll="none"
-      >
-        <LockModel handleSelectToken={handleSelectToken} />
-      </PopupScreen>
+      {isModalOpen && (
+        <PopupScreen
+          isvisible={isModalOpen}
+          onClose={() => {
+            setIsModalOpen(false);
+          }}
+          height="540px"
+          width="540px"
+          padding="0px"
+          scroll="none"
+        >
+          <LockModel
+            handleSelectToken={handleSelectToken}
+            tokenId={Number(tokenId)}
+          />
+        </PopupScreen>
+      )}
+      {iSuccessLock && <SuccessPopup message="Merge lock confirmed" />}
     </MainContainerStyle>
   );
 };

@@ -24,7 +24,6 @@ export const Title = styled.p<{ fontsize?: string; theme: DefaultTheme }>`
   font-size: ${({ fontsize }) => fontsize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
-
   @media (max-width: 768px) {
     font-size: ${({ fontsize }) => fontsize};
   }
