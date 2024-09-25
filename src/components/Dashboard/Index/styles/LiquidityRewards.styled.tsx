@@ -1,11 +1,14 @@
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../../styles/Theme';
 
-export const LiquityMainContainer = styled.div<{ theme: DefaultTheme }>`
+export const LiquityMainContainer = styled.div<{
+  theme: DefaultTheme;
+  height?: string;
+}>`
   display: flex;
   justify-content: space-between;
   border-radius: 16px;
   padding: 24px;
   background: ${({ theme }) => theme.colors.card};
-  height: 114px;
+  height: ${({ height }) => height ?? '146px'};
 `;
