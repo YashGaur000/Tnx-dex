@@ -18,6 +18,7 @@ import TenexLogo from '../../../assets/Tenex.png';
 import { GradientButton } from '../../common';
 
 import { Nft } from '../../../types/VotingEscrow';
+
 interface VoteSelectedCardProps {
   handleSelectedNft: (selectedNft: Nft) => void;
   nftData: Nft[];

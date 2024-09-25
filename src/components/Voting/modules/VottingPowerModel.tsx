@@ -49,9 +49,11 @@ import {
   PercentageSelectorContainer,
 } from '../../Swap/styles/SwapForm.style.';
 import { Nft } from '../../../types/VotingEscrow';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GlobalButton } from '../../common';
+import { useVoterContract } from '../../../hooks/useVoterContract';
+import { Address } from 'viem';
 
 interface VottingPowerModelProps {
   VoteSelectPoolData: LiquidityPoolNewType[];
@@ -62,11 +64,14 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   VoteSelectPoolData,
   selectedNftData,
 }) => {
+  const { vote } = useVoterContract();
+
   const totalPower = 100;
   const [inputValues, setInputValues] = useState<number[]>(
     new Array(VoteSelectPoolData.length)
   );
   const [isVoteButtonVisible, setVoteButtonVisible] = useState(false);
+  const [PoolAddress, setPoolAddress] = useState<string[]>([]);
 
   const availablePower = useMemo(() => {
     const totalUsedPower = inputValues.reduce((a1, a2) => a1 + a2, 0);
@@ -85,6 +90,19 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     });
   };
 
+  const handleVote = useCallback(async () => {
+    try {
+      const tokenId = Number(selectedNftData.tokenId);
+      const votingWeight = inputValues;
+      console.log(tokenId, PoolAddress, votingWeight);
+      const poolAddress = PoolAddress as Address[];
+      const abc = await vote(tokenId, poolAddress, votingWeight);
+      console.log(abc);
+    } catch (error) {
+      console.log(error);
+    }
+  }, [vote, inputValues]);
+
   useEffect(() => {
     if (availablePower === 0) {
       setVoteButtonVisible(true);
@@ -93,17 +111,30 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     }
   }, [availablePower]);
 
-  const handleVotingInputdata = (index: number, value: number) => {
+  const handleVotingInputdata = (
+    index: number,
+    value: number,
+    poolAddress: string
+  ) => {
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
       updatedValues[index] = value;
       return updatedValues;
     });
+
+    setPoolAddress((prevVal) => {
+      if (!prevVal.includes(poolAddress)) {
+        const updatedVal: string[] = [...prevVal];
+        updatedVal[index] = poolAddress;
+        return updatedVal;
+      }
+      return prevVal;
+    });
   };
 
   const clearVotes = () => {
-    setInputValues(new Array(VoteSelectPoolData.length).fill(0)); // Reset input values
-    setVoteButtonVisible(false); // Hide the vote button
+    setInputValues(new Array(VoteSelectPoolData.length).fill(0));
+    setVoteButtonVisible(false);
   };
 
   const handleNavigateButton = (option: string) => {
@@ -169,7 +200,12 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         </TokenItemWithAdressWrapper>
 
         {isVoteButtonVisible ? (
-          <GlobalButton margin="0px" width="82px" height="40px">
+          <GlobalButton
+            margin="0px"
+            width="82px"
+            height="40px"
+            onClick={handleVote}
+          >
             Vote
           </GlobalButton>
         ) : (
@@ -270,7 +306,11 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                     placeholder="0.0"
                     value={inputValues[index]}
                     onChange={(e) =>
-                      handleVotingInputdata(index, parseFloat(e.target.value))
+                      handleVotingInputdata(
+                        index,
+                        parseFloat(e.target.value),
+                        data.id
+                      )
                     }
                   />
                   %
