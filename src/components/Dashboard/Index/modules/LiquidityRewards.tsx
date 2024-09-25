@@ -157,18 +157,18 @@ const LiquidityRewards = ({
                   <DashBoardParagraph>
                     {userPool.claimable1} {userPool.token1.symbol}
                   </DashBoardParagraph>
+                  <Stable>
+                    {(Number(userPool.claimable0) > 0 ||
+                      Number(userPool.claimable1) > 0) && (
+                      <DashBoardParagraph
+                        onClick={() => handleFeeClaim(userPool.lp)}
+                      >
+                        Claim Fees
+                      </DashBoardParagraph>
+                    )}
+                  </Stable>
                 </DepositeStakedData>
               </StakedContainer>
-              <Stable>
-                {(Number(userPool.claimable0) > 0 ||
-                  Number(userPool.claimable1) > 0) && (
-                  <DashBoardParagraph
-                    onClick={() => handleFeeClaim(userPool.lp)}
-                  >
-                    Claim Fees
-                  </DashBoardParagraph>
-                )}
-              </Stable>
             </LiquityMainContainer>
           </React.Fragment>
         ))}
