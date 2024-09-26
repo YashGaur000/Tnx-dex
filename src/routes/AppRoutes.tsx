@@ -25,6 +25,7 @@ import Transferlock from '../components/Dashboard/Transferlock/Transferlock';
 import MergeLock from '../components/Dashboard/Mergelock/modules/MergeLock';
 import IncreaseLock from '../components/Dashboard/IncreaseLock/IncreaseLock';
 import UnStake from '../components/UnStake/modules/UnStake';
+import WithdrawLiquidity from '../components/WithdrawLiquidity/modules/WithdrawLiquidity';
 
 const ManagePool = lazy(
   () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
@@ -78,6 +79,7 @@ const AppRoutes: React.FC = () => {
               />
               <Route path="/stake" element={<StakeDeposit />} />
               <Route path="/unstake" element={<UnStake />} />
+              <Route path="/withdraw" element={<WithdrawLiquidity />} />
               <Route
                 path="/concentrated-liquidity-farms"
                 element={<ConcentratedLiquidityPage />}

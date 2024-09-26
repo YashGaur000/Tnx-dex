@@ -22,6 +22,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   selectedWeeks,
   votingPower,
   setSuccessLock,
+  isExtendDisable,
 }) => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { increaseUnlockTime } = useVotingEscrowContract(escrowAddress);
@@ -79,13 +80,13 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       <LockHeaderTitle fontsize={24}>Extend Lock #{tokenId}</LockHeaderTitle>
       <SteperWrapper>
         <Stepper data={ExtendStepperData} />
-        {!isExtend && (
+        {!isExtend && !isExtendDisable && (
           <GlobalButton
             width="100%"
             height="48px"
             margin="0px"
             onClick={() => handleExtend(tokenId, selectedWeeks)}
-            disabled={isExtending}
+            disabled={isExtending && !isExtendDisable}
           >
             {isExtending ? 'Extending...' : 'Extend'}
           </GlobalButton>
