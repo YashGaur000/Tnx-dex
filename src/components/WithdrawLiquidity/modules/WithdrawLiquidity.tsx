@@ -58,6 +58,8 @@ const WithdrawLiquidity = () => {
     undefined
   );
   const [poolType, setPoolType] = useState(false);
+  const [deposit0, setDeposit0] = useState('');
+  const [deposit1, setDeposit1] = useState('');
 
   const getParam = useQueryParams();
   const poolId = getParam('pool');
@@ -89,6 +91,10 @@ const WithdrawLiquidity = () => {
   const HandleStakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const StakeValue = e.target.value;
     SetSelectWithdrawValue(Number(StakeValue));
+    const deposit0 = Number(StakeValue) * 0.01 * Number(balance0);
+    const deposit1 = Number(StakeValue) * 0.01 * Number(balance1);
+    setDeposit0(deposit0.toString());
+    setDeposit1(deposit1.toString());
   };
 
   const SliderPercentage = [
@@ -159,10 +165,10 @@ const WithdrawLiquidity = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  {balance0} {selectedToken1?.symbol}
+                  {deposit0 ? deposit0 : balance0} {selectedToken1?.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  {balance1} {selectedToken2?.symbol}
+                  {deposit1 ? deposit1 : balance1} {selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
