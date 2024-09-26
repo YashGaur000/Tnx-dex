@@ -60,6 +60,8 @@ const ExtendLock = () => {
       setIsExtendDisable(false);
     } else {
       setIsExtendDisable(true);
+      updateSliderValue(sliderValue);
+      setIsMaxLockMode(true);
     }
   };
 
@@ -144,7 +146,7 @@ const ExtendLock = () => {
                     step={1}
                     value={sliderValue}
                     onChange={handleSliderChange}
-                    disabled={isMaxLockMode}
+                    disabled={true}
                   />
                 </SliderContainer>
               </LoaderStyle>
@@ -153,7 +155,7 @@ const ExtendLock = () => {
                   <WeeksLabel
                     key={value}
                     onClick={() => handleLabelClick(value)}
-                    isdisable={isMaxLockMode}
+                    isdisable={true}
                   >
                     {weeks}
                   </WeeksLabel>
