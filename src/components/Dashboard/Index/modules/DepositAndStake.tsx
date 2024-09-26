@@ -28,13 +28,16 @@ import {
   Imgstyle,
 } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import { LoadingSpinner } from '../../../common/Loader';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens/testnetTokens';
 import { Address } from 'viem';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
 import { useNavigate } from 'react-router-dom';
 import { UserPositionData } from './DashBoard';
+import Pagination from '../../../common/Pagination';
+
+const ITEMS_PER_PAGE = 2;
 
 const DepositAndStake = ({
   address,
@@ -44,6 +47,29 @@ const DepositAndStake = ({
 }: UserPositionData) => {
   const { balances } = useTokenBalances(ERC20_TEST_TOKEN_LIST, address!);
   const navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = userPools
+    ? Math.ceil(userPools.length / ITEMS_PER_PAGE)
+    : 0;
+
+  const handlePrevpage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const paginatedData = userPools
+    ? userPools.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+    : [];
 
   const handleDepositeButton = (
     token0: string,
@@ -99,7 +125,7 @@ const DepositAndStake = ({
       {isError && <p>Error in Fetching....</p>}
       {isLoading && <LoadingSpinner />}
       {!isError &&
-        userPools?.map((userPool, index) => (
+        paginatedData.map((userPool, index) => (
           <React.Fragment key={index}>
             <DepositMainContainer>
               <PoolContainer>
@@ -214,6 +240,12 @@ const DepositAndStake = ({
             </DepositMainContainer>
           </React.Fragment>
         ))}
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevpage={handlePrevpage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };
