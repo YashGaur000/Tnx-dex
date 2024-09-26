@@ -47,13 +47,14 @@ import { useUserPosition } from '../../../hooks/useUserPosition';
 import { useAccount } from '../../../hooks/useAccount';
 import { UserPosition } from '../../../types/Pool';
 import { getTokenLogo } from '../../../utils/getTokenLogo';
+import PageLoader from '../../common/PageLoader';
 
 const UnStake = () => {
   const [unstakedPool, setUnstakedPool] = useState<UserPosition | undefined>(
     undefined
   );
 
-  const [selectUnsatkeValue, setSelectedUnstakeValue] = useState<number>(0);
+  const [selectUnsatkeValue, setSelectedUnstakeValue] = useState<number>(100);
 
   const [staked, setStaked] = useState({
     value0: '0',
@@ -119,7 +120,13 @@ const UnStake = () => {
     { id: '5', value: 100 },
   ];
 
-  if (!unstakedPool) return <p>Error Fetching ....</p>;
+  if (!unstakedPool) {
+    return (
+      <>
+        <PageLoader />
+      </>
+    );
+  }
 
   return (
     <MainContainerStyle>

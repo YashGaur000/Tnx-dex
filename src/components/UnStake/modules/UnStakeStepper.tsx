@@ -15,6 +15,7 @@ import { Address } from 'viem';
 import { useGaugeContract } from '../../../hooks/useGaugeContract';
 import { LoadingSpinner } from '../../common/Loader';
 import { useNavigate } from 'react-router-dom';
+import SuccessPopup from '../../common/SucessPopup';
 const UnStakeStepper = ({
   selectUnsatkeValue,
   gauge,
@@ -118,9 +119,10 @@ const UnStakeStepper = ({
           margin="0px"
           onClick={() => handleWithdraw(lp)}
         >
-          Withdraw
+          Withdraw Deposit
         </GlobalButton>
       )}
+      {isUnstaked && <SuccessPopup message="Unstaked Successfully" />}
     </>
   );
 };
