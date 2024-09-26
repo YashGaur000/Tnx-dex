@@ -15,11 +15,12 @@ import {
   USDTData,
   USDTHeading,
   WalletContainer,
+  Withdraw,
 } from '../styles/DepositAndStake.styled';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import InformationIcon from '../../../../assets/Tips.svg';
-import { UnderLineStyle } from '../../../ManageVeTenex/Styles/Relay.style';
+
 import {
   GroupImgContains,
   IMG1Contains,
@@ -140,7 +141,7 @@ const DepositAndStake = ({
                   </DashBoardParagraph>
                 </UnstackedData>
                 <UnstackedData1>
-                  <UnderLineStyle>Withdraw</UnderLineStyle>
+                  <Withdraw>Withdraw</Withdraw>
                   <DashboardNavigation onClick={() => handleStake(userPool.lp)}>
                     Stake
                   </DashboardNavigation>
