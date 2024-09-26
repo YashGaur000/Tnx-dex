@@ -30,6 +30,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   LockTokenDecimal,
   lockDuration,
   setSuccessLock,
+  setIsApproveLock,
 }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -47,12 +48,15 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
+      setIsApproveLock(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       if (amountInWei && LocTokenAddress) {
         await approveAllowance(escrowAddress, amountInWei.toString());
         setIsTokenAllowed(true);
+        setIsApproveLock(true);
       }
     } catch (error) {
+      setIsApproveLock(false);
       console.error('Error during token approval', error);
     } finally {
       setIsLoading(false);
@@ -81,6 +85,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
         setIsLoading(false);
         SetlockDuration(1);
         setSuccessLock(true);
+        setIsApproveLock(false);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during token lock:', error);

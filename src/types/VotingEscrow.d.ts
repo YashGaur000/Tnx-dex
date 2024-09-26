@@ -84,6 +84,7 @@ export interface LockDepositeProps {
   LockTokenDecimal?: number;
   lockDuration: number;
   setSuccessLock: (input: boolean) => void;
+  setIsApproveLock: (input: boolean) => void;
 }
 
 export interface LockDataNew {
@@ -127,6 +128,7 @@ interface LockIncreaseProps {
   setAdditionalAmount: (input: string) => void;
   totalVotingPower: number;
   setSuccessLock: (input: boolean) => void;
+  setIsApproveLock: (input: boolean) => void;
 }
 export interface ExtendStepperProps {
   tokenId: number;
