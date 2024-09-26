@@ -91,9 +91,11 @@ export const DashBoardWrapper = styled.div`
 export const DashboardNavigation = styled.p<{
   theme: DefaultTheme;
   fontsize?: number;
+  margin?: string;
 }>`
   background: ${({ theme }) => theme.colors.title};
   font-size: ${({ fontsize }) => fontsize}px;
+  margin: ${({ margin }) => margin ?? '0px'};
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;

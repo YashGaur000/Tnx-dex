@@ -31,6 +31,7 @@ import { useRootStore } from '../../../../store/root';
 import { Address } from 'viem';
 import { useGaugeContract } from '../../../../hooks/useGaugeContract';
 import { AddressZero } from '@ethersproject/constants';
+import { DashboardNavigation } from '../styles/DashBoard.styled';
 
 const LiquidityRewards = ({
   userPools,
@@ -97,7 +98,7 @@ const LiquidityRewards = ({
       {!isError &&
         userPools?.map((userPool, index) => (
           <React.Fragment key={index}>
-            <LiquityMainContainer>
+            <LiquityMainContainer height="auto">
               <PoolContainer>
                 <PoolContainerData>
                   <GroupImgContains>
@@ -130,7 +131,7 @@ const LiquidityRewards = ({
               </PoolContainer>
 
               <StakedContainer>
-                <DepositeStakedHeading>Emissions APR</DepositeStakedHeading>
+                <DepositeStakedHeading>Emissions APR </DepositeStakedHeading>
                 <DepositeStakedData>40.43%</DepositeStakedData>
               </StakedContainer>
 
@@ -146,8 +147,10 @@ const LiquidityRewards = ({
                     Claim Emissions
                   </DashBoardParagraph>
                 )}
+                <DashboardNavigation margin="28px 0px 0px">
+                  Claim
+                </DashboardNavigation>
               </StakedContainer>
-
               <StakedContainer>
                 <DepositeStakedHeading>Trading fees</DepositeStakedHeading>
                 <DepositeStakedData>
@@ -158,17 +161,18 @@ const LiquidityRewards = ({
                     {userPool.claimable1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
+                <Stable>
+                  {(Number(userPool.claimable0) > 0 ||
+                    Number(userPool.claimable1) > 0) && (
+                    <DashBoardParagraph
+                      onClick={() => handleFeeClaim(userPool.lp)}
+                    >
+                      Claim Fees
+                    </DashBoardParagraph>
+                  )}
+                </Stable>
+                <DashboardNavigation>Claim</DashboardNavigation>
               </StakedContainer>
-              <Stable>
-                {(Number(userPool.claimable0) > 0 ||
-                  Number(userPool.claimable1) > 0) && (
-                  <DashBoardParagraph
-                    onClick={() => handleFeeClaim(userPool.lp)}
-                  >
-                    Claim Fees
-                  </DashBoardParagraph>
-                )}
-              </Stable>
             </LiquityMainContainer>
           </React.Fragment>
         ))}

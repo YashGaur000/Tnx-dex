@@ -44,7 +44,7 @@ export interface UserPositionData {
 
 const DashBoard: React.FC = () => {
   const { address } = useAccount();
-  const { userPools, userRewardPools, isError } = useUserPosition(address!);
+  const { userPools, isError } = useUserPosition(address!);
   const [isLoading, setIsLoading] = useState(true);
 
   const [isLockVisible, setIsLockVisible] = useState(true);
@@ -159,7 +159,7 @@ const DashBoard: React.FC = () => {
           {/* todo: Make Dynamic */}
           {address && (
             <LiquidityRewards
-              userPools={userRewardPools}
+              userPools={userPools}
               isError={isError}
               isLoading={isLoading}
             />
