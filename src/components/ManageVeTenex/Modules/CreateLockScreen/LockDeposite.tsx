@@ -14,6 +14,7 @@ import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContra
 import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import { LockDepositeProps } from '../../../../types/VotingEscrow';
+import LockIconGr from '../../../../assets/LockSucess.svg';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -60,6 +61,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
   const handleLock = useCallback(async () => {
     try {
+      setSuccessLock(false);
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!LockTokenValue || !isTokenAllowed) return;
       setIsLocking(true);
@@ -73,8 +75,9 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setLockTokenValue('');
+        setIsTokenAllowed(false);
         setIsLocking(false);
-        setIsLocked(true);
+        setIsLocked(false);
         setIsLoading(false);
         SetlockDuration(1);
         setSuccessLock(true);
@@ -122,11 +125,15 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const LockData: StepperDataProps[] = [
     {
       step: 1,
-      descriptions: { labels: 'Allowance not granted for ' + LockTokenSymbol },
-      icon: LockIcon,
+      descriptions: {
+        labels: !isTokenAllowed
+          ? 'Allowance not granted for ' + LockTokenSymbol
+          : 'Allowed the contracts to access ' + LockTokenSymbol,
+      },
+      icon: !isTokenAllowed ? LockIcon : LockIconGr,
       buttons: !isTokenAllowed
         ? {
-            label: isLoading ? 'Approving..' : 'Allow ' + LockTokenSymbol,
+            label: isLoading ? 'Approv' : 'Allow ' + LockTokenSymbol,
             icon: Lock1Icon,
             onClick: !isLoading ? handleAllowToken : undefined,
             tooltip: 'Click to allow ' + LockTokenSymbol + ' transactions',
