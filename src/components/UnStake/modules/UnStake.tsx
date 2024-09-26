@@ -55,6 +55,11 @@ const UnStake = () => {
 
   const [selectUnsatkeValue, setSelectedUnstakeValue] = useState<number>(0);
 
+  const [staked, setStaked] = useState({
+    value0: '0',
+    value1: '0',
+  });
+
   const getParam = useQueryParams();
   const poolId = getParam('pool');
 
@@ -65,16 +70,45 @@ const UnStake = () => {
   useEffect(() => {
     if (userPools) {
       const pool = userPools.find((pool) => pool.lp === poolId);
-      setUnstakedPool(pool);
+      if (pool) {
+        setUnstakedPool(pool);
+        setStaked({
+          value0: pool.accountStaked0,
+          value1: pool.accountStaked1,
+        });
+      }
     }
   }, [poolId, userPools]);
 
-  const handleCustomSliderValue = (value: number) => {
-    setSelectedUnstakeValue(Number(value));
+  const handleCustomSliderValue = (unstake: number) => {
+    if (unstakedPool) {
+      setStaked({
+        value0: ((Number(unstakedPool.accountStaked0) * unstake) / 100).toFixed(
+          5
+        ),
+        value1: ((Number(unstakedPool.accountStaked1) * unstake) / 100).toFixed(
+          5
+        ),
+      });
+    }
+    setSelectedUnstakeValue(unstake);
   };
   const handleUnstakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSelectedUnstakeValue(Number(value));
+    const unstake = Number(e.target.value);
+    if (unstakedPool) {
+      setStaked({
+        value0: (
+          (Number(unstakedPool?.accountStaked0) * unstake) /
+          100
+        ).toFixed(5),
+        value1: (
+          (Number(unstakedPool?.accountStaked1) * unstake) /
+          100
+        ).toFixed(5),
+      });
+    }
+
+    setSelectedUnstakeValue(unstake);
   };
 
   const SliderPercentage = [
@@ -159,10 +193,10 @@ const UnStake = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  {unstakedPool.accountStaked0} {unstakedPool?.token0.symbol}
+                  {staked.value0} {unstakedPool?.token0.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  {unstakedPool.accountStaked1} {unstakedPool?.token0.symbol}
+                  {staked.value1} {unstakedPool?.token0.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>

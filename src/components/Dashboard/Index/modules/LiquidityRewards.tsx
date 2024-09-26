@@ -166,15 +166,13 @@ const LiquidityRewards = ({
                   {userPool.emissions} {userPool.emissionsToken}
                 </DepositeStakedData>
                 {Number(userPool.emissions) > 0 && (
-                  <DashBoardParagraph
+                  <DashboardNavigation
+                    margin="28px 0px 0px"
                     onClick={() => handleReward(userPool.gauge)}
                   >
-                    Claim Emissions
-                  </DashBoardParagraph>
+                    Claim
+                  </DashboardNavigation>
                 )}
-                <DashboardNavigation margin="28px 0px 0px">
-                  Claim
-                </DashboardNavigation>
               </StakedContainer>
               <StakedContainer>
                 <DepositeStakedHeading>Trading fees</DepositeStakedHeading>
@@ -189,6 +187,7 @@ const LiquidityRewards = ({
                 {(Number(userPool.claimable0) > 0 ||
                   Number(userPool.claimable1) > 0) && (
                   <DashboardNavigation
+                    margin="28px 0px 0px"
                     onClick={() => handleFeeClaim(userPool.lp)}
                   >
                     Claim
