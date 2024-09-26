@@ -41,6 +41,7 @@ const IncreaseLock = () => {
   const [isLockDuration, isSetLockDuration] = useState<number>(0);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   useEffect(() => {
@@ -143,6 +144,7 @@ const IncreaseLock = () => {
               value={additionalAmount}
               onChange={handleLockInputData}
               placeholder="0"
+              disabled={isApproveLock}
             />
             <AmountWithImg gap={8}>
               <ImageContainer
@@ -171,6 +173,7 @@ const IncreaseLock = () => {
           setAdditionalAmount={setAdditionalAmount}
           totalVotingPower={totalVotingPower}
           setSuccessLock={setSuccessLock}
+          setIsApproveLock={setIsApproveLock}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Increase Lock confirmed" />}

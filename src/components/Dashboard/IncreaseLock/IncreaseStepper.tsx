@@ -28,6 +28,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   totalVotingPower,
   setSuccessLock,
   setAdditionalAmount,
+  setIsApproveLock,
 }) => {
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -47,6 +48,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
+      setIsApproveLock(true);
       const amountInWei = ethers.parseUnits(
         additionalAmount.toString(),
         tokenLockInfo.decimals
@@ -56,6 +58,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         setIsTokenAllowed(true);
       }
     } catch (error) {
+      setIsApproveLock(false);
       console.error('Error during token approval', error);
     } finally {
       setIsLoading(false);
@@ -72,7 +75,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         tokenLockInfo.decimals
       );
       await increaseLockAmount(BigInt(tokenId), amountInWei);
-
+      setIsApproveLock(false);
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
         setIsTokenAllowed(false);
