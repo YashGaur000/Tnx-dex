@@ -41,6 +41,7 @@ const IncreaseLock = () => {
   const [isLockDuration, isSetLockDuration] = useState<number>(0);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   useEffect(() => {
@@ -76,6 +77,15 @@ const IncreaseLock = () => {
 
   const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
     setSuccessLock(false);
+    const amount = e.target.value;
+    const validInput = /^[0-9]*\.?[0-9]*$/.test(amount);
+    if (!validInput) return;
+    const tokenBal = Number(balances[lockTokenInfo?.address]);
+    // Check the number of decimals
+    if (amount.includes('.') && tokenBal) {
+      const decimalPlaces = amount.split('.')[1]?.length || 0;
+      if (decimalPlaces > tokenBal) return;
+    }
     if (Number(e.target.value) > Number(balances[lockTokenInfo?.address]))
       return;
     setAdditionalAmount(e.target.value);
@@ -131,10 +141,10 @@ const IncreaseLock = () => {
             <InputBox
               type="number"
               border="none"
-              pattern="\d*\.?\d{0,2}"
               value={additionalAmount}
               onChange={handleLockInputData}
               placeholder="0"
+              disabled={isApproveLock}
             />
             <AmountWithImg gap={8}>
               <ImageContainer
@@ -163,6 +173,7 @@ const IncreaseLock = () => {
           setAdditionalAmount={setAdditionalAmount}
           totalVotingPower={totalVotingPower}
           setSuccessLock={setSuccessLock}
+          setIsApproveLock={setIsApproveLock}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Increase Lock confirmed" />}
