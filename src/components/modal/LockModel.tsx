@@ -18,7 +18,7 @@ import {
   TokenNameWrapper,
 } from './styles/TokenSelectModal.style';
 
-import { Nft } from '../../types/VotingEscrow'; // Define the Nft type based on your fetched lock data
+import { LockModelProps, Nft } from '../../types/VotingEscrow'; // Define the Nft type based on your fetched lock data
 import { useVotingEscrowContract } from '../../hooks/useVotingEscrowContract';
 import { useAccount } from '../../hooks/useAccount';
 import contractAddress from '../../constants/contract-address/address';
@@ -27,16 +27,6 @@ import {
   getTimeDifference,
   locktokeninfo,
 } from '../../utils/common/voteTenex';
-
-interface LockModelProps {
-  handleSelectToken: (
-    option: string,
-    toTokenId: number,
-    selectVotingPower: number,
-    toLockDate: string
-  ) => void;
-  tokenId: number;
-}
 
 const LockModel: React.FC<LockModelProps> = ({
   handleSelectToken,
@@ -64,7 +54,6 @@ const LockModel: React.FC<LockModelProps> = ({
     }
   }, [address, fetchUserNFTs]);
 
-  // Only fetch locks once when the address changes
   useEffect(() => {
     if (address) {
       void fetchLocks();

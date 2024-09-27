@@ -82,7 +82,7 @@ export const StakedContainer = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-end;
-  gap: 8px;
+  gap: 6px;
 `;
 
 export const DepositeStakedHeading = styled.div<{ theme: DefaultTheme }>`
@@ -101,6 +101,29 @@ export const DepositeStakedData = styled.div<{ theme: DefaultTheme }>`
   align-items: flex-end;
   flex-direction: column;
   gap: 4px;
+`;
+export const Withdraw = styled.div<{ theme: DefaultTheme }>`
+  background: ${({ theme }) => theme.colors.title};
+  font-size: 14px;
+  font-family: Kanit;
+  font-weight: 300;
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: ${({ theme }) => theme.colors.titleColor};
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: ${({ theme }) => theme.colors.titleColor};
+  }
 `;
 export const DashBoardParagraph = styled.p``;
 export const WalletContainer = styled.div<{ theme: DefaultTheme }>`

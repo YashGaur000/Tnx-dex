@@ -43,6 +43,7 @@ const ExtendLock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
   const [isMaxLockMode, setIsMaxLockMode] = useState<boolean>(false);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [isExtendDisable, setIsExtendDisable] = useState<boolean>(true);
 
   const {
     votingPower,
@@ -56,6 +57,11 @@ const ExtendLock = () => {
     setIsMaxLockMode((prev) => !prev);
     if (!isMaxLockMode) {
       updateSliderValue(208);
+      setIsExtendDisable(false);
+    } else {
+      setIsExtendDisable(true);
+      updateSliderValue(sliderValue);
+      setIsMaxLockMode(true);
     }
   };
 
@@ -116,9 +122,9 @@ const ExtendLock = () => {
             <SwitchComponent
               isChecked={isMaxLockMode}
               handleToggle={handleToggle}
-              onText="Max Lock"
-              offText="Custom Lock"
               isDisabled={false}
+              onText={''}
+              offText={''}
             />
           </MaxLoadContainer>
 
@@ -140,7 +146,7 @@ const ExtendLock = () => {
                     step={1}
                     value={sliderValue}
                     onChange={handleSliderChange}
-                    disabled={isMaxLockMode}
+                    disabled={true}
                   />
                 </SliderContainer>
               </LoaderStyle>
@@ -149,7 +155,7 @@ const ExtendLock = () => {
                   <WeeksLabel
                     key={value}
                     onClick={() => handleLabelClick(value)}
-                    isdisable={isMaxLockMode}
+                    isdisable={true}
                   >
                     {weeks}
                   </WeeksLabel>
@@ -163,6 +169,7 @@ const ExtendLock = () => {
           selectedWeeks={sliderValue}
           votingPower={convertToDecimal(votingPower)}
           setSuccessLock={setSuccessLock}
+          isExtendDisable={isExtendDisable}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Merge lock confirmed" />}

@@ -2,9 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    setupNodeEvents(on, config) {
-      // implement node event listeners here
-      console.log(on.name, config.baseUrl);
-    },
+    specPattern: 'cypress/e2e/**/*.{ts,tsx}', // Ensure this matches the location of your spec files
+    baseUrl: 'http://localhost:5173', // Or whatever your base URL is
   },
 });
