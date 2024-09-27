@@ -213,7 +213,7 @@ const fetchUserPools = async (
       formatAmounts(claimable0Results[index].result as ethers.Numeric, 18) ??
       '0';
 
-    pool.claimable0 = claim0;
+    pool.claimable0 = Number(claim0).toFixed(5);
 
     const index0 =
       formatAmounts(index0Results[index].result as ethers.Numeric, 18) ?? '0';
@@ -234,7 +234,7 @@ const fetchUserPools = async (
       formatAmounts(claimable1Results[index].result as ethers.Numeric, 18) ??
       '0';
 
-    pool.claimable1 = claim1;
+    pool.claimable1 = Number(claim1).toFixed(5);
 
     const index1 =
       formatAmounts(index1Results[index].result as ethers.Numeric, 18) ?? '0';
