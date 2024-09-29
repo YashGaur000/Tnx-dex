@@ -16,7 +16,6 @@ const formatValue = (reserve: string, decimal: bigint) => {
     : 0;
 };
 
-// Function to process the fetched data
 const processLiquidityPoolData = (data: LiquidityPoolResponse) => {
   return data.LiquidityPoolNew.map((pool: LiquidityPoolNewType) => ({
     ...pool,

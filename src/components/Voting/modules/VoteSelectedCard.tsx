@@ -97,7 +97,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
           setPopupVisible(false);
         }}
         height="540px"
-        width="80%"
+        width={isModelOpen ? '40%' : '80%'}
         padding="0px"
         scroll="none"
       >
