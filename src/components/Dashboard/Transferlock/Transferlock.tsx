@@ -41,6 +41,7 @@ const Transferlock = () => {
   const lockTokenInfo = locktokeninfo();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchLockData = async () => {
       if (tokenId) {
         try {

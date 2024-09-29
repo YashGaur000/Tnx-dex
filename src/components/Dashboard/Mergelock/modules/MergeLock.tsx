@@ -16,7 +16,7 @@ import InformIcon from '../../../../assets/information.svg';
 import MergeStepper from './MergeStepper';
 import { DropDownContainer, DropdownTitle } from '../styles/MergeLock.style';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PopupScreen from '../../../common/PopupScreen';
 import LockModel from '../../../modal/LockModel';
 import { useParams } from 'react-router-dom';
@@ -45,6 +45,9 @@ const MergeLock = () => {
     useVotingPowerCalculation(tokenId);
   const lockTokenInfo = locktokeninfo();
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const handleSelectToken = useCallback(
     (
       option: string,

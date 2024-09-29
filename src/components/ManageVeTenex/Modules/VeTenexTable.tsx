@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   LockItemContainer,
   LockListContainer,
@@ -13,7 +13,6 @@ import {
   LockInfoText,
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
-
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
@@ -24,21 +23,62 @@ import {
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
 import SuccessPopup from '../../common/SucessPopup';
+import { useContract } from '../../../hooks/useContract';
+import voterAbi from '../../../constants/artifacts/contracts/Voter.json';
+import { checkIfVoted } from '../../../hooks/useHasVoted';
+import { VoterContract } from '../../../types/Voter';
+
+interface VotedTokenStatus {
+  tokenId: bigint;
+  hasVoted: boolean;
+}
+
 const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [withdrawTknId, setWithdrawTknId] = useState<bigint>(0n);
-
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
-  const itemsPerPage = 5;
 
+  const itemsPerPage = 5;
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
   const currentItems = nftData.slice(firstItemIndex, lastItemIndex);
-
   const totalPages = Math.ceil(nftData.length / itemsPerPage);
+
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
   const lockTokenInfo = locktokeninfo();
+  const Navigate = useNavigate();
+
+  const [votedTokens, setVotedTokens] = useState<VotedTokenStatus[]>([]);
+  const voterContract = useContract(
+    contractAddress.Voter,
+    voterAbi.abi
+  ) as VoterContract;
+
+  // Fetch voted status for each NFT tokenId
+  useEffect(() => {
+    const fetchVotedStatus = async () => {
+      try {
+        const votedStatuses: VotedTokenStatus[] = await Promise.all(
+          nftData.map(async (lock) => {
+            const hasVoted = await checkIfVoted(voterContract, lock.tokenId); // Call the function to get the value
+            return {
+              tokenId: lock.tokenId,
+              hasVoted,
+            };
+          })
+        );
+        setVotedTokens(votedStatuses);
+      } catch (error) {
+        console.error('Error fetching voted status:', error);
+      }
+    };
+
+    if (nftData.length > 0) {
+      void fetchVotedStatus();
+    }
+  }, [nftData]);
+
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -50,13 +90,12 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-  const Navigate = useNavigate();
 
   const handleLockButton = (option: string, pageID: bigint) => {
     if (option) {
       Navigate(`/governance/managevetenex/${option}/${pageID}`);
     } else {
-      console.log('Route is undefine ');
+      console.log('Route is undefined');
     }
   };
 
@@ -68,7 +107,6 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
         await withdraw(BigInt(tokenId));
 
         setWithdrawTknId(tokenId);
-
         setSuccessLock(true);
       } catch (error) {
         console.error('Error during token withdrawal:', error);
@@ -90,6 +128,12 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
           if (lock.tokenId === withdrawTknId) {
             return null;
           }
+
+          const votedToken = votedTokens.find(
+            (voted) => voted.tokenId === lock.tokenId
+          );
+          const hasVoted = votedToken ? votedToken.hasVoted : false;
+
           const metadata = lock.metadata;
           if (!metadata.attributes) {
             console.warn(
@@ -126,7 +170,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                     {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
-                    {formatUnloackData !== 'Expired' ? (
+                    {!hasVoted && formatUnloackData !== 'Expired' ? (
                       <>
                         <LockInfoAction
                           onClick={() =>
@@ -159,11 +203,13 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                       </>
                     ) : (
                       <>
-                        <LockInfoAction
-                          onClick={() => handleWithdraw(lock.tokenId)}
-                        >
-                          Withdraw
-                        </LockInfoAction>
+                        {!hasVoted && (
+                          <LockInfoAction
+                            onClick={() => handleWithdraw(lock.tokenId)}
+                          >
+                            Withdraw
+                          </LockInfoAction>
+                        )}
                       </>
                     )}
                   </LockInfoCheck>
