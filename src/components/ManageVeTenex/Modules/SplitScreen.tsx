@@ -12,14 +12,14 @@ const SplitScreen = () => {
   return (
     <SplitContainer>
       <SplitDatacontain>
-        <LockHeaderTitle fontsize={23}>Split Your NFT</LockHeaderTitle>
+        <LockHeaderTitle fontSize={23}>Split Your NFT</LockHeaderTitle>
 
         <SplitCardContainer>
           <SplitCard />
         </SplitCardContainer>
       </SplitDatacontain>
       <SplitDatacontain>
-        <LockHeaderTitle fontsize={23}>New Split Your NFT</LockHeaderTitle>
+        <LockHeaderTitle fontSize={23}>New Split Your NFT</LockHeaderTitle>
 
         <SplitCardContainer>
           <SplitCard />

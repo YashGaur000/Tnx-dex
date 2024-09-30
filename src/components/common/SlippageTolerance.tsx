@@ -46,7 +46,7 @@ const SlippageTolerance: React.FC = () => {
   return (
     <SlippageWrapper display="flow">
       <SlippageAlign>
-        <SidebarTitle fontsize={16}>Slippage Tolerance</SidebarTitle>
+        <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
         <SlippageInput
           type="number"
           value={toleranceInput}

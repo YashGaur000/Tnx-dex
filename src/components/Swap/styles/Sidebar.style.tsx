@@ -53,17 +53,17 @@ export const SidebarInner = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const SidebarTitle = styled.h2<{
-  fontsize: number;
+  fontSize: number;
   theme: DefaultTheme;
 }>`
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   text-align: left;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.text};
   margin-bottom: 16px;
 
   @media (max-width: 768px) {
-    font-size: ${({ fontsize }) => fontsize * 0.9}px;
+    font-size: ${({ fontSize }) => fontSize * 0.9}px;
   }
 `;
 

@@ -12,8 +12,8 @@ export const VoteBoxWrapper = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const VotingTitle = styled.p<{ theme: DefaultTheme; fontsize?: number }>`
-  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+export const VotingTitle = styled.p<{ theme: DefaultTheme; fontSize?: number }>`
+  font-size: ${({ fontSize }) => fontSize ?? '16'}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.titleColor};
@@ -28,8 +28,8 @@ export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Title = styled.p<{ fontsize: number; theme: DefaultTheme }>`
-  font-size: ${({ fontsize }) => fontsize}px;
+export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
+  font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.whiteBorder};

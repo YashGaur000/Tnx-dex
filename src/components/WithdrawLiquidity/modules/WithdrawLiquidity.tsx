@@ -79,12 +79,12 @@ const WithdrawLiquidity = () => {
               </GroupImgContains>
 
               <TokenDescription>
-                <LiquidityHeaderTitle fontsize={16}>
+                <LiquidityHeaderTitle fontSize={16}>
                   USDT-FTM
                 </LiquidityHeaderTitle>
                 <TokenStatus>
-                  <StatsCardtitle fontsize={12}>Stable</StatsCardtitle>
-                  <LiquidityTitle fontsize={12}>0.01%</LiquidityTitle>
+                  <StatsCardtitle fontSize={12}>Stable</StatsCardtitle>
+                  <LiquidityTitle fontSize={12}>0.01%</LiquidityTitle>
                   <LiquidityImgStyle
                     width={'17px'}
                     height={'17px'}
@@ -95,45 +95,45 @@ const WithdrawLiquidity = () => {
             </DepositeTokenWithImage>
 
             <TokenContainer>
-              <StatsCardtitle fontsize={16}>APR</StatsCardtitle>
-              <LiquidityHeaderTitle fontsize={14}>226.18%</LiquidityHeaderTitle>
+              <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
+              <LiquidityHeaderTitle fontSize={14}>226.18%</LiquidityHeaderTitle>
             </TokenContainer>
           </DepositeContentWrapper>
 
           <DepositeContentWrapper>
             <LiquidityStyleContainer>
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 Liquidity
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle fontsize={12}>
+                <LiquidityTitle fontSize={12}>
                   1,003,212.5643 USDT
                 </LiquidityTitle>
-                <LiquidityTitle fontsize={12}>2,783,860.003 FTM</LiquidityTitle>
+                <LiquidityTitle fontSize={12}>2,783,860.003 FTM</LiquidityTitle>
               </TokenAmountWrapper>
             </LiquidityStyleContainer>
 
             <DepositeStyle>
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 Your Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle textalign="right" fontsize={12}>
+                <LiquidityTitle textalign="right" fontSize={12}>
                   0.0 USDT
                 </LiquidityTitle>
-                <LiquidityTitle textalign="right" fontsize={12}>
+                <LiquidityTitle textalign="right" fontSize={12}>
                   0.0 FTM
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
           </DepositeContentWrapper>
           <StakeRangeWrapper>
-            <StakeTitle fontsize={16}>
+            <StakeTitle fontSize={16}>
               Withdrawing {SelectWithdrawValue}%
             </StakeTitle>
 
             <SliderStatusWrapper>
-              <LoaderStatus fontsize={12}>{SelectWithdrawValue}%</LoaderStatus>
+              <LoaderStatus fontSize={12}>{SelectWithdrawValue}%</LoaderStatus>
             </SliderStatusWrapper>
             <LoaderStyle>
               <SliderContainer margin="0px">
@@ -146,7 +146,7 @@ const WithdrawLiquidity = () => {
                   onChange={HandleStakeSlider}
                 />
               </SliderContainer>
-              <SliderDeadlineStyle fontsize={10}>
+              <SliderDeadlineStyle fontSize={10}>
                 {SliderPercentage.map(({ value, id }) => (
                   <SliderLabel
                     key={id}

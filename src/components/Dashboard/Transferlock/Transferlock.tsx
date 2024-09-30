@@ -88,25 +88,25 @@ const Transferlock = () => {
       <CreateMainContainer>
         <LockleftSection height={278}>
           <LockHeaderWrapper>
-            <LockHeaderTitle fontsize={16}>
+            <LockHeaderTitle fontSize={16}>
               Transferring Lock #{tokenId}
             </LockHeaderTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {lockedTENEX ? lockedTENEX : '0.00'}{' '}
-              <LockHeaderTitle fontsize={14}>
+              <LockHeaderTitle fontSize={14}>
                 {lockTokenInfo?.symbol}
               </LockHeaderTitle>{' '}
               locked for{' '}
               {lockData ? calculateRemainingDays(Number(lockData.end)) : '...'}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {totalVotingPower ? totalVotingPower : '0.00'}{' '}
-              <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
+              <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
           <WalletAdressConainer>
-            <LockHeaderTitle fontsize={16}>To wallet address</LockHeaderTitle>
+            <LockHeaderTitle fontSize={16}>To wallet address</LockHeaderTitle>
             <InputBox
               type="text"
               height="48px"

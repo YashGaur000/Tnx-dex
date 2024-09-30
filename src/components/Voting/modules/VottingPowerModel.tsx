@@ -142,24 +142,24 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
             </TokenItemData>
 
             <TokenItemWithAdressWrapper>
-              <LockDescriptonTitle fontsize={12}>
+              <LockDescriptonTitle fontSize={12}>
                 {selectedNftData?.metadata.attributes[2].value} VELO locked
                 until {selectedNftData?.metadata.attributes[0].value}
               </LockDescriptonTitle>
               <DashboardNavigation
-                fontsize={14}
+                fontSize={14}
                 onClick={() => handleNavigateButton('increase')}
               >
                 Increase
               </DashboardNavigation>
               <DashboardNavigation
-                fontsize={14}
+                fontSize={14}
                 onClick={() => handleNavigateButton('extend')}
               >
                 Extend
               </DashboardNavigation>
               <DashboardNavigation
-                fontsize={14}
+                fontSize={14}
                 onClick={() => handleNavigateButton('clearvote')}
               >
                 Clear Votes
@@ -174,11 +174,11 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
           </GlobalButton>
         ) : (
           <VotingPowerContainer>
-            <LockDescriptonTitle fontsize={12}>
+            <LockDescriptonTitle fontSize={12}>
               Total voting power
             </LockDescriptonTitle>
             <LockHeaderTitle
-              fontsize={14}
+              fontSize={14}
               style={{ color: availablePower <= 0 ? 'red' : 'inherit' }}
             >
               {availablePower > 0 ? availablePower.toFixed(2) : '0.00'}%
@@ -208,18 +208,18 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                   </TraidingSyleLabel>
                   <LiquidityTokenWrapper alignitem="flex-start">
                     <TokenAmountTitle>
-                      <StatsCardtitle lineheight="17px" fontsize={12}>
+                      <StatsCardtitle lineheight="17px" fontSize={12}>
                         {data.isStable ? 'Stable' : 'Volatile'}
                       </StatsCardtitle>
 
-                      <LiquidityTitle fontsize={12}>{0.01} %</LiquidityTitle>
+                      <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
                       <SugestImgWrapper>
                         <SuggestImg src={ImpIcon} />
                       </SugestImgWrapper>
                     </TokenAmountTitle>
                     <TokenAmountTitle>
                       <DashboardNavigation
-                        fontsize={12}
+                        fontSize={12}
                         onClick={() => {
                           handleSpecificClearVote(index);
                         }}
@@ -232,32 +232,32 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
               </TokenCardContainer>
 
               <PairContain>
-                <LockDescriptonTitle fontsize={12}>
+                <LockDescriptonTitle fontSize={12}>
                   Votes 8,923,342.27
                 </LockDescriptonTitle>
                 <LiquidityTokenWrapper alignitem="flex-start">
-                  <LockDescriptonTitle fontsize={12}>
+                  <LockDescriptonTitle fontSize={12}>
                     Total rewards ~$10,180
                   </LockDescriptonTitle>
-                  <LockDescriptonTitle fontsize={12}>
+                  <LockDescriptonTitle fontSize={12}>
                     Voting APR 45.9%
                   </LockDescriptonTitle>
                 </LiquidityTokenWrapper>
               </PairContain>
 
               <PairContain>
-                <Title fontsize="14">~$0.0</Title>
+                <Title fontSize="14">~$0.0</Title>
                 <LiquidityTokenWrapper alignitem="flex-start">
-                  <LockDescriptonTitle fontsize={12}>
+                  <LockDescriptonTitle fontSize={12}>
                     Est. Rewards
                   </LockDescriptonTitle>
                 </LiquidityTokenWrapper>
               </PairContain>
 
               <PairContain>
-                <Title fontsize="14">0.0 veTENEX</Title>
+                <Title fontSize="14">0.0 veTENEX</Title>
                 <LiquidityTokenWrapper alignitem="flex-start">
-                  <LockDescriptonTitle fontsize={12}>
+                  <LockDescriptonTitle fontSize={12}>
                     Voting power
                   </LockDescriptonTitle>
                 </LiquidityTokenWrapper>

@@ -10,13 +10,13 @@ import {
 const MergeLockSidebar = () => {
   return (
     <SteperWrapper>
-      <LockDescriptonTitle fontsize={14}>
-        <LockHeaderTitle fontsize={14}>Important! </LockHeaderTitle>Merging will
+      <LockDescriptonTitle fontSize={14}>
+        <LockHeaderTitle fontSize={14}>Important! </LockHeaderTitle>Merging will
         reset any rewards and rebases!
       </LockDescriptonTitle>
-      <LockDescriptonTitle fontsize={14}>
+      <LockDescriptonTitle fontSize={14}>
         Before continuing, please make sure you have reviewed and{' '}
-        <UnderlineText fontsize={14}>
+        <UnderlineText fontSize={14}>
           claimed all available rewards.
         </UnderlineText>
       </LockDescriptonTitle>

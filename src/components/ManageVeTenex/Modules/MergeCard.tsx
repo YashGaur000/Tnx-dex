@@ -21,8 +21,8 @@ const MergeCard = () => {
         <CheckBoxStyle type="checkbox" />
       </CheckBoxContainer>
       <Tokenstyle>
-        <Labeltoken fontsize={15}>2462545368625</Labeltoken>
-        <TokenDate fontsize={12}>
+        <Labeltoken fontSize={15}>2462545368625</Labeltoken>
+        <TokenDate fontSize={12}>
           1 Year 321 Days{' '}
           <TipsIconWrapper
             onMouseEnter={() => setIsHovered(true)}
@@ -34,14 +34,14 @@ const MergeCard = () => {
         </TokenDate>
       </Tokenstyle>
       <Tokenstyle>
-        <TitleWrapper fontsize="16">
+        <TitleWrapper fontSize="16">
           54 <ImgStyleSplit src={TenexIcon} />{' '}
         </TitleWrapper>
-        <TokenDate fontsize={12}>Stake</TokenDate>
+        <TokenDate fontSize={12}>Stake</TokenDate>
       </Tokenstyle>
       <Tokenstyle>
-        <TitleWrapper fontsize="16">32.00</TitleWrapper>
-        <TokenDate fontsize={12}>Voting Power</TokenDate>
+        <TitleWrapper fontSize="16">32.00</TitleWrapper>
+        <TokenDate fontSize={12}>Voting Power</TokenDate>
       </Tokenstyle>
     </CardContainsLockScreen>
   );

@@ -77,7 +77,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
 
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontsize={24}>Extend Lock #{tokenId}</LockHeaderTitle>
+      <LockHeaderTitle fontSize={24}>Extend Lock #{tokenId}</LockHeaderTitle>
       <SteperWrapper>
         <Stepper data={ExtendStepperData} />
         {!isExtend && !isExtendDisable && (
@@ -95,7 +95,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       </SteperWrapper>
       <TipsContainer>
         <ImageContainer width="24px" height="24px" src={InformIcon} />
-        <LockHeaderTitle fontsize={14}>
+        <LockHeaderTitle fontSize={14}>
           You can extend the lock or increase the lock amount. These actions
           will increase your voting power. The maximum lock time is 4 years!
         </LockHeaderTitle>

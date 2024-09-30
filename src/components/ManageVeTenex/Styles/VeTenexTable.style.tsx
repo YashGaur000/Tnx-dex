@@ -140,11 +140,11 @@ export const LockImg = styled.img`
 
 export const LockInfoDes = styled.div<{
   theme: DefaultTheme;
-  fontsize: number;
+  fontSize: number;
   lineheight: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   line-height: ${({ lineheight }) => lineheight}px;
   text-align: left;
 `;

@@ -74,7 +74,7 @@ export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   gap: 8px;
 
   color: ${({ theme }) => theme.colors.titleColor};
-  font-size: ${({ theme }) => theme.fontsize.small};
+  font-size: ${({ theme }) => theme.fontSize.small};
 `;
 
 export const SugestImgWrapper = styled.div`
@@ -86,12 +86,12 @@ export const SugestImgWrapper = styled.div`
 
 export const TitleWrapper = styled.p<{
   theme: DefaultTheme;
-  fontsize: string;
+  fontSize: string;
   lineheight?: string;
 }>`
   line-height: ${({ lineheight }) => lineheight ?? '20.93px'};
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontsize }) => fontsize};
+  font-size: ${({ fontSize }) => fontSize};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;

@@ -21,16 +21,16 @@ export const SlippageWrapper = styled.div<{
 `;
 
 export const SidebarTitle = styled.h2<{
-  fontsize: number;
+  fontSize: number;
   theme: DefaultTheme;
 }>`
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   margin-bottom: 20px;
   margin-left: 11px;
   color: ${({ theme }) => theme.colors.whiteBorder};
   @media (max-width: 600px) {
-    font-size: ${({ fontsize }) => fontsize * 0.8}px;
+    font-size: ${({ fontSize }) => fontSize * 0.8}px;
     margin-bottom: 15px;
   }
 `;

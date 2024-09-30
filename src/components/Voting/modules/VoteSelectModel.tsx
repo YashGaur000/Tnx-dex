@@ -28,7 +28,7 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
 }) => {
   return (
     <LockTokenContainer>
-      <LockHeaderTitle margin="0px 0px 0px 25px" fontsize={24}>
+      <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>
         Select lock to vote
       </LockHeaderTitle>
       <TokenListsWrapper>
@@ -47,7 +47,7 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
                     <TokenItemData>
                       Lock #{nft.tokenId.toString()}
                     </TokenItemData>
-                    <LockDescriptonTitle fontsize={12}>
+                    <LockDescriptonTitle fontSize={12}>
                       {nft.metadata.attributes[2].value} VELO locked until{' '}
                       {nft.metadata.attributes[0].value}
                     </LockDescriptonTitle>
@@ -55,13 +55,13 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
                 </TokenItemWithAdressWrapper>
                 <GradientButton
                   padding="4px 10px"
-                  fontsize="12px"
+                  fontSize="12px"
                   width="auto"
                   height="26px"
                   lineheight="0px"
                   border="1.5px solid transparent"
                   borderradius="8px"
-                  smfontsize={12}
+                  smfontSize={12}
                   smmargin="0px"
                 >
                   Select
