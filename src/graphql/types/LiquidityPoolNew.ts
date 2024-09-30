@@ -12,6 +12,7 @@ export interface LiquidityPoolNewType {
   totalFees0: BigNumberish;
   totalFees1: BigNumberish;
   totalFeesUSD: BigNumberish;
+  totalBribesUSD: BigNumberish;
   token0: {
     id: string; // token address
     symbol: string; // token symbol;
