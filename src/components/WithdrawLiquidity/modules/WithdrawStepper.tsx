@@ -62,7 +62,7 @@ const WithdrawStepper = ({
 
   const { balanceOf } = usePoolContract(poolId);
 
-  const { removeLiquidity } = useRouterContract();
+  const { removeLiquidity, quoteRemoveLiquidity } = useRouterContract();
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
@@ -88,30 +88,40 @@ const WithdrawStepper = ({
 
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-
+      console.log(contractAddress.PoolFactory, liquidity);
       const amountAminInWei = parseAmounts(Number(amountAmin), d0);
       const amountBminInWei = parseAmounts(Number(amountBmin), d1);
       if (amountAminInWei && amountBminInWei && address) {
-        const result = await removeLiquidity(
+        const quote = await quoteRemoveLiquidity(
           tokenA as Address,
           tokenB as Address,
           poolData[0].isStable,
-          liquidity,
-          amountAminInWei,
-          amountBminInWei,
-          address,
-          deadline
+          contractAddress.PoolFactory,
+          liquidity
         );
 
-        if (result) {
-          setTransactionStatus(TransactionStatus.DONE);
-          setIsWithdraw(true);
-        } else {
-          setTimeout(
-            () => setTransactionStatus(TransactionStatus.IDEAL),
-            TRANSACTION_DELAY
+        if (quote) {
+          const result = await removeLiquidity(
+            tokenA as Address,
+            tokenB as Address,
+            poolData[0].isStable,
+            liquidity,
+            quote?.amountA,
+            quote?.amountB,
+            address,
+            deadline
           );
-          setIsWithdraw(false);
+
+          if (result) {
+            setTransactionStatus(TransactionStatus.DONE);
+            setIsWithdraw(true);
+          } else {
+            setTimeout(
+              () => setTransactionStatus(TransactionStatus.IDEAL),
+              TRANSACTION_DELAY
+            );
+            setIsWithdraw(false);
+          }
         }
       }
     } catch (error) {

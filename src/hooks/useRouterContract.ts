@@ -483,6 +483,35 @@ export function useRouterContract() {
     [routerContract]
   );
 
+  const quoteRemoveLiquidity = useCallback(
+    async (
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      _factory: Address,
+      liquidity: string
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+      console.log(routerContract);
+      try {
+        const liquidityEstimate = await routerContract.quoteRemoveLiquidity(
+          tokenA,
+          tokenB,
+          stable,
+          _factory,
+          liquidity
+        );
+        return liquidityEstimate;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [routerContract]
+  );
+
   const removeLiquidity = useCallback(
     async (
       tokenA: Address,
@@ -551,5 +580,6 @@ export function useRouterContract() {
     swapExactTokensForETH,
     swapExactETHForTokens,
     removeLiquidity,
+    quoteRemoveLiquidity,
   };
 }
