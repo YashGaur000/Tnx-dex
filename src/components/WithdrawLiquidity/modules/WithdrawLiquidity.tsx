@@ -212,10 +212,6 @@ const WithdrawLiquidity = () => {
             withdrawPercentage={SelectWithdrawValue.toString()}
             tokenA={selectedToken1?.address ?? ''}
             tokenB={selectedToken2?.address ?? ''}
-            amountAmin={deposit0}
-            amountBmin={deposit1}
-            d0={selectedToken1?.decimals ?? 18}
-            d1={selectedToken2?.decimals ?? 18}
           />
         </StakeCard>
       </StakeMainContainer>

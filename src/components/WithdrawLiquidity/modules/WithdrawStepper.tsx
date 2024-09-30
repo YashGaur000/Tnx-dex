@@ -24,27 +24,18 @@ import {
 } from '../../../types/Transaction';
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { getDeadline } from '../../../utils/transaction/getDeadline';
-import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { LoadingSpinner } from '../../common/Loader';
 interface WithdrawStepperProps {
   poolId: string;
   withdrawPercentage: string;
   tokenA: string;
   tokenB: string;
-  amountAmin: string;
-  amountBmin: string;
-  d0: number;
-  d1: number;
 }
 const WithdrawStepper = ({
   poolId,
   withdrawPercentage,
   tokenA,
   tokenB,
-  amountAmin,
-  amountBmin,
-  d0,
-  d1,
 }: WithdrawStepperProps) => {
   const { address } = useAccount();
   const [isAllowingToken, setIsAllowingToken] = useState(false);
@@ -88,10 +79,8 @@ const WithdrawStepper = ({
 
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      console.log(contractAddress.PoolFactory, liquidity);
-      const amountAminInWei = parseAmounts(Number(amountAmin), d0);
-      const amountBminInWei = parseAmounts(Number(amountBmin), d1);
-      if (amountAminInWei && amountBminInWei && address) {
+
+      if (address) {
         const quote = await quoteRemoveLiquidity(
           tokenA as Address,
           tokenB as Address,
