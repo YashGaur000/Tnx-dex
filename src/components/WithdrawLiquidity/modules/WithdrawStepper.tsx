@@ -50,7 +50,7 @@ const WithdrawStepper = ({
   const [isAllowingToken, setIsAllowingToken] = useState(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isWithdraw, setIsWithdraw] = useState(false);
-  const [liquidity, setLiquidity] = useState(0);
+  const [liquidity, setLiquidity] = useState('0');
   const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const { data: poolData } = useLiquidityPoolDataById(poolId);
@@ -74,7 +74,7 @@ const WithdrawStepper = ({
         amount.toFixed(balance.decimals).toString(),
         balance.decimals
       );
-      setLiquidity(Number(amountInWei));
+      setLiquidity(amountInWei.toString());
       const result = await approveAllowance(
         contractAddress.Router,
         amountInWei.toString()

@@ -88,7 +88,7 @@ interface RouterContract extends Contract {
     tokenA: Address,
     tokenB: Address,
     stable: boolean,
-    liquidity: number,
+    liquidity: string,
     amountAMin: bigint,
     amountBMin: bigint,
     to: Address,
