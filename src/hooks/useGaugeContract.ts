@@ -51,7 +51,41 @@ export function useGaugeContract(gaugeAddress: Address) {
         return;
       }
       try {
-        const result = await gaugeContract.deposit(_amount);
+        const gasEstimate = await gaugeContract.estimateGas.deposit(_amount);
+
+        if (!gasEstimate) {
+          console.error('Error estimating gas price');
+        }
+        const result = await gaugeContract.deposit(_amount, {
+          gasLimit: gasEstimate,
+        });
+
+        const { transactionHash } = await result.wait();
+
+        return transactionHash;
+      } catch (error) {
+        console.log(error);
+        return undefined;
+      }
+    },
+    [gaugeContract]
+  );
+
+  const withdraw = useCallback(
+    async (_amount: bigint) => {
+      if (!gaugeContract) {
+        console.error('Gauge contract instance not available');
+        return;
+      }
+      try {
+        const gasEstimate = await gaugeContract.estimateGas.withdraw(_amount);
+
+        if (!gasEstimate) {
+          console.error('Error estimating gas price');
+        }
+        const result = await gaugeContract.withdraw(_amount, {
+          gasLimit: gasEstimate,
+        });
 
         const { transactionHash } = await result.wait();
 
@@ -103,5 +137,5 @@ export function useGaugeContract(gaugeAddress: Address) {
     }
   }, [gaugeContract]);
 
-  return { deposit, totalSupply, getReward, getGaugeContract };
+  return { deposit, totalSupply, getReward, getGaugeContract, withdraw };
 }

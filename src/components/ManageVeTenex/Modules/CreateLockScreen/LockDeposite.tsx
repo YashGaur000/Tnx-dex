@@ -53,7 +53,6 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       if (amountInWei && LocTokenAddress) {
         await approveAllowance(escrowAddress, amountInWei.toString());
         setIsTokenAllowed(true);
-        setIsApproveLock(true);
       }
     } catch (error) {
       setIsApproveLock(false);

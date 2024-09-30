@@ -26,13 +26,16 @@ import {
   Imgstyle,
 } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import { LoadingSpinner } from '../../../common/Loader';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens/testnetTokens';
 import { Address } from 'viem';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
 import { useNavigate } from 'react-router-dom';
 import { UserPositionData } from './DashBoard';
+import Pagination from '../../../common/Pagination';
+
+const ITEMS_PER_PAGE = 2;
 
 const DepositAndStake = ({
   address,
@@ -42,6 +45,29 @@ const DepositAndStake = ({
 }: UserPositionData) => {
   const { balances } = useTokenBalances(ERC20_TEST_TOKEN_LIST, address!);
   const navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const totalPages = userPools
+    ? Math.ceil(userPools.length / ITEMS_PER_PAGE)
+    : 0;
+
+  const handlePrevpage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const paginatedData = userPools
+    ? userPools.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+    : [];
 
   const handleDepositeButton = (
     token0: string,
@@ -77,6 +103,17 @@ const DepositAndStake = ({
     });
   };
 
+  const handleUnstake = (lp: string) => {
+    const queryParams = new URLSearchParams(location.search);
+
+    queryParams.set('pool', lp);
+
+    navigate({
+      pathname: '/unstake',
+      search: `?${queryParams.toString()}`,
+    });
+  };
+
   const handleWithdraw = (lp: string) => {
     const queryParams = new URLSearchParams(location.search);
 
@@ -97,7 +134,7 @@ const DepositAndStake = ({
       {isError && <p>Error in Fetching....</p>}
       {isLoading && <LoadingSpinner />}
       {!isError &&
-        userPools?.map((userPool, index) => (
+        paginatedData.map((userPool, index) => (
           <React.Fragment key={index}>
             <DepositMainContainer>
               <PoolContainer>
@@ -150,15 +187,21 @@ const DepositAndStake = ({
                   </DashBoardParagraph>
                 </UnstackedData>
                 <UnstackedData1>
-                  {/* <UnderLineStyle>Withdraw</UnderLineStyle> */}
-                  <DashboardNavigation
-                    onClick={() => handleWithdraw(userPool.lp)}
-                  >
-                    Withdraw
-                  </DashboardNavigation>
-                  <DashboardNavigation onClick={() => handleStake(userPool.lp)}>
-                    Stake
-                  </DashboardNavigation>
+                  {Number(userPool.accountUnstaked0) > 0 &&
+                    Number(userPool.accountUnstaked1) > 0 && (
+                      <>
+                        <DashboardNavigation
+                          onClick={() => handleWithdraw(userPool.lp)}
+                        >
+                          Withdraw
+                        </DashboardNavigation>
+                        <DashboardNavigation
+                          onClick={() => handleStake(userPool.lp)}
+                        >
+                          Stake
+                        </DashboardNavigation>
+                      </>
+                    )}
                 </UnstackedData1>
               </UnstackedContainer>
               <StakedContainer>
@@ -173,6 +216,14 @@ const DepositAndStake = ({
                     {userPool.accountStaked1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
+                {Number(userPool.accountStaked0) > 0 &&
+                  Number(userPool.accountStaked1) > 0 && (
+                    <DashboardNavigation
+                      onClick={() => handleUnstake(userPool.lp)}
+                    >
+                      Unstake
+                    </DashboardNavigation>
+                  )}
               </StakedContainer>
               <WalletContainer>
                 <DepositeStakedHeading>In Wallet</DepositeStakedHeading>
@@ -202,6 +253,12 @@ const DepositAndStake = ({
             </DepositMainContainer>
           </React.Fragment>
         ))}
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevpage={handlePrevpage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };

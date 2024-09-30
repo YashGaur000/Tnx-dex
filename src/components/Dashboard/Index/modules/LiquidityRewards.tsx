@@ -19,7 +19,7 @@ import {
   Imgstyle,
 } from '../../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import { UserPositionData } from './DashBoard';
-import React from 'react';
+import React, { useState } from 'react';
 import { getTokenLogo } from '../../../../utils/getTokenLogo';
 import { LoadingSpinner } from '../../../common/Loader';
 import { usePoolContract } from '../../../../hooks/usePoolContract';
@@ -32,6 +32,10 @@ import { Address } from 'viem';
 import { useGaugeContract } from '../../../../hooks/useGaugeContract';
 import { AddressZero } from '@ethersproject/constants';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
+import Pagination from '../../../common/Pagination';
+import SuccessPopup from '../../../common/SucessPopup';
+
+const ITEMS_PER_PAGE = 2;
 
 const LiquidityRewards = ({
   userPools,
@@ -40,12 +44,30 @@ const LiquidityRewards = ({
 }: UserPositionData) => {
   const { claimFees, getPoolContract } = usePoolContract(AddressZero);
   const { getReward, getGaugeContract } = useGaugeContract(AddressZero);
+  const { transactionStatus, setTransactionStatus } = useRootStore();
 
-  const { setTransactionStatus } = useRootStore();
+  const [currentPage, setCurrentPage] = useState(1);
 
-  if (userPools && userPools.length === 0 && !isLoading) {
-    return <p>No Data Available</p>;
-  }
+  const totalPages = userPools
+    ? Math.ceil(userPools.length / ITEMS_PER_PAGE)
+    : 0;
+
+  const handlePrevpage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+
+  const paginatedData = userPools
+    ? userPools.slice(startIndex, startIndex + ITEMS_PER_PAGE)
+    : [];
 
   const handleFeeClaim = async (lp: Address) => {
     try {
@@ -91,12 +113,16 @@ const LiquidityRewards = ({
     }
   };
 
+  if (userPools && userPools.length === 0 && !isLoading) {
+    return <p>No Data Available</p>;
+  }
+
   return (
     <>
       {isError && <p>Error in Fetching....</p>}
       {isLoading && <LoadingSpinner />}
       {!isError &&
-        userPools?.map((userPool, index) => (
+        paginatedData.map((userPool, index) => (
           <React.Fragment key={index}>
             <LiquityMainContainer height="auto">
               <PoolContainer>
@@ -141,15 +167,13 @@ const LiquidityRewards = ({
                   {userPool.emissions} {userPool.emissionsToken}
                 </DepositeStakedData>
                 {Number(userPool.emissions) > 0 && (
-                  <DashBoardParagraph
+                  <DashboardNavigation
+                    margin="28px 0px 0px"
                     onClick={() => handleReward(userPool.gauge)}
                   >
-                    Claim Emissions
-                  </DashBoardParagraph>
+                    Claim
+                  </DashboardNavigation>
                 )}
-                <DashboardNavigation margin="28px 0px 0px">
-                  Claim
-                </DashboardNavigation>
               </StakedContainer>
               <StakedContainer>
                 <DepositeStakedHeading>Trading fees</DepositeStakedHeading>
@@ -161,21 +185,28 @@ const LiquidityRewards = ({
                     {userPool.claimable1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
-                <Stable>
-                  {(Number(userPool.claimable0) > 0 ||
-                    Number(userPool.claimable1) > 0) && (
-                    <DashBoardParagraph
-                      onClick={() => handleFeeClaim(userPool.lp)}
-                    >
-                      Claim Fees
-                    </DashBoardParagraph>
-                  )}
-                </Stable>
-                <DashboardNavigation>Claim</DashboardNavigation>
+                {(Number(userPool.claimable0) > 0 ||
+                  Number(userPool.claimable1) > 0) && (
+                  <DashboardNavigation
+                    margin="28px 0px 0px"
+                    onClick={() => handleFeeClaim(userPool.lp)}
+                  >
+                    Claim
+                  </DashboardNavigation>
+                )}
               </StakedContainer>
             </LiquityMainContainer>
           </React.Fragment>
         ))}
+      {transactionStatus === TransactionStatus.DONE && (
+        <SuccessPopup message="Claimed Successfully" />
+      )}
+      <Pagination
+        handleNextPage={handleNextPage}
+        handlePrevpage={handlePrevpage}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </>
   );
 };

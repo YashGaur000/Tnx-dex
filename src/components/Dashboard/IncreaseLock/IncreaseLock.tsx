@@ -45,6 +45,7 @@ const IncreaseLock = () => {
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchLockData = async () => {
       if (tokenId) {
         try {
