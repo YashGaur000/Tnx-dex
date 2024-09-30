@@ -85,7 +85,7 @@ const MergeLock = () => {
       <CreateMainContainer>
         <LockleftSection height={360}>
           <WalletAdressConainer>
-            <LockHeaderTitle fontsize={16}>
+            <LockHeaderTitle fontSize={16}>
               Select the lock you want to merge
             </LockHeaderTitle>
 
@@ -102,27 +102,27 @@ const MergeLock = () => {
           </WalletAdressConainer>
 
           <LockHeaderWrapper>
-            <LockHeaderTitle fontsize={16}>
+            <LockHeaderTitle fontSize={16}>
               Extending your Lock #{tokenId}
             </LockHeaderTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {lockData ? formatTokenAmount(Number(lockData.amount)) : 0.0}{' '}
-              <LockHeaderTitle fontsize={14}>
+              <LockHeaderTitle fontSize={14}>
                 {lockTokenInfo.symbol}
               </LockHeaderTitle>{' '}
               locked for{' '}
               {timeStampValue ? calculateRemainingDays(timeStampValue) : '0'}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {votingPower ? convertToDecimal(votingPower).toString() : 0.0}{' '}
-              <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
+              <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
 
           <TipsContainer>
             <ImageContainer width="24px" height="24px" src={InformIcon} />
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               Merging two locks will inherit the longest lock time of the two
               and will increase the final lock (veNFT) voting power by adding up
               the two underlying locked amounts based on the new lock time.

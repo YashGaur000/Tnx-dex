@@ -55,7 +55,7 @@ export const TokenStatus = styled.div<{ theme: DefaultTheme }>`
 
   gap: 13px;
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ theme }) => theme.fontsize.small};
+  font-size: ${({ theme }) => theme.fontSize.small};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 export const TokenDescription = styled.div`
@@ -72,7 +72,7 @@ export const TokenContainer = styled.div<{ theme: DefaultTheme }>`
   justify-content: space-between;
 
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ theme }) => theme.fontsize.medium};
+  font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 

@@ -179,7 +179,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
 
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontsize={24}>Increase lock</LockHeaderTitle>
+      <LockHeaderTitle fontSize={24}>Increase lock</LockHeaderTitle>
       <Stepper
         data={!additionalAmount && !isLocked ? IncreaseStepperData : LockData}
       />

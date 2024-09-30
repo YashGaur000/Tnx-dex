@@ -58,12 +58,12 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
           <thead>
             <TableRow>
               <TableHeader textalign="left">
-                <StatsCardtitle fontsize={16}>Liquidity Pool</StatsCardtitle>
+                <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
               </TableHeader>
 
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>APR</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
                   <ImageContainer
                     width="16px"
                     height="16px"
@@ -74,7 +74,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>Volume</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>Volume</StatsCardtitle>
                   <ImageContainer
                     width="16px"
                     height="16px"
@@ -85,7 +85,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>Fees</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
 
                   <ImageContainer
                     width="16px"
@@ -97,7 +97,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16} lineheight={'23.92px'}>
+                  <StatsCardtitle fontSize={16} lineheight={'23.92px'}>
                     Pool Balance
                   </StatsCardtitle>
                   <ImageContainer

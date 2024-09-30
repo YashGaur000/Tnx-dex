@@ -13,8 +13,6 @@ export interface VoterContract extends Contract {
   gaugeToBribe(_gauge: Address): Promise<Address>;
   deposit(_amount: bigint): Promise<ContractTransaction>;
   reset(_tokenId: bigint): Promise<ContractTransaction>;
-  voted(_tokenId: bigint): Promise<boolean>;
-  hasVoted(_tokenId: bigint): Promise<boolean>;
   estimateGas: {
     createGauge(_poolFactory: Address, _pool: Address): Promise<bigint>;
   };

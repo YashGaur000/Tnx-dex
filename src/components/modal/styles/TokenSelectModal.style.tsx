@@ -136,9 +136,9 @@ export const TokenNameWrapper = styled.div`
 `;
 export const TokenItemData = styled.p<{
   theme: DefaultTheme;
-  fontsize?: number;
+  fontSize?: number;
 }>`
-  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+  font-size: ${({ fontSize }) => fontSize ?? '16'}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
@@ -170,14 +170,14 @@ export const HeaderTokenContent = styled.div<{ theme: DefaultTheme }>`
 `;
 
 export const HeaderleftContent = styled.span<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontsize.medium};
+  font-size: ${({ theme }) => theme.fontSize.medium};
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
 
 export const HeaderRightContent = styled.span<{ theme: DefaultTheme }>`
-  font-size: ${({ theme }) => theme.fontsize.medium};
+  font-size: ${({ theme }) => theme.fontSize.medium};
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};

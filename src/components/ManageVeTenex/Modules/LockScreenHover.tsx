@@ -28,10 +28,10 @@ export const HoverContainer = styled.div<{
 
 export const HoverColorstyle = styled.span<{
   theme: DefaultTheme;
-  fontsize: number;
+  fontSize: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   background: ${({ theme }) => theme.colors.title};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -42,7 +42,7 @@ const LockScreenHover = () => {
   return (
     <HoverContainer>
       Your Lockup Period for NFT is
-      <HoverColorstyle fontsize={15}> 1 Year 321 Days</HoverColorstyle>
+      <HoverColorstyle fontSize={15}> 1 Year 321 Days</HoverColorstyle>
     </HoverContainer>
   );
 };

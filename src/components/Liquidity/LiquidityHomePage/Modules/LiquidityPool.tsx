@@ -96,7 +96,7 @@ const LiquidityPool = () => {
 
   return (
     <>
-      <LiquidityHeaderTitle fontsize={36}>Liquidity</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontSize={36}>Liquidity</LiquidityHeaderTitle>
       <LiquidityHeroSection />
       <LiquidityFilter
         handleSelectedFilterItem={handleSelectedFilterItem}

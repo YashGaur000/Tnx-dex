@@ -3,7 +3,7 @@ import { DefaultTheme } from '../../../styles/Theme';
 
 export const RelayScreenContainer = styled.div<{ theme: DefaultTheme }>`
   background: ${({ theme }) => theme.colors.card};
-  font-size: ${({ theme }) => theme.fontsize.medium};
+  font-size: ${({ theme }) => theme.fontSize.medium};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 
@@ -43,7 +43,7 @@ export const RelayIdStatus = styled.div<{ theme: DefaultTheme }>`
   block: inline-block;
   font-size: 10px;
   background: ${({ theme }) => theme.colors.cardLight};
-  font-size: ${({ theme }) => theme.fontsize.small};
+  font-size: ${({ theme }) => theme.fontSize.small};
   padding: 3px 10px;
   border-radius: 6px;
 `;
