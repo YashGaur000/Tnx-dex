@@ -10,7 +10,6 @@ export const DashBoardLockMainContainer = styled.div<{ theme: DefaultTheme }>`
   padding: 24px;
 `;
 export const LockContainer = styled.div<{ theme: DefaultTheme }>`
-  height: 79px;
   display: flex;
   gap: 24px;
   color: ${({ theme }) => theme.colors.whiteBorder};
@@ -20,6 +19,8 @@ export const LockHeading = styled.p<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+  display: flex;
+  gap: 5px;
 `;
 
 export const LockData = styled.div`
