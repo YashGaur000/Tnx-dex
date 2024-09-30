@@ -206,11 +206,11 @@ const CreatelockForm = () => {
             </FormRowWrapper>
           </FormFieldContainer>
 
-          <LockTitle fontsize={16} lineheight={23.93}>
+          <LockTitle fontSize={16} lineheight={23.93}>
             Locking your TENEX tokens for {voteCalPower} veTENEX voting power
           </LockTitle>
           <LockLoaderContainer>
-            <LoaderStatusWrapper fontsize={12} lineheight={17.94}>
+            <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
               <LoaderStatus>{lockDuration} weeks</LoaderStatus>
             </LoaderStatusWrapper>
             <LoaderStyle>
@@ -226,7 +226,7 @@ const CreatelockForm = () => {
                 />
               </SliderContainer>
             </LoaderStyle>
-            <SliderDeadlineStyle fontsize={10}>
+            <SliderDeadlineStyle fontSize={10}>
               {labels.map(({ value, weeks }) => (
                 <WeeksLabel
                   key={value}
@@ -254,7 +254,7 @@ const CreatelockForm = () => {
       </CreateMainContainer>
       <LockScreenInstruction>
         <InformImg src={InformIcon} />
-        <LockCardtitle fontsize={16}>
+        <LockCardtitle fontSize={16}>
           Locking will give you an NFT, referred to as a veNFT. You can increase
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>

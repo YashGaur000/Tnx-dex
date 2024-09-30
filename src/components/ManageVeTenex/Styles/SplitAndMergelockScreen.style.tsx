@@ -43,16 +43,16 @@ export const ImgStyleSplit = styled.img`
 `;
 export const Labeltoken = styled.label<{
   theme: DefaultTheme;
-  fontsize: number;
+  fontSize: number;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 
-export const TokenDate = styled.div<{ theme: DefaultTheme; fontsize: number }>`
+export const TokenDate = styled.div<{ theme: DefaultTheme; fontSize: number }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   color: ${({ theme }) => theme.colors.greyDark};
   display: flex;
   align-items: center;

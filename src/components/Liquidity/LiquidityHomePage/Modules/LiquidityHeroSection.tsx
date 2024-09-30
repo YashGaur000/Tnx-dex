@@ -48,19 +48,19 @@ const LiquidityHeroSection = () => {
         <LiquidityHeroSectionContent>
           <LiquidityDespcriptionWrap>
             <TitleWithImgWrapper>
-              <LiquidityTitle fontsize={16}>
+              <LiquidityTitle fontSize={16}>
                 Liquidity Providers (LPs) make low-slippage swaps possible.
               </LiquidityTitle>
 
               <InformImageStye src={QuestionIcon} onClick={handleTooltipShow} />
             </TitleWithImgWrapper>
 
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Deposit and Stake liquidity to earn TENEX
             </LiquidityTitle>
           </LiquidityDespcriptionWrap>
 
-          <LiquidityTitle fontsize={12}>
+          <LiquidityTitle fontSize={12}>
             There are currently 100 tokens listed.{' '}
             <TitleUnderLine>See all tokens</TitleUnderLine> or{' '}
             <TitleUnderLine>request a new token listing.</TitleUnderLine>
@@ -79,16 +79,16 @@ const LiquidityHeroSection = () => {
           </CreateLiquidityButtonWrapper>
           <MetricDisplayWrapper>
             <MetricDisplay>
-              <StatsCardtitle fontsize={16}>TVL</StatsCardtitle>
-              <TitleWrapper fontsize={'16px'}>$1,547,658,000.28</TitleWrapper>
+              <StatsCardtitle fontSize={16}>TVL</StatsCardtitle>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontsize={16}>Fees</StatsCardtitle>
-              <TitleWrapper fontsize={'16px'}>$1,547,658,000.28</TitleWrapper>
+              <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontsize={16}>24H Volume</StatsCardtitle>
-              <TitleWrapper fontsize={'16px'}>$1,547,658,000.28</TitleWrapper>
+              <StatsCardtitle fontSize={16}>24H Volume</StatsCardtitle>
+              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>

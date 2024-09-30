@@ -31,17 +31,17 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
       <TableColumn>
         <RelayCardSection>
           <RelayCardDataContains>
-            <LockHeaderTitle fontsize={16}>
+            <LockHeaderTitle fontSize={16}>
               {Relaydata.relay.name}
             </LockHeaderTitle>
             <RelayIdStatus>ID {Relaydata.relay.id}</RelayIdStatus>
           </RelayCardDataContains>
 
           <RelayCardDataContains>
-            <LockDescriptonTitle fontsize={12}>
+            <LockDescriptonTitle fontSize={12}>
               {Relaydata.relay.updated}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontsize={12}>
+            <LockDescriptonTitle fontSize={12}>
               {Relaydata.relay.address}
             </LockDescriptonTitle>
             <ImageContainer width="15px" height="15px" src={CopyIcon} />
@@ -49,12 +49,12 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
         </RelayCardSection>
       </TableColumn>
       <TableColumn>
-        <LockHeaderTitle fontsize={12}>
+        <LockHeaderTitle fontSize={12}>
           {Relaydata.votingPower.value} ~ {Relaydata.votingPower.percentage}
         </LockHeaderTitle>
       </TableColumn>
       <TableColumn>
-        <LockHeaderTitle fontsize={12}>{Relaydata.apr}</LockHeaderTitle>
+        <LockHeaderTitle fontSize={12}>{Relaydata.apr}</LockHeaderTitle>
       </TableColumn>
       <TableColumn>
         <DepositeLockButtonWrapper onClick={handleDepositeLock}>
@@ -64,10 +64,10 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
             padding="10px"
             lineheight="0px"
             border="1.5px solid transparent"
-            fontsize="12px"
+            fontSize="12px"
             width="95px"
             height="26px"
-            smfontsize={12}
+            smfontSize={12}
             smmargin="0px"
           >
             Deposit Lock

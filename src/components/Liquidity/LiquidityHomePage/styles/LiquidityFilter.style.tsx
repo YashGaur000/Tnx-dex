@@ -46,7 +46,7 @@ export const FilterButton = styled.div<FilterButtonProps>`
 
   border-radius: 8px;
   @media screen and (max-width: 600px) {
-    font-size: ${({ theme }) => theme.fontsize.small};
+    font-size: ${({ theme }) => theme.fontSize.small};
     padding: 8px 8px;
   }
 `;

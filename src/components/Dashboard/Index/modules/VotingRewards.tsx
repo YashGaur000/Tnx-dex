@@ -55,12 +55,12 @@ const VotingRewards = () => {
               width="27px"
               height="18px"
               color="#ffffff"
-              fontsize="12px"
+              fontSize="12px"
               padding=" 0px 4px"
               lineheight="17.94px"
               border="1.5px solid transparent"
               borderradius="4px"
-              smfontsize={12}
+              smfontSize={12}
               smmargin="0px"
             >
               Fee
@@ -75,12 +75,12 @@ const VotingRewards = () => {
               width="27px"
               height="18px"
               color="#ffffff"
-              fontsize="12px"
+              fontSize="12px"
               padding=" 0px 4px"
               lineheight="17.94px"
               border="1.5px solid transparent"
               borderradius="4px"
-              smfontsize={12}
+              smfontSize={12}
               smmargin="0px"
             >
               Fee
@@ -96,12 +96,12 @@ const VotingRewards = () => {
               width="56px"
               height="18px"
               color="#ffffff"
-              fontsize="12px"
+              fontSize="12px"
               padding=" 0px 4px"
               lineheight="17.94px"
               border="1.5px solid transparent"
               borderradius="4px"
-              smfontsize={12}
+              smfontSize={12}
               smmargin="0px"
             >
               Incentive
@@ -117,19 +117,19 @@ const VotingRewards = () => {
               width="56px"
               height="20px"
               color="#ffffff"
-              fontsize="12px"
+              fontSize="12px"
               padding=" 0px 4px"
               lineheight="0px"
               border="1.5px solid transparent"
               borderradius="4px"
-              smfontsize={12}
+              smfontSize={12}
               smmargin="0px"
             >
               Incentive
             </GradientButton>
           </VotingRewardsdata>
 
-          <DashboardNavigation fontsize={16}>Claim</DashboardNavigation>
+          <DashboardNavigation fontSize={16}>Claim</DashboardNavigation>
         </DepositeStakedData>
       </StakedContainer>
     </VotingRewardsMainContainer>

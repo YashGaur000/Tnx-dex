@@ -71,36 +71,36 @@ const VotePoolTable: React.FC = () => {
           <thead>
             <TableRow>
               <TableHeader textalign="left">
-                <StatsCardtitle fontsize={16}>Liquidity Pool</StatsCardtitle>
+                <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>Fees</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
                   <ImageContainer width="16px" height="16px" src={SortIcon} />
                 </TableHeaderWrapper>
               </TableHeader>
 
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>Incentives</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>Incentives</StatsCardtitle>
                   <ImageContainer width="16px" height="16px" src={SortIcon} />
                 </TableHeaderWrapper>
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>Total Rewards</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>Total Rewards</StatsCardtitle>
                   <ImageContainer width="16px" height="16px" src={SortIcon} />
                 </TableHeaderWrapper>
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>vAPR</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>vAPR</StatsCardtitle>
                   <ImageContainer width="16px" height="16px" src={SortIcon} />
                 </TableHeaderWrapper>
               </TableHeader>
               <TableHeader>
                 <TableHeaderWrapper>
-                  <StatsCardtitle fontsize={16}>Vote Pools</StatsCardtitle>
+                  <StatsCardtitle fontSize={16}>Vote Pools</StatsCardtitle>
                   <ImageContainer width="16px" height="16px" src={SortIcon} />
                 </TableHeaderWrapper>
               </TableHeader>

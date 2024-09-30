@@ -89,18 +89,18 @@ const ExtendLock = () => {
       <CreateMainContainer>
         <LockleftSection>
           <LockHeaderWrapper>
-            <LockHeaderTitle fontsize={16}>
+            <LockHeaderTitle fontSize={16}>
               Extending your Lock #{tokenId}
             </LockHeaderTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {lockData ? formatTokenAmount(Number(lockData.amount)) : 0.0}{' '}
-              <LockHeaderTitle fontsize={14}>TENEX</LockHeaderTitle> locked
+              <LockHeaderTitle fontSize={14}>TENEX</LockHeaderTitle> locked
               until{' '}
               {timeStampValue ? calculateRemainingDays(timeStampValue) : '0'}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {votingPower ? convertToDecimal(votingPower).toString() : 0.0}{' '}
-              <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
+              <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
@@ -109,11 +109,11 @@ const ExtendLock = () => {
             <AutoMaxLoaderWrapper>
               <HeaderWithImgContainer>
                 <ImageContainer width="24px" height="24px" src={ExchangeIcon} />
-                <LockHeaderTitle fontsize={16}>
+                <LockHeaderTitle fontSize={16}>
                   Auto Max-Lock Mode
                 </LockHeaderTitle>
               </HeaderWithImgContainer>
-              <LockDescriptonTitle fontsize={12}>
+              <LockDescriptonTitle fontSize={12}>
                 When activated, it sets the lock to maximum unlock time until
                 disabled. Once disabled, the regular vesting unlock time will
                 apply. Maximum unlock time gives a 1-to-1 voting power to the
@@ -131,12 +131,12 @@ const ExtendLock = () => {
           </MaxLoadContainer>
 
           <SliderMainContainer>
-            <LockHeaderTitle fontsize={16}>
+            <LockHeaderTitle fontSize={16}>
               Locking your TENEX tokens for {convertToDecimal(votingPower)}{' '}
               veTENEX voting power
             </LockHeaderTitle>
             <LockLoaderContainer padding="0px">
-              <LoaderStatusWrapper fontsize={12} lineheight={17.94}>
+              <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
                 <LoaderStatus>{sliderValue} weeks</LoaderStatus>
               </LoaderStatusWrapper>
               <LoaderStyle>
@@ -152,7 +152,7 @@ const ExtendLock = () => {
                   />
                 </SliderContainer>
               </LoaderStyle>
-              <SliderDeadlineStyle fontsize={10}>
+              <SliderDeadlineStyle fontSize={10}>
                 {labels.map(({ value, weeks }) => (
                   <WeeksLabel
                     key={value}

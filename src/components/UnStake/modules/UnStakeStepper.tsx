@@ -85,7 +85,7 @@ const UnStakeStepper = ({
 
   return (
     <>
-      <LiquidityHeaderTitle fontsize={24}>Unstaking</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontSize={24}>Unstaking</LiquidityHeaderTitle>
       <Stepper data={UnStakeStepperData}></Stepper>
 
       {!isUnstaked ? (

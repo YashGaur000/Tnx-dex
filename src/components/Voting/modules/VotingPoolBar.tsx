@@ -44,7 +44,7 @@ const VotingPoolBar: React.FC = () => {
   return (
     <VotingPoolContainer>
       <PoolTitleBox>
-        <Title fontsize="20px">Voting Pools</Title>
+        <Title fontSize="20px">Voting Pools</Title>
       </PoolTitleBox>
 
       <FilterWrapper>
