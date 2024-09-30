@@ -14,46 +14,51 @@ import tenxLogo from '../../../../assets/Tenex.png';
 import icon from '../../../../assets/unlock.svg';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
 
+const locksData = [
+  {
+    id: 7242,
+    amount: 50.0,
+    duration: '11 hours',
+    logo: tenxLogo,
+    icon: icon,
+  },
+  {
+    id: 7243,
+    amount: 75.0,
+    duration: '5 hours',
+    logo: tenxLogo,
+    icon: icon,
+  },
+];
+
 const ClaimAllModle = () => {
   return (
     <ClaimMainContainer>
       <ClaimContainer>
         <LockHeading>Your Locks</LockHeading>
-        <LockContainer>
-          <CardLogo>
-            <img src={tenxLogo} alt="" />
-          </CardLogo>
-          <LockData>
-            <LockHeading>
-              Lock #7242 <img src={icon} />
-            </LockHeading>
-            <ClaimLink>
-              <Paragraph>50.0 TENEX locked for 11 hours</Paragraph>
-              <DashboardNavigation width="115px">
-                Claim Incentives
-              </DashboardNavigation>
-              <DashboardNavigation width="77px">Claim Fees</DashboardNavigation>
-            </ClaimLink>
-          </LockData>
-        </LockContainer>
-
-        <LockContainer>
-          <CardLogo>
-            <img src={tenxLogo} alt="" />
-          </CardLogo>
-          <LockData>
-            <LockHeading>
-              Lock #7242 <img src={icon} />
-            </LockHeading>
-            <ClaimLink>
-              <Paragraph>50.0 TENEX locked for 11 hours</Paragraph>
-              <DashboardNavigation width="115px">
-                Claim Incentives
-              </DashboardNavigation>
-              <DashboardNavigation width="77px">Claim Fees</DashboardNavigation>
-            </ClaimLink>
-          </LockData>
-        </LockContainer>
+        {locksData.map((lock) => (
+          <LockContainer key={lock.id}>
+            <CardLogo>
+              <img src={tenxLogo} alt="" />
+            </CardLogo>
+            <LockData>
+              <LockHeading>
+                Lock #{lock.id} <img src={lock.icon} />
+              </LockHeading>
+              <ClaimLink>
+                <Paragraph>
+                  {lock.amount} TENEX locked for {lock.duration}
+                </Paragraph>
+                <DashboardNavigation width="115px">
+                  Claim Incentives
+                </DashboardNavigation>
+                <DashboardNavigation width="77px">
+                  Claim Fees
+                </DashboardNavigation>
+              </ClaimLink>
+            </LockData>
+          </LockContainer>
+        ))}
       </ClaimContainer>
     </ClaimMainContainer>
   );

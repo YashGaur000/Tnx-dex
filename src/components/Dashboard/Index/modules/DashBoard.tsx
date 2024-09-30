@@ -54,7 +54,7 @@ const DashBoard: React.FC = () => {
   const [isLockVisible, setIsLockVisible] = useState(true);
 
   const [isPopupVisible, setPopupVisible] = useState(false);
-  const [claimAllPopupVisible, setClaimAllPopupVisible] = useState(false);
+  const [isClaimPopUpShow, setClaimPopUpShow] = useState<boolean>(false);
   const [activeTooltip, setActiveTooltip] = useState<string>('');
   const Navigate = useNavigate();
 
@@ -86,7 +86,11 @@ const DashBoard: React.FC = () => {
   };
 
   const handleClaimAll = () => {
-    setClaimAllPopupVisible(true);
+    setClaimPopUpShow(true);
+  };
+
+  const handleHoverHide = () => {
+    setClaimPopUpShow(false);
   };
 
   const renderTooltipContent = () => {
@@ -227,7 +231,9 @@ const DashBoard: React.FC = () => {
                 Claim All
                 <img src={SelectIcon} alt="" />
               </VotingRewardsButton>
-              {claimAllPopupVisible && <ClaimAllModle />}
+              <PopupWrapper onMouseLeave={handleHoverHide}>
+                {isClaimPopUpShow && <ClaimAllModle />}
+              </PopupWrapper>
             </ClaimAllPopup>
           </DashBoardWrapperHeading>
           <DashBoardCard>
