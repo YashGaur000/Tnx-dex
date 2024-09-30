@@ -16,7 +16,6 @@ const formatValue = (reserve: string, decimal: bigint) => {
     : 0;
 };
 
-// Function to process the fetched data
 const processLiquidityPoolData = (data: LiquidityPoolResponse) => {
   return data.LiquidityPoolNew.map((pool: LiquidityPoolNewType) => ({
     ...pool,
@@ -34,6 +33,7 @@ const processLiquidityPoolData = (data: LiquidityPoolResponse) => {
     totalFeesUSD: formatValue(pool.totalFeesUSD.toString(), BigInt(18)),
     totalFees0: formatValue(pool.totalFeesUSD.toString(), pool.token0.decimals),
     totalFees1: formatValue(pool.totalFeesUSD.toString(), pool.token1.decimals),
+    totalBribesUSD: formatValue(pool.totalBribesUSD.toString(), BigInt(18)),
   }));
 };
 
