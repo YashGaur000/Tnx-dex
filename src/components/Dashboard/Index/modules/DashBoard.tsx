@@ -32,6 +32,7 @@ import { useAccount } from '../../../../hooks/useAccount';
 import { useUserPosition } from '../../../../hooks/useUserPosition';
 import { Address } from 'viem';
 import { UserPosition } from '../../../../types/Pool';
+//import { useUserVotingPosition } from '../../../../hooks/useUserVotingPosition';
 // import LiquidityRewards from './LiquidityRewards';
 // import DepositAndStake from './DepositAndStake';
 
@@ -46,6 +47,9 @@ const DashBoard: React.FC = () => {
   const { address } = useAccount();
   const { userPools, isError } = useUserPosition(address!);
   const [isLoading, setIsLoading] = useState(true);
+
+  //const {userVotedPools} = useUserVotingPosition(address!)
+  //console.log(userVotedPools)
 
   const [isLockVisible, setIsLockVisible] = useState(true);
 

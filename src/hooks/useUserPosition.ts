@@ -12,14 +12,15 @@ import { ethers } from 'ethers';
 import { UserPosition } from '../types/Pool';
 import contractAddresses from '../constants/contract-address/address';
 import { AddressZero } from '@ethersproject/constants';
-import { useVotingEscrowContract } from './useVotingEscrowContract';
-import { decodeBase64 } from '../utils/common/voteTenex';
+import { useCallback } from 'react';
 
 const fetchUserPools = async (
   multicallClient: PublicClient,
   pools: LiquidityPoolNewType[],
   account: Address
 ) => {
+  if (pools.length === 0) return [];
+
   const balanceOfCalls = pools.map(({ id }) => ({
     abi: poolAbi.abi as Abi,
     functionName: 'balanceOf',
@@ -289,84 +290,11 @@ const fetchUserPools = async (
   return userPools;
 };
 
-const fetchUserVotingPools = async (
-  multicallClient: PublicClient,
-  account: Address,
-  fetchUserNFTs: (owner: Address) => Promise<
-    {
-      tokenId: bigint;
-      metadata: string;
-    }[]
-  >
-) => {
-  const fetchedNftVal = await fetchUserNFTs(account);
-
-  // Early return if no NFTs found
-  if (fetchedNftVal.length === 0) return [];
-
-  // Decode NFT metadata
-  const formattedNftData = fetchedNftVal.map((nft) => ({
-    tokenId: nft.tokenId,
-    metadata: decodeBase64(nft.metadata),
-  }));
-
-  //const test = [31,32,33,51,59]
-
-  const indexCount = 30;
-
-  // Create batch calls for all NFTs
-  const poolVoteCalls = formattedNftData.flatMap((nft) =>
-    Array.from({ length: indexCount }, (_, i) => ({
-      abi: voterAbi.abi as Abi,
-      functionName: 'poolVote',
-      args: [nft.tokenId, i],
-      address: contractAddresses.Voter,
-    }))
-  );
-
-  try {
-    // Execute all multicall requests in one go
-    const poolVoteResults = await multicallClient.multicall({
-      contracts: poolVoteCalls,
-    });
-
-    // Process results to collect voted pools
-    const poolToVoteResult = formattedNftData.map((nft, nftIndex) => {
-      const votedPools = [];
-
-      for (let i = 0; i < indexCount; i++) {
-        const poolVoteResult = poolVoteResults[nftIndex * indexCount + i];
-
-        if (poolVoteResult?.result) {
-          votedPools.push(poolVoteResult);
-        } else {
-          // Stop processing further indices for this NFT if no result
-          break;
-        }
-      }
-
-      return {
-        tokenId: nft.tokenId,
-        votedPools,
-      };
-    });
-
-    // Filter out NFTs with no voted pools
-    return poolToVoteResult.filter(({ votedPools }) => votedPools.length > 0);
-  } catch (error) {
-    console.error('Error during multicall execution:', error);
-    return []; // Return empty if an error occurs during fetching
-  }
-};
-
 export const useUserPosition = (account: Address) => {
   const { data: poolData } = useLiquidityPoolData();
   const multicallClient = useMultiCall();
-  const { fetchUserNFTs } = useVotingEscrowContract(
-    contractAddresses.VotingEscrow
-  );
 
-  const fetchPoolData = async () => {
+  const fetchPoolData = useCallback(async () => {
     if (multicallClient && poolData) {
       return await fetchUserPools(
         multicallClient as PublicClient,
@@ -375,23 +303,12 @@ export const useUserPosition = (account: Address) => {
       );
     }
     return [];
-  };
-
-  const fetchVotingPools = async () => {
-    if (multicallClient && poolData) {
-      return await fetchUserVotingPools(
-        multicallClient as PublicClient,
-        account,
-        fetchUserNFTs
-      );
-    }
-    return [];
-  };
+  }, [multicallClient, poolData, account]);
 
   const {
     data: userPools,
     isError,
-    refetch,
+    refetch: refetchUserPools,
     isFetching,
   } = useQuery<UserPosition[]>(
     {
@@ -413,39 +330,10 @@ export const useUserPosition = (account: Address) => {
     queryClient
   );
 
-  const {
-    data: userVotedPools,
-    isError: isVoteError,
-    refetch: refetchVote,
-    isFetching: isVoteFetching,
-  } = useQuery(
-    {
-      queryKey: ['userVotePosition', account],
-      queryFn: fetchVotingPools,
-      gcTime: 60 * 1000,
-      enabled: !!account && !!multicallClient,
-      placeholderData: [],
-      refetchInterval: 60 * 1000,
-      refetchIntervalInBackground: true,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      refetchOnWindowFocus: false,
-      retry: 3,
-      retryOnMount: true,
-      retryDelay: (retryCount) => Math.min(retryCount * 1000, 3000),
-      staleTime: 5000,
-    },
-    queryClient
-  );
-
   return {
     userPools,
     isError,
     isFetching,
-    refetch,
-    userVotedPools,
-    isVoteError,
-    refetchVote,
-    isVoteFetching,
+    refetchUserPools,
   };
 };
