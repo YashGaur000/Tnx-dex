@@ -124,7 +124,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                     {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
-                    {formatUnloackData !== 'Expired' ? (
+                    {formatUnloackData !== 'Expired' && !lock.votingStatus ? (
                       <>
                         {!lock.votingStatus && (
                           <LockInfoAction
