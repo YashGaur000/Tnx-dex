@@ -92,6 +92,7 @@ export const DashboardNavigation = styled.p<{
   theme: DefaultTheme;
   fontSize?: number;
   margin?: string;
+  width?: string;
 }>`
   background: ${({ theme }) => theme.colors.title};
   font-size: ${({ fontSize }) => fontSize}px;
@@ -108,7 +109,7 @@ export const DashboardNavigation = styled.p<{
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 100%;
+    width: ${({ width }) => width ?? '100%'};
     height: 1px;
     background: ${({ theme }) => theme.colors.bordercolor};
   }

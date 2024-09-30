@@ -45,7 +45,8 @@ const VoteBanner: React.FC = () => {
               width="16px"
               height="16px"
               src={QuestionIcon}
-              onMouseEnter={handleTooltipShow}
+              cursor="pointer"
+              onClick={handleTooltipShow}
             />
           </VoteDesc>
         </VoteDescBox>
