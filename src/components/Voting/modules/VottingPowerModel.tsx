@@ -81,14 +81,15 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   const [PoolAddress, setPoolAddress] = useState<string[]>([]);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>(
-    'some thing went Wrong'
+    'something went Wrong'
   );
   const [isDisabled, setIsDisabled] = useState(false);
   const [isSucess, setSucess] = useState(false);
+
   const availablePower = useMemo(() => {
     const totalUsedPower = inputValues.reduce((a1, a2) => a1 + a2, 0);
     const rem = totalPower - totalUsedPower;
-
+    if (isSucess) return 0;
     return rem;
   }, [inputValues]);
   const { setTransactionStatus } = useRootStore();
@@ -100,6 +101,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     poolAddress: string
   ) => {
     const calculatedValue = (availablePower * percentage) / 100;
+
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
       updatedValues[index] = calculatedValue;
@@ -112,6 +114,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         updatedVal[index] = poolAddress;
         return updatedVal;
       }
+
       return prevVal;
     });
   };
@@ -145,15 +148,16 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const voteStart = await vote(tokenId, poolAddress, votingWeight);
       console.log(voteStart);
+
+      setTransactionStatus(TransactionStatus.DONE);
       if (voteStart?.data) {
         setSucess(true);
       }
-
-      setTransactionStatus(TransactionStatus.DONE);
-
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setInputValues(new Array(VoteSelectPoolData.length).fill(0));
+
+        setIsDisabled(true);
       }, TRANSACTION_DELAY);
 
       setIsDisabled(false);
@@ -183,7 +187,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   ) => {
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
-      updatedValues[index] = value;
+      updatedValues[index] = isNaN(value) || value < 0 ? 0 : value;
       return updatedValues;
     });
 
@@ -284,8 +288,12 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 fontsize={14}
                 style={{ color: availablePower <= 0 ? 'red' : 'inherit' }}
               >
-                {availablePower > 0 ? availablePower.toFixed(2) : '0.00'}%
-                available
+                {isSucess
+                  ? 'Aldready Voted'
+                  : availablePower > 0
+                    ? availablePower.toFixed(2)
+                    : '0.00'}
+                % available
               </LockHeaderTitle>
             </VotingPowerContainer>
           )}

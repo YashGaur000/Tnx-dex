@@ -28,7 +28,7 @@ const VotePoolTable: React.FC = () => {
   const [islockPresent, setLockPresent] = useState<boolean>(false);
 
   const nftData = useNftData();
-  const { voteData, Loading } = useVoterData();
+  const { voteData, Loading, error } = useVoterData();
 
   useEffect(() => {
     if (nftData.length > 0 && !islockPresent) {
@@ -63,7 +63,7 @@ const VotePoolTable: React.FC = () => {
         You are not Eligible for Vote
       </LiquidityTableWrapper>
     );
-
+  if (error) return 'error! Fetching Data';
   return (
     <LiquidityTableWrapper>
       <TableWrapper background="none" padding="0px">

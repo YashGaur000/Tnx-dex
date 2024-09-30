@@ -10,7 +10,7 @@ const useVoterData = () => {
     []
   );
   const [Loading, setLoading] = useState(true);
-  const { loading, data: poolData } = useLiquidityPoolData();
+  const { loading, error, data: poolData } = useLiquidityPoolData();
   const { gauges } = useVoterContract();
 
   useEffect(() => {
@@ -67,6 +67,7 @@ const useVoterData = () => {
   return {
     voteData,
     Loading,
+    error,
   };
 };
 
