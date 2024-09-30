@@ -34,6 +34,7 @@ export const TitleWithImgWrapper = styled.div`
 export const InformImageStye = styled.img`
   width: 16px;
   height: 16px;
+  cursor: pointer;
 `;
 
 export const StatsCardtitle = styled.label<{
