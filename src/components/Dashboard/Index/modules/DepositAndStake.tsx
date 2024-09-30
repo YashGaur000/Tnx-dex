@@ -15,12 +15,10 @@ import {
   USDTData,
   USDTHeading,
   WalletContainer,
-  Withdraw,
 } from '../styles/DepositAndStake.styled';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import InformationIcon from '../../../../assets/Tips.svg';
-
 import {
   GroupImgContains,
   IMG1Contains,
@@ -116,6 +114,17 @@ const DepositAndStake = ({
     });
   };
 
+  const handleWithdraw = (lp: string) => {
+    const queryParams = new URLSearchParams(location.search);
+
+    queryParams.set('pool', lp);
+
+    navigate({
+      pathname: '/withdraw',
+      search: `?${queryParams.toString()}`,
+    });
+  };
+
   if (userPools && userPools.length === 0 && !isLoading) {
     return <p>No Data Available</p>;
   }
@@ -181,7 +190,11 @@ const DepositAndStake = ({
                   {Number(userPool.accountUnstaked0) > 0 &&
                     Number(userPool.accountUnstaked1) > 0 && (
                       <>
-                        <Withdraw>Withdraw</Withdraw>
+                        <DashboardNavigation
+                          onClick={() => handleWithdraw(userPool.lp)}
+                        >
+                          Withdraw
+                        </DashboardNavigation>
                         <DashboardNavigation
                           onClick={() => handleStake(userPool.lp)}
                         >
