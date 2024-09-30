@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import QuestionIcon from '../../../../assets/questionmark.svg';
-
+import SelectIcon from '../../../../assets/select.svg';
 import {
   DashBoardCard,
   DashBoardCardData,
@@ -32,7 +32,10 @@ import { useAccount } from '../../../../hooks/useAccount';
 import { useUserPosition } from '../../../../hooks/useUserPosition';
 import { Address } from 'viem';
 import { UserPosition } from '../../../../types/Pool';
-//import { useUserVotingPosition } from '../../../../hooks/useUserVotingPosition';
+import VotingRewards from './VotingRewards';
+import { VotingRewardsButton } from '../styles/VotingRewards.styled';
+import ClaimAllModle from '../../../Dashboard/Index/modules/ClaimAllModle';
+import { ClaimAllPopup } from '../styles/ClaimAllModle.styled';
 // import LiquidityRewards from './LiquidityRewards';
 // import DepositAndStake from './DepositAndStake';
 
@@ -54,6 +57,7 @@ const DashBoard: React.FC = () => {
   const [isLockVisible, setIsLockVisible] = useState(true);
 
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [isClaimPopUpShow, setClaimPopUpShow] = useState<boolean>(false);
   const [activeTooltip, setActiveTooltip] = useState<string>('');
   const Navigate = useNavigate();
 
@@ -82,6 +86,14 @@ const DashBoard: React.FC = () => {
 
   const handleCreatePool = () => {
     Navigate('/liquidity/create');
+  };
+
+  const handleClaimAll = () => {
+    setClaimPopUpShow(true);
+  };
+
+  const handleHoverHide = () => {
+    setClaimPopUpShow(false);
   };
 
   const renderTooltipContent = () => {
@@ -207,17 +219,30 @@ const DashBoard: React.FC = () => {
         </DashBoardWrapper>
 
         <DashBoardWrapper>
-          <DashboardHeading>
-            Voting Rewards{' '}
-            <TipsIcon
-              src={QuestionIcon}
-              alt="wrong"
-              onMouseEnter={() => handleTooltipShow('voting')}
-            />
-          </DashboardHeading>
+          <DashBoardWrapperHeading>
+            <DashboardHeading>
+              Voting Rewards{' '}
+              <TipsIcon
+                src={QuestionIcon}
+                alt="wrong"
+                onMouseEnter={() => handleTooltipShow('voting')}
+              />
+            </DashboardHeading>
+
+            <ClaimAllPopup>
+              <VotingRewardsButton onClick={handleClaimAll}>
+                Claim All
+                <img src={SelectIcon} alt="" />
+              </VotingRewardsButton>
+              <PopupWrapper onMouseLeave={handleHoverHide}>
+                {isClaimPopUpShow && <ClaimAllModle />}
+              </PopupWrapper>
+            </ClaimAllPopup>
+          </DashBoardWrapperHeading>
           <DashBoardCard>
             <DashBoardCardData>No rewards found.</DashBoardCardData>
           </DashBoardCard>
+          <VotingRewards />
         </DashBoardWrapper>
       </DashBoardMainContainer>
 

@@ -119,5 +119,5 @@ export function useVoterContract() {
     },
     [voterContract]
   );
-  return { createGauge, gauges, gaugeToBribe, deposit, vote,reset };
+  return { createGauge, gauges, gaugeToBribe, deposit, vote, reset };
 }
