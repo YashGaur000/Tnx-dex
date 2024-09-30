@@ -90,5 +90,21 @@ export function useVoterContract() {
     [voterContract]
   );
 
-  return { createGauge, gauges, gaugeToBribe, deposit };
+  const reset = useCallback(
+    async (_tokenId: bigint) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const resetTransaction = await voterContract.reset(_tokenId);
+        return resetTransaction;
+      } catch (error) {
+        console.error('Error during reset:', error);
+      }
+    },
+    [voterContract]
+  );
+
+  return { createGauge, gauges, gaugeToBribe, deposit, reset };
 }

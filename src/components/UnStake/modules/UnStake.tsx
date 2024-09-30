@@ -39,21 +39,77 @@ import {
   Slider,
 } from '../../Swap/styles/TransactionDeadline.style';
 
-import UsdIcon from '../../../assets/usdc.png';
-import FtmIcon from '../../../assets/ftm.png';
 import InformationIcon from '../../../assets/Tips.svg';
 import UnStakeStepper from './UnStakeStepper';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import useQueryParams from '../../../hooks/useQueryParams';
+import { useUserPosition } from '../../../hooks/useUserPosition';
+import { useAccount } from '../../../hooks/useAccount';
+import { UserPosition } from '../../../types/Pool';
+import { getTokenLogo } from '../../../utils/getTokenLogo';
+import PageLoader from '../../common/PageLoader';
 
 const UnStake = () => {
-  const [SelectStakeValue, SetSelectStakeValue] = useState<number>(0);
+  const [unstakedPool, setUnstakedPool] = useState<UserPosition | undefined>(
+    undefined
+  );
 
-  const handleCustomSliderValue = (value: number) => {
-    SetSelectStakeValue(Number(value));
+  const [selectUnsatkeValue, setSelectedUnstakeValue] = useState<number>(100);
+
+  const [staked, setStaked] = useState({
+    value0: '0',
+    value1: '0',
+  });
+
+  const getParam = useQueryParams();
+  const poolId = getParam('pool');
+
+  const { address } = useAccount();
+
+  const { userPools } = useUserPosition(address!);
+
+  useEffect(() => {
+    if (userPools) {
+      const pool = userPools.find((pool) => pool.lp === poolId);
+      if (pool) {
+        setUnstakedPool(pool);
+        setStaked({
+          value0: pool.accountStaked0,
+          value1: pool.accountStaked1,
+        });
+      }
+    }
+  }, [poolId, userPools]);
+
+  const handleCustomSliderValue = (unstake: number) => {
+    if (unstakedPool) {
+      setStaked({
+        value0: ((Number(unstakedPool.accountStaked0) * unstake) / 100).toFixed(
+          5
+        ),
+        value1: ((Number(unstakedPool.accountStaked1) * unstake) / 100).toFixed(
+          5
+        ),
+      });
+    }
+    setSelectedUnstakeValue(unstake);
   };
-  const HandleStakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
-    const StakeValue = e.target.value;
-    SetSelectStakeValue(Number(StakeValue));
+  const handleUnstakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
+    const unstake = Number(e.target.value);
+    if (unstakedPool) {
+      setStaked({
+        value0: (
+          (Number(unstakedPool?.accountStaked0) * unstake) /
+          100
+        ).toFixed(5),
+        value1: (
+          (Number(unstakedPool?.accountStaked1) * unstake) /
+          100
+        ).toFixed(5),
+      });
+    }
+
+    setSelectedUnstakeValue(unstake);
   };
 
   const SliderPercentage = [
@@ -63,6 +119,15 @@ const UnStake = () => {
     { id: '4', value: 75 },
     { id: '5', value: 100 },
   ];
+
+  if (!unstakedPool) {
+    return (
+      <>
+        <PageLoader />
+      </>
+    );
+  }
+
   return (
     <MainContainerStyle>
       <StakeMainContainer>
@@ -71,20 +136,34 @@ const UnStake = () => {
             <DepositeTokenWithImage>
               <GroupImgContains>
                 <IMG1Contains top={5} left={0}>
-                  <Imgstyle src={UsdIcon} />
+                  <Imgstyle
+                    src={
+                      unstakedPool?.token0.symbol &&
+                      getTokenLogo(unstakedPool?.token0.symbol)
+                    }
+                  />
                 </IMG1Contains>
                 <IMG2Contains top={5} left={26}>
-                  <Imgstyle src={FtmIcon} />
+                  <Imgstyle
+                    src={
+                      unstakedPool?.token1.symbol &&
+                      getTokenLogo(unstakedPool?.token1.symbol)
+                    }
+                  />
                 </IMG2Contains>
               </GroupImgContains>
 
               <TokenDescription>
                 <LiquidityHeaderTitle fontsize={16}>
-                  USDT-FTM
+                  {unstakedPool.token0.symbol}-{unstakedPool.token1.symbol}
                 </LiquidityHeaderTitle>
                 <TokenStatus>
-                  <StatsCardtitle fontsize={12}>Stable</StatsCardtitle>
-                  <LiquidityTitle fontsize={12}>0.01%</LiquidityTitle>
+                  <StatsCardtitle fontsize={12}>
+                    {unstakedPool.isStable ? 'Stable' : 'Volatile'}
+                  </StatsCardtitle>
+                  <LiquidityTitle fontsize={12}>
+                    {unstakedPool.isStable ? '0.05' : '0.3'} %
+                  </LiquidityTitle>
                   <LiquidityImgStyle
                     width={'17px'}
                     height={'17px'}
@@ -107,9 +186,11 @@ const UnStake = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle fontsize={12}>
-                  1,003,212.5643 USDT
+                  {unstakedPool.reserve0} {unstakedPool?.token0.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle fontsize={12}>2,783,860.003 FTM</LiquidityTitle>
+                <LiquidityTitle fontsize={12}>
+                  {unstakedPool.reserve1} {unstakedPool?.token1.symbol}
+                </LiquidityTitle>
               </TokenAmountWrapper>
             </LiquidityStyleContainer>
 
@@ -119,19 +200,21 @@ const UnStake = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  0.0 USDT
+                  {staked.value0} {unstakedPool?.token0.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle textalign="right" fontsize={12}>
-                  0.0 FTM
+                  {staked.value1} {unstakedPool?.token0.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
           </DepositeContentWrapper>
           <StakeRangeWrapper>
-            <StakeTitle fontsize={16}>Staking {SelectStakeValue}%</StakeTitle>
+            <StakeTitle fontsize={16}>
+              Unstaking {selectUnsatkeValue}%
+            </StakeTitle>
 
             <SliderStatusWrapper>
-              <LoaderStatus fontsize={12}>{SelectStakeValue}%</LoaderStatus>
+              <LoaderStatus fontsize={12}>{selectUnsatkeValue}%</LoaderStatus>
             </SliderStatusWrapper>
             <LoaderStyle>
               <SliderContainer margin="0px">
@@ -140,8 +223,8 @@ const UnStake = () => {
                   min="0"
                   max="100"
                   step={1}
-                  value={SelectStakeValue}
-                  onChange={HandleStakeSlider}
+                  value={selectUnsatkeValue}
+                  onChange={handleUnstakeSlider}
                 />
               </SliderContainer>
               <SliderDeadlineStyle fontsize={10}>
@@ -159,7 +242,12 @@ const UnStake = () => {
         </StakeCard>
 
         <StakeCard width="40%">
-          <UnStakeStepper />
+          <UnStakeStepper
+            selectUnsatkeValue={selectUnsatkeValue}
+            gauge={unstakedPool.gauge}
+            gaugeBalance={unstakedPool.gaugeBalance}
+            lp={unstakedPool.lp}
+          />
         </StakeCard>
       </StakeMainContainer>
     </MainContainerStyle>

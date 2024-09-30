@@ -58,6 +58,7 @@ const CreatelockForm = () => {
   const [lockDuration, SetlockDuration] = useState<number>(1);
   const [LockTokenValue, setLockTokenValue] = useState<string>('');
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
   const [voteCalPower, setVotePower] = useState<number>(0);
   const [errorColor, setErrorColor] = useState<string>('#FFFFFF');
   const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
@@ -65,6 +66,7 @@ const CreatelockForm = () => {
   //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    if (isApproveLock) return;
     const TotalWeeks = e.target.value;
     SetlockDuration(Number(TotalWeeks));
     void handleVotingPower();
@@ -81,6 +83,7 @@ const CreatelockForm = () => {
 
   const handleSelectPercentage = useCallback(
     (percentage: number) => {
+      if (isApproveLock) return;
       setSuccessLock(false);
       //if (!LockTokenValue ) return;
       setSelectedPercentage(percentage);
@@ -108,6 +111,7 @@ const CreatelockForm = () => {
     { value: 208, weeks: '4 year' },
   ];
   const handleDurationYearClick = (vlueWeek: number) => {
+    if (!isApproveLock) return;
     setSuccessLock(false);
     const TotalWeeks = vlueWeek;
     SetlockDuration(Number(TotalWeeks));
@@ -146,6 +150,7 @@ const CreatelockForm = () => {
                     width="70%"
                     padding="0px"
                     value={LockTokenValue}
+                    disabled={isApproveLock}
                     onChange={handleLockInputData}
                   />
                   <TokenSelect>
@@ -215,8 +220,9 @@ const CreatelockForm = () => {
                   min="1"
                   max="208"
                   step={1}
-                  value={lockDuration}
+                  value={!isApproveLock ? lockDuration : ''}
                   onChange={HandleWeeksStatus}
+                  disabled={isApproveLock}
                 />
               </SliderContainer>
             </LoaderStyle>
@@ -224,7 +230,9 @@ const CreatelockForm = () => {
               {labels.map(({ value, weeks }) => (
                 <WeeksLabel
                   key={value}
-                  onClick={() => handleDurationYearClick(value)}
+                  onClick={() =>
+                    !isApproveLock ? handleDurationYearClick(value) : ''
+                  }
                 >
                   {weeks}
                 </WeeksLabel>
@@ -241,6 +249,7 @@ const CreatelockForm = () => {
           LockTokenDecimal={lockTokenInfo.decimals}
           lockDuration={Number(lockDuration)}
           setSuccessLock={setSuccessLock}
+          setIsApproveLock={setIsApproveLock}
         />
       </CreateMainContainer>
       <LockScreenInstruction>

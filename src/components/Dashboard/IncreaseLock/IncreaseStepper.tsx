@@ -28,6 +28,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   totalVotingPower,
   setSuccessLock,
   setAdditionalAmount,
+  setIsApproveLock,
 }) => {
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -47,6 +48,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
+      setIsApproveLock(true);
       const amountInWei = ethers.parseUnits(
         additionalAmount.toString(),
         tokenLockInfo.decimals
@@ -56,6 +58,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         setIsTokenAllowed(true);
       }
     } catch (error) {
+      setIsApproveLock(false);
       console.error('Error during token approval', error);
     } finally {
       setIsLoading(false);
@@ -65,15 +68,18 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const handleIncreaseLock = useCallback(async () => {
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      setSuccessLock(false);
       setIsLocking(true);
       const amountInWei = ethers.parseUnits(
         additionalAmount.toString(),
         tokenLockInfo.decimals
       );
       await increaseLockAmount(BigInt(tokenId), amountInWei);
-      setIsLocked(true);
+      setIsApproveLock(false);
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
+        setIsTokenAllowed(false);
+        setIsLocking(false);
         setSuccessLock(true);
         setAdditionalAmount('');
         setTransactionStatus(TransactionStatus.IDEAL);
@@ -111,7 +117,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     {
       step: 3,
       descriptions: {
-        labels: 'Allowed the contracts to access ' + tokenLockInfo.symbol,
+        labels: !isTokenAllowed
+          ? 'Allowance not granted for ' + tokenLockInfo.symbol
+          : 'Allowed the contracts to access ' + tokenLockInfo.symbol,
       },
       icon: LockIcon,
     },
@@ -141,7 +149,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     {
       step: 3,
       descriptions: {
-        labels: 'Allowed the contracts to access ' + tokenLockInfo.symbol,
+        labels: !isTokenAllowed
+          ? 'Allowance not granted for ' + tokenLockInfo.symbol
+          : 'Allowed the contracts to access ' + tokenLockInfo.symbol,
       },
       icon: LockIcon,
       buttons: !isTokenAllowed
@@ -170,15 +180,18 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   return (
     <StyledDepositContainer>
       <LockHeaderTitle fontsize={24}>Increase lock</LockHeaderTitle>
-      <Stepper data={!additionalAmount ? IncreaseStepperData : LockData} />
+      <Stepper
+        data={!additionalAmount && !isLocked ? IncreaseStepperData : LockData}
+      />
       {isTokenAllowed && !isLocked && (
         <GlobalButton
           width="100%"
           height="48px"
           margin="0px"
           onClick={handleIncreaseLock}
+          disabled={isLocking}
         >
-          {isLocking ? 'Incresing...' : 'Increse'}
+          {isLocking ? 'Increasing...' : 'Increase'}
         </GlobalButton>
       )}
     </StyledDepositContainer>
