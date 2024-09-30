@@ -50,7 +50,7 @@ import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';
 
 const WithdrawLiquidity = () => {
-  const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(0);
+  const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(100);
   const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
     undefined
   );

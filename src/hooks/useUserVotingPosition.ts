@@ -13,6 +13,8 @@ import contractAddresses from '../constants/contract-address/address';
 import { useVotingEscrowContract } from './useVotingEscrowContract';
 import { decodeBase64 } from '../utils/common/voteTenex';
 import { useCallback } from 'react';
+import { AddressZero } from '@ethersproject/constants';
+import { UserVotingPosition } from '../types/Voter';
 
 const fetchUserVotingPools = async (
   multicallClient: PublicClient,
@@ -68,7 +70,14 @@ const fetchUserVotingPools = async (
         if (poolVoteResult?.result) {
           const poolData = pools.find(({ id }) => id === poolVoteResult.result);
           if (poolData) {
-            votedPools.push(poolData);
+            votedPools.push({
+              ...poolData,
+              gauge: AddressZero as Address,
+              fee0: '0',
+              fee1: '0',
+              rewardTokens: [] as Address[],
+              rewardAmounts: [] as bigint[],
+            });
           }
         } else {
           // Stop processing further indices for this NFT if no result
@@ -78,7 +87,8 @@ const fetchUserVotingPools = async (
 
       return {
         tokenId: nft.tokenId,
-        votedPools,
+        metadata: nft.metadata,
+        votedPools: votedPools,
       };
     });
 
@@ -192,7 +202,29 @@ const fetchUserVotingPools = async (
       contracts: earnedCalls,
     });
 
-    console.log(feeEarnedResults, bribeEarnedResults);
+    userVotedPools.forEach(({ votedPools }) => {
+      votedPools.forEach((pool, i) => {
+        pool.gauge = gaugesResults[i].result as Address;
+        pool.fee0 = feeEarnedResults[2 * i].result as string;
+        pool.fee1 = feeEarnedResults[2 * i + 1].result as string;
+        pool.rewardAmounts = bribeEarnedResults
+          .map((earnedResult) => earnedResult.result as bigint)
+          .filter((amount) => amount > 0n);
+
+        const rewardTokens: Address[] = [];
+
+        // Filter rewardTokens based on non-zero reward amounts
+        for (let j = 0; j < Number(bribeRewardsLengthResults[i].result); j++) {
+          const rewardToken = bribeRewardResults[j].result as Address;
+          const rewardAmount = bribeEarnedResults[j].result as bigint;
+
+          if (rewardAmount > 0n) {
+            rewardTokens.push(rewardToken);
+          }
+        }
+        pool.rewardTokens = rewardTokens;
+      });
+    });
 
     return userVotedPools;
   } catch (error) {
@@ -225,14 +257,14 @@ export const useUserVotingPosition = (account: Address) => {
     isError: isVoteError,
     refetch: refetchVote,
     isFetching: isVoteFetching,
-  } = useQuery(
+  } = useQuery<UserVotingPosition[]>(
     {
       queryKey: ['userVotePosition', account],
       queryFn: fetchVotingPools,
       gcTime: 60 * 1000,
       enabled: !!account && !!multicallClient,
       placeholderData: [],
-      refetchInterval: 10 * 1000,
+      refetchInterval: 60 * 1000,
       refetchIntervalInBackground: true,
       refetchOnMount: false,
       refetchOnReconnect: false,

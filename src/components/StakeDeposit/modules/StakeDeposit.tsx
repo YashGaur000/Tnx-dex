@@ -50,7 +50,7 @@ import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 
 const StakeDeposit = () => {
-  const [SelectStakeValue, SetSelectStakeValue] = useState<number>(0);
+  const [SelectStakeValue, SetSelectStakeValue] = useState<number>(100);
   const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
     undefined
   );
