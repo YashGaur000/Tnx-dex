@@ -483,6 +483,91 @@ export function useRouterContract() {
     [routerContract]
   );
 
+  const quoteRemoveLiquidity = useCallback(
+    async (
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      _factory: Address,
+      liquidity: string
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+      console.log(routerContract);
+      try {
+        const liquidityEstimate = await routerContract.quoteRemoveLiquidity(
+          tokenA,
+          tokenB,
+          stable,
+          _factory,
+          liquidity
+        );
+        return liquidityEstimate;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [routerContract]
+  );
+
+  const removeLiquidity = useCallback(
+    async (
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      liquidity: string,
+      amountAMin: bigint,
+      amountBMin: bigint,
+      to: Address,
+      deadline: bigint
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+
+      try {
+        // // estimate gas for add liquidity
+        // const gasEstimate = await routerContract.estimateGas.removeLiquidity(
+        //   tokenA,
+        //   tokenB,
+        //   stable,
+        //   liquidity,
+        //   amountAMin,
+        //   amountBMin,
+        //   to,
+        //   deadline
+        // );
+
+        // if (!gasEstimate) {
+        //   console.error('Error estimating gas price');
+        // }
+
+        const tx = await routerContract.removeLiquidity(
+          tokenA,
+          tokenB,
+          stable,
+          liquidity,
+          amountAMin,
+          amountBMin,
+          to,
+          deadline,
+          { gasLimit: 3000000 }
+        );
+        console.log('Transaction sent:', tx);
+        await tx.wait();
+        console.log('Transaction confirmed');
+        return tx;
+      } catch (error) {
+        console.error('Error sending transaction:', error);
+        throw error;
+      }
+    },
+    [routerContract]
+  );
+
   return {
     addLiquidity,
     getReserves,
@@ -494,5 +579,7 @@ export function useRouterContract() {
     UNSAFE_swapExactTokensForTokens,
     swapExactTokensForETH,
     swapExactETHForTokens,
+    removeLiquidity,
+    quoteRemoveLiquidity,
   };
 }

@@ -34,7 +34,7 @@ import {
   convertToDecimal,
   formatTokenAmount,
 } from '../../../../utils/common/voteTenex';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useVotingPowerCalculation } from '../../../../hooks/useVotingNftData';
 import { useParams } from 'react-router-dom';
 import SuccessPopup from '../../../common/SucessPopup';
@@ -44,7 +44,9 @@ const ExtendLock = () => {
   const [isMaxLockMode, setIsMaxLockMode] = useState<boolean>(false);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isExtendDisable, setIsExtendDisable] = useState<boolean>(true);
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   const {
     votingPower,
     lockData,

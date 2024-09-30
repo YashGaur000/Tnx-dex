@@ -89,6 +89,35 @@ export function useVoterContract() {
     },
     [voterContract]
   );
-
-  return { createGauge, gauges, gaugeToBribe, deposit };
+  const reset = useCallback(
+    async (_tokenId: bigint) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const resetTransaction = await voterContract.reset(_tokenId);
+        return resetTransaction;
+      } catch (error) {
+        console.error('Error during reset:', error);
+      }
+    },
+    [voterContract]
+  );
+  const vote = useCallback(
+    async (_tokenId: number, _poolVote: Address[], _weights: number[]) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const result = await voterContract.vote(_tokenId, _poolVote, _weights);
+        return result;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+  return { createGauge, gauges, gaugeToBribe, deposit, vote,reset };
 }

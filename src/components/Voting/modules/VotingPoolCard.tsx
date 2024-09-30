@@ -27,7 +27,6 @@ import {
   Label,
   PairContain,
   TooltipContainer,
-  TooltipContent,
   TraidingSyleLabel,
 } from '../styles/VotingPoolCard.style';
 import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
@@ -56,13 +55,14 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
 
   const handleVote = () => {
-    const newState = !isSelectCardOpen;
-    setSelectCardOpen(newState);
-    handleSelectPool(newState);
+    if (islock) {
+      const newState = !isSelectCardOpen;
+
+      setSelectCardOpen(newState);
+      handleSelectPool(newState);
+    } else setHoverPopUpShow(true);
   };
-  const handleHoverShow = () => {
-    setHoverPopUpShow(true);
-  };
+
   const handleHoverHide = () => {
     setHoverPopUpShow(false);
   };
@@ -136,7 +136,9 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontsize={14}>{'No available incentive'}</Title>
+            <Title fontsize={14}>
+              {'~$ ' + data.totalBribesUSD.toString()}
+            </Title>
             <LiquidityTokenWrapper>
               <LiquidityTitle
                 fontsize={12}
@@ -151,11 +153,12 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontsize={14}>{}</Title>
+            <Title fontsize={14}>
+              ~${' '}
+              {Number(data.totalBribesUSD.toString()) +
+                Number(data.totalFeesUSD.toString())}
+            </Title>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontsize={12} textalign="right">
-                {}
-              </LiquidityTitle>
               <LiquidityTitle fontsize={12} textalign="right">
                 {'Fees + Incentives'}
               </LiquidityTitle>
@@ -169,7 +172,6 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               <Title fontsize={14}>
                 {'226.18%'} <Img src={ImpIcon} />
               </Title>
-              <TooltipContent className="tooltip-content"></TooltipContent>
             </TooltipContainer>
             <Label>{}</Label>
           </TableColumnWrapper>
@@ -177,10 +179,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn padding="5px">
           <TableColumnWrapper height="95px">
-            <SelectedButtonWrapper
-              onClick={islock ? handleVote : undefined}
-              onMouseEnter={!islock ? handleHoverShow : undefined}
-            >
+            <SelectedButtonWrapper onClick={handleVote}>
               <GradientButton
                 color="#ffffff"
                 padding="4px 10px"
