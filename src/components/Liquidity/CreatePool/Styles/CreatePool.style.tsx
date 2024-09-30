@@ -38,6 +38,7 @@ export const TokenSelectItem = styled.div<{ theme: DefaultTheme }>`
 
 export const ToolTipWraper = styled.span`
   padding: 6px 0px 0px 0px;
+  cursor: pointer;
 `;
 
 export const CreateSuggestContain = styled.div<{ theme: DefaultTheme }>`

@@ -52,10 +52,7 @@ const LiquidityHeroSection = () => {
                 Liquidity Providers (LPs) make low-slippage swaps possible.
               </LiquidityTitle>
 
-              <InformImageStye
-                src={QuestionIcon}
-                onMouseEnter={handleTooltipShow}
-              />
+              <InformImageStye src={QuestionIcon} onClick={handleTooltipShow} />
             </TitleWithImgWrapper>
 
             <LiquidityTitle fontsize={16}>

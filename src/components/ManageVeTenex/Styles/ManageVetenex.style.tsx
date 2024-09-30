@@ -37,10 +37,12 @@ export const ImageContainer = styled.img<{
   width: string;
   height: string;
   margin?: string;
+  cursor?: string;
 }>`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   margin: ${({ margin }) => margin};
+  cursor: ${({ cursor }) => cursor ?? 'none'};
 `;
 
 export const LockHeroSection = styled.main<{ theme: DefaultTheme }>`

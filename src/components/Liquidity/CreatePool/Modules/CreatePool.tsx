@@ -117,8 +117,13 @@ const CreatePool = () => {
             Create your Liquidity Pool
           </LiquidityHeaderTitle>
 
-          <ToolTipWraper onMouseEnter={handleTooolTipShow}>
-            <ImageContainer width="24px" height="24px" src={QuestionIcon} />
+          <ToolTipWraper onClick={handleTooolTipShow}>
+            <ImageContainer
+              width="24px"
+              height="24px"
+              src={QuestionIcon}
+              cursor="pointer"
+            />
           </ToolTipWraper>
         </CreateLiqidityHeaderWrapper>
         <CreatePoolStyles>
@@ -223,7 +228,12 @@ const CreatePool = () => {
         )}
       </MainContainerStyle>
 
-      <PopupScreen isvisible={isPopUpVisible} onClose={closeModal}>
+      <PopupScreen
+        isvisible={isPopUpVisible}
+        onClose={closeModal}
+        width="500px"
+        height="518px"
+      >
         <PopupWrapper onMouseLeave={handleTooltipHide}>
           {<LiquidityToolTips />}
         </PopupWrapper>
