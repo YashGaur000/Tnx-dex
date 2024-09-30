@@ -89,7 +89,6 @@ export function useVoterContract() {
     },
     [voterContract]
   );
-
   const reset = useCallback(
     async (_tokenId: bigint) => {
       if (!voterContract) {
@@ -105,6 +104,20 @@ export function useVoterContract() {
     },
     [voterContract]
   );
-
-  return { createGauge, gauges, gaugeToBribe, deposit, reset };
+  const vote = useCallback(
+    async (_tokenId: number, _poolVote: Address[], _weights: number[]) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const result = await voterContract.vote(_tokenId, _poolVote, _weights);
+        return result;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+  return { createGauge, gauges, gaugeToBribe, deposit, vote, reset };
 }

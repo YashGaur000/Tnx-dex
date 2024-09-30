@@ -14,4 +14,9 @@ export interface VoterContract extends Contract {
   estimateGas: {
     createGauge(_poolFactory: Address, _pool: Address): Promise<bigint>;
   };
+  vote(
+    _tokenId: number,
+    _poolVote: ddress[],
+    _weights: number[]
+  ): Promise<ContractTransaction>;
 }
