@@ -76,6 +76,13 @@ interface RouterContract extends Contract {
     amountBDesired: ethers.Numeric,
     { gasLimit: BigInt }
   ): Promise<QuoteAddLiquidityResponse>;
+  quoteRemoveLiquidity(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    _factory: Address,
+    liquidity: string
+  ): Promise<QuoteRemoveLiquidityResponse>;
   factoryRegistry(): Promise<[Address]>;
   sortTokens(tokenA: Address, tokenB: Address): Promise<[Address]>;
   poolFor(
@@ -84,6 +91,17 @@ interface RouterContract extends Contract {
     stable: boolean,
     _factory: Address
   ): Promise<Address>;
+  removeLiquidity(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    liquidity: string,
+    amountAMin: bigint,
+    amountBMin: bigint,
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
   estimateGas: {
     addLiquidity(
       tokenA: Address,
@@ -141,6 +159,16 @@ interface RouterContract extends Contract {
       to: Address,
       deadline: bigint
     ): Promise<bigint>;
+    removeLiquidity(
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      liquidity: bigint,
+      amountAMin: bigint,
+      amountBMin: bigint,
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
   };
 }
 
@@ -148,6 +176,11 @@ export interface QuoteAddLiquidityResponse {
   amountA: bigint;
   amountB: bigint;
   liquidity: bigint;
+}
+
+export interface QuoteRemoveLiquidityResponse {
+  amountA: bigint;
+  amountB: bigint;
 }
 
 export interface AddLiquidityParams {
