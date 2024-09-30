@@ -19,6 +19,7 @@ export function usePoolContract(poolId: string) {
     poolId as Address,
     poolAbi.abi
   ) as PoolContract;
+
   const { address, chainId } = useAccount();
 
   const provider = useEthersProvider({ chainId });

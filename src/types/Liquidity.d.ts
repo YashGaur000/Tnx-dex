@@ -84,6 +84,17 @@ interface RouterContract extends Contract {
     stable: boolean,
     _factory: Address
   ): Promise<Address>;
+  removeLiquidity(
+    tokenA: Address,
+    tokenB: Address,
+    stable: boolean,
+    liquidity: string,
+    amountAMin: bigint,
+    amountBMin: bigint,
+    to: Address,
+    deadline: bigint,
+    { gasLimit: BigInt }
+  ): Promise<ContractTransaction>;
   estimateGas: {
     addLiquidity(
       tokenA: Address,
@@ -138,6 +149,16 @@ interface RouterContract extends Contract {
     UNSAFE_swapExactTokensForTokens(
       amounts: bigint[],
       routes: Route[],
+      to: Address,
+      deadline: bigint
+    ): Promise<bigint>;
+    removeLiquidity(
+      tokenA: Address,
+      tokenB: Address,
+      stable: boolean,
+      liquidity: bigint,
+      amountAMin: bigint,
+      amountBMin: bigint,
       to: Address,
       deadline: bigint
     ): Promise<bigint>;
