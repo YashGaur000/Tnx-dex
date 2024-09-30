@@ -126,20 +126,24 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                   <LockInfoCheck>
                     {formatUnloackData !== 'Expired' ? (
                       <>
-                        <LockInfoAction
-                          onClick={() =>
-                            handleLockButton('increase', lock.tokenId)
-                          }
-                        >
-                          Increase
-                        </LockInfoAction>
-                        <LockInfoAction
-                          onClick={() =>
-                            handleLockButton('extend', lock.tokenId)
-                          }
-                        >
-                          Extend
-                        </LockInfoAction>
+                        {!lock.votingStatus && (
+                          <LockInfoAction
+                            onClick={() =>
+                              handleLockButton('increase', lock.tokenId)
+                            }
+                          >
+                            Increase
+                          </LockInfoAction>
+                        )}
+                        {!lock.votingStatus && (
+                          <LockInfoAction
+                            onClick={() =>
+                              handleLockButton('extend', lock.tokenId)
+                            }
+                          >
+                            Extend
+                          </LockInfoAction>
+                        )}
                         {!lock.votingStatus && (
                           <LockInfoAction
                             onClick={() =>

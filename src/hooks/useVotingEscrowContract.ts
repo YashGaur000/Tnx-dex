@@ -252,7 +252,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
       const voteStatus = await multicallClient?.multicall({
         contracts: checkVoteStatus,
       });
-      console.log('voteStatus:', voteStatus);
+
       const metadataResults = await multicallClient?.multicall({
         contracts: metadataRequests,
       });
@@ -264,7 +264,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
             const votingStatus = voteStatus[index]?.result as boolean;
             return { tokenId, metadata, votingStatus };
           }) ?? [];
-        console.log('nfts:', nfts);
+        //console.log('nfts:', nfts);
         return nfts;
       } else {
         return [];
