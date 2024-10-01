@@ -149,7 +149,11 @@ export const IncentiveleftBarBox1infoCol1Stable = styled.div<{
   theme: DefaultTheme;
 }>`
   margin-right: 16px;
-  color: #16c062;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
+  background: ${({ theme }) => theme.colors.title};
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   font-size: 12px;
 `;
 
