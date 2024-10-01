@@ -178,7 +178,7 @@ export const getTimeDifference = (targetDateString: string): string => {
   }
 
   if (days > 0) {
-    output += `${days - 1} days `;
+    output += `${days} days `;
   }
 
   if (years === 0 && days === 0 && months) {

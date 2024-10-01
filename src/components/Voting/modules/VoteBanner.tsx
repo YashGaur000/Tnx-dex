@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   InfoItem,
   Title,
@@ -15,9 +15,62 @@ import QuestionIcon from '../../../assets/questionmark.svg';
 import PopupScreen from '../../common/PopupScreen';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import VotingToolTips from './VotingToolTips';
+import { useVoterContract } from '../../../hooks/useVoterContract';
 
 const VoteBanner: React.FC = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const [timeLeft, setTimeLeft] = useState<string | null>(null);
+  const { epochVoteEnd } = useVoterContract();
+  const timestamp = Math.floor(Date.now() / 1000);
+
+  useEffect(() => {
+    let isMounted = true;
+    let timerInterval: NodeJS.Timeout | null = null;
+
+    const fetchEpochVoteEnd = async () => {
+      try {
+        const epochEndResult = await epochVoteEnd(timestamp);
+        const epochEnd = Number(epochEndResult);
+
+        const updateTimer = () => {
+          if (!isMounted) return;
+
+          const currentTime = Math.floor(Date.now() / 1000);
+          const remainingTime = epochEnd - currentTime;
+
+          if (remainingTime > 0) {
+            const days = Math.floor(remainingTime / (24 * 60 * 60));
+            const hours = Math.floor(
+              (remainingTime % (24 * 60 * 60)) / (60 * 60)
+            );
+            const minutes = Math.floor((remainingTime % (60 * 60)) / 60);
+            const seconds = remainingTime % 60;
+
+            setTimeLeft(`${days} d : ${hours} h : ${minutes} m : ${seconds} s`);
+          } else {
+            setTimeLeft('Time expired');
+            if (timerInterval) {
+              clearInterval(timerInterval);
+            }
+          }
+        };
+
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+      } catch (error) {
+        console.error('Error fetching epoch vote end:', error);
+      }
+    };
+
+    void fetchEpochVoteEnd();
+
+    return () => {
+      isMounted = false;
+      if (timerInterval) {
+        clearInterval(timerInterval);
+      }
+    };
+  }, [timestamp, epochVoteEnd]);
 
   function handleTooltipShow() {
     setPopupVisible(true);
@@ -30,6 +83,7 @@ const VoteBanner: React.FC = () => {
   const closeModal = () => {
     setPopupVisible(false);
   };
+
   return (
     <>
       <VoteBoxWrapper>
@@ -52,7 +106,9 @@ const VoteBanner: React.FC = () => {
         </VoteDescBox>
         <VoteInfo>
           <InfoItem>
-            <Title fontSize={24}>4d : 12h : 20m: 12s</Title>
+            <Title fontSize={24} width={190}>
+              {timeLeft}
+            </Title>
             <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
