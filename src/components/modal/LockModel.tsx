@@ -62,7 +62,7 @@ const LockModel: React.FC<LockModelProps> = ({
 
   return (
     <LockTokenContainer>
-      <LockHeaderTitle margin="0px 0px 0px 25px" fontsize={24}>
+      <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>
         Select your lock to merge
       </LockHeaderTitle>
       <TokenListsWrapper>
@@ -124,13 +124,13 @@ const LockModel: React.FC<LockModelProps> = ({
                         <TokenItemData>
                           Lock #{Number(lock.tokenId)}
                         </TokenItemData>
-                        <LockDescriptonTitle fontsize={12}>
+                        <LockDescriptonTitle fontSize={12}>
                           {Number(lockedVELO)} {lockTokenInfo.symbol} locked for{' '}
                           {formattedUnlockDate}
                         </LockDescriptonTitle>
                       </TokenNameWrapper>
                     </TokenItemWithAdressWrapper>
-                    <TokenItemData fontsize={16}>{votingPower}</TokenItemData>
+                    <TokenItemData fontSize={16}>{votingPower}</TokenItemData>
                   </TokenItem>
                 );
               })

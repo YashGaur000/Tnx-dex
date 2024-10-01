@@ -235,11 +235,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken1.symbol}
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Available {totalBalanceToken1.toString()}
             </LiquidityTitle>
           </FormRowWrapper>
@@ -275,11 +275,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken2.logoURI} alt="FTM logo" />
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken2.symbol}
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Available {totalBalanceToken2.toString()}
             </LiquidityTitle>
           </FormRowWrapper>

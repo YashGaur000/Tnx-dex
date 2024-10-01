@@ -37,8 +37,8 @@ const CreateLockRelay = () => {
   return (
     <MainContainerStyle>
       <LockHeaderStyle>
-        <LockHeaderTitle fontsize={36}>Relay</LockHeaderTitle>
-        <LockDescriptonTitle fontsize={16}>
+        <LockHeaderTitle fontSize={36}>Relay</LockHeaderTitle>
+        <LockDescriptonTitle fontSize={16}>
           Create relay lock here
         </LockDescriptonTitle>
       </LockHeaderStyle>
@@ -72,22 +72,22 @@ const CreateLockRelay = () => {
             </FormFieldContainer>
 
             <RelayStrategyContents>
-              <LockDescriptonTitle fontsize={14}>
+              <LockDescriptonTitle fontSize={14}>
                 Relay Strategy
               </LockDescriptonTitle>
 
               <div>
                 <RelayCardSection>
                   <RelayCardDataContains>
-                    <LockHeaderTitle fontsize={16}>veTENEX</LockHeaderTitle>
+                    <LockHeaderTitle fontSize={16}>veTENEX</LockHeaderTitle>
                     <RelayIdStatus>ID 2342</RelayIdStatus>
                   </RelayCardDataContains>
                   <RelayCardDataContains>
                     {' '}
-                    <LockDescriptonTitle fontsize={12}>
+                    <LockDescriptonTitle fontSize={12}>
                       Updated 3 hours ago
                     </LockDescriptonTitle>{' '}
-                    <LockDescriptonTitle fontsize={12}>
+                    <LockDescriptonTitle fontSize={12}>
                       0x2341...35287
                     </LockDescriptonTitle>
                     <ImageContainer width="15px" height="15px" src={CopyIcon} />
@@ -98,7 +98,7 @@ const CreateLockRelay = () => {
                 <div>
                   <CheckBoxStyle type="checkbox" />
                 </div>
-                <LockDescriptonTitle fontsize={12}>
+                <LockDescriptonTitle fontSize={12}>
                   I understand that by depositing my Lock into a Relay strategy,
                   the Lock unlock date will be extended to 4 years.
                 </LockDescriptonTitle>

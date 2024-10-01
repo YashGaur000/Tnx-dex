@@ -11,8 +11,8 @@ export const HeroSectionTitle = styled.h1`
   }
 `;
 
-export const Title = styled.p<{ fontsize: number; theme: DefaultTheme }>`
-  font-size: ${({ fontsize }) => fontsize}px;
+export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
+  font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
 

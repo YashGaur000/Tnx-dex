@@ -34,7 +34,7 @@ const VoteBanner: React.FC = () => {
     <>
       <VoteBoxWrapper>
         <VoteTitleBox>
-          <Title fontsize={36}>Vote</Title>
+          <Title fontSize={36}>Vote</Title>
         </VoteTitleBox>
         <VoteDescBox>
           <VoteDesc>
@@ -45,29 +45,30 @@ const VoteBanner: React.FC = () => {
               width="16px"
               height="16px"
               src={QuestionIcon}
-              onMouseEnter={handleTooltipShow}
+              cursor="pointer"
+              onClick={handleTooltipShow}
             />
           </VoteDesc>
         </VoteDescBox>
         <VoteInfo>
           <InfoItem>
-            <Title fontsize={24}>4d : 12h : 20m: 12s</Title>
+            <Title fontSize={24}>4d : 12h : 20m: 12s</Title>
             <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontsize={24}>~$547,658.28</Title>
+            <Title fontSize={24}>~$547,658.28</Title>
             <VoteInfoSubtitle>Total Fees</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontsize={24}>8,417,070.70</Title>
+            <Title fontSize={24}>8,417,070.70</Title>
             <VoteInfoSubtitle>New Emissions</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontsize={24}>~$248.64</Title>
+            <Title fontSize={24}>~$248.64</Title>
             <VoteInfoSubtitle>Total Incentives</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontsize={24}>~$147,070.40</Title>
+            <Title fontSize={24}>~$147,070.40</Title>
             <VoteInfoSubtitle>Total Rewards</VoteInfoSubtitle>
           </InfoItem>
         </VoteInfo>

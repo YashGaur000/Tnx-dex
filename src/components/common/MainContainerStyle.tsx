@@ -4,10 +4,10 @@ export const MainContainerStyle = styled.section<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin-top: 15px;
+  margin-top: 16px;
   margin-bottom: 10px;
   min-height: 100vh;
-  padding: 10px 45px;
+  padding: 24px 45px 0px;
   background-color: ${({ theme }) => theme.colors.background};
 
   @media (max-width: ${({ theme }) => theme.screenSizes.extraLarge}) {

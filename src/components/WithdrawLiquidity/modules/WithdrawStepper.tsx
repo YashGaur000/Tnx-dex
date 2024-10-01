@@ -168,7 +168,7 @@ const WithdrawStepper = ({
   ];
   return (
     <>
-      <LiquidityHeaderTitle fontsize={24}>
+      <LiquidityHeaderTitle fontSize={24}>
         Withdraw Liquidity
       </LiquidityHeaderTitle>
       <Stepper data={WithdrawStepperData}></Stepper>

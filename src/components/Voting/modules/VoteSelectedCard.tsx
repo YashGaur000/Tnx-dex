@@ -66,20 +66,20 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
                 Lock #{selectedNftData?.tokenId.toString()}
               </TokenItemData>
               <DashboardNavigation
-                fontsize={14}
+                fontSize={14}
                 onClick={() => handleModel('ChangeLock')}
               >
                 Change lock
               </DashboardNavigation>
             </SelectedDataWrapper>
-            <LockDescriptonTitle fontsize={12}>
+            <LockDescriptonTitle fontSize={12}>
               {selectedNftData?.metadata.attributes[2].value} VELO locked until{' '}
               {selectedNftData?.metadata.attributes[0].value}
             </LockDescriptonTitle>
           </TokenNameWrapper>
         </TokenItemWithAdressWrapper>
         <SelectedDataWrapper>
-          <Title fontsize="16px">{countSelectedItem} pools selected</Title>
+          <Title fontSize="16px">{countSelectedItem} pools selected</Title>
           <GlobalButton
             margin="0px"
             height="40px"
@@ -97,7 +97,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
           setPopupVisible(false);
         }}
         height="540px"
-        width="80%"
+        width={isModelOpen ? '40%' : '80%'}
         padding="0px"
         scroll="none"
       >

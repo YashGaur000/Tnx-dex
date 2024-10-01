@@ -6,6 +6,8 @@ import {
   SlippageWrapper,
   ToleranceButton,
   ToleranceButtons,
+  SlipageInputWrapper,
+  PercentageTitle,
 } from '../Swap/styles/SlippageTolerance.style';
 import { useRootStore } from '../../store/root';
 
@@ -46,13 +48,16 @@ const SlippageTolerance: React.FC = () => {
   return (
     <SlippageWrapper display="flow">
       <SlippageAlign>
-        <SidebarTitle fontsize={16}>Slippage Tolerance</SidebarTitle>
-        <SlippageInput
-          type="number"
-          value={toleranceInput}
-          onChange={handleCustomTolerance}
-          style={{ textAlign: 'center', color: `${color}` }}
-        />
+        <SidebarTitle fontSize={16}>Slippage Tolerance</SidebarTitle>
+        <SlipageInputWrapper>
+          <SlippageInput
+            type="number"
+            value={toleranceInput}
+            onChange={handleCustomTolerance}
+            style={{ color: `${color}` }}
+          />
+          <PercentageTitle>%</PercentageTitle>
+        </SlipageInputWrapper>
       </SlippageAlign>
       <ToleranceButtons>
         <ToleranceButton

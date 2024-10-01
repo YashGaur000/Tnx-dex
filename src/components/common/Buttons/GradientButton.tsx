@@ -6,7 +6,7 @@ interface GradientButtonProps {
   width?: string;
   height?: string;
   padding?: string;
-  fontsize?: string;
+  fontSize?: string;
   borderradius?: string;
   border?: string;
   background?: string;
@@ -14,7 +14,7 @@ interface GradientButtonProps {
   cursor?: string;
   margintop?: string;
   className?: string;
-  smfontsize?: number;
+  smfontSize?: number;
   smmargin?: string;
   lineheight?: string;
   children: React.ReactNode;
@@ -33,7 +33,7 @@ const StyledButton = styled.button<
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
   cursor: ${({ cursor }) => cursor ?? 'pointer'};
-  font-size: ${({ fontsize }) => fontsize ?? '20px'};
+  font-size: ${({ fontSize }) => fontSize ?? '20px'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: ${({ lineheight }) => lineheight ?? '16.9px'};
   font-family: ${({ theme }) => theme.fonts.main};
@@ -73,19 +73,19 @@ const StyledButton = styled.button<
   }
 
   @media (max-width: 768px) {
-    font-size: ${({ smfontsize }) => smfontsize ?? 18}px;
+    font-size: ${({ smfontSize }) => smfontSize ?? 18}px;
     margin: ${({ smmargin }) => smmargin ?? '10px'};
   }
 `;
 
 // export const GradientSpan = styled.span<{
-//   fontsize?: number;
+//   fontSize?: number;
 //   Color?: string;
 //   isactive?: boolean;
 //   theme: DefaultTheme;
 // }>`
 //   color: ${({ Color }) => Color};
-//   font-size: ${({ fontsize }) => fontsize}px;
+//   font-size: ${({ fontSize }) => fontSize}px;
 //   font-family: ${({ theme }) => theme.fonts.main};
 //   background: ${({ isactive, theme }) =>
 //     isactive ? 'black' : theme.colors.buttonBackground};
@@ -96,11 +96,11 @@ const StyledButton = styled.button<
 // `;
 
 // export const GradientSpan = styled.span<{
-//   fontsize?: number;
+//   fontSize?: number;
 //   isactive?: boolean;
 //   theme: DefaultTheme;
 // }>`
-//   font-size: ${({ fontsize }) => fontsize}px;
+//   font-size: ${({ fontSize }) => fontSize}px;
 //   font-family: ${({ theme }) => theme.fonts.main};
 //   border : ${({ isactive }) =>
 //     isactive ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)' : 'transparent'};
@@ -114,10 +114,10 @@ const StyledButton = styled.button<
 // `;
 
 export const GradientSpan = styled.span<{
-  fontsize?: number;
+  fontSize?: number;
   isactive?: boolean;
 }>`
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   background: ${({ isactive }) =>
     isactive
       ? 'linear-gradient(188.32deg, #47FF99 -7.09%, #3EACFC 99.48%)'
@@ -131,7 +131,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   width,
   height,
   padding,
-  fontsize,
+  fontSize,
   borderradius,
   border,
   background,
@@ -139,7 +139,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
   cursor,
   margintop,
   lineheight,
-  smfontsize,
+  smfontSize,
   smmargin,
   children,
 }: GradientButtonProps) => {
@@ -148,7 +148,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       width={width}
       height={height}
       padding={padding}
-      fontsize={fontsize}
+      fontSize={fontSize}
       borderradius={borderradius}
       border={border}
       background={background}
@@ -157,7 +157,7 @@ const GradientButton: React.FC<GradientButtonProps> = ({
       margintop={margintop}
       lineheight={lineheight}
       smmargin={smmargin}
-      smfontsize={smfontsize}
+      smfontSize={smfontSize}
     >
       <GradientSpan>{children}</GradientSpan>
     </StyledButton>
