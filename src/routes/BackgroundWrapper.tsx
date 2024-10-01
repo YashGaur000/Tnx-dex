@@ -46,6 +46,9 @@ const BackgroundWrapper: React.FC<BackgroundWrapperProps> = ({ children }) => {
     case '/governance/create':
       background = theme.colors.backgroundLiquidity;
       break;
+    case '/incentives':
+      background = theme.colors.backgroundIncentive;
+      break;
     case '/analytics':
       background = theme.colors.backgroundAnalytics;
       break;
