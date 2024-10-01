@@ -48,6 +48,8 @@ import { usePoolContract } from '../../../hooks/usePoolContract';
 import { Metadata } from '../../../types/Pool';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';
+import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
 
 const WithdrawLiquidity = () => {
   const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(0);
@@ -64,6 +66,7 @@ const WithdrawLiquidity = () => {
   const getParam = useQueryParams();
   const poolId = getParam('pool');
   const { metadata } = usePoolContract(poolId ?? '');
+  const { transactionStatus } = useRootStore();
 
   useEffect(() => {
     metadata()
@@ -77,7 +80,11 @@ const WithdrawLiquidity = () => {
       .catch((error) => {
         console.error('error loading metadata', error);
       });
-  }, [poolId, metadata]);
+
+    if (transactionStatus === TransactionStatus.DONE) {
+      SetSelectWithdrawValue(100);
+    }
+  }, [poolId, metadata, transactionStatus]);
 
   const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
