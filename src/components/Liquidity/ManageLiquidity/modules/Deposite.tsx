@@ -99,7 +99,7 @@ const Deposite: React.FC<DepositProps> = ({
         amount1 &&
         ethers.parseUnits(amount1.toString(), selectedToken1?.decimals);
       if (amount1InWei && selectedToken1?.address) {
-        if (selectedToken1?.symbol === 'WETH') {
+        if (selectedToken1?.symbol === 'ETH') {
           setIsToken1Allowed(true);
         } else {
           await approveAllowance1(routerAddress, amount1InWei.toString());
@@ -122,7 +122,7 @@ const Deposite: React.FC<DepositProps> = ({
         amount2 &&
         ethers.parseUnits(amount2.toString(), selectedToken2?.decimals);
       if (amount2InWei && selectedToken2?.address) {
-        if (selectedToken2?.symbol === 'WETH') {
+        if (selectedToken2?.symbol === 'ETH') {
           setIsToken1Allowed(true);
         } else {
           await approveAllowance2(routerAddress, amount2InWei.toString());
@@ -202,7 +202,7 @@ const Deposite: React.FC<DepositProps> = ({
         selectedToken2?.address &&
         address
       ) {
-        if (selectedToken1?.symbol === 'WETH') {
+        if (selectedToken1?.symbol === 'ETH') {
           const tx = await addLiquidityETH(
             selectedToken2?.address,
             type,
@@ -279,7 +279,7 @@ const Deposite: React.FC<DepositProps> = ({
     },
   ];
 
-  if (!disabled1 && selectedToken1?.symbol !== 'WETH') {
+  if (!disabled1 && selectedToken1?.symbol !== 'ETH') {
     CreatepoolDepositeData.push({
       step: 3,
       icon: !isToken1Allowed ? RedLockIcon : UnLockIcon,
@@ -301,7 +301,7 @@ const Deposite: React.FC<DepositProps> = ({
     });
   }
 
-  if (!disabled2 && selectedToken2?.symbol !== 'WETH') {
+  if (!disabled2 && selectedToken2?.symbol !== 'ETH') {
     CreatepoolDepositeData.push({
       step: 4,
       icon: !isToken2Allowed ? RedLockIcon : UnLockIcon,
