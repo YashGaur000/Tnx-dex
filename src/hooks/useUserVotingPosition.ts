@@ -186,45 +186,85 @@ const fetchUserVotingPools = async (
     });
 
     earnedCalls = [];
+    let startPool = 0;
+    let startReward = 0;
 
-    userVotedPools.forEach(({ tokenId }, index) => {
-      bribeRewardResults.forEach((rewardToken) => {
-        earnedCalls.push({
-          abi: bribeVotingRewardAbi.abi as Abi,
-          functionName: 'earned',
-          args: [rewardToken.result as string, tokenId],
-          address: bribeResults[index].result as Address,
-        });
-      });
-    });
+    for (const userVotedPool of userVotedPools) {
+      const { votedPools } = userVotedPool;
+      const votedPoolsLength = votedPools.length;
 
+      // Loop through the voted pools of the current userVotedPool
+      for (let j = 0; j < votedPoolsLength; j++) {
+        const currentPoolIndex = startPool + j;
+        const bribeRewardsLength = Number(
+          bribeRewardsLengthResults[currentPoolIndex].result
+        );
+        const bribeResultAddress = bribeResults[currentPoolIndex]
+          .result as Address;
+
+        // Prepare earned calls only once per reward in the pool
+        for (let k = 0; k < bribeRewardsLength; k++) {
+          const rewardToken = bribeRewardResults[startReward + k]
+            .result as string;
+          earnedCalls.push({
+            abi: bribeVotingRewardAbi.abi as Abi,
+            functionName: 'earned',
+            args: [rewardToken, userVotedPool.tokenId],
+            address: bribeResultAddress,
+          });
+        }
+
+        startReward += bribeRewardsLength; // Increment reward index after processing the pool
+      }
+
+      startPool += votedPoolsLength; // Increment pool index after processing all pools
+    }
+
+    // Execute earned calls using multicall
     const bribeEarnedResults = await multicallClient.multicall({
       contracts: earnedCalls,
     });
 
-    userVotedPools.forEach(({ votedPools }) => {
-      votedPools.forEach((pool, i) => {
-        pool.gauge = gaugesResults[i].result as Address;
-        pool.fee0 = feeEarnedResults[2 * i].result as string;
-        pool.fee1 = feeEarnedResults[2 * i + 1].result as string;
-        pool.rewardAmounts = bribeEarnedResults
-          .map((earnedResult) => earnedResult.result as bigint)
-          .filter((amount) => amount > 0n);
+    // Reset indices for assigning results back to pools
+    startPool = 0;
+    startReward = 0;
 
-        const rewardTokens: Address[] = [];
+    for (const userVotedPool of userVotedPools) {
+      const { votedPools } = userVotedPool;
+      const votedPoolsLength = votedPools.length;
 
-        // Filter rewardTokens based on non-zero reward amounts
-        for (let j = 0; j < Number(bribeRewardsLengthResults[i].result); j++) {
-          const rewardToken = bribeRewardResults[j].result as Address;
-          const rewardAmount = bribeEarnedResults[j].result as bigint;
+      // Loop through the voted pools of the current userVotedPool
+      for (let j = 0; j < votedPoolsLength; j++) {
+        const currentPoolIndex = startPool + j;
+        const bribeRewardsLength = Number(
+          bribeRewardsLengthResults[currentPoolIndex].result
+        );
 
-          if (rewardAmount > 0n) {
-            rewardTokens.push(rewardToken);
-          }
+        const votedPool = votedPools[j];
+
+        // Directly assign fetched values instead of recalculating
+        votedPool.gauge = gaugesResults[currentPoolIndex].result as Address;
+        votedPool.fee0 = feeEarnedResults[2 * currentPoolIndex]
+          .result as string;
+        votedPool.fee1 = feeEarnedResults[2 * currentPoolIndex + 1]
+          .result as string;
+
+        // Efficiently populate rewards for the current pool
+        for (let k = 0; k < bribeRewardsLength; k++) {
+          const rewardToken = bribeRewardResults[startReward + k]
+            .result as Address;
+          const rewardAmount = bribeEarnedResults[startReward + k]
+            .result as bigint;
+
+          votedPool.rewardTokens.push(rewardToken);
+          votedPool.rewardAmounts.push(rewardAmount);
         }
-        pool.rewardTokens = rewardTokens;
-      });
-    });
+
+        startReward += bribeRewardsLength; // Increment reward index after processing the pool
+      }
+
+      startPool += votedPoolsLength; // Increment pool index after processing all pools
+    }
 
     return userVotedPools;
   } catch (error) {
@@ -250,7 +290,7 @@ export const useUserVotingPosition = (account: Address) => {
       );
     }
     return [];
-  }, [multicallClient, poolData, account]);
+  }, [multicallClient, poolData, account, fetchUserNFTs]);
 
   const {
     data: userVotedPools,
