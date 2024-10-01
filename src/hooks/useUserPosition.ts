@@ -12,12 +12,15 @@ import { ethers } from 'ethers';
 import { UserPosition } from '../types/Pool';
 import contractAddresses from '../constants/contract-address/address';
 import { AddressZero } from '@ethersproject/constants';
+import { useCallback } from 'react';
 
 const fetchUserPools = async (
   multicallClient: PublicClient,
   pools: LiquidityPoolNewType[],
-  account: string
+  account: Address
 ) => {
+  if (pools.length === 0) return [];
+
   const balanceOfCalls = pools.map(({ id }) => ({
     abi: poolAbi.abi as Abi,
     functionName: 'balanceOf',
@@ -291,7 +294,7 @@ export const useUserPosition = (account: Address) => {
   const { data: poolData } = useLiquidityPoolData();
   const multicallClient = useMultiCall();
 
-  const fetchPoolData = async () => {
+  const fetchPoolData = useCallback(async () => {
     if (multicallClient && poolData) {
       return await fetchUserPools(
         multicallClient as PublicClient,
@@ -300,12 +303,12 @@ export const useUserPosition = (account: Address) => {
       );
     }
     return [];
-  };
+  }, [multicallClient, poolData, account]);
 
   const {
     data: userPools,
     isError,
-    refetch,
+    refetch: refetchUserPools,
     isFetching,
   } = useQuery<UserPosition[]>(
     {
@@ -331,6 +334,6 @@ export const useUserPosition = (account: Address) => {
     userPools,
     isError,
     isFetching,
-    refetch,
+    refetchUserPools,
   };
 };

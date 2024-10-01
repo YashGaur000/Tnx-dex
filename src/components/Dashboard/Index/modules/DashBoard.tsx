@@ -36,6 +36,7 @@ import VotingRewards from './VotingRewards';
 import { VotingRewardsButton } from '../styles/VotingRewards.styled';
 import ClaimAllModle from '../../../Dashboard/Index/modules/ClaimAllModle';
 import { ClaimAllPopup } from '../styles/ClaimAllModle.styled';
+import { useUserVotingPosition } from '../../../../hooks/useUserVotingPosition';
 // import LiquidityRewards from './LiquidityRewards';
 // import DepositAndStake from './DepositAndStake';
 
@@ -50,6 +51,9 @@ const DashBoard: React.FC = () => {
   const { address } = useAccount();
   const { userPools, isError } = useUserPosition(address!);
   const [isLoading, setIsLoading] = useState(true);
+
+  const { userVotedPools } = useUserVotingPosition(address!);
+  console.log(userVotedPools);
 
   const [isLockVisible, setIsLockVisible] = useState(true);
 
