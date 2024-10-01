@@ -120,7 +120,7 @@ const IncentiveSection: React.FC = () => {
       <Row>
         <Column60>
           <IncentiveleftBar>
-            <IncentiveleftBarBox1 height="232px" width="600px">
+            <IncentiveleftBarBox1 height="fit-content" width="600px">
               <IncentiveleftBarBox1info>
                 <IncentiveleftBarBox1infoCol1>
                   {selectedToken1 ? (

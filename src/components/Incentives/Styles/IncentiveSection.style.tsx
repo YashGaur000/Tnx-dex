@@ -5,9 +5,10 @@ export const Section = styled.section<{
   theme: DefaultTheme;
 }>`
   width: 100%;
-  height: 508px;
+  height: fit-content;
   display: flex;
   justify-content: center;
+  font-weight: ${({ theme }) => theme.fontWeights.regular};
   @media screen and (max-width: 800px) {
     padding: unset;
   }
@@ -74,7 +75,7 @@ export const IncentiveleftBarBox1 = styled.div<{
     rgba(24, 38, 76, 1) 0%,
     rgba(31, 48, 95, 1) 100%
   );
-  padding: 20px;
+  padding: 40px;
   border-radius: 16px;
   height: ${({ height }) => height};
   width: ${({ width }) => width};
@@ -207,7 +208,7 @@ export const LiquidityText1 = styled.article<{
   font-size: 12px;
   line-height: 1.75;
   color: #cccccc;
-  margin-top: 16px;
+  margin-top: 10px;
   font-weight: 300;
 `;
 
@@ -251,7 +252,7 @@ export const Box2TitleAvailable = styled.h2<{
   theme: DefaultTheme;
 }>`
   color: #cccccc;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 300;
   padding-right: 10px;
 `;
@@ -262,7 +263,7 @@ export const Box2Value = styled.p<{
   color: #ccc;
   font-size: 16px;
   font-weight: 300;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 export const IncentivesValues = styled.span<{
@@ -330,7 +331,7 @@ export const Box2Percentage = styled.span<{
   theme: DefaultTheme;
 }>`
   color: #cccccc;
-  font-size: 14px;
+  font-size: 12px;
   margin-left: 20px;
   font-weight: 300;
   @media screen and (max-width: 800px) {
