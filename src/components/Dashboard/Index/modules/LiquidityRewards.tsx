@@ -33,7 +33,6 @@ import { useGaugeContract } from '../../../../hooks/useGaugeContract';
 import { AddressZero } from '@ethersproject/constants';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
 import Pagination from '../../../common/Pagination';
-import SuccessPopup from '../../../common/SucessPopup';
 
 const ITEMS_PER_PAGE = 2;
 
@@ -44,7 +43,7 @@ const LiquidityRewards = ({
 }: UserPositionData) => {
   const { claimFees, getPoolContract } = usePoolContract(AddressZero);
   const { getReward, getGaugeContract } = useGaugeContract(AddressZero);
-  const { transactionStatus, setTransactionStatus } = useRootStore();
+  const { setTransactionStatus } = useRootStore();
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -198,9 +197,6 @@ const LiquidityRewards = ({
             </LiquityMainContainer>
           </React.Fragment>
         ))}
-      {transactionStatus === TransactionStatus.DONE && (
-        <SuccessPopup message="Claimed Successfully" />
-      )}
       <Pagination
         handleNextPage={handleNextPage}
         handlePrevpage={handlePrevpage}

@@ -52,7 +52,7 @@ import { useRootStore } from '../../../store/root';
 import { TransactionStatus } from '../../../types/Transaction';
 
 const WithdrawLiquidity = () => {
-  const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(0);
+  const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(100);
   const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
     undefined
   );
