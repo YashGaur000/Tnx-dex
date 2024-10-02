@@ -55,7 +55,7 @@ import { GlobalButton } from '../../common';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { Address } from 'viem';
 import ErrorPopup from '../../common/Error/ErrorPopup';
-import SuccessPopup from '../../common/SucessPopup';
+
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -69,6 +69,7 @@ interface VottingPowerModelProps {
     React.SetStateAction<LiquidityPoolNewType[]>
   >;
   setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
+  setSucess: (input: boolean) => void;
 }
 
 interface RPCError extends Error {
@@ -83,6 +84,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   selectedNftData,
   setVoteSelectPool,
   setSelectedPoolsCount,
+  setSucess,
 }) => {
   const { vote } = useVoterContract();
 
@@ -97,7 +99,6 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     'something went Wrong'
   );
   const [isDisabled, setIsDisabled] = useState(false);
-  const [isSucess, setSucess] = useState(false);
 
   const availablePower = useMemo(() => {
     const totalUsedPower = inputValues.reduce(
@@ -105,9 +106,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       0
     );
     const rem = totalPower - totalUsedPower;
-    console.log(rem);
 
-    if (isSucess) return 0;
     return rem;
   }, [inputValues]);
 
@@ -195,7 +194,6 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
 
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const voteStart = await vote(tokenId, poolAddress, votingWeight);
-
       console.log(voteStart);
 
       setTransactionStatus(TransactionStatus.DONE);
@@ -207,7 +205,6 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         setIsDisabled(true);
         setVoteSelectPool([]);
         setSelectedPoolsCount(0);
-        setVoteSelectPool([]);
       }, TRANSACTION_DELAY);
 
       setIsDisabled(false);
@@ -322,7 +319,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
               onClick={handleVote}
               disabled={isDisabled}
             >
-              {isSucess ? 'voted' : 'vote'}
+              Vote
             </GlobalButton>
           ) : (
             <VotingPowerContainer>
@@ -333,12 +330,8 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 fontSize={14}
                 style={{ color: availablePower <= 0 ? 'red' : 'inherit' }}
               >
-                {isSucess
-                  ? 'Aldready Voted'
-                  : availablePower > 0
-                    ? availablePower.toFixed(2)
-                    : '0.00'}
-                % available
+                {availablePower > 0 ? availablePower.toFixed(2) : '0.00'}%
+                available
               </LockHeaderTitle>
             </VotingPowerContainer>
           )}
@@ -471,7 +464,6 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         </ScrollContainer>
       </LockTokenContainer>
       {isError && <ErrorPopup errorMessage={errorMessage} />}
-      {isSucess && <SuccessPopup message="Vote Sucessfully" />}
     </>
   );
 };
