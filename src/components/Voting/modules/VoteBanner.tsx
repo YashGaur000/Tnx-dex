@@ -20,57 +20,57 @@ import { useVoterContract } from '../../../hooks/useVoterContract';
 const VoteBanner: React.FC = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
+  const [epochEnd, setEpochEnd] = useState<number | null>(null);
   const { epochVoteEnd } = useVoterContract();
   const timestamp = Math.floor(Date.now() / 1000);
 
+  // Effect for fetching epoch end time
   useEffect(() => {
-    let isMounted = true;
-    let timerInterval: NodeJS.Timeout | null = null;
-
     const fetchEpochVoteEnd = async () => {
       try {
         const epochEndResult = await epochVoteEnd(timestamp);
-        const epochEnd = Number(epochEndResult);
-
-        const updateTimer = () => {
-          if (!isMounted) return;
-
-          const currentTime = Math.floor(Date.now() / 1000);
-          const remainingTime = epochEnd - currentTime;
-
-          if (remainingTime > 0) {
-            const days = Math.floor(remainingTime / (24 * 60 * 60));
-            const hours = Math.floor(
-              (remainingTime % (24 * 60 * 60)) / (60 * 60)
-            );
-            const minutes = Math.floor((remainingTime % (60 * 60)) / 60);
-            const seconds = remainingTime % 60;
-
-            setTimeLeft(`${days} d : ${hours} h : ${minutes} m : ${seconds} s`);
-          } else {
-            setTimeLeft('Time expired');
-            if (timerInterval) {
-              clearInterval(timerInterval);
-            }
-          }
-        };
-
-        updateTimer();
-        timerInterval = setInterval(updateTimer, 1000);
+        setEpochEnd(Number(epochEndResult)); // Convert and set epoch end
       } catch (error) {
         console.error('Error fetching epoch vote end:', error);
       }
     };
 
     void fetchEpochVoteEnd();
+  }, [timestamp, epochVoteEnd]);
+
+  useEffect(() => {
+    if (epochEnd === null) return;
+
+    let timerInterval: NodeJS.Timeout | null = null;
+
+    const updateTimer = () => {
+      const currentTime = Math.floor(Date.now() / 1000);
+      const remainingTime = epochEnd - currentTime;
+
+      if (remainingTime > 0) {
+        const days = Math.floor(remainingTime / (24 * 60 * 60));
+        const hours = Math.floor((remainingTime % (24 * 60 * 60)) / (60 * 60));
+        const minutes = Math.floor((remainingTime % (60 * 60)) / 60);
+        const seconds = remainingTime % 60;
+
+        setTimeLeft(`${days}d : ${hours}h : ${minutes}m : ${seconds}s`);
+      } else {
+        setTimeLeft('Time expired');
+        if (timerInterval) {
+          clearInterval(timerInterval);
+        }
+      }
+    };
+
+    void updateTimer();
+    timerInterval = setInterval(updateTimer, 1000);
 
     return () => {
-      isMounted = false;
       if (timerInterval) {
         clearInterval(timerInterval);
       }
     };
-  }, [timestamp, epochVoteEnd]);
+  }, [epochEnd]);
 
   function handleTooltipShow() {
     setPopupVisible(true);
@@ -106,7 +106,7 @@ const VoteBanner: React.FC = () => {
         </VoteDescBox>
         <VoteInfo>
           <InfoItem>
-            <Title fontSize={24} width={190}>
+            <Title fontSize={24} width={200}>
               {timeLeft}
             </Title>
             <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
