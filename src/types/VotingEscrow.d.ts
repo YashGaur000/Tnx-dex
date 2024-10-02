@@ -35,6 +35,7 @@ export interface VotingEscrowContract extends Contract {
     value: bigint
   ): Promise<ContractTransaction>;
   getApproved(tokenId: bigint): Promise<Address>;
+  voted(tokenId: bigint[]): Promise<boolean>;
   isApprovedForAll(
     owner: Address,
     operator: Address,
@@ -120,6 +121,7 @@ export interface NftMetadata {
 export interface Nft {
   tokenId: bigint;
   metadata: NftMetadata;
+  votingStatus?: boolean;
   setSuccessLock?: (nftData: string[]) => void;
 }
 interface LockIncreaseProps {

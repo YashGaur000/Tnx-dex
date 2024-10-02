@@ -25,6 +25,10 @@ import {
 import { useRouterContract } from '../../../hooks/useRouterContract';
 import { getDeadline } from '../../../utils/transaction/getDeadline';
 import { LoadingSpinner } from '../../common/Loader';
+import PopupScreen from '../../common/PopupScreen';
+import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
+import SlippageTolerance from '../../common/SlippageTolerance';
+import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
 interface WithdrawStepperProps {
   poolId: string;
   withdrawPercentage: string;
@@ -42,7 +46,10 @@ const WithdrawStepper = ({
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isWithdraw, setIsWithdraw] = useState(false);
   const [liquidity, setLiquidity] = useState('0');
-  const { transactionStatus, setTransactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus, selectedTolerance } =
+    useRootStore();
+  const [isvisibleSlippage, setVisibleSlippage] = useState(false);
+  const { deadLineValue } = useLiquidityStore();
 
   const { data: poolData } = useLiquidityPoolDataById(poolId);
 
@@ -54,6 +61,18 @@ const WithdrawStepper = ({
   const { balanceOf } = usePoolContract(poolId);
 
   const { removeLiquidity, quoteRemoveLiquidity } = useRouterContract();
+
+  const closeModal = () => {
+    setVisibleSlippage(false);
+  };
+
+  const handleAdjust = (adjustbuttonName: string) => {
+    if (adjustbuttonName === 'Slippage') {
+      setVisibleSlippage(true);
+    } else {
+      console.log('wrong button');
+    }
+  };
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
@@ -75,7 +94,7 @@ const WithdrawStepper = ({
   };
 
   const handleWithdrawDeposit = async () => {
-    const deadline = getDeadline(30);
+    const deadline = getDeadline(deadLineValue);
 
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
@@ -90,13 +109,27 @@ const WithdrawStepper = ({
         );
 
         if (quote) {
+          // if the slippage if 1 then multiply by 0.99 ...
+          const minAmountA = Math.round(
+            parseFloat(quote.amountA.toString()) *
+              (100 - Number(selectedTolerance)) *
+              0.01
+          );
+          const minAmountB = Math.round(
+            parseFloat(quote.amountA.toString()) *
+              (100 - Number(selectedTolerance)) *
+              0.01
+          );
+
+          console.log(minAmountA, minAmountB);
+
           const result = await removeLiquidity(
             tokenA as Address,
             tokenB as Address,
             poolData[0].isStable,
             liquidity,
-            quote?.amountA,
-            quote?.amountB,
+            BigInt(minAmountA),
+            BigInt(minAmountB),
             address,
             deadline
           );
@@ -132,8 +165,11 @@ const WithdrawStepper = ({
       step: 2,
       icon: PlusMinusIcon,
       descriptions: {
-        labels: '1.0% slippage applied...  ',
+        labels: `${selectedTolerance}% slippage applied...  `,
         adjust: 'Adjust',
+        onClick: () => {
+          handleAdjust('Slippage');
+        },
       },
     },
 
@@ -168,10 +204,18 @@ const WithdrawStepper = ({
   ];
   return (
     <>
-      <LiquidityHeaderTitle fontsize={24}>
+      <LiquidityHeaderTitle fontSize={24}>
         Withdraw Liquidity
       </LiquidityHeaderTitle>
       <Stepper data={WithdrawStepperData}></Stepper>
+
+      {isvisibleSlippage && (
+        <PopupScreen isvisible={isvisibleSlippage} onClose={closeModal}>
+          <PopupWrapper>
+            <SlippageTolerance />
+          </PopupWrapper>
+        </PopupScreen>
+      )}
 
       {/* Todo: make dynmaic, when allow token then after Withdraw Liquidity active  */}
       {!isWithdraw && isTokenAllowed && (

@@ -568,6 +568,61 @@ export function useRouterContract() {
     [routerContract]
   );
 
+  const removeLiquidityETH = useCallback(
+    async (
+      token: Address,
+      stable: boolean,
+      liquidity: string,
+      amountTokenMin: bigint,
+      amountETHMin: bigint,
+      to: Address,
+      deadline: bigint
+    ) => {
+      if (!routerContract) {
+        console.error('Router contract instance not available');
+        return;
+      }
+
+      try {
+        const gasEstimate = await routerContract.estimateGas.removeLiquidityETH(
+          token,
+          stable,
+          liquidity,
+          amountTokenMin,
+          amountETHMin,
+          to,
+          deadline,
+          {
+            value: amountETHMin,
+          }
+        );
+
+        if (!gasEstimate) {
+          console.error('Error estimating gas price');
+        }
+
+        const tx = await routerContract.removeLiquidityETH(
+          token,
+          stable,
+          liquidity,
+          amountTokenMin,
+          amountETHMin,
+          to,
+          deadline,
+          { gasLimit: gasEstimate ? gasEstimate : 3000000, value: amountETHMin }
+        );
+        console.log('Transaction sent:', tx);
+        await tx.wait();
+        console.log('Transaction confirmed');
+        return tx;
+      } catch (error) {
+        console.error('Error sending transaction:', error);
+        throw error;
+      }
+    },
+    [routerContract]
+  );
+
   return {
     addLiquidity,
     getReserves,
@@ -581,5 +636,6 @@ export function useRouterContract() {
     swapExactETHForTokens,
     removeLiquidity,
     quoteRemoveLiquidity,
+    removeLiquidityETH,
   };
 }

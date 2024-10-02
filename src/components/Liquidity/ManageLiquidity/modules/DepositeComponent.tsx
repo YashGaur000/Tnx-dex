@@ -26,7 +26,7 @@ const DepositeComponent: React.FC<DepositComponentProps> = ({
     Number(token2Value) <= Number(totalBalanceToken2) && token2Value != 0;
   return (
     <StyledDepositContainer>
-      <LiquidityHeaderTitle fontsize={24}>New Deposit</LiquidityHeaderTitle>
+      <LiquidityHeaderTitle fontSize={24}>New Deposit</LiquidityHeaderTitle>
       {checkForToken1 || checkForToken2 ? (
         <Deposite
           disabled1={!checkForToken1}

@@ -31,7 +31,7 @@ const TransactionDeadline: React.FC = () => {
   return (
     <TransactionWrapper display="flow">
       <Align>
-        <SidebarTitle fontsize={16}>Transaction Deadline</SidebarTitle>
+        <SidebarTitle fontSize={16}>Transaction Deadline</SidebarTitle>
         <TimerButton>{formatTime(deadLineValue)}</TimerButton>
       </Align>
       <SliderContainer>

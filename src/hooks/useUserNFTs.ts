@@ -28,6 +28,7 @@ const useNftData = () => {
           const formattedNftFormateData = fetchedNftVal.map((nft) => ({
             tokenId: nft.tokenId,
             metadata: decodeBase64(nft.metadata),
+            votingStatus: nft.votingStatus,
           }));
           const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData

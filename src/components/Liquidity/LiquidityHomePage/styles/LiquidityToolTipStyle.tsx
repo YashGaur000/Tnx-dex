@@ -3,14 +3,14 @@ import { DefaultTheme } from '../../../../styles/Theme';
 
 export const ToolTipSection = styled.section<{
   theme: DefaultTheme;
-  fontsize: number;
+  fontSize: number;
 }>`
   display: flex;
   flex-direction: column;
 
   padding: 5px;
   gap: 20px;
-  font-size: ${({ theme }) => theme.fontsize.medium}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;
@@ -23,7 +23,7 @@ export const ToolTipsMainContainer = styled.div<{ theme: DefaultTheme }>`
   flex-direction: column;
 
   gap: 20px;
-  font-size: ${({ theme }) => theme.fontsize.medium}px;
+  font-size: ${({ theme }) => theme.fontSize.medium}px;
   font-family: ${({ theme }) => theme.fonts.main};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
 `;

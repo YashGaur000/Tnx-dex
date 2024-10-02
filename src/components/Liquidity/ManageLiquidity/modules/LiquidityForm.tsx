@@ -21,6 +21,8 @@ import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSect
 import { AmountLabel } from '../../../common';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { formatUnits } from 'ethers';
+import { useNativeBalance } from '../../../../hooks/useNativeBalance';
+import { AddressZero } from '@ethersproject/constants';
 
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
@@ -207,13 +209,24 @@ const LiquidityForm: FC<FormComponentProps> = ({
   const tokenList = [selectedToken1, selectedToken2];
 
   const { address } = useAccount();
+  const { balance: ethBalance } = useNativeBalance(address ?? AddressZero);
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
-  totalBalanceToken1 = Number(
-    selectedToken1 && balances[selectedToken1.address]
-  );
-  totalBalanceToken2 = Number(
-    selectedToken2 && balances[selectedToken2.address]
-  );
+
+  if (selectedToken1?.symbol == 'ETH' && ethBalance) {
+    totalBalanceToken1 = Number(ethBalance.formatted);
+  } else {
+    totalBalanceToken1 = Number(
+      selectedToken1 && balances[selectedToken1.address]
+    );
+  }
+
+  if (selectedToken2?.symbol == 'ETH' && ethBalance) {
+    totalBalanceToken2 = Number(ethBalance.formatted);
+  } else {
+    totalBalanceToken2 = Number(
+      selectedToken2 && balances[selectedToken2.address]
+    );
+  }
 
   if (selectedToken1 && selectedToken2) {
     return (
@@ -222,11 +235,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken1.symbol}
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Available {totalBalanceToken1.toString()}
             </LiquidityTitle>
           </FormRowWrapper>
@@ -262,11 +275,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken2.logoURI} alt="FTM logo" />
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken2.symbol}
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Available {totalBalanceToken2.toString()}
             </LiquidityTitle>
           </FormRowWrapper>

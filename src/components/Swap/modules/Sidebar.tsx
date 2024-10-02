@@ -473,7 +473,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <>
       <SidebarInner>
-        <SidebarTitle fontsize={24}>Instructions</SidebarTitle>
+        <SidebarTitle fontSize={24}>Instructions</SidebarTitle>
         <SidebarList>
           {isLoading ? (
             <Stepper data={SwapLoadingData} />

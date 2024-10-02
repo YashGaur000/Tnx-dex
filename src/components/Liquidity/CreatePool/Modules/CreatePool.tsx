@@ -113,7 +113,7 @@ const CreatePool = () => {
     <>
       <MainContainerStyle>
         <CreateLiqidityHeaderWrapper>
-          <LiquidityHeaderTitle fontsize={36}>
+          <LiquidityHeaderTitle fontSize={36}>
             Create your Liquidity Pool
           </LiquidityHeaderTitle>
 
@@ -128,7 +128,7 @@ const CreatePool = () => {
         </CreateLiqidityHeaderWrapper>
         <CreatePoolStyles>
           <TokenSelectItem>
-            <LiquidityHeaderTitle fontsize={20}>
+            <LiquidityHeaderTitle fontSize={20}>
               First Token
             </LiquidityHeaderTitle>
 
@@ -163,7 +163,7 @@ const CreatePool = () => {
             />
           </TokenSelectItem>
           <TokenSelectItem>
-            <LiquidityHeaderTitle fontsize={20}>
+            <LiquidityHeaderTitle fontSize={20}>
               Second Token
             </LiquidityHeaderTitle>
 
@@ -220,7 +220,7 @@ const CreatePool = () => {
               width="20"
               height="21"
             />
-            <LiquidityHeaderTitle fontsize={16}>
+            <LiquidityHeaderTitle fontSize={16}>
               Start by selecting the tokens. The liquidity pools available for
               deposit will show up next
             </LiquidityHeaderTitle>

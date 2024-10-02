@@ -25,7 +25,7 @@ export const DropdownTitle = styled.label<{
   color?: string;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
-  font-size: ${({ theme }) => theme.fontsize.medium};
+  font-size: ${({ theme }) => theme.fontSize.medium};
   color: ${({ theme, color }) => color ?? theme.colors.whiteBorder};
   font-family: ${({ theme }) => theme.fonts.main};
 `;

@@ -11,10 +11,10 @@ export const DashBoardMainContainer = styled.div`
 
 export const DashboardHeading = styled.p<{
   theme: DefaultTheme;
-  fontsize?: string;
+  fontSize?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
-  font-size: ${({ fontsize }) => fontsize ?? '24px'};
+  font-size: ${({ fontSize }) => fontSize ?? '24px'};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 35.88px;
   text-align: left;
@@ -90,11 +90,12 @@ export const DashBoardWrapper = styled.div`
 
 export const DashboardNavigation = styled.p<{
   theme: DefaultTheme;
-  fontsize?: number;
+  fontSize?: number;
   margin?: string;
+  width?: string;
 }>`
   background: ${({ theme }) => theme.colors.title};
-  font-size: ${({ fontsize }) => fontsize}px;
+  font-size: ${({ fontSize }) => fontSize}px;
   margin: ${({ margin }) => margin ?? '0px'};
   -webkit-background-clip: text;
   background-clip: text;
@@ -108,7 +109,7 @@ export const DashboardNavigation = styled.p<{
     position: absolute;
     left: 0;
     bottom: 0;
-    width: 100%;
+    width: ${({ width }) => width ?? '100%'};
     height: 1px;
     background: ${({ theme }) => theme.colors.bordercolor};
   }
