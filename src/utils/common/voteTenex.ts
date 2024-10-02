@@ -217,3 +217,5 @@ export function calVotingPower(end: number, amount: number) {
   const votingPower = Number(amount) * (timeRemaining / MAX_LOCK_TIME);
   return votingPower;
 }
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
