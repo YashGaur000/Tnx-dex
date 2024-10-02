@@ -124,6 +124,8 @@ const VotePoolTable: React.FC = () => {
             countSelectedItem={selectedPoolsCount}
             VoteSelectPoolData={VoteSelectPool}
             nftData={nftData}
+            setVoteSelectPool={setVoteSelectPool}
+            setSelectedPoolsCount={setSelectedPoolsCount}
           />
         )}
       </TableWrapper>
