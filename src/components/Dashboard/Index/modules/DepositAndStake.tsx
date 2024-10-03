@@ -16,7 +16,11 @@ import {
   USDTHeading,
   WalletContainer,
 } from '../styles/DepositAndStake.styled';
-import { DashboardNavigation } from '../styles/DashBoard.styled';
+import {
+  DashBoardCard,
+  DashBoardCardData,
+  DashboardNavigation,
+} from '../styles/DashBoard.styled';
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import InformationIcon from '../../../../assets/Tips.svg';
 import {
@@ -126,7 +130,18 @@ const DepositAndStake = ({
   };
 
   if (userPools && userPools.length === 0 && !isLoading) {
-    return <p>No Data Available</p>;
+    return (
+      <DashBoardCard>
+        <DashBoardCardData>
+          To receive emissions{' '}
+          <DashboardNavigation onClick={() => navigate('/liquidity/create')}>
+            {' '}
+            deposit and stake{' '}
+          </DashboardNavigation>{' '}
+          your liquidity first.
+        </DashBoardCardData>
+      </DashBoardCard>
+    );
   }
 
   return (

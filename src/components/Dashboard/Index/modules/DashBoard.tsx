@@ -9,7 +9,6 @@ import {
   DashboardHeading,
   DashBoardLock,
   DashBoardMainContainer,
-  DashboardNavigation,
   DashBoardTitle,
   DashBoardWrapper,
   DashBoardWrapperHeading,
@@ -36,9 +35,6 @@ import VotingRewards from './VotingRewards';
 import { VotingRewardsButton } from '../styles/VotingRewards.styled';
 import ClaimAllModle from '../../../Dashboard/Index/modules/ClaimAllModle';
 import { ClaimAllPopup } from '../styles/ClaimAllModle.styled';
-import { useUserVotingPosition } from '../../../../hooks/useUserVotingPosition';
-// import LiquidityRewards from './LiquidityRewards';
-// import DepositAndStake from './DepositAndStake';
 
 export interface UserPositionData {
   address?: Address;
@@ -51,9 +47,6 @@ const DashBoard: React.FC = () => {
   const { address } = useAccount();
   const { userPools, isError } = useUserPosition(address!);
   const [isLoading, setIsLoading] = useState(true);
-
-  const { userVotedPools } = useUserVotingPosition(address!);
-  console.log(userVotedPools);
 
   const [isLockVisible, setIsLockVisible] = useState(true);
 
@@ -132,18 +125,6 @@ const DashBoard: React.FC = () => {
               Create Pool
             </GlobalButton>
           </DashBoardWrapperHeading>
-
-          <DashBoardCard>
-            <DashBoardCardData>
-              To receive emissions{' '}
-              <DashboardNavigation onClick={handleCreatePool}>
-                {' '}
-                deposit and stake{' '}
-              </DashboardNavigation>{' '}
-              your liquidity first.
-            </DashBoardCardData>
-          </DashBoardCard>
-          {/*Todo: make Dynamic  */}
           {address && (
             <DepositAndStake
               address={address}
@@ -163,16 +144,6 @@ const DashBoard: React.FC = () => {
             />
           </DashboardHeading>
 
-          <DashBoardCard>
-            <DashBoardCardData>
-              Start by{' '}
-              <DashboardNavigation onClick={handleCreatePool}>
-                {' '}
-                depositing and staking
-              </DashboardNavigation>{' '}
-              liquidity.
-            </DashBoardCardData>
-          </DashBoardCard>
           {/* todo: Make Dynamic */}
           {address && (
             <LiquidityRewards
@@ -236,14 +207,11 @@ const DashBoard: React.FC = () => {
                 <img src={SelectIcon} alt="" />
               </VotingRewardsButton>
               <PopupWrapper onMouseLeave={handleHoverHide}>
-                {isClaimPopUpShow && <ClaimAllModle />}
+                {isClaimPopUpShow && <ClaimAllModle account={address!} />}
               </PopupWrapper>
             </ClaimAllPopup>
           </DashBoardWrapperHeading>
-          <DashBoardCard>
-            <DashBoardCardData>No rewards found.</DashBoardCardData>
-          </DashBoardCard>
-          <VotingRewards />
+          <VotingRewards account={address!} />
         </DashBoardWrapper>
       </DashBoardMainContainer>
 
