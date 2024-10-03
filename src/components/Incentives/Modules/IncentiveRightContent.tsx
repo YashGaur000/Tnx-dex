@@ -17,6 +17,8 @@ import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import { erc20Abi } from '../../../constants/abis/erc20';
 import RedLockIcon from '../../../assets/lock.png';
+import gaugeFoundIcon from '../../../assets/gaugeFound.svg';
+import gaugeNotFoundIcon from '../../../assets/gaugeNotFound.svg';
 import UnLockIcon from '../../../assets/unlock.png';
 import { GlobalButton } from '../../common/index';
 import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
@@ -187,7 +189,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
           ? `Create gauge for the ${poolData[0]?.name} pool`
           : `Gauge is created for the ${poolData[0]?.name} pool`,
       },
-      icon: !isGaugeCreated ? RedLockIcon : UnLockIcon,
+      icon: !isGaugeCreated ? gaugeNotFoundIcon : gaugeFoundIcon,
       buttons: !isGaugeCreated
         ? {
             label: `Create gauge for ${poolData[0]?.token0.symbol}-${poolData[0]?.token1.symbol}`,
@@ -230,7 +232,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   ];
 
   return (
-    <IncentiveleftBarBox1 height="508px" width="440px">
+    <IncentiveleftBarBox1 height="528px" width="440px">
       <IncentivesBox2>Incentivize</IncentivesBox2>
       <IncentivesBox2Paragraph>
         Voting and adding incentives for this epoch ends in 3 days and there

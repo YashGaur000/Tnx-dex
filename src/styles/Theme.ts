@@ -19,6 +19,7 @@ interface Colorpallate {
   background: string;
   backgroundHome: string;
   backgroundSwap: string;
+  backgroundIncentive: string;
   backgroundDocs: string;
   backgroundLiquidity: string;
   text: string;
@@ -82,9 +83,14 @@ const theme: DefaultTheme = {
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundSwap: `radial-gradient(circle at 50% 30%,#43d6cd7a 0%, transparent 40%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
-
-    backgroundLiquidity: `radial-gradient(circle at 50% 20%,#43d6cd3a 0%, transparent 30%),
+    backgroundIncentive: `radial-gradient(circle at 50% 40%,#43d6cd7a 0%, transparent 60%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
+    backgroundLiquidity: `radial-gradient(circle at 50% 18%,#43d6cd3a 0%, transparent 30%),
+                        radial-gradient(circle at 50% 50%,#43d6cd3a 0%, transparent 30%),
+                         radial-gradient(circle at 50% 80%,#43d6cd3a 0%, transparent 30%),
+                     linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)
+                     
+                     `,
     backgroundCreateLiquidity: `radial-gradient(circle at 50% 30%,#43d6cd2a 0%, transparent 60%),
                      linear-gradient(180deg, rgba(15, 27, 59, 1) 0%, rgba(35, 41, 56, 1) 100%)`,
     backgroundDocs: `radial-gradient(circle at 60% 30%,#43d6cd3a 0%, transparent 40%),

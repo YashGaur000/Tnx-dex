@@ -17,7 +17,7 @@ export interface VoterContract extends Contract {
   gaugeToBribe(_gauge: Address): Promise<Address>;
   deposit(_amount: bigint): Promise<ContractTransaction>;
   reset(_tokenId: bigint): Promise<ContractTransaction>;
-
+  epochVoteEnd(timestamp: number): Promise<ContractTransaction>;
   vote(
     _tokenId: number,
     _poolVote: ddress[],

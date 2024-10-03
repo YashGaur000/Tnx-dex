@@ -18,6 +18,7 @@ const StyledPopup = styled.div`
   left: 50%;
   transform: translateX(-50%);
   background-color: #f44336;
+  z-index: 100010;
   color: white;
   padding: 16px;
   margin: 8px 0;

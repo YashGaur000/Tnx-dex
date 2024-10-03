@@ -110,9 +110,20 @@ export function useVoterContract() {
         console.error('Voter contract instance not available');
         return;
       }
+      return voterContract.vote(_tokenId, _poolVote, _weights);
+    },
+    [voterContract]
+  );
+
+  const epochVoteEnd = useCallback(
+    async (timestamp: number) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
       try {
-        const result = await voterContract.vote(_tokenId, _poolVote, _weights);
-        return result;
+        const epochVoteEnd = await voterContract.epochVoteEnd(timestamp);
+        return epochVoteEnd;
       } catch (error) {
         console.log(error);
       }
@@ -192,5 +203,6 @@ export function useVoterContract() {
     reset,
     claimBribes,
     claimFees,
+    epochVoteEnd,
   };
 }

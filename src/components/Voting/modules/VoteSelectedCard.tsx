@@ -26,11 +26,19 @@ interface VoteSelectedCardProps {
   countSelectedItem: number;
   VoteSelectPoolData: LiquidityPoolNewType[];
   nftData: Nft[];
+  setVoteSelectPool: React.Dispatch<
+    React.SetStateAction<LiquidityPoolNewType[]>
+  >;
+  setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
+  setSucess: (input: boolean) => void;
 }
 const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   countSelectedItem,
   VoteSelectPoolData,
+  setVoteSelectPool,
+  setSelectedPoolsCount,
   nftData,
+  setSucess,
 }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [isModelOpen, setModelOpen] = useState(false);
@@ -111,6 +119,9 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
           <VottingPowerModel
             VoteSelectPoolData={VoteSelectPoolData}
             selectedNftData={selectedNftData}
+            setVoteSelectPool={setVoteSelectPool}
+            setSelectedPoolsCount={setSelectedPoolsCount}
+            setSucess={setSucess}
           />
         )}
       </PopupScreen>
