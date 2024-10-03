@@ -31,8 +31,13 @@ import { useRootStore } from '../../../../store/root';
 import { Address } from 'viem';
 import { useGaugeContract } from '../../../../hooks/useGaugeContract';
 import { AddressZero } from '@ethersproject/constants';
-import { DashboardNavigation } from '../styles/DashBoard.styled';
+import {
+  DashBoardCard,
+  DashBoardCardData,
+  DashboardNavigation,
+} from '../styles/DashBoard.styled';
 import Pagination from '../../../common/Pagination';
+import { useNavigate } from 'react-router-dom';
 
 const ITEMS_PER_PAGE = 2;
 
@@ -44,6 +49,8 @@ const LiquidityRewards = ({
   const { claimFees, getPoolContract } = usePoolContract(AddressZero);
   const { getReward, getGaugeContract } = useGaugeContract(AddressZero);
   const { setTransactionStatus } = useRootStore();
+
+  const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -113,7 +120,18 @@ const LiquidityRewards = ({
   };
 
   if (userPools && userPools.length === 0 && !isLoading) {
-    return <p>No Data Available</p>;
+    return (
+      <DashBoardCard>
+        <DashBoardCardData>
+          Start by{' '}
+          <DashboardNavigation onClick={() => navigate('/liquidity/create')}>
+            {' '}
+            depositing and staking
+          </DashboardNavigation>{' '}
+          liquidity.
+        </DashBoardCardData>
+      </DashBoardCard>
+    );
   }
 
   return (
