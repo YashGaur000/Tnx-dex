@@ -11,7 +11,7 @@ import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import poolAbi from '../../../constants/artifacts/contracts/Pool.json';
 import { useAccount } from '../../../hooks/useAccount';
 import contractAddress from '../../../constants/contract-address/address';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Address } from 'viem';
 import { usePoolContract } from '../../../hooks/usePoolContract';
 import { ethers } from 'ethers';
@@ -58,9 +58,27 @@ const WithdrawStepper = ({
     poolAbi.abi
   );
 
-  const { balanceOf } = usePoolContract(poolId);
+  const { balanceOf, fetchAllowance } = usePoolContract(poolId);
 
   const { removeLiquidity, quoteRemoveLiquidity } = useRouterContract();
+
+  useEffect(() => {
+    async function isAllowance() {
+      const balance = await balanceOf();
+
+      if (balance) {
+        const amount =
+          (Number(balance.etherBalance) * Number(withdrawPercentage)) / 100;
+        setLiquidity(amount.toString());
+        await fetchAllowance(
+          Number(liquidity),
+          contractAddress.Router,
+          setIsTokenAllowed
+        );
+      }
+    }
+    void isAllowance();
+  }, [liquidity]);
 
   const closeModal = () => {
     setVisibleSlippage(false);
@@ -76,20 +94,27 @@ const WithdrawStepper = ({
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
-    const balance = await balanceOf();
-    if (balance) {
-      const amount =
-        (Number(balance.etherBalance) * Number(withdrawPercentage)) / 100;
-      const amountInWei = ethers.parseUnits(
-        amount.toFixed(balance.decimals).toString(),
-        balance.decimals
-      );
-      setLiquidity(amountInWei.toString());
-      const result = await approveAllowance(
-        contractAddress.Router,
-        amountInWei.toString()
-      );
-      setIsTokenAllowed(result ? true : false);
+    try {
+      const balance = await balanceOf();
+      if (balance) {
+        const amount =
+          (Number(balance.etherBalance) * Number(withdrawPercentage)) / 100;
+        const amountInWei = ethers.parseUnits(
+          amount.toFixed(balance.decimals).toString(),
+          balance.decimals
+        );
+        setLiquidity(amountInWei.toString());
+        const result = await approveAllowance(
+          contractAddress.Router,
+          amountInWei.toString()
+        );
+        setIsTokenAllowed(result ? true : false);
+      }
+    } catch (error) {
+      console.error('Error during token approval', error);
+    } finally {
+      setIsAllowingToken(false);
+      // Re-enable the button after the operation completes
     }
   };
 
@@ -186,6 +211,7 @@ const WithdrawStepper = ({
             label: `Allow ${poolData[0]?.name}`,
             icon: Lock1Icon,
             onClick: handleAllowance,
+            disabled: isAllowingToken,
             inProgress: isAllowingToken,
           }
         : undefined,
