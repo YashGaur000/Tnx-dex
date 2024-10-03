@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ModalWrapper,
   ModalContent,
@@ -46,6 +46,15 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
   const { loading, error, data: poolData } = useLiquidityPoolData();
   const [searchQuery, setSearchQuery] = useState('');
 
+  const [filterPoolData, setFilterPoolData] = useState(poolData);
+
+  useEffect(() => {
+    const filterData = poolData.filter((pool) =>
+      pool.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilterPoolData(filterData);
+  }, [searchQuery, poolData]);
+
   // const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
   // const getParam = useQueryParams();
   // const poolId = getParam('pool') ?? '';
@@ -61,14 +70,40 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
     onClose();
   };
 
+  const handleFilterData = (tag: string) => {
+    switch (tag) {
+      case 'All':
+        setFilterPoolData(poolData);
+        break;
+      case 'Stable': {
+        const data = poolData.filter((pool) => pool.isStable === true);
+        setFilterPoolData(data);
+        break;
+      }
+      case 'Volatile': {
+        const data = poolData.filter((pool) => pool.isStable === false); // Changed to isStable === false
+        setFilterPoolData(data);
+        break;
+      }
+      default:
+        console.log('Unknown filter tag:', tag);
+    }
+  };
+
   return (
     <ModalWrapper onClick={onClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <HeaderButtonContent>
           <FilterButtonContainer>
-            <FilterButton>All</FilterButton>
-            <FilterButton>Stable</FilterButton>
-            <FilterButton>Volatile</FilterButton>
+            <FilterButton onClick={() => handleFilterData('All')}>
+              All
+            </FilterButton>
+            <FilterButton onClick={() => handleFilterData('Stable')}>
+              Stable
+            </FilterButton>
+            <FilterButton onClick={() => handleFilterData('Volatile')}>
+              Volatile
+            </FilterButton>
           </FilterButtonContainer>
         </HeaderButtonContent>
 
@@ -78,13 +113,15 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
             type="text"
             placeholder="Search by pair"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+            }}
           />
         </SearchWrapper>
 
         <HeaderTokenContent>
-          <HeaderleftContent>{poolData.length} Pools</HeaderleftContent>
-          <HeaderRightContent>Deposited/Staked</HeaderRightContent>
+          <HeaderleftContent>{filterPoolData.length} Pools</HeaderleftContent>
+          <HeaderRightContent>Gauge Detected</HeaderRightContent>
         </HeaderTokenContent>
         {loading ? (
           <>
@@ -95,7 +132,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
             <TableList>
               <TableBody>
                 <TableData>
-                  {poolData.map((pool) =>
+                  {filterPoolData.map((pool) =>
                     pool.reserve0 && pool.reserve1 ? (
                       <TableRow
                         key={pool.id}
