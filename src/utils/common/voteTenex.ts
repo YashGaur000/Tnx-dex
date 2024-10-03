@@ -144,7 +144,7 @@ export const getTimeDifference = (targetDateString: string): string => {
 
   const diffTime = targetDate.getTime() - currentDate.getTime();
 
-  if (diffTime <= 0) {
+  if (diffTime < 0) {
     return 'Expired';
   }
 
@@ -152,7 +152,6 @@ export const getTimeDifference = (targetDateString: string): string => {
   let months = targetDate.getMonth() - currentDate.getMonth();
   let days = targetDate.getDate() - currentDate.getDate();
 
-  // Adjust days and months if days are negative
   if (days < 0) {
     months -= 1;
     days += new Date(
@@ -173,11 +172,11 @@ export const getTimeDifference = (targetDateString: string): string => {
     output += `${years} years `;
   }
 
-  if (months > 0) {
+  if (months >= 0) {
     output += `${months} months `;
   }
 
-  if (days > 0) {
+  if (days >= 0) {
     output += `${days} days `;
   }
 

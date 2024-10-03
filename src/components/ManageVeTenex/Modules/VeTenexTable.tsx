@@ -193,8 +193,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                 <LockInfoTextValue>{votingPower}</LockInfoTextValue>
               </Column>
               <Column>
-                <LockInfoText>Emissions</LockInfoText>
-                <LockInfoTextValue>0 </LockInfoTextValue>
+                <LockInfoText>Rebases</LockInfoText>
+                <LockInfoTextValue>0 USDT</LockInfoTextValue>
               </Column>
             </LockItemContainer>
           );
