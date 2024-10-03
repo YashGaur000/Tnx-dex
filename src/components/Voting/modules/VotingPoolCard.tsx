@@ -34,11 +34,14 @@ import { GradientButton } from '../../common';
 import { Title } from '../styles/VotingBanner.style';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 import { getTokenLogo } from '../../../utils/getTokenLogo';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SelectedButtonWrapper } from '../styles/VoteSelectedCard.style';
 import SelectedIcon from '../../../assets/Selected.svg';
 
 import VoteButtonHover from './VoteButtonHover';
+
+import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
 
 interface VotingPoolCardProps {
   data: LiquidityPoolNewType;
@@ -53,7 +56,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 }) => {
   const [isSelectCardOpen, setSelectCardOpen] = useState<boolean>(false);
   const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
-
+  const { transactionStatus } = useRootStore();
   const handleVote = () => {
     if (islock) {
       const newState = !isSelectCardOpen;
@@ -66,6 +69,11 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   const handleHoverHide = () => {
     setHoverPopUpShow(false);
   };
+  useEffect(() => {
+    if (transactionStatus === TransactionStatus.DONE) {
+      setSelectCardOpen(false);
+    }
+  }, [transactionStatus]);
 
   return (
     <>
