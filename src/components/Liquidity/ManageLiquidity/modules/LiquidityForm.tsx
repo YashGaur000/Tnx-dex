@@ -20,10 +20,9 @@ import contractAddress from '../../../../constants/contract-address/address';
 import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import { AmountLabel } from '../../../common';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
-import { formatUnits } from 'ethers';
 import { useNativeBalance } from '../../../../hooks/useNativeBalance';
 import { AddressZero } from '@ethersproject/constants';
-
+import { formatAmounts } from '../../../../utils/transaction/parseAmounts';
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
   totalBalanceToken2: ethers.Numeric;
@@ -83,17 +82,16 @@ const LiquidityForm: FC<FormComponentProps> = ({
         )
           .then((tx) => {
             const value2 =
-              tx &&
-              parseFloat(
-                formatUnits(tx.amountB.toString(), selectedToken2.decimals)
-              );
+              tx && formatAmounts(Number(tx?.amountB), selectedToken2.decimals);
             setToken2Amount(value2 ? value2.toString() : '0');
-            onTokenValueChange(
-              parseFloat(value),
-              value2 ?? 0,
-              totalBalanceToken1,
-              totalBalanceToken2
-            );
+            if (value2) {
+              onTokenValueChange(
+                parseFloat(value),
+                parseFloat(value2),
+                totalBalanceToken1,
+                totalBalanceToken2
+              );
+            }
           })
           .catch((error) => {
             console.error('Error fetching quote liquidity:', error);
@@ -159,22 +157,21 @@ const LiquidityForm: FC<FormComponentProps> = ({
             .then((tx) => {
               const value1 =
                 tx &&
-                parseFloat(
-                  formatUnits(tx.amountA.toString(), selectedToken1.decimals)
-                );
+                formatAmounts(Number(tx.amountA), selectedToken1.decimals);
               const value2 =
                 tx &&
-                parseFloat(
-                  formatUnits(tx.amountB.toString(), selectedToken2.decimals)
-                );
+                formatAmounts(Number(tx.amountB), selectedToken2.decimals);
               setToken1Amount(value1 ? value1.toString() : '0');
               setToken2Amount(value2 ? value2.toString() : '0');
-              onTokenValueChange(
-                Number(desiredValue),
-                value2 ?? 0,
-                totalBalanceToken1,
-                totalBalanceToken2
-              );
+
+              if (value2) {
+                onTokenValueChange(
+                  Number(desiredValue),
+                  parseFloat(value2),
+                  totalBalanceToken1,
+                  totalBalanceToken2
+                );
+              }
             })
             .catch((error) => {
               console.error('Error fetching liquidity quote:', error);
