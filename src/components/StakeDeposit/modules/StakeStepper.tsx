@@ -189,14 +189,16 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           ? 'Create the gauge by incentivizing first'
           : `Gauge found for ${selectedToken1?.symbol} - ${selectedToken2?.symbol}`,
       },
-      buttons: {
-        label:
-          'Incentivize ' +
-          selectedToken1?.symbol +
-          '-' +
-          selectedToken2?.symbol,
-        onClick: handleIncentive,
-      },
+      buttons: !gaugeExists
+        ? {
+            label:
+              'Incentivize ' +
+              selectedToken1?.symbol +
+              '-' +
+              selectedToken2?.symbol,
+            onClick: handleIncentive,
+          }
+        : undefined,
     },
     {
       step: 3,
@@ -206,16 +208,20 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
           ? 'Allowed the contracts to access pool'
           : 'Allowance not granted for pool',
       },
-      buttons: !isTokenAllowed
-        ? {
-            label:
-              'Allow ' + selectedToken1?.symbol + '-' + selectedToken2?.symbol,
-            icon: LockIcon,
-            disabled: !gaugeExists,
-            onClick: handleAllowance,
-            inProgress: isAllowingToken,
-          }
-        : undefined,
+      buttons:
+        !isTokenAllowed && gaugeExists
+          ? {
+              label:
+                'Allow ' +
+                selectedToken1?.symbol +
+                '-' +
+                selectedToken2?.symbol,
+              icon: LockIcon,
+              disabled: !gaugeExists,
+              onClick: handleAllowance,
+              inProgress: isAllowingToken,
+            }
+          : undefined,
     },
     {
       step: 4,

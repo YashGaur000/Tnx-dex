@@ -74,10 +74,14 @@ export function usePoolBalances(
             (userBalanceInEther / totalSupplyInEther) * reserve1InEther;
 
           // Format and set balances
-          setBalance0(balance0.toFixed(5));
-          setBalance1(balance1.toFixed(5));
-          setReserve0(reserve0InEther.toFixed(5));
-          setReserve1(reserve1InEther.toFixed(5));
+          setBalance0(isNaN(balance0) ? '0.0' : balance0.toFixed(5));
+          setBalance1(isNaN(balance1) ? '0.0' : balance1.toFixed(5));
+          setReserve0(
+            isNaN(reserve0InEther) ? '0.0' : reserve0InEther.toFixed(5)
+          );
+          setReserve1(
+            isNaN(reserve1InEther) ? '0.0' : reserve1InEther.toFixed(5)
+          );
         }
       } catch (error) {
         console.error('Error fetching balances:', error);

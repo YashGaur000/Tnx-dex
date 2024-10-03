@@ -6,11 +6,13 @@ import { ethers } from 'ethers';
  * @param decimals - The decimals for the token.
  * @returns An object with amounts in Wei.
  */
-export const parseAmounts = (amount?: ethers.Numeric, decimals?: number) => {
+export const parseAmounts = (
+  amount?: ethers.Numeric | string,
+  decimals?: number
+) => {
   const amountInWei = amount
-    ? ethers.parseUnits(amount.toString(), decimals)
+    ? ethers.parseUnits(Number(amount).toFixed(decimals), decimals)
     : undefined;
-
   return amountInWei;
 };
 
