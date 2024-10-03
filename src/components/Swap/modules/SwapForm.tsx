@@ -361,8 +361,10 @@ const SwapForm: React.FC = () => {
                       {selectedToken1 &&
                         (selectedToken1.symbol === 'ETH' ? (
                           <BalanceDisplay address={address!} />
+                        ) : balances[selectedToken1.address] > 0 ? (
+                          balances[selectedToken1.address].toString()
                         ) : (
-                          balances[selectedToken1.address]?.toString()
+                          ' 0.0'
                         ))}
                     </WalletText>
                     <WalletText margin={8}>~$0.00</WalletText>
