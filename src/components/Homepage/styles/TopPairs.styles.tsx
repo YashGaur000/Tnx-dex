@@ -53,6 +53,7 @@ export const CardsContainer = styled.div<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   line-height: 53.82px;
   text-align: center;
+  justify-content: center;
   gap: 5vw;
 
   @media (max-width: 1024px) {
