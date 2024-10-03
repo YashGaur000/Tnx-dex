@@ -1,11 +1,18 @@
+import { Suspense } from 'react';
 import { MainContainerStyle } from '../../components/common/MainContainerStyle';
-import DashBoard from '../../components/Dashboard/Index/modules/DashBoard';
+import PageLoader from '../../components/common/PageLoader';
+import React from 'react';
 
+const DashBoard = React.lazy(
+  () => import('../../components/Dashboard/Index/modules/DashBoard')
+);
 const DashboardPage = () => {
   return (
-    <MainContainerStyle>
-      <DashBoard />
-    </MainContainerStyle>
+    <Suspense fallback={<PageLoader />}>
+      <MainContainerStyle>
+        <DashBoard />
+      </MainContainerStyle>
+    </Suspense>
   );
 };
 

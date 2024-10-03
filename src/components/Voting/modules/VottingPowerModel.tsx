@@ -55,7 +55,7 @@ import { GlobalButton } from '../../common';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { Address } from 'viem';
 import ErrorPopup from '../../common/Error/ErrorPopup';
-import SuccessPopup from '../../common/SucessPopup';
+
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -65,16 +65,31 @@ import { useRootStore } from '../../../store/root';
 interface VottingPowerModelProps {
   VoteSelectPoolData: LiquidityPoolNewType[];
   selectedNftData: Nft;
+  setVoteSelectPool: React.Dispatch<
+    React.SetStateAction<LiquidityPoolNewType[]>
+  >;
+  setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
+  setSucess: (input: boolean) => void;
 }
 
+interface RPCError extends Error {
+  code?: number;
+  data?: {
+    message?: string;
+    code?: number;
+  };
+}
 const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   VoteSelectPoolData,
   selectedNftData,
+  setVoteSelectPool,
+  setSelectedPoolsCount,
+  setSucess,
 }) => {
   const { vote } = useVoterContract();
 
   const totalPower = 100;
-  const [inputValues, setInputValues] = useState<number[]>(
+  const [inputValues, setInputValues] = useState<string[]>(
     new Array(VoteSelectPoolData.length)
   );
   const [isVoteButtonVisible, setVoteButtonVisible] = useState(false);
@@ -84,14 +99,17 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     'something went Wrong'
   );
   const [isDisabled, setIsDisabled] = useState(false);
-  const [isSucess, setSucess] = useState(false);
 
   const availablePower = useMemo(() => {
-    const totalUsedPower = inputValues.reduce((a1, a2) => a1 + a2, 0);
+    const totalUsedPower = inputValues.reduce(
+      (a1, a2) => a1 + parseFloat(a2 || '0'),
+      0
+    );
     const rem = totalPower - totalUsedPower;
-    if (isSucess) return 0;
+
     return rem;
   }, [inputValues]);
+
   const { setTransactionStatus } = useRootStore();
   const Navigate = useNavigate();
 
@@ -100,11 +118,20 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     percentage: number,
     poolAddress: string
   ) => {
-    const calculatedValue = (availablePower * percentage) / 100;
-
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
-      updatedValues[index] = calculatedValue;
+      const totalUsedPower = prevValues.reduce(
+        (sum, value) => sum + (parseFloat(value) || 0),
+        0
+      );
+      const availablePower = totalPower - totalUsedPower;
+
+      const previousValue = parseFloat(prevValues[index]) || 0;
+      const maxNewValue = availablePower + previousValue;
+      const desiredNewValue = maxNewValue * (percentage / 100);
+
+      updatedValues[index] = Math.min(desiredNewValue, maxNewValue).toString();
+
       return updatedValues;
     });
 
@@ -119,13 +146,33 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     });
   };
 
+  const handleError = (error: unknown) => {
+    const typedError = error as RPCError;
+
+    console.log('Error:', typedError.message);
+
+    //Todo : handle error properly
+    if (typedError.message.includes('execution reverted')) {
+      setIsError(true);
+
+      setErrorMessage('Already voted this Lock');
+    } else if (typedError.message.includes('gas')) {
+      setIsError(true);
+      setErrorMessage('Gas limit too low or transaction not sufficient');
+    } else {
+      setIsError(true);
+      setErrorMessage('An unknown error occurred.');
+    }
+  };
+
   const handleVote = useCallback(async () => {
     try {
       setIsError(false);
       setSucess(false);
       setIsDisabled(true);
+
       const tokenId = Number(selectedNftData.tokenId);
-      const votingWeight = inputValues;
+      const votingWeight = inputValues.map((value) => Number(value));
       console.log(tokenId, PoolAddress, votingWeight);
       const poolAddress = PoolAddress as Address[];
       if (!tokenId) {
@@ -150,25 +197,20 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       console.log(voteStart);
 
       setTransactionStatus(TransactionStatus.DONE);
-      if (voteStart?.data) {
-        setSucess(true);
-      }
+
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
-        setInputValues(new Array(VoteSelectPoolData.length).fill(0));
-
+        setInputValues(new Array(VoteSelectPoolData.length).fill(''));
+        setSucess(true);
         setIsDisabled(true);
+        setVoteSelectPool([]);
+        setSelectedPoolsCount(0);
       }, TRANSACTION_DELAY);
 
       setIsDisabled(false);
     } catch (error) {
-      setIsError(true);
-
-      if (error) {
-        setErrorMessage('Aldready Voted This Lock');
-      }
-
-      console.log('message', error);
+      setIsDisabled(false);
+      handleError(error);
     }
   }, [inputValues, vote]);
 
@@ -182,13 +224,13 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
 
   const handleVotingInputdata = (
     index: number,
-    value: number,
+    value: string,
     poolAddress: string
   ) => {
-    setInputValues((prevValues) => {
-      const updatedValues = [...prevValues];
-      updatedValues[index] = isNaN(value) || value < 0 ? 0 : value;
-      return updatedValues;
+    setInputValues((prev) => {
+      const updateinput = [...prev];
+      updateinput[index] = value;
+      return updateinput;
     });
 
     setPoolAddress((prevVal) => {
@@ -202,7 +244,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   };
 
   const clearVotes = () => {
-    setInputValues(new Array(VoteSelectPoolData.length).fill(0));
+    setInputValues(new Array(VoteSelectPoolData.length).fill(''));
     setVoteButtonVisible(false);
   };
 
@@ -221,7 +263,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   const handleSpecificClearVote = (index: number) => {
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
-      updatedValues[index] = 0;
+      updatedValues[index] = '';
       return updatedValues;
     });
   };
@@ -277,7 +319,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
               onClick={handleVote}
               disabled={isDisabled}
             >
-              {isSucess ? 'voted' : 'vote'}
+              Vote
             </GlobalButton>
           ) : (
             <VotingPowerContainer>
@@ -288,12 +330,8 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 fontSize={14}
                 style={{ color: availablePower <= 0 ? 'red' : 'inherit' }}
               >
-                {isSucess
-                  ? 'Aldready Voted'
-                  : availablePower > 0
-                    ? availablePower.toFixed(2)
-                    : '0.00'}
-                % available
+                {availablePower > 0 ? availablePower.toFixed(2) : '0.00'}%
+                available
               </LockHeaderTitle>
             </VotingPowerContainer>
           )}
@@ -377,16 +415,12 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 <LiquidityTokenWrapper alignitem="flex-start">
                   <VoteInputWrapper>
                     <VoteInput
-                      type="number"
+                      type="text"
                       placeholder="0.0"
                       value={inputValues[index]}
-                      onChange={(e) =>
-                        handleVotingInputdata(
-                          index,
-                          parseFloat(e.target.value),
-                          data.id
-                        )
-                      }
+                      onChange={(e) => {
+                        handleVotingInputdata(index, e.target.value, data.id);
+                      }}
                     />
                     %
                   </VoteInputWrapper>
@@ -430,7 +464,6 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         </ScrollContainer>
       </LockTokenContainer>
       {isError && <ErrorPopup errorMessage={errorMessage} />}
-      {isSucess && <SuccessPopup message="Vote Sucessfully" />}
     </>
   );
 };

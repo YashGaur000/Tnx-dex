@@ -110,12 +110,7 @@ export function useVoterContract() {
         console.error('Voter contract instance not available');
         return;
       }
-      try {
-        const result = await voterContract.vote(_tokenId, _poolVote, _weights);
-        return result;
-      } catch (error) {
-        console.log(error);
-      }
+      return voterContract.vote(_tokenId, _poolVote, _weights);
     },
     [voterContract]
   );
