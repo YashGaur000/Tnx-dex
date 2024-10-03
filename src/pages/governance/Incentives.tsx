@@ -1,9 +1,15 @@
-import React from 'react';
-import IncentiveSection from '../../components/Incentives/Modules/IncentiveSection';
+import React, { Suspense } from 'react';
+
+import PageLoader from '../../components/common/PageLoader';
+const IncentiveSection = React.lazy(
+  () => import('../../components/Incentives/Modules/IncentiveSection')
+);
 const Incentives: React.FC = () => {
   return (
     <>
-      <IncentiveSection />
+      <Suspense fallback={<PageLoader />}>
+        <IncentiveSection />
+      </Suspense>
     </>
   );
 };

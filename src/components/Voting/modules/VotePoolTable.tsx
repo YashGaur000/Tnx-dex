@@ -18,6 +18,7 @@ import useNftData from '../../../hooks/useUserNFTs';
 
 import useVoterData from '../../../hooks/useVoterData';
 import PageLoader from '../../common/PageLoader';
+import SuccessPopup from '../../common/SucessPopup';
 
 const VotePoolTable: React.FC = () => {
   const [selectedPoolsCount, setSelectedPoolsCount] = useState<number>(0);
@@ -26,7 +27,7 @@ const VotePoolTable: React.FC = () => {
   );
 
   const [islockPresent, setLockPresent] = useState<boolean>(false);
-
+  const [isSucess, setSucess] = useState(false);
   const nftData = useNftData();
   const { voteData, Loading, error } = useVoterData();
 
@@ -65,69 +66,76 @@ const VotePoolTable: React.FC = () => {
     );
   if (error) return 'error! Fetching Data';
   return (
-    <LiquidityTableWrapper>
-      <TableWrapper background="none" padding="0px">
-        <TableContains margin="0px 0px">
-          <thead>
-            <TableRow>
-              <TableHeader textalign="left">
-                <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
-              </TableHeader>
-              <TableHeader>
-                <TableHeaderWrapper>
-                  <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
-                  <ImageContainer width="16px" height="16px" src={SortIcon} />
-                </TableHeaderWrapper>
-              </TableHeader>
+    <>
+      <LiquidityTableWrapper>
+        <TableWrapper background="none" padding="0px">
+          <TableContains margin="0px 0px">
+            <thead>
+              <TableRow>
+                <TableHeader textalign="left">
+                  <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
+                </TableHeader>
+                <TableHeader>
+                  <TableHeaderWrapper>
+                    <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
+                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                  </TableHeaderWrapper>
+                </TableHeader>
 
-              <TableHeader>
-                <TableHeaderWrapper>
-                  <StatsCardtitle fontSize={16}>Incentives</StatsCardtitle>
-                  <ImageContainer width="16px" height="16px" src={SortIcon} />
-                </TableHeaderWrapper>
-              </TableHeader>
-              <TableHeader>
-                <TableHeaderWrapper>
-                  <StatsCardtitle fontSize={16}>Total Rewards</StatsCardtitle>
-                  <ImageContainer width="16px" height="16px" src={SortIcon} />
-                </TableHeaderWrapper>
-              </TableHeader>
-              <TableHeader>
-                <TableHeaderWrapper>
-                  <StatsCardtitle fontSize={16}>vAPR</StatsCardtitle>
-                  <ImageContainer width="16px" height="16px" src={SortIcon} />
-                </TableHeaderWrapper>
-              </TableHeader>
-              <TableHeader>
-                <TableHeaderWrapper>
-                  <StatsCardtitle fontSize={16}>Vote Pools</StatsCardtitle>
-                  <ImageContainer width="16px" height="16px" src={SortIcon} />
-                </TableHeaderWrapper>
-              </TableHeader>
-            </TableRow>
-          </thead>
-          <tbody>
-            {voteData.map((item, key) => (
-              <VotingPoolCard
-                key={key}
-                data={item}
-                islock={islockPresent}
-                handleSelectPool={(isSelected) =>
-                  handleSelectPool(isSelected, item)
-                }
-              />
-            ))}
-          </tbody>
-        </TableContains>
-        {selectedPoolsCount > 0 && (
-          <VoteSelectedCard
-            countSelectedItem={selectedPoolsCount}
-            VoteSelectPoolData={VoteSelectPool}
-            nftData={nftData}
-          />
-        )}
-      </TableWrapper>
-    </LiquidityTableWrapper>
+                <TableHeader>
+                  <TableHeaderWrapper>
+                    <StatsCardtitle fontSize={16}>Incentives</StatsCardtitle>
+                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                  </TableHeaderWrapper>
+                </TableHeader>
+                <TableHeader>
+                  <TableHeaderWrapper>
+                    <StatsCardtitle fontSize={16}>Total Rewards</StatsCardtitle>
+                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                  </TableHeaderWrapper>
+                </TableHeader>
+                <TableHeader>
+                  <TableHeaderWrapper>
+                    <StatsCardtitle fontSize={16}>vAPR</StatsCardtitle>
+                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                  </TableHeaderWrapper>
+                </TableHeader>
+                <TableHeader>
+                  <TableHeaderWrapper>
+                    <StatsCardtitle fontSize={16}>Vote Pools</StatsCardtitle>
+                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                  </TableHeaderWrapper>
+                </TableHeader>
+              </TableRow>
+            </thead>
+            <tbody>
+              {voteData.map((item, key) => (
+                <VotingPoolCard
+                  key={key}
+                  data={item}
+                  islock={islockPresent}
+                  handleSelectPool={(isSelected) =>
+                    handleSelectPool(isSelected, item)
+                  }
+                />
+              ))}
+            </tbody>
+          </TableContains>
+          {selectedPoolsCount > 0 && (
+            <VoteSelectedCard
+              countSelectedItem={selectedPoolsCount}
+              VoteSelectPoolData={VoteSelectPool}
+              nftData={nftData}
+              setVoteSelectPool={setVoteSelectPool}
+              setSelectedPoolsCount={setSelectedPoolsCount}
+              setSucess={setSucess}
+            />
+          )}
+        </TableWrapper>
+      </LiquidityTableWrapper>
+
+      {isSucess && <SuccessPopup message="Vote Sucessfully" />}
+    </>
   );
 };
 

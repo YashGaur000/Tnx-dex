@@ -5,7 +5,7 @@ import LiquidityPage from '../pages/liquidity/LiquidityPage';
 // import GovernancePage from '../pages/governance/ManageveTenex';
 import RewardsPage from '../pages/rewards/RewardsPage';
 import ToolsPage from '../pages/tools/ToolsPage';
-import SwapPage from '../pages/swap/SwapPage';
+
 import CrossChainSwap from '../pages/swap/CrossChainSwap';
 import ConcentratedLiquidityPage from '../pages/liquidity/ConcentratedLiquidityPage';
 import ManageveTenex from '../pages/governance/ManageveTenex';
@@ -13,7 +13,7 @@ import Documentation from '../pages/tools/Documentation';
 import Incentives from '../pages/governance/Incentives';
 import { DOCS_DATA } from '../components/Documents/data/docsData';
 import BackgroundWrapper from './BackgroundWrapper';
-import Vote from '../pages/governance/Vote';
+
 import CreatePool from '../components/Liquidity/CreatePool/Modules/CreatePool';
 import Createlock from '../components/ManageVeTenex/Modules/CreateLockScreen/Createlock';
 import CreateLockRelay from '../components/ManageVeTenex/Modules/Relaymodules/CreateLockRelay';
@@ -32,7 +32,8 @@ const ManagePool = lazy(
 );
 
 const ContentData = lazy(() => import('../components/Documents/Content'));
-
+const Vote = lazy(() => import('../pages/governance/Vote'));
+const SwapPage = lazy(() => import('../pages/swap/SwapPage'));
 const AppRoutes: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 

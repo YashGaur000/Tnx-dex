@@ -28,10 +28,15 @@ export const VoteTitleBox = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const Title = styled.p<{ fontSize: number; theme: DefaultTheme }>`
+export const Title = styled.p<{
+  fontSize: number;
+  theme: DefaultTheme;
+  width?: number;
+}>`
   font-size: ${({ fontSize }) => fontSize}px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
+  width: ${({ width }) => width}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;
 

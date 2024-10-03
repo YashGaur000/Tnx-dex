@@ -1,10 +1,15 @@
-import React from 'react';
-import AnalyticsSection from '../../components/analytics/modules/AnalyticsSection';
+import React, { Suspense } from 'react';
+import PageLoader from '../../components/common/PageLoader';
 
+const AnalyticsSection = React.lazy(
+  () => import('../../components/analytics/modules/AnalyticsSection')
+);
 const ToolsPage: React.FC = () => {
   return (
     <>
-      <AnalyticsSection />
+      <Suspense fallback={<PageLoader />}>
+        <AnalyticsSection />
+      </Suspense>
     </>
   );
 };

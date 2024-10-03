@@ -60,7 +60,6 @@ const MergeLock = () => {
       const toTillDate = convertDateToTimestamp(toLockDate);
       if (lockData) {
         const lockdataEnd = lockData.end;
-        console.log('lockdataEnd:', lockdataEnd);
         const fromTillDate = convertDateToTimestamp(lockdataEnd.toString());
 
         const Duration = fromTillDate >= toTillDate ? fromTillDate : toTillDate;
