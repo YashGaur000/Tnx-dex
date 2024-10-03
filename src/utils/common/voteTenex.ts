@@ -144,7 +144,7 @@ export const getTimeDifference = (targetDateString: string): string => {
 
   const diffTime = targetDate.getTime() - currentDate.getTime();
 
-  if (diffTime <= 0) {
+  if (diffTime < 0) {
     return 'Expired';
   }
 
@@ -152,7 +152,6 @@ export const getTimeDifference = (targetDateString: string): string => {
   let months = targetDate.getMonth() - currentDate.getMonth();
   let days = targetDate.getDate() - currentDate.getDate();
 
-  // Adjust days and months if days are negative
   if (days < 0) {
     months -= 1;
     days += new Date(
@@ -173,12 +172,12 @@ export const getTimeDifference = (targetDateString: string): string => {
     output += `${years} years `;
   }
 
-  if (months > 0) {
+  if (months >= 0) {
     output += `${months} months `;
   }
 
-  if (days > 0) {
-    output += `${days - 1} days `;
+  if (days >= 0) {
+    output += `${days} days `;
   }
 
   if (years === 0 && days === 0 && months) {
@@ -217,3 +216,5 @@ export function calVotingPower(end: number, amount: number) {
   const votingPower = Number(amount) * (timeRemaining / MAX_LOCK_TIME);
   return votingPower;
 }
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));

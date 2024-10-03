@@ -114,5 +114,30 @@ export function useVoterContract() {
     },
     [voterContract]
   );
-  return { createGauge, gauges, gaugeToBribe, deposit, vote, reset };
+
+  const epochVoteEnd = useCallback(
+    async (timestamp: number) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const epochVoteEnd = await voterContract.epochVoteEnd(timestamp);
+        return epochVoteEnd;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+
+  return {
+    createGauge,
+    gauges,
+    gaugeToBribe,
+    deposit,
+    vote,
+    reset,
+    epochVoteEnd,
+  };
 }
