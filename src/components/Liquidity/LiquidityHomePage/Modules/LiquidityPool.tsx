@@ -104,7 +104,6 @@ const LiquidityPool = () => {
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   );
-  console.log(paginatedData);
 
   if (loading)
     return (

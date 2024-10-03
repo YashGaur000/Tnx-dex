@@ -99,7 +99,7 @@ const VotePoolTable: React.FC = () => {
           <TableContains margin="0px 0px">
             <thead>
               <TableRow>
-                <TableHeader textalign="left">
+                <TableHeader textalign="left" width="330px">
                   <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
                 </TableHeader>
                 <TableHeader>

@@ -46,7 +46,7 @@ export const TableWrapper = styled.div<{
 const TableContains = styled.table<TableProps>`
   width: ${({ width }) => width ?? '100%'};
 
-  table-layout: auto;
+  table-layout: fixed;
   margin: ${({ margin }) => margin ?? '0px 0px'};
   height: auto;
   font-family: ${({ theme }) => theme.fonts.main};

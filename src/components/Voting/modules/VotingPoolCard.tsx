@@ -78,7 +78,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   return (
     <>
       <TableRow>
-        <TableColumn>
+        <TableColumn width="330px">
           <TokenCardContainer height={96}>
             <GroupImgContains>
               <IMG1Contains top={10} left={0}>
