@@ -27,7 +27,6 @@ import {
   Label,
   PairContain,
   TooltipContainer,
-  TooltipContent,
   TraidingSyleLabel,
 } from '../styles/VotingPoolCard.style';
 import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
@@ -56,13 +55,14 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
 
   const handleVote = () => {
-    const newState = !isSelectCardOpen;
-    setSelectCardOpen(newState);
-    handleSelectPool(newState);
+    if (islock) {
+      const newState = !isSelectCardOpen;
+
+      setSelectCardOpen(newState);
+      handleSelectPool(newState);
+    } else setHoverPopUpShow(true);
   };
-  const handleHoverShow = () => {
-    setHoverPopUpShow(true);
-  };
+
   const handleHoverHide = () => {
     setHoverPopUpShow(false);
   };
@@ -87,32 +87,32 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               </TraidingSyleLabel>
               <LiquidityTokenWrapper>
                 <TokenAmountTitle>
-                  <StatsCardtitle lineheight="17px" fontsize={12}>
+                  <StatsCardtitle lineheight="17px" fontSize={12}>
                     {data.isStable ? 'Stable' : 'Volatile'}
                   </StatsCardtitle>
 
-                  <LiquidityTitle fontsize={12}>{0.01} %</LiquidityTitle>
+                  <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
                   <SugestImgWrapper>
                     <SuggestImg src={ImpIcon} />
                   </SugestImgWrapper>
                 </TokenAmountTitle>
                 <TokenAmountTitle>
-                  <StatsCardtitle lineheight="17px" fontsize={12}>
+                  <StatsCardtitle lineheight="17px" fontSize={12}>
                     Votes
                   </StatsCardtitle>{' '}
-                  <LiquidityTitle fontsize={12} textalign="right">
+                  <LiquidityTitle fontSize={12} textalign="right">
                     8,428,176.46
                   </LiquidityTitle>
                   <ImageContainer src={ArrowIcon} width="12px" height="10px" />
-                  <LiquidityTitle fontsize={12} textalign="right">
+                  <LiquidityTitle fontSize={12} textalign="right">
                     8,428,176.4
                   </LiquidityTitle>
                 </TokenAmountTitle>
                 <TokenAmountTitle>
-                  <StatsCardtitle lineheight="17px" fontsize={12}>
+                  <StatsCardtitle lineheight="17px" fontSize={12}>
                     TVL
                   </StatsCardtitle>{' '}
-                  <LiquidityTitle fontsize={12} textalign="right">
+                  <LiquidityTitle fontSize={12} textalign="right">
                     {data.totalVolumeUSD.toString()}
                   </LiquidityTitle>
                 </TokenAmountTitle>
@@ -122,12 +122,12 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
         </TableColumn>
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontsize={14}> ~$ {data.totalFeesUSD.toString()}</Title>
+            <Title fontSize={14}> ~$ {data.totalFeesUSD.toString()}</Title>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontsize={12} textalign="right">
+              <LiquidityTitle fontSize={12} textalign="right">
                 {data.totalFees0.toString()} {data.token0.symbol}
               </LiquidityTitle>
-              <LiquidityTitle fontsize={12} textalign="right">
+              <LiquidityTitle fontSize={12} textalign="right">
                 {data.totalFees1.toString()} {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
@@ -136,10 +136,12 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontsize={14}>{'No available incentive'}</Title>
+            <Title fontSize={14}>
+              {'~$ ' + data.totalBribesUSD.toString()}
+            </Title>
             <LiquidityTokenWrapper>
               <LiquidityTitle
-                fontsize={12}
+                fontSize={12}
                 textalign="right"
                 textdecoration="underline"
               >
@@ -151,12 +153,13 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontsize={14}>{}</Title>
+            <Title fontSize={14}>
+              ~${' '}
+              {Number(data.totalBribesUSD.toString()) +
+                Number(data.totalFeesUSD.toString())}
+            </Title>
             <LiquidityTokenWrapper>
-              <LiquidityTitle fontsize={12} textalign="right">
-                {}
-              </LiquidityTitle>
-              <LiquidityTitle fontsize={12} textalign="right">
+              <LiquidityTitle fontSize={12} textalign="right">
                 {'Fees + Incentives'}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
@@ -166,10 +169,9 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
         <TableColumn padding="0px">
           <TableColumnWrapper height="96px">
             <TooltipContainer>
-              <Title fontsize={14}>
+              <Title fontSize={14}>
                 {'226.18%'} <Img src={ImpIcon} />
               </Title>
-              <TooltipContent className="tooltip-content"></TooltipContent>
             </TooltipContainer>
             <Label>{}</Label>
           </TableColumnWrapper>
@@ -177,20 +179,17 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn padding="5px">
           <TableColumnWrapper height="95px">
-            <SelectedButtonWrapper
-              onClick={islock ? handleVote : undefined}
-              onMouseEnter={!islock ? handleHoverShow : undefined}
-            >
+            <SelectedButtonWrapper onClick={handleVote}>
               <GradientButton
                 color="#ffffff"
                 padding="4px 10px"
-                fontsize="12px"
+                fontSize="12px"
                 width="auto"
                 height="26px"
                 lineheight="0px"
                 border="1.5px solid transparent"
                 borderradius="8px"
-                smfontsize={12}
+                smfontSize={12}
                 smmargin="0px"
               >
                 {!islock ? (

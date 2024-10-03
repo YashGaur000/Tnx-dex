@@ -39,13 +39,58 @@ import {
   SliderContainer,
 } from '../../Swap/styles/TransactionDeadline.style';
 
-import UsdIcon from '../../../assets/usdc.png';
-import FtmIcon from '../../../assets/ftm.png';
 import InformationIcon from '../../../assets/Tips.svg';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import WithdrawStepper from './WithdrawStepper';
+import { TokenInfo } from '../../../constants/tokens/type';
+import useQueryParams from '../../../hooks/useQueryParams';
+import { usePoolContract } from '../../../hooks/usePoolContract';
+import { Metadata } from '../../../types/Pool';
+import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import { usePoolBalances } from '../../../hooks/usePoolBalances';
+import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
+
 const WithdrawLiquidity = () => {
-  const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(0);
+  const [SelectWithdrawValue, SetSelectWithdrawValue] = useState<number>(100);
+  const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
+    undefined
+  );
+  const [poolType, setPoolType] = useState(false);
+  const [deposit0, setDeposit0] = useState('');
+  const [deposit1, setDeposit1] = useState('');
+
+  const getParam = useQueryParams();
+  const poolId = getParam('pool');
+  const { metadata } = usePoolContract(poolId ?? '');
+  const { transactionStatus } = useRootStore();
+
+  useEffect(() => {
+    metadata()
+      .then((data: Metadata | undefined) => {
+        if (data) {
+          setSelectedToken1(getTokenInfo(data.t0));
+          setSelectedToken2(getTokenInfo(data.t1));
+          setPoolType(data.st);
+        }
+      })
+      .catch((error) => {
+        console.error('error loading metadata', error);
+      });
+
+    if (transactionStatus === TransactionStatus.DONE) {
+      SetSelectWithdrawValue(100);
+    }
+  }, [poolId, metadata, transactionStatus]);
+
+  const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
+    poolId ?? '',
+    selectedToken1?.decimals ?? 18,
+    selectedToken2?.decimals ?? 18
+  );
 
   const handleCustomSliderValue = (value: number) => {
     SetSelectWithdrawValue(Number(value));
@@ -53,6 +98,10 @@ const WithdrawLiquidity = () => {
   const HandleStakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const StakeValue = e.target.value;
     SetSelectWithdrawValue(Number(StakeValue));
+    const deposit0 = Number(StakeValue) * 0.01 * Number(balance0);
+    const deposit1 = Number(StakeValue) * 0.01 * Number(balance1);
+    setDeposit0(deposit0.toString());
+    setDeposit1(deposit1.toString());
   };
 
   const SliderPercentage = [
@@ -71,20 +120,22 @@ const WithdrawLiquidity = () => {
             <DepositeTokenWithImage>
               <GroupImgContains>
                 <IMG1Contains top={5} left={0}>
-                  <Imgstyle src={UsdIcon} />
+                  <Imgstyle src={selectedToken1?.logoURI} />
                 </IMG1Contains>
                 <IMG2Contains top={5} left={26}>
-                  <Imgstyle src={FtmIcon} />
+                  <Imgstyle src={selectedToken2?.logoURI} />
                 </IMG2Contains>
               </GroupImgContains>
 
               <TokenDescription>
-                <LiquidityHeaderTitle fontsize={16}>
-                  USDT-FTM
+                <LiquidityHeaderTitle fontSize={16}>
+                  {selectedToken1?.symbol}-{selectedToken2?.symbol}
                 </LiquidityHeaderTitle>
                 <TokenStatus>
-                  <StatsCardtitle fontsize={12}>Stable</StatsCardtitle>
-                  <LiquidityTitle fontsize={12}>0.01%</LiquidityTitle>
+                  <StatsCardtitle fontSize={12}>
+                    {poolType ? 'stable' : 'volatile'}
+                  </StatsCardtitle>
+                  <LiquidityTitle fontSize={12}>0.01%</LiquidityTitle>
                   <LiquidityImgStyle
                     width={'17px'}
                     height={'17px'}
@@ -95,45 +146,47 @@ const WithdrawLiquidity = () => {
             </DepositeTokenWithImage>
 
             <TokenContainer>
-              <StatsCardtitle fontsize={16}>APR</StatsCardtitle>
-              <LiquidityHeaderTitle fontsize={14}>226.18%</LiquidityHeaderTitle>
+              <StatsCardtitle fontSize={16}>APR</StatsCardtitle>
+              <LiquidityHeaderTitle fontSize={14}>226.18%</LiquidityHeaderTitle>
             </TokenContainer>
           </DepositeContentWrapper>
 
           <DepositeContentWrapper>
             <LiquidityStyleContainer>
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 Liquidity
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle fontsize={12}>
-                  1,003,212.5643 USDT
+                <LiquidityTitle fontSize={12}>
+                  {reserve0} {selectedToken1?.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle fontsize={12}>2,783,860.003 FTM</LiquidityTitle>
+                <LiquidityTitle fontSize={12}>
+                  {reserve1} {selectedToken2?.symbol}
+                </LiquidityTitle>
               </TokenAmountWrapper>
             </LiquidityStyleContainer>
 
             <DepositeStyle>
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 Your Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
-                <LiquidityTitle textalign="right" fontsize={12}>
-                  0.0 USDT
+                <LiquidityTitle textalign="right" fontSize={12}>
+                  {deposit0 ? deposit0 : balance0} {selectedToken1?.symbol}
                 </LiquidityTitle>
-                <LiquidityTitle textalign="right" fontsize={12}>
-                  0.0 FTM
+                <LiquidityTitle textalign="right" fontSize={12}>
+                  {deposit1 ? deposit1 : balance1} {selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
           </DepositeContentWrapper>
           <StakeRangeWrapper>
-            <StakeTitle fontsize={16}>
+            <StakeTitle fontSize={16}>
               Withdrawing {SelectWithdrawValue}%
             </StakeTitle>
 
             <SliderStatusWrapper>
-              <LoaderStatus fontsize={12}>{SelectWithdrawValue}%</LoaderStatus>
+              <LoaderStatus fontSize={12}>{SelectWithdrawValue}%</LoaderStatus>
             </SliderStatusWrapper>
             <LoaderStyle>
               <SliderContainer margin="0px">
@@ -146,7 +199,7 @@ const WithdrawLiquidity = () => {
                   onChange={HandleStakeSlider}
                 />
               </SliderContainer>
-              <SliderDeadlineStyle fontsize={10}>
+              <SliderDeadlineStyle fontSize={10}>
                 {SliderPercentage.map(({ value, id }) => (
                   <SliderLabel
                     key={id}
@@ -161,7 +214,12 @@ const WithdrawLiquidity = () => {
         </StakeCard>
 
         <StakeCard width="40%">
-          <WithdrawStepper />
+          <WithdrawStepper
+            poolId={poolId ?? ''}
+            withdrawPercentage={SelectWithdrawValue.toString()}
+            tokenA={selectedToken1?.address ?? ''}
+            tokenB={selectedToken2?.address ?? ''}
+          />
         </StakeCard>
       </StakeMainContainer>
     </MainContainerStyle>

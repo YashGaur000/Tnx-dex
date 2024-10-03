@@ -53,7 +53,6 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       if (amountInWei && LocTokenAddress) {
         await approveAllowance(escrowAddress, amountInWei.toString());
         setIsTokenAllowed(true);
-        setIsApproveLock(true);
       }
     } catch (error) {
       setIsApproveLock(false);
@@ -75,7 +74,6 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
-      //setIsDisabled(false);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setLockTokenValue('');
@@ -98,6 +96,11 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
     LockTokenDecimal,
     lockDuration,
     createLock,
+    setTransactionStatus,
+    setLockTokenValue,
+    SetlockDuration,
+    setSuccessLock,
+    setIsApproveLock,
   ]);
 
   const LockInstructionData: StepperDataProps[] = [
@@ -159,7 +162,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
   return (
     <StyledDepositContainer>
-      <LockHeaderTitle fontsize={24}>Lock</LockHeaderTitle>
+      <LockHeaderTitle fontSize={24}>Lock</LockHeaderTitle>
       <Stepper data={!LockTokenValue ? LockInstructionData : LockData} />
       {isTokenAllowed && !isLocked && (
         <GlobalButton

@@ -12,12 +12,15 @@ import { ethers } from 'ethers';
 import { UserPosition } from '../types/Pool';
 import contractAddresses from '../constants/contract-address/address';
 import { AddressZero } from '@ethersproject/constants';
+import { useCallback } from 'react';
 
 const fetchUserPools = async (
   multicallClient: PublicClient,
   pools: LiquidityPoolNewType[],
-  account: string
+  account: Address
 ) => {
+  if (pools.length === 0) return [];
+
   const balanceOfCalls = pools.map(({ id }) => ({
     abi: poolAbi.abi as Abi,
     functionName: 'balanceOf',
@@ -213,7 +216,7 @@ const fetchUserPools = async (
       formatAmounts(claimable0Results[index].result as ethers.Numeric, 18) ??
       '0';
 
-    pool.claimable0 = claim0;
+    pool.claimable0 = Number(claim0).toFixed(5);
 
     const index0 =
       formatAmounts(index0Results[index].result as ethers.Numeric, 18) ?? '0';
@@ -234,7 +237,7 @@ const fetchUserPools = async (
       formatAmounts(claimable1Results[index].result as ethers.Numeric, 18) ??
       '0';
 
-    pool.claimable1 = claim1;
+    pool.claimable1 = Number(claim1).toFixed(5);
 
     const index1 =
       formatAmounts(index1Results[index].result as ethers.Numeric, 18) ?? '0';
@@ -291,7 +294,7 @@ export const useUserPosition = (account: Address) => {
   const { data: poolData } = useLiquidityPoolData();
   const multicallClient = useMultiCall();
 
-  const fetchPoolData = async () => {
+  const fetchPoolData = useCallback(async () => {
     if (multicallClient && poolData) {
       return await fetchUserPools(
         multicallClient as PublicClient,
@@ -300,12 +303,12 @@ export const useUserPosition = (account: Address) => {
       );
     }
     return [];
-  };
+  }, [multicallClient, poolData, account]);
 
   const {
     data: userPools,
     isError,
-    refetch,
+    refetch: refetchUserPools,
     isFetching,
   } = useQuery<UserPosition[]>(
     {
@@ -331,6 +334,6 @@ export const useUserPosition = (account: Address) => {
     userPools,
     isError,
     isFetching,
-    refetch,
+    refetchUserPools,
   };
 };

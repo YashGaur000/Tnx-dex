@@ -102,8 +102,8 @@ export const filterNftsByUnlockDate = (nfts: Nft[]): Nft[] => {
 export const convertDateStringToTimestamp = (
   dateString: string
 ): number | null => {
-  const [year, month, day] = dateString.split('-').map(Number); // Split and convert to numbers
-  const timestampInMillis = Date.UTC(year, month - 1, day); // Create a UTC timestamp (month is 0-indexed)
+  const [year, month, day] = dateString.split('-').map(Number);
+  const timestampInMillis = Date.UTC(year, month - 1, day);
   return !isNaN(timestampInMillis)
     ? Math.floor(timestampInMillis / 1000)
     : null;
@@ -142,7 +142,6 @@ export const getTimeDifference = (targetDateString: string): string => {
   const currentDate = new Date();
   const targetDate = new Date(targetDateString);
 
-  // Calculate the difference in milliseconds
   const diffTime = targetDate.getTime() - currentDate.getTime();
 
   if (diffTime <= 0) {
@@ -168,7 +167,6 @@ export const getTimeDifference = (targetDateString: string): string => {
     months += 12;
   }
 
-  // Construct the output based on the conditions
   let output = '';
 
   if (years > 0) {
@@ -180,7 +178,7 @@ export const getTimeDifference = (targetDateString: string): string => {
   }
 
   if (days > 0) {
-    output += `${days} days `;
+    output += `${days - 1} days `;
   }
 
   if (years === 0 && days === 0 && months) {

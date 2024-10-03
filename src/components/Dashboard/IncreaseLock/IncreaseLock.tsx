@@ -45,6 +45,7 @@ const IncreaseLock = () => {
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const fetchLockData = async () => {
       if (tokenId) {
         try {
@@ -103,34 +104,34 @@ const IncreaseLock = () => {
       <CreateMainContainer>
         <LockleftSection height={374}>
           <PercentageSelectorContainer>
-            <LockHeaderTitle fontsize={24}>Increase Lock</LockHeaderTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockHeaderTitle fontSize={24}>Increase Lock</LockHeaderTitle>
+            <LockDescriptonTitle fontSize={14}>
               Current Lock {lockedTENEX ? lockedTENEX : '0'}{' '}
               {lockTokenInfo?.symbol}
             </LockDescriptonTitle>
           </PercentageSelectorContainer>
 
           <LockHeaderWrapper>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {lockedTENEX ? lockedTENEX : '0'}{' '}
-              <LockHeaderTitle fontsize={14}>
+              <LockHeaderTitle fontSize={14}>
                 {lockTokenInfo?.symbol}
               </LockHeaderTitle>{' '}
               locked until{' '}
               {lockData ? calculateRemainingDays(Number(lockData.end)) : '...'}
             </LockDescriptonTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockDescriptonTitle fontSize={14}>
               {totalVotingPower ? totalVotingPower : '0.00'}{' '}
-              <LockHeaderTitle fontsize={14}>veTENEX</LockHeaderTitle> voting
+              <LockHeaderTitle fontSize={14}>veTENEX</LockHeaderTitle> voting
               power granted
             </LockDescriptonTitle>
           </LockHeaderWrapper>
 
           <PercentageSelectorContainer>
-            <LockHeaderTitle fontsize={16}>Add to lock</LockHeaderTitle>
-            <LockDescriptonTitle fontsize={14}>
+            <LockHeaderTitle fontSize={16}>Add to lock</LockHeaderTitle>
+            <LockDescriptonTitle fontSize={14}>
               Available{' '}
-              <LockHeaderTitle fontsize={14}>
+              <LockHeaderTitle fontSize={14}>
                 {Number(balances[lockTokenInfo?.address])}{' '}
                 {lockTokenInfo?.symbol}
               </LockHeaderTitle>
@@ -152,7 +153,7 @@ const IncreaseLock = () => {
                 width="20px"
                 height="20px"
               />
-              <LockHeaderTitle fontsize={14}>
+              <LockHeaderTitle fontSize={14}>
                 {lockTokenInfo?.symbol}
               </LockHeaderTitle>
             </AmountWithImg>
@@ -160,10 +161,10 @@ const IncreaseLock = () => {
 
           <TipsContainer>
             <ImageContainer width="24px" height="24px" src={InformIcon} />
-            <LockHeaderTitle fontsize={14}>
+            <LockHeaderTitle fontSize={14}>
               Depositing into the lock will increase your voting power. You can
               also{' '}
-              <UnderlineText fontsize={14}>extend the lock time.</UnderlineText>
+              <UnderlineText fontSize={14}>extend the lock time.</UnderlineText>
             </LockHeaderTitle>
           </TipsContainer>
         </LockleftSection>

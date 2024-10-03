@@ -20,8 +20,9 @@ import contractAddress from '../../../../constants/contract-address/address';
 import { LiquidityTitle } from '../../LiquidityHomePage/styles/LiquidityHeroSection.style';
 import { AmountLabel } from '../../../common';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
-import { formatUnits } from 'ethers';
-
+import { useNativeBalance } from '../../../../hooks/useNativeBalance';
+import { AddressZero } from '@ethersproject/constants';
+import { formatAmounts } from '../../../../utils/transaction/parseAmounts';
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
   totalBalanceToken2: ethers.Numeric;
@@ -81,17 +82,16 @@ const LiquidityForm: FC<FormComponentProps> = ({
         )
           .then((tx) => {
             const value2 =
-              tx &&
-              parseFloat(
-                formatUnits(tx.amountB.toString(), selectedToken2.decimals)
-              );
+              tx && formatAmounts(Number(tx?.amountB), selectedToken2.decimals);
             setToken2Amount(value2 ? value2.toString() : '0');
-            onTokenValueChange(
-              parseFloat(value),
-              value2 ?? 0,
-              totalBalanceToken1,
-              totalBalanceToken2
-            );
+            if (value2) {
+              onTokenValueChange(
+                parseFloat(value),
+                parseFloat(value2),
+                totalBalanceToken1,
+                totalBalanceToken2
+              );
+            }
           })
           .catch((error) => {
             console.error('Error fetching quote liquidity:', error);
@@ -157,22 +157,21 @@ const LiquidityForm: FC<FormComponentProps> = ({
             .then((tx) => {
               const value1 =
                 tx &&
-                parseFloat(
-                  formatUnits(tx.amountA.toString(), selectedToken1.decimals)
-                );
+                formatAmounts(Number(tx.amountA), selectedToken1.decimals);
               const value2 =
                 tx &&
-                parseFloat(
-                  formatUnits(tx.amountB.toString(), selectedToken2.decimals)
-                );
+                formatAmounts(Number(tx.amountB), selectedToken2.decimals);
               setToken1Amount(value1 ? value1.toString() : '0');
               setToken2Amount(value2 ? value2.toString() : '0');
-              onTokenValueChange(
-                Number(desiredValue),
-                value2 ?? 0,
-                totalBalanceToken1,
-                totalBalanceToken2
-              );
+
+              if (value2) {
+                onTokenValueChange(
+                  Number(desiredValue),
+                  parseFloat(value2),
+                  totalBalanceToken1,
+                  totalBalanceToken2
+                );
+              }
             })
             .catch((error) => {
               console.error('Error fetching liquidity quote:', error);
@@ -207,13 +206,24 @@ const LiquidityForm: FC<FormComponentProps> = ({
   const tokenList = [selectedToken1, selectedToken2];
 
   const { address } = useAccount();
+  const { balance: ethBalance } = useNativeBalance(address ?? AddressZero);
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
-  totalBalanceToken1 = Number(
-    selectedToken1 && balances[selectedToken1.address]
-  );
-  totalBalanceToken2 = Number(
-    selectedToken2 && balances[selectedToken2.address]
-  );
+
+  if (selectedToken1?.symbol == 'ETH' && ethBalance) {
+    totalBalanceToken1 = Number(ethBalance.formatted);
+  } else {
+    totalBalanceToken1 = Number(
+      selectedToken1 && balances[selectedToken1.address]
+    );
+  }
+
+  if (selectedToken2?.symbol == 'ETH' && ethBalance) {
+    totalBalanceToken2 = Number(ethBalance.formatted);
+  } else {
+    totalBalanceToken2 = Number(
+      selectedToken2 && balances[selectedToken2.address]
+    );
+  }
 
   if (selectedToken1 && selectedToken2) {
     return (
@@ -222,11 +232,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken1.symbol}
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Available {totalBalanceToken1.toString()}
             </LiquidityTitle>
           </FormRowWrapper>
@@ -262,11 +272,11 @@ const LiquidityForm: FC<FormComponentProps> = ({
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken2.logoURI} alt="FTM logo" />
-              <LiquidityHeaderTitle fontsize={16}>
+              <LiquidityHeaderTitle fontSize={16}>
                 {selectedToken2.symbol}
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
-            <LiquidityTitle fontsize={16}>
+            <LiquidityTitle fontSize={16}>
               Available {totalBalanceToken2.toString()}
             </LiquidityTitle>
           </FormRowWrapper>

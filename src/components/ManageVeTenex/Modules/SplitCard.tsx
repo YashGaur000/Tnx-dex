@@ -17,8 +17,8 @@ const SplitCard: React.FC = () => {
   return (
     <CardContainsLockScreen>
       <Tokenstyle>
-        <Labeltoken fontsize={15}>2462545368625</Labeltoken>
-        <TokenDate fontsize={12}>
+        <Labeltoken fontSize={15}>2462545368625</Labeltoken>
+        <TokenDate fontSize={12}>
           1 Year 321 Days{' '}
           <TipsIconWrapper
             onMouseEnter={() => setIsHovered(true)}
@@ -30,14 +30,14 @@ const SplitCard: React.FC = () => {
         </TokenDate>
       </Tokenstyle>
       <Tokenstyle>
-        <TitleWrapper fontsize="16px">
+        <TitleWrapper fontSize="16px">
           54 <ImgStyleSplit src={TenexIcon} />{' '}
         </TitleWrapper>
-        <TokenDate fontsize={12}>Stake</TokenDate>
+        <TokenDate fontSize={12}>Stake</TokenDate>
       </Tokenstyle>
       <Tokenstyle>
-        <TitleWrapper fontsize="16px">32.00</TitleWrapper>
-        <TokenDate fontsize={12}>Voting Power</TokenDate>
+        <TitleWrapper fontSize="16px">32.00</TitleWrapper>
+        <TokenDate fontSize={12}>Voting Power</TokenDate>
       </Tokenstyle>
     </CardContainsLockScreen>
   );

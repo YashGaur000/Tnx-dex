@@ -66,6 +66,7 @@ const CreatelockForm = () => {
   //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
 
   const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
+    if (isApproveLock) return;
     const TotalWeeks = e.target.value;
     SetlockDuration(Number(TotalWeeks));
     void handleVotingPower();
@@ -82,6 +83,7 @@ const CreatelockForm = () => {
 
   const handleSelectPercentage = useCallback(
     (percentage: number) => {
+      if (isApproveLock) return;
       setSuccessLock(false);
       //if (!LockTokenValue ) return;
       setSelectedPercentage(percentage);
@@ -109,6 +111,7 @@ const CreatelockForm = () => {
     { value: 208, weeks: '4 year' },
   ];
   const handleDurationYearClick = (vlueWeek: number) => {
+    if (!isApproveLock) return;
     setSuccessLock(false);
     const TotalWeeks = vlueWeek;
     SetlockDuration(Number(TotalWeeks));
@@ -203,11 +206,11 @@ const CreatelockForm = () => {
             </FormRowWrapper>
           </FormFieldContainer>
 
-          <LockTitle fontsize={16} lineheight={23.93}>
+          <LockTitle fontSize={16} lineheight={23.93}>
             Locking your TENEX tokens for {voteCalPower} veTENEX voting power
           </LockTitle>
           <LockLoaderContainer>
-            <LoaderStatusWrapper fontsize={12} lineheight={17.94}>
+            <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
               <LoaderStatus>{lockDuration} weeks</LoaderStatus>
             </LoaderStatusWrapper>
             <LoaderStyle>
@@ -217,18 +220,19 @@ const CreatelockForm = () => {
                   min="1"
                   max="208"
                   step={1}
-                  value={lockDuration}
+                  value={!isApproveLock ? lockDuration : ''}
                   onChange={HandleWeeksStatus}
                   disabled={isApproveLock}
                 />
               </SliderContainer>
             </LoaderStyle>
-            <SliderDeadlineStyle fontsize={10}>
+            <SliderDeadlineStyle fontSize={10}>
               {labels.map(({ value, weeks }) => (
                 <WeeksLabel
                   key={value}
-                  onClick={() => handleDurationYearClick(value)}
-                  isdisable={isApproveLock}
+                  onClick={() =>
+                    !isApproveLock ? handleDurationYearClick(value) : ''
+                  }
                 >
                   {weeks}
                 </WeeksLabel>
@@ -250,7 +254,7 @@ const CreatelockForm = () => {
       </CreateMainContainer>
       <LockScreenInstruction>
         <InformImg src={InformIcon} />
-        <LockCardtitle fontsize={16}>
+        <LockCardtitle fontSize={16}>
           Locking will give you an NFT, referred to as a veNFT. You can increase
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>

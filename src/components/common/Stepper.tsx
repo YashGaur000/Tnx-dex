@@ -225,8 +225,8 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                 margin="0px"
                 width="fit-content"
                 minwidth="163px"
-                fontsize={14}
-                smfontsize={14}
+                fontSize={14}
+                smfontSize={14}
                 height="37px"
                 tabIndex={0}
                 onClick={() => {

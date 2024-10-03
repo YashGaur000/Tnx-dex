@@ -140,7 +140,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       <MergeStepperContainer>
         <SteperWrapper gap={24}>
           <TransferLockTitle
-            fontsize={24}
+            fontSize={24}
             color={isvisblemergeStepper ? '#FFFFFF' : '#EB5540'}
           >
             Merge

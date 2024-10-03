@@ -197,7 +197,9 @@ export function useVotingEscrowContract(escrowAddress: string) {
   const fetchUserNFTs = useCallback(
     async (
       owner: Address
-    ): Promise<{ tokenId: bigint; metadata: string }[]> => {
+    ): Promise<
+      { tokenId: bigint; metadata: string; votingStatus: boolean }[]
+    > => {
       if (!votingEscrowContract) return [];
 
       const nftCount = await getNFTCount(owner);
@@ -240,18 +242,39 @@ export function useVotingEscrowContract(escrowAddress: string) {
         args: [tokenId],
         address: escrowAddress as Address,
       }));
+      const checkVoteStatus = tokenIds.map((tokenId) => ({
+        abi: votingEscrowAbi.abi as Abi,
+        functionName: 'voted',
+        args: [tokenId],
+        address: escrowAddress as Address,
+      }));
+
+      const voteStatus = await multicallClient?.multicall({
+        contracts: checkVoteStatus,
+      });
 
       const metadataResults = await multicallClient?.multicall({
         contracts: metadataRequests,
       });
 
-      const nfts: { tokenId: bigint; metadata: string }[] =
+      if (metadataResults && voteStatus) {
+        const nfts =
+          tokenIds.map((tokenId, index) => {
+            const metadata = metadataResults[index]?.result as string;
+            const votingStatus = voteStatus[index]?.result as boolean;
+            return { tokenId, metadata, votingStatus };
+          }) ?? [];
+        //console.log('nfts:', nfts);
+        return nfts;
+      } else {
+        return [];
+      }
+
+      /*  const nfts: { tokenId: bigint; metadata: string }[] =
         metadataResults?.map((result, index) => {
           const metadata = result.result as string;
           return { tokenId: tokenIds[index], metadata };
-        }) ?? [];
-
-      return nfts;
+        }) ?? []; */
     },
     [votingEscrowContract, multicallClient, getNFTCount]
   );

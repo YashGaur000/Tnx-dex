@@ -12,8 +12,8 @@ const CopyContainer = styled.div`
   align-items: center;
   gap: 8px;
 `;
-const Copytext = styled.p<{ theme: DefaultTheme; fontsize: number }>`
-  font-size: ${({ fontsize }) => fontsize ?? '16'}px;
+const Copytext = styled.p<{ theme: DefaultTheme; fontSize: number }>`
+  font-size: ${({ fontSize }) => fontSize ?? '16'}px;
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
@@ -49,7 +49,7 @@ const Copy: React.FC<copyProps> = ({ copydata }) => {
 
   return (
     <CopyContainer>
-      <Copytext fontsize={12}>{truncateString(copydata)}</Copytext>
+      <Copytext fontSize={12}>{truncateString(copydata)}</Copytext>
       <CopyIconWrapper onClick={(e) => e.stopPropagation()}>
         {isCopied ? (
           <CopyIconstyle src={SucessIcon} />

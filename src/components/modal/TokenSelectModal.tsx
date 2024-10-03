@@ -111,7 +111,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                       <Copy copydata={token.address} />
                     </TokenNameWrapper>
                   </TokenItemWithAdressWrapper>
-                  <TokenItemData fontsize={16}>
+                  <TokenItemData fontSize={16}>
                     {account && token.symbol == 'ETH' ? (
                       <BalanceDisplay address={account} />
                     ) : (
