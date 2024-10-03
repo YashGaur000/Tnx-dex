@@ -14,42 +14,29 @@ import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew
 import { StatsCardtitle } from '../styles/LiquidityHeroSection.style.tsx';
 import Pagination from '../../../common/Pagination.tsx';
 import { LiquidityTableWrapper } from '../styles/LiquidityTable.style.tsx';
-import { useState } from 'react';
-const ITEMS_PER_PAGE = 5;
-type SortableKeys = 'totalVolumeUSD' | 'reserve0' | 'totalFeesUSD';
+
+type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD';
 
 interface PoolTableProps {
-  handleSortedFeatures: (item: SortableKeys) => void;
+  handleSortedFeatures: (field: SortableKeys) => void;
   sortedData: LiquidityPoolNewType[];
+  handleNextPage: () => void;
+  handlePrevpage: () => void;
+  currentPage: number;
+  totalPages: number;
 }
 
 const LiquidityPoolTable: React.FC<PoolTableProps> = ({
   handleSortedFeatures,
   sortedData,
+  handleNextPage,
+  handlePrevpage,
+  totalPages,
+  currentPage,
 }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(sortedData.length / ITEMS_PER_PAGE);
-
   const handleSorting = (item: SortableKeys) => {
     handleSortedFeatures(item);
   };
-  function handlePrevpage() {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-    }
-  }
-  function handleNextPage() {
-    if (currentPage < totalPages) {
-      setCurrentPage((prevPage) => prevPage + 1);
-    }
-  }
-
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const paginatedData = sortedData.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
-  );
 
   return (
     <LiquidityTableWrapper>
@@ -68,7 +55,8 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
                     width="16px"
                     height="16px"
                     src={SortIcon}
-                    onClick={() => handleSorting('totalVolumeUSD')}
+                    cursor="pointer"
+                    // onClick={() => handleSorting('totalVolumeUSD')}
                   />
                 </TableHeaderWrapper>
               </TableHeader>
@@ -79,6 +67,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
                     width="16px"
                     height="16px"
                     src={SortIcon}
+                    cursor="pointer"
                     onClick={() => handleSorting('totalVolumeUSD')}
                   />
                 </TableHeaderWrapper>
@@ -91,7 +80,8 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
                     width="16px"
                     height="16px"
                     src={SortIcon}
-                    onClick={() => handleSorting('totalVolumeUSD')}
+                    cursor="pointer"
+                    onClick={() => handleSorting('totalFeesUSD')}
                   />
                 </TableHeaderWrapper>
               </TableHeader>
@@ -104,6 +94,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
                     width="16px"
                     height="16px"
                     src={SortIcon}
+                    cursor="pointer"
                     onClick={() => handleSorting('totalVolumeUSD')}
                   />
                 </TableHeaderWrapper>
@@ -111,7 +102,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
             </TableRow>
           </thead>
           <tbody>
-            {paginatedData.map((item, key) => (
+            {sortedData.map((item, key) => (
               <LiquidityPoolCard key={key} data={item} />
             ))}
           </tbody>
