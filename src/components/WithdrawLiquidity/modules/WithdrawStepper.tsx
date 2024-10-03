@@ -14,7 +14,6 @@ import contractAddress from '../../../constants/contract-address/address';
 import { useEffect, useState } from 'react';
 import { Address } from 'viem';
 import { usePoolContract } from '../../../hooks/usePoolContract';
-import { ethers } from 'ethers';
 import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
 import { GlobalButton } from '../../common/index';
 import { useRootStore } from '../../../store/root';
@@ -29,6 +28,7 @@ import PopupScreen from '../../common/PopupScreen';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import SlippageTolerance from '../../common/SlippageTolerance';
 import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
+import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 interface WithdrawStepperProps {
   poolId: string;
   withdrawPercentage: string;
@@ -69,16 +69,13 @@ const WithdrawStepper = ({
       if (balance) {
         const amount =
           (Number(balance.etherBalance) * Number(withdrawPercentage)) / 100;
-        setLiquidity(amount.toString());
-        await fetchAllowance(
-          Number(liquidity),
-          contractAddress.Router,
-          setIsTokenAllowed
-        );
+        const amountInWei = parseAmounts(amount.toString(), balance.decimals);
+        if (amountInWei) setLiquidity(amountInWei.toString());
+        await fetchAllowance(amount, contractAddress.Router, setIsTokenAllowed);
       }
     }
     void isAllowance();
-  }, [liquidity]);
+  }, [withdrawPercentage]);
 
   const closeModal = () => {
     setVisibleSlippage(false);
@@ -99,14 +96,12 @@ const WithdrawStepper = ({
       if (balance) {
         const amount =
           (Number(balance.etherBalance) * Number(withdrawPercentage)) / 100;
-        const amountInWei = ethers.parseUnits(
-          amount.toFixed(balance.decimals).toString(),
-          balance.decimals
-        );
-        setLiquidity(amountInWei.toString());
+        const amountInWei = parseAmounts(amount.toString(), balance.decimals);
+
+        if (amountInWei) setLiquidity(amountInWei.toString());
         const result = await approveAllowance(
           contractAddress.Router,
-          amountInWei.toString()
+          liquidity
         );
         setIsTokenAllowed(result ? true : false);
       }
@@ -120,7 +115,6 @@ const WithdrawStepper = ({
 
   const handleWithdrawDeposit = async () => {
     const deadline = getDeadline(deadLineValue);
-
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
 

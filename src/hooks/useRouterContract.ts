@@ -495,7 +495,6 @@ export function useRouterContract() {
         console.error('Router contract instance not available');
         return;
       }
-      console.log(routerContract);
       try {
         const liquidityEstimate = await routerContract.quoteRemoveLiquidity(
           tokenA,
