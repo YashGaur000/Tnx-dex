@@ -13,13 +13,13 @@ import { useRootStore } from '../../store/root';
 
 const SlippageTolerance: React.FC = () => {
   const { setSelectedTolerance } = useRootStore();
-  const [toleranceInput, setToleranceInput] = useState<number>(1);
+  const [toleranceInput, setToleranceInput] = useState<string>('1.0');
 
   const [color, setColor] = useState('');
 
   const handleToleranceChange = (tolerance: string) => {
     setSelectedTolerance(tolerance.toString());
-    setToleranceInput(parseFloat(tolerance));
+    setToleranceInput(tolerance);
 
     setColor('');
   };
@@ -36,13 +36,13 @@ const SlippageTolerance: React.FC = () => {
 
       setColor(''); // Reset color to default if valid
     } else {
-      setSelectedTolerance('1');
+      setSelectedTolerance('1.0');
       // Set to default value if invalid
 
       setColor('red'); // Set color to red to indicate an error
     }
 
-    setToleranceInput(numValue);
+    setToleranceInput(value);
   };
 
   return (
@@ -56,37 +56,37 @@ const SlippageTolerance: React.FC = () => {
             onChange={handleCustomTolerance}
             style={{ color: `${color}` }}
           />
-          <PercentageTitle>%</PercentageTitle>
+          <PercentageTitle> %</PercentageTitle>
         </SlipageInputWrapper>
       </SlippageAlign>
       <ToleranceButtons>
         <ToleranceButton
-          selected={toleranceInput === 0.1}
+          selected={toleranceInput === '0.1'}
           onClick={() => handleToleranceChange('0.1')}
         >
           0.1%
         </ToleranceButton>
         <ToleranceButton
-          selected={toleranceInput === 0.5}
+          selected={toleranceInput === '0.5'}
           onClick={() => handleToleranceChange('0.5')}
         >
           0.5%
         </ToleranceButton>
         <ToleranceButton
-          selected={toleranceInput === 1}
-          onClick={() => handleToleranceChange('1')}
+          selected={toleranceInput === '1.0'}
+          onClick={() => handleToleranceChange('1.0')}
         >
           1.0%
         </ToleranceButton>
         <ToleranceButton
-          selected={toleranceInput === 2}
-          onClick={() => handleToleranceChange('2')}
+          selected={toleranceInput === '2.0'}
+          onClick={() => handleToleranceChange('2.0')}
         >
           2.0%
         </ToleranceButton>
         <ToleranceButton
-          selected={toleranceInput === 5}
-          onClick={() => handleToleranceChange('5')}
+          selected={toleranceInput === '5.0'}
+          onClick={() => handleToleranceChange('5.0')}
         >
           5.0%
         </ToleranceButton>

@@ -1,15 +1,34 @@
-import HeroSection from '../../components/Homepage/modules/HeroSection';
-import FeaturesSection from '../../components/Homepage/modules/FeaturesSection';
-import ParticipantsSection from '../../components/Homepage/modules/ParticipantsSection';
-import TopVoteIncentives from '../../components/Homepage/modules/TopVoteIncentives';
-import VolumeChart from '../../components/Homepage/modules/VolumeChart';
-import CoreSection from '../../components/Homepage/modules/CoreSection';
-import EmissionsSchedule from '../../components/Homepage/modules/EmissionsSchedule';
-import TopPairs from '../../components/Homepage/modules/TopPairs';
+import { Suspense } from 'react';
+import PageLoader from '../../components/common/PageLoader';
+import React from 'react';
+const TopPairs = React.lazy(
+  () => import('../../components/Homepage/modules/TopPairs')
+);
+const EmissionsSchedule = React.lazy(
+  () => import('../../components/Homepage/modules/EmissionsSchedule')
+);
+const CoreSection = React.lazy(
+  () => import('../../components/Homepage/modules/CoreSection')
+);
+const VolumeChart = React.lazy(
+  () => import('../../components/Homepage/modules/VolumeChart')
+);
+const TopVoteIncentives = React.lazy(
+  () => import('../../components/Homepage/modules/TopVoteIncentives')
+);
 
+const ParticipantsSection = React.lazy(
+  () => import('../../components/Homepage/modules/ParticipantsSection')
+);
+const FeaturesSection = React.lazy(
+  () => import('../../components/Homepage/modules/FeaturesSection')
+);
+const HeroSection = React.lazy(
+  () => import('../../components/Homepage/modules/HeroSection')
+);
 function HomePage() {
   return (
-    <>
+    <Suspense fallback={<PageLoader />}>
       <HeroSection />
       <FeaturesSection />
       <ParticipantsSection />
@@ -18,7 +37,7 @@ function HomePage() {
       <CoreSection />
       <EmissionsSchedule />
       <TopPairs />
-    </>
+    </Suspense>
   );
 }
 export default HomePage;

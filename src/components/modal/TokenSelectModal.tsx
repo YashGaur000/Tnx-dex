@@ -114,8 +114,10 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                   <TokenItemData fontSize={16}>
                     {account && token.symbol == 'ETH' ? (
                       <BalanceDisplay address={account} />
-                    ) : (
+                    ) : balances[token.address] > 0 ? (
                       balances[token.address].toString()
+                    ) : (
+                      '0.0'
                     )}
                   </TokenItemData>
                 </TokenItem>
