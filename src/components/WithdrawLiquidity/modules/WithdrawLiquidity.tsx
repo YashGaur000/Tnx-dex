@@ -198,6 +198,7 @@ const WithdrawLiquidity = () => {
                   step={1}
                   value={SelectWithdrawValue}
                   onChange={HandleStakeSlider}
+                  disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
                 />
               </SliderContainer>
               <SliderDeadlineStyle fontSize={10}>
