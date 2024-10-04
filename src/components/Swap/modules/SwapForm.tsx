@@ -45,6 +45,7 @@ import BalanceDisplay from './BalanceDisplay';
 import { fetchBestRouteAndUpdateState } from '../../../utils/liquidityRouting/refreshRouting';
 import { ROUTING_DELAY } from '../../../utils/liquidityRouting/chunk';
 import { useNativeBalance } from '../../../hooks/useNativeBalance';
+import { TransactionStatus } from '../../../types/Transaction';
 
 const SwapForm: React.FC = () => {
   const { address } = useAccount();
@@ -58,7 +59,7 @@ const SwapForm: React.FC = () => {
 
   const [tokenInput1, setTokenInput1] = useState('');
   const [tokenInput2, setTokenInput2] = useState('');
-  const { from, to, setFrom, setTo } = useRootStore();
+  const { from, to, transactionStatus, setFrom, setTo } = useRootStore();
   const selectedToken1 = useTokenInfo(from);
   const selectedToken2 = useTokenInfo(to);
   const tokenList = [selectedToken1, selectedToken2];
@@ -334,6 +335,9 @@ const SwapForm: React.FC = () => {
                     value={tokenInput1}
                     onChange={handleTokenInput1}
                     style={{ color: isValid ? '' : 'red' }}
+                    disabled={
+                      transactionStatus === TransactionStatus.IN_PROGRESS
+                    }
                   />
                   <TokenSelect onClick={() => handleTokenSelectOpen('token1')}>
                     <SwapPageIconWrapper
