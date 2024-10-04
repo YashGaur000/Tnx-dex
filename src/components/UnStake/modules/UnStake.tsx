@@ -48,6 +48,8 @@ import { useAccount } from '../../../hooks/useAccount';
 import { UserPosition } from '../../../types/Pool';
 import { getTokenLogo } from '../../../utils/getTokenLogo';
 import PageLoader from '../../common/PageLoader';
+import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
 
 const UnStake = () => {
   const [unstakedPool, setUnstakedPool] = useState<UserPosition | undefined>(
@@ -67,8 +69,10 @@ const UnStake = () => {
   const { address } = useAccount();
 
   const { userPools } = useUserPosition(address!);
+  const { transactionStatus } = useRootStore();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (userPools) {
       const pool = userPools.find((pool) => pool.lp === poolId);
       if (pool) {
@@ -196,7 +200,7 @@ const UnStake = () => {
 
             <DepositeStyle>
               <LiquidityHeaderTitle fontSize={16}>
-                Your Deposits
+                Staked Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontSize={12}>
@@ -225,6 +229,7 @@ const UnStake = () => {
                   step={1}
                   value={selectUnsatkeValue}
                   onChange={handleUnstakeSlider}
+                  disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
                 />
               </SliderContainer>
               <SliderDeadlineStyle fontSize={10}>

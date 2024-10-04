@@ -39,7 +39,7 @@ import { useNavigate } from 'react-router-dom';
 import { UserPositionData } from './DashBoard';
 import Pagination from '../../../common/Pagination';
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 5;
 
 const DepositAndStake = ({
   address,
@@ -268,12 +268,14 @@ const DepositAndStake = ({
             </DepositMainContainer>
           </React.Fragment>
         ))}
-      <Pagination
-        handleNextPage={handleNextPage}
-        handlePrevpage={handlePrevpage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      {userPools && userPools.length > ITEMS_PER_PAGE && (
+        <Pagination
+          handleNextPage={handleNextPage}
+          handlePrevpage={handlePrevpage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 };

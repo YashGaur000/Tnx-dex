@@ -192,7 +192,10 @@ const VotingRewards = ({ account }: { account: Address }) => {
                         </GroupImgContains>
                       </DashBoardParagraph>
                       <DashBoardParagraph>
-                        {pool.fee0.toString()} {pool.token0.symbol}
+                        {Number(pool.fee0) > 0
+                          ? Number(pool.fee0).toFixed(5)
+                          : pool.fee0}{' '}
+                        {pool.token0.symbol}
                       </DashBoardParagraph>
                       <GradientButton
                         width="27px"
@@ -218,7 +221,10 @@ const VotingRewards = ({ account }: { account: Address }) => {
                         </GroupImgContains>
                       </DashBoardParagraph>
                       <DashBoardParagraph>
-                        {pool.fee1.toString()} {pool.token1.symbol}
+                        {Number(pool.fee1) > 0
+                          ? Number(pool.fee1).toFixed(5)
+                          : pool.fee1}{' '}
+                        {pool.token1.symbol}
                       </DashBoardParagraph>
                       <GradientButton
                         width="27px"
@@ -254,7 +260,7 @@ const VotingRewards = ({ account }: { account: Address }) => {
                                     Number(getTokenInfo(reward)?.decimals)
                                   )
                                 ).toFixed(5)
-                              : '0'}{' '}
+                              : '0.00'}{' '}
                             {getTokenInfo(reward)?.symbol}{' '}
                           </DashBoardParagraph>
                           <GradientButton
@@ -295,12 +301,14 @@ const VotingRewards = ({ account }: { account: Address }) => {
           ))}
         </React.Fragment>
       ))}
-      <Pagination
-        handleNextPage={handleNextPage}
-        handlePrevpage={handlePrevpage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      {userVotedPools && userVotedPools.length > ITEMS_PER_PAGE && (
+        <Pagination
+          handleNextPage={handleNextPage}
+          handlePrevpage={handlePrevpage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 };

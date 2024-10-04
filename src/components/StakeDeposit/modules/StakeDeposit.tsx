@@ -48,6 +48,8 @@ import { usePoolContract } from '../../../hooks/usePoolContract';
 import { Metadata } from '../../../types/Pool';
 import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import { TransactionStatus } from '../../../types/Transaction';
+import { useRootStore } from '../../../store/root';
 
 const StakeDeposit = () => {
   const [SelectStakeValue, SetSelectStakeValue] = useState<number>(100);
@@ -63,8 +65,10 @@ const StakeDeposit = () => {
   const getParam = useQueryParams();
   const poolId = getParam('pool');
   const { metadata } = usePoolContract(poolId ?? '');
+  const { transactionStatus } = useRootStore();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     metadata()
       .then((data: Metadata | undefined) => {
         if (data) {
@@ -155,7 +159,7 @@ const StakeDeposit = () => {
 
             <DepositeStyle>
               <LiquidityHeaderTitle fontSize={16}>
-                Your Deposits
+                Unstaked Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontSize={12}>
@@ -182,6 +186,7 @@ const StakeDeposit = () => {
                   step={1}
                   value={SelectStakeValue}
                   onChange={HandleStakeSlider}
+                  disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
                 />
               </SliderContainer>
               <SliderDeadlineStyle fontSize={10}>

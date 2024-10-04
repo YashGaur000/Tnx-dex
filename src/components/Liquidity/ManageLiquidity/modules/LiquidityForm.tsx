@@ -23,6 +23,8 @@ import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { useNativeBalance } from '../../../../hooks/useNativeBalance';
 import { AddressZero } from '@ethersproject/constants';
 import { formatAmounts } from '../../../../utils/transaction/parseAmounts';
+import { useRootStore } from '../../../../store/root';
+import { TransactionStatus } from '../../../../types/Transaction';
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
   totalBalanceToken2: ethers.Numeric;
@@ -42,6 +44,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
   const [token1Value, setToken1Amount] = useState('');
   const [token2Value, setToken2Amount] = useState('');
   const { quoteAddLiquidity } = useRouterContract();
+  const { transactionStatus } = useRootStore();
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -82,7 +85,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
         )
           .then((tx) => {
             const value2 =
-              tx && formatAmounts(Number(tx?.amountB), selectedToken2.decimals);
+              tx && formatAmounts(tx?.amountB, selectedToken2.decimals);
             setToken2Amount(value2 ? value2.toString() : '0');
             if (value2) {
               onTokenValueChange(
@@ -156,11 +159,9 @@ const LiquidityForm: FC<FormComponentProps> = ({
           )
             .then((tx) => {
               const value1 =
-                tx &&
-                formatAmounts(Number(tx.amountA), selectedToken1.decimals);
+                tx && formatAmounts(tx.amountA, selectedToken1.decimals);
               const value2 =
-                tx &&
-                formatAmounts(Number(tx.amountB), selectedToken2.decimals);
+                tx && formatAmounts(tx.amountB, selectedToken2.decimals);
               setToken1Amount(value1 ? value1.toString() : '0');
               setToken2Amount(value2 ? value2.toString() : '0');
 
@@ -251,6 +252,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
                 parseFloat(totalBalanceToken1.toString())
               }
               onChange={handleChangeToken1Value}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
             />
           </InputBoxContainer>
           <LiquidityProgress>
@@ -293,7 +295,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
               disabled={exists ? exists : type}
             />
           </InputBoxContainer>
-          {!exists && (
+          {!exists && !type && (
             <LiquidityProgress>
               <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
                 25%

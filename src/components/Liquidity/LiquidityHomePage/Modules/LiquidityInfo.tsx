@@ -2,17 +2,14 @@ import { HoverContainer } from '../../../ManageVeTenex/Modules/LockScreenHover';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../../../styles/Theme';
 import { LiquidityHeaderTitle } from '../styles/Liquiditypool.style';
-import CopyIcon from '../../../../assets/copy.svg';
+import Copy from '../../../common/Copy';
+
 const InfoHoverContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
 `;
-const CopyImg = styled.img`
-  width: 15px;
-  height: 15px;
-  margin-left: 10px;
-`;
+
 const InfoHoverSection = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   flex-direction: column;
@@ -23,7 +20,12 @@ const InfoHoverSection = styled.div<{ theme: DefaultTheme }>`
   align-items: flex-start;
 `;
 
-const LiquidityInfo = () => {
+interface LiquidityInfoProps {
+  poolId?: string;
+  gaugeId?: string;
+}
+
+const LiquidityInfo = ({ poolId, gaugeId }: LiquidityInfoProps) => {
   return (
     <HoverContainer width="180px" height="200px">
       <InfoHoverContainer>
@@ -32,7 +34,7 @@ const LiquidityInfo = () => {
             Pool Address
           </LiquidityHeaderTitle>
           <LiquidityHeaderTitle fontSize={12}>
-            0x921da13....d23f0 <CopyImg src={CopyIcon} />
+            {poolId && <Copy copydata={poolId} />}
           </LiquidityHeaderTitle>
         </InfoHoverSection>
         <InfoHoverSection>
@@ -40,7 +42,7 @@ const LiquidityInfo = () => {
             Gauge Address
           </LiquidityHeaderTitle>
           <LiquidityHeaderTitle fontSize={12}>
-            0x921da13....d23f0 <CopyImg src={CopyIcon} />
+            {gaugeId && <Copy copydata={gaugeId} />}
           </LiquidityHeaderTitle>
         </InfoHoverSection>
       </InfoHoverContainer>

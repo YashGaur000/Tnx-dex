@@ -69,6 +69,7 @@ const WithdrawLiquidity = () => {
   const { transactionStatus } = useRootStore();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     metadata()
       .then((data: Metadata | undefined) => {
         if (data) {
@@ -197,6 +198,7 @@ const WithdrawLiquidity = () => {
                   step={1}
                   value={SelectWithdrawValue}
                   onChange={HandleStakeSlider}
+                  disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
                 />
               </SliderContainer>
               <SliderDeadlineStyle fontSize={10}>
