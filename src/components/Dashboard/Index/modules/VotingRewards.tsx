@@ -295,12 +295,14 @@ const VotingRewards = ({ account }: { account: Address }) => {
           ))}
         </React.Fragment>
       ))}
-      <Pagination
-        handleNextPage={handleNextPage}
-        handlePrevpage={handlePrevpage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      {userVotedPools && userVotedPools.length > ITEMS_PER_PAGE && (
+        <Pagination
+          handleNextPage={handleNextPage}
+          handlePrevpage={handlePrevpage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 };
