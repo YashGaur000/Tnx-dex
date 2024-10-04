@@ -82,7 +82,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
         )
           .then((tx) => {
             const value2 =
-              tx && formatAmounts(Number(tx?.amountB), selectedToken2.decimals);
+              tx && formatAmounts(tx?.amountB, selectedToken2.decimals);
             setToken2Amount(value2 ? value2.toString() : '0');
             if (value2) {
               onTokenValueChange(
@@ -156,11 +156,9 @@ const LiquidityForm: FC<FormComponentProps> = ({
           )
             .then((tx) => {
               const value1 =
-                tx &&
-                formatAmounts(Number(tx.amountA), selectedToken1.decimals);
+                tx && formatAmounts(tx.amountA, selectedToken1.decimals);
               const value2 =
-                tx &&
-                formatAmounts(Number(tx.amountB), selectedToken2.decimals);
+                tx && formatAmounts(tx.amountB, selectedToken2.decimals);
               setToken1Amount(value1 ? value1.toString() : '0');
               setToken2Amount(value2 ? value2.toString() : '0');
 
