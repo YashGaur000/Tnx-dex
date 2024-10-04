@@ -38,7 +38,6 @@ interface ErrorPopupProps {
 
 const ErrorPopup: React.FC<ErrorPopupProps> = ({ errorMessage }) => {
   const [visible, setVisible] = useState(false);
-  console.log(errorMessage);
 
   useEffect(() => {
     if (errorMessage) {

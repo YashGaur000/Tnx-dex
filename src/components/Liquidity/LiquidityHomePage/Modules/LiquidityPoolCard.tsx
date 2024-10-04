@@ -144,7 +144,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
         </TableColumn>
         <TableColumn>
           <TableColumnWrapper>
-            <TitleWrapper fontSize={'12px'}>
+            <TitleWrapper fontSize={'14px'}>
               ~$ {data.totalFeesUSD.toString()}
             </TitleWrapper>
 

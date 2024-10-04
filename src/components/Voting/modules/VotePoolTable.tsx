@@ -19,12 +19,17 @@ import useNftData from '../../../hooks/useUserNFTs';
 import useVoterData from '../../../hooks/useVoterData';
 import PageLoader from '../../common/PageLoader';
 import SuccessPopup from '../../common/SucessPopup';
-
+import ErrorPopup from '../../common/Error/ErrorPopup';
+type SortField = 'totalFeesUSD' | 'totalBribesUSD';
+type SortOrder = 'asc' | 'desc';
 const VotePoolTable: React.FC = () => {
   const [selectedPoolsCount, setSelectedPoolsCount] = useState<number>(0);
   const [VoteSelectPool, setVoteSelectPool] = useState<LiquidityPoolNewType[]>(
     []
   );
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+  const [sortedData, setSortedData] = useState<LiquidityPoolNewType[]>([]);
 
   const [islockPresent, setLockPresent] = useState<boolean>(false);
   const [isSucess, setSucess] = useState(false);
@@ -39,19 +44,41 @@ const VotePoolTable: React.FC = () => {
     }
   }, [nftData, islockPresent]);
 
+  useEffect(() => {
+    if (voteData) {
+      setSortedData(voteData);
+      console.log(voteData);
+    }
+  }, [voteData]);
+
   const handleSelectPool = (
     isSelected: boolean,
     pool: LiquidityPoolNewType
   ) => {
-    if (isSelected) {
-      setSelectedPoolsCount((Count) => Count + 1);
-      setVoteSelectPool((prevPools) => [...prevPools, pool]);
-    } else {
-      setVoteSelectPool((prevPools) =>
-        prevPools.filter((selectedPool) => selectedPool.id !== pool.id)
-      );
-      setSelectedPoolsCount((Count) => Count - 1);
-    }
+    if (selectedPoolsCount < 30 && VoteSelectPool.length < 30)
+      if (isSelected) {
+        setSelectedPoolsCount((Count) => Count + 1);
+        setVoteSelectPool((prevPools) => [...prevPools, pool]);
+      } else {
+        setVoteSelectPool((prevPools) =>
+          prevPools.filter((selectedPool) => selectedPool.id !== pool.id)
+        );
+        setSelectedPoolsCount((Count) => Count - 1);
+      }
+  };
+
+  const handleSort = (field: SortField) => {
+    const isAsc = sortField === field && sortOrder === 'asc';
+    setSortField(field);
+    setSortOrder(isAsc ? 'desc' : 'asc');
+
+    const sorted = [...sortedData].sort((a, b) => {
+      if (a[field] < b[field]) return isAsc ? 1 : -1;
+      if (a[field] > b[field]) return isAsc ? -1 : 1;
+      return 0;
+    });
+
+    setSortedData(sorted);
   };
 
   if (Loading) {
@@ -72,44 +99,66 @@ const VotePoolTable: React.FC = () => {
           <TableContains margin="0px 0px">
             <thead>
               <TableRow>
-                <TableHeader textalign="left">
+                <TableHeader textalign="left" width="330px">
                   <StatsCardtitle fontSize={16}>Liquidity Pool</StatsCardtitle>
                 </TableHeader>
                 <TableHeader>
                   <TableHeaderWrapper>
                     <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
-                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                    <ImageContainer
+                      width="16px"
+                      height="16px"
+                      src={SortIcon}
+                      cursor="pointer"
+                      onClick={() => handleSort('totalFeesUSD')}
+                    />
                   </TableHeaderWrapper>
                 </TableHeader>
 
                 <TableHeader>
                   <TableHeaderWrapper>
                     <StatsCardtitle fontSize={16}>Incentives</StatsCardtitle>
-                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                    <ImageContainer
+                      width="16px"
+                      height="16px"
+                      src={SortIcon}
+                      cursor="pointer"
+                      onClick={() => handleSort('totalBribesUSD')}
+                    />
                   </TableHeaderWrapper>
                 </TableHeader>
                 <TableHeader>
                   <TableHeaderWrapper>
                     <StatsCardtitle fontSize={16}>Total Rewards</StatsCardtitle>
-                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                    <ImageContainer
+                      width="16px"
+                      height="16px"
+                      src={SortIcon}
+                      cursor="pointer"
+                      onClick={() => handleSort('totalFeesUSD')}
+                    />
                   </TableHeaderWrapper>
                 </TableHeader>
                 <TableHeader>
                   <TableHeaderWrapper>
                     <StatsCardtitle fontSize={16}>vAPR</StatsCardtitle>
-                    <ImageContainer width="16px" height="16px" src={SortIcon} />
+                    <ImageContainer
+                      width="16px"
+                      height="16px"
+                      src={SortIcon}
+                      cursor="pointer"
+                    />
                   </TableHeaderWrapper>
                 </TableHeader>
                 <TableHeader>
                   <TableHeaderWrapper>
                     <StatsCardtitle fontSize={16}>Vote Pools</StatsCardtitle>
-                    <ImageContainer width="16px" height="16px" src={SortIcon} />
                   </TableHeaderWrapper>
                 </TableHeader>
               </TableRow>
             </thead>
             <tbody>
-              {voteData.map((item, key) => (
+              {sortedData.map((item, key) => (
                 <VotingPoolCard
                   key={key}
                   data={item}
@@ -135,6 +184,9 @@ const VotePoolTable: React.FC = () => {
       </LiquidityTableWrapper>
 
       {isSucess && <SuccessPopup message="Vote Sucessfully" />}
+      {selectedPoolsCount >= 30 && (
+        <ErrorPopup errorMessage="only  30 pool allowed" />
+      )}
     </>
   );
 };

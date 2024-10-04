@@ -7,34 +7,34 @@ import PageLoader from '../../../common/PageLoader';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 import { useEffect, useState } from 'react';
 import LiquidityFilter from './LiquidityFiter';
-type SortableKeys = 'totalVolumeUSD' | 'reserve0' | 'totalFeesUSD';
-
+type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD';
+type SortOrder = 'asc' | 'desc';
+const ITEMS_PER_PAGE = 25;
 const LiquidityPool = () => {
   const { loading, error, data: poolData } = useLiquidityPoolData();
+
   const [filterData, setFilterData] = useState<LiquidityPoolNewType[]>([]);
   const [sortedData, setSortedData] = useState<LiquidityPoolNewType[]>([]);
-  const [isFiltered, setIsFiltered] = useState(false);
-  const [sortedColumn, setSortedColumn] =
-    useState<SortableKeys>('totalVolumeUSD');
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
+  const [sortField, setSortField] = useState<SortableKeys>('totalVolumeUSD');
+  const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    if (poolData && !isFiltered) {
-      setSortedData(poolData);
+    if (!loading) {
+      setSortedData([...poolData]);
+      setTotalPages(Math.ceil(poolData.length / ITEMS_PER_PAGE));
     }
-  }, [poolData, isFiltered]);
-
-  if (loading)
-    return (
-      <>
-        <PageLoader />
-      </>
-    );
-  if (error) return `Error! ${error.message}`;
+  }, [loading]);
+  useEffect(() => {
+    setTotalPages(Math.ceil(sortedData.length / ITEMS_PER_PAGE));
+    setCurrentPage(1);
+  }, [sortedData]);
 
   const handleSelectedFilterItem = (selectItem: string) => {
     if (!poolData) return;
-    setIsFiltered(true);
+
     const newFilterData = poolData.filter((item) => {
       if (selectItem === 'All Pools') {
         return true;
@@ -64,36 +64,54 @@ const LiquidityPool = () => {
   };
 
   const handleSearchFeatures = (item: string) => {
-    setIsFiltered(true);
     const searchItem = item.toLowerCase();
-
-    console.log(item);
 
     const newfilterData = filterData.filter((item) => {
       return item.name.toLowerCase().includes(searchItem);
     });
 
     if (newfilterData) {
-      setIsFiltered(true);
       setSortedData(newfilterData);
     }
   };
-  const handleSortedFeatures = (item: SortableKeys) => {
-    setIsFiltered(true);
-    const isAsc = item === sortedColumn && sortDirection === 'asc';
-    const newDirection = isAsc ? 'desc' : 'asc';
+  const handleSortedFeatures = (field: SortableKeys) => {
+    const isAsc = sortField === field && sortOrder === 'asc';
+    setSortField(field);
+    setSortOrder(isAsc ? 'desc' : 'asc');
 
-    const sortedArray = [...sortedData].sort((a, b) => {
-      if (a[item] < b[item]) return newDirection === 'asc' ? -1 : 1;
-      if (a[item] > b[item]) return newDirection === 'asc' ? 1 : -1;
+    const sorted = [...sortedData].sort((a, b) => {
+      if (a[field] < b[field]) return isAsc ? 1 : -1;
+      if (a[field] > b[field]) return isAsc ? -1 : 1;
       return 0;
     });
 
-    setSortedData(sortedArray);
-    setSortedColumn(item);
-    setSortDirection(newDirection);
+    setSortedData(sorted);
   };
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePrevpage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const paginatedData = sortedData.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE,
+    currentPage * ITEMS_PER_PAGE
+  );
+
+  if (loading)
+    return (
+      <>
+        <PageLoader />
+      </>
+    );
+  if (error) return `Error! ${error.message}`;
   return (
     <>
       <LiquidityHeaderTitle fontSize={36}>Liquidity</LiquidityHeaderTitle>
@@ -105,7 +123,11 @@ const LiquidityPool = () => {
       {sortedData && (
         <LiquidityPoolTable
           handleSortedFeatures={handleSortedFeatures}
-          sortedData={sortedData}
+          sortedData={paginatedData}
+          handleNextPage={handleNextPage}
+          handlePrevpage={handlePrevpage}
+          totalPages={totalPages}
+          currentPage={currentPage}
         />
       )}
     </>
