@@ -291,7 +291,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
               disabled={exists ? exists : type}
             />
           </InputBoxContainer>
-          {!exists && (
+          {!exists && !type && (
             <LiquidityProgress>
               <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
                 25%
