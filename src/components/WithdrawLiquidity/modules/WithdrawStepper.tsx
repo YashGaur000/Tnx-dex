@@ -135,12 +135,10 @@ const WithdrawStepper = ({
               0.01
           );
           const minAmountB = Math.round(
-            parseFloat(quote.amountA.toString()) *
+            parseFloat(quote.amountB.toString()) *
               (100 - Number(selectedTolerance)) *
               0.01
           );
-
-          console.log(minAmountA, minAmountB);
 
           const result = await removeLiquidity(
             tokenA as Address,

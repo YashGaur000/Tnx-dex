@@ -23,6 +23,8 @@ import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { useNativeBalance } from '../../../../hooks/useNativeBalance';
 import { AddressZero } from '@ethersproject/constants';
 import { formatAmounts } from '../../../../utils/transaction/parseAmounts';
+import { useRootStore } from '../../../../store/root';
+import { TransactionStatus } from '../../../../types/Transaction';
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
   totalBalanceToken2: ethers.Numeric;
@@ -42,6 +44,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
   const [token1Value, setToken1Amount] = useState('');
   const [token2Value, setToken2Amount] = useState('');
   const { quoteAddLiquidity } = useRouterContract();
+  const { transactionStatus } = useRootStore();
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
@@ -249,6 +252,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
                 parseFloat(totalBalanceToken1.toString())
               }
               onChange={handleChangeToken1Value}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
             />
           </InputBoxContainer>
           <LiquidityProgress>
@@ -291,7 +295,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
               disabled={exists ? exists : type}
             />
           </InputBoxContainer>
-          {!exists && (
+          {!exists && !type && (
             <LiquidityProgress>
               <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
                 25%

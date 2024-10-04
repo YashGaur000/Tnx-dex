@@ -155,7 +155,7 @@ const StakeDeposit = () => {
 
             <DepositeStyle>
               <LiquidityHeaderTitle fontSize={16}>
-                Your Deposits
+                Unstaked Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontSize={12}>
