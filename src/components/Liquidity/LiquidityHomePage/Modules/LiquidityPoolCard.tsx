@@ -30,11 +30,15 @@ import {
   TableColumnWrapper,
   TableRow,
 } from '../../../common/TableStyled';
+import { useVoterContract } from '../../../../hooks/useVoterContract';
+import { Address } from 'viem';
 // import Pool from '../../CreatePool/Modules/Pool';
 
 const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
   const navigate = useNavigate();
   const [isHovered, setIsHovered] = useState(false);
+  const { gauges } = useVoterContract();
+  const [gaugeAddress, setGaugeAddress] = useState('');
   const handleDepositeButton = (
     token0: string,
     token1: string,
@@ -58,6 +62,16 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
       pathname: '/liquidity/manage',
       search: `?${queryParams.toString()}`,
     });
+  };
+
+  const getGaugeAddress = async (poolId: string) => {
+    setIsHovered(true);
+    try {
+      const gaugeAddress = await gauges(poolId as Address);
+      if (gaugeAddress) setGaugeAddress(gaugeAddress);
+    } catch (error) {
+      console.error('Error fetching gauge:', error);
+    }
   };
 
   return (
@@ -88,11 +102,13 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                     {data.isStable ? '0.05' : '0.3'} %
                   </LiquidityTitle>
                   <SugestImgWrapper
-                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseEnter={() => getGaugeAddress(data.id)}
                     onMouseLeave={() => setIsHovered(false)}
                   >
                     <SuggestImg src={ImpIcon} />
-                    {isHovered && <LiquidityInfo />}
+                    {isHovered && (
+                      <LiquidityInfo poolId={data.id} gaugeId={gaugeAddress} />
+                    )}
                   </SugestImgWrapper>
                 </TokenAmountTitle>
                 <TokenAmountTitle>
