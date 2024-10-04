@@ -46,7 +46,7 @@ const fetchUserPools = async (
     const accountBalance =
       formatAmounts(data.result as ethers.Numeric, 18) ?? '0';
 
-    if (Number(accountBalance) > 0) {
+    if (Number(accountBalance) > 0.000001) {
       acc.push({
         lp: poolId,
         gauge: AddressZero,
