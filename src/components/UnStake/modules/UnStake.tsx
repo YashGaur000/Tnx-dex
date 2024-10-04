@@ -69,6 +69,7 @@ const UnStake = () => {
   const { userPools } = useUserPosition(address!);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (userPools) {
       const pool = userPools.find((pool) => pool.lp === poolId);
       if (pool) {
@@ -196,7 +197,7 @@ const UnStake = () => {
 
             <DepositeStyle>
               <LiquidityHeaderTitle fontSize={16}>
-                Your Deposits
+                Staked Deposits
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontSize={12}>
