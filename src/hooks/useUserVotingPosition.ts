@@ -252,13 +252,13 @@ const fetchUserVotingPools = async (
           formatAmounts(
             feeEarnedResults[2 * currentPoolIndex].result as ethers.Numeric,
             Number(votedPool.token0.decimals)
-          ) ?? '0';
+          ) ?? '0.00';
 
         votedPool.fee1 =
           formatAmounts(
             feeEarnedResults[2 * currentPoolIndex + 1].result as ethers.Numeric,
             Number(votedPool.token1.decimals)
-          ) ?? '0';
+          ) ?? '0.00';
 
         votedPool.fees.push(feeResults[currentPoolIndex].result as Address);
 
@@ -319,7 +319,7 @@ export const useUserVotingPosition = (account: Address) => {
       gcTime: 60 * 1000,
       enabled: !!account && !!multicallClient,
       placeholderData: [],
-      refetchInterval: 60 * 1000,
+      refetchInterval: 10 * 1000,
       refetchIntervalInBackground: true,
       refetchOnMount: false,
       refetchOnReconnect: false,
