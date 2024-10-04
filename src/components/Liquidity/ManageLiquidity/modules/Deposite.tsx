@@ -335,7 +335,7 @@ const Deposite: React.FC<DepositProps> = ({
   return (
     <>
       <Stepper data={CreatepoolDepositeData} />
-      {!isDeposited && isToken2Allowed && isToken2Allowed && (
+      {!isDeposited && isToken1Allowed && isToken2Allowed && (
         <GlobalButton
           width="100%"
           height="48px"
