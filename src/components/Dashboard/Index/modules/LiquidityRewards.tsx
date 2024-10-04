@@ -39,7 +39,7 @@ import {
 import Pagination from '../../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 5;
 
 const LiquidityRewards = ({
   userPools,
@@ -215,12 +215,14 @@ const LiquidityRewards = ({
             </LiquityMainContainer>
           </React.Fragment>
         ))}
-      <Pagination
-        handleNextPage={handleNextPage}
-        handlePrevpage={handlePrevpage}
-        currentPage={currentPage}
-        totalPages={totalPages}
-      />
+      {userPools && userPools.length > ITEMS_PER_PAGE && (
+        <Pagination
+          handleNextPage={handleNextPage}
+          handlePrevpage={handlePrevpage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
+      )}
     </>
   );
 };

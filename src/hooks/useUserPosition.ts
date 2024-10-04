@@ -268,15 +268,19 @@ const fetchUserPools = async (
 
       pool.gaugeBalance = accountStaked;
 
-      pool.accountStaked0 = (
-        (Number(accountStaked) * Number(totalSupplyPool)) /
-        Number(pool.reserve0)
-      ).toFixed(5);
+      if (Number(pool.reserve0) > 0) {
+        pool.accountStaked0 = (
+          (Number(accountStaked) * Number(totalSupplyPool)) /
+          Number(pool.reserve0)
+        ).toFixed(5);
+      }
 
-      pool.accountStaked1 = (
-        (Number(accountStaked) * Number(totalSupplyPool)) /
-        Number(pool.reserve1)
-      ).toFixed(5);
+      if (Number(pool.reserve1) > 0) {
+        pool.accountStaked1 = (
+          (Number(accountStaked) * Number(totalSupplyPool)) /
+          Number(pool.reserve1)
+        ).toFixed(5);
+      }
 
       // earned
       pool.emissions =
