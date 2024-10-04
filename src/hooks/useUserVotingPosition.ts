@@ -15,6 +15,8 @@ import { decodeBase64 } from '../utils/common/voteTenex';
 import { useCallback } from 'react';
 import { AddressZero } from '@ethersproject/constants';
 import { UserVotingPosition } from '../types/Voter';
+import { formatAmounts } from '../utils/transaction/parseAmounts';
+import { ethers } from 'ethers';
 
 const fetchUserVotingPools = async (
   multicallClient: PublicClient,
@@ -75,6 +77,8 @@ const fetchUserVotingPools = async (
               gauge: AddressZero as Address,
               fee0: '0',
               fee1: '0',
+              fees: [] as Address[],
+              bribes: [] as Address[],
               rewardTokens: [] as Address[],
               rewardAmounts: [] as bigint[],
             });
@@ -244,10 +248,21 @@ const fetchUserVotingPools = async (
 
         // Directly assign fetched values instead of recalculating
         votedPool.gauge = gaugesResults[currentPoolIndex].result as Address;
-        votedPool.fee0 = feeEarnedResults[2 * currentPoolIndex]
-          .result as string;
-        votedPool.fee1 = feeEarnedResults[2 * currentPoolIndex + 1]
-          .result as string;
+        votedPool.fee0 =
+          formatAmounts(
+            feeEarnedResults[2 * currentPoolIndex].result as ethers.Numeric,
+            Number(votedPool.token0.decimals)
+          ) ?? '0';
+
+        votedPool.fee1 =
+          formatAmounts(
+            feeEarnedResults[2 * currentPoolIndex + 1].result as ethers.Numeric,
+            Number(votedPool.token1.decimals)
+          ) ?? '0';
+
+        votedPool.fees.push(feeResults[currentPoolIndex].result as Address);
+
+        votedPool.bribes.push(bribeResults[currentPoolIndex].result as Address);
 
         // Efficiently populate rewards for the current pool
         for (let k = 0; k < bribeRewardsLength; k++) {

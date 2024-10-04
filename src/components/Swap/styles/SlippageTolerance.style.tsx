@@ -23,6 +23,7 @@ export const SlippageWrapper = styled.div<{
 export const PercentageTitle = styled.div<{ theme: DefaultTheme }>`
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-size: 14px;
+  margin-left: 2px;
 `;
 export const SlipageInputWrapper = styled.div<{ theme: DefaultTheme }>`
   width: 53px;

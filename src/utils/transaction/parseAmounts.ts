@@ -13,7 +13,6 @@ export const parseAmounts = (
   const amountInWei = amount
     ? ethers.parseUnits(Number(amount).toFixed(decimals), decimals)
     : undefined;
-
   return amountInWei;
 };
 
