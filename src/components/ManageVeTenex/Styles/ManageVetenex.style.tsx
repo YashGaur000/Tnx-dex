@@ -34,8 +34,8 @@ export const LockDescriptonTitle = styled.p<{
 `;
 
 export const ImageContainer = styled.img<{
-  width: string;
-  height: string;
+  width?: string;
+  height?: string;
   margin?: string;
   cursor?: string;
 }>`

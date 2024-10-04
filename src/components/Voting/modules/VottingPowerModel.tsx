@@ -9,10 +9,13 @@ import {
 } from '../../modal/styles/TokenSelectModal.style';
 import TenexLogo from '../../../assets/Tenex.png';
 import {
+  ImageContainer,
   LockDescriptonTitle,
   LockHeaderTitle,
 } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 import {
+  Decrement,
+  IncrementWrapper,
   VoteInput,
   VoteInputWrapper,
   VotingLockWrapper,
@@ -55,7 +58,7 @@ import { GlobalButton } from '../../common';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { Address } from 'viem';
 import ErrorPopup from '../../common/Error/ErrorPopup';
-
+import SelectIcon from '../../../assets/selectGradient.svg';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -89,9 +92,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   const { vote } = useVoterContract();
 
   const totalPower = 100;
-  const [inputValues, setInputValues] = useState<string[]>(
-    new Array(VoteSelectPoolData.length)
-  );
+  const [inputValues, setInputValues] = useState<number[]>([]);
   const [isVoteButtonVisible, setVoteButtonVisible] = useState(false);
   const [PoolAddress, setPoolAddress] = useState<string[]>([]);
   const [isError, setIsError] = useState(false);
@@ -99,50 +100,52 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     'something went Wrong'
   );
   const [isDisabled, setIsDisabled] = useState(false);
-
+  const { setTransactionStatus } = useRootStore();
+  const Navigate = useNavigate();
+  useEffect(() => {
+    setInputValues(new Array(VoteSelectPoolData.length).fill(0));
+  }, [VoteSelectPoolData.length]);
   const availablePower = useMemo(() => {
-    const totalUsedPower = inputValues.reduce(
-      (a1, a2) => a1 + parseFloat(a2 || '0'),
-      0
-    );
+    const totalUsedPower = inputValues.reduce((a1, a2) => a1 + (a2 || 0), 0);
     const rem = totalPower - totalUsedPower;
 
     return rem;
   }, [inputValues]);
 
-  const { setTransactionStatus } = useRootStore();
-  const Navigate = useNavigate();
+  useEffect(() => {
+    const poolIds = VoteSelectPoolData.map((pool) => pool.id);
+    setPoolAddress(poolIds);
+  }, [VoteSelectPoolData]);
 
-  const handleSelectPercentage = (
-    index: number,
-    percentage: number,
-    poolAddress: string
-  ) => {
+  const handleSelectPercentage = (index: number, percentage: number) => {
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
-      const totalUsedPower = prevValues.reduce(
-        (sum, value) => sum + (parseFloat(value) || 0),
+      const totalAllocated = updatedValues.reduce(
+        (sum, value) => sum + value,
         0
       );
-      const availablePower = totalPower - totalUsedPower;
+      const currentPoolValue = updatedValues[index] || 0;
+      const remainingPercentage = 100 - totalAllocated + currentPoolValue;
+      updatedValues[index] = Math.min(percentage, remainingPercentage);
 
-      const previousValue = parseFloat(prevValues[index]) || 0;
-      const maxNewValue = availablePower + previousValue;
-      const desiredNewValue = maxNewValue * (percentage / 100);
+      const newTotalAllocated = updatedValues.reduce(
+        (sum, value) => sum + value,
+        0
+      );
 
-      updatedValues[index] = Math.min(desiredNewValue, maxNewValue).toString();
+      if (newTotalAllocated > 100) {
+        let excessPercentage = newTotalAllocated - 100;
 
-      return updatedValues;
-    });
-
-    setPoolAddress((prevVal) => {
-      if (!prevVal.includes(poolAddress)) {
-        const updatedVal: string[] = [...prevVal];
-        updatedVal[index] = poolAddress;
-        return updatedVal;
+        updatedValues.forEach((value, i) => {
+          if (i !== index && value > 0 && excessPercentage > 0) {
+            const adjustment = Math.min(value, excessPercentage);
+            updatedValues[i] -= adjustment;
+            excessPercentage -= adjustment;
+          }
+        });
       }
 
-      return prevVal;
+      return updatedValues;
     });
   };
 
@@ -163,6 +166,27 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       setIsError(true);
       setErrorMessage('An unknown error occurred.');
     }
+  };
+
+  const handleIncrement = (index: number) => {
+    console.log(availablePower);
+
+    if (availablePower > 0) {
+      setInputValues((prev) => {
+        const updateValue = [...prev];
+        updateValue[index] = Math.min(100, updateValue[index] + 5);
+        return updateValue;
+      });
+    }
+  };
+
+  const handleDecrement = (index: number) => {
+    setInputValues((prev) => {
+      const updateValue = [...prev];
+
+      updateValue[index] = Math.max(0, updateValue[index] - 5);
+      return updateValue;
+    });
   };
 
   const handleVote = useCallback(async () => {
@@ -200,7 +224,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
 
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
-        setInputValues(new Array(VoteSelectPoolData.length).fill(''));
+        setInputValues(new Array(VoteSelectPoolData.length).fill(0));
         setSucess(true);
         setIsDisabled(true);
         setVoteSelectPool([]);
@@ -222,31 +246,12 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     }
   }, [availablePower]);
 
-  const handleVotingInputdata = (
-    index: number,
-    value: string,
-    poolAddress: string
-  ) => {
-    setInputValues((prev) => {
-      const updateinput = [...prev];
-      updateinput[index] = value;
-      return updateinput;
-    });
-
-    setPoolAddress((prevVal) => {
-      if (!prevVal.includes(poolAddress)) {
-        const updatedVal: string[] = [...prevVal];
-        updatedVal[index] = poolAddress;
-        return updatedVal;
-      }
-      return prevVal;
-    });
-  };
-
-  const clearVotes = () => {
-    setInputValues(new Array(VoteSelectPoolData.length).fill(''));
-    setVoteButtonVisible(false);
-  };
+  const clearVotes = useCallback(() => {
+    setVoteSelectPool([]);
+    setInputValues([]);
+    setSelectedPoolsCount(0);
+    setPoolAddress([]);
+  }, [setVoteSelectPool, setSelectedPoolsCount]);
 
   const handleNavigateButton = (option: string) => {
     if (option === 'clearvote') {
@@ -260,13 +265,27 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     }
   };
 
-  const handleSpecificClearVote = (index: number) => {
-    setInputValues((prevValues) => {
-      const updatedValues = [...prevValues];
-      updatedValues[index] = '';
-      return updatedValues;
-    });
-  };
+  const handleSpecificClearVote = useCallback(
+    (index: number) => {
+      setVoteSelectPool((prevPools) => {
+        const updatedPools = [...prevPools];
+        updatedPools.splice(index, 1);
+        return updatedPools;
+      });
+      setInputValues((prevValues) => {
+        const updatedValues = [...prevValues];
+        updatedValues.splice(index, 1);
+        return updatedValues;
+      });
+      setPoolAddress((prevAddresses) => {
+        const updatedAddresses = [...prevAddresses];
+        updatedAddresses.splice(index, 1);
+        return updatedAddresses;
+      });
+      setSelectedPoolsCount((prevCount) => prevCount - 1);
+    },
+    [setVoteSelectPool, setSelectedPoolsCount]
+  );
 
   return (
     <>
@@ -415,43 +434,48 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                 <LiquidityTokenWrapper alignitem="flex-start">
                   <VoteInputWrapper>
                     <VoteInput
-                      type="text"
+                      type="number"
                       placeholder="0.0"
-                      value={inputValues[index]}
-                      onChange={(e) => {
-                        handleVotingInputdata(index, e.target.value, data.id);
-                      }}
+                      value={inputValues[index] == 0 ? '' : inputValues[index]}
+                      readOnly
                     />
-                    %
+                    <IncrementWrapper>
+                      <Decrement
+                        src={SelectIcon}
+                        width="9px"
+                        height="5px"
+                        onClick={() => handleIncrement(index)}
+                      />
+                      <ImageContainer
+                        src={SelectIcon}
+                        width="9px"
+                        height="5px"
+                        cursor="pointer"
+                        onClick={() => handleDecrement(index)}
+                      />
+                    </IncrementWrapper>
                   </VoteInputWrapper>
+
                   <PercentageSelectorContainer>
                     <PercentageOptions>
                       <PercentageButton
-                        onClick={() =>
-                          handleSelectPercentage(index, 25, data.id)
-                        }
+                        onClick={() => handleSelectPercentage(index, 25)}
                       >
                         25%
                       </PercentageButton>
 
                       <PercentageButton
-                        onClick={() =>
-                          handleSelectPercentage(index, 50, data.id)
-                        }
+                        onClick={() => handleSelectPercentage(index, 50)}
                       >
                         50%
                       </PercentageButton>
                       <PercentageButton
-                        onClick={() =>
-                          handleSelectPercentage(index, 75, data.id)
-                        }
+                        onClick={() => handleSelectPercentage(index, 75)}
                       >
                         75%
                       </PercentageButton>
                       <PercentageButton
-                        onClick={() =>
-                          handleSelectPercentage(index, 100, data.id)
-                        }
+                        onClick={() => handleSelectPercentage(index, 100)}
                       >
                         MAX
                       </PercentageButton>

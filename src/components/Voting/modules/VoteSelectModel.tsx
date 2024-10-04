@@ -31,8 +31,6 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
   handleSelectedNft,
   nftData,
 }) => {
-  console.log(nftData);
-
   return (
     <LockTokenContainer>
       <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>

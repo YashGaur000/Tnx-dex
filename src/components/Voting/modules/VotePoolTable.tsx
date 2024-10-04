@@ -47,7 +47,6 @@ const VotePoolTable: React.FC = () => {
   useEffect(() => {
     if (voteData) {
       setSortedData(voteData);
-      console.log(voteData);
     }
   }, [voteData]);
 
