@@ -65,6 +65,7 @@ const StakeDeposit = () => {
   const { metadata } = usePoolContract(poolId ?? '');
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     metadata()
       .then((data: Metadata | undefined) => {
         if (data) {
