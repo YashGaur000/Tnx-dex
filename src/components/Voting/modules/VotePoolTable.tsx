@@ -20,6 +20,7 @@ import useVoterData from '../../../hooks/useVoterData';
 import PageLoader from '../../common/PageLoader';
 import SuccessPopup from '../../common/SucessPopup';
 import ErrorPopup from '../../common/Error/ErrorPopup';
+import { Nft } from '../../../types/VotingEscrow';
 type SortField = 'totalFeesUSD' | 'totalBribesUSD';
 type SortOrder = 'asc' | 'desc';
 const VotePoolTable: React.FC = () => {
@@ -30,10 +31,11 @@ const VotePoolTable: React.FC = () => {
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
   const [sortedData, setSortedData] = useState<LiquidityPoolNewType[]>([]);
-
+  const [UserNft, setUserNft] = useState<Nft[]>([]);
   const [islockPresent, setLockPresent] = useState<boolean>(false);
   const [isSucess, setSucess] = useState(false);
   const nftData = useNftData();
+
   const { voteData, Loading, error } = useVoterData();
 
   useEffect(() => {
@@ -43,6 +45,13 @@ const VotePoolTable: React.FC = () => {
       setLockPresent(false);
     }
   }, [nftData, islockPresent]);
+
+  useEffect(() => {
+    const filterNFT = nftData.filter((item) => {
+      return !item.votingStatus;
+    });
+    setUserNft(filterNFT);
+  }, [nftData]);
 
   useEffect(() => {
     if (voteData) {
@@ -173,7 +182,7 @@ const VotePoolTable: React.FC = () => {
             <VoteSelectedCard
               countSelectedItem={selectedPoolsCount}
               VoteSelectPoolData={VoteSelectPool}
-              nftData={nftData}
+              nftData={UserNft}
               setVoteSelectPool={setVoteSelectPool}
               setSelectedPoolsCount={setSelectedPoolsCount}
               setSucess={setSucess}

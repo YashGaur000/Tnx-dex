@@ -117,6 +117,11 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     setPoolAddress(poolIds);
   }, [VoteSelectPoolData]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsError(false);
+    }, 10000);
+  }, [isError]);
   const handleSelectPercentage = (index: number, percentage: number) => {
     setInputValues((prevValues) => {
       const updatedValues = [...prevValues];
@@ -196,8 +201,19 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       setIsDisabled(true);
 
       const tokenId = Number(selectedNftData.tokenId);
-      const votingWeight = inputValues.map((value) => Number(value));
-      console.log(tokenId, PoolAddress, votingWeight);
+      const isZeroWeight = inputValues.includes(0);
+
+      if (isZeroWeight) {
+        setIsError(true);
+        setErrorMessage('Zero Weight not Allowed');
+        console.log('zero weight not Allowed');
+
+        setIsDisabled(false);
+
+        return;
+      }
+
+      console.log(tokenId, PoolAddress, inputValues);
       const poolAddress = PoolAddress as Address[];
       if (!tokenId) {
         setIsError(true);
@@ -205,11 +221,6 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         return;
       }
 
-      if (votingWeight.length === 0) {
-        setIsError(true);
-        setErrorMessage('votingWeight is Required');
-        return;
-      }
       if (poolAddress.length === 0) {
         setIsError(true);
         setErrorMessage('Pool Address is Required');
@@ -217,7 +228,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       }
 
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      const voteStart = await vote(tokenId, poolAddress, votingWeight);
+      const voteStart = await vote(tokenId, poolAddress, inputValues);
       console.log(voteStart);
 
       setTransactionStatus(TransactionStatus.DONE);
@@ -251,6 +262,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     setInputValues([]);
     setSelectedPoolsCount(0);
     setPoolAddress([]);
+    setTransactionStatus(TransactionStatus.FAILED);
   }, [setVoteSelectPool, setSelectedPoolsCount]);
 
   const handleNavigateButton = (option: string) => {
