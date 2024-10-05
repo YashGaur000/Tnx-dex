@@ -316,10 +316,10 @@ export const useUserVotingPosition = (account: Address) => {
     {
       queryKey: ['userVotePosition', account],
       queryFn: fetchVotingPools,
-      gcTime: 60 * 1000,
+      gcTime: 10 * 60 * 1000,
       enabled: !!account && !!multicallClient,
       placeholderData: [],
-      refetchInterval: 10 * 1000,
+      refetchInterval: 60 * 1000,
       refetchIntervalInBackground: true,
       refetchOnMount: false,
       refetchOnReconnect: false,
@@ -327,7 +327,7 @@ export const useUserVotingPosition = (account: Address) => {
       retry: 3,
       retryOnMount: true,
       retryDelay: (retryCount) => Math.min(retryCount * 1000, 3000),
-      staleTime: 5000,
+      staleTime: 5 * 60 * 1000,
     },
     queryClient
   );

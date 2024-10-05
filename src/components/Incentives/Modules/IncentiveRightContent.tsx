@@ -19,7 +19,7 @@ import { erc20Abi } from '../../../constants/abis/erc20';
 import RedLockIcon from '../../../assets/lock.png';
 import gaugeFoundIcon from '../../../assets/gaugeFound.svg';
 import gaugeNotFoundIcon from '../../../assets/gaugeNotFound.svg';
-import UnLockIcon from '../../../assets/unlock.png';
+import UnLockIcon from '../../../assets/lockgradient.png';
 import { GlobalButton } from '../../common/index';
 import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
 import SuccessPopup from '../../common/SucessPopup';

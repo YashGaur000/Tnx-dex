@@ -12,8 +12,9 @@ import {
 import { useRootStore } from '../../store/root';
 
 const SlippageTolerance: React.FC = () => {
-  const { setSelectedTolerance } = useRootStore();
-  const [toleranceInput, setToleranceInput] = useState<string>('1.0');
+  const { selectedTolerance, setSelectedTolerance } = useRootStore();
+  const [toleranceInput, setToleranceInput] =
+    useState<string>(selectedTolerance);
 
   const [color, setColor] = useState('');
 
