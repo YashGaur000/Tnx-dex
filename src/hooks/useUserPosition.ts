@@ -272,8 +272,8 @@ const fetchUserPools = async (
 
       if (Number(pool.reserve0) > 0) {
         pool.accountStaked0 = (
-          (Number(accountStaked) * Number(totalSupplyPool)) /
-          Number(pool.reserve0)
+          (Number(accountStaked) * Number(pool.reserve0)) /
+          Number(totalSupplyPool)
         ).toFixed(5);
 
         if (Number(pool.accountStaked0) === 0) pool.accountStaked0 = '0.00';
@@ -283,8 +283,8 @@ const fetchUserPools = async (
 
       if (Number(pool.reserve1) > 0) {
         pool.accountStaked1 = (
-          (Number(accountStaked) * Number(totalSupplyPool)) /
-          Number(pool.reserve1)
+          (Number(accountStaked) * Number(pool.reserve1)) /
+          Number(totalSupplyPool)
         ).toFixed(5);
 
         if (Number(pool.accountStaked1) === 0) pool.accountStaked1 = '0.00';
