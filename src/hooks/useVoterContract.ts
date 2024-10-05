@@ -27,13 +27,13 @@ export function useVoterContract() {
           _pool
         );
 
-        const gaugeAddress = await voterContract.createGauge(
-          _poolFactory,
-          _pool,
-          { gasLimit: gasEstimate }
-        );
+        const tx = await voterContract.createGauge(_poolFactory, _pool, {
+          gasLimit: gasEstimate,
+        });
 
-        return gaugeAddress;
+        const { transactionHash } = await tx.wait();
+
+        return transactionHash;
       } catch (error) {
         console.log(error);
       }

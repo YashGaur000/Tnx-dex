@@ -297,6 +297,7 @@ export const Box2ProgressContainer = styled.div<{
 
 export const Box2ProgressBar = styled.input<{
   theme: DefaultTheme;
+  disabled: boolean;
 }>`
   flex-grow: 1;
   background-color: #fff0;
@@ -308,6 +309,8 @@ export const Box2ProgressBar = styled.input<{
   font-family: 'kanit';
   font-weight: 300;
   font-size: 16px;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+
   &:focus {
     outline: none;
   }
