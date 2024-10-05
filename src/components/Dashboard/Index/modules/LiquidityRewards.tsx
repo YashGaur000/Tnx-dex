@@ -30,7 +30,6 @@ import {
 import { useRootStore } from '../../../../store/root';
 import { Address } from 'viem';
 import { useGaugeContract } from '../../../../hooks/useGaugeContract';
-import { AddressZero } from '@ethersproject/constants';
 import {
   DashBoardCard,
   DashBoardCardData,
@@ -38,6 +37,10 @@ import {
 } from '../styles/DashBoard.styled';
 import Pagination from '../../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
+import {
+  DEFAULT_GAUGE,
+  DEFAULT_POOL,
+} from '../../../../constants/contract-address/Pool';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -46,8 +49,8 @@ const LiquidityRewards = ({
   isError,
   isLoading,
 }: UserPositionData) => {
-  const { claimFees, getPoolContract } = usePoolContract(AddressZero);
-  const { getReward, getGaugeContract } = useGaugeContract(AddressZero);
+  const { claimFees, getPoolContract } = usePoolContract(DEFAULT_POOL);
+  const { getReward, getGaugeContract } = useGaugeContract(DEFAULT_GAUGE);
   const { setTransactionStatus } = useRootStore();
 
   const navigate = useNavigate();

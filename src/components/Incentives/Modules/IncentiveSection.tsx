@@ -44,6 +44,7 @@ import contractAddresses from '../../../constants/contract-address/address';
 import { usePoolBalances } from '../../../hooks/usePoolBalances';
 import IncentiveTokenPopup from './IncentiveTokenPopup';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+import { DEFAULT_POOL } from '../../../constants/contract-address/Pool';
 
 const IncentiveSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,8 +66,7 @@ const IncentiveSection: React.FC = () => {
   // );
 
   const getParam = useQueryParams();
-  const poolId =
-    getParam('pool') ?? '0x04d106e887f3381634cd518AA1b0A8A1DfB0b98F';
+  const poolId = getParam('pool') ?? DEFAULT_POOL;
   const { data: poolData } = useLiquidityPoolDataById(poolId);
   const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
