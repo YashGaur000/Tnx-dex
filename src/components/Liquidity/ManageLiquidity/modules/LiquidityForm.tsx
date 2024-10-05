@@ -179,12 +179,21 @@ const LiquidityForm: FC<FormComponentProps> = ({
             });
         }
       } else {
-        onTokenValueChange(
-          Number(desiredValue),
-          parseFloat(token2Value),
-          totalBalanceToken1,
-          totalBalanceToken2
-        );
+        if (type) {
+          onTokenValueChange(
+            Number(desiredValue),
+            Number(desiredValue),
+            totalBalanceToken1,
+            totalBalanceToken2
+          );
+        } else {
+          onTokenValueChange(
+            Number(desiredValue),
+            parseFloat(token2Value),
+            totalBalanceToken1,
+            totalBalanceToken2
+          );
+        }
       }
     } else {
       const calculatedValue = (Number(totalBalanceToken2) * percentage) / 100;
