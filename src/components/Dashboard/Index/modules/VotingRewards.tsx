@@ -280,20 +280,23 @@ const VotingRewards = ({ account }: { account: Address }) => {
                         </VotingRewardsdata>
                       </>
                     ))}
-
-                    <DashboardNavigation
-                      fontSize={16}
-                      onClick={() =>
-                        handleClaimBribesAndFees(
-                          pool.fees,
-                          pool.bribes,
-                          pool.rewardTokens,
-                          tokenId
-                        )
-                      }
-                    >
-                      Claim
-                    </DashboardNavigation>
+                    {(Number(pool.rewardAmounts[i]) > 0 ||
+                      Number(pool.fee0) > 0 ||
+                      Number(pool.fee1) > 0) && (
+                      <DashboardNavigation
+                        fontSize={16}
+                        onClick={() =>
+                          handleClaimBribesAndFees(
+                            pool.fees,
+                            pool.bribes,
+                            pool.rewardTokens,
+                            tokenId
+                          )
+                        }
+                      >
+                        Claim
+                      </DashboardNavigation>
+                    )}
                   </DepositeStakedData>
                 </StakedContainer>
               </VotingRewardsMainContainer>

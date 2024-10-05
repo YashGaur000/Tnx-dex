@@ -62,6 +62,7 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
 
   const handleSelectToken = (token: TokenInfo) => {
     onSelect(token);
+    setSearchQuery('');
     onClose();
   };
 
