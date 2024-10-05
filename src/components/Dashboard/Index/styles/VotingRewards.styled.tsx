@@ -18,6 +18,8 @@ export const VotingRewardsdata = styled.div<{ theme: DefaultTheme }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: 12px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
+
+  align-items: center;
 `;
 export const VotingRewardsButton = styled.button<{
   theme: DefaultTheme;
@@ -41,4 +43,18 @@ export const VotingRewardsButton = styled.button<{
     ${({ theme }) => theme.colors.buttonBackground};
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
+`;
+
+export const DashboardButton = styled.div<{
+  theme: DefaultTheme;
+  height: string;
+  width: string;
+}>`
+  font-size: 12px;
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  cursor: pointer;
+  background: ${({ theme }) => theme.colors.cardLight};
+  padding: 0px 4px;
+  border-radius: 4px;
 `;

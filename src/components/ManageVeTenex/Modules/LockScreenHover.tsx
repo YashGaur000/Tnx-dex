@@ -5,7 +5,7 @@ export const HoverContainer = styled.div<{
   theme: DefaultTheme;
   width?: string;
   height?: string;
-  Top?: string;
+  top?: string;
   left?: string;
 }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -21,7 +21,7 @@ export const HoverContainer = styled.div<{
   background: ${({ theme }) => theme.colors.card};
   box-shadow: 0px 4px 11.4px 0px #131d3c;
   left: ${({ left }) => left ?? '100'};
-  top: ${({ Top }) => Top ?? '100'};
+  top: ${({ top }) => top ?? '100'};
   color: ${({ theme }) => theme.colors.whiteBorder};
   z-index: 99999;
 `;

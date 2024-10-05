@@ -56,7 +56,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 }) => {
   const [isSelectCardOpen, setSelectCardOpen] = useState<boolean>(false);
   const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
-  const { transactionStatus } = useRootStore();
+  const { transactionStatus, setTransactionStatus } = useRootStore();
   const handleVote = () => {
     if (islock) {
       const newState = !isSelectCardOpen;
@@ -70,9 +70,14 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
     setHoverPopUpShow(false);
   };
   useEffect(() => {
-    if (transactionStatus === TransactionStatus.DONE) {
+    if (
+      transactionStatus === TransactionStatus.DONE ||
+      transactionStatus === TransactionStatus.FAILED
+    ) {
       setSelectCardOpen(false);
     }
+
+    setTransactionStatus(TransactionStatus.IDEAL);
   }, [transactionStatus]);
 
   return (

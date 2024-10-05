@@ -27,7 +27,7 @@ interface LiquidityInfoProps {
 
 const LiquidityInfo = ({ poolId, gaugeId }: LiquidityInfoProps) => {
   return (
-    <HoverContainer width="180px" height="200px">
+    <HoverContainer width="180px" height="200px" top="0px" left="0px">
       <InfoHoverContainer>
         <InfoHoverSection>
           <LiquidityHeaderTitle fontSize={14}>

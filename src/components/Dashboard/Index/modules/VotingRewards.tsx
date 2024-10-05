@@ -10,6 +10,7 @@ import {
   USDTHeading,
 } from '../styles/DepositAndStake.styled';
 import {
+  DashboardButton,
   VotingRewardsdata,
   VotingRewardsMainContainer,
 } from '../styles/VotingRewards.styled';
@@ -20,7 +21,6 @@ import {
 } from '../styles/DashBoard.styled';
 import Image from '../../../../assets/Tips.svg';
 
-import { GradientButton } from '../../../common';
 import { Address } from 'viem';
 import { useUserVotingPosition } from '../../../../hooks/useUserVotingPosition';
 import { useEffect, useState } from 'react';
@@ -45,6 +45,7 @@ import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { Metadata } from '../../../../types/VotingEscrow';
 import { VotedPools } from '../../../../types/Voter';
 import Pagination from '../../../common/Pagination';
+import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 
 const ITEMS_PER_PAGE = 5;
 
@@ -185,11 +186,11 @@ const VotingRewards = ({ account }: { account: Address }) => {
                   <DepositeStakedData>
                     <VotingRewardsdata>
                       <DashBoardParagraph>
-                        <GroupImgContains>
-                          <IMG2Contains top={5} left={26}>
-                            <Imgstyle src={getTokenLogo(pool.token0.symbol)} />
-                          </IMG2Contains>
-                        </GroupImgContains>
+                        <ImageContainer
+                          width="16px"
+                          height="16px"
+                          src={getTokenLogo(pool.token0.symbol)}
+                        />
                       </DashBoardParagraph>
                       <DashBoardParagraph>
                         {Number(pool.fee0) > 0
@@ -197,28 +198,17 @@ const VotingRewards = ({ account }: { account: Address }) => {
                           : pool.fee0}{' '}
                         {pool.token0.symbol}
                       </DashBoardParagraph>
-                      <GradientButton
-                        width="27px"
-                        height="18px"
-                        color="#ffffff"
-                        fontSize="12px"
-                        padding=" 0px 4px"
-                        lineheight="17.94px"
-                        border="1.5px solid transparent"
-                        borderradius="4px"
-                        smfontSize={12}
-                        smmargin="0px"
-                      >
+                      <DashboardButton width="27px" height="18px">
                         Fee
-                      </GradientButton>
+                      </DashboardButton>
                     </VotingRewardsdata>
                     <VotingRewardsdata>
                       <DashBoardParagraph>
-                        <GroupImgContains>
-                          <IMG2Contains top={5} left={26}>
-                            <Imgstyle src={getTokenLogo(pool.token1.symbol)} />
-                          </IMG2Contains>
-                        </GroupImgContains>
+                        <ImageContainer
+                          width="16px"
+                          height="16px"
+                          src={getTokenLogo(pool.token1.symbol)}
+                        />
                       </DashBoardParagraph>
                       <DashBoardParagraph>
                         {Number(pool.fee1) > 0
@@ -226,31 +216,20 @@ const VotingRewards = ({ account }: { account: Address }) => {
                           : pool.fee1}{' '}
                         {pool.token1.symbol}
                       </DashBoardParagraph>
-                      <GradientButton
-                        width="27px"
-                        height="18px"
-                        color="#ffffff"
-                        fontSize="12px"
-                        padding=" 0px 4px"
-                        lineheight="17.94px"
-                        border="1.5px solid transparent"
-                        borderradius="4px"
-                        smfontSize={12}
-                        smmargin="0px"
-                      >
+                      <DashboardButton width="27px" height="18px">
                         Fee
-                      </GradientButton>
+                      </DashboardButton>
                     </VotingRewardsdata>
 
                     {pool.rewardTokens.map((reward: Address, i: number) => (
                       <>
                         <VotingRewardsdata>
                           <DashBoardParagraph>
-                            <GroupImgContains>
-                              <IMG1Contains top={5} left={0}>
-                                <Imgstyle src={getTokenInfo(reward)?.logoURI} />
-                              </IMG1Contains>
-                            </GroupImgContains>
+                            <ImageContainer
+                              width="16px"
+                              height="16px"
+                              src={getTokenInfo(reward)?.logoURI}
+                            />
                           </DashBoardParagraph>
                           <DashBoardParagraph>
                             {Number(pool.rewardAmounts[i]) > 0
@@ -263,20 +242,9 @@ const VotingRewards = ({ account }: { account: Address }) => {
                               : '0.00'}{' '}
                             {getTokenInfo(reward)?.symbol}{' '}
                           </DashBoardParagraph>
-                          <GradientButton
-                            width="56px"
-                            height="20px"
-                            color="#ffffff"
-                            fontSize="12px"
-                            padding=" 0px 4px"
-                            lineheight="0px"
-                            border="1.5px solid transparent"
-                            borderradius="4px"
-                            smfontSize={12}
-                            smmargin="0px"
-                          >
+                          <DashboardButton width="56px" height="18px">
                             Incentive
-                          </GradientButton>
+                          </DashboardButton>
                         </VotingRewardsdata>
                       </>
                     ))}
