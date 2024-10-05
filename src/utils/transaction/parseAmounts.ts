@@ -11,7 +11,7 @@ export const parseAmounts = (
   decimals?: number
 ) => {
   const amountInWei = amount
-    ? ethers.parseUnits(Number(amount).toFixed(decimals), decimals)
+    ? ethers.parseUnits(amount.toString(), decimals)
     : undefined;
   return amountInWei;
 };
