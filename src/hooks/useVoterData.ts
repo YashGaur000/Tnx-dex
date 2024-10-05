@@ -14,10 +14,10 @@ const useVoterData = () => {
   const { gauges } = useVoterContract();
 
   useEffect(() => {
-    if (!loading && poolData && LiquidityData.length === 0) {
+    if (!loading) {
       setLiquidityData(poolData);
     }
-  }, [loading, poolData, LiquidityData.length]);
+  }, [loading]);
 
   const isGaugeCreated = useCallback(
     async (poolId: string): Promise<boolean> => {

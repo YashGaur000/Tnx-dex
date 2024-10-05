@@ -53,7 +53,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
       pool.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
     setFilterPoolData(filterData);
-  }, [searchQuery, poolData]);
+  }, [searchQuery, setFilterPoolData]);
 
   // const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
   // const getParam = useQueryParams();

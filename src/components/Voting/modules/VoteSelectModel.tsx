@@ -31,8 +31,6 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
   handleSelectedNft,
   nftData,
 }) => {
-  console.log(nftData);
-
   return (
     <LockTokenContainer>
       <LockHeaderTitle margin="0px 0px 0px 25px" fontSize={24}>
@@ -49,41 +47,42 @@ const VoteSelectModel: React.FC<VoteSelectedCardProps> = ({
                 attributes.find((attr) => attr.trait_type === 'Unlock Date')
                   ?.value ?? '';
               const formatUnloackData = getTimeDifference(unlockDate);
-
-              return (
-                <TokenItem key={index} onClick={() => handleSelectedNft(nft)}>
-                  <TokenItemWithAdressWrapper>
-                    <TokenItemImage
-                      src={TenexLogo}
-                      width={36}
-                      height={36}
-                      alt={'Tenex Logo'}
-                    />
-                    <TokenNameWrapper>
-                      <TokenItemData>
-                        Lock #{nft.tokenId.toString()}
-                      </TokenItemData>
-                      <LockDescriptonTitle fontSize={12}>
-                        {nft.metadata.attributes[2].value}{' '}
-                        {lockTokenInfo.symbol} locked for {formatUnloackData}
-                      </LockDescriptonTitle>
-                    </TokenNameWrapper>
-                  </TokenItemWithAdressWrapper>
-                  <GradientButton
-                    padding="4px 10px"
-                    fontSize="12px"
-                    width="auto"
-                    height="26px"
-                    lineheight="0px"
-                    border="1.5px solid transparent"
-                    borderradius="8px"
-                    smfontSize={12}
-                    smmargin="0px"
-                  >
-                    Select
-                  </GradientButton>
-                </TokenItem>
-              );
+              if (!nft.votingStatus) {
+                return (
+                  <TokenItem key={index} onClick={() => handleSelectedNft(nft)}>
+                    <TokenItemWithAdressWrapper>
+                      <TokenItemImage
+                        src={TenexLogo}
+                        width={36}
+                        height={36}
+                        alt={'Tenex Logo'}
+                      />
+                      <TokenNameWrapper>
+                        <TokenItemData>
+                          Lock #{nft.tokenId.toString()}
+                        </TokenItemData>
+                        <LockDescriptonTitle fontSize={12}>
+                          {nft.metadata.attributes[2].value}{' '}
+                          {lockTokenInfo.symbol} locked for {formatUnloackData}
+                        </LockDescriptonTitle>
+                      </TokenNameWrapper>
+                    </TokenItemWithAdressWrapper>
+                    <GradientButton
+                      padding="4px 10px"
+                      fontSize="12px"
+                      width="auto"
+                      height="26px"
+                      lineheight="0px"
+                      border="1.5px solid transparent"
+                      borderradius="8px"
+                      smfontSize={12}
+                      smmargin="0px"
+                    >
+                      Select
+                    </GradientButton>
+                  </TokenItem>
+                );
+              }
             })}
           </TokenList>
         </ScrollContainer>

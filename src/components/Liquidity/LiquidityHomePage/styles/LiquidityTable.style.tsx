@@ -66,6 +66,7 @@ export const PairContain = styled.div`
 export const SuggestImg = styled.img`
   width: 16px;
   height: 18px;
+  position: relative;
 `;
 export const TokenAmountTitle = styled.label<{ theme: DefaultTheme }>`
   display: flex;
