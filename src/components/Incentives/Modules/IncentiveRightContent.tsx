@@ -87,15 +87,12 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       );
       if (tx) {
         await getGaugeAddress();
-        if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
-          // setGaugeAddress(gaugeAddress);
-          // console.log('gauge created ', gaugeAddress);
+        if (isGaugeCreated) {
           setIsGaugeBeingCreated(false);
           setTransactionStatus(TransactionStatus.DONE);
           setTimeout(() => {
             setTransactionStatus(TransactionStatus.IDEAL);
           }, TRANSACTION_DELAY);
-          // window.location.reload();
         }
       }
     } catch (error) {
