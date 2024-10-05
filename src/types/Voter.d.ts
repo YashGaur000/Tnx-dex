@@ -12,7 +12,7 @@ export interface VoterContract extends Contract {
     _poolFactory: Address,
     _pool: Address,
     overrides?: Overrides
-  ): Promise<Address>;
+  ): Promise<ContractTransaction>;
   gauges(_pool: Address): Promise<Address>;
   gaugeToBribe(_gauge: Address): Promise<Address>;
   deposit(_amount: bigint): Promise<ContractTransaction>;

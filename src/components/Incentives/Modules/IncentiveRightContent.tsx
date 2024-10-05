@@ -79,21 +79,28 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   const handleCreateGauge = async () => {
     try {
-      const gaugeAddress = await createGauge(
+      setIsGaugeBeingCreated(true);
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      const tx = await createGauge(
         contractAddresses.PoolFactory,
         poolData[0]?.id as Address
       );
-      setIsGaugeBeingCreated(true);
-      if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
-        setIsGaugeCreated(true);
-        setGaugeAddress(gaugeAddress);
-        console.log('gauge created ', gaugeAddress);
-        setIsGaugeBeingCreated(false);
-
-        // window.location.reload();
+      if (tx) {
+        await getGaugeAddress();
+        if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
+          // setGaugeAddress(gaugeAddress);
+          // console.log('gauge created ', gaugeAddress);
+          setIsGaugeBeingCreated(false);
+          setTransactionStatus(TransactionStatus.DONE);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
+          // window.location.reload();
+        }
       }
     } catch (error) {
       console.error('Error during token approval', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     }
   };
 
@@ -196,6 +203,8 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
             icon: Lock1Icon,
             onClick: handleCreateGauge,
             tooltip: `Click to allow ${poolData[0]?.token0.symbol}-${poolData[0]?.token1.symbol} transactions`,
+            disabled: isGaugeBeingCreated,
+            inProgress: isGaugeBeingCreated,
           }
         : undefined,
       actionCompleted: isGaugeBeingCreated && !isGaugeCreated,

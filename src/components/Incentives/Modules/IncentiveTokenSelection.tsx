@@ -38,6 +38,7 @@ import { ethers } from 'ethers';
 import { PublicClient } from 'viem';
 import { useNativeBalance } from '../../../hooks/useNativeBalance';
 import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: string) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
@@ -187,6 +188,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             type="text"
             onChange={handleChange}
             value={incentive}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
           />
           <Box2Container>
             <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
