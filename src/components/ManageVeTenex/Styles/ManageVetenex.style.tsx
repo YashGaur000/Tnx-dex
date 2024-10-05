@@ -43,6 +43,7 @@ export const ImageContainer = styled.img<{
   height: ${({ height }) => height};
   margin: ${({ margin }) => margin};
   cursor: ${({ cursor }) => cursor ?? 'none'};
+  border-radius: 50%;
 `;
 
 export const LockHeroSection = styled.main<{ theme: DefaultTheme }>`
