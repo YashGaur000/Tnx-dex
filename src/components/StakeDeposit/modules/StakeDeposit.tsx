@@ -194,6 +194,9 @@ const StakeDeposit = () => {
                   <SliderLabel
                     key={id}
                     onClick={() => handleCustomSliderValue(value)}
+                    disabled={
+                      transactionStatus === TransactionStatus.IN_PROGRESS
+                    }
                   >
                     {value}%
                   </SliderLabel>
