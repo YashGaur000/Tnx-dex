@@ -213,16 +213,28 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             <Box2ValueAvailable>$0.00</Box2ValueAvailable> */}
           </Box2DataPoint4>
 
-          <Box2Percentage onClick={() => handleSelectPercentage(25)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(25)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             25%
           </Box2Percentage>
-          <Box2Percentage onClick={() => handleSelectPercentage(50)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(50)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             50%
           </Box2Percentage>
-          <Box2Percentage onClick={() => handleSelectPercentage(75)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(75)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             75%
           </Box2Percentage>
-          <Box2Percentage onClick={() => handleSelectPercentage(100)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(100)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             MAX
           </Box2Percentage>
         </Box2PercentageBar>

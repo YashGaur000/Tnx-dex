@@ -117,19 +117,33 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
-    const balance = await balanceOf();
-    if (balance) {
-      const amount = (Number(balance.etherBalance) * selectedStakeValue) / 100;
-      const amountInWei = ethers.parseUnits(
-        amount.toFixed(balance.decimals).toString(),
-        balance.decimals
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    try {
+      const balance = await balanceOf();
+      if (balance) {
+        const amount =
+          (Number(balance.etherBalance) * selectedStakeValue) / 100;
+        const amountInWei = ethers.parseUnits(
+          amount.toFixed(balance.decimals).toString(),
+          balance.decimals
+        );
+        setAmount(amountInWei);
+        const result = await approveAllowance(
+          gaugeAddress,
+          amountInWei.toString()
+        );
+        setIsTokenAllowed(result ? true : false);
+      }
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(
+        () => setTransactionStatus(TransactionStatus.IDEAL),
+        TRANSACTION_DELAY
       );
-      setAmount(amountInWei);
-      const result = await approveAllowance(
-        gaugeAddress,
-        amountInWei.toString()
-      );
-      setIsTokenAllowed(result ? true : false);
+      setIsAllowingToken(false);
+    } catch (error) {
+      console.error('Error providing allowance in stake');
+      setTransactionStatus(TransactionStatus.IDEAL);
+      setIsAllowingToken(false);
     }
   };
 
@@ -217,7 +231,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
                 '-' +
                 selectedToken2?.symbol,
               icon: LockIcon,
-              disabled: !gaugeExists,
+              disabled: isAllowingToken,
               onClick: handleAllowance,
               inProgress: isAllowingToken,
             }
