@@ -62,10 +62,14 @@ export const SliderStatusWrapper = styled.div<{ theme: DefaultTheme }>`
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
 `;
-export const SliderLabel = styled.label<{ theme: DefaultTheme }>`
+export const SliderLabel = styled.label<{
+  theme: DefaultTheme;
+  disabled: boolean;
+}>`
   font-size: ${({ theme }) => theme.fontSize.small};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
   margin-top: 4px;
   width: 39px;
   display: flex;

@@ -372,9 +372,11 @@ export const Box2DataPoint1 = styled.div<{
 
 export const Box2DataPoint1Tenex = styled.div<{
   theme: DefaultTheme;
+  disabled: boolean;
 }>`
   display: flex;
   align-items: center;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
 `;
 
 export const Box2DataPoint2 = styled.div<{

@@ -191,7 +191,10 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
           />
           <Box2Container>
-            <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
+            <Box2DataPoint1Tenex
+              onClick={() => handleTokenSelectOpen2()}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+            >
               <Img2
                 width={19.5}
                 height={20}
