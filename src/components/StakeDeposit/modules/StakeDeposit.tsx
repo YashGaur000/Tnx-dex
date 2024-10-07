@@ -59,6 +59,8 @@ const StakeDeposit = () => {
   const [selectedToken2, setSelectedToken2] = useState<TokenInfo | undefined>(
     undefined
   );
+  const [deposit0, setDeposit0] = useState('');
+  const [deposit1, setDeposit1] = useState('');
   // const [token1, setToken1Value] = useState<string>("");
   // const [ token2, setToken2Value] = useState<string>("");
 
@@ -93,6 +95,10 @@ const StakeDeposit = () => {
   const HandleStakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const StakeValue = e.target.value;
     SetSelectStakeValue(Number(StakeValue));
+    const deposit0 = Number(StakeValue) * 0.01 * Number(balance0);
+    const deposit1 = Number(StakeValue) * 0.01 * Number(balance1);
+    setDeposit0(deposit0.toString());
+    setDeposit1(deposit1.toString());
   };
 
   const handleCustomSliderValue = (value: number) => {
@@ -163,10 +169,12 @@ const StakeDeposit = () => {
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontSize={12}>
-                  {balance0 + ' ' + selectedToken1?.symbol}
+                  {deposit0 ? deposit0 : balance0}{' '}
+                  {' ' + selectedToken1?.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle textalign="right" fontSize={12}>
-                  {balance1 + ' ' + selectedToken2?.symbol}
+                  {deposit1 ? deposit1 : balance1}{' '}
+                  {' ' + selectedToken2?.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
