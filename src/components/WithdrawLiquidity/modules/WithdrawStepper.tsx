@@ -91,6 +91,7 @@ const WithdrawStepper = ({
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
     try {
       const balance = await balanceOf();
       if (balance) {
@@ -104,11 +105,18 @@ const WithdrawStepper = ({
           liquidity
         );
         setIsTokenAllowed(result ? true : false);
+        setTransactionStatus(TransactionStatus.DONE);
       }
+      setTimeout(
+        () => setTransactionStatus(TransactionStatus.IDEAL),
+        TRANSACTION_DELAY
+      );
     } catch (error) {
       console.error('Error during token approval', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     } finally {
       setIsAllowingToken(false);
+      setTransactionStatus(TransactionStatus.IDEAL);
       // Re-enable the button after the operation completes
     }
   };

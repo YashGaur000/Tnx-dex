@@ -84,16 +84,42 @@ const LiquidityForm: FC<FormComponentProps> = ({
           totalBalanceToken2
         )
           .then((tx) => {
-            const value2 =
-              tx && formatAmounts(tx?.amountB, selectedToken2.decimals);
-            setToken2Amount(value2 ? value2.toString() : '0');
-            if (value2) {
-              onTokenValueChange(
-                parseFloat(value),
-                parseFloat(value2),
-                totalBalanceToken1,
-                totalBalanceToken2
-              );
+            if (
+              tx &&
+              parseFloat(value) <=
+                parseFloat(
+                  formatAmounts(tx.amountA, selectedToken1.decimals) ?? '0'
+                )
+            ) {
+              const value2 =
+                tx && formatAmounts(tx?.amountB, selectedToken2.decimals);
+              setToken2Amount(value2 ? value2.toString() : '0');
+              if (value2) {
+                onTokenValueChange(
+                  parseFloat(value),
+                  parseFloat(value2),
+                  totalBalanceToken1,
+                  totalBalanceToken2
+                );
+              }
+            } else if (tx) {
+              const value2 =
+                (parseFloat(value) *
+                  parseFloat(
+                    formatAmounts(tx.amountB, selectedToken2.decimals) ?? '0'
+                  )) /
+                parseFloat(
+                  formatAmounts(tx.amountA, selectedToken1.decimals) ?? '1'
+                );
+              setToken2Amount(value2 ? value2.toString() : '0');
+              if (value2) {
+                onTokenValueChange(
+                  parseFloat(value),
+                  value2,
+                  totalBalanceToken1,
+                  totalBalanceToken2
+                );
+              }
             }
           })
           .catch((error) => {
