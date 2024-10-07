@@ -336,11 +336,13 @@ export const Box2PercentageBar = styled.div<{
 
 export const Box2Percentage = styled.span<{
   theme: DefaultTheme;
+  disabled: boolean;
 }>`
   color: #cccccc;
   font-size: 12px;
   margin-left: 20px;
   font-weight: 300;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
   @media screen and (max-width: 800px) {
     margin-left: unset;
     margin-right: 20px;

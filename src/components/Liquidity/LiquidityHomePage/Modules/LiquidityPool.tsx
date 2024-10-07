@@ -24,6 +24,7 @@ const LiquidityPool = () => {
   useEffect(() => {
     if (!loading) {
       setSortedData([...poolData]);
+      setFilterData(poolData);
       setTotalPages(Math.ceil(poolData.length / ITEMS_PER_PAGE));
     }
   }, [loading]);

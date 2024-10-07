@@ -265,16 +265,28 @@ const LiquidityForm: FC<FormComponentProps> = ({
             />
           </InputBoxContainer>
           <LiquidityProgress>
-            <AmountLabel onClick={() => handleAmountValue(25, 'token1')}>
+            <AmountLabel
+              onClick={() => handleAmountValue(25, 'token1')}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+            >
               25%
             </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(50, 'token1')}>
+            <AmountLabel
+              onClick={() => handleAmountValue(50, 'token1')}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+            >
               50%
             </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(75, 'token1')}>
+            <AmountLabel
+              onClick={() => handleAmountValue(75, 'token1')}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+            >
               75%
             </AmountLabel>
-            <AmountLabel onClick={() => handleAmountValue(100, 'token1')}>
+            <AmountLabel
+              onClick={() => handleAmountValue(100, 'token1')}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+            >
               MAX
             </AmountLabel>
           </LiquidityProgress>
@@ -306,16 +318,28 @@ const LiquidityForm: FC<FormComponentProps> = ({
           </InputBoxContainer>
           {!exists && !type && (
             <LiquidityProgress>
-              <AmountLabel onClick={() => handleAmountValue(25, 'token2')}>
+              <AmountLabel
+                onClick={() => handleAmountValue(25, 'token2')}
+                disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+              >
                 25%
               </AmountLabel>
-              <AmountLabel onClick={() => handleAmountValue(50, 'token2')}>
+              <AmountLabel
+                onClick={() => handleAmountValue(50, 'token2')}
+                disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+              >
                 50%
               </AmountLabel>
-              <AmountLabel onClick={() => handleAmountValue(75, 'token2')}>
+              <AmountLabel
+                onClick={() => handleAmountValue(75, 'token2')}
+                disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+              >
                 75%
               </AmountLabel>
-              <AmountLabel onClick={() => handleAmountValue(100, 'token2')}>
+              <AmountLabel
+                onClick={() => handleAmountValue(100, 'token2')}
+                disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+              >
                 MAX
               </AmountLabel>
             </LiquidityProgress>
