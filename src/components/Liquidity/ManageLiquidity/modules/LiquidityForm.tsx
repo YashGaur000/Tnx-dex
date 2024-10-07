@@ -91,13 +91,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
                   formatAmounts(tx.amountA, selectedToken1.decimals) ?? '0'
                 )
             ) {
-              console.log(
-                parseFloat(value),
-                formatAmounts(tx.amountA, selectedToken1.decimals),
-                tx?.amountA.toString(),
-                tx?.amountB.toString(),
-                tx?.liquidity.toString()
-              );
               const value2 =
                 tx && formatAmounts(tx?.amountB, selectedToken2.decimals);
               setToken2Amount(value2 ? value2.toString() : '0');
