@@ -135,14 +135,25 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
-
-    const amount = parseAmounts(
-      Number(InsentiveFormValue),
-      tokenSymbol?.decimals
-    );
-    if (bribeAddress && amount) {
-      const result = await approveAllowance(bribeAddress, amount.toString());
-      setIsTokenAllowed(result ? true : false);
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    try {
+      const amount = parseAmounts(
+        Number(InsentiveFormValue),
+        tokenSymbol?.decimals
+      );
+      if (bribeAddress && amount) {
+        const result = await approveAllowance(bribeAddress, amount.toString());
+        setIsTokenAllowed(result ? true : false);
+      }
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
+      setIsAllowingToken(false);
+    } catch (error) {
+      console.error('Error providing allowance for adding incentives');
+      setTransactionStatus(TransactionStatus.IDEAL);
+      setIsAllowingToken(false);
     }
   };
 
@@ -222,6 +233,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
               onClick: handleAllowance,
               tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
               inProgress: isAllowingToken,
+              disabled: isAllowingToken,
             }
           : undefined,
     },
