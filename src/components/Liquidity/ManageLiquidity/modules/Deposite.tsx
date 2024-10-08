@@ -310,18 +310,21 @@ const Deposite: React.FC<DepositProps> = ({
           ? 'Allowed the contracts to access ' + selectedToken1?.symbol
           : 'Allowance not granted for ' + selectedToken1?.symbol,
       },
-      buttons: !isToken1Allowed
-        ? {
-            label: 'Allow ' + selectedToken1?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken1,
-            tooltip: 'Click to allow USDT transactions',
-            disabled:
-              isAllowingToken1 &&
-              transactionStatus === TransactionStatus.IN_PROGRESS,
-            inProgress: isAllowingToken1,
-          }
-        : undefined,
+      buttons:
+        (!isToken1Allowed &&
+          transactionStatus != TransactionStatus.IN_PROGRESS) ||
+        isAllowingToken1
+          ? {
+              label: 'Allow ' + selectedToken1?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken1,
+              tooltip: 'Click to allow USDT transactions',
+              disabled:
+                isAllowingToken1 &&
+                transactionStatus === TransactionStatus.IN_PROGRESS,
+              inProgress: isAllowingToken1,
+            }
+          : undefined,
     });
   }
 
@@ -334,18 +337,19 @@ const Deposite: React.FC<DepositProps> = ({
           ? 'Allowed the contracts to access ' + selectedToken2?.symbol
           : 'Allowance not granted for ' + selectedToken2?.symbol,
       },
-      buttons: !isToken2Allowed
-        ? {
-            label: 'Allow ' + selectedToken2?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken2,
-            tooltip: 'Click to allow FTM transactions',
-            disabled:
-              isAllowingToken2 &&
-              transactionStatus === TransactionStatus.IN_PROGRESS,
-            inProgress: isAllowingToken2,
-          }
-        : undefined,
+      buttons:
+        (!isToken2Allowed &&
+          transactionStatus != TransactionStatus.IN_PROGRESS) ||
+        isAllowingToken2
+          ? {
+              label: 'Allow ' + selectedToken2?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken2,
+              tooltip: 'Click to allow FTM transactions',
+              disabled: isAllowingToken2,
+              inProgress: isAllowingToken2,
+            }
+          : undefined,
     });
   }
 
