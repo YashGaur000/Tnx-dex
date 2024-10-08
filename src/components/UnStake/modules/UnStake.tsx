@@ -68,13 +68,13 @@ const UnStake = () => {
 
   const { address } = useAccount();
 
-  const { userPools } = useUserPosition(address!);
+  const { userValidPools } = useUserPosition(address!);
   const { transactionStatus } = useRootStore();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (userPools) {
-      const pool = userPools.find((pool) => pool.lp === poolId);
+    if (userValidPools) {
+      const pool = userValidPools.find((pool) => pool.lp === poolId);
       if (pool) {
         setUnstakedPool(pool);
         setStaked({
@@ -83,7 +83,7 @@ const UnStake = () => {
         });
       }
     }
-  }, [poolId, userPools]);
+  }, [poolId, userValidPools]);
 
   const handleCustomSliderValue = (unstake: number) => {
     if (unstakedPool) {

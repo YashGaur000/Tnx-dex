@@ -202,21 +202,21 @@ const DepositAndStake = ({
                   </DashBoardParagraph>
                 </UnstackedData>
                 <UnstackedData1>
-                  {Number(userPool.accountUnstaked0) > 0 &&
-                    Number(userPool.accountUnstaked1) > 0 && (
-                      <>
-                        <DashboardNavigation
-                          onClick={() => handleWithdraw(userPool.lp)}
-                        >
-                          Withdraw
-                        </DashboardNavigation>
-                        <DashboardNavigation
-                          onClick={() => handleStake(userPool.lp)}
-                        >
-                          Stake
-                        </DashboardNavigation>
-                      </>
-                    )}
+                  {(Number(userPool.accountUnstaked0) > 0 ||
+                    Number(userPool.accountUnstaked1) > 0) && (
+                    <>
+                      <DashboardNavigation
+                        onClick={() => handleWithdraw(userPool.lp)}
+                      >
+                        Withdraw
+                      </DashboardNavigation>
+                      <DashboardNavigation
+                        onClick={() => handleStake(userPool.lp)}
+                      >
+                        Stake
+                      </DashboardNavigation>
+                    </>
+                  )}
                 </UnstackedData1>
               </UnstackedContainer>
               <StakedContainer>
@@ -231,14 +231,14 @@ const DepositAndStake = ({
                     {userPool.accountStaked1} {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
-                {Number(userPool.accountStaked0) > 0 &&
-                  Number(userPool.accountStaked1) > 0 && (
-                    <DashboardNavigation
-                      onClick={() => handleUnstake(userPool.lp)}
-                    >
-                      Unstake
-                    </DashboardNavigation>
-                  )}
+                {(Number(userPool.accountStaked0) > 0 ||
+                  Number(userPool.accountStaked1) > 0) && (
+                  <DashboardNavigation
+                    onClick={() => handleUnstake(userPool.lp)}
+                  >
+                    Unstake
+                  </DashboardNavigation>
+                )}
               </StakedContainer>
               <WalletContainer>
                 <DepositeStakedHeading>In Wallet</DepositeStakedHeading>
