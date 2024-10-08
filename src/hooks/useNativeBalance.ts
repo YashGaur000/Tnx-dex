@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { getNativeBalance } from '../constants/provider';
 import { Address } from 'viem';
 import { type GetBalanceReturnType } from '@wagmi/core';
+import { useRootStore } from '../store/root';
 
 export const useNativeBalance = (address: Address) => {
   const [balance, setBalance] = useState<GetBalanceReturnType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const { transactionStatus } = useRootStore();
 
   useEffect(() => {
     const fetchBalance = async () => {
@@ -22,7 +24,7 @@ export const useNativeBalance = (address: Address) => {
     };
 
     void fetchBalance();
-  }, [address]);
+  }, [address, transactionStatus]);
 
   return { balance, loading, error };
 };

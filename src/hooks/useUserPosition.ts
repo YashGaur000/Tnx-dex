@@ -48,7 +48,7 @@ const fetchUserPools = async (
     const accountBalance =
       formatAmounts(data.result as ethers.Numeric, 18) ?? '0';
 
-    if (Number(accountBalance) > 1e-6) {
+    if (Number(accountBalance) > 0) {
       validPool = true;
     }
 
@@ -132,7 +132,7 @@ const fetchUserPools = async (
 
         if (
           Number(pool.poolBalance) > 0 ||
-          Number(gaugeBalance) > 1e-6 ||
+          Number(gaugeBalance) > 0 ||
           Number(emissions) > 0
         ) {
           return {
@@ -351,7 +351,7 @@ export const useUserPosition = (account: Address) => {
   );
 
   const userValidPools = userPools?.filter(
-    (pool) => Number(pool.poolBalance) > 1e-6
+    (pool) => Number(pool.poolBalance) > 1e-12
   );
 
   return {
