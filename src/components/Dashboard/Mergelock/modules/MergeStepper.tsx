@@ -25,6 +25,7 @@ import { convertToDecimal } from '../../../../utils/common/voteTenex';
 
 import VotingPowerIconGr from '../../../../assets/star-gradient.svg';
 import LockIconGr from '../../../../assets/LockSucess.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface MergeStepperProps {
   fromTokenId: string | undefined;
@@ -34,6 +35,7 @@ interface MergeStepperProps {
   votingPower: number;
   isTotalDuration: string;
   setSuccessLock: (input: boolean) => void;
+  setIsModalDisable: (input: boolean) => void;
 }
 
 const MergeStepper: React.FC<MergeStepperProps> = ({
@@ -44,6 +46,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
   isToVotingPower,
   isTotalDuration,
   setSuccessLock,
+  setIsModalDisable,
 }) => {
   const [isvisblemergeStepper, setvisiblemergeStepper] =
     useState<boolean>(false);
@@ -57,13 +60,14 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
   const covertVoting = convertToDecimal(votingPower).toString();
 
   const totalVotingPower = Number(isToVotingPower + Number(covertVoting));
-
+  const navigate = useNavigate();
   const handleMergeLock = useCallback(
     async (fromTknId: number, toTknId: number) => {
       try {
         setTransactionStatus(TransactionStatus.IN_PROGRESS);
         if (!fromTknId || !toTknId) return;
         setIsMerging(true);
+        setIsModalDisable(true);
         await mergeLocks(BigInt(fromTknId), BigInt(toTknId));
         setTransactionStatus(TransactionStatus.DONE);
         setTimeout(() => {
@@ -71,6 +75,8 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
           setIsMerging(false);
           setIsToVotingPower(0), setIsMergeLocked(true);
           setSuccessLock(true);
+          setIsModalDisable(false);
+          navigate('/governance');
         }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during token lock:', error);
