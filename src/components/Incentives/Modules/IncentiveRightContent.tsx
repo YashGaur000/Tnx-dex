@@ -260,39 +260,42 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
       <Stepper
         data={InsentiveFormValue ? IncentiveData : LockInstructionData}
       />
-      {isTokenAllowed && !isIncentiveAdded && (
-        <GlobalButton
-          width="100%"
-          height="48px"
-          margin="0px"
-          onClick={() => {
-            handleAddIncentive()
-              .then(() => {
-                <SuccessPopup message="Incentive added Successfully" />;
-              })
-              .catch((error) => {
-                console.error('Error adding Incentive:', error);
-              });
-          }}
-          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
-        >
-          {transactionStatus === TransactionStatus.IN_PROGRESS ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center', // Center items horizontally
-                alignItems: 'center', // Center items vertically
-                gap: '15px',
-              }}
-            >
-              <LoadingSpinner width="10px" height="10px" />
-              <p>Adding</p>
-            </div>
-          ) : (
-            <p>Add Incentive</p>
-          )}
-        </GlobalButton>
-      )}
+      {isTokenAllowed &&
+        !isIncentiveAdded &&
+        isGaugeCreated &&
+        InsentiveFormValue != '0' && (
+          <GlobalButton
+            width="100%"
+            height="48px"
+            margin="0px"
+            onClick={() => {
+              handleAddIncentive()
+                .then(() => {
+                  <SuccessPopup message="Incentive added Successfully" />;
+                })
+                .catch((error) => {
+                  console.error('Error adding Incentive:', error);
+                });
+            }}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
+            {transactionStatus === TransactionStatus.IN_PROGRESS ? (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center', // Center items horizontally
+                  alignItems: 'center', // Center items vertically
+                  gap: '15px',
+                }}
+              >
+                <LoadingSpinner width="10px" height="10px" />
+                <p>Adding</p>
+              </div>
+            ) : (
+              <p>Add Incentive</p>
+            )}
+          </GlobalButton>
+        )}
       {isIncentiveAdded && (
         <SuccessPopup message="Incentive added Successfully" />
       )}
