@@ -7,7 +7,7 @@ import DurationIcon from '../../../../assets/Duration.svg';
 import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import LockIcon from '../../../../assets/Lock1.svg';
 import Stepper from '../../../common/Stepper';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import { testErc20Abi } from './../../../../constants/abis/testErc20';
@@ -91,6 +91,14 @@ const Deposite: React.FC<DepositProps> = ({
     routerAddress,
     setIsToken2Allowed
   );
+
+  useEffect(() => {
+    if (selectedToken1?.symbol === 'ETH') {
+      setIsToken1Allowed(true);
+    } else if (selectedToken2?.symbol === 'ETH') {
+      setIsToken2Allowed(true);
+    }
+  }, []);
 
   const handleAllowToken1 = async () => {
     setIsAllowingToken1(true);
@@ -326,17 +334,18 @@ const Deposite: React.FC<DepositProps> = ({
           ? 'Allowed the contracts to access ' + selectedToken2?.symbol
           : 'Allowance not granted for ' + selectedToken2?.symbol,
       },
-      buttons:
-        !isToken2Allowed && transactionStatus != TransactionStatus.IN_PROGRESS
-          ? {
-              label: 'Allow ' + selectedToken2?.symbol,
-              icon: LockIcon,
-              onClick: handleAllowToken2,
-              tooltip: 'Click to allow FTM transactions',
-              disabled: isAllowingToken2,
-              inProgress: isAllowingToken2,
-            }
-          : undefined,
+      buttons: !isToken2Allowed
+        ? {
+            label: 'Allow ' + selectedToken2?.symbol,
+            icon: LockIcon,
+            onClick: handleAllowToken2,
+            tooltip: 'Click to allow FTM transactions',
+            disabled:
+              isAllowingToken2 &&
+              transactionStatus === TransactionStatus.IN_PROGRESS,
+            inProgress: isAllowingToken2,
+          }
+        : undefined,
     });
   }
 
