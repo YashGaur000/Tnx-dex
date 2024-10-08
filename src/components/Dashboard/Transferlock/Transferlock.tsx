@@ -34,6 +34,7 @@ const Transferlock = () => {
   const [toAddres, setToAddres] = useState<`0x${string}` | undefined>(
     undefined
   );
+  const [iSinputLock, setInputLock] = useState<boolean>(false);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
@@ -110,6 +111,7 @@ const Transferlock = () => {
             <InputBox
               type="text"
               height="48px"
+              disabled={iSinputLock}
               border="1px solid #B8B8B899"
               borderradius={12}
               value={toAddres}
@@ -123,7 +125,9 @@ const Transferlock = () => {
           tokenId={Number(tokenId)}
           toAddress={toAddres!}
           fromOwner={address!}
+          setInputLock={setInputLock}
           setSuccessLock={setSuccessLock}
+          setToAddres={setToAddres}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Transfer Succesfuly" />}
