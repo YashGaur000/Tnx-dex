@@ -59,6 +59,7 @@ const SwapForm: React.FC = () => {
 
   const [tokenInput1, setTokenInput1] = useState('');
   const [tokenInput2, setTokenInput2] = useState('');
+  const [tokenPercent, setTokenPercent] = useState(100);
   const { from, to, transactionStatus, setFrom, setTo } = useRootStore();
   const selectedToken1 = useTokenInfo(from);
   const selectedToken2 = useTokenInfo(to);
@@ -99,8 +100,10 @@ const SwapForm: React.FC = () => {
   };
 
   const handleTokenSelectOpen = (target: 'token1' | 'token2') => {
-    setTokenSelectTarget(target);
-    setIsModalOpen(true);
+    if (transactionStatus === TransactionStatus.IDEAL) {
+      setTokenSelectTarget(target);
+      setIsModalOpen(true);
+    }
   };
 
   // Function to debounce async calls
@@ -232,7 +235,15 @@ const SwapForm: React.FC = () => {
 
   const handleSelectPercentage = useCallback(
     (percentage: number) => {
-      if (!selectedToken1 || !selectedToken2 || !graph) return;
+      if (
+        !selectedToken1 ||
+        !selectedToken2 ||
+        !graph ||
+        transactionStatus === TransactionStatus.IN_PROGRESS
+      )
+        return;
+
+      setTokenPercent(percentage);
 
       let walletBalance = 0;
       if (selectedToken1.symbol === 'ETH') {
@@ -274,7 +285,13 @@ const SwapForm: React.FC = () => {
   );
 
   const handleReverse = useCallback(() => {
-    if (!selectedToken1 || !selectedToken2 || !graph) return;
+    if (
+      !selectedToken1 ||
+      !selectedToken2 ||
+      !graph ||
+      transactionStatus === TransactionStatus.IN_PROGRESS
+    )
+      return;
 
     setFrom(selectedToken2.address);
     setTo(selectedToken1.address);
@@ -288,12 +305,29 @@ const SwapForm: React.FC = () => {
       return;
     }
 
+    // token percent logic
+
+    let walletBalance = 0;
+    let amount = tokenInput1;
+    if (selectedToken1.symbol === 'ETH') {
+      walletBalance = (Number(nativeBalance?.formatted) * tokenPercent) / 100;
+    } else {
+      walletBalance =
+        (Number(balances[selectedToken2?.address].toString()) * tokenPercent) /
+        100;
+    }
+
+    if (Number(tokenInput1) > walletBalance) {
+      amount = walletBalance.toFixed(5);
+      setTokenInput1(walletBalance.toFixed(5));
+    }
+
     setIsLoading(true);
 
     debounceFetchRoute(
       selectedToken2,
       selectedToken1,
-      tokenInput1,
+      amount,
       graph,
       getAmountsOut,
       setTokenInput2,
@@ -456,6 +490,8 @@ const SwapForm: React.FC = () => {
               onClose={() => setIsModalOpen(false)}
               onSelect={handleTokenSelect}
               account={address!}
+              excludeToken1={selectedToken1?.address}
+              excludeToken2={selectedToken2?.address}
             />
           </SwapBox>
           {tokenInput1 && (

@@ -55,7 +55,8 @@ const UnStakeStepper = ({
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const unstakedAmount = (Number(gaugeBalance) * selectUnsatkeValue) / 100;
-      const unstakeAmountInWei = parseAmounts(unstakedAmount, 18) ?? BigInt(0);
+      const unstakeAmountInWei =
+        parseAmounts(unstakedAmount.toFixed(18), 18) ?? BigInt(0);
       const result = await withdraw(unstakeAmountInWei);
 
       if (result) {
