@@ -127,9 +127,9 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
     handleIncentiveFormValue(inputValue); // Call the function
   };
 
-  if (!address) {
-    return <div>No account connected.</div>;
-  }
+  // if (!address) {
+  //   return <div>No account connected.</div>;
+  // }
 
   const handleSelectPercentage = (percentage: number) => {
     if (!selectedIncentiveToken) return;
@@ -246,7 +246,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         isOpen={isModalOpen2}
         onClose={() => setIsModalOpen2(false)}
         onSelect={handleIncentiveToken}
-        account={address}
+        account={address!}
       />
     </IncentiveleftBarBox1>
   );
