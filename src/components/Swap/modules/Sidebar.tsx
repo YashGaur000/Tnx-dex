@@ -158,6 +158,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const handleAllowToken1 = async () => {
     try {
       setIsDisabled(true);
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const amount1InWei =
         tokenInput1 &&
         ethers.parseUnits(tokenInput1.toString(), token1?.decimals);
@@ -168,10 +169,16 @@ const Sidebar: React.FC<SidebarProps> = ({
         );
         setIsTokenAllow(true);
         setIsDisabled(false);
+        setTransactionStatus(TransactionStatus.DONE);
+
+        setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
+        }, TRANSACTION_DELAY);
       }
     } catch (error) {
       console.error('Error during token approval', error);
       setIsDisabled(false);
+      setTransactionStatus(TransactionStatus.IDEAL);
     }
   };
 
@@ -388,7 +395,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       setIsDisabled(true);
-      const amountInWei = parseAmounts(Number(tokenInput1), token1?.decimals);
+
+      const amountInWei = parseAmounts(tokenInput1, token1?.decimals);
       const deadline = getDeadline(deadLineValue);
 
       if (

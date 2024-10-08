@@ -48,8 +48,13 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const getParam = useQueryParams();
 
-  excludeToken1 = getParam('token1') as Address;
-  excludeToken2 = getParam('token2') as Address;
+  if (!excludeToken1) {
+    excludeToken1 = getParam('token1') as Address;
+  }
+
+  if (!excludeToken2) {
+    excludeToken2 = getParam('token2') as Address;
+  }
 
   const { balances, loading, error } = useTokenBalances(
     ERC20_TEST_TOKEN_LIST,
@@ -74,7 +79,12 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
   );
 
   return (
-    <ModalWrapper onClick={onClose}>
+    <ModalWrapper
+      onClick={() => {
+        setSearchQuery('');
+        onClose();
+      }}
+    >
       <ModalContent onClick={(e) => e.stopPropagation()}>
         <SearchWrapper>
           <SearchIcon src={SearchIcons} />
