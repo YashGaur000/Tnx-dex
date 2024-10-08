@@ -38,6 +38,7 @@ import { ethers } from 'ethers';
 import { PublicClient } from 'viem';
 import { useNativeBalance } from '../../../hooks/useNativeBalance';
 import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: string) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
@@ -187,9 +188,13 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             type="text"
             onChange={handleChange}
             value={incentive}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
           />
           <Box2Container>
-            <Box2DataPoint1Tenex onClick={() => handleTokenSelectOpen2()}>
+            <Box2DataPoint1Tenex
+              onClick={() => handleTokenSelectOpen2()}
+              disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+            >
               <Img2
                 width={19.5}
                 height={20}
@@ -211,16 +216,28 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
             <Box2ValueAvailable>$0.00</Box2ValueAvailable> */}
           </Box2DataPoint4>
 
-          <Box2Percentage onClick={() => handleSelectPercentage(25)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(25)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             25%
           </Box2Percentage>
-          <Box2Percentage onClick={() => handleSelectPercentage(50)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(50)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             50%
           </Box2Percentage>
-          <Box2Percentage onClick={() => handleSelectPercentage(75)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(75)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             75%
           </Box2Percentage>
-          <Box2Percentage onClick={() => handleSelectPercentage(100)}>
+          <Box2Percentage
+            onClick={() => handleSelectPercentage(100)}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          >
             MAX
           </Box2Percentage>
         </Box2PercentageBar>

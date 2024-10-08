@@ -79,21 +79,25 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   const handleCreateGauge = async () => {
     try {
-      const gaugeAddress = await createGauge(
+      setIsGaugeBeingCreated(true);
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      const tx = await createGauge(
         contractAddresses.PoolFactory,
         poolData[0]?.id as Address
       );
-      setIsGaugeBeingCreated(true);
-      if (gaugeAddress != AddressZero && gaugeAddress != undefined) {
-        setIsGaugeCreated(true);
-        setGaugeAddress(gaugeAddress);
-        console.log('gauge created ', gaugeAddress);
-        setIsGaugeBeingCreated(false);
-
-        // window.location.reload();
+      if (tx) {
+        await getGaugeAddress();
+        if (isGaugeCreated) {
+          setIsGaugeBeingCreated(false);
+          setTransactionStatus(TransactionStatus.DONE);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
+        }
       }
     } catch (error) {
       console.error('Error during token approval', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     }
   };
 
@@ -131,14 +135,25 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
 
   const handleAllowance = async () => {
     setIsAllowingToken(true);
-
-    const amount = parseAmounts(
-      Number(InsentiveFormValue),
-      tokenSymbol?.decimals
-    );
-    if (bribeAddress && amount) {
-      const result = await approveAllowance(bribeAddress, amount.toString());
-      setIsTokenAllowed(result ? true : false);
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    try {
+      const amount = parseAmounts(
+        Number(InsentiveFormValue),
+        tokenSymbol?.decimals
+      );
+      if (bribeAddress && amount) {
+        const result = await approveAllowance(bribeAddress, amount.toString());
+        setIsTokenAllowed(result ? true : false);
+      }
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
+      setIsAllowingToken(false);
+    } catch (error) {
+      console.error('Error providing allowance for adding incentives');
+      setTransactionStatus(TransactionStatus.IDEAL);
+      setIsAllowingToken(false);
     }
   };
 
@@ -196,6 +211,8 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
             icon: Lock1Icon,
             onClick: handleCreateGauge,
             tooltip: `Click to allow ${poolData[0]?.token0.symbol}-${poolData[0]?.token1.symbol} transactions`,
+            disabled: isGaugeBeingCreated,
+            inProgress: isGaugeBeingCreated,
           }
         : undefined,
       actionCompleted: isGaugeBeingCreated && !isGaugeCreated,
@@ -216,6 +233,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
               onClick: handleAllowance,
               tooltip: `Click to allow ${tokenSymbol?.symbol} transactions`,
               inProgress: isAllowingToken,
+              disabled: isAllowingToken,
             }
           : undefined,
     },

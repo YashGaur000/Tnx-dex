@@ -94,6 +94,7 @@ const Deposite: React.FC<DepositProps> = ({
 
   const handleAllowToken1 = async () => {
     setIsAllowingToken1(true);
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
     try {
       const amount1InWei =
         amount1 &&
@@ -106,17 +107,24 @@ const Deposite: React.FC<DepositProps> = ({
           setIsToken1Allowed(true);
         }
       }
+
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during token approval', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     } finally {
       setIsAllowingToken1(false);
-
+      setTransactionStatus(TransactionStatus.IDEAL);
       // Re-enable the button after the operation completes
     }
   };
 
   const handleAllowToken2 = async () => {
     setIsAllowingToken2(true);
+    setTransactionStatus(TransactionStatus.IN_PROGRESS);
     try {
       const amount2InWei =
         amount2 &&
@@ -129,10 +137,16 @@ const Deposite: React.FC<DepositProps> = ({
           setIsToken2Allowed(true);
         }
       }
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during token approval', error);
+      setTransactionStatus(TransactionStatus.IDEAL);
     } finally {
       setIsAllowingToken2(false);
+      setTransactionStatus(TransactionStatus.IDEAL);
       // Re-enable the button after the operation completes
     }
   };
@@ -294,7 +308,9 @@ const Deposite: React.FC<DepositProps> = ({
             icon: LockIcon,
             onClick: handleAllowToken1,
             tooltip: 'Click to allow USDT transactions',
-            disabled: isAllowingToken1,
+            disabled:
+              isAllowingToken1 &&
+              transactionStatus === TransactionStatus.IN_PROGRESS,
             inProgress: isAllowingToken1,
           }
         : undefined,
@@ -310,16 +326,17 @@ const Deposite: React.FC<DepositProps> = ({
           ? 'Allowed the contracts to access ' + selectedToken2?.symbol
           : 'Allowance not granted for ' + selectedToken2?.symbol,
       },
-      buttons: !isToken2Allowed
-        ? {
-            label: 'Allow ' + selectedToken2?.symbol,
-            icon: LockIcon,
-            onClick: handleAllowToken2,
-            tooltip: 'Click to allow FTM transactions',
-            disabled: isAllowingToken2,
-            inProgress: isAllowingToken2,
-          }
-        : undefined,
+      buttons:
+        !isToken2Allowed && transactionStatus != TransactionStatus.IN_PROGRESS
+          ? {
+              label: 'Allow ' + selectedToken2?.symbol,
+              icon: LockIcon,
+              onClick: handleAllowToken2,
+              tooltip: 'Click to allow FTM transactions',
+              disabled: isAllowingToken2,
+              inProgress: isAllowingToken2,
+            }
+          : undefined,
     });
   }
 

@@ -45,6 +45,8 @@ import { usePoolBalances } from '../../../hooks/usePoolBalances';
 import IncentiveTokenPopup from './IncentiveTokenPopup';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 import { DEFAULT_POOL } from '../../../constants/contract-address/Pool';
+import { useRootStore } from '../../../store/root';
+import { TransactionStatus } from '../../../types/Transaction';
 
 const IncentiveSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,6 +67,7 @@ const IncentiveSection: React.FC = () => {
   //   undefined
   // );
 
+  const { transactionStatus } = useRootStore();
   const getParam = useQueryParams();
   const poolId = getParam('pool') ?? DEFAULT_POOL;
   const { data: poolData } = useLiquidityPoolDataById(poolId);
@@ -163,6 +166,9 @@ const IncentiveSection: React.FC = () => {
                       width="80px"
                       margin="0px"
                       onClick={() => setIsModalOpen(true)}
+                      disabled={
+                        transactionStatus === TransactionStatus.IN_PROGRESS
+                      }
                     >
                       Change
                     </GlobalButton>

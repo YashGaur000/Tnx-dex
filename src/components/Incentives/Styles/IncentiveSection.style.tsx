@@ -297,6 +297,7 @@ export const Box2ProgressContainer = styled.div<{
 
 export const Box2ProgressBar = styled.input<{
   theme: DefaultTheme;
+  disabled: boolean;
 }>`
   flex-grow: 1;
   background-color: #fff0;
@@ -308,6 +309,8 @@ export const Box2ProgressBar = styled.input<{
   font-family: 'kanit';
   font-weight: 300;
   font-size: 16px;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
+
   &:focus {
     outline: none;
   }
@@ -333,11 +336,13 @@ export const Box2PercentageBar = styled.div<{
 
 export const Box2Percentage = styled.span<{
   theme: DefaultTheme;
+  disabled: boolean;
 }>`
   color: #cccccc;
   font-size: 12px;
   margin-left: 20px;
   font-weight: 300;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
   @media screen and (max-width: 800px) {
     margin-left: unset;
     margin-right: 20px;
@@ -367,9 +372,11 @@ export const Box2DataPoint1 = styled.div<{
 
 export const Box2DataPoint1Tenex = styled.div<{
   theme: DefaultTheme;
+  disabled: boolean;
 }>`
   display: flex;
   align-items: center;
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
 `;
 
 export const Box2DataPoint2 = styled.div<{
