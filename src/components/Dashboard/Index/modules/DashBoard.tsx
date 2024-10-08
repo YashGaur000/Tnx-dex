@@ -45,7 +45,9 @@ export interface UserPositionData {
 
 const DashBoard: React.FC = () => {
   const { address } = useAccount();
-  const { userPools, isError } = useUserPosition(address!);
+  const { userValidPools, userRewardPools, isError } = useUserPosition(
+    address!
+  );
   const [isLoading, setIsLoading] = useState(true);
 
   const [isLockVisible, setIsLockVisible] = useState(true);
@@ -56,12 +58,19 @@ const DashBoard: React.FC = () => {
   const Navigate = useNavigate();
 
   useEffect(() => {
-    if (isLoading && userPools && userPools.length === 0) {
-      setTimeout(() => setIsLoading(false), 10000);
+    if (
+      isLoading &&
+      ((userValidPools?.length ?? 0) === 0 ||
+        (userRewardPools?.length ?? 0) === 0)
+    ) {
+      const timeout = setTimeout(() => setIsLoading(false), 10000);
+
+      return () => clearTimeout(timeout);
     } else {
+      // If pools are valid, stop loading immediately
       setIsLoading(false);
     }
-  }, []);
+  }, [isLoading, userValidPools, userRewardPools]);
 
   function handleTooltipShow(option: string) {
     setActiveTooltip(option);
@@ -128,7 +137,7 @@ const DashBoard: React.FC = () => {
           {address && (
             <DepositAndStake
               address={address}
-              userPools={userPools}
+              userPools={userValidPools}
               isError={isError}
               isLoading={isLoading}
             />
@@ -147,7 +156,7 @@ const DashBoard: React.FC = () => {
           {/* todo: Make Dynamic */}
           {address && (
             <LiquidityRewards
-              userPools={userPools}
+              userPools={userRewardPools}
               isError={isError}
               isLoading={isLoading}
             />
