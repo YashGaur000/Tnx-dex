@@ -97,7 +97,10 @@ const WithdrawStepper = ({
       if (balance) {
         const amount =
           (Number(balance.etherBalance) * Number(withdrawPercentage)) / 100;
-        const amountInWei = parseAmounts(amount.toString(), balance.decimals);
+        const amountInWei = parseAmounts(
+          amount.toFixed(balance.decimals),
+          balance.decimals
+        );
 
         if (amountInWei) setLiquidity(amountInWei.toString());
         const result = await approveAllowance(

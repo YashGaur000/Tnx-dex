@@ -5,6 +5,8 @@ import { DefaultTheme } from '../../styles/Theme';
 import ArrowIcon from './../../assets/doubleHederArrow.svg';
 import { StepperDataProps } from '../../types/Stepper';
 import { LoadingSpinner } from './Loader';
+import { TransactionStatus } from '../../types/Transaction';
+import { useRootStore } from '../../store/root';
 
 interface StepperProps {
   data: StepperDataProps[];
@@ -124,10 +126,11 @@ const StepperTitle = styled.span<{
   }
 `;
 
-const UnderlinedText = styled.span<{ theme: DefaultTheme }>`
+const UnderlinedText = styled.span<{ theme: DefaultTheme; disabled: boolean }>`
   text-decoration: underline;
   cursor: pointer;
   color: ${({ theme }) => theme.colors.whiteBorder};
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
 `;
 
 const DescriptionSection = styled.div`
@@ -158,6 +161,7 @@ const ButtonWrapperTitle = styled.div`
   gap: 8px;
 `;
 const Stepper: React.FC<StepperProps> = ({ data }) => {
+  const { transactionStatus } = useRootStore();
   return (
     <StepperContainer>
       {data.map((item, index) => (
@@ -179,7 +183,12 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                   (item.unSafe?.visible ? (
                     <StepperRedTitle>
                       {item.descriptions.labels}{' '}
-                      <UnderlinedText onClick={item.unSafe.onClick}>
+                      <UnderlinedText
+                        onClick={item.unSafe.onClick}
+                        disabled={
+                          transactionStatus === TransactionStatus.IN_PROGRESS
+                        }
+                      >
                         <br />
                         Allow unsafe trades
                       </UnderlinedText>{' '}
@@ -198,7 +207,10 @@ const Stepper: React.FC<StepperProps> = ({ data }) => {
                   ))}
               </DescriptionWrapper>
               {item.descriptions.adjust && (
-                <UnderlinedText onClick={item.descriptions.onClick}>
+                <UnderlinedText
+                  onClick={item.descriptions.onClick}
+                  disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+                >
                   {item.descriptions.adjust}
                 </UnderlinedText>
               )}
