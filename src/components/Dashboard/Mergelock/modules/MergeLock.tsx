@@ -39,6 +39,7 @@ const MergeLock = () => {
   const [isToVotingPower, setIsToVotingPower] = useState<number>(0);
   const [isTotalDuration, setIsTotalDuration] = useState<string>('');
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [IsModalDisabled, setIsModalDisable] = useState<boolean>(false);
   const [selectLockToken, setSelectLockToken] = useState('Your locks...');
 
   const { votingPower, lockData, timeStampValue } =
@@ -56,12 +57,10 @@ const MergeLock = () => {
       toLockDate: string
     ) => {
       setIsToVotingPower(toVotingPower);
-
       const toTillDate = convertDateToTimestamp(toLockDate);
       if (lockData) {
         const lockdataEnd = lockData.end;
         const fromTillDate = convertDateToTimestamp(lockdataEnd.toString());
-
         const Duration = fromTillDate >= toTillDate ? fromTillDate : toTillDate;
         const totalDuration = convertTimestampToDate(Duration);
         const formatUnlockData = getTimeDifference(totalDuration);
@@ -76,6 +75,7 @@ const MergeLock = () => {
   );
 
   const handleInputBox = () => {
+    if (IsModalDisabled) return;
     setIsModalOpen(true);
   };
 
@@ -136,6 +136,7 @@ const MergeLock = () => {
           isToVotingPower={isToVotingPower}
           votingPower={Number(votingPower)}
           isTotalDuration={isTotalDuration}
+          setIsModalDisable={setIsModalDisable}
           setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>

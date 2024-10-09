@@ -59,13 +59,33 @@ const CreatePool = () => {
 
   // @todo : check if this query is possible to integrate in gql itself
   const availablePools = poolData.filter((item) => {
-    if (
-      (item.token0.symbol === selectedToken1?.symbol &&
-        item.token1.symbol === selectedToken2?.symbol) ||
-      (item.token1.symbol === selectedToken1?.symbol &&
-        item.token0.symbol === selectedToken2?.symbol)
-    ) {
-      return item;
+    if (selectedToken1?.symbol != 'ETH' && selectedToken2?.symbol != 'ETH') {
+      if (
+        (item.token0.symbol === selectedToken1?.symbol &&
+          item.token1.symbol === selectedToken2?.symbol) ||
+        (item.token1.symbol === selectedToken1?.symbol &&
+          item.token0.symbol === selectedToken2?.symbol)
+      ) {
+        return item;
+      }
+    } else if (selectedToken1?.symbol == 'ETH') {
+      if (
+        (item.token0.symbol === 'WETH' &&
+          item.token1.symbol === selectedToken2?.symbol) ||
+        (item.token1.symbol === 'WETH' &&
+          item.token0.symbol === selectedToken2?.symbol)
+      ) {
+        return item;
+      }
+    } else if (selectedToken2?.symbol == 'ETH') {
+      if (
+        (item.token0.symbol === selectedToken1?.symbol &&
+          item.token1.symbol === 'WETH') ||
+        (item.token1.symbol === selectedToken1?.symbol &&
+          item.token0.symbol === 'WETH')
+      ) {
+        return item;
+      }
     }
   });
 
