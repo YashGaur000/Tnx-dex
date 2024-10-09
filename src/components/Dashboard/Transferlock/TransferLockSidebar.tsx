@@ -13,11 +13,7 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
-//import { TokenInfo } from '../../../constants/tokens';
-//import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
-//import { testErc20Abi } from '../../../constants/abis/testErc20';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
-//import { locktokeninfo } from '../../../utils/common/voteTenex';
 import contractAddress from '../../../constants/contract-address/address';
 
 interface TransferFromOwnerProps {

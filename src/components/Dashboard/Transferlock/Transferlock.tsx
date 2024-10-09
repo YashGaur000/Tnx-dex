@@ -19,7 +19,7 @@ import {
   locktokeninfo,
   MAX_LOCK_TIME,
 } from '../../../utils/common/voteTenex';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { LockedBalance } from '../../../types/VotingEscrow';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address'; // Contract addresses
@@ -40,13 +40,14 @@ const Transferlock = () => {
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address } = useAccount();
   const lockTokenInfo = locktokeninfo();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (iSuccessLock) navigate('/governance');
     const fetchLockData = async () => {
       if (tokenId) {
         try {
-          // setIsLoading(true);
           const data = await getLockData(Number(tokenId));
           if (data) {
             const LockedAmt = formatTokenAmount(Number(data.amount));
@@ -58,16 +59,12 @@ const Transferlock = () => {
             const votingPower = data.amount * (timeRemaining / MAX_LOCK_TIME);
             const setVotePw = convertToDecimal(Number(votingPower));
             setTotalVotingPower(Number(setVotePw));
-            //setTotalLockedVELO(prevTotal => prevTotal + Number(data.amount));
-            //setTotalVotingPower(prevTotal => prevTotal + setVotePw);
           }
 
           setLockData(data);
         } catch (error) {
           console.error('Error fetching lock data:', error);
           return null;
-        } finally {
-          //setIsLoading(false);
         }
       }
     };
