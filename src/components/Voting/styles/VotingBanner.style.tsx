@@ -51,7 +51,7 @@ export const VoteDescBox = styled.div<{ theme: DefaultTheme }>`
   }
 `;
 
-export const VoteDesc = styled.p<{ theme: DefaultTheme }>`
+export const VoteDesc = styled.div<{ theme: DefaultTheme }>`
   font-size: 16px;
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
