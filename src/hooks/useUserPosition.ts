@@ -96,40 +96,67 @@ const fetchUserPools = async (
     contracts: gaugesCalls,
   });
 
-  const poolsWithGauges = await Promise.all(
-    userPools.map(async (pool, index) => {
+  const poolsWithGauges = async () => {
+    // Collect calls to batch for multicall
+    const gaugeCalls: {
+      pool: UserPosition;
+      gaugeAddress: Address;
+    }[] = [];
+    const stakeBalanceCalls: {
+      abi: Abi;
+      functionName: string;
+      args: [Address];
+      address: Address;
+    }[] = [];
+    const earnedCalls: {
+      abi: Abi;
+      functionName: string;
+      args: [Address];
+      address: Address;
+    }[] = [];
+
+    userPools.forEach((pool, index) => {
       const gaugeAddress = gaugesResults[index].result as Address;
       if (gaugeAddress !== AddressZero) {
-        const stakeBalanceCall = {
+        // Prepare gauge calls for stake balance and earned emissions in a single multicall
+        stakeBalanceCalls.push({
           abi: gaugeAbi.abi as Abi,
           functionName: 'balanceOf',
           args: [account],
           address: gaugeAddress,
-        };
+        });
 
-        const earnedCall = {
+        earnedCalls.push({
           abi: gaugeAbi.abi as Abi,
           functionName: 'earned',
           args: [account],
           address: gaugeAddress,
-        };
-
-        // Fetch gauge balance
-        const stakeBalanceResult = await multicallClient.multicall({
-          contracts: [stakeBalanceCall],
         });
 
-        const earnedResult = await multicallClient.multicall({
-          contracts: [earnedCall],
-        });
+        // Store gauge address to link later
+        gaugeCalls.push({ pool, gaugeAddress });
+      }
+    });
 
+    // Perform a single multicall for stake balances and earned rewards
+    const [stakeBalanceResults, earnedResults] = await Promise.all([
+      multicallClient.multicall({ contracts: stakeBalanceCalls }),
+      multicallClient.multicall({ contracts: earnedCalls }),
+    ]);
+
+    // Process the results
+    return gaugeCalls
+      .map(({ pool, gaugeAddress }, index) => {
         const gaugeBalance =
-          formatAmounts(stakeBalanceResult[0].result as ethers.Numeric, 18) ??
-          '0';
-
+          formatAmounts(
+            stakeBalanceResults[index].result as ethers.Numeric,
+            18
+          ) ?? '0';
         const emissions =
-          formatAmounts(earnedResult[0].result as ethers.Numeric, 18) ?? '0.00';
+          formatAmounts(earnedResults[index].result as ethers.Numeric, 18) ??
+          '0.00';
 
+        // Only include pools with relevant balances
         if (
           Number(pool.poolBalance) > 0 ||
           Number(gaugeBalance) > 0 ||
@@ -142,116 +169,100 @@ const fetchUserPools = async (
             emissions,
           };
         }
-      }
-      return null;
-    })
-  );
 
-  const filteredPools = poolsWithGauges.filter((pool) => pool !== null);
+        return null;
+      })
+      .filter((pool) => pool !== null); // Filter out null results
+  };
 
-  const totalSupplyPoolCalls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'totalSupply',
-    args: [],
-    address: lp,
-  }));
+  const filteredPools = await poolsWithGauges();
 
-  const totalSupplyPoolResults = await multicallClient.multicall({
-    contracts: totalSupplyPoolCalls,
+  const combinedCalls = filteredPools.flatMap(({ lp }) => [
+    // Total supply call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'totalSupply',
+      args: [],
+      address: lp,
+    },
+    // Claimable 0 call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'claimable0',
+      args: [account],
+      address: lp,
+    },
+    // Claimable 1 call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'claimable1',
+      args: [account],
+      address: lp,
+    },
+    // Index 0 call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'index0',
+      args: [],
+      address: lp,
+    },
+    // Index 1 call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'index1',
+      args: [],
+      address: lp,
+    },
+    // Supply index 0 call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'supplyIndex0',
+      args: [account],
+      address: lp,
+    },
+    // Supply index 1 call
+    {
+      abi: poolAbi.abi as Abi,
+      functionName: 'supplyIndex1',
+      args: [account],
+      address: lp,
+    },
+  ]);
+
+  // Single multicall execution
+  const combinedResults = await multicallClient.multicall({
+    contracts: combinedCalls,
   });
 
-  const claimable0Calls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'claimable0',
-    args: [account],
-    address: lp,
-  }));
+  // Process the results
+  const resultsPerPool = filteredPools.map((pool, index) => {
+    const baseIndex = index * 7; // Each pool has 7 calls
 
-  const claimable0Results = await multicallClient.multicall({
-    contracts: claimable0Calls,
-  });
+    const totalSupply = combinedResults[baseIndex].result ?? '0';
+    const claimable0 = combinedResults[baseIndex + 1].result ?? '0';
+    const claimable1 = combinedResults[baseIndex + 2].result ?? '0';
+    const index0 = combinedResults[baseIndex + 3].result ?? '0';
+    const index1 = combinedResults[baseIndex + 4].result ?? '0';
+    const supplyIndex0 = combinedResults[baseIndex + 5].result ?? '0';
+    const supplyIndex1 = combinedResults[baseIndex + 6].result ?? '0';
 
-  const claimable1Calls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'claimable1',
-    args: [account],
-    address: lp,
-  }));
-
-  const claimable1Results = await multicallClient.multicall({
-    contracts: claimable1Calls,
-  });
-
-  const index0Calls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'index0',
-    args: [],
-    address: lp,
-  }));
-
-  const index0Results = await multicallClient.multicall({
-    contracts: index0Calls,
-  });
-
-  const index1Calls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'index1',
-    args: [],
-    address: lp,
-  }));
-
-  const index1Results = await multicallClient.multicall({
-    contracts: index1Calls,
-  });
-
-  const supply0Calls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'supplyIndex0',
-    args: [account],
-    address: lp,
-  }));
-
-  const supply0Results = await multicallClient.multicall({
-    contracts: supply0Calls,
-  });
-
-  const supply1Calls = filteredPools.map(({ lp }) => ({
-    abi: poolAbi.abi as Abi,
-    functionName: 'supplyIndex1',
-    args: [account],
-    address: lp,
-  }));
-
-  const supply1Results = await multicallClient.multicall({
-    contracts: supply1Calls,
-  });
-
-  filteredPools.forEach((pool, index) => {
     const totalSupplyPool =
-      formatAmounts(
-        totalSupplyPoolResults[index].result as ethers.Numeric,
-        18
-      ) ?? '0';
+      formatAmounts(totalSupply as ethers.Numeric, 18) ?? '0';
+
+    // Account deposit calculations
     pool.accountDeposit0 = (
       (Number(pool.poolBalance) * Number(pool.reserve0)) /
       Number(totalSupplyPool)
     ).toFixed(5);
+
     pool.accountDeposit1 = (
       (Number(pool.poolBalance) * Number(pool.reserve1)) /
       Number(totalSupplyPool)
     ).toFixed(5);
 
-    const claim0 =
-      formatAmounts(claimable0Results[index].result as ethers.Numeric, 18) ??
-      '0';
-
+    // Claimable0 calculations
+    const claim0 = formatAmounts(claimable0 as ethers.Numeric, 18) ?? '0';
     pool.claimable0 = Number(claim0) > 0 ? Number(claim0).toFixed(5) : '0.00';
-
-    const index0 =
-      formatAmounts(index0Results[index].result as ethers.Numeric, 18) ?? '0';
-
-    const supplyIndex0 =
-      formatAmounts(supply0Results[index].result as ethers.Numeric, 18) ?? '0';
 
     const delta0 = Number(index0) - Number(supplyIndex0);
 
@@ -262,17 +273,9 @@ const fetchUserPools = async (
       ).toFixed(5);
     }
 
-    const claim1 =
-      formatAmounts(claimable1Results[index].result as ethers.Numeric, 18) ??
-      '0';
-
+    // Claimable1 calculations
+    const claim1 = formatAmounts(claimable1 as ethers.Numeric, 18) ?? '0';
     pool.claimable1 = Number(claim1) > 0 ? Number(claim1).toFixed(5) : '0.00';
-
-    const index1 =
-      formatAmounts(index1Results[index].result as ethers.Numeric, 18) ?? '0';
-
-    const supplyIndex1 =
-      formatAmounts(supply1Results[index].result as ethers.Numeric, 18) ?? '0';
 
     const delta1 = Number(index1) - Number(supplyIndex1);
 
@@ -283,11 +286,13 @@ const fetchUserPools = async (
       ).toFixed(5);
     }
 
+    // Account unstaked calculations
     pool.accountUnstaked0 =
       Number(pool.accountDeposit0) > 0 ? pool.accountDeposit0 : '0.00';
     pool.accountUnstaked1 =
       Number(pool.accountDeposit1) > 0 ? pool.accountDeposit1 : '0.00';
 
+    // Account staked calculations for reserve0
     if (Number(pool.reserve0) > 0) {
       pool.accountStaked0 = (
         (Number(pool.gaugeBalance) * Number(pool.reserve0)) /
@@ -297,6 +302,7 @@ const fetchUserPools = async (
       if (Number(pool.accountStaked0) === 0) pool.accountStaked0 = '0.00';
     }
 
+    // Account staked calculations for reserve1
     if (Number(pool.reserve1) > 0) {
       pool.accountStaked1 = (
         (Number(pool.gaugeBalance) * Number(pool.reserve1)) /
@@ -305,9 +311,12 @@ const fetchUserPools = async (
 
       if (Number(pool.accountStaked1) === 0) pool.accountStaked1 = '0.00';
     }
+    return {
+      ...pool,
+    };
   });
 
-  return filteredPools;
+  return resultsPerPool;
 };
 
 export const useUserPosition = (account: Address) => {
@@ -351,7 +360,8 @@ export const useUserPosition = (account: Address) => {
   );
 
   const userValidPools = userPools?.filter(
-    (pool) => Number(pool.poolBalance) > 1e-12
+    (pool) =>
+      Number(pool.poolBalance) > 1e-12 || Number(pool.gaugeBalance) > 1e-12
   );
 
   return {
