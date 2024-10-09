@@ -115,7 +115,7 @@ const Pool: React.FC<PoolProps> = ({ poolDetails, poolType, exists }) => {
           fontSize="12"
           width="80px"
           height="26px"
-          smfontSize={12}
+          smfontsize={12}
           smmargin="0px"
         >
           Deposit

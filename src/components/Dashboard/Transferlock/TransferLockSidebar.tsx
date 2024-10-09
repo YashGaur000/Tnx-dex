@@ -13,11 +13,7 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
-//import { TokenInfo } from '../../../constants/tokens';
-//import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
-//import { testErc20Abi } from '../../../constants/abis/testErc20';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
-//import { locktokeninfo } from '../../../utils/common/voteTenex';
 import contractAddress from '../../../constants/contract-address/address';
 
 interface TransferFromOwnerProps {
@@ -25,6 +21,8 @@ interface TransferFromOwnerProps {
   toAddress: Address;
   tokenId: number;
   setSuccessLock: (input: boolean) => void;
+  setInputLock: (input: boolean) => void;
+  setToAddres: (input: Address | undefined) => void;
 }
 
 const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
@@ -32,6 +30,8 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   toAddress,
   tokenId,
   setSuccessLock,
+  setInputLock,
+  setToAddres,
 }) => {
   const { transferFrom } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -44,7 +44,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   const handleTransferLock = useCallback(async () => {
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-
+      setInputLock(true);
       setIsLoading(true);
       if (!fromOwner && !toAddress && !tokenId) return;
       await transferFrom(fromOwner, toAddress, tokenId);
@@ -54,11 +54,14 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
 
       setTimeout(() => {
         setSuccessLock(true);
+        setInputLock(false);
+        setToAddres(undefined);
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error transferring lock:', error);
       setTransactionStatus(TransactionStatus.FAILED);
+      setInputLock(false);
     } finally {
       setIsLoading(false);
     }

@@ -43,6 +43,8 @@ import VoteButtonHover from './VoteButtonHover';
 import { useRootStore } from '../../../store/root';
 import { TransactionStatus } from '../../../types/Transaction';
 
+import { useNavigate } from 'react-router-dom';
+
 interface VotingPoolCardProps {
   data: LiquidityPoolNewType;
   handleSelectPool: (isSelected: boolean) => void;
@@ -57,6 +59,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   const [isSelectCardOpen, setSelectCardOpen] = useState<boolean>(false);
   const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
   const { transactionStatus, setTransactionStatus } = useRootStore();
+  const navigate = useNavigate();
   const handleVote = () => {
     if (islock) {
       const newState = !isSelectCardOpen;
@@ -65,7 +68,9 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
       handleSelectPool(newState);
     } else setHoverPopUpShow(true);
   };
-
+  const handleIncentive = (poolId: string) => {
+    navigate('/incentives?pool=' + poolId);
+  };
   const handleHoverHide = () => {
     setHoverPopUpShow(false);
   };
@@ -156,7 +161,9 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
               <LiquidityTitle
                 fontSize={12}
                 textalign="right"
-                textdecoration="underline"
+                pointer="pointer"
+                textDecoration="underline"
+                onClick={() => handleIncentive(data.id)}
               >
                 {'Add incentives'}
               </LiquidityTitle>
@@ -202,7 +209,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                 lineheight="0px"
                 border="1.5px solid transparent"
                 borderradius="8px"
-                smfontSize={12}
+                smfontsize={12}
                 smmargin="0px"
               >
                 {!islock ? (
