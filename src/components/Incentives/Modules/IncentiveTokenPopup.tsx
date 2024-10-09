@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import {
   ModalWrapper,
   ModalContent,
@@ -45,15 +45,30 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
 }) => {
   const { loading, error, data: poolData } = useLiquidityPoolData();
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState('All');
 
-  const [filterPoolData, setFilterPoolData] = useState(poolData);
-
-  useEffect(() => {
-    const filterData = poolData.filter((pool) =>
+  // Memoize the search-filtered data
+  const searchFilteredData = useMemo(() => {
+    if (!poolData) return [];
+    return poolData.filter((pool) =>
       pool.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
-    setFilterPoolData(filterData);
-  }, [searchQuery, setFilterPoolData]);
+  }, [searchQuery, poolData]);
+
+  // Memoize the tag-filtered data
+  const filterPoolData = useMemo(() => {
+    switch (selectedTag) {
+      case 'All':
+        return searchFilteredData;
+      case 'Stable':
+        return searchFilteredData.filter((pool) => pool.isStable === true);
+      case 'Volatile':
+        return searchFilteredData.filter((pool) => pool.isStable === false);
+      default:
+        console.warn('Unknown filter tag:', selectedTag);
+        return searchFilteredData;
+    }
+  }, [selectedTag, searchFilteredData]);
 
   // const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
   // const getParam = useQueryParams();
@@ -71,23 +86,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
   };
 
   const handleFilterData = (tag: string) => {
-    switch (tag) {
-      case 'All':
-        setFilterPoolData(poolData);
-        break;
-      case 'Stable': {
-        const data = poolData.filter((pool) => pool.isStable === true);
-        setFilterPoolData(data);
-        break;
-      }
-      case 'Volatile': {
-        const data = poolData.filter((pool) => pool.isStable === false); // Changed to isStable === false
-        setFilterPoolData(data);
-        break;
-      }
-      default:
-        console.log('Unknown filter tag:', tag);
-    }
+    setSelectedTag(tag);
   };
 
   return (
@@ -121,7 +120,7 @@ const IncentiveTokenPopup: React.FC<TokenSelectModalProps> = ({
 
         <HeaderTokenContent>
           <HeaderleftContent>{filterPoolData.length} Pools</HeaderleftContent>
-          <HeaderRightContent>Gauge Detected</HeaderRightContent>
+          <HeaderRightContent>Deposited / Staked</HeaderRightContent>
         </HeaderTokenContent>
         {loading ? (
           <>
