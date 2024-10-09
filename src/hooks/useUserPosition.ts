@@ -117,8 +117,9 @@ const fetchUserPools = async (
 
     userPools.forEach((pool, index) => {
       const gaugeAddress = gaugesResults[index].result as Address;
+      gaugeCalls.push({ pool, gaugeAddress });
+
       if (gaugeAddress !== AddressZero) {
-        // Prepare gauge calls for stake balance and earned emissions in a single multicall
         stakeBalanceCalls.push({
           abi: gaugeAbi.abi as Abi,
           functionName: 'balanceOf',
@@ -132,47 +133,47 @@ const fetchUserPools = async (
           args: [account],
           address: gaugeAddress,
         });
-
-        // Store gauge address to link later
-        gaugeCalls.push({ pool, gaugeAddress });
       }
     });
 
-    // Perform a single multicall for stake balances and earned rewards
     const [stakeBalanceResults, earnedResults] = await Promise.all([
       multicallClient.multicall({ contracts: stakeBalanceCalls }),
       multicallClient.multicall({ contracts: earnedCalls }),
     ]);
 
-    // Process the results
-    return gaugeCalls
-      .map(({ pool, gaugeAddress }, index) => {
-        const gaugeBalance =
+    let multicallIndex = 0; // Track multicall result index
+
+    return gaugeCalls.map(({ pool, gaugeAddress }) => {
+      let gaugeBalance = '0';
+      let emissions = '0.00';
+
+      // Only calculate stake and emissions for non-zero address gauges
+      if (gaugeAddress !== AddressZero) {
+        gaugeBalance =
           formatAmounts(
-            stakeBalanceResults[index].result as ethers.Numeric,
+            stakeBalanceResults[multicallIndex].result as ethers.Numeric,
             18
           ) ?? '0';
-        const emissions =
-          formatAmounts(earnedResults[index].result as ethers.Numeric, 18) ??
-          '0.00';
 
-        // Only include pools with relevant balances
-        if (
-          Number(pool.poolBalance) > 0 ||
-          Number(gaugeBalance) > 0 ||
-          Number(emissions) > 0
-        ) {
-          return {
-            ...pool,
-            gauge: gaugeAddress,
-            gaugeBalance,
-            emissions,
-          };
-        }
+        emissions =
+          formatAmounts(
+            earnedResults[multicallIndex].result as ethers.Numeric,
+            18
+          ) ?? '0.00';
 
-        return null;
-      })
-      .filter((pool) => pool !== null); // Filter out null results
+        multicallIndex++; // Increment index only when using multicall results
+      }
+
+      return {
+        ...pool,
+        gauge: gaugeAddress,
+        gaugeBalance,
+        emissions,
+      };
+
+      // Include the pool with or without gauge calculations
+    });
+    // Filter out null results
   };
 
   const filteredPools = await poolsWithGauges();
@@ -235,104 +236,113 @@ const fetchUserPools = async (
   });
 
   // Process the results
-  const resultsPerPool = filteredPools.map((pool, index) => {
-    const baseIndex = index * 7; // Each pool has 7 calls
+  const resultsPerPool = filteredPools
+    .map((pool, index) => {
+      const baseIndex = index * 7; // Each pool has 7 calls
 
-    const totalSupply = combinedResults[baseIndex].result ?? '0';
-    const claimable0 = combinedResults[baseIndex + 1].result ?? '0';
-    const claimable1 = combinedResults[baseIndex + 2].result ?? '0';
-    const index0 =
-      formatAmounts(
-        combinedResults[baseIndex + 3].result as ethers.Numeric,
-        18
-      ) ?? '0';
-    const index1 =
-      formatAmounts(
-        combinedResults[baseIndex + 4].result as ethers.Numeric,
-        18
-      ) ?? '0';
-    const supplyIndex0 =
-      formatAmounts(
-        combinedResults[baseIndex + 5].result as ethers.Numeric,
-        18
-      ) ?? '0';
-    const supplyIndex1 =
-      formatAmounts(
-        combinedResults[baseIndex + 6].result as ethers.Numeric,
-        18
-      ) ?? '0';
+      const totalSupply = combinedResults[baseIndex].result ?? '0';
+      const claimable0 = combinedResults[baseIndex + 1].result ?? '0';
+      const claimable1 = combinedResults[baseIndex + 2].result ?? '0';
+      const index0 =
+        formatAmounts(
+          combinedResults[baseIndex + 3].result as ethers.Numeric,
+          18
+        ) ?? '0';
+      const index1 =
+        formatAmounts(
+          combinedResults[baseIndex + 4].result as ethers.Numeric,
+          18
+        ) ?? '0';
+      const supplyIndex0 =
+        formatAmounts(
+          combinedResults[baseIndex + 5].result as ethers.Numeric,
+          18
+        ) ?? '0';
+      const supplyIndex1 =
+        formatAmounts(
+          combinedResults[baseIndex + 6].result as ethers.Numeric,
+          18
+        ) ?? '0';
 
-    const totalSupplyPool =
-      formatAmounts(totalSupply as ethers.Numeric, 18) ?? '0';
+      const totalSupplyPool =
+        formatAmounts(totalSupply as ethers.Numeric, 18) ?? '0';
 
-    // Account deposit calculations
-    pool.accountDeposit0 = (
-      (Number(pool.poolBalance) * Number(pool.reserve0)) /
-      Number(totalSupplyPool)
-    ).toFixed(5);
-
-    pool.accountDeposit1 = (
-      (Number(pool.poolBalance) * Number(pool.reserve1)) /
-      Number(totalSupplyPool)
-    ).toFixed(5);
-
-    // Claimable0 calculations
-    const claim0 = formatAmounts(claimable0 as ethers.Numeric, 18) ?? '0';
-    pool.claimable0 = Number(claim0) > 0 ? Number(claim0).toFixed(5) : '0.00';
-
-    const delta0 = Number(index0) - Number(supplyIndex0);
-
-    if (delta0 > 0) {
-      pool.claimable0 = (
-        Number(claim0) +
-        Number(pool.poolBalance) * delta0
-      ).toFixed(5);
-    }
-
-    // Claimable1 calculations
-    const claim1 = formatAmounts(claimable1 as ethers.Numeric, 18) ?? '0';
-    pool.claimable1 = Number(claim1) > 0 ? Number(claim1).toFixed(5) : '0.00';
-
-    const delta1 = Number(index1) - Number(supplyIndex1);
-
-    if (delta1 > 0) {
-      pool.claimable1 = (
-        Number(claim1) +
-        Number(pool.poolBalance) * delta1
-      ).toFixed(5);
-    }
-
-    // Account unstaked calculations
-    pool.accountUnstaked0 =
-      Number(pool.accountDeposit0) > 0 ? pool.accountDeposit0 : '0.00';
-    pool.accountUnstaked1 =
-      Number(pool.accountDeposit1) > 0 ? pool.accountDeposit1 : '0.00';
-
-    // Account staked calculations for reserve0
-    if (Number(pool.reserve0) > 0) {
-      pool.accountStaked0 = (
-        (Number(pool.gaugeBalance) * Number(pool.reserve0)) /
+      // Account deposit calculations
+      pool.accountDeposit0 = (
+        (Number(pool.poolBalance) * Number(pool.reserve0)) /
         Number(totalSupplyPool)
       ).toFixed(5);
 
-      if (Number(pool.accountStaked0) === 0) pool.accountStaked0 = '0.00';
-    }
-
-    // Account staked calculations for reserve1
-    if (Number(pool.reserve1) > 0) {
-      pool.accountStaked1 = (
-        (Number(pool.gaugeBalance) * Number(pool.reserve1)) /
+      pool.accountDeposit1 = (
+        (Number(pool.poolBalance) * Number(pool.reserve1)) /
         Number(totalSupplyPool)
       ).toFixed(5);
 
-      if (Number(pool.accountStaked1) === 0) pool.accountStaked1 = '0.00';
-    }
-    return {
-      ...pool,
-    };
-  });
+      // Claimable0 calculations
+      const claim0 = formatAmounts(claimable0 as ethers.Numeric, 18) ?? '0';
+      pool.claimable0 = Number(claim0) > 0 ? Number(claim0).toFixed(5) : '0.00';
 
-  console.log(resultsPerPool);
+      const delta0 = Number(index0) - Number(supplyIndex0);
+
+      if (delta0 > 0) {
+        pool.claimable0 = (
+          Number(claim0) +
+          Number(pool.poolBalance) * delta0
+        ).toFixed(5);
+      }
+
+      // Claimable1 calculations
+      const claim1 = formatAmounts(claimable1 as ethers.Numeric, 18) ?? '0';
+      pool.claimable1 = Number(claim1) > 0 ? Number(claim1).toFixed(5) : '0.00';
+
+      const delta1 = Number(index1) - Number(supplyIndex1);
+
+      if (delta1 > 0) {
+        pool.claimable1 = (
+          Number(claim1) +
+          Number(pool.poolBalance) * delta1
+        ).toFixed(5);
+      }
+
+      // Account unstaked calculations
+      pool.accountUnstaked0 =
+        Number(pool.accountDeposit0) > 0 ? pool.accountDeposit0 : '0.00';
+      pool.accountUnstaked1 =
+        Number(pool.accountDeposit1) > 0 ? pool.accountDeposit1 : '0.00';
+
+      // Account staked calculations for reserve0
+      if (Number(pool.reserve0) > 0) {
+        pool.accountStaked0 = (
+          (Number(pool.gaugeBalance) * Number(pool.reserve0)) /
+          Number(totalSupplyPool)
+        ).toFixed(5);
+
+        if (Number(pool.accountStaked0) === 0) pool.accountStaked0 = '0.00';
+      }
+
+      // Account staked calculations for reserve1
+      if (Number(pool.reserve1) > 0) {
+        pool.accountStaked1 = (
+          (Number(pool.gaugeBalance) * Number(pool.reserve1)) /
+          Number(totalSupplyPool)
+        ).toFixed(5);
+
+        if (Number(pool.accountStaked1) === 0) pool.accountStaked1 = '0.00';
+      }
+
+      if (
+        Number(pool.poolBalance) > 0 ||
+        Number(pool.gaugeBalance) > 0 ||
+        Number(pool.claimable0) > 0 ||
+        Number(pool.claimable1) > 0
+      ) {
+        return {
+          ...pool,
+        };
+      }
+      return null;
+    })
+    .filter((pool) => pool != null);
 
   return resultsPerPool;
 };
@@ -382,9 +392,13 @@ export const useUserPosition = (account: Address) => {
       Number(pool.poolBalance) > 1e-12 || Number(pool.gaugeBalance) > 1e-12
   );
 
+  const userRewardPools = userPools?.filter(
+    (pool) => Number(pool.claimable0) > 0 || Number(pool.claimable1) > 0
+  );
+
   return {
     userValidPools: userValidPools,
-    userRewardPools: userPools,
+    userRewardPools: userRewardPools,
     isError,
     isFetching,
     refetchUserPools,
