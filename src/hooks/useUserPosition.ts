@@ -241,10 +241,26 @@ const fetchUserPools = async (
     const totalSupply = combinedResults[baseIndex].result ?? '0';
     const claimable0 = combinedResults[baseIndex + 1].result ?? '0';
     const claimable1 = combinedResults[baseIndex + 2].result ?? '0';
-    const index0 = combinedResults[baseIndex + 3].result ?? '0';
-    const index1 = combinedResults[baseIndex + 4].result ?? '0';
-    const supplyIndex0 = combinedResults[baseIndex + 5].result ?? '0';
-    const supplyIndex1 = combinedResults[baseIndex + 6].result ?? '0';
+    const index0 =
+      formatAmounts(
+        combinedResults[baseIndex + 3].result as ethers.Numeric,
+        18
+      ) ?? '0';
+    const index1 =
+      formatAmounts(
+        combinedResults[baseIndex + 4].result as ethers.Numeric,
+        18
+      ) ?? '0';
+    const supplyIndex0 =
+      formatAmounts(
+        combinedResults[baseIndex + 5].result as ethers.Numeric,
+        18
+      ) ?? '0';
+    const supplyIndex1 =
+      formatAmounts(
+        combinedResults[baseIndex + 6].result as ethers.Numeric,
+        18
+      ) ?? '0';
 
     const totalSupplyPool =
       formatAmounts(totalSupply as ethers.Numeric, 18) ?? '0';
@@ -315,6 +331,8 @@ const fetchUserPools = async (
       ...pool,
     };
   });
+
+  console.log(resultsPerPool);
 
   return resultsPerPool;
 };
