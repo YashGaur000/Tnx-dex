@@ -34,6 +34,28 @@ const processLiquidityPoolData = (data: LiquidityPoolResponse) => {
     totalFees0: formatValue(pool.totalFeesUSD.toString(), pool.token0.decimals),
     totalFees1: formatValue(pool.totalFeesUSD.toString(), pool.token1.decimals),
     totalBribesUSD: formatValue(pool.totalBribesUSD.toString(), BigInt(18)),
+    // token0: {
+    //   ...pool.token0,
+    //   pricePerUSDNew: formatValue(
+    //     pool.token0.pricePerUSDNew.toString(),
+    //     BigInt(18)
+    //   ),
+    // },
+    // token1: {
+    //   ...pool.token1,
+    //   pricePerUSDNew: formatValue(
+    //     pool.token1.pricePerUSDNew.toString(),
+    //     BigInt(18)
+    //   ),
+    // },
+    token0PricePerUSDNew: formatValue(
+      pool.token0.pricePerUSDNew.toString(),
+      BigInt(18)
+    ),
+    token1PricePerUSDNew: formatValue(
+      pool.token1.pricePerUSDNew.toString(),
+      BigInt(18)
+    ),
   }));
 };
 
