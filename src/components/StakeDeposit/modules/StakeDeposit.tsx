@@ -215,7 +215,11 @@ const StakeDeposit = () => {
         </StakeCard>
 
         <StakeCard width="40%">
-          <StakeStepper selectedStakeValue={SelectStakeValue} />
+          <StakeStepper
+            selectedStakeValue={SelectStakeValue}
+            balance0={balance0}
+            balance1={balance1}
+          />
         </StakeCard>
       </StakeMainContainer>
     </MainContainerStyle>

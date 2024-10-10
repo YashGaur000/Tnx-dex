@@ -1,31 +1,10 @@
 import { http } from 'wagmi';
-import {
-  boba,
-  bobaSepolia,
-  linea,
-  lineaSepolia,
-  mainnet,
-  optimism,
-  sepolia,
-  blast,
-  blastSepolia,
-} from 'wagmi/chains';
+import { blast, blastSepolia } from 'wagmi/chains';
 import { envConfig } from '../config';
 
-export const SUPPORTED_MAINNET_CHAINS = [
-  boba,
-  linea,
-  mainnet,
-  optimism,
-  blast,
-] as const;
+export const SUPPORTED_MAINNET_CHAINS = [blast] as const;
 
-export const SUPPORTED_TESTNET_CHAINS = [
-  sepolia,
-  lineaSepolia,
-  blastSepolia,
-  bobaSepolia,
-] as const;
+export const SUPPORTED_TESTNET_CHAINS = [blastSepolia] as const;
 
 export const SUPPORTED_CHAINS = [
   ...SUPPORTED_MAINNET_CHAINS,
@@ -34,28 +13,12 @@ export const SUPPORTED_CHAINS = [
 
 export const TRANSPORT_CHAINID = {
   //mainnet
-  [boba.id]: http(),
-  [linea.id]: http(),
-  [mainnet.id]: http(),
-  [optimism.id]: http(),
-  [blast.id]: http(),
+  [blast.id]: http(envConfig.rpcUrl),
   //testnet
-  [lineaSepolia.id]: http(),
-  [sepolia.id]: http(),
-  [blastSepolia.id]: http(),
-  [bobaSepolia.id]: http(),
+  [blastSepolia.id]: http(envConfig.rpcUrl),
 };
 
-export type AllowedChainId =
-  | 1
-  | 288
-  | 59144
-  | 59141
-  | 10
-  | 11155111
-  | 168587773
-  | 81457
-  | undefined;
+export type AllowedChainId = 168587773 | 81457 | undefined;
 
 // have to check
 
@@ -82,43 +45,14 @@ type NetworkConfig = {
 
 export const NETWORK_CONFIGS: NetworkConfig = {
   // Mainnet
-  [mainnet.id]: {
-    ...mainnet,
-    RPC: [],
-  },
-  [linea.id]: {
-    ...linea,
-    RPC: [],
-  },
-  [boba.id]: {
-    ...boba,
-    RPC: [],
-  },
-  [optimism.id]: {
-    ...optimism,
-    RPC: [],
-  },
   [blast.id]: {
     ...blast,
-    RPC: [],
+    RPC: [envConfig.rpcUrl],
   },
-
   // Testnet
-  [lineaSepolia.id]: {
-    ...lineaSepolia,
-    RPC: [],
-  },
-  [sepolia.id]: {
-    ...sepolia,
-    RPC: [],
-  },
   [blastSepolia.id]: {
     ...blastSepolia,
     RPC: [envConfig.rpcUrl],
-  },
-  [bobaSepolia.id]: {
-    ...bobaSepolia,
-    RPC: [],
   },
 } as const;
 

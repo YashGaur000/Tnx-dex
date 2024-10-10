@@ -63,7 +63,7 @@ const DashBoard: React.FC = () => {
       ((userValidPools?.length ?? 0) === 0 ||
         (userRewardPools?.length ?? 0) === 0)
     ) {
-      const timeout = setTimeout(() => setIsLoading(false), 10000);
+      const timeout = setTimeout(() => setIsLoading(false), 12000);
 
       return () => clearTimeout(timeout);
     } else {
