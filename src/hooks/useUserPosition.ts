@@ -13,6 +13,12 @@ import { UserPosition } from '../types/Pool';
 import contractAddresses from '../constants/contract-address/address';
 import { AddressZero } from '@ethersproject/constants';
 import { useCallback } from 'react';
+import {
+  CHUNK_SIZE,
+  chunkArray,
+  delay,
+  MULTICALL_DELAY,
+} from '../utils/liquidityRouting/chunk';
 
 const fetchUserPools = async (
   multicallClient: PublicClient,
@@ -28,9 +34,38 @@ const fetchUserPools = async (
     address: id as Address,
   }));
 
-  const balanceOfResults = await multicallClient.multicall({
-    contracts: balanceOfCalls,
-  });
+  let chunks = chunkArray(balanceOfCalls, CHUNK_SIZE);
+
+  const balanceOfResults: (
+    | {
+        error?: undefined;
+        result: unknown;
+        status: 'success';
+      }
+    | {
+        error: Error;
+        result?: undefined;
+        status: 'failure';
+      }
+  )[] = [];
+
+  for (const chunk of chunks) {
+    try {
+      // Execute multicall for the current chunk
+      const result = await multicallClient.multicall({
+        contracts: chunk,
+      });
+      balanceOfResults.push(...result);
+    } catch (error) {
+      console.error('Error in multicall:', error);
+      // Handle errors (e.g., retry logic could be added here)
+    }
+
+    // Introduce a delay between requests to avoid rate limits
+    await delay(MULTICALL_DELAY);
+  }
+
+  chunks = [];
 
   // Create a map for fast access to pool details
   const poolDetailsMap = new Map<Address, LiquidityPoolNewType>(
@@ -92,9 +127,36 @@ const fetchUserPools = async (
     address: contractAddresses.Voter,
   }));
 
-  const gaugesResults = await multicallClient.multicall({
-    contracts: gaugesCalls,
-  });
+  chunks = chunkArray(gaugesCalls, CHUNK_SIZE);
+
+  const gaugesResults: (
+    | {
+        error?: undefined;
+        result: unknown;
+        status: 'success';
+      }
+    | {
+        error: Error;
+        result?: undefined;
+        status: 'failure';
+      }
+  )[] = [];
+
+  for (const chunk of chunks) {
+    try {
+      // Execute multicall for the current chunk
+      const result = await multicallClient.multicall({
+        contracts: chunk,
+      });
+      gaugesResults.push(...result);
+    } catch (error) {
+      console.error('Error in multicall:', error);
+      // Handle errors (e.g., retry logic could be added here)
+    }
+
+    // Introduce a delay between requests to avoid rate limits
+    await delay(MULTICALL_DELAY);
+  }
 
   const poolsWithGauges = async () => {
     // Collect calls to batch for multicall
@@ -170,10 +232,7 @@ const fetchUserPools = async (
         gaugeBalance,
         emissions,
       };
-
-      // Include the pool with or without gauge calculations
     });
-    // Filter out null results
   };
 
   const filteredPools = await poolsWithGauges();

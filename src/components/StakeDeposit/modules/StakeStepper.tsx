@@ -32,9 +32,15 @@ import { LoadingSpinner } from '../../common/Loader';
 
 interface StakeStepperProps {
   selectedStakeValue: number;
+  balance0: string;
+  balance1: string;
 }
 
-const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
+const StakeStepper: React.FC<StakeStepperProps> = ({
+  selectedStakeValue,
+  balance0,
+  balance1,
+}) => {
   const [selectedToken1, setSelectedToken1] = useState<TokenInfo | undefined>(
     undefined
   );
@@ -254,7 +260,9 @@ const StakeStepper: React.FC<StakeStepperProps> = ({ selectedStakeValue }) => {
       <LiquidityHeaderTitle fontSize={24}>Staking</LiquidityHeaderTitle>
       <Stepper
         data={
-          selectedStakeValue < 1 ? StakeStepperInstructData : StakeStepperData
+          selectedStakeValue > 0 && Number(balance0) > 0 && Number(balance1) > 0
+            ? StakeStepperData
+            : StakeStepperInstructData
         }
       />
       {!isStaked && isTokenAllowed && (

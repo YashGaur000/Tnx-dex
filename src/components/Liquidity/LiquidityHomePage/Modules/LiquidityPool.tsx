@@ -7,6 +7,7 @@ import PageLoader from '../../../common/PageLoader';
 import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew';
 import { useEffect, useState } from 'react';
 import LiquidityFilter from './LiquidityFiter';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD';
 type SortOrder = 'asc' | 'desc';
 const ITEMS_PER_PAGE = 25;
@@ -20,12 +21,34 @@ const LiquidityPool = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const { setTotalTVL, setTotalFees, setTotalVolume } = useLiquidityStore();
 
   useEffect(() => {
     if (!loading) {
       setSortedData([...poolData]);
       setFilterData(poolData);
       setTotalPages(Math.ceil(poolData.length / ITEMS_PER_PAGE));
+      const totalTvl = poolData.reduce((acc, item) => {
+        const value = parseFloat(
+          (
+            Number(item.token0PricePerUSDNew) * Number(item.reserve0) +
+            Number(item.token1PricePerUSDNew) * Number(item.reserve1)
+          ).toString()
+        );
+        return acc + value;
+      }, parseFloat('0'));
+      const totalFees = poolData.reduce((acc, item) => {
+        const value = parseFloat(item.totalFeesUSD.toString());
+        return acc + value;
+      }, parseFloat('0'));
+      const totalVol = poolData.reduce((acc, item) => {
+        const value = parseFloat(item.totalVolumeUSD.toString());
+        return acc + value;
+      }, parseFloat('0'));
+      // console.log("totoal tvl",totalVol.toFixed(2))
+      setTotalTVL(totalTvl.toFixed(2));
+      setTotalFees(totalFees.toFixed(2));
+      setTotalVolume(totalVol.toFixed(2));
     }
   }, [loading]);
   useEffect(() => {
