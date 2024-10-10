@@ -32,6 +32,7 @@ import {
 } from '../../../common/TableStyled';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { Address } from 'viem';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 // import Pool from '../../CreatePool/Modules/Pool';
 
 const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
@@ -39,11 +40,12 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
   const [isHovered, setIsHovered] = useState(false);
   const { gauges } = useVoterContract();
   const [gaugeAddress, setGaugeAddress] = useState('');
-
+  const { getPoolFeeById } = useLiquidityStore();
   const tvl = parseFloat(
     Number(data.token0PricePerUSDNew) * Number(data.reserve0) +
       (Number(data.token1PricePerUSDNew) * Number(data.reserve1)).toString()
   );
+  const poolFees = Number(getPoolFeeById(data.id));
 
   const handleDepositeButton = (
     token0: string,
@@ -105,7 +107,8 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                   </StatsCardtitle>
                   {/* <p> {data.stablePercentage}%</p>{' '} */}
                   <LiquidityTitle fontSize={12}>
-                    {data.isStable ? '0.05' : '0.3'} %
+                    {/* {data.isStable ? '0.05' : '0.3'} %  */}
+                    {poolFees ? poolFees.toString() : ''}%
                   </LiquidityTitle>
                   <SugestImgWrapper
                     onMouseEnter={() => getGaugeAddress(data.id)}
