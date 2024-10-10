@@ -53,6 +53,8 @@ const LiquidityRewards = ({
   const { getReward, getGaugeContract } = useGaugeContract(DEFAULT_GAUGE);
   const { setTransactionStatus } = useRootStore();
 
+  const [poolToClaim, setPoolToClaim] = useState('');
+
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -79,46 +81,57 @@ const LiquidityRewards = ({
     : [];
 
   const handleFeeClaim = async (lp: Address) => {
-    try {
-      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    if (!poolToClaim) {
+      try {
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setPoolToClaim(lp);
 
-      const poolInstance = getPoolContract(lp);
+        const poolInstance = getPoolContract(lp);
 
-      if (!poolInstance) return;
+        if (!poolInstance) return;
 
-      const result = await claimFees(poolInstance);
-      if (result) {
-        setTransactionStatus(TransactionStatus.DONE);
+        const result = await claimFees(poolInstance);
+        if (result) {
+          setTransactionStatus(TransactionStatus.DONE);
+        }
+        setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setPoolToClaim('');
+        }, TRANSACTION_DELAY);
+      } catch (error) {
+        console.error('Error during fee claim transaction:', error);
+        setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setPoolToClaim('');
+        }, TRANSACTION_DELAY);
       }
-      setTimeout(
-        () => setTransactionStatus(TransactionStatus.IDEAL),
-        TRANSACTION_DELAY
-      );
-    } catch (error) {
-      console.error('Error during fee claim transaction:', error);
     }
   };
 
   const handleReward = async (gauge: Address) => {
-    try {
-      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    if (!poolToClaim) {
+      try {
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setPoolToClaim(gauge);
 
-      const gaugeInstance = getGaugeContract(gauge);
+        const gaugeInstance = getGaugeContract(gauge);
 
-      if (!gaugeInstance) throw new Error('Gauge contract not found');
+        if (!gaugeInstance) throw new Error('Gauge contract not found');
 
-      const result = await getReward(gaugeInstance);
+        const result = await getReward(gaugeInstance);
 
-      if (result) {
-        setTransactionStatus(TransactionStatus.DONE);
+        if (result) {
+          setTransactionStatus(TransactionStatus.DONE);
+        }
+
+        setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setPoolToClaim('');
+        }, TRANSACTION_DELAY);
+      } catch (error) {
+        console.error('Error during reward transaction:', error);
+        setPoolToClaim('');
       }
-
-      setTimeout(
-        () => setTransactionStatus(TransactionStatus.IDEAL),
-        TRANSACTION_DELAY
-      );
-    } catch (error) {
-      console.error('Error during reward transaction:', error);
     }
   };
 
@@ -191,7 +204,21 @@ const LiquidityRewards = ({
                     margin="28px 0px 0px"
                     onClick={() => handleReward(userPool.gauge)}
                   >
-                    Claim
+                    {poolToClaim === userPool.gauge ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Claiming</p>
+                      </div>
+                    ) : (
+                      <p>Claim</p>
+                    )}
                   </DashboardNavigation>
                 )}
               </StakedContainer>
@@ -211,7 +238,21 @@ const LiquidityRewards = ({
                     margin="28px 0px 0px"
                     onClick={() => handleFeeClaim(userPool.lp)}
                   >
-                    Claim
+                    {poolToClaim === userPool.lp ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Claiming</p>
+                      </div>
+                    ) : (
+                      <p>Claim</p>
+                    )}
                   </DashboardNavigation>
                 )}
               </StakedContainer>
