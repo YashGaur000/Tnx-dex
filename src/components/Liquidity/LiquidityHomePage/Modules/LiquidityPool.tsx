@@ -8,6 +8,7 @@ import { LiquidityPoolNewType } from '../../../../graphql/types/LiquidityPoolNew
 import { useEffect, useState } from 'react';
 import LiquidityFilter from './LiquidityFiter';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
+import { usePoolFactoryContract } from '../../../../hooks/usePoolFactoryContract';
 type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD';
 type SortOrder = 'asc' | 'desc';
 const ITEMS_PER_PAGE = 25;
@@ -21,7 +22,9 @@ const LiquidityPool = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const { setTotalTVL, setTotalFees, setTotalVolume } = useLiquidityStore();
+  const { setTotalTVL, setTotalFees, setTotalVolume, setPoolFeesMapping } =
+    useLiquidityStore();
+  const { getFees } = usePoolFactoryContract();
 
   useEffect(() => {
     if (!loading) {
@@ -49,8 +52,19 @@ const LiquidityPool = () => {
       setTotalTVL(totalTvl.toFixed(2));
       setTotalFees(totalFees.toFixed(2));
       setTotalVolume(totalVol.toFixed(2));
+      const fetchFees = async () => {
+        try {
+          const fees = await getFees(poolData); // Fetch fees for all pools
+          if (fees) setPoolFeesMapping(fees);
+        } catch (error) {
+          console.error('Error fetching fees:', error);
+        }
+      };
+
+      void fetchFees();
     }
   }, [loading]);
+
   useEffect(() => {
     setTotalPages(Math.ceil(sortedData.length / ITEMS_PER_PAGE));
     setCurrentPage(1);
