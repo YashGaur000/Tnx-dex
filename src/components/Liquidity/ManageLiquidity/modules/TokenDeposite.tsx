@@ -25,6 +25,8 @@ import {
 import useQueryParams from '../../../../hooks/useQueryParams';
 import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import { usePoolBalances } from '../../../../hooks/usePoolBalances';
+import { usePoolFactoryContract } from '../../../../hooks/usePoolFactoryContract';
+import { useEffect, useState } from 'react';
 
 const TokenDeposite = () => {
   const getParam = useQueryParams();
@@ -33,6 +35,7 @@ const TokenDeposite = () => {
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const poolId = getParam('id');
   const poolType = getParam('type') === '0' ? 'stable' : 'volatile';
+  const [fees, setFees] = useState(0);
 
   // Fetch balances from pool contract
   const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
@@ -40,6 +43,26 @@ const TokenDeposite = () => {
     selectedToken1?.decimals ?? 18,
     selectedToken2?.decimals ?? 18
   );
+
+  const { getFee } = usePoolFactoryContract();
+
+  useEffect(() => {
+    const type = getParam('type') === '0' ? true : false;
+
+    if (poolId) {
+      try {
+        getFee(poolId, type)
+          .then((fees) => {
+            if (fees) setFees(fees);
+          })
+          .catch((error) => {
+            console.error('Error fetching fees:', error);
+          });
+      } catch (error) {
+        console.error('Error in getFee:', error);
+      }
+    }
+  }, [poolId]);
 
   if (selectedToken1 && selectedToken2) {
     return (
@@ -61,7 +84,10 @@ const TokenDeposite = () => {
               </LiquidityHeaderTitle>
               <TokenStatus>
                 <StatsCardtitle fontSize={12}>{poolType}</StatsCardtitle>
-                <LiquidityTitle fontSize={12}>0.01%</LiquidityTitle>
+                <LiquidityTitle fontSize={12}>
+                  {' '}
+                  {fees ? fees : ''} %
+                </LiquidityTitle>
                 <LiquidityImgStyle
                   width={'18px'}
                   height={'18px'}
