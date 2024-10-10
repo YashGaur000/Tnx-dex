@@ -1,7 +1,6 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useLiquidityPoolData } from './useLiquidityPoolData';
-import { useVoterContract } from './useVoterContract';
-import { Abi, Address } from 'viem';
+import { Abi } from 'viem';
 import { LiquidityPoolNewType } from '../graphql/types/LiquidityPoolNew';
 import voterAbi from '../constants/artifacts/contracts/Voter.json';
 import contractAddress from '../constants/contract-address/address';
@@ -16,7 +15,6 @@ const useVoterData = () => {
   );
   const [Loading, setLoading] = useState(true);
   const { loading, error, data: poolData } = useLiquidityPoolData();
-  const { gauges } = useVoterContract();
 
   useEffect(() => {
     if (!loading) {
@@ -24,30 +22,12 @@ const useVoterData = () => {
     }
   }, [loading]);
 
-  const isGaugeCreated = useCallback(
-    async (poolId: string): Promise<boolean> => {
-      try {
-        if (!poolId) return false;
-        const poolid = poolId as Address;
-        const gaugeAddress = await gauges(poolid);
-
-        if (!gaugeAddress) return false;
-        else return true;
-      } catch (error) {
-        console.error('Error fetching GaugeAddress:', error);
-        return false;
-      }
-    },
-    [gauges]
-  );
-
   useEffect(() => {
     const filterPools = async () => {
       if (!LiquidityData?.length) return;
 
       setLoading(true);
       try {
-        console.log('LiquidityData:', LiquidityData);
         const filteredpoolData = LiquidityData.map((pool) => ({
           abi: voterAbi.abi as Abi,
           functionName: 'gauges',
@@ -56,12 +36,10 @@ const useVoterData = () => {
         }));
 
         if (!filteredpoolData) throw new Error('Failed to fetch tokens');
-        //console.log('filteredpoolData:', filteredpoolData);
         const poolResults = await multicallClient?.multicall({
           contracts: filteredpoolData,
         });
         if (!poolResults) throw new Error('Failed to fetch');
-        //console.log('poolResults:', poolResults);
         const filteredPools = LiquidityData.filter((pool, index) => {
           const result = poolResults[index];
           if (
@@ -74,8 +52,6 @@ const useVoterData = () => {
             return poolResults[index];
           }
         });
-
-        //console.log('filteredData:', filteredPools);
         setVoteData(filteredPools);
         setLoading(false);
       } catch (error) {
@@ -86,7 +62,7 @@ const useVoterData = () => {
     };
 
     void filterPools();
-  }, [isGaugeCreated, LiquidityData, multicallClient]);
+  }, [LiquidityData, multicallClient]);
 
   return {
     voteData,
