@@ -7,7 +7,8 @@ export const LiquidityTitle = styled.label<{
   margin?: string;
   lineheight?: string;
   textalign?: string;
-  textdecoration?: string;
+  textDecoration?: string;
+  pointer?: string;
 }>`
   font-family: ${({ theme }) => theme.fonts.main};
   font-size: ${({ fontSize }) => fontSize}px;
@@ -16,7 +17,9 @@ export const LiquidityTitle = styled.label<{
   text-align: ${({ textalign }) => textalign ?? 'left'};
   color: ${({ theme }) => theme.colors.titleColor};
   margin: ${({ margin }) => margin};
-  text-decoration: ${({ textdecoration }) => textdecoration ?? 'none'};
+  cursor: ${({ pointer }) => pointer};
+
+  text-decoration: ${({ textDecoration }) => textDecoration ?? 'none'};
 `;
 
 export const LiquidityDespcriptionWrap = styled.div`

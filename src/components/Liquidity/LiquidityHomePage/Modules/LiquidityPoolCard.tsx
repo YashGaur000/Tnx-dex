@@ -183,7 +183,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               lineheight="0px"
               border="1.5px solid transparent"
               borderradius="8px"
-              smfontSize={12}
+              smfontsize={12}
               smmargin="0px"
             >
               Deposit

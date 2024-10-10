@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { ReactNode } from 'react';
 import { DefaultTheme } from '../../styles/Theme';
 import CloseIcon from '../../assets/close.png';
-const ModalBackground = styled.div<{ isvisible: boolean; theme: DefaultTheme }>`
+const ModalBackground = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isvisible',
+})<{ isvisible: boolean; theme: DefaultTheme }>`
   display: ${({ isvisible }) => (isvisible ? 'block' : 'none')};
   position: fixed;
   top: 0;
