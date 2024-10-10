@@ -29,6 +29,8 @@ export interface LiquidityPoolNewType {
     decimals: bigint; // number of decimals;
     pricePerUSDNew: bigint; // price of token per USD;
   };
+  token0PricePerUSDNew: BigNumberish;
+  token1PricePerUSDNew: BigNumberish;
 }
 export interface LiquidityPoolResponse {
   LiquidityPoolNew: LiquidityPoolNewType[];

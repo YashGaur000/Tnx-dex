@@ -16,10 +16,16 @@ export const LiquidityPoolNew = `
     token0 {
         id
         symbol
+        name
+        chainID
+        pricePerUSDNew
     }
     token1 {
         id
         symbol
+        name
+        chainID
+        pricePerUSDNew
     }
   }
 }

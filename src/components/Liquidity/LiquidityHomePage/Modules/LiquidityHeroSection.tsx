@@ -20,9 +20,11 @@ import {
 import PopupScreen from '../../../common/PopupScreen';
 import LiquidityToolTips from './LiquidityToolTips';
 import { TitleWrapper } from '../styles/LiquidityTable.style';
+import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 
 const LiquidityHeroSection = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
+  const { totalTVL, totalFees, totalVolume } = useLiquidityStore();
 
   const navigate = useNavigate();
 
@@ -80,15 +82,15 @@ const LiquidityHeroSection = () => {
           <MetricDisplayWrapper>
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>TVL</StatsCardtitle>
-              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
+              <TitleWrapper fontSize={'16px'}>${totalTVL}</TitleWrapper>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>Fees</StatsCardtitle>
-              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
+              <StatsCardtitle fontSize={16}>Weekly Fees</StatsCardtitle>
+              <TitleWrapper fontSize={'16px'}>${totalFees}</TitleWrapper>
             </MetricDisplay>
             <MetricDisplay>
-              <StatsCardtitle fontSize={16}>24H Volume</StatsCardtitle>
-              <TitleWrapper fontSize={'16px'}>$1,547,658,000.28</TitleWrapper>
+              <StatsCardtitle fontSize={16}>Weekly Volume</StatsCardtitle>
+              <TitleWrapper fontSize={'16px'}>${totalVolume}</TitleWrapper>
             </MetricDisplay>
           </MetricDisplayWrapper>
         </AsideSectionContains>
