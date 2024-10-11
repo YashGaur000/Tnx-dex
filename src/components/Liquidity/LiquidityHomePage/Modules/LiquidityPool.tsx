@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import LiquidityFilter from './LiquidityFiter';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 import { usePoolFactoryContract } from '../../../../hooks/usePoolFactoryContract';
-type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD';
+type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD' | 'totalValueLocked';
 type SortOrder = 'asc' | 'desc';
 const ITEMS_PER_PAGE = 25;
 const LiquidityPool = () => {
