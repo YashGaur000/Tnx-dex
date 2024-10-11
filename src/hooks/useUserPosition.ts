@@ -72,8 +72,6 @@ const fetchUserPools = async (
     pools.map((pool) => [pool.id as Address, pool])
   );
 
-  let validPool = false;
-
   const userPools = balanceOfResults.reduce((acc, data, index) => {
     const poolId = balanceOfCalls[index].address;
     const pool = poolDetailsMap.get(poolId);
@@ -82,10 +80,6 @@ const fetchUserPools = async (
 
     const accountBalance =
       formatAmounts(data.result as ethers.Numeric, 18) ?? '0';
-
-    if (Number(accountBalance) > 0) {
-      validPool = true;
-    }
 
     acc.push({
       lp: poolId,
@@ -117,8 +111,6 @@ const fetchUserPools = async (
 
     return acc;
   }, [] as UserPosition[]);
-
-  if (!validPool) return [];
 
   const gaugesCalls = userPools.map(({ lp }) => ({
     abi: voterAbi.abi as Abi,
@@ -435,7 +427,7 @@ export const useUserPosition = (account: Address) => {
       placeholderData: [],
       refetchInterval: 10 * 1000,
       refetchIntervalInBackground: true,
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       retry: 3,
