@@ -83,7 +83,7 @@ const UnStake = () => {
         });
       }
     }
-  }, [poolId, userValidPools]);
+  }, [poolId]);
 
   const handleCustomSliderValue = (unstake: number) => {
     if (unstakedPool) {
@@ -207,7 +207,7 @@ const UnStake = () => {
                   {staked.value0} {unstakedPool?.token0.symbol}
                 </LiquidityTitle>
                 <LiquidityTitle textalign="right" fontSize={12}>
-                  {staked.value1} {unstakedPool?.token0.symbol}
+                  {staked.value1} {unstakedPool?.token1.symbol}
                 </LiquidityTitle>
               </TokenAmountWrapper>
             </DepositeStyle>
@@ -253,7 +253,6 @@ const UnStake = () => {
           <UnStakeStepper
             selectUnsatkeValue={selectUnsatkeValue}
             gauge={unstakedPool.gauge}
-            gaugeBalance={unstakedPool.gaugeBalance}
             lp={unstakedPool.lp}
           />
         </StakeCard>

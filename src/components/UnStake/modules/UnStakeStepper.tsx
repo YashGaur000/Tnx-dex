@@ -5,7 +5,6 @@ import { LiquidityHeaderTitle } from '../../Liquidity/LiquidityHomePage/styles/L
 import SearchIcon from '../../../assets/search.png';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import { useState } from 'react';
-import { parseAmounts } from '../../../utils/transaction/parseAmounts';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -16,20 +15,19 @@ import { useGaugeContract } from '../../../hooks/useGaugeContract';
 import { LoadingSpinner } from '../../common/Loader';
 import { useNavigate } from 'react-router-dom';
 import SuccessPopup from '../../common/SucessPopup';
+
 const UnStakeStepper = ({
   selectUnsatkeValue,
   gauge,
-  gaugeBalance,
   lp,
 }: {
   selectUnsatkeValue: number;
   gauge: Address;
-  gaugeBalance: string;
   lp: Address;
 }) => {
   const [isUnstaked, setIsUnstaked] = useState(false);
   const { transactionStatus, setTransactionStatus } = useRootStore();
-  const { withdraw } = useGaugeContract(gauge);
+  const { withdraw, balanceOf } = useGaugeContract(gauge);
   const navigate = useNavigate();
 
   const UnStakeStepperData = [
@@ -54,10 +52,15 @@ const UnStakeStepper = ({
   const handleUnstake = async () => {
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      const unstakedAmount = (Number(gaugeBalance) * selectUnsatkeValue) / 100;
-      const unstakeAmountInWei =
-        parseAmounts(unstakedAmount.toFixed(18), 18) ?? BigInt(0);
-      const result = await withdraw(unstakeAmountInWei);
+      const gaugeBalance = await balanceOf();
+      let unstakedAmount: bigint = gaugeBalance
+        ? BigInt((Number(gaugeBalance?.toString()) * selectUnsatkeValue) / 100)
+        : 0n;
+
+      if (selectUnsatkeValue === 100 && gaugeBalance) {
+        unstakedAmount = gaugeBalance;
+      }
+      const result = await withdraw(unstakedAmount);
 
       if (result) {
         setTransactionStatus(TransactionStatus.DONE);
