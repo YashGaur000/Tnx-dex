@@ -23,6 +23,7 @@ import {
 } from '../../../../types/Transaction';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { VotedPools } from '../../../../types/Voter';
+import { ScrollContainer } from '../../../modal/styles/TokenSelectModal.style';
 
 const ClaimAllModle = ({ account }: { account: Address }) => {
   const { userVotedPools } = useUserVotingPosition(account);
@@ -100,36 +101,38 @@ const ClaimAllModle = ({ account }: { account: Address }) => {
     <ClaimMainContainer>
       <ClaimContainer>
         <LockHeading>Your Locks</LockHeading>
-        {userVotedPools?.map(({ tokenId, metadata, votedPools }, index) => (
-          <LockContainer key={index}>
-            <CardLogo>
-              <img src={tenxLogo} alt="" />
-            </CardLogo>
-            <LockData>
-              <LockHeading>
-                Lock #{Number(tokenId)} <img src={icon} />
-              </LockHeading>
-              <ClaimLink>
-                <Paragraph>
-                  {getLockedInfo(metadata).lockedValue} TENEX locked for{' '}
-                  {getLockedInfo(metadata).lockedDuration}
-                </Paragraph>
-                <DashboardNavigation
-                  width="115px"
-                  onClick={() => handleClaimBribes(tokenId, votedPools)}
-                >
-                  Claim Incentives
-                </DashboardNavigation>
-                <DashboardNavigation
-                  width="77px"
-                  onClick={() => handleClaimFees(tokenId, votedPools)}
-                >
-                  Claim Fees
-                </DashboardNavigation>
-              </ClaimLink>
-            </LockData>
-          </LockContainer>
-        ))}
+        <ScrollContainer height="300px">
+          {userVotedPools?.map(({ tokenId, metadata, votedPools }, index) => (
+            <LockContainer key={index}>
+              <CardLogo>
+                <img src={tenxLogo} alt="" />
+              </CardLogo>
+              <LockData>
+                <LockHeading>
+                  Lock #{Number(tokenId)} <img src={icon} />
+                </LockHeading>
+                <ClaimLink>
+                  <Paragraph>
+                    {getLockedInfo(metadata).lockedValue} TENEX locked for{' '}
+                    {getLockedInfo(metadata).lockedDuration}
+                  </Paragraph>
+                  <DashboardNavigation
+                    width="115px"
+                    onClick={() => handleClaimBribes(tokenId, votedPools)}
+                  >
+                    Claim Incentives
+                  </DashboardNavigation>
+                  <DashboardNavigation
+                    width="77px"
+                    onClick={() => handleClaimFees(tokenId, votedPools)}
+                  >
+                    Claim Fees
+                  </DashboardNavigation>
+                </ClaimLink>
+              </LockData>
+            </LockContainer>
+          ))}
+        </ScrollContainer>
       </ClaimContainer>
     </ClaimMainContainer>
   );
