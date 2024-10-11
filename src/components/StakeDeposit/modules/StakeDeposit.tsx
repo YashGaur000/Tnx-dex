@@ -50,6 +50,7 @@ import { TokenInfo } from '../../../constants/tokens/type';
 import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
 import { TransactionStatus } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
+import useTransactionWarning from '../../../hooks/useTransactionWarning';
 
 const StakeDeposit = () => {
   const [SelectStakeValue, SetSelectStakeValue] = useState<number>(100);
@@ -91,6 +92,9 @@ const StakeDeposit = () => {
     selectedToken1?.decimals ?? 18,
     selectedToken2?.decimals ?? 18
   );
+
+  // Trigger the hook with the current transaction status
+  useTransactionWarning(transactionStatus);
 
   const HandleStakeSlider = (e: ChangeEvent<HTMLInputElement>) => {
     const StakeValue = e.target.value;

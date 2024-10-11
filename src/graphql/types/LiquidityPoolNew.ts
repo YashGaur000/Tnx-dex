@@ -31,6 +31,7 @@ export interface LiquidityPoolNewType {
   };
   token0PricePerUSDNew: BigNumberish;
   token1PricePerUSDNew: BigNumberish;
+  totalValueLocked: BigNumberish;
 }
 export interface LiquidityPoolResponse {
   LiquidityPoolNew: LiquidityPoolNewType[];

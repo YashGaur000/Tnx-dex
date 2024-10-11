@@ -35,6 +35,7 @@ import {
 } from '../../../../types/Transaction';
 import { useCheckAllowance } from '../../../../hooks/useCheckAllowance';
 import { LoadingSpinner } from '../../../common/Loader';
+import useTransactionWarning from '../../../../hooks/useTransactionWarning';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -65,7 +66,10 @@ const Deposite: React.FC<DepositProps> = ({
   const selectedToken2 = useTokenInfo(getParam('token2'));
   const routerAddress = contractAddress.Router;
   const { deadLineValue } = useLiquidityStore();
-  const { selectedTolerance } = useRootStore();
+  const { selectedTolerance, transactionStatus, setTransactionStatus } =
+    useRootStore();
+  const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
+
   const { approveAllowance: approveAllowance1 } = useTokenAllowance(
     selectedToken1!.address,
     testErc20Abi
@@ -99,6 +103,9 @@ const Deposite: React.FC<DepositProps> = ({
       setIsToken2Allowed(true);
     }
   }, []);
+
+  // Trigger the hook with the current transaction status
+  useTransactionWarning(transactionStatus);
 
   const handleAllowToken1 = async () => {
     setIsAllowingToken1(true);
@@ -193,9 +200,6 @@ const Deposite: React.FC<DepositProps> = ({
     setVisibleDealine(false);
     setVisibleSlippage(false);
   };
-  const { addLiquidity, addLiquidityETH, poolFor } = useRouterContract();
-
-  const { transactionStatus, setTransactionStatus } = useRootStore();
 
   const handleDeposit = async () => {
     try {

@@ -41,10 +41,10 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
   const { gauges } = useVoterContract();
   const [gaugeAddress, setGaugeAddress] = useState('');
   const { getPoolFeeById } = useLiquidityStore();
-  const tvl = parseFloat(
-    Number(data.token0PricePerUSDNew) * Number(data.reserve0) +
-      (Number(data.token1PricePerUSDNew) * Number(data.reserve1)).toString()
-  );
+  // const tvl = parseFloat(
+  //   Number(data.token0PricePerUSDNew) * Number(data.reserve0) +
+  //     (Number(data.token1PricePerUSDNew) * Number(data.reserve1)).toString()
+  // );
   const poolFees = Number(getPoolFeeById(data.id));
 
   const handleDepositeButton = (
@@ -125,7 +125,7 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                     TVL
                   </StatsCardtitle>{' '}
                   <LiquidityTitle fontSize={12} textalign="right">
-                    {Number(tvl).toFixed(5)}
+                    {Number(data.totalValueLocked).toFixed(5)}
                   </LiquidityTitle>
                 </TokenAmountTitle>
               </LiquidityTokenWrapper>
