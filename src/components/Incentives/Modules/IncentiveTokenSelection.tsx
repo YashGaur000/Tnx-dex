@@ -144,7 +144,8 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         100;
     }
 
-    const amount = walletBalance.toFixed(5);
+    // const amount = walletBalance.toFixed(5);
+    const amount = walletBalance.toString();
 
     handleIncentiveFormValue(amount);
   };
