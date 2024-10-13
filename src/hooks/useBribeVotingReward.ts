@@ -55,13 +55,12 @@ export function useBribeVotingReward(bribeAddress: Address) {
 
       for (let i = 0; i < rewardsLength; i++) {
         const rewardToken = await bribeContract.rewards(i);
-        console.log('rewardToken', rewardToken);
         const rewardTokenInfo = getTokenInfo(rewardToken);
         rewardTokenList.push(rewardTokenInfo);
       }
       return rewardTokenList;
     } catch (error) {
-      console.error('Error fetching rewards and balances:', error);
+      // console.error('Error fetching rewards and balances:', error);
     }
   }, [bribeContract]);
 
