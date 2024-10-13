@@ -18,7 +18,7 @@ export function useBribeVotingReward(bribeAddress: Address) {
   const notifyRewardAmount = useCallback(
     async (token: Address, amount: bigint) => {
       if (!bribeContract) {
-        console.error('Voter contract instance not available');
+        // console.error('Voter contract instance not available');
         return;
       }
       try {
@@ -44,7 +44,7 @@ export function useBribeVotingReward(bribeAddress: Address) {
 
   const rewards = useCallback(async () => {
     if (!bribeContract) {
-      console.error('Voter contract instance not available');
+      // console.error('Voter contract instance not available');
       return;
     }
     try {
