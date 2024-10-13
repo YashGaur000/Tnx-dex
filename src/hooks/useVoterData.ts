@@ -8,7 +8,7 @@ import { useMultiCall } from './useMultiCall';
 const votingAddress = contractAddress.Voter;
 
 const useVoterData = () => {
-  const multicallClient = useMultiCall(); // Move inside hook
+  const multicallClient = useMultiCall();
   const [voteData, setVoteData] = useState<LiquidityPoolNewType[]>([]);
   const [LiquidityData, setLiquidityData] = useState<LiquidityPoolNewType[]>(
     []

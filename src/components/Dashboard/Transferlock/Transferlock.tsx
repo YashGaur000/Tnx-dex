@@ -39,6 +39,7 @@ const Transferlock = () => {
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address } = useAccount();
+  //const [IsSetSidebarHieght, setSidebarHieght] = useState<number>(278);
   const lockTokenInfo = locktokeninfo();
   const navigate = useNavigate();
 
@@ -84,7 +85,7 @@ const Transferlock = () => {
   return (
     <MainContainerStyle>
       <CreateMainContainer>
-        <LockleftSection height={278}>
+        <LockleftSection height={436}>
           <LockHeaderWrapper>
             <LockHeaderTitle fontSize={16}>
               Transferring Lock #{tokenId}

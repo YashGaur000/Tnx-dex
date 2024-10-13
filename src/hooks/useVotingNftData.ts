@@ -1,6 +1,9 @@
 import { useState, useCallback, useEffect, useMemo } from 'react';
 import { LockedBalance } from '../types/VotingEscrow';
-import { MAX_LOCK_TIME } from '../utils/common/voteTenex';
+import {
+  convertWeeksToYearsMonthsDays,
+  MAX_LOCK_TIME,
+} from '../utils/common/voteTenex';
 import { useVotingEscrowContract } from './useVotingEscrowContract';
 import contractAddress from '../constants/contract-address/address';
 
@@ -8,6 +11,7 @@ export const useVotingPowerCalculation = (tokenId: string | undefined) => {
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [timeStampValue, setTimeStamp] = useState<number>(1);
   const [sliderValue, setSliderValue] = useState<number>(1);
+  const [IsSliderValue, setIsSliderValue] = useState<number>(1);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
 
   const calculateVotingPower = useCallback((weeks: number, amount: number) => {
@@ -23,6 +27,21 @@ export const useVotingPowerCalculation = (tokenId: string | undefined) => {
     }
     return 0;
   }, [lockData, sliderValue, calculateVotingPower]);
+
+  const extendDuretion = useMemo(() => {
+    if (lockData) {
+      const durationData = convertWeeksToYearsMonthsDays(sliderValue);
+      const years = durationData.years > 0 ? durationData.years + ' years' : '';
+      const months =
+        durationData.months > 0 ? durationData.months + ' months' : '';
+      const days = durationData.days > 0 ? durationData.days + ' days' : '';
+
+      const durationString = [years, months, days].filter(Boolean).join(', ');
+
+      return `${durationString}`;
+    }
+    return 0;
+  }, [sliderValue, convertWeeksToYearsMonthsDays]);
 
   useEffect(() => {
     let isMounted = true;
@@ -41,7 +60,7 @@ export const useVotingPowerCalculation = (tokenId: string | undefined) => {
             const weeksRemaining = Math.floor(
               timeRemaining / (7 * 24 * 60 * 60)
             );
-
+            setIsSliderValue(weeksRemaining);
             if (sliderValue === 1) {
               setSliderValue(weeksRemaining);
             }
@@ -65,6 +84,8 @@ export const useVotingPowerCalculation = (tokenId: string | undefined) => {
     votingPower,
     lockData,
     timeStampValue,
+    extendDuretion,
+    IsSliderValue,
     sliderValue,
     updateSliderValue,
   };
