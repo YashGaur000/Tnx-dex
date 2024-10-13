@@ -40,6 +40,7 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
   const handleFilterClick = (item: string): void => {
     setSelectedFilter(item);
     handleSelectedFilterItem(item);
+    setInputData('');
   };
 
   const handleSelectOption = (option: Option): void => {

@@ -5,7 +5,6 @@ import RedLockIcon from '../../../assets/lock.png';
 import UnLockIcon from '../../../assets/unlock.png';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
-import TimerIcon from '../../../assets/timer-red-logo.svg';
 import useQueryParams from '../../../hooks/useQueryParams';
 import { useEffect, useState } from 'react';
 import { usePoolContract } from '../../../hooks/usePoolContract';
@@ -29,7 +28,8 @@ import {
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
 import { LoadingSpinner } from '../../common/Loader';
-
+import gaugeFoundIcon from '../../../assets/gaugeFound.svg';
+import gaugeNotFoundIcon from '../../../assets/gaugeNotFound.svg';
 interface StakeStepperProps {
   selectedStakeValue: number;
   balance0: string;
@@ -203,7 +203,7 @@ const StakeStepper: React.FC<StakeStepperProps> = ({
     },
     {
       step: 2,
-      icon: TimerIcon,
+      icon: !gaugeExists ? gaugeNotFoundIcon : gaugeFoundIcon,
       descriptions: {
         labels: !gaugeExists
           ? 'Create the gauge by incentivizing first'
