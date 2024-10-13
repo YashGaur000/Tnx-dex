@@ -29,7 +29,7 @@ export function useContract(
   return useMemo(() => {
     if (!isAddress(contractAddress) || contractAddress === AddressZero) {
       // throw new Error(`Invalid 'address' parameter '${contractAddress}'.`);
-      console.error(`Invalid 'address' parameter '${contractAddress}'.`);
+      // console.error(`Invalid 'address' parameter '${contractAddress}'.`);
       return undefined;
     }
 

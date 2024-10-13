@@ -74,7 +74,7 @@ export const useIncentiveStore = create<IncentiveState>((set) => ({
         errorMessage = JSON.stringify(error);
       }
 
-      console.error('Error fetching balances:', errorMessage);
+      // console.error('Error fetching balances:', errorMessage);
       set({ loading: false, error: errorMessage });
       throw error;
     }

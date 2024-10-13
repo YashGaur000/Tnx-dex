@@ -47,6 +47,7 @@ import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 import { DEFAULT_POOL } from '../../../constants/contract-address/Pool';
 import { useRootStore } from '../../../store/root';
 import { TransactionStatus } from '../../../types/Transaction';
+import PageLoader from '../../common/PageLoader';
 
 const IncentiveSection: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -70,12 +71,14 @@ const IncentiveSection: React.FC = () => {
   const { transactionStatus } = useRootStore();
   const getParam = useQueryParams();
   const poolId = getParam('pool') ?? DEFAULT_POOL;
-  const { data: poolData } = useLiquidityPoolDataById(poolId);
+  const { loading, data: poolData } = useLiquidityPoolDataById(poolId);
   const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
     poolId ?? '',
     selectedToken1?.decimals ?? 18,
     selectedToken2?.decimals ?? 18
   );
+
+  // if (error) return `Error! ${error.message}`;
 
   useEffect(() => {
     if (poolData?.[0]) {
@@ -120,108 +123,114 @@ const IncentiveSection: React.FC = () => {
 
   return (
     <Section>
-      <Row>
-        <Column60>
-          <IncentiveleftBar>
-            <IncentiveleftBarBox1 height="fit-content" width="600px">
-              <IncentiveleftBarBox1info>
-                <IncentiveleftBarBox1infoCol1>
-                  {selectedToken1 ? (
-                    <>
-                      <ImgleftIcon
-                        src={selectedToken1?.logoURI}
-                        alt="Icon 1"
-                        width={36}
-                        height={36}
-                      />
-                      <ImgRightIcon
-                        src={selectedToken2?.logoURI}
-                        alt="Icon 2"
-                        width={36}
-                        height={36}
-                      />
-                    </>
-                  ) : (
-                    <ImgUSTDFTM src={USDTFTM} alt="Default Icon" />
-                  )}
-                  <IncentiveleftBarBox1UTM>
-                    <UtmLabel>{poolData[0]?.name}</UtmLabel>
-                    <IncentiveleftBarBox1infoCol1StableRow>
-                      <IncentiveleftBarBox1infoCol1Stable>
-                        {poolData[0]?.isStable ? 'stable' : 'volatile'}
-                      </IncentiveleftBarBox1infoCol1Stable>
-                      <IncentiveleftBarBox1infoCol1Count>
-                        0.01%
-                      </IncentiveleftBarBox1infoCol1Count>
-                      <IncentiveleftBarBox1infoCol1Icon>
-                        <Img4 src={USDTFTMi} />
-                      </IncentiveleftBarBox1infoCol1Icon>
-                    </IncentiveleftBarBox1infoCol1StableRow>
-                  </IncentiveleftBarBox1UTM>
-                </IncentiveleftBarBox1infoCol1>
-                <IncentiveleftBarBox1infoCol2>
-                  <IncentiveleftBarBox1infoCol2Row1>
-                    <GlobalButton
-                      height="40px"
-                      width="80px"
-                      margin="0px"
-                      onClick={() => setIsModalOpen(true)}
-                      disabled={
-                        transactionStatus === TransactionStatus.IN_PROGRESS
-                      }
-                    >
-                      Change
-                    </GlobalButton>
-                  </IncentiveleftBarBox1infoCol2Row1>
-                  <IncentiveleftBarBox1infoCol2Row2 />
-                </IncentiveleftBarBox1infoCol2>
-              </IncentiveleftBarBox1info>
-              <IncentiveleftBarBox1info>
-                <IncentiveleftBarBox1infoCol1>
-                  <LiquidityBox>
-                    <LiquidityBoxHeading>Liquidity</LiquidityBoxHeading>
-                    <LiquidityText1>
-                      {reserve0} {poolData[0]?.token0.symbol}
-                    </LiquidityText1>
-                    <LiquidityText2>
-                      {reserve1} {poolData[0]?.token1.symbol}
-                    </LiquidityText2>
-                  </LiquidityBox>
-                </IncentiveleftBarBox1infoCol1>
-                <IncentiveleftBarBox1infoCol2>
-                  <YourDepositsBox>
-                    <LiquidityBoxHeading>Your Deposits</LiquidityBoxHeading>
-                    <LiquidityText1>
-                      {balance0} {poolData[0]?.token0.symbol}
-                    </LiquidityText1>
-                    <LiquidityText2>
-                      {balance1} {poolData[0]?.token1.symbol}
-                    </LiquidityText2>
-                  </YourDepositsBox>
-                </IncentiveleftBarBox1infoCol2>
-              </IncentiveleftBarBox1info>
-            </IncentiveleftBarBox1>
-            <IncentiveTokenSelection
-              handleIncentiveFormValue={handleIncentiveFormValue}
-              incentive={value}
-              handleTokenSymbol={handleTokenSymbol}
+      {loading ? (
+        <>
+          <PageLoader />
+        </>
+      ) : (
+        <Row>
+          <Column60>
+            <IncentiveleftBar>
+              <IncentiveleftBarBox1 height="fit-content" width="600px">
+                <IncentiveleftBarBox1info>
+                  <IncentiveleftBarBox1infoCol1>
+                    {selectedToken1 ? (
+                      <>
+                        <ImgleftIcon
+                          src={selectedToken1?.logoURI}
+                          alt="Icon 1"
+                          width={36}
+                          height={36}
+                        />
+                        <ImgRightIcon
+                          src={selectedToken2?.logoURI}
+                          alt="Icon 2"
+                          width={36}
+                          height={36}
+                        />
+                      </>
+                    ) : (
+                      <ImgUSTDFTM src={USDTFTM} alt="Default Icon" />
+                    )}
+                    <IncentiveleftBarBox1UTM>
+                      <UtmLabel>{poolData[0]?.name}</UtmLabel>
+                      <IncentiveleftBarBox1infoCol1StableRow>
+                        <IncentiveleftBarBox1infoCol1Stable>
+                          {poolData[0]?.isStable ? 'stable' : 'volatile'}
+                        </IncentiveleftBarBox1infoCol1Stable>
+                        <IncentiveleftBarBox1infoCol1Count>
+                          0.01%
+                        </IncentiveleftBarBox1infoCol1Count>
+                        <IncentiveleftBarBox1infoCol1Icon>
+                          <Img4 src={USDTFTMi} />
+                        </IncentiveleftBarBox1infoCol1Icon>
+                      </IncentiveleftBarBox1infoCol1StableRow>
+                    </IncentiveleftBarBox1UTM>
+                  </IncentiveleftBarBox1infoCol1>
+                  <IncentiveleftBarBox1infoCol2>
+                    <IncentiveleftBarBox1infoCol2Row1>
+                      <GlobalButton
+                        height="40px"
+                        width="80px"
+                        margin="0px"
+                        onClick={() => setIsModalOpen(true)}
+                        disabled={
+                          transactionStatus === TransactionStatus.IN_PROGRESS
+                        }
+                      >
+                        Change
+                      </GlobalButton>
+                    </IncentiveleftBarBox1infoCol2Row1>
+                    <IncentiveleftBarBox1infoCol2Row2 />
+                  </IncentiveleftBarBox1infoCol2>
+                </IncentiveleftBarBox1info>
+                <IncentiveleftBarBox1info>
+                  <IncentiveleftBarBox1infoCol1>
+                    <LiquidityBox>
+                      <LiquidityBoxHeading>Liquidity</LiquidityBoxHeading>
+                      <LiquidityText1>
+                        {reserve0} {poolData[0]?.token0.symbol}
+                      </LiquidityText1>
+                      <LiquidityText2>
+                        {reserve1} {poolData[0]?.token1.symbol}
+                      </LiquidityText2>
+                    </LiquidityBox>
+                  </IncentiveleftBarBox1infoCol1>
+                  <IncentiveleftBarBox1infoCol2>
+                    <YourDepositsBox>
+                      <LiquidityBoxHeading>Your Deposits</LiquidityBoxHeading>
+                      <LiquidityText1>
+                        {balance0} {poolData[0]?.token0.symbol}
+                      </LiquidityText1>
+                      <LiquidityText2>
+                        {balance1} {poolData[0]?.token1.symbol}
+                      </LiquidityText2>
+                    </YourDepositsBox>
+                  </IncentiveleftBarBox1infoCol2>
+                </IncentiveleftBarBox1info>
+              </IncentiveleftBarBox1>
+              <IncentiveTokenSelection
+                handleIncentiveFormValue={handleIncentiveFormValue}
+                incentive={value}
+                handleTokenSymbol={handleTokenSymbol}
+              />
+            </IncentiveleftBar>
+          </Column60>
+          <Column40>
+            <IncentiveRightContent
+              InsentiveFormValue={value}
+              tokenSymbol={incentiveToken}
+              poolData={poolData}
             />
-          </IncentiveleftBar>
-        </Column60>
-        <Column40>
-          <IncentiveRightContent
-            InsentiveFormValue={value}
-            tokenSymbol={incentiveToken}
-            poolData={poolData}
-          />
-          <IncentiveTokenPopup
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            onSelect={handlePoolSelect}
-            // account={address!}
-          />
-        </Column40>
-      </Row>
+            <IncentiveTokenPopup
+              isOpen={isModalOpen}
+              onClose={() => setIsModalOpen(false)}
+              onSelect={handlePoolSelect}
+              // account={address!}
+            />
+          </Column40>
+        </Row>
+      )}
     </Section>
   );
 };
