@@ -280,46 +280,48 @@ const Header: React.FC = () => {
           )}
         </NavItem>
 
-        <NavItem
-          onMouseEnter={() => handleMouseEnter(setShowGovernanceSubTabs)}
-          onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
-        >
-          <NavLink
-            isactive={activeMainTab === 'Governance' ? ' true' : ''}
-            onClick={() => {
-              setShowGovernanceSubTabs(!showGovernanceSubTabs);
-            }}
+        {isConnected && (
+          <NavItem
+            onMouseEnter={() => handleMouseEnter(setShowGovernanceSubTabs)}
+            onMouseLeave={() => handleMouseLeave(setShowGovernanceSubTabs)}
           >
-            Governance <FontAwesomeIcon icon={faChevronDown} />
-          </NavLink>
-          {showGovernanceSubTabs && (
-            <SubTabs
-              items={[
-                {
-                  main: 'Governance',
-                  to: '/governance',
-                  label: 'Manage veTENEX',
-                  description: 'Lock TENEX into veTENEX to earn rewards',
-                },
-                {
-                  main: 'Governance',
-                  to: '/vote',
-                  label: 'Vote',
-                  description: 'Vote weekly to earn real yields',
-                },
-                {
-                  main: 'Governance',
-                  to: `/incentives`,
-                  label: 'Incentives',
-                  description: 'Protocol liquidity incentivization',
-                },
-              ]}
-              showTabs={showGovernanceSubTabs}
-              setShowTabs={setShowGovernanceSubTabs}
-              setNavOpen={setNavOpen}
-            />
-          )}
-        </NavItem>
+            <NavLink
+              isactive={activeMainTab === 'Governance' ? ' true' : ''}
+              onClick={() => {
+                setShowGovernanceSubTabs(!showGovernanceSubTabs);
+              }}
+            >
+              Governance <FontAwesomeIcon icon={faChevronDown} />
+            </NavLink>
+            {showGovernanceSubTabs && (
+              <SubTabs
+                items={[
+                  {
+                    main: 'Governance',
+                    to: '/governance',
+                    label: 'Manage veTENEX',
+                    description: 'Lock TENEX into veTENEX to earn rewards',
+                  },
+                  {
+                    main: 'Governance',
+                    to: '/vote',
+                    label: 'Vote',
+                    description: 'Vote weekly to earn real yields',
+                  },
+                  {
+                    main: 'Governance',
+                    to: `/incentives`,
+                    label: 'Incentives',
+                    description: 'Protocol liquidity incentivization',
+                  },
+                ]}
+                showTabs={showGovernanceSubTabs}
+                setShowTabs={setShowGovernanceSubTabs}
+                setNavOpen={setNavOpen}
+              />
+            )}
+          </NavItem>
+        )}
 
         <NavItem
           onMouseEnter={() => handleMouseEnter(setShowToolsSubTabs)}
