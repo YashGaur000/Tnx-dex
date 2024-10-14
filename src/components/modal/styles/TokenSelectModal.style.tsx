@@ -38,7 +38,7 @@ export const ScrollContainer = styled.div<{
   height?: string;
 }>`
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: ${({ height }) => height ?? '350px'};
 
   &::-webkit-scrollbar {

@@ -124,35 +124,31 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                     {formatUnloackData}
                   </LockInfoDes>
                   <LockInfoCheck>
-                    {formatUnloackData !== 'Expired' && !lock.votingStatus ? (
+                    {formatUnloackData !== 'Expired' ? (
                       <>
-                        {!lock.votingStatus && (
-                          <LockInfoAction
-                            onClick={() =>
-                              handleLockButton('increase', lock.tokenId)
-                            }
-                          >
-                            Increase
-                          </LockInfoAction>
-                        )}
-                        {!lock.votingStatus && (
-                          <LockInfoAction
-                            onClick={() =>
-                              handleLockButton('extend', lock.tokenId)
-                            }
-                          >
-                            Extend
-                          </LockInfoAction>
-                        )}
-                        {!lock.votingStatus && (
-                          <LockInfoAction
-                            onClick={() =>
-                              handleLockButton('merge', lock.tokenId)
-                            }
-                          >
-                            Merge
-                          </LockInfoAction>
-                        )}
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('increase', lock.tokenId)
+                          }
+                        >
+                          Increase
+                        </LockInfoAction>
+
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('extend', lock.tokenId)
+                          }
+                        >
+                          Extend
+                        </LockInfoAction>
+
+                        <LockInfoAction
+                          onClick={() =>
+                            handleLockButton('merge', lock.tokenId)
+                          }
+                        >
+                          Merge
+                        </LockInfoAction>
 
                         <LockInfoAction
                           onClick={() =>
@@ -161,27 +157,26 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                         >
                           Transfer
                         </LockInfoAction>
+                        {lock.votingStatus && (
+                          <LockInfoAction
+                            onClick={() =>
+                              handleWithdrawNreset('reset', lock.tokenId)
+                            }
+                          >
+                            Reset
+                          </LockInfoAction>
+                        )}
                       </>
                     ) : (
                       <>
                         <LockInfoCheck>
-                          {lock.votingStatus ? (
-                            <LockInfoAction
-                              onClick={() =>
-                                handleWithdrawNreset('reset', lock.tokenId)
-                              }
-                            >
-                              Reset
-                            </LockInfoAction>
-                          ) : (
-                            <LockInfoAction
-                              onClick={() =>
-                                handleWithdrawNreset('withdraw', lock.tokenId)
-                              }
-                            >
-                              Withdraw
-                            </LockInfoAction>
-                          )}
+                          <LockInfoAction
+                            onClick={() =>
+                              handleWithdrawNreset('withdraw', lock.tokenId)
+                            }
+                          >
+                            Withdraw
+                          </LockInfoAction>
                         </LockInfoCheck>
                       </>
                     )}
