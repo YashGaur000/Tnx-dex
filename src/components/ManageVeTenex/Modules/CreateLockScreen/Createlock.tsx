@@ -62,6 +62,7 @@ const CreatelockForm = () => {
   const [voteCalPower, setVotePower] = useState<number>(0);
   const [errorColor, setErrorColor] = useState<string>('#FFFFFF');
   const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
+  const [isSliderDisabled, setIsSliderDisabled] = useState<boolean>(false);
 
   //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
 
@@ -150,7 +151,7 @@ const CreatelockForm = () => {
                     width="70%"
                     padding="0px"
                     value={LockTokenValue}
-                    disabled={isApproveLock}
+                    disabled={isSliderDisabled}
                     onChange={handleLockInputData}
                   />
                   <TokenSelect>
@@ -222,7 +223,7 @@ const CreatelockForm = () => {
                   step={1}
                   value={!isApproveLock ? lockDuration : ''}
                   onChange={HandleWeeksStatus}
-                  disabled={isApproveLock}
+                  disabled={isSliderDisabled}
                 />
               </SliderContainer>
             </LoaderStyle>
@@ -230,9 +231,8 @@ const CreatelockForm = () => {
               {labels.map(({ value, weeks }) => (
                 <WeeksLabel
                   key={value}
-                  onClick={() =>
-                    !isApproveLock ? handleDurationYearClick(value) : ''
-                  }
+                  onClick={() => handleDurationYearClick(value)}
+                  isdisable={isSliderDisabled}
                 >
                   {weeks}
                 </WeeksLabel>
@@ -250,6 +250,7 @@ const CreatelockForm = () => {
           lockDuration={Number(lockDuration)}
           setSuccessLock={setSuccessLock}
           setIsApproveLock={setIsApproveLock}
+          setIsSliderDisabled={setIsSliderDisabled}
         />
       </CreateMainContainer>
       <LockScreenInstruction>
