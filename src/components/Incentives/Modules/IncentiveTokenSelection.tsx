@@ -64,7 +64,10 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const { transactionStatus } = useRootStore();
 
   const tokenList = selectedIncentiveToken ? [selectedIncentiveToken] : [];
-  const { balances } = useTokenBalances(tokenList, address ?? AddressZero);
+  const { loading, balances } = useTokenBalances(
+    tokenList,
+    address ?? AddressZero
+  );
   const {
     bribeAddress,
     balances: rewardBalances,
@@ -79,6 +82,8 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
 
   const totalBalanceIncentiveToken =
     selectedIncentiveToken && Number(balances[selectedIncentiveToken?.address]);
+
+  // if (error) return `Error! ${error.message}`;
 
   useEffect(() => {
     if (bribeAddress && multicall) {
@@ -144,7 +149,8 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         100;
     }
 
-    const amount = walletBalance.toFixed(5);
+    // const amount = walletBalance.toFixed(5);
+    const amount = walletBalance.toString();
 
     handleIncentiveFormValue(amount);
   };
@@ -209,7 +215,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         <Box2PercentageBar>
           <Box2DataPoint4>
             <Box2TitleAvailable>
-              Wallet : {totalBalanceIncentiveToken}{' '}
+              Wallet : {loading ? totalBalanceIncentiveToken : '0.0'}{' '}
               {selectedIncentiveToken?.symbol}
             </Box2TitleAvailable>
             {/* <Box2ValueAvailable>~</Box2ValueAvailable>

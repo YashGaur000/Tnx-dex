@@ -33,8 +33,10 @@ import { Address } from 'viem';
 import { UserPosition } from '../../../../types/Pool';
 import VotingRewards from './VotingRewards';
 import { VotingRewardsButton } from '../styles/VotingRewards.styled';
-import ClaimAllModle from '../../../Dashboard/Index/modules/ClaimAllModle';
+import { ClaimAllModle } from '../../../Dashboard/Index/modules/ClaimAllModle';
 import { ClaimAllPopup } from '../styles/ClaimAllModle.styled';
+import { TransactionStatus } from '../../../../types/Transaction';
+import { useRootStore } from '../../../../store/root';
 
 export interface UserPositionData {
   address?: Address;
@@ -48,6 +50,7 @@ const DashBoard: React.FC = () => {
   const { userValidPools, userRewardPools, isError } = useUserPosition(
     address!
   );
+  const { transactionStatus } = useRootStore();
   const [isLoading, setIsLoading] = useState(true);
 
   const [isLockVisible, setIsLockVisible] = useState(true);
@@ -96,7 +99,9 @@ const DashBoard: React.FC = () => {
   };
 
   const handleHoverHide = () => {
-    setClaimPopUpShow(false);
+    if (transactionStatus === TransactionStatus.IDEAL) {
+      setClaimPopUpShow(false);
+    }
   };
 
   const renderTooltipContent = () => {

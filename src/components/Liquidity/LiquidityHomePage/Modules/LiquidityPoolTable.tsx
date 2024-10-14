@@ -15,7 +15,7 @@ import { StatsCardtitle } from '../styles/LiquidityHeroSection.style.tsx';
 import Pagination from '../../../common/Pagination.tsx';
 import { LiquidityTableWrapper } from '../styles/LiquidityTable.style.tsx';
 
-type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD';
+type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD' | 'totalValueLocked';
 
 interface PoolTableProps {
   handleSortedFeatures: (field: SortableKeys) => void;
@@ -95,7 +95,7 @@ const LiquidityPoolTable: React.FC<PoolTableProps> = ({
                     height="16px"
                     src={SortIcon}
                     cursor="pointer"
-                    onClick={() => handleSorting('totalVolumeUSD')}
+                    onClick={() => handleSorting('totalValueLocked')}
                   />
                 </TableHeaderWrapper>
               </TableHeader>

@@ -162,7 +162,14 @@ const LiquidityForm: FC<FormComponentProps> = ({
   ) => {
     if (tokenType === 'token1') {
       const calculatedValue = (Number(totalBalanceToken1) * percentage) / 100;
-      const desiredValue = calculatedValue.toFixed(5); // Fix decimal issue need to check
+      const value = calculatedValue.toFixed(5); // Fix decimal issue need to check
+      const desiredValue =
+        selectedToken1?.symbol == 'ETH' ||
+        selectedToken2?.symbol == 'ETH' ||
+        selectedToken1?.symbol == 'WETH' ||
+        selectedToken2?.symbol == 'WETH'
+          ? (Number(value) - 0.00001).toString()
+          : value; // for gas fee
       setToken1Amount(desiredValue);
 
       // to set values for creating new stable pool deposit.

@@ -5,7 +5,7 @@ import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import SearchIcon from '../../../assets/search.png';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import PlusMinusIcon from '../../../assets/plusminus.png';
-import RedLockIcon from '../../../assets/lock.png';
+import LockIcon from '../../../assets/lock.png';
 import Lock1Icon from '../../../assets/Lock1.svg';
 import { useTokenAllowance } from '../../../hooks/useTokenAllowance';
 import poolAbi from '../../../constants/artifacts/contracts/Pool.json';
@@ -16,6 +16,7 @@ import { Address } from 'viem';
 import { usePoolContract } from '../../../hooks/usePoolContract';
 import { useLiquidityPoolDataById } from '../../../hooks/useLiquidityPoolDataById';
 import { GlobalButton } from '../../common/index';
+import LockIconGr from '../../../assets/LockSucess.svg';
 import { useRootStore } from '../../../store/root';
 import {
   TransactionStatus,
@@ -203,7 +204,7 @@ const WithdrawStepper = ({
 
     {
       step: 3,
-      icon: RedLockIcon,
+      icon: !isTokenAllowed ? LockIcon : LockIconGr,
       descriptions: {
         labels: !isTokenAllowed
           ? `Allowance not granted for ${poolData[0]?.name}`
