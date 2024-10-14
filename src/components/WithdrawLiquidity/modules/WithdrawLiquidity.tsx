@@ -82,9 +82,9 @@ const WithdrawLiquidity = () => {
         console.error('error loading metadata', error);
       });
 
-    if (transactionStatus === TransactionStatus.DONE) {
-      SetSelectWithdrawValue(100);
-    }
+    // if (transactionStatus === TransactionStatus.DONE) {
+    //   SetSelectWithdrawValue(100);
+    // }
   }, [poolId, metadata, transactionStatus]);
 
   const { balance0, balance1, reserve0, reserve1 } = usePoolBalances(
@@ -169,7 +169,7 @@ const WithdrawLiquidity = () => {
 
             <DepositeStyle>
               <LiquidityHeaderTitle fontSize={16}>
-                Unstaked Deposits
+                Withdraw Amount
               </LiquidityHeaderTitle>
               <TokenAmountWrapper>
                 <LiquidityTitle textalign="right" fontSize={12}>

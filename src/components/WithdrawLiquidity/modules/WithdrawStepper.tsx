@@ -30,6 +30,9 @@ import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/Liquidity
 import SlippageTolerance from '../../common/SlippageTolerance';
 import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
 import { parseAmounts } from '../../../utils/transaction/parseAmounts';
+import SuccessPopup from '../../common/SucessPopup';
+import { useNavigate } from 'react-router-dom';
+
 interface WithdrawStepperProps {
   poolId: string;
   withdrawPercentage: string;
@@ -62,6 +65,41 @@ const WithdrawStepper = ({
   const { balanceOf, fetchAllowance } = usePoolContract(poolId);
 
   const { removeLiquidity, quoteRemoveLiquidity } = useRouterContract();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isWithdraw) {
+      // Set a timeout to navigate to the dashboard after 5 seconds
+
+      const timer = setTimeout(() => {
+        if (withdrawPercentage != '100') {
+          navigate('/dashboard');
+        } else {
+          const queryParams = new URLSearchParams(location.search);
+
+          const tokenA = poolData[0].token0.id.split('-');
+          const tokenB = poolData[0].token1.id.split('-');
+
+          const typeValue = poolData[0].isStable ? '0' : '1';
+
+          queryParams.set('token1', tokenA[0]);
+          queryParams.set('token2', tokenB[0]);
+          queryParams.set('type', typeValue);
+          queryParams.set('exists', true.toString()); //@Todo need to handle properly and check routes of both manage and create new pool
+
+          queryParams.set('id', poolData[0].id);
+
+          navigate({
+            pathname: '/liquidity/manage',
+            search: `?${queryParams.toString()}`,
+          });
+        }
+      }, 4000);
+
+      // Clean up the timer in case the component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, [isWithdraw, navigate]);
 
   useEffect(() => {
     async function isAllowance() {
@@ -273,6 +311,7 @@ const WithdrawStepper = ({
           )}
         </GlobalButton>
       )}
+      {isWithdraw && <SuccessPopup message="Withdraw Successfully" />}
     </>
   );
 };
