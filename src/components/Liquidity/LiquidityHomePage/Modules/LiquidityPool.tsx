@@ -9,7 +9,11 @@ import { useEffect, useState } from 'react';
 import LiquidityFilter from './LiquidityFiter';
 import { useLiquidityStore } from '../../../../store/slices/liquiditySlice';
 import { usePoolFactoryContract } from '../../../../hooks/usePoolFactoryContract';
-type SortableKeys = 'totalVolumeUSD' | 'totalFeesUSD' | 'totalValueLocked';
+type SortableKeys =
+  | 'totalVolumeUSD'
+  | 'totalFeesUSD'
+  | 'totalValueLocked'
+  | 'lastUpdatedTimestamp';
 type SortOrder = 'asc' | 'desc';
 const ITEMS_PER_PAGE = 25;
 const LiquidityPool = () => {
@@ -73,6 +77,11 @@ const LiquidityPool = () => {
   const handleSelectedFilterItem = (selectItem: string) => {
     if (!poolData) return;
 
+    if (selectItem === 'Recent') {
+      handleRecentTransaction('lastUpdatedTimestamp');
+      return;
+    }
+
     const newFilterData = poolData.filter((item) => {
       if (selectItem === 'All Pools') {
         return true;
@@ -80,8 +89,6 @@ const LiquidityPool = () => {
         return item.isStable;
       } else if (selectItem === 'Volatile') {
         return !item.isStable;
-      } else if (selectItem === 'Low TVL') {
-        return Number(item.totalVolumeUSD) < 100;
       } else if (selectItem === 'Concentrated') {
         if (item.name.toLowerCase().includes('concentrated')) {
           return true;
@@ -120,6 +127,19 @@ const LiquidityPool = () => {
     const sorted = [...sortedData].sort((a, b) => {
       if (a[field] < b[field]) return isAsc ? 1 : -1;
       if (a[field] > b[field]) return isAsc ? -1 : 1;
+      return 0;
+    });
+
+    setSortedData(sorted);
+  };
+
+  const handleRecentTransaction = (field: SortableKeys) => {
+    setSortField(field);
+    setSortOrder('desc');
+    const sorted = [...sortedData].sort((a, b) => {
+      // Sort in descending order
+      if (a[field] < b[field]) return 1;
+      if (a[field] > b[field]) return -1;
       return 0;
     });
 
