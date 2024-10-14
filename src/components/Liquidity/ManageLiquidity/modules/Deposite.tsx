@@ -37,7 +37,10 @@ import { useCheckAllowance } from '../../../../hooks/useCheckAllowance';
 import { LoadingSpinner } from '../../../common/Loader';
 import useTransactionWarning from '../../../../hooks/useTransactionWarning';
 import { ButtonsSideBySide } from '../../../common/Buttons/GlobalButton';
-
+import {
+  findTokenBySymbol,
+  getTokenInfo,
+} from '../../../../utils/transaction/getTokenInfo';
 interface DepositProps {
   disabled1?: boolean;
   disabled2?: boolean;
@@ -62,6 +65,7 @@ const Deposite: React.FC<DepositProps> = ({
   const getParam = useQueryParams();
   const Navigate = useNavigate();
   const { address } = useAccount();
+  const wethAddress = findTokenBySymbol('WETH');
 
   const selectedToken1 = useTokenInfo(getParam('token1'));
   const selectedToken2 = useTokenInfo(getParam('token2'));
@@ -170,8 +174,14 @@ const Deposite: React.FC<DepositProps> = ({
   const handleStakeDeposit = () => {
     const type = getParam('type') == '0';
     const factoryAddress = contractAddress.PoolFactory;
-    if (selectedToken1 && selectedToken2) {
-      poolFor(selectedToken1, selectedToken2, type, factoryAddress)
+    if (selectedToken1 && selectedToken2 && wethAddress) {
+      let token0 = selectedToken1;
+      let token1 = selectedToken2;
+      if (token0.symbol == 'ETH')
+        token0 = getTokenInfo(wethAddress) ?? selectedToken1;
+      else if (token1.symbol == 'ETH')
+        token1 = getTokenInfo(wethAddress) ?? selectedToken2;
+      poolFor(token0, token1, type, factoryAddress)
         .then((poolAddress) => {
           if (poolAddress) {
             Navigate({
