@@ -76,10 +76,6 @@ const VoteBanner: React.FC = () => {
     setPopupVisible(true);
   }
 
-  function handleTooltipHide() {
-    setPopupVisible(false);
-  }
-
   const closeModal = () => {
     setPopupVisible(false);
   };
@@ -136,9 +132,7 @@ const VoteBanner: React.FC = () => {
         width="500px"
         height="518px"
       >
-        <PopupWrapper onMouseLeave={handleTooltipHide}>
-          {<VotingToolTips />}
-        </PopupWrapper>
+        <PopupWrapper>{<VotingToolTips />}</PopupWrapper>
       </PopupScreen>
     </>
   );

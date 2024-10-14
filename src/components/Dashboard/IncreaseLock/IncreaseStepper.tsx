@@ -21,7 +21,11 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { LockIncreaseProps } from '../../../types/VotingEscrow';
-
+import { useVoterContract } from '../../../hooks/useVoterContract';
+import {
+  showSuccessToast,
+  showErrorToast,
+} from '../../../utils/common/toastUtils';
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
@@ -33,15 +37,17 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
   );
-  const { setTransactionStatus } = useRootStore();
+  const { setTransactionStatus, transactionStatus } = useRootStore();
   const tokenLockInfo: TokenInfo = locktokeninfo();
   const { approveAllowance: approveAllowance } = useTokenAllowance(
     tokenLockInfo.address,
     testErc20Abi
   );
+  const { poke } = useVoterContract();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isTokenAllowed, setIsTokenAllowed] = useState<boolean>(false);
   const [isLocking, setIsLocking] = useState<boolean>(false);
+  const [isPokeDisplay, setPokeDisplay] = useState<boolean>(false);
   const [isLocked, setIsLocked] = useState<boolean>(false);
   const escrowAddress = contractAddress.VotingEscrow;
 
@@ -81,6 +87,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         setIsTokenAllowed(false);
         setIsLocking(false);
         setSuccessLock(true);
+        setPokeDisplay(true);
         setAdditionalAmount('');
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
@@ -99,6 +106,25 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     setAdditionalAmount,
     setSuccessLock,
   ]);
+
+  const handlePoke = async () => {
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      const tknId = BigInt(Number(tokenId));
+      await poke(tknId);
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+        setPokeDisplay(false);
+      }, TRANSACTION_DELAY);
+      await showSuccessToast('Poked successfully for voting weight.');
+    } catch (error) {
+      setPokeDisplay(true);
+      setTransactionStatus(TransactionStatus.FAILED);
+      console.error('Error during poke action:', error);
+      await showErrorToast('Failed to poke the voting weight.');
+    }
+  };
 
   const IncreaseStepperData: StepperDataProps[] = [
     {
@@ -192,6 +218,18 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
           disabled={isLocking}
         >
           {isLocking ? 'Increasing...' : 'Increase'}
+        </GlobalButton>
+      )}
+
+      {isPokeDisplay && (
+        <GlobalButton
+          width="30%"
+          height="40px"
+          margin="0px"
+          onClick={handlePoke}
+          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+        >
+          {isLocking ? 'Poke...' : 'Poke'}
         </GlobalButton>
       )}
     </StyledDepositContainer>

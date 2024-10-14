@@ -40,6 +40,7 @@ const IncreaseLock = () => {
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
   const [isLockDuration, isSetLockDuration] = useState<number>(0);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
+  const [lockedOrgiTENEX, setLockedOrigTENEX] = useState<number>(0);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
@@ -53,6 +54,7 @@ const IncreaseLock = () => {
           if (data) {
             const LockedAmt = formatTokenAmount(data.amount);
             setLockedTENEX(Number(LockedAmt));
+            setLockedOrigTENEX(Number(LockedAmt));
             const lockDuration = data?.end;
             isSetLockDuration(lockDuration);
             const votingPower = calVotingPower(data?.end, data?.amount);
@@ -90,7 +92,8 @@ const IncreaseLock = () => {
     if (Number(e.target.value) > Number(balances[lockTokenInfo?.address]))
       return;
     setAdditionalAmount(e.target.value);
-    const increaseValue = Number(e.target.value) + lockedTENEX;
+    const increaseValue = Number(e.target.value) + lockedOrgiTENEX;
+    setLockedTENEX(increaseValue);
     const votePower = calVotingPower(isLockDuration, increaseValue);
     const votePowerVal = votePower.toFixed(1);
     setTotalVotingPower(Number(votePowerVal));

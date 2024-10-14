@@ -71,9 +71,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   const handleIncentive = (poolId: string) => {
     navigate('/incentives?pool=' + poolId);
   };
-  const handleHoverHide = () => {
-    setHoverPopUpShow(false);
-  };
+
   useEffect(() => {
     if (
       transactionStatus === TransactionStatus.DONE ||
@@ -232,7 +230,7 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                   </>
                 )}
               </GradientButton>
-              <PopupWrapper onMouseLeave={handleHoverHide}>
+              <PopupWrapper>
                 {!islock && isHoverPopUpshow && <VoteButtonHover />}
               </PopupWrapper>
             </SelectedButtonWrapper>

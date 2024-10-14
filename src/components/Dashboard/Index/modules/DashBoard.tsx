@@ -81,11 +81,6 @@ const DashBoard: React.FC = () => {
     setPopupVisible(true);
   }
 
-  function handleTooltipHide() {
-    setPopupVisible(false);
-    setActiveTooltip('');
-  }
-
   const closeModal = () => {
     setPopupVisible(false);
     setActiveTooltip('');
@@ -236,9 +231,7 @@ const DashBoard: React.FC = () => {
         width="500px"
         height="518px"
       >
-        <PopupWrapper onMouseLeave={handleTooltipHide}>
-          {renderTooltipContent()}
-        </PopupWrapper>
+        <PopupWrapper>{renderTooltipContent()}</PopupWrapper>
       </PopupScreen>
     </>
   );
