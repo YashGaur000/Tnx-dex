@@ -136,7 +136,7 @@ const LiquidityPool = () => {
   const handleRecentTransaction = (field: SortableKeys) => {
     setSortField(field);
     setSortOrder('desc');
-    const sorted = [...sortedData].sort((a, b) => {
+    const sorted = [...poolData].sort((a, b) => {
       // Sort in descending order
       if (a[field] < b[field]) return 1;
       if (a[field] > b[field]) return -1;
