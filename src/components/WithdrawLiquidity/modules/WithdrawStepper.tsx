@@ -144,7 +144,7 @@ const WithdrawStepper = ({
         if (amountInWei) setLiquidity(amountInWei.toString());
         const result = await approveAllowance(
           contractAddress.Router,
-          liquidity
+          amountInWei ? amountInWei.toString() : liquidity
         );
         setIsTokenAllowed(result ? true : false);
         setTransactionStatus(TransactionStatus.DONE);
