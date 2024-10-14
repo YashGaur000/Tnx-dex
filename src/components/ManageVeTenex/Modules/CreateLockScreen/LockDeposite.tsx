@@ -15,6 +15,7 @@ import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import { LockDepositeProps } from '../../../../types/VotingEscrow';
 import LockIconGr from '../../../../assets/LockSucess.svg';
+
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -31,6 +32,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   lockDuration,
   setSuccessLock,
   setIsApproveLock,
+  setIsSliderDisabled,
 }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -48,14 +50,14 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
-      setIsApproveLock(true);
+      setIsSliderDisabled(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       if (amountInWei && LocTokenAddress) {
         await approveAllowance(escrowAddress, amountInWei.toString());
         setIsTokenAllowed(true);
       }
     } catch (error) {
-      setIsApproveLock(false);
+      setIsSliderDisabled(false);
       console.error('Error during token approval', error);
     } finally {
       setIsLoading(false);

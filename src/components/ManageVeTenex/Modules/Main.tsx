@@ -130,7 +130,7 @@ const Main = () => {
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>Total Voting Power</StatsCardtitle>
               <LockHeaderTitle fontSize={16}>
-                {totalLocked.totalVotingPower}
+                {totalLocked.totalVotingPower.toFixed(5)}
               </LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>

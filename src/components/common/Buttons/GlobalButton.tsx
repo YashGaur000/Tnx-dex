@@ -137,3 +137,10 @@ export const LaunchDappSpan = styled.span<{
   display: inline-block;
   transition: background 0.3s ease;
 `;
+
+export const ButtonsSideBySide = styled.div<{
+  theme: DefaultTheme;
+}>`
+  display: inline;
+  text-align: center;
+`;

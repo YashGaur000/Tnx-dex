@@ -20,6 +20,8 @@ import { ExtendStepperProps } from '../../../../types/VotingEscrow';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { useResetLock } from '../../../../hooks/useResetLock';
 import { ToastContainer } from 'react-toastify';
+import LockIconGr from '../../../../assets/LockSucess.svg';
+import LockIcon from '../../../../assets/lock.png';
 import {
   showSuccessToast,
   showErrorToast,
@@ -28,6 +30,7 @@ import {
   TRANSACTION_DELAY,
   TransactionStatus,
 } from '../../../../types/Transaction';
+import { useRootStore } from '../../../../store/root';
 
 const ExtendStepper: React.FC<ExtendStepperProps> = ({
   tokenId,
@@ -43,13 +46,11 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   const [isExtend, setIsExtend] = useState(false);
   const [isPoke, setIsPoke] = useState(false);
   const [isModalDisabled, setIsModalDisabled] = useState(false);
-  const [transactionStatus, setTransactionStatus] =
-    useState<TransactionStatus | null>(null);
   const { poke } = useVoterContract();
+  const { setTransactionStatus, transactionStatus } = useRootStore();
 
   const { handleResetLock, isResetLocked, isResetting } = useResetLock(
     tokenId,
-    setTransactionStatus,
     setIsModalDisabled
   );
 
@@ -64,7 +65,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
         setTransactionStatus(TransactionStatus.DONE);
         setTimeout(() => {
           setTransactionStatus(TransactionStatus.IDEAL);
-          setSuccessLock(true);
+          //setSuccessLock(true);
           setIsExtend(true);
           setIsPoke(true);
         }, TRANSACTION_DELAY);
@@ -72,6 +73,8 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
           `Lock extended for ${duration} weeks successfully!`
         );
       } catch (error) {
+        setIsExtend(false);
+        setIsPoke(false);
         await showErrorToast('Failed to extend lock. Please try again.');
       } finally {
         setIsExtending(false);
@@ -83,6 +86,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   const handlePoke = async () => {
     try {
       setIsPoke(true);
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const tknId = BigInt(Number(tokenId));
       await poke(tknId);
       setTransactionStatus(TransactionStatus.DONE);
@@ -91,6 +95,8 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
         setIsPoke(false);
       }, TRANSACTION_DELAY);
     } catch (error) {
+      setIsPoke(false);
+      setTransactionStatus(TransactionStatus.FAILED);
       console.error('Error during poke action:', error);
       await showErrorToast('Failed to poke the voting weight.');
     }
@@ -116,8 +122,8 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
           ? 'Reset lock confirmed'
           : 'Reset requred for Lock #' + tokenId,
       },
-      actionCompleted: !isResetLocked,
-      icon: !isResetLocked ? WaitingIcon : SucessDepositIcon,
+      icon: !isResetLocked ? LockIcon : LockIconGr,
+
       buttons: isResetLocked
         ? undefined
         : {
@@ -143,7 +149,8 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
             label: 'Poke',
             onClick: handlePoke,
             tooltip: 'Click to Poke Lock #' + tokenId,
-            disabled: !isPoke,
+            disabled:
+              !isPoke || transactionStatus === TransactionStatus.IN_PROGRESS,
           }
         : undefined,
     },

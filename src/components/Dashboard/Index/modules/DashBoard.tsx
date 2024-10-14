@@ -61,6 +61,7 @@ const DashBoard: React.FC = () => {
   const Navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (
       isLoading &&
       ((userValidPools?.length ?? 0) === 0 ||
