@@ -15,6 +15,11 @@ import {
 import { useRootStore } from '../../../store/root';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
+import Stepper from '../../common/Stepper';
+import WaitingIcon from '../../../../src/assets/search.png';
+import LockIconGr from '../../../../src/assets/LockSucess.svg';
+import VotingPowerIcon from '../../../../src/assets/star.svg';
+import { useVoterContract } from '../../../hooks/useVoterContract';
 
 interface TransferFromOwnerProps {
   fromOwner: Address;
@@ -36,10 +41,13 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   const { transferFrom } = useVotingEscrowContract(
     contractAddress.VotingEscrow
   );
+  const { reset } = useVoterContract();
   const { setTransactionStatus } = useRootStore();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isLockTransfer, setIsLockTransfer] = useState<boolean>(false);
+  const [isResetting, setIsResetting] = useState<boolean>(false); // Track reset state
+  const [isResetDone, setIsResetDone] = useState<boolean>(false); // Track if reset was done
 
   const handleTransferLock = useCallback(async () => {
     try {
@@ -67,6 +75,69 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
     }
   }, [tokenId, toAddress, fromOwner, transferFrom, setTransactionStatus]);
 
+  const handleResetLock = useCallback(async () => {
+    try {
+      if (!toAddress) return;
+      setIsResetting(true);
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      if (!tokenId) return;
+
+      const transaction = await reset(BigInt(tokenId));
+      if (!transaction) {
+        throw new Error('Transaction was canceled or failed');
+      }
+
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
+        setIsResetDone(true); // Mark reset as done
+        setIsResetting(false); // Enable button after reset is done
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      console.error('Error during reset lock:', error);
+      setTransactionStatus(TransactionStatus.FAILED);
+      setIsResetting(false); // Enable reset button in case of error
+    }
+  }, [tokenId, reset, setTransactionStatus]);
+
+  const TransferStepperData = [
+    {
+      step: 1,
+      descriptions: {
+        labels: toAddress
+          ? ' wallet address is valid '
+          : 'Enter wallet address',
+      },
+      icon: VotingPowerIcon,
+    },
+    {
+      step: 2,
+      descriptions: {
+        labels: !isResetDone
+          ? 'Reset is required for lock #' + tokenId
+          : 'Reset completed',
+      },
+      icon: LockIconGr,
+      buttons: !isResetDone
+        ? {
+            label: isResetting ? 'Resett' : 'Reset',
+            onClick: handleResetLock,
+            disabled: isResetting,
+          }
+        : undefined,
+    },
+    {
+      step: 3,
+      descriptions: {
+        labels: isLockTransfer
+          ? 'Transfer completed successfully'
+          : 'waiting for next action..',
+      },
+      icon: WaitingIcon,
+      actionCompleted: isLockTransfer,
+    },
+  ];
+
   return (
     <StyledDepositContainer>
       <TransferLockTitle fontSize={24}>Transfer Lock</TransferLockTitle>
@@ -79,14 +150,15 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
           </UnderlineText>
           .
         </LockDescriptonTitle>
-        {isLockTransfer && (
-          <LockDescriptonTitle fontSize={14}>
-            Transfer a lock Confirmed!
-          </LockDescriptonTitle>
-        )}
+
+        {/* Stepper for transfer and reset */}
+        <Stepper data={TransferStepperData} />
 
         {!isLockTransfer && (
-          <GlobalButton onClick={handleTransferLock} disabled={isLoading}>
+          <GlobalButton
+            onClick={handleTransferLock}
+            disabled={isLoading || isResetting}
+          >
             {isLoading ? 'Processing...' : 'Continue'}
           </GlobalButton>
         )}

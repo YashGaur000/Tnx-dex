@@ -16,7 +16,6 @@ export interface VoterContract extends Contract {
   gauges(_pool: Address): Promise<Address>;
   gaugeToBribe(_gauge: Address): Promise<Address>;
   deposit(_amount: bigint): Promise<ContractTransaction>;
-  reset(_tokenId: bigint): Promise<ContractTransaction>;
   epochVoteEnd(timestamp: number): Promise<ContractTransaction>;
   vote(
     _tokenId: number,
@@ -37,6 +36,8 @@ export interface VoterContract extends Contract {
     _tokenId: bigint,
     overrides?: Overrides
   ): Promise<ContractTransaction>;
+  poke(_tokenId: bigint): Promise<ContractTransaction>;
+  reset(_tokenId: bigint): Promise<ContractTransaction>;
 }
 
 interface VotedPools extends LiquidityPoolNewType {
