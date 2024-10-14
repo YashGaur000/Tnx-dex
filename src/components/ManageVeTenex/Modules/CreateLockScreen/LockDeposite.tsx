@@ -32,6 +32,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   lockDuration,
   setSuccessLock,
   setIsApproveLock,
+  setIsSliderDisabled,
 }) => {
   const [isTokenAllowed, setIsTokenAllowed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -49,14 +50,14 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
-      setIsApproveLock(true);
+      setIsSliderDisabled(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       if (amountInWei && LocTokenAddress) {
         await approveAllowance(escrowAddress, amountInWei.toString());
         setIsTokenAllowed(true);
       }
     } catch (error) {
-      setIsApproveLock(false);
+      setIsSliderDisabled(false);
       console.error('Error during token approval', error);
     } finally {
       setIsLoading(false);
@@ -91,7 +92,18 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
     } finally {
       setIsLocking(false);
     }
-  }, [createLock]);
+  }, [
+    LockTokenValue,
+    isTokenAllowed,
+    LockTokenDecimal,
+    lockDuration,
+    createLock,
+    setTransactionStatus,
+    setLockTokenValue,
+    SetlockDuration,
+    setSuccessLock,
+    setIsApproveLock,
+  ]);
 
   const LockInstructionData: StepperDataProps[] = [
     {
