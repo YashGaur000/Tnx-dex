@@ -30,7 +30,6 @@ import {
   SliderContainer,
 } from '../../../Swap/styles/TransactionDeadline.style';
 import {
-  calculateRemainingDays,
   convertToDecimal,
   formatTokenAmount,
 } from '../../../../utils/common/voteTenex';
@@ -44,36 +43,59 @@ const ExtendLock = () => {
   const [isMaxLockMode, setIsMaxLockMode] = useState<boolean>(false);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isExtendDisable, setIsExtendDisable] = useState<boolean>(true);
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  const [isSliderDisabled, setIsSliderDisabled] = useState<boolean>(false);
+
   const {
     votingPower,
     lockData,
-    timeStampValue,
+    extendDuretion,
     sliderValue,
     updateSliderValue,
+    IsSliderValue,
   } = useVotingPowerCalculation(tokenId);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const handleToggle = () => {
-    setIsMaxLockMode((prev) => !prev);
     if (!isMaxLockMode) {
+      setIsMaxLockMode(true);
       updateSliderValue(208);
       setIsExtendDisable(false);
     } else {
-      setIsExtendDisable(true);
-      updateSliderValue(sliderValue);
-      setIsMaxLockMode(true);
+      setIsMaxLockMode(false);
+      updateSliderValue(IsSliderValue);
     }
   };
 
   const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const weeks = Number(e.target.value);
-    updateSliderValue(weeks);
+    if (!isSliderDisabled && weeks > IsSliderValue) {
+      setIsExtendDisable(false);
+      updateSliderValue(weeks);
+    } else {
+      setIsExtendDisable(true);
+    }
   };
 
   const handleLabelClick = (weeks: number) => {
-    updateSliderValue(weeks);
+    if (!isSliderDisabled && weeks > sliderValue) {
+      updateSliderValue(weeks);
+      setIsExtendDisable(false);
+    } else {
+      setIsExtendDisable(true);
+    }
+  };
+
+  const handleExtendClick = (val: boolean) => {
+    if (!val) {
+      setIsSliderDisabled(false);
+      setIsExtendDisable(true);
+    } else {
+      setIsSliderDisabled(true);
+      setIsExtendDisable(false);
+    }
   };
 
   const labels = [
@@ -95,8 +117,7 @@ const ExtendLock = () => {
             <LockDescriptonTitle fontSize={14}>
               {lockData ? formatTokenAmount(Number(lockData.amount)) : 0.0}{' '}
               <LockHeaderTitle fontSize={14}>TENEX</LockHeaderTitle> locked
-              until{' '}
-              {timeStampValue ? calculateRemainingDays(timeStampValue) : '0'}
+              until {extendDuretion}
             </LockDescriptonTitle>
             <LockDescriptonTitle fontSize={14}>
               {votingPower ? convertToDecimal(votingPower).toString() : 0.0}{' '}
@@ -148,7 +169,7 @@ const ExtendLock = () => {
                     step={1}
                     value={sliderValue}
                     onChange={handleSliderChange}
-                    disabled={true}
+                    disabled={isSliderDisabled}
                   />
                 </SliderContainer>
               </LoaderStyle>
@@ -157,7 +178,7 @@ const ExtendLock = () => {
                   <WeeksLabel
                     key={value}
                     onClick={() => handleLabelClick(value)}
-                    isdisable={true}
+                    isdisable={isSliderDisabled}
                   >
                     {weeks}
                   </WeeksLabel>
@@ -172,6 +193,7 @@ const ExtendLock = () => {
           votingPower={convertToDecimal(votingPower)}
           setSuccessLock={setSuccessLock}
           isExtendDisable={isExtendDisable}
+          onExtendClick={handleExtendClick}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Merge lock confirmed" />}

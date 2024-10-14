@@ -82,7 +82,7 @@ const MergeLock = () => {
   return (
     <MainContainerStyle>
       <CreateMainContainer>
-        <LockleftSection height={360}>
+        <LockleftSection height={436}>
           <WalletAdressConainer>
             <LockHeaderTitle fontSize={16}>
               Select the lock you want to merge
