@@ -7,10 +7,9 @@ interface BalanceDisplayProps {
 }
 
 const BalanceDisplay: React.FC<BalanceDisplayProps> = ({ address }) => {
-  const { balance, loading, error } = useNativeBalance(address);
+  const { balance, loading } = useNativeBalance(address);
 
-  if (loading) return <p>Loading balance...</p>;
-  if (error) return <p>{error}</p>;
+  if (loading) return null;
 
   return Number(balance?.formatted).toFixed(5);
 };

@@ -52,6 +52,7 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import SuccessPopup from '../../common/SucessPopup';
+import useTransactionWarning from '../../../hooks/useTransactionWarning';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -146,6 +147,8 @@ const Sidebar: React.FC<SidebarProps> = ({
     testErc20Abi
   );
 
+  const { transactionStatus } = useRootStore();
+
   // allowance check
   useCheckAllowance(
     token1,
@@ -154,6 +157,9 @@ const Sidebar: React.FC<SidebarProps> = ({
     contractAddresses.Router,
     setIsTokenAllow
   );
+
+  // Trigger the hook with the current transaction status
+  useTransactionWarning(transactionStatus);
 
   const handleAllowToken1 = async () => {
     try {

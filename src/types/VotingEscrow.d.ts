@@ -86,6 +86,7 @@ export interface LockDepositeProps {
   lockDuration: number;
   setSuccessLock: (input: boolean) => void;
   setIsApproveLock: (input: boolean) => void;
+  setIsSliderDisabled: (input: boolean) => void;
 }
 
 export interface LockDataNew {
