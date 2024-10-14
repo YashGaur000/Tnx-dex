@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
-import SwapForm from '../../components/Swap/modules/SwapForm';
-//import SwapForm from '../../components/common/InputForm';
+const SwapForm = React.lazy(
+  () => import('../../components/Swap/modules/SwapForm')
+);
+import PageLoader from '../../components/common/PageLoader';
 
 const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
@@ -23,9 +25,11 @@ const SwapContainer = styled.div<{ theme: DefaultTheme }>`
 
 const SwapPage: React.FC = () => {
   return (
-    <SwapContainer>
-      <SwapForm />
-    </SwapContainer>
+    <Suspense fallback={<PageLoader />}>
+      <SwapContainer>
+        <SwapForm />
+      </SwapContainer>
+    </Suspense>
   );
 };
 

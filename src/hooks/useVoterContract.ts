@@ -4,6 +4,7 @@ import { Address } from 'viem';
 import voterAbi from '../constants/artifacts/contracts/Voter.json';
 import contractAddresses from '../constants/contract-address/address';
 import { VoterContract } from '../types/Voter';
+import { showSuccessToast, showErrorToast } from '../utils/common/toastUtils';
 
 /**
  * Hook to interact with the router contract.
@@ -110,7 +111,7 @@ export function useVoterContract() {
         console.error('Voter contract instance not available');
         return;
       }
-      return voterContract.vote(_tokenId, _poolVote, _weights);
+      return await voterContract.vote(_tokenId, _poolVote, _weights);
     },
     [voterContract]
   );
@@ -194,6 +195,24 @@ export function useVoterContract() {
     },
     [voterContract]
   );
+
+  const poke = useCallback(
+    async (_tokenId: bigint) => {
+      if (!voterContract) {
+        await showErrorToast('Voter contract instance is not available.');
+        return;
+      }
+      try {
+        const tx = await voterContract.poke(_tokenId);
+        await tx.wait();
+        await showSuccessToast('Successfully poked the voting weight!');
+      } catch (error) {
+        await showErrorToast(`Error:Transaction failed`);
+        console.error('Error during poke transaction:', error);
+      }
+    },
+    [voterContract]
+  );
   return {
     createGauge,
     gauges,
@@ -204,5 +223,6 @@ export function useVoterContract() {
     claimBribes,
     claimFees,
     epochVoteEnd,
+    poke,
   };
 }
