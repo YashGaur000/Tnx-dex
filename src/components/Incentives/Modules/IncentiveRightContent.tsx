@@ -34,6 +34,7 @@ import {
 import { useRootStore } from '../../../store/root';
 import { LoadingSpinner } from '../../common/Loader';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
+import { useNavigate } from 'react-router-dom';
 
 interface IncentiveRightContent {
   InsentiveFormValue: string;
@@ -51,6 +52,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const [isGaugeCreated, setIsGaugeCreated] = useState(false);
   const [isGaugeBeingCreated, setIsGaugeBeingCreated] = useState(false);
   const { address } = useAccount();
+  const Navigate = useNavigate();
 
   const { gaugeAddress, bribeAddress, setGaugeAddress, setBribeAddress } =
     useIncentiveStore();
@@ -178,6 +180,10 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     }
   };
 
+  const handleDashboard = () => {
+    Navigate('/dashboard');
+  };
+
   const LockInstructionData: StepperDataProps[] = [
     {
       step: 1,
@@ -299,6 +305,17 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
         )}
       {isIncentiveAdded && (
         <SuccessPopup message="Incentive added Successfully" />
+      )}
+
+      {isIncentiveAdded && (
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={handleDashboard}
+        >
+          Go to Dashboard
+        </GlobalButton>
       )}
     </IncentiveleftBarBox1>
   );
