@@ -11,6 +11,7 @@ export const DashBoardLockMainContainer = styled.div<{ theme: DefaultTheme }>`
 `;
 export const LockContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
+  margin-bottom: 16px;
   gap: 24px;
   color: ${({ theme }) => theme.colors.whiteBorder};
 `;

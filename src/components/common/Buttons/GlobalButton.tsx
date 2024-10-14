@@ -12,7 +12,7 @@ export const GlobalButton = styled.button<{
   maxwidth?: string;
   margin?: string;
   fontSize?: number;
-  smfontSize?: number;
+  smfontsize?: number;
 }>`
   background: ${({ theme }) => theme.colors.buttonBackground};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
@@ -51,7 +51,7 @@ export const GlobalButton = styled.button<{
   }
   @media (max-width: 768px) {
     padding: 6px 12px;
-    font-size: ${({ smfontSize }) => smfontSize ?? '16'}px;
+    font-size: ${({ smfontsize }) => smfontsize ?? '16'}px;
     margin-top: 10px;
   }
 `;

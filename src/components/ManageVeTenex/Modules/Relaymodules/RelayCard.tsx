@@ -67,7 +67,7 @@ const RelayCard: React.FC<RelayCardProps> = ({ Relaydata }) => {
             fontSize="12px"
             width="95px"
             height="26px"
-            smfontSize={12}
+            smfontsize={12}
             smmargin="0px"
           >
             Deposit Lock

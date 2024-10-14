@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ClaimMainContainer = styled.div`
   width: 360px;
   height: 412px;
-  padding: 40px;
+  padding: 40px 20px 40px 40px;
   border-radius: 12px;
   background: linear-gradient(180deg, #18264c 0%, #1f305f 100%);
   position: absolute;

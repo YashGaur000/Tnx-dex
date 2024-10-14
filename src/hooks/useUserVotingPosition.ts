@@ -14,7 +14,7 @@ import { useVotingEscrowContract } from './useVotingEscrowContract';
 import { decodeBase64 } from '../utils/common/voteTenex';
 import { useCallback } from 'react';
 import { AddressZero } from '@ethersproject/constants';
-import { UserVotingPosition } from '../types/Voter';
+import { UserVotingPosition, VotedPools } from '../types/Voter';
 import { formatAmounts } from '../utils/transaction/parseAmounts';
 import { ethers } from 'ethers';
 
@@ -100,6 +100,8 @@ const fetchUserVotingPools = async (
     const userVotedPools = poolToVoteResult.filter(
       ({ votedPools }) => votedPools.length > 0
     );
+
+    if (userVotedPools.length === 0) return [];
 
     const gaugesCalls = userVotedPools.flatMap(({ votedPools }) =>
       votedPools.map((pool) => ({
@@ -319,9 +321,9 @@ export const useUserVotingPosition = (account: Address) => {
       gcTime: 10 * 60 * 1000,
       enabled: !!account && !!multicallClient,
       placeholderData: [],
-      refetchInterval: 60 * 1000,
+      refetchInterval: 30 * 1000,
       refetchIntervalInBackground: true,
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       retry: 3,
@@ -332,8 +334,17 @@ export const useUserVotingPosition = (account: Address) => {
     queryClient
   );
 
+  const votingRewardPools = userVotedPools?.filter(({ votedPools }) =>
+    votedPools.some(
+      (pool: VotedPools) =>
+        pool.rewardAmounts.some((rewardAmount) => Number(rewardAmount) > 0) ||
+        Number(pool.fee0) > 0 ||
+        Number(pool.fee1) > 0
+    )
+  );
+
   return {
-    userVotedPools,
+    userVotedPools: votingRewardPools,
     isVoteError,
     refetchVote,
     isVoteFetching,

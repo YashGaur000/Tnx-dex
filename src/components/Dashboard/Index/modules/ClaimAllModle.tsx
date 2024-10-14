@@ -23,10 +23,15 @@ import {
 } from '../../../../types/Transaction';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { VotedPools } from '../../../../types/Voter';
+import { ScrollContainer } from '../../../modal/styles/TokenSelectModal.style';
+import { useState } from 'react';
+import { LoadingSpinner } from '../../../common/Loader';
 
-const ClaimAllModle = ({ account }: { account: Address }) => {
+export const ClaimAllModle = ({ account }: { account: Address }) => {
   const { userVotedPools } = useUserVotingPosition(account);
   const { setTransactionStatus } = useRootStore();
+  const [rewardToClaim, setRewardToClaim] = useState(-1);
+  const [tag, setTag] = useState('');
 
   const { claimBribes, claimFees } = useVoterContract();
 
@@ -45,54 +50,75 @@ const ClaimAllModle = ({ account }: { account: Address }) => {
 
   const handleClaimBribes = async (
     tokenId: bigint,
-    votedPools: VotedPools[]
+    votedPools: VotedPools[],
+    index: number
   ) => {
-    try {
-      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+    if (index != rewardToClaim) {
+      try {
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setRewardToClaim(index);
+        setTag('Bribes');
 
-      const bribes = votedPools.flatMap((pool) => pool.bribes || []);
-      const rewardTokens = votedPools.map((pool) => pool.rewardTokens || []);
+        const bribes = votedPools.flatMap((pool) => pool.bribes || []);
+        const rewardTokens = votedPools.map((pool) => pool.rewardTokens || []);
 
-      if (bribes.length === 0 || rewardTokens.length === 0) {
-        setTransactionStatus(TransactionStatus.IDEAL);
-        return;
+        if (bribes.length === 0 || rewardTokens.length === 0) {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setRewardToClaim(-1);
+          return;
+        }
+
+        const result = await claimBribes(bribes, rewardTokens, tokenId);
+        if (result) {
+          setTransactionStatus(TransactionStatus.DONE);
+          setRewardToClaim(-1);
+        }
+        setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setRewardToClaim(-1);
+        }, TRANSACTION_DELAY);
+      } catch (error) {
+        console.error('Error during fee claim transaction:', error);
+        setTransactionStatus(TransactionStatus.FAILED);
+        setRewardToClaim(-1);
       }
-
-      const result = await claimBribes(bribes, rewardTokens, tokenId);
-      if (result) {
-        setTransactionStatus(TransactionStatus.DONE);
-      }
-      setTimeout(
-        () => setTransactionStatus(TransactionStatus.IDEAL),
-        TRANSACTION_DELAY
-      );
-    } catch (error) {
-      console.error('Error during fee claim transaction:', error);
     }
   };
 
-  const handleClaimFees = async (tokenId: bigint, votedPools: VotedPools[]) => {
-    try {
-      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+  const handleClaimFees = async (
+    tokenId: bigint,
+    votedPools: VotedPools[],
+    index: number
+  ) => {
+    if (index != rewardToClaim) {
+      try {
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setRewardToClaim(index);
+        setTag('Fees');
 
-      const fees = votedPools.flatMap((pool) => pool.fees || []);
-      const rewardTokens = votedPools.map((pool) => pool.rewardTokens || []);
+        const fees = votedPools.flatMap((pool) => pool.fees || []);
+        const rewardTokens = votedPools.map((pool) => pool.rewardTokens || []);
 
-      if (fees.length === 0 || rewardTokens.length === 0) {
-        setTransactionStatus(TransactionStatus.IDEAL);
-        return;
+        if (fees.length === 0 || rewardTokens.length === 0) {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setRewardToClaim(-1);
+          return;
+        }
+
+        const result = await claimFees(fees, rewardTokens, tokenId);
+        if (result) {
+          setTransactionStatus(TransactionStatus.DONE);
+          setRewardToClaim(-1);
+        }
+        setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setRewardToClaim(-1);
+        }, TRANSACTION_DELAY);
+      } catch (error) {
+        console.error('Error during fee claim transaction:', error);
+        setTransactionStatus(TransactionStatus.FAILED);
+        setRewardToClaim(-1);
       }
-
-      const result = await claimFees(fees, rewardTokens, tokenId);
-      if (result) {
-        setTransactionStatus(TransactionStatus.DONE);
-      }
-      setTimeout(
-        () => setTransactionStatus(TransactionStatus.IDEAL),
-        TRANSACTION_DELAY
-      );
-    } catch (error) {
-      console.error('Error during fee claim transaction:', error);
     }
   };
 
@@ -100,39 +126,69 @@ const ClaimAllModle = ({ account }: { account: Address }) => {
     <ClaimMainContainer>
       <ClaimContainer>
         <LockHeading>Your Locks</LockHeading>
-        {userVotedPools?.map(({ tokenId, metadata, votedPools }, index) => (
-          <LockContainer key={index}>
-            <CardLogo>
-              <img src={tenxLogo} alt="" />
-            </CardLogo>
-            <LockData>
-              <LockHeading>
-                Lock #{Number(tokenId)} <img src={icon} />
-              </LockHeading>
-              <ClaimLink>
-                <Paragraph>
-                  {getLockedInfo(metadata).lockedValue} TENEX locked for{' '}
-                  {getLockedInfo(metadata).lockedDuration}
-                </Paragraph>
-                <DashboardNavigation
-                  width="115px"
-                  onClick={() => handleClaimBribes(tokenId, votedPools)}
-                >
-                  Claim Incentives
-                </DashboardNavigation>
-                <DashboardNavigation
-                  width="77px"
-                  onClick={() => handleClaimFees(tokenId, votedPools)}
-                >
-                  Claim Fees
-                </DashboardNavigation>
-              </ClaimLink>
-            </LockData>
-          </LockContainer>
-        ))}
+        <ScrollContainer height="300px">
+          {userVotedPools?.map(({ tokenId, metadata, votedPools }, index) => (
+            <LockContainer key={index}>
+              <CardLogo>
+                <img src={tenxLogo} alt="" />
+              </CardLogo>
+              <LockData>
+                <LockHeading>
+                  Lock #{Number(tokenId)} <img src={icon} />
+                </LockHeading>
+                <ClaimLink>
+                  <Paragraph>
+                    {getLockedInfo(metadata).lockedValue} TENEX locked for{' '}
+                    {getLockedInfo(metadata).lockedDuration}
+                  </Paragraph>
+                  <DashboardNavigation
+                    width="115px"
+                    onClick={() =>
+                      handleClaimBribes(tokenId, votedPools, index)
+                    }
+                  >
+                    {rewardToClaim === index && tag === 'Bribes' ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Claiming</p>
+                      </div>
+                    ) : (
+                      <p>Claim Incentives</p>
+                    )}
+                  </DashboardNavigation>
+                  <DashboardNavigation
+                    width="77px"
+                    onClick={() => handleClaimFees(tokenId, votedPools, index)}
+                  >
+                    {rewardToClaim === index && tag === 'Fees' ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Claiming</p>
+                      </div>
+                    ) : (
+                      <p>Claim Fees</p>
+                    )}
+                  </DashboardNavigation>
+                </ClaimLink>
+              </LockData>
+            </LockContainer>
+          ))}
+        </ScrollContainer>
       </ClaimContainer>
     </ClaimMainContainer>
   );
 };
-
-export default ClaimAllModle;

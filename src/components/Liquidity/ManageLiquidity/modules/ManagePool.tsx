@@ -1,6 +1,6 @@
 import LiquidityForm from './LiquidityForm';
 import DepositeComponent from './DepositeComponent';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import TokenDeposite from './TokenDeposite';
 import { MainContainerStyle } from '../../../common/MainContainerStyle';
 
@@ -27,6 +27,10 @@ const ManagePool = () => {
   // const description = exists
   //   ? 'Manage your position'
   //   : 'Create your LP position';
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleTokenValueChange = (
     token1: ethers.Numeric,

@@ -27,14 +27,14 @@ import IncreaseLock from '../components/Dashboard/IncreaseLock/IncreaseLock';
 import UnStake from '../components/UnStake/modules/UnStake';
 import WithdrawLiquidity from '../components/WithdrawLiquidity/modules/WithdrawLiquidity';
 import ToolsScreen from '../components/Tools/modules/ToolsScreen';
+import SwapPage from '../pages/swap/SwapPage';
+import Vote from '../pages/governance/Vote';
+import ContentData from '../components/Documents/Content';
 
 const ManagePool = lazy(
   () => import('../components/Liquidity/ManageLiquidity/modules/ManagePool')
 );
 
-const ContentData = lazy(() => import('../components/Documents/Content'));
-const Vote = lazy(() => import('../pages/governance/Vote'));
-const SwapPage = lazy(() => import('../pages/swap/SwapPage'));
 const AppRoutes: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
 

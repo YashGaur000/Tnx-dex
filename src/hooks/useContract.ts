@@ -11,7 +11,6 @@ import { BribeVotingRewardContract } from '../types/Bribe';
 import { PoolContract } from '../types/Pool';
 import { GaugeContract } from '../types/Gauge';
 import { getProvider } from '../constants/provider';
-import { StaticJsonRpcProvider } from '@ethersproject/providers';
 
 export function useContract(
   contractAddress: Address,
@@ -27,12 +26,10 @@ export function useContract(
   const { chainId, address: userAddress } = useAccount();
   const provider = useEthersProvider({ chainId });
 
-  let privateProvider: StaticJsonRpcProvider;
-
   return useMemo(() => {
     if (!isAddress(contractAddress) || contractAddress === AddressZero) {
       // throw new Error(`Invalid 'address' parameter '${contractAddress}'.`);
-      console.error(`Invalid 'address' parameter '${contractAddress}'.`);
+      // console.error(`Invalid 'address' parameter '${contractAddress}'.`);
       return undefined;
     }
 
@@ -42,8 +39,7 @@ export function useContract(
     }
 
     if (!userAddress) {
-      const chainId = 168587773;
-      privateProvider = getProvider(chainId);
+      const privateProvider = getProvider();
       return new Contract(contractAddress, ABI, privateProvider);
     }
 

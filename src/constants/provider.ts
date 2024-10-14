@@ -4,10 +4,11 @@ import { getBalance } from '@wagmi/core';
 import { type GetBalanceReturnType } from '@wagmi/core';
 import { Address } from 'viem';
 import { wagmiConfig } from '../web3Provider/wagmi';
+import { envConfig } from '../config';
 
-export const getProvider = (
-  chainId: SupportedInterfaceChainId
-): StaticJsonRpcProvider => {
+export const getProvider = (): StaticJsonRpcProvider => {
+  const chainId = envConfig.chainId as SupportedInterfaceChainId;
+
   const config = getNetworkConfig(chainId);
 
   if (!config) {

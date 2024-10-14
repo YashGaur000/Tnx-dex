@@ -254,7 +254,14 @@ const SwapForm: React.FC = () => {
           100;
       }
 
-      const amount = walletBalance.toFixed(5);
+      let amount = walletBalance.toString();
+
+      if (percentage === 100 && selectedToken1.symbol === 'ETH') {
+        const gasBuffer = 0.000001;
+        const requiredETH = walletBalance - gasBuffer;
+        amount = requiredETH.toString();
+      }
+
       setTokenInput1(amount);
       setTokenInput2(''); // Reset the second token input
       setRoute(null);
