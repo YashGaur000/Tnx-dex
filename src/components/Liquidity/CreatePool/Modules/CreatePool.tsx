@@ -122,9 +122,7 @@ const CreatePool = () => {
   function handleTooolTipShow() {
     setPopUpVisible(true);
   }
-  function handleTooltipHide() {
-    setPopUpVisible(false);
-  }
+
   const closeModal = () => {
     setPopUpVisible(false);
   };
@@ -254,9 +252,7 @@ const CreatePool = () => {
         width="500px"
         height="518px"
       >
-        <PopupWrapper onMouseLeave={handleTooltipHide}>
-          {<LiquidityToolTips />}
-        </PopupWrapper>
+        <PopupWrapper>{<LiquidityToolTips />}</PopupWrapper>
       </PopupScreen>
     </>
   );
