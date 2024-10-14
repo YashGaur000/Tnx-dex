@@ -84,5 +84,6 @@ export const UnderlineText = styled.span<{
   font-family: ${({ theme }) => theme.fonts.main};
   color: ${({ theme }) => theme.colors.whiteBorder};
   text-decoration: underline;
+  cursor: pointer;
   margin-left: 3px;
 `;

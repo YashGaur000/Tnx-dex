@@ -77,7 +77,9 @@ const SwapForm: React.FC = () => {
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
     'token1' | 'token2'
   >('token1');
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   useEffect(() => {
     if (tokenInput1 && selectedToken1) {
       const walletBalanceCheck =

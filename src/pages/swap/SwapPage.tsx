@@ -1,10 +1,11 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 import styled from 'styled-components';
 import { DefaultTheme } from '../../styles/Theme';
 const SwapForm = React.lazy(
   () => import('../../components/Swap/modules/SwapForm')
 );
 import PageLoader from '../../components/common/PageLoader';
+import { id } from 'ethers';
 
 const SwapContainer = styled.div<{ theme: DefaultTheme }>`
   display: flex;
@@ -24,6 +25,13 @@ const SwapContainer = styled.div<{ theme: DefaultTheme }>`
 `;
 
 const SwapPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [id]);
   return (
     <Suspense fallback={<PageLoader />}>
       <SwapContainer>
