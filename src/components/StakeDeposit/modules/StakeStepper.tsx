@@ -2,7 +2,7 @@ import Stepper from '../../common/Stepper';
 import { LiquidityHeaderTitle } from '../../Liquidity/LiquidityHomePage/styles/Liquiditypool.style';
 import LockIcon from '../../../assets/Lock1.svg';
 import RedLockIcon from '../../../assets/lock.png';
-import UnLockIcon from '../../../assets/unlock.png';
+import UnLockIcon from '../../../assets/unlock.svg';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import DepositedIcon from '../../../assets/deposit-logo.svg';
 import useQueryParams from '../../../hooks/useQueryParams';
@@ -169,6 +169,10 @@ const StakeStepper: React.FC<StakeStepperProps> = ({
     }
   };
 
+  const handleDashboard = () => {
+    Navigate('/dashboard');
+  };
+
   const StakeStepperInstructData = [
     {
       step: 1,
@@ -291,6 +295,16 @@ const StakeStepper: React.FC<StakeStepperProps> = ({
         </GlobalButton>
       )}
       {isStaked && <SuccessPopup message="Staked Successfully" />}
+      {isStaked && (
+        <GlobalButton
+          width="100%"
+          height="48px"
+          margin="0px"
+          onClick={handleDashboard}
+        >
+          Go to Dashboard
+        </GlobalButton>
+      )}
     </>
   );
 };
