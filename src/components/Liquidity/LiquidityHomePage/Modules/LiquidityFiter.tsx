@@ -9,15 +9,15 @@ import {
   FilterButton,
   SearchBoxContainer,
   FilterWithSearchStyle,
-  DropDownWrapper,
+  // DropDownWrapper,
 } from '../styles/LiquidityFilter.style';
-import DropDown from '../../../common/DropDown';
+// import DropDown from '../../../common/DropDown';
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 
-interface Option {
-  id: number;
-  label: string;
-}
+// interface Option {
+//   id: number;
+//   label: string;
+// }
 interface LiquidityFilterProps {
   handleSelectedFilterItem: (item: string) => void;
   handleSearchFeatures: (item: string) => void;
@@ -29,13 +29,13 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
 }) => {
   const [selectedFilter, setSelectedFilter] = useState<string>('All Pools');
   const [InputData, setInputData] = useState('');
-  const ButtonData: string[] = ['All Pools', 'Stable', 'Volatile', 'Low TVL'];
+  const ButtonData: string[] = ['All Pools', 'Stable', 'Volatile', 'Recent'];
 
-  const options: Option[] = [
-    { id: 1, label: 'Active' },
-    { id: 2, label: 'New' },
-    { id: 3, label: 'Participant' },
-  ];
+  // const options: Option[] = [
+  //   { id: 1, label: 'Active' },
+  //   { id: 2, label: 'New' },
+  //   // { id: 3, label: 'Participant' }, //not required
+  // ];
 
   const handleFilterClick = (item: string): void => {
     setSelectedFilter(item);
@@ -43,9 +43,9 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
     if (InputData) handleSearchFeatures(InputData);
   };
 
-  const handleSelectOption = (option: Option): void => {
-    console.log(option);
-  };
+  // const handleSelectOption = (option: Option): void => {
+  //   console.log(option);
+  // };
 
   const handlePoolTabelSearchBox = (e: ChangeEvent<HTMLInputElement>) => {
     setInputData(e.target.value);
@@ -68,10 +68,10 @@ const LiquidityFilter: React.FC<LiquidityFilterProps> = ({
           ))}
         </FilterButtonContainer>
         <FilterWithSearchStyle>
-          <DropDownWrapper>
+          {/* <DropDownWrapper>
             {' '}
             <DropDown onSelect={handleSelectOption} options={options} />
-          </DropDownWrapper>
+          </DropDownWrapper> */}
           <SearchBoxContainer>
             <ImageContainer
               width="16px"
