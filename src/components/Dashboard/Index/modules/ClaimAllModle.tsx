@@ -23,6 +23,7 @@ import {
 } from '../../../../types/Transaction';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { VotedPools } from '../../../../types/Voter';
+import { ScrollContainer } from '../../../modal/styles/TokenSelectModal.style';
 import { useState } from 'react';
 import { LoadingSpinner } from '../../../common/Loader';
 
@@ -125,64 +126,68 @@ export const ClaimAllModle = ({ account }: { account: Address }) => {
     <ClaimMainContainer>
       <ClaimContainer>
         <LockHeading>Your Locks</LockHeading>
-        {userVotedPools?.map(({ tokenId, metadata, votedPools }, index) => (
-          <LockContainer key={index}>
-            <CardLogo>
-              <img src={tenxLogo} alt="" />
-            </CardLogo>
-            <LockData>
-              <LockHeading>
-                Lock #{Number(tokenId)} <img src={icon} />
-              </LockHeading>
-              <ClaimLink>
-                <Paragraph>
-                  {getLockedInfo(metadata).lockedValue} TENEX locked for{' '}
-                  {getLockedInfo(metadata).lockedDuration}
-                </Paragraph>
-                <DashboardNavigation
-                  width="115px"
-                  onClick={() => handleClaimBribes(tokenId, votedPools, index)}
-                >
-                  {rewardToClaim === index && tag === 'Bribes' ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '15px',
-                      }}
-                    >
-                      <LoadingSpinner width="10px" height="10px" />
-                      <p>Claiming</p>
-                    </div>
-                  ) : (
-                    <p>Claim Incentives</p>
-                  )}
-                </DashboardNavigation>
-                <DashboardNavigation
-                  width="77px"
-                  onClick={() => handleClaimFees(tokenId, votedPools, index)}
-                >
-                  {rewardToClaim === index && tag === 'Fees' ? (
-                    <div
-                      style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        gap: '15px',
-                      }}
-                    >
-                      <LoadingSpinner width="10px" height="10px" />
-                      <p>Claiming</p>
-                    </div>
-                  ) : (
-                    <p>Claim Fees</p>
-                  )}
-                </DashboardNavigation>
-              </ClaimLink>
-            </LockData>
-          </LockContainer>
-        ))}
+        <ScrollContainer height="300px">
+          {userVotedPools?.map(({ tokenId, metadata, votedPools }, index) => (
+            <LockContainer key={index}>
+              <CardLogo>
+                <img src={tenxLogo} alt="" />
+              </CardLogo>
+              <LockData>
+                <LockHeading>
+                  Lock #{Number(tokenId)} <img src={icon} />
+                </LockHeading>
+                <ClaimLink>
+                  <Paragraph>
+                    {getLockedInfo(metadata).lockedValue} TENEX locked for{' '}
+                    {getLockedInfo(metadata).lockedDuration}
+                  </Paragraph>
+                  <DashboardNavigation
+                    width="115px"
+                    onClick={() =>
+                      handleClaimBribes(tokenId, votedPools, index)
+                    }
+                  >
+                    {rewardToClaim === index && tag === 'Bribes' ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Claiming</p>
+                      </div>
+                    ) : (
+                      <p>Claim Incentives</p>
+                    )}
+                  </DashboardNavigation>
+                  <DashboardNavigation
+                    width="77px"
+                    onClick={() => handleClaimFees(tokenId, votedPools, index)}
+                  >
+                    {rewardToClaim === index && tag === 'Fees' ? (
+                      <div
+                        style={{
+                          display: 'flex',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                          gap: '15px',
+                        }}
+                      >
+                        <LoadingSpinner width="10px" height="10px" />
+                        <p>Claiming</p>
+                      </div>
+                    ) : (
+                      <p>Claim Fees</p>
+                    )}
+                  </DashboardNavigation>
+                </ClaimLink>
+              </LockData>
+            </LockContainer>
+          ))}
+        </ScrollContainer>
       </ClaimContainer>
     </ClaimMainContainer>
   );
