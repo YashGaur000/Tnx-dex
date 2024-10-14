@@ -23,8 +23,8 @@ export const locktokeninfo = () => {
 export const calculateRemainingDays = (timestamp: number): string => {
   const now = new Date();
   const timeDifference = timestamp * 1000;
-
   const targetDate = new Date(timeDifference);
+
   let years = targetDate.getFullYear() - now.getFullYear();
   let months = targetDate.getMonth() - now.getMonth();
   let days = targetDate.getDate() - now.getDate();
@@ -43,28 +43,21 @@ export const calculateRemainingDays = (timestamp: number): string => {
     months += 12;
   }
 
-  // Construct the output based on the conditions
   let output = '';
 
   if (years > 0) {
-    output += `${years} years `;
+    output += `${years} year${years > 1 ? 's' : ''} `;
   }
 
   if (months > 0) {
-    output += `${months} months `;
+    output += `${months} month${months > 1 ? 's' : ''} `;
   }
 
   if (days > 0) {
-    output += `${days} days `;
+    output += `${days} day${days > 1 ? 's' : ''} `;
   }
 
   return output.trim() || '0 days'; // Return '0 days' if all are 0
-  /* const daysRemaining = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
-
-  if (daysRemaining <= 0) {
-    return 'The date has passed.';
-  }
-  return `${daysRemaining} days remaining.`; */
 };
 
 export const convertToDecimal = (value: number): number => {
@@ -218,3 +211,43 @@ export function calVotingPower(end: number, amount: number) {
 }
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms));
+
+export const convertWeeksToYearsMonthsDays = (weeks: number) => {
+  const daysInWeek = 7;
+  const daysInMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+  const daysInYear = 365;
+
+  let totalDays = weeks * daysInWeek;
+  let years = 0;
+  let months = 0;
+  let days = 0;
+
+  // Handle leap years by adjusting February
+  const isLeapYear = (year: number) => {
+    return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  };
+
+  // Calculate years
+  while (totalDays >= daysInYear) {
+    years++;
+    totalDays -= isLeapYear(1970 + years) ? 366 : 365; // Adjust for leap years starting from 1970
+  }
+
+  // Calculate months
+  const daysInThisYear = isLeapYear(1970 + years)
+    ? [...daysInMonths.slice(0, 1), 29, ...daysInMonths.slice(2)]
+    : daysInMonths;
+  for (let i = 0; i < 12; i++) {
+    if (totalDays >= daysInThisYear[i]) {
+      months++;
+      totalDays -= daysInThisYear[i];
+    } else {
+      break;
+    }
+  }
+
+  // Remaining days
+  days = totalDays;
+
+  return { years, months, days };
+};

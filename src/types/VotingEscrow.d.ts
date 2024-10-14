@@ -138,6 +138,7 @@ export interface ExtendStepperProps {
   votingPower: number;
   setSuccessLock: (input: boolean) => void;
   isExtendDisable: boolean;
+  onExtendClick: (input: boolean) => void;
 }
 
 export interface LockModelProps {
