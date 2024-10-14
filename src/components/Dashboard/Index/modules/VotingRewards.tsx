@@ -209,6 +209,16 @@ const VotingRewards = ({ account }: { account: Address }) => {
     return lockedValue;
   };
 
+  const formatRewardAmount = (amount: ethers.Numeric, decimals: number) => {
+    // Convert the reward amount using the provided decimals
+    const formattedAmount = Number(formatAmounts(amount, decimals));
+
+    // Check if the number is an integer and format accordingly
+    return Number.isInteger(formattedAmount)
+      ? formattedAmount.toFixed(2)
+      : formattedAmount.toFixed(5);
+  };
+
   if (userVotedPools?.length === 0 && !isLoading) {
     return (
       <DashBoardCard>
@@ -283,7 +293,10 @@ const VotingRewards = ({ account }: { account: Address }) => {
                             />
                           </DashBoardParagraph>
                           <DashBoardParagraph>
-                            {Number(pool.fee0).toFixed(5)} {pool.token0.symbol}
+                            {Number.isInteger(Number(pool.fee0))
+                              ? Number(pool.fee0).toFixed(2)
+                              : Number(pool.fee0).toFixed(5)}{' '}
+                            {pool.token0.symbol}
                           </DashBoardParagraph>
                           <DashboardButton width="27px" height="18px">
                             Fee
@@ -301,7 +314,10 @@ const VotingRewards = ({ account }: { account: Address }) => {
                             />
                           </DashBoardParagraph>
                           <DashBoardParagraph>
-                            {Number(pool.fee1).toFixed(5)} {pool.token1.symbol}
+                            {Number.isInteger(Number(pool.fee0))
+                              ? Number(pool.fee0).toFixed(2)
+                              : Number(pool.fee0).toFixed(5)}{' '}
+                            {pool.token1.symbol}
                           </DashBoardParagraph>
                           <DashboardButton width="27px" height="18px">
                             Fee
@@ -321,12 +337,10 @@ const VotingRewards = ({ account }: { account: Address }) => {
                                 />
                               </DashBoardParagraph>
                               <DashBoardParagraph>
-                                {Number(
-                                  formatAmounts(
-                                    pool.rewardAmounts[i] as ethers.Numeric,
-                                    Number(getTokenInfo(reward)?.decimals)
-                                  )
-                                ).toFixed(5)}{' '}
+                                {formatRewardAmount(
+                                  pool.rewardAmounts[i] as ethers.Numeric,
+                                  Number(getTokenInfo(reward)?.decimals)
+                                )}
                                 {getTokenInfo(reward)?.symbol}
                               </DashBoardParagraph>
                               <DashboardButton width="56px" height="18px">
