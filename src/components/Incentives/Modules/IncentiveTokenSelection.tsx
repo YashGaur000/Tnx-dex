@@ -28,7 +28,10 @@ import TokenSelectModal from '../../modal/TokenSelectModal';
 import { TokenInfo } from '../../../constants/tokens/type';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import contractAddresses from '../../../constants/contract-address/address';
-import { getTokenInfo } from '../../../utils/transaction/getTokenInfo';
+import {
+  findTokenBySymbol,
+  getTokenInfo,
+} from '../../../utils/transaction/getTokenInfo';
 import { AddressZero } from '@ethersproject/constants';
 import { useIncentiveStore } from '../../../store/slices/useIncentiveStore';
 import { useBribeVotingReward } from '../../../hooks/useBribeVotingReward';
@@ -253,6 +256,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         onClose={() => setIsModalOpen2(false)}
         onSelect={handleIncentiveToken}
         account={address!}
+        excludeToken1={findTokenBySymbol('ETH')}
       />
     </IncentiveleftBarBox1>
   );
