@@ -36,10 +36,6 @@ const LiquidityHeroSection = () => {
     setPopupVisible(true);
   }
 
-  function handleTooltipHide() {
-    setPopupVisible(false);
-  }
-
   const closeModal = () => {
     setPopupVisible(false);
   };
@@ -103,7 +99,7 @@ const LiquidityHeroSection = () => {
           width="500px"
           height="518px"
         >
-          <PopupWrapper onMouseLeave={handleTooltipHide}>
+          <PopupWrapper>
             <LiquidityToolTips />
           </PopupWrapper>
         </PopupScreen>

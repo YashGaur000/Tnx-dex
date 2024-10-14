@@ -86,10 +86,6 @@ const Main = () => {
     setPopupVisible(true);
   }
 
-  function handleTooltipHide() {
-    setPopupVisible(false);
-  }
-
   const closeModal = () => {
     setPopupVisible(false);
   };
@@ -187,7 +183,7 @@ const Main = () => {
           width="500px"
           height="518px"
         >
-          <PopupWrapper onMouseLeave={handleTooltipHide}>
+          <PopupWrapper>
             {isToolTipActive ? <LockToolTips /> : <RelayToolTips />}
           </PopupWrapper>
         </PopupScreen>
