@@ -1,14 +1,15 @@
 import { useCallback, useState } from 'react';
 import { TransactionStatus, TRANSACTION_DELAY } from '../types/Transaction';
 import { useVoterContract } from './useVoterContract';
+import { useRootStore } from '../store/root';
 
 export const useResetLock = (
   fromTokenId: number,
-  setTransactionStatus: (status: TransactionStatus) => void,
   setIsModalDisable: (isDisabled: boolean) => void
 ) => {
   const [isResetLocked, setIsResetLocked] = useState<boolean>(false);
   const [isResetting, setIsResetting] = useState<boolean>(false);
+  const { setTransactionStatus } = useRootStore();
 
   const { reset } = useVoterContract();
 
@@ -39,6 +40,7 @@ export const useResetLock = (
     } catch (error) {
       setIsResetLocked(false);
       setIsResetting(false);
+      setTransactionStatus(TransactionStatus.FAILED);
       console.error('Error during reset:', error);
     }
   }, [fromTokenId, reset, setTransactionStatus, setIsModalDisable]);

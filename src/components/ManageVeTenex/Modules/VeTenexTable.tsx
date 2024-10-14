@@ -13,7 +13,6 @@ import {
   LockInfoText,
   LockInfoTextValue,
 } from '../Styles/VeTenexTable.style';
-
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
@@ -24,10 +23,25 @@ import {
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
 import SuccessPopup from '../../common/SucessPopup';
+import { LoadingSpinner } from '../../common/Loader';
+import { useVoterContract } from '../../../hooks/useVoterContract';
+import { showErrorToast } from '../../../utils/common/toastUtils';
+import { ToastContainer } from 'react-toastify';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../types/Transaction';
+import { useRootStore } from '../../../store/root';
+
+//import LoaderIcon from '../../../assets/'; // Assuming you have a loader icon
+
 const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [withdrawTknId, setWithdrawTknId] = useState<bigint>(0n);
+  const [resetTknId, setResetTknId] = useState<bigint>(0n);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
+  const { setTransactionStatus } = useRootStore();
   const itemsPerPage = 5;
   const lastItemIndex = currentPage * itemsPerPage;
   const firstItemIndex = lastItemIndex - itemsPerPage;
@@ -36,6 +50,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
   const lockTokenInfo = locktokeninfo();
+  const Navigate = useNavigate();
+  const { reset } = useVoterContract();
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage((prevPage) => prevPage + 1);
@@ -47,36 +63,63 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
       setCurrentPage((prevPage) => prevPage - 1);
     }
   };
-  const Navigate = useNavigate();
 
   const handleLockButton = (option: string, pageID: bigint) => {
     if (option) {
       Navigate(`/governance/managevetenex/${option}/${pageID}`);
     } else {
-      console.log('Route is undefine ');
+      console.log('Route is undefined');
     }
   };
 
-  const handleWithdrawNreset = useCallback(
-    async (type: string, tokenId: bigint): Promise<void> => {
+  const handleWithdraw = useCallback(
+    async (tokenId: bigint): Promise<void> => {
       try {
         if (!tokenId) return;
-        if (type === 'withdraw') {
-          await withdraw(BigInt(tokenId));
-        } else {
-          await withdraw(BigInt(tokenId));
-        }
-        setWithdrawTknId(tokenId);
-        setSuccessLock(true);
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setIsWithdrawing(tokenId);
+        await withdraw(BigInt(tokenId));
+        setTimeout(() => {
+          setWithdrawTknId(tokenId);
+          setSuccessLock(true);
+        }, TRANSACTION_DELAY);
+        setTransactionStatus(TransactionStatus.IDEAL);
       } catch (error) {
+        setSuccessLock(false);
+        setTransactionStatus(TransactionStatus.FAILED);
+        await showErrorToast('Failed to withdraw lock. Please try again.');
         console.error('Error during token withdrawal:', error);
+      } finally {
+        setIsWithdrawing(null);
       }
     },
     [withdraw]
   );
 
+  const handleReset = useCallback(
+    async (tokenId: bigint): Promise<void> => {
+      try {
+        if (!tokenId) return;
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setResetTknId(tokenId);
+        await reset(BigInt(tokenId));
+        setTransactionStatus(TransactionStatus.DONE);
+        setResetTknId(0n);
+        setSuccessLock(true);
+      } catch (error) {
+        setSuccessLock(false);
+        await showErrorToast('Failed to reset lock. Please try again.');
+        console.error('Error during token withdrawal:', error);
+      } finally {
+        setIsWithdrawing(null);
+      }
+    },
+    [reset]
+  );
+
   return (
     <LockListContainer>
+      <ToastContainer />
       {currentItems.length > 0 ? (
         currentItems.map((lock, index) => {
           if (!lock.metadata) {
@@ -157,26 +200,60 @@ const VeTenexTable: React.FC<{ nftData: Nft[] }> = ({ nftData }) => {
                         >
                           Transfer
                         </LockInfoAction>
-                        {lock.votingStatus && (
-                          <LockInfoAction
-                            onClick={() =>
-                              handleWithdrawNreset('reset', lock.tokenId)
-                            }
-                          >
-                            Reset
-                          </LockInfoAction>
-                        )}
                       </>
                     ) : (
                       <>
                         <LockInfoCheck>
-                          <LockInfoAction
-                            onClick={() =>
-                              handleWithdrawNreset('withdraw', lock.tokenId)
-                            }
-                          >
-                            Withdraw
-                          </LockInfoAction>
+                          {lock.votingStatus &&
+                            (resetTknId === lock.tokenId ? (
+                              <LockInfoAction
+                                disabled={resetTknId === lock.tokenId}
+                              >
+                                <span
+                                  style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                  }}
+                                >
+                                  <LoadingSpinner width="10px" height="10px" />
+                                  <span style={{ marginLeft: '5px' }}>
+                                    Resetting
+                                  </span>
+                                </span>
+                              </LockInfoAction>
+                            ) : (
+                              <LockInfoAction
+                                onClick={() => handleReset(lock.tokenId)}
+                                disabled={resetTknId === lock.tokenId}
+                              >
+                                Reset
+                              </LockInfoAction>
+                            ))}
+
+                          {isWithdrawing === lock.tokenId ? (
+                            <LockInfoAction
+                              disabled={isWithdrawing === lock.tokenId}
+                            >
+                              <span
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <LoadingSpinner width="10px" height="10px" />
+                                <span style={{ marginLeft: '5px' }}>
+                                  withdrawing
+                                </span>
+                              </span>
+                            </LockInfoAction>
+                          ) : (
+                            <LockInfoAction
+                              onClick={() => handleWithdraw(lock.tokenId)}
+                              disabled={isWithdrawing === lock.tokenId}
+                            >
+                              Withdraw
+                            </LockInfoAction>
+                          )}
                         </LockInfoCheck>
                       </>
                     )}
