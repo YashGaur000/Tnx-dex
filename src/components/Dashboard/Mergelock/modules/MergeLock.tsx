@@ -35,10 +35,11 @@ import SuccessPopup from '../../../common/SucessPopup';
 const MergeLock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [isToTokenId, setIsToTokenId] = useState<number>(0);
-  const [isToVotingPower, setIsToVotingPower] = useState<number>(0);
+  const [isFromTokenId, setIsFromTokenId] = useState<number>(0);
+  const [isFromVotingPower, setIsFromVotingPower] = useState<number>(0);
   const [isTotalDuration, setIsTotalDuration] = useState<string>('');
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [isVotingStatus, setVotingStatus] = useState<boolean>(false);
   const [IsModalDisabled, setIsModalDisable] = useState<boolean>(false);
   const [selectLockToken, setSelectLockToken] = useState('Your locks...');
 
@@ -52,26 +53,29 @@ const MergeLock = () => {
   const handleSelectToken = useCallback(
     (
       option: string,
-      toTokenId: number,
-      toVotingPower: number,
-      toLockDate: string
+      fromTokenId: number,
+      fromVotingPower: number,
+      fromLockDate: string,
+      votingStatus: boolean
     ) => {
-      setIsToVotingPower(toVotingPower);
-      const toTillDate = convertDateToTimestamp(toLockDate);
+      console.log('fromTokenId:', fromTokenId);
+      setIsFromVotingPower(fromVotingPower);
+      setVotingStatus(votingStatus);
+      const fromTillDate = convertDateToTimestamp(fromLockDate);
       if (lockData) {
         const lockdataEnd = lockData.end;
-        const fromTillDate = convertDateToTimestamp(lockdataEnd.toString());
-        const Duration = fromTillDate >= toTillDate ? fromTillDate : toTillDate;
+        const toTillDate = convertDateToTimestamp(lockdataEnd.toString());
+        const Duration = toTillDate > fromTillDate ? toTillDate : fromTillDate;
         const totalDuration = convertTimestampToDate(Duration);
         const formatUnlockData = getTimeDifference(totalDuration);
-        setIsToVotingPower(toVotingPower);
+        setIsFromVotingPower(fromVotingPower);
         setIsTotalDuration(formatUnlockData);
       }
-      setIsToTokenId(toTokenId);
+      setIsFromTokenId(fromTokenId);
       setSelectLockToken(option);
       setIsModalOpen(false);
     },
-    [lockData, setIsToTokenId, setIsToVotingPower]
+    [lockData, setIsFromTokenId, setIsFromVotingPower]
   );
 
   const handleInputBox = () => {
@@ -130,11 +134,12 @@ const MergeLock = () => {
         </LockleftSection>
 
         <MergeStepper
-          fromTokenId={tokenId}
-          toTokenId={isToTokenId}
-          setIsToVotingPower={setIsToVotingPower}
-          isToVotingPower={isToVotingPower}
+          toTokenId={tokenId}
+          fromTokenId={isFromTokenId}
+          setIsFromVotingPower={setIsFromVotingPower}
+          isFromVotingPower={isFromVotingPower}
           votingPower={Number(votingPower)}
+          votingStatus={isVotingStatus}
           isTotalDuration={isTotalDuration}
           setIsModalDisable={setIsModalDisable}
           setSuccessLock={setSuccessLock}

@@ -77,6 +77,7 @@ const LockModel: React.FC<LockModelProps> = ({
                 if (tokenId === Number(lock.tokenId)) {
                   return null;
                 }
+
                 if (!lock.metadata) {
                   console.warn(
                     `No metadata found for lock with tokenId: ${lock.tokenId}`
@@ -109,7 +110,8 @@ const LockModel: React.FC<LockModelProps> = ({
                         `Lock #${Number(lock.tokenId)} with ${parseFloat(lockedVELO).toFixed(2)} veTenex`,
                         Number(lock.tokenId),
                         Number(parseFloat(votingPower).toFixed(2)),
-                        unlockDate
+                        unlockDate,
+                        lock.votingStatus ? lock.votingStatus : false
                       )
                     }
                   >
