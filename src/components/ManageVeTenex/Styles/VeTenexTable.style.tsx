@@ -73,7 +73,10 @@ export const LockInfoCheck = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   gap: 10px;
 `;
-export const LockInfoAction = styled.span<{ theme: DefaultTheme }>`
+export const LockInfoAction = styled.span<{
+  theme: DefaultTheme;
+  disabled?: boolean;
+}>`
   background: ${({ theme }) => theme.colors.title};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   -webkit-background-clip: text;
@@ -86,7 +89,8 @@ export const LockInfoAction = styled.span<{ theme: DefaultTheme }>`
   display: inline-block;
   text-decoration: none;
   gap: 15px;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 
   &::after {
     content: '';
@@ -95,7 +99,8 @@ export const LockInfoAction = styled.span<{ theme: DefaultTheme }>`
     bottom: 0;
     width: 100%;
     height: 1px;
-    background: ${({ theme }) => theme.colors.bordercolor};
+    background: ${({ theme, disabled }) =>
+      disabled ? 'transparent' : theme.colors.bordercolor};
   }
 `;
 export const Column = styled.div<{ theme: DefaultTheme }>`
