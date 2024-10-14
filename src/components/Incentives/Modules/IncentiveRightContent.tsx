@@ -33,6 +33,7 @@ import {
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
 import { LoadingSpinner } from '../../common/Loader';
+import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 
 interface IncentiveRightContent {
   InsentiveFormValue: string;
@@ -244,7 +245,7 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
           ? 'Incentive Added'
           : 'Waiting for next actions...',
       },
-      icon: SearchIcon,
+      icon: !isIncentiveAdded ? SearchIcon : SucessDepositIcon,
       actionCompleted: !isIncentiveAdded,
     },
   ];
