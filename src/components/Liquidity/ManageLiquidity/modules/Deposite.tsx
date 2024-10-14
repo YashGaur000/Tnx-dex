@@ -13,7 +13,7 @@ import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import { testErc20Abi } from './../../../../constants/abis/testErc20';
 import { useTokenAllowance } from '../../../../hooks/useTokenAllowance';
 import { ethers } from 'ethers';
-import { GlobalButton } from '../../../common/index';
+import { GlobalButton, GradientButton } from '../../../common/index';
 import { useRouterContract } from '../../../../hooks/useRouterContract';
 import { useAccount } from '../../../../hooks/useAccount';
 import contractAddress from '../../../../constants/contract-address/address';
@@ -36,6 +36,7 @@ import {
 import { useCheckAllowance } from '../../../../hooks/useCheckAllowance';
 import { LoadingSpinner } from '../../../common/Loader';
 import useTransactionWarning from '../../../../hooks/useTransactionWarning';
+import { ButtonsSideBySide } from '../../../common/Buttons/GlobalButton';
 
 interface DepositProps {
   disabled1?: boolean;
@@ -183,6 +184,10 @@ const Deposite: React.FC<DepositProps> = ({
           console.error('Error loading stake:', error);
         });
     }
+  };
+
+  const handleStakeLater = () => {
+    Navigate('/dashboard');
   };
 
   const handleAdjust = (adjustbuttonName: string) => {
@@ -404,14 +409,21 @@ const Deposite: React.FC<DepositProps> = ({
       )}
 
       {isDeposited && (
-        <GlobalButton
-          width="100%"
-          height="48px"
-          margin="0px"
-          onClick={handleStakeDeposit}
-        >
-          Stake your Deposit{' '}
-        </GlobalButton>
+        <ButtonsSideBySide>
+          <ButtonsSideBySide onClick={handleStakeLater}>
+            <GradientButton width="40%" height="48px" fontSize="16px">
+              Stake later{' '}
+            </GradientButton>
+          </ButtonsSideBySide>
+          <GlobalButton
+            width="40%"
+            height="48px"
+            margin="20px"
+            onClick={handleStakeDeposit}
+          >
+            Stake now{' '}
+          </GlobalButton>
+        </ButtonsSideBySide>
       )}
 
       {isvisibleSlippage && !isvisibleDeadline && (

@@ -15,6 +15,7 @@ import SucessDepositIcon from '../../../../assets/gradient-party-poper.svg';
 import { testErc20Abi } from '../../../../constants/abis/testErc20';
 import { LockDepositeProps } from '../../../../types/VotingEscrow';
 import LockIconGr from '../../../../assets/LockSucess.svg';
+
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -90,18 +91,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
     } finally {
       setIsLocking(false);
     }
-  }, [
-    LockTokenValue,
-    isTokenAllowed,
-    LockTokenDecimal,
-    lockDuration,
-    createLock,
-    setTransactionStatus,
-    setLockTokenValue,
-    SetlockDuration,
-    setSuccessLock,
-    setIsApproveLock,
-  ]);
+  }, [createLock]);
 
   const LockInstructionData: StepperDataProps[] = [
     {

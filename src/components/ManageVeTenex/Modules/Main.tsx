@@ -86,10 +86,6 @@ const Main = () => {
     setPopupVisible(true);
   }
 
-  function handleTooltipHide() {
-    setPopupVisible(false);
-  }
-
   const closeModal = () => {
     setPopupVisible(false);
   };
@@ -134,7 +130,7 @@ const Main = () => {
             <MetricDisplay>
               <StatsCardtitle fontSize={16}>Total Voting Power</StatsCardtitle>
               <LockHeaderTitle fontSize={16}>
-                {totalLocked.totalVotingPower}
+                {totalLocked.totalVotingPower.toFixed(5)}
               </LockHeaderTitle>
             </MetricDisplay>
             <MetricDisplay>
@@ -187,7 +183,7 @@ const Main = () => {
           width="500px"
           height="518px"
         >
-          <PopupWrapper onMouseLeave={handleTooltipHide}>
+          <PopupWrapper>
             {isToolTipActive ? <LockToolTips /> : <RelayToolTips />}
           </PopupWrapper>
         </PopupScreen>

@@ -61,6 +61,7 @@ const DashBoard: React.FC = () => {
   const Navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (
       isLoading &&
       ((userValidPools?.length ?? 0) === 0 ||
@@ -78,11 +79,6 @@ const DashBoard: React.FC = () => {
   function handleTooltipShow(option: string) {
     setActiveTooltip(option);
     setPopupVisible(true);
-  }
-
-  function handleTooltipHide() {
-    setPopupVisible(false);
-    setActiveTooltip('');
   }
 
   const closeModal = () => {
@@ -235,9 +231,7 @@ const DashBoard: React.FC = () => {
         width="500px"
         height="518px"
       >
-        <PopupWrapper onMouseLeave={handleTooltipHide}>
-          {renderTooltipContent()}
-        </PopupWrapper>
+        <PopupWrapper>{renderTooltipContent()}</PopupWrapper>
       </PopupScreen>
     </>
   );
