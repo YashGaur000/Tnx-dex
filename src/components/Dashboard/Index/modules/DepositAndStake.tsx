@@ -165,10 +165,16 @@ const DepositAndStake = ({
                   <TotalPoolData>
                     <DashBoardParagraph>Pool Total</DashBoardParagraph>
                     <DashBoardParagraph>
-                      {userPool.reserve0} {userPool.token0.symbol}
+                      {Number.isInteger(Number(userPool.reserve0))
+                        ? Number(userPool.reserve0).toFixed(2)
+                        : userPool.reserve0}{' '}
+                      {userPool.token0.symbol}
                     </DashBoardParagraph>
                     <DashBoardParagraph>
-                      {userPool.reserve1} {userPool.token1.symbol}
+                      {Number.isInteger(Number(userPool.reserve1))
+                        ? Number(userPool.reserve1).toFixed(2)
+                        : userPool.reserve1}{' '}
+                      {userPool.token1.symbol}
                     </DashBoardParagraph>
                   </TotalPoolData>
                 </PoolContainerData>
@@ -195,10 +201,16 @@ const DepositAndStake = ({
                 <UnstackedHeading>Unstaked</UnstackedHeading>
                 <UnstackedData>
                   <DashBoardParagraph>
-                    {userPool.accountUnstaked0} {userPool.token0.symbol}
+                    {Number.isInteger(Number(userPool.accountUnstaked0))
+                      ? Number(userPool.accountUnstaked0).toFixed(2)
+                      : userPool.accountUnstaked0}{' '}
+                    {userPool.token0.symbol}
                   </DashBoardParagraph>
                   <DashBoardParagraph>
-                    {userPool.accountUnstaked1} {userPool.token1.symbol}
+                    {Number.isInteger(Number(userPool.accountUnstaked1))
+                      ? Number(userPool.accountUnstaked1).toFixed(2)
+                      : userPool.accountUnstaked1}{' '}
+                    {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </UnstackedData>
                 <UnstackedData1>
@@ -225,10 +237,16 @@ const DepositAndStake = ({
                 </DepositeStakedHeading>
                 <DepositeStakedData>
                   <DashBoardParagraph>
-                    {userPool.accountStaked0} {userPool.token0.symbol}
+                    {Number.isInteger(Number(userPool.accountStaked0))
+                      ? Number(userPool.accountStaked0).toFixed(2)
+                      : userPool.accountStaked0}{' '}
+                    {userPool.token0.symbol}
                   </DashBoardParagraph>
                   <DashBoardParagraph>
-                    {userPool.accountStaked1} {userPool.token1.symbol}
+                    {Number.isInteger(Number(userPool.accountStaked1))
+                      ? Number(userPool.accountStaked1).toFixed(2)
+                      : userPool.accountStaked1}{' '}
+                    {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
                 {(Number(userPool.accountStaked0) > 0 ||

@@ -197,7 +197,10 @@ const LiquidityRewards = ({
               <StakedContainer>
                 <DepositeStakedHeading>Emissions </DepositeStakedHeading>
                 <DepositeStakedData>
-                  {userPool.emissions} {userPool.emissionsToken}
+                  {Number.isInteger(Number(userPool.emissions))
+                    ? Number(userPool.emissions).toFixed(2)
+                    : userPool.emissions}{' '}
+                  {userPool.emissionsToken}
                 </DepositeStakedData>
                 {Number(userPool.emissions) > 0 && (
                   <DashboardNavigation
@@ -226,10 +229,16 @@ const LiquidityRewards = ({
                 <DepositeStakedHeading>Trading fees</DepositeStakedHeading>
                 <DepositeStakedData>
                   <DashBoardParagraph>
-                    {userPool.claimable0} {userPool.token0.symbol}
+                    {Number.isInteger(Number(userPool.claimable0))
+                      ? Number(userPool.claimable0).toFixed(2)
+                      : userPool.claimable0}{' '}
+                    {userPool.token0.symbol}
                   </DashBoardParagraph>
                   <DashBoardParagraph>
-                    {userPool.claimable1} {userPool.token1.symbol}
+                    {Number.isInteger(Number(userPool.claimable1))
+                      ? Number(userPool.claimable1).toFixed(2)
+                      : userPool.claimable1}{' '}
+                    {userPool.token1.symbol}
                   </DashBoardParagraph>
                 </DepositeStakedData>
                 {(Number(userPool.claimable0) > 0 ||
