@@ -7,7 +7,7 @@ interface StepperButtons {
   inProgress?: boolean;
 }
 export interface StepperDataProps {
-  step: number;
+  step?: number;
   icon?: string;
   unSafe?: {
     visible: boolean;
