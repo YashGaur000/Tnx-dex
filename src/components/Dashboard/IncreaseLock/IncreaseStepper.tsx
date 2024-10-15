@@ -1,3 +1,5 @@
+import { useCallback } from 'react';
+import { useLockStore } from '../../../store/slices/useLockStore'; // Import Zustand store
 import { StepperDataProps } from '../../../types/Stepper';
 import Stepper from '../../common/Stepper';
 import { StyledDepositContainer } from '../../Liquidity/ManageLiquidity/styles/LiquidityDeposit.style';
@@ -7,7 +9,6 @@ import LockIcon from '../../../assets/LockSucess.svg';
 import LockIconRed from '../../../assets/lock.png';
 import WaitingIcon from '../../../assets/search.png';
 import { GlobalButton } from '../../common';
-import { useCallback, useState } from 'react';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
 import { ethers } from 'ethers';
@@ -28,6 +29,7 @@ import {
   showErrorToast,
 } from '../../../utils/common/toastUtils';
 import { useNavigate } from 'react-router-dom';
+
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
@@ -46,13 +48,22 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     testErc20Abi
   );
   const { poke } = useVoterContract();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isTokenAllowed, setIsTokenAllowed] = useState<boolean>(false);
-  const [isLocking, setIsLocking] = useState<boolean>(false);
-  const [isPokeDisplay, setPokeDisplay] = useState<boolean>(false);
-  const [isLocked, setIsLocked] = useState<boolean>(false);
-  const escrowAddress = contractAddress.VotingEscrow;
   const navigate = useNavigate();
+
+  // Use Zustand state
+  const {
+    isLoading,
+    isTokenAllowed,
+    isLocking,
+    isPokeDisplay,
+    isLocked,
+    setIsLoading,
+    setIsTokenAllowed,
+    setIsLocking,
+    setIsPokeDisplay,
+    setIsLocked,
+  } = useLockStore();
+
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
@@ -62,7 +73,10 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         tokenLockInfo.decimals
       );
       if (amountInWei) {
-        await approveAllowance(escrowAddress, amountInWei.toString());
+        await approveAllowance(
+          contractAddress.VotingEscrow,
+          amountInWei.toString()
+        );
         setIsTokenAllowed(true);
       }
     } catch (error) {
@@ -83,14 +97,13 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         tokenLockInfo.decimals
       );
       await increaseLockAmount(BigInt(tokenId), amountInWei);
-      setIsApproveLock(false);
+
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
-        setIsTokenAllowed(false);
         setIsLocking(false);
         setSuccessLock(true);
-        setPokeDisplay(true);
-        setAdditionalAmount('');
+        setIsPokeDisplay(true); // Show the Poke button after increasing the lock
+        setIsLocked(true); // Mark the lock as confirmed
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
     } catch (error) {
@@ -117,12 +130,16 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
-        setPokeDisplay(false);
+        setIsTokenAllowed(false);
+        void showSuccessToast('Poked successfully for voting weight.');
+        setIsPokeDisplay(false);
+        setAdditionalAmount('');
+        setIsApproveLock(false);
       }, TRANSACTION_DELAY);
-      await showSuccessToast('Poked successfully for voting weight.');
+
       navigate('/governance');
     } catch (error) {
-      setPokeDisplay(true);
+      setIsPokeDisplay(true);
       setTransactionStatus(TransactionStatus.FAILED);
       console.error('Error during poke action:', error);
       await showErrorToast('Failed to poke the voting weight.');
@@ -142,7 +159,6 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
       },
       icon: VotingPowerIcon,
     },
-
     {
       step: 3,
       descriptions: {
@@ -155,10 +171,12 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     {
       step: 4,
       descriptions: {
-        labels: 'Waiting for next actions...',
+        labels: isLocked
+          ? 'Increase lock confirmed'
+          : 'Waiting for next actions...',
       },
-
-      icon: WaitingIcon,
+      actionCompleted: isLocked, // Mark step as completed if lock is confirmed
+      icon: !isLocked ? WaitingIcon : SucessDepositIcon,
     },
   ];
 
@@ -182,7 +200,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
           ? 'Allowance not granted for ' + tokenLockInfo.symbol
           : 'Allowed the contracts to access ' + tokenLockInfo.symbol,
       },
-      icon: LockIcon,
+      icon: !isTokenAllowed ? LockIconRed : LockIcon,
       buttons: !isTokenAllowed
         ? {
             label: isLoading ? 'Approv' : 'Allow ' + tokenLockInfo.symbol,
@@ -201,7 +219,6 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
           : 'Waiting for next actions...',
       },
       actionCompleted: !isLocked,
-
       icon: !isLocked ? WaitingIcon : SucessDepositIcon,
     },
   ];
@@ -212,7 +229,8 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
       <Stepper
         data={!additionalAmount && !isLocked ? IncreaseStepperData : LockData}
       />
-      {isTokenAllowed && !isLocked && (
+
+      {!isPokeDisplay && isTokenAllowed && !isLocked && (
         <GlobalButton
           width="100%"
           height="48px"
