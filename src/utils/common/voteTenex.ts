@@ -3,7 +3,7 @@ import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 import { TokenInfo } from '../../constants/tokens/type';
 export const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
 export const decodeBase64 = (base64: string): Metadata => {
-  const base64Data = base64.split(',')[1];
+  const base64Data = (base64 || '').split(',')[1];
   const binaryString = window.atob(base64Data);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);
