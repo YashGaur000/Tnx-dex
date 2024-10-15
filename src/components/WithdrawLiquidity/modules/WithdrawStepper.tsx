@@ -75,24 +75,7 @@ const WithdrawStepper = ({
         if (withdrawPercentage != '100') {
           navigate('/dashboard');
         } else {
-          const queryParams = new URLSearchParams(location.search);
-
-          const tokenA = poolData[0].token0.id.split('-');
-          const tokenB = poolData[0].token1.id.split('-');
-
-          const typeValue = poolData[0].isStable ? '0' : '1';
-
-          queryParams.set('token1', tokenA[0]);
-          queryParams.set('token2', tokenB[0]);
-          queryParams.set('type', typeValue);
-          queryParams.set('exists', true.toString()); //@Todo need to handle properly and check routes of both manage and create new pool
-
-          queryParams.set('id', poolData[0].id);
-
-          navigate({
-            pathname: '/liquidity/manage',
-            search: `?${queryParams.toString()}`,
-          });
+          navigate('/liquidity');
         }
       }, 4000);
 
