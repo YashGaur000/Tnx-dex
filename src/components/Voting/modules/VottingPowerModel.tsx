@@ -64,7 +64,11 @@ import {
   TransactionStatus,
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
-
+import {
+  getTimeDifference,
+  locktokeninfo,
+} from '../../../utils/common/voteTenex';
+const lockTokenInfo = locktokeninfo();
 interface VottingPowerModelProps {
   VoteSelectPoolData: LiquidityPoolNewType[];
   selectedNftData: Nft;
@@ -299,6 +303,12 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
     [setVoteSelectPool, setSelectedPoolsCount]
   );
 
+  const metadata = selectedNftData.metadata;
+  const attributes = metadata.attributes;
+  const unlockDate =
+    attributes.find((attr) => attr.trait_type === 'Unlock Date')?.value ?? '';
+  const formatUnloackData = getTimeDifference(unlockDate);
+
   return (
     <>
       <LockTokenContainer padding="20px 10px 10px">
@@ -317,8 +327,8 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
 
               <TokenItemWithAdressWrapper>
                 <LockDescriptonTitle fontSize={12}>
-                  {selectedNftData?.metadata.attributes[2].value} VELO locked
-                  until {selectedNftData?.metadata.attributes[0].value}
+                  {selectedNftData?.metadata.attributes[2].value}
+                  {' ' + lockTokenInfo.symbol} locked for {formatUnloackData}
                 </LockDescriptonTitle>
                 <DashboardNavigation
                   fontSize={14}
