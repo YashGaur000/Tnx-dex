@@ -122,7 +122,7 @@ const MobileConnectWallet = styled.div`
   }
 `;
 
-const DesktopConnectWallet = styled.div`
+export const DesktopConnectWallet = styled.div`
   display: block;
 
   @media (max-width: 900px) {

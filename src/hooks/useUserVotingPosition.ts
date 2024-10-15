@@ -323,13 +323,13 @@ export const useUserVotingPosition = (account: Address) => {
       placeholderData: [],
       refetchInterval: 30 * 1000,
       refetchIntervalInBackground: true,
-      refetchOnMount: true,
+      refetchOnMount: 'always',
       refetchOnReconnect: false,
       refetchOnWindowFocus: false,
       retry: 3,
       retryOnMount: true,
       retryDelay: (retryCount) => Math.min(retryCount * 1000, 3000),
-      staleTime: 5 * 60 * 1000,
+      staleTime: 0,
     },
     queryClient
   );

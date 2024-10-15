@@ -28,13 +28,6 @@ export function useContract(
 
   return useMemo(() => {
     if (!isAddress(contractAddress) || contractAddress === AddressZero) {
-      // throw new Error(`Invalid 'address' parameter '${contractAddress}'.`);
-      // console.error(`Invalid 'address' parameter '${contractAddress}'.`);
-      return undefined;
-    }
-
-    if (!provider) {
-      console.error('Provider not available');
       return undefined;
     }
 
@@ -43,7 +36,7 @@ export function useContract(
       return new Contract(contractAddress, ABI, privateProvider);
     }
 
-    const signer = provider.getSigner(userAddress);
+    const signer = provider?.getSigner(userAddress);
 
     return new Contract(contractAddress, ABI, signer);
   }, [contractAddress, ABI, provider, userAddress]);
