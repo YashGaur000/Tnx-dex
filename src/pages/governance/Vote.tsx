@@ -1,7 +1,8 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect } from 'react';
 
 import { MainContainerStyle } from '../../components/common/MainContainerStyle';
 import PageLoader from '../../components/common/PageLoader';
+import { id } from 'ethers';
 const VoteBanner = React.lazy(
   () => import('../../components/Voting/modules/VoteBanner')
 );
@@ -12,6 +13,13 @@ const VotePoolTable = React.lazy(
   () => import('../../components/Voting/modules/VotePoolTable')
 );
 const Vote: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [id]);
   return (
     <Suspense fallback={<PageLoader />}>
       <MainContainerStyle>

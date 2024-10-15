@@ -4,6 +4,7 @@ import { StyledDepositContainer } from '../../Liquidity/ManageLiquidity/styles/L
 import { LockHeaderTitle } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 import VotingPowerIcon from '../../../assets/star-gradient.svg';
 import LockIcon from '../../../assets/LockSucess.svg';
+import LockIconRed from '../../../assets/lock.png';
 import WaitingIcon from '../../../assets/search.png';
 import { GlobalButton } from '../../common';
 import { useCallback, useState } from 'react';
@@ -26,6 +27,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from '../../../utils/common/toastUtils';
+import { useNavigate } from 'react-router-dom';
 const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   tokenId,
   additionalAmount,
@@ -50,7 +52,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const [isPokeDisplay, setPokeDisplay] = useState<boolean>(false);
   const [isLocked, setIsLocked] = useState<boolean>(false);
   const escrowAddress = contractAddress.VotingEscrow;
-
+  const navigate = useNavigate();
   const handleAllowToken = async () => {
     try {
       setIsLoading(true);
@@ -118,6 +120,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         setPokeDisplay(false);
       }, TRANSACTION_DELAY);
       await showSuccessToast('Poked successfully for voting weight.');
+      navigate('/governance');
     } catch (error) {
       setPokeDisplay(true);
       setTransactionStatus(TransactionStatus.FAILED);
@@ -147,7 +150,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
           ? 'Allowance not granted for ' + tokenLockInfo.symbol
           : 'Allowed the contracts to access ' + tokenLockInfo.symbol,
       },
-      icon: LockIcon,
+      icon: !isTokenAllowed ? LockIconRed : LockIcon,
     },
     {
       step: 4,

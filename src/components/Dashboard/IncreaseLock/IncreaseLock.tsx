@@ -1,5 +1,5 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
 import contractAddress from '../../../constants/contract-address/address';
 import { MainContainerStyle } from '../../common/MainContainerStyle';
@@ -44,7 +44,7 @@ const IncreaseLock = () => {
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
-
+  const navigate = useNavigate();
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchLockData = async () => {
@@ -102,6 +102,9 @@ const IncreaseLock = () => {
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
+  const handleExtend = (tokenId: number) => {
+    navigate('/governance/managevetenex/extend/' + tokenId);
+  };
   return (
     <MainContainerStyle>
       <CreateMainContainer>
@@ -167,7 +170,12 @@ const IncreaseLock = () => {
             <LockHeaderTitle fontSize={14}>
               Depositing into the lock will increase your voting power. You can
               also{' '}
-              <UnderlineText fontSize={14}>extend the lock time.</UnderlineText>
+              <UnderlineText
+                onClick={() => handleExtend(Number(tokenId))}
+                fontSize={14}
+              >
+                extend the lock time.
+              </UnderlineText>
             </LockHeaderTitle>
           </TipsContainer>
         </LockleftSection>

@@ -30,29 +30,33 @@ import {
 import MergeLockSidebar from './MergeLockSidebar';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
 import { ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 ///import { TokenInfo } from '../../../../constants/tokens/type';
 
 interface MergeStepperProps {
-  fromTokenId: string | undefined;
-  toTokenId: number;
-  isToVotingPower: number;
-  setIsToVotingPower: (input: number) => void;
+  toTokenId: string | undefined;
+  fromTokenId: number;
+  isFromVotingPower: number;
+  setIsFromVotingPower: (input: number) => void;
   votingPower: number;
+  votingStatus: boolean;
   isTotalDuration: string;
   setSuccessLock: (input: boolean) => void;
   setIsModalDisable: (input: boolean) => void;
 }
 
 const MergeStepper: React.FC<MergeStepperProps> = ({
-  fromTokenId,
   toTokenId,
-  setIsToVotingPower,
+  fromTokenId,
+  setIsFromVotingPower,
   votingPower,
-  isToVotingPower,
+  votingStatus,
+  isFromVotingPower,
   isTotalDuration,
   setSuccessLock,
   setIsModalDisable,
 }) => {
+  console.log('starting:', fromTokenId);
   const [isvisblemergeStepper, setvisiblemergeStepper] =
     useState<boolean>(false);
   const [isMerging, setIsMerging] = useState(false);
@@ -66,30 +70,37 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
   const { setTransactionStatus, transactionStatus } = useRootStore();
   const { reset, poke } = useVoterContract();
   const [isPokeDisplay, setPokeDisplay] = useState<boolean>(false);
-  //const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const covertVoting = convertToDecimal(votingPower).toString();
-  const totalVotingPower = Number(isToVotingPower + Number(covertVoting));
+  const totalVotingPower = Number(isFromVotingPower + Number(covertVoting));
 
   const handleMergeLock = useCallback(
-    async (fromTknId: number, toTknId: number) => {
+    async (fromTokenId: number, toTokenId: number) => {
       try {
         setTransactionStatus(TransactionStatus.IN_PROGRESS);
-        if (!fromTknId || !toTknId) return;
+        console.log('fromTokenId:', fromTokenId);
+        console.log('toTokenId:', toTokenId);
+        if (!fromTokenId || !toTokenId) return;
         setIsMerging(true);
         setIsModalDisable(true);
-        await mergeLocks(BigInt(fromTknId), BigInt(toTknId));
+        await mergeLocks(BigInt(toTokenId), BigInt(fromTokenId));
         setTransactionStatus(TransactionStatus.DONE);
         setTimeout(() => {
           setTransactionStatus(TransactionStatus.IDEAL);
           setIsMerging(false);
-          setIsToVotingPower(0);
+          setIsFromVotingPower(0);
           setIsPoke(true);
+          setPokeDisplay(true);
           setIsMergeLocked(true);
           setSuccessLock(true);
           setIsModalDisable(false);
         }, TRANSACTION_DELAY);
       } catch (error) {
+        setIsMerging(false);
+        setIsModalDisable(false);
+        setTransactionStatus(TransactionStatus.FAILED);
+        void showErrorToast('Transaction was canceled or failed.');
         console.error('Error during merge:', error);
       } finally {
         setIsMergeLocked(false);
@@ -98,7 +109,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
     [
       mergeLocks,
       setTransactionStatus,
-      setIsToVotingPower,
+      setIsFromVotingPower,
       setSuccessLock,
       setIsModalDisable,
     ]
@@ -106,11 +117,13 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
 
   const handleResetLock = useCallback(async () => {
     try {
+      if (!votingStatus) return;
+      console.log('votingStatus', votingStatus);
       setIsResetting(true);
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!fromTokenId) return;
       setIsModalDisable(true);
-      const transaction = await reset(BigInt(fromTokenId));
+      const transaction = await reset(BigInt(Number(toTokenId)));
       if (!transaction) {
         throw new Error('Transaction was canceled or failed');
       }
@@ -123,9 +136,10 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
         void showSuccessToast('Reset successfully .');
       }, TRANSACTION_DELAY);
     } catch (error) {
+      setTransactionStatus(TransactionStatus.FAILED);
       setIsResetLocked(false);
       setIsResetting(false);
-      await showErrorToast('Failed to reset,Please try again.');
+      void showErrorToast('Failed to reset,Please try again.');
       console.error('Error during reset:', error);
     }
   }, [fromTokenId, reset, setTransactionStatus, setIsModalDisable]);
@@ -138,8 +152,8 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setPokeDisplay(false);
+        navigate('/governance');
       }, TRANSACTION_DELAY);
-      await showSuccessToast('Poked successfully for voting weight.');
     } catch (error) {
       setPokeDisplay(true);
       setTransactionStatus(TransactionStatus.FAILED);
@@ -239,8 +253,8 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
         )}
         {isvisblemergeStepper && !isMergeLocked && (
           <GlobalButton
-            onClick={() => handleMergeLock(toTokenId, Number(fromTokenId))}
-            disabled={isMerging}
+            onClick={() => handleMergeLock(fromTokenId, Number(toTokenId))}
+            disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
           >
             {isMerging ? 'Merging...' : 'Merge'}
           </GlobalButton>
@@ -254,7 +268,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
             onClick={handlePoke}
             disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
           >
-            {isPoke ? 'Poke...' : 'Poke'}
+            {isPoke ? 'Poke' : 'Poke...'}
           </GlobalButton>
         )}
       </MergeStepperContainer>
