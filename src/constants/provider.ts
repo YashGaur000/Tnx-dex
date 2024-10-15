@@ -19,7 +19,7 @@ export const getProvider = (): StaticJsonRpcProvider => {
     throw new Error(`No RPC URL found for chainId: ${chainId}`);
   }
 
-  const provider = new StaticJsonRpcProvider(config.RPC[0], chainId);
+  const provider = new StaticJsonRpcProvider(config.RPC[0], config.id);
 
   return provider;
 };
