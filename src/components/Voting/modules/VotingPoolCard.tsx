@@ -34,54 +34,36 @@ import { GradientButton } from '../../common';
 import { Title } from '../styles/VotingBanner.style';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 import { getTokenLogo } from '../../../utils/getTokenLogo';
-import { useEffect, useState } from 'react';
+
 import { SelectedButtonWrapper } from '../styles/VoteSelectedCard.style';
 import SelectedIcon from '../../../assets/Selected.svg';
 
 import VoteButtonHover from './VoteButtonHover';
 
-import { useRootStore } from '../../../store/root';
-import { TransactionStatus } from '../../../types/Transaction';
-
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 interface VotingPoolCardProps {
   data: LiquidityPoolNewType;
-  handleSelectPool: (isSelected: boolean) => void;
+
   islock: boolean;
+  handleSelectButton: (data: LiquidityPoolNewType) => void;
+  isSelectCardOpen: boolean;
 }
 
 const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   data,
-  handleSelectPool,
+  handleSelectButton,
   islock,
+  isSelectCardOpen,
 }) => {
-  const [isSelectCardOpen, setSelectCardOpen] = useState<boolean>(false);
-  const [isHoverPopUpshow, setHoverPopUpShow] = useState<boolean>(false);
-  const { transactionStatus, setTransactionStatus } = useRootStore();
-  const navigate = useNavigate();
-  const handleVote = () => {
-    if (islock) {
-      const newState = !isSelectCardOpen;
+  const [isHoverPopUpshow, setHoverPopUpShow] = useState(false);
 
-      setSelectCardOpen(newState);
-      handleSelectPool(newState);
-    } else setHoverPopUpShow(true);
-  };
+  const navigate = useNavigate();
+
   const handleIncentive = (poolId: string) => {
     navigate('/incentives?pool=' + poolId);
   };
-
-  useEffect(() => {
-    if (
-      transactionStatus === TransactionStatus.DONE ||
-      transactionStatus === TransactionStatus.FAILED
-    ) {
-      setSelectCardOpen(false);
-    }
-
-    setTransactionStatus(TransactionStatus.IDEAL);
-  }, [transactionStatus]);
 
   return (
     <>
@@ -197,7 +179,13 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
 
         <TableColumn padding="5px">
           <TableColumnWrapper height="95px">
-            <SelectedButtonWrapper onClick={handleVote}>
+            <SelectedButtonWrapper
+              onClick={
+                islock
+                  ? () => handleSelectButton(data)
+                  : () => setHoverPopUpShow(!isHoverPopUpshow)
+              }
+            >
               <GradientButton
                 color="#ffffff"
                 padding="4px 10px"

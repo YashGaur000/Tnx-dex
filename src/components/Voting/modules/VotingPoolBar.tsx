@@ -19,9 +19,17 @@ interface Option {
   id: number;
   label: string;
 }
-const VotingPoolBar: React.FC = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>('Most Rewarded');
 
+interface VotingPoolBarProps {
+  handleFilterVoteData: (item: string) => void;
+  handleSearchVoteData: (item: string) => void;
+}
+const VotingPoolBar: React.FC<VotingPoolBarProps> = ({
+  handleFilterVoteData,
+  handleSearchVoteData,
+}) => {
+  const [selectedFilter, setSelectedFilter] = useState<string>('All Pools');
+  const [SearchInputData, setSearchInputData] = useState('');
   const ButtonData: string[] = ['Most Rewarded', 'Least Rewarded', 'All Pools'];
 
   const options: Option[] = [
@@ -32,6 +40,7 @@ const VotingPoolBar: React.FC = () => {
   ];
   const handleFilterClick = (item: string): void => {
     setSelectedFilter(item);
+    handleFilterVoteData(item);
   };
 
   const handleSelectOption = (option: Option): void => {
@@ -39,7 +48,8 @@ const VotingPoolBar: React.FC = () => {
   };
 
   const handlePoolTabelSearchBox = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
+    setSearchInputData(e.target.value);
+    handleSearchVoteData(e.target.value);
   };
   return (
     <VotingPoolContainer>
@@ -70,6 +80,7 @@ const VotingPoolBar: React.FC = () => {
               placeholder="Search by symbol or address"
               width="100%"
               height="30px"
+              value={SearchInputData}
               onChange={handlePoolTabelSearchBox}
             />
           </SearchBoxContainer>
