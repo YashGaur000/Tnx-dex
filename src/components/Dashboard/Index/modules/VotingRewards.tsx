@@ -109,14 +109,12 @@ const VotingRewards = ({ account }: { account: Address }) => {
         if (feeResult) {
           setTransactionStatus(TransactionStatus.DONE);
           setRewardToClaim(-1);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         } else {
           throw new Error('One of the transactions failed.');
         }
-
-        setTimeout(() => {
-          setTransactionStatus(TransactionStatus.IDEAL);
-          setRewardToClaim(-1);
-        }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during bribe and fee claim transaction:', error);
         setTransactionStatus(TransactionStatus.FAILED);
@@ -145,14 +143,13 @@ const VotingRewards = ({ account }: { account: Address }) => {
         if (bribeResult) {
           setTransactionStatus(TransactionStatus.DONE);
           setRewardToClaim(-1);
+
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         } else {
           throw new Error('One of the transactions failed.');
         }
-
-        setTimeout(() => {
-          setTransactionStatus(TransactionStatus.IDEAL);
-          setRewardToClaim(-1);
-        }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during bribe and fee claim transaction:', error);
         setTransactionStatus(TransactionStatus.FAILED);
@@ -186,14 +183,12 @@ const VotingRewards = ({ account }: { account: Address }) => {
         if (bribeResult && feeResult) {
           setTransactionStatus(TransactionStatus.DONE);
           setRewardToClaim(-1);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         } else {
           throw new Error('One of the transactions failed.');
         }
-
-        setTimeout(() => {
-          setTransactionStatus(TransactionStatus.IDEAL);
-          setRewardToClaim(-1);
-        }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during bribe and fee claim transaction:', error);
         setTransactionStatus(TransactionStatus.FAILED);
