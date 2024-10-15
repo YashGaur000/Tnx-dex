@@ -15,6 +15,8 @@ import { useGaugeContract } from '../../../hooks/useGaugeContract';
 import { LoadingSpinner } from '../../common/Loader';
 import { useNavigate } from 'react-router-dom';
 import SuccessPopup from '../../common/SucessPopup';
+import { ButtonsSideBySide } from '../../common/Buttons/GlobalButton';
+import { GradientButton } from '../../common/index';
 
 const UnStakeStepper = ({
   selectUnsatkeValue,
@@ -87,6 +89,10 @@ const UnStakeStepper = ({
     });
   };
 
+  const handlewithdrawLater = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <>
       <LiquidityHeaderTitle fontSize={24}>Unstaking</LiquidityHeaderTitle>
@@ -117,16 +123,35 @@ const UnStakeStepper = ({
           )}
         </GlobalButton>
       ) : (
-        <GlobalButton
-          width="100%"
-          height="48px"
-          margin="0px"
-          onClick={() => handleWithdraw(lp)}
-        >
-          Withdraw Deposit
-        </GlobalButton>
+        <></>
+        // <GlobalButton
+        //   width="100%"
+        //   height="48px"
+        //   margin="0px"
+        //   onClick={() => handleWithdraw(lp)}
+        // >
+        //   Withdraw Deposit
+        // </GlobalButton>
       )}
       {isUnstaked && <SuccessPopup message="Unstaked Successfully" />}
+
+      {isUnstaked && (
+        <ButtonsSideBySide>
+          <ButtonsSideBySide onClick={handlewithdrawLater}>
+            <GradientButton width="45%" height="48px" fontSize="16px">
+              Withdraw later{' '}
+            </GradientButton>
+          </ButtonsSideBySide>
+          <GlobalButton
+            width="45%"
+            height="48px"
+            margin="20px"
+            onClick={() => handleWithdraw(lp)}
+          >
+            Withdraw now{' '}
+          </GlobalButton>
+        </ButtonsSideBySide>
+      )}
     </>
   );
 };
