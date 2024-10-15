@@ -5,7 +5,19 @@ import { LiquidityPoolNewType } from '../graphql/types/LiquidityPoolNew';
 import voterAbi from '../constants/artifacts/contracts/Voter.json';
 import contractAddress from '../constants/contract-address/address';
 import { useMultiCall } from './useMultiCall';
+
+export interface totalVoteDataProps {
+  totalFees: number;
+  totalIncentive: number;
+  totalRewards: number;
+}
 const votingAddress = contractAddress.Voter;
+
+let TotalVoteData: totalVoteDataProps = {
+  totalFees: 0,
+  totalIncentive: 0,
+  totalRewards: 0,
+};
 
 const useVoterData = () => {
   const multicallClient = useMultiCall();
@@ -13,6 +25,7 @@ const useVoterData = () => {
   const [LiquidityData, setLiquidityData] = useState<LiquidityPoolNewType[]>(
     []
   );
+
   const [Loading, setLoading] = useState(true);
   const { loading, error, data: poolData } = useLiquidityPoolData();
 
@@ -40,6 +53,11 @@ const useVoterData = () => {
           contracts: filteredpoolData,
         });
         if (!poolResults) throw new Error('Failed to fetch');
+
+        let totalIncentiveSum = 0;
+        let totalFeesSum = 0;
+        let totalRewardsSum = 0;
+
         const filteredPools = LiquidityData.filter((pool, index) => {
           const result = poolResults[index];
           if (
@@ -49,9 +67,19 @@ const useVoterData = () => {
             result.result !== '0x0000000000000000000000000000000000000000' &&
             result.result !== null
           ) {
+            totalIncentiveSum = totalIncentiveSum + Number(pool.totalBribesUSD);
+            totalFeesSum = totalFeesSum + Number(pool.totalFeesUSD);
+            totalRewardsSum +=
+              Number(pool.totalBribesUSD) + Number(pool.totalFeesUSD);
+
             return poolResults[index];
           }
         });
+        TotalVoteData = {
+          totalFees: totalFeesSum,
+          totalIncentive: totalIncentiveSum,
+          totalRewards: totalRewardsSum,
+        };
         setVoteData(filteredPools);
         setLoading(false);
       } catch (error) {
@@ -68,6 +96,7 @@ const useVoterData = () => {
     voteData,
     Loading,
     error,
+    TotalVoteData,
   };
 };
 

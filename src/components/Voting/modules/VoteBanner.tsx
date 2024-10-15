@@ -16,13 +16,20 @@ import PopupScreen from '../../common/PopupScreen';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import VotingToolTips from './VotingToolTips';
 import { useVoterContract } from '../../../hooks/useVoterContract';
+import useVoterData, { totalVoteDataProps } from '../../../hooks/useVoterData';
 
 const VoteBanner: React.FC = () => {
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [timeLeft, setTimeLeft] = useState<string | null>(null);
   const [epochEnd, setEpochEnd] = useState<number | null>(null);
+  const [TotalVotingData, setTotalVotingData] = useState<totalVoteDataProps>();
   const { epochVoteEnd } = useVoterContract();
   const timestamp = Math.floor(Date.now() / 1000);
+  const { Loading, TotalVoteData } = useVoterData();
+
+  useEffect(() => {
+    setTotalVotingData(TotalVoteData);
+  }, [Loading, TotalVoteData, TotalVotingData]);
 
   // Effect for fetching epoch end time
   useEffect(() => {
@@ -108,7 +115,7 @@ const VoteBanner: React.FC = () => {
             <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontSize={24}>~$547,658.28</Title>
+            <Title fontSize={24}>~${TotalVotingData?.totalFees}</Title>
             <VoteInfoSubtitle>Total Fees</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
@@ -116,11 +123,15 @@ const VoteBanner: React.FC = () => {
             <VoteInfoSubtitle>New Emissions</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontSize={24}>~$248.64</Title>
+            <Title fontSize={24}>
+              ~${TotalVotingData?.totalIncentive?.toFixed(4)}
+            </Title>
             <VoteInfoSubtitle>Total Incentives</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontSize={24}>~$147,070.40</Title>
+            <Title fontSize={24}>
+              ~${TotalVotingData?.totalRewards?.toFixed(4)}
+            </Title>
             <VoteInfoSubtitle>Total Rewards</VoteInfoSubtitle>
           </InfoItem>
         </VoteInfo>
