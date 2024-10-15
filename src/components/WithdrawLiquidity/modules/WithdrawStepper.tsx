@@ -30,6 +30,9 @@ import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/Liquidity
 import SlippageTolerance from '../../common/SlippageTolerance';
 import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
 import { parseAmounts } from '../../../utils/transaction/parseAmounts';
+import SuccessPopup from '../../common/SucessPopup';
+import { useNavigate } from 'react-router-dom';
+
 interface WithdrawStepperProps {
   poolId: string;
   withdrawPercentage: string;
@@ -62,6 +65,24 @@ const WithdrawStepper = ({
   const { balanceOf, fetchAllowance } = usePoolContract(poolId);
 
   const { removeLiquidity, quoteRemoveLiquidity } = useRouterContract();
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isWithdraw) {
+      // Set a timeout to navigate to the dashboard after 5 seconds
+
+      const timer = setTimeout(() => {
+        if (withdrawPercentage != '100') {
+          navigate('/dashboard');
+        } else {
+          navigate('/liquidity');
+        }
+      }, 4000);
+
+      // Clean up the timer in case the component unmounts
+      return () => clearTimeout(timer);
+    }
+  }, [isWithdraw, navigate]);
 
   useEffect(() => {
     async function isAllowance() {
@@ -106,7 +127,7 @@ const WithdrawStepper = ({
         if (amountInWei) setLiquidity(amountInWei.toString());
         const result = await approveAllowance(
           contractAddress.Router,
-          liquidity
+          amountInWei ? amountInWei.toString() : liquidity
         );
         setIsTokenAllowed(result ? true : false);
         setTransactionStatus(TransactionStatus.DONE);
@@ -273,6 +294,7 @@ const WithdrawStepper = ({
           )}
         </GlobalButton>
       )}
+      {isWithdraw && <SuccessPopup message="Withdraw Successfully" />}
     </>
   );
 };

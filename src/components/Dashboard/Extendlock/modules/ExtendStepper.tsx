@@ -18,10 +18,8 @@ import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContra
 import contractAddress from '../../../../constants/contract-address/address';
 import { ExtendStepperProps } from '../../../../types/VotingEscrow';
 import { useVoterContract } from '../../../../hooks/useVoterContract';
-import { useResetLock } from '../../../../hooks/useResetLock';
 import { ToastContainer } from 'react-toastify';
-import LockIconGr from '../../../../assets/LockSucess.svg';
-import LockIcon from '../../../../assets/lock.png';
+
 import {
   showSuccessToast,
   showErrorToast,
@@ -45,14 +43,8 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   const [isExtending, setIsExtending] = useState(false);
   const [isExtend, setIsExtend] = useState(false);
   const [isPoke, setIsPoke] = useState(false);
-  const [isModalDisabled, setIsModalDisabled] = useState(false);
   const { poke } = useVoterContract();
   const { setTransactionStatus, transactionStatus } = useRootStore();
-
-  const { handleResetLock, isResetLocked, isResetting } = useResetLock(
-    tokenId,
-    setIsModalDisabled
-  );
 
   const handleExtend = useCallback(
     async (tokenId: number, duration: number): Promise<void> => {
@@ -115,26 +107,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       },
       icon: VotingPowerIcon,
     },
-    {
-      step: 3,
-      descriptions: {
-        labels: isResetLocked
-          ? 'Reset lock confirmed'
-          : 'Reset requred for Lock #' + tokenId,
-      },
-      icon: !isResetLocked ? LockIcon : LockIconGr,
 
-      buttons: isResetLocked
-        ? undefined
-        : {
-            label: isResetLocked ? 'Resetting...' : 'Reset',
-            onClick: handleResetLock,
-            tooltip: 'Click to Reset Lock #' + tokenId,
-            disabled:
-              isResetting ||
-              transactionStatus === TransactionStatus.IN_PROGRESS,
-          },
-    },
     {
       step: 4,
       descriptions: {
@@ -168,7 +141,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
             height="48px"
             margin="0px"
             onClick={() => handleExtend(tokenId, selectedWeeks)}
-            disabled={isExtending || isModalDisabled}
+            disabled={isExtending}
           >
             {isExtending ? 'Extending...' : 'Extend'}
           </GlobalButton>

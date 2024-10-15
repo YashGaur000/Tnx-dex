@@ -147,7 +147,8 @@ export interface LockModelProps {
     option: string,
     toTokenId: number,
     selectVotingPower: number,
-    toLockDate: string
+    toLockDate: string,
+    votingStatus: boolean
   ) => void;
   tokenId: number;
 }

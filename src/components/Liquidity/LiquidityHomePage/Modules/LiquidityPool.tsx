@@ -125,8 +125,11 @@ const LiquidityPool = () => {
     setSortOrder(isAsc ? 'desc' : 'asc');
 
     const sorted = [...sortedData].sort((a, b) => {
-      if (a[field] < b[field]) return isAsc ? 1 : -1;
-      if (a[field] > b[field]) return isAsc ? -1 : 1;
+      const aValue = parseFloat(a[field].toString());
+      const bValue = parseFloat(b[field].toString());
+
+      if (aValue < bValue) return isAsc ? 1 : -1;
+      if (aValue > bValue) return isAsc ? -1 : 1;
       return 0;
     });
 
@@ -136,7 +139,7 @@ const LiquidityPool = () => {
   const handleRecentTransaction = (field: SortableKeys) => {
     setSortField(field);
     setSortOrder('desc');
-    const sorted = [...sortedData].sort((a, b) => {
+    const sorted = [...poolData].sort((a, b) => {
       // Sort in descending order
       if (a[field] < b[field]) return 1;
       if (a[field] > b[field]) return -1;
