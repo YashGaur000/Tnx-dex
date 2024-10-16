@@ -47,7 +47,7 @@ const DashBoardLocks = () => {
   const { withdraw } = useVotingEscrowContract(escrowAddress);
   const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
   const { reset } = useVoterContract();
-  const itemsPerPage = 1;
+  const itemsPerPage = 4;
   const nftData = useNftData();
   const { setTransactionStatus } = useRootStore();
 
