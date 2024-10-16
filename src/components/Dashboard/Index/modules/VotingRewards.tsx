@@ -50,22 +50,22 @@ import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.styl
 const ITEMS_PER_PAGE = 5;
 
 const VotingRewards = ({ account }: { account: Address }) => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [rewardToClaim, setRewardToClaim] = useState(-1);
 
-  const { userVotedPools, isVoteError, isVoteFetching } =
-    useUserVotingPosition(account);
+  const { userVotedPools, isVoteError } = useUserVotingPosition(account);
 
   const { setTransactionStatus } = useRootStore();
 
   const { claimBribes, claimFees } = useVoterContract();
 
   useEffect(() => {
-    if (isVoteFetching) setIsLoading(true);
-    else {
+    if (isLoading && userVotedPools && userVotedPools.length === 0) {
+      setTimeout(() => setIsLoading(false), 30000);
+    } else {
       setIsLoading(false);
     }
-  }, [isVoteFetching]);
+  }, [isLoading, userVotedPools]);
 
   const [currentPage, setCurrentPage] = useState(1);
 

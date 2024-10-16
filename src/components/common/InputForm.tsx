@@ -45,6 +45,7 @@ import { ethers } from 'ethers';
 
 import { InputBox } from '../Swap/modules/InputBox';
 import SettingModal from '../modal/SettingModal';
+import { useTokenPrice } from '../../hooks/useTokenPrice';
 // import { SidebarContainer } from '../Swap/styles/Sidebar.style';
 // import Sidebar from '../Swap/modules/Sidebar';
 
@@ -67,6 +68,8 @@ const InputForm: React.FC = () => {
   const { getAmountsOut } = useRouterContract();
 
   const graph = useLiquidityRouting();
+
+  const { data: tokenPriceData } = useTokenPrice();
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [tokenSelectTarget, setTokenSelectTarget] = useState<
@@ -343,6 +346,7 @@ const InputForm: React.FC = () => {
               onClose={() => setIsModalOpen(false)}
               onSelect={handleTokenSelect}
               account={address!}
+              tokenPriceData={tokenPriceData}
             />
           </SwapBox>
           {tokenInput1 && (

@@ -34,6 +34,7 @@ import { useTokenInfo } from '../../../../hooks/useTokenInfo';
 import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.style';
 import AvailablePool from './AvailablePool';
 import { useLiquidityPoolData } from '../../../../hooks/useLiquidityPoolData';
+import { useTokenPrice } from '../../../../hooks/useTokenPrice';
 
 const CreatePool = () => {
   const [isPopUpVisible, setPopUpVisible] = useState(false);
@@ -53,6 +54,8 @@ const CreatePool = () => {
   // const poolType = getParam('type') ? 'stable' : 'volatile';
 
   const { loading, error, data: poolData } = useLiquidityPoolData();
+
+  const { data: tokenPriceData } = useTokenPrice();
 
   if (loading) return 'Loading...';
   if (error) return `Error! ${error.message}`;
@@ -178,6 +181,7 @@ const CreatePool = () => {
               onClose={() => setIsModalOpen(false)}
               onSelect={handleTokenSelect}
               account={address!}
+              tokenPriceData={tokenPriceData}
             />
           </TokenSelectItem>
           <TokenSelectItem>
@@ -213,6 +217,7 @@ const CreatePool = () => {
               onClose={() => setIsModalOpen(false)}
               onSelect={handleTokenSelect}
               account={address!}
+              tokenPriceData={tokenPriceData}
             />
           </TokenSelectItem>
         </CreatePoolStyles>

@@ -47,10 +47,11 @@ export interface UserPositionData {
 
 const DashBoard: React.FC = () => {
   const { address } = useAccount();
-  const { userValidPools, userRewardPools, isError, isFetching } =
-    useUserPosition(address!);
+  const { userValidPools, userRewardPools, isError } = useUserPosition(
+    address!
+  );
   const { transactionStatus } = useRootStore();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [isLockVisible, setIsLockVisible] = useState(true);
 
@@ -60,11 +61,19 @@ const DashBoard: React.FC = () => {
   const Navigate = useNavigate();
 
   useEffect(() => {
-    if (isFetching) setIsLoading(true);
-    else {
+    if (
+      isLoading &&
+      ((userValidPools?.length ?? 0) === 0 ||
+        (userRewardPools?.length ?? 0) === 0)
+    ) {
+      const timeout = setTimeout(() => setIsLoading(false), 10000);
+
+      return () => clearTimeout(timeout);
+    } else {
+      // If pools are valid, stop loading immediately
       setIsLoading(false);
     }
-  }, [isFetching]);
+  }, [isLoading, userValidPools, userRewardPools]);
 
   function handleTooltipShow(option: string) {
     setActiveTooltip(option);
