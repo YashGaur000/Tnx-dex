@@ -21,6 +21,11 @@ import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/Liquidity
 import VottingPowerModel from './VottingPowerModel';
 import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 import { Nft } from '../../../types/VotingEscrow';
+import {
+  getTimeDifference,
+  locktokeninfo,
+} from '../../../utils/common/voteTenex';
+const lockTokenInfo = locktokeninfo();
 
 interface VoteSelectedCardProps {
   countSelectedItem: number;
@@ -58,6 +63,11 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
     setPopupVisible(false);
   };
 
+  const metadata = selectedNftData.metadata;
+  const attributes = metadata.attributes;
+  const unlockDate =
+    attributes.find((attr) => attr.trait_type === 'Unlock Date')?.value ?? '';
+  const formatUnloackData = getTimeDifference(unlockDate);
   return (
     <>
       <SelectCardContainer>
@@ -81,8 +91,8 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
               </DashboardNavigation>
             </SelectedDataWrapper>
             <LockDescriptonTitle fontSize={12}>
-              {selectedNftData?.metadata.attributes[2].value} VELO locked until{' '}
-              {selectedNftData?.metadata.attributes[0].value}
+              {selectedNftData.metadata.attributes[2].value + ' '}
+              {lockTokenInfo.symbol} locked for {formatUnloackData}
             </LockDescriptonTitle>
           </TokenNameWrapper>
         </TokenItemWithAdressWrapper>
