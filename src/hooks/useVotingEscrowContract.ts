@@ -175,21 +175,17 @@ export function useVotingEscrowContract(escrowAddress: string) {
     },
     [votingEscrowContract]
   );
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const getNFTCount = useCallback(
-    async (owner: Address): Promise<number> => {
-      if (!votingEscrowContract) return 0;
+    async (owner: Address): Promise<bigint> => {
+      if (!votingEscrowContract) return 0n;
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const NftCount: number = (await votingEscrowContract.balanceOf(
-          owner
-        )) as number;
+        const NftCount = await votingEscrowContract.balanceOf(owner);
 
-        return Number(NftCount);
+        return NftCount;
       } catch (error) {
         console.error('Error fetching NFT count:', error);
-        return 0;
+        return 0n;
       }
     },
     [votingEscrowContract]
