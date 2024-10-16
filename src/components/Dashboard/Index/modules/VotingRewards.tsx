@@ -50,22 +50,22 @@ import { ImageContainer } from '../../../ManageVeTenex/Styles/ManageVetenex.styl
 const ITEMS_PER_PAGE = 5;
 
 const VotingRewards = ({ account }: { account: Address }) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [rewardToClaim, setRewardToClaim] = useState(-1);
 
-  const { userVotedPools, isVoteError } = useUserVotingPosition(account);
+  const { userVotedPools, isVoteError, isVoteFetching } =
+    useUserVotingPosition(account);
 
   const { setTransactionStatus } = useRootStore();
 
   const { claimBribes, claimFees } = useVoterContract();
 
   useEffect(() => {
-    if (isLoading && userVotedPools && userVotedPools.length === 0) {
-      setTimeout(() => setIsLoading(false), 30000);
-    } else {
+    if (isVoteFetching) setIsLoading(true);
+    else {
       setIsLoading(false);
     }
-  }, [isLoading, userVotedPools]);
+  }, [isVoteFetching]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -109,14 +109,12 @@ const VotingRewards = ({ account }: { account: Address }) => {
         if (feeResult) {
           setTransactionStatus(TransactionStatus.DONE);
           setRewardToClaim(-1);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         } else {
           throw new Error('One of the transactions failed.');
         }
-
-        setTimeout(() => {
-          setTransactionStatus(TransactionStatus.IDEAL);
-          setRewardToClaim(-1);
-        }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during bribe and fee claim transaction:', error);
         setTransactionStatus(TransactionStatus.FAILED);
@@ -145,14 +143,13 @@ const VotingRewards = ({ account }: { account: Address }) => {
         if (bribeResult) {
           setTransactionStatus(TransactionStatus.DONE);
           setRewardToClaim(-1);
+
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         } else {
           throw new Error('One of the transactions failed.');
         }
-
-        setTimeout(() => {
-          setTransactionStatus(TransactionStatus.IDEAL);
-          setRewardToClaim(-1);
-        }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during bribe and fee claim transaction:', error);
         setTransactionStatus(TransactionStatus.FAILED);
@@ -186,14 +183,12 @@ const VotingRewards = ({ account }: { account: Address }) => {
         if (bribeResult && feeResult) {
           setTransactionStatus(TransactionStatus.DONE);
           setRewardToClaim(-1);
+          setTimeout(() => {
+            setTransactionStatus(TransactionStatus.IDEAL);
+          }, TRANSACTION_DELAY);
         } else {
           throw new Error('One of the transactions failed.');
         }
-
-        setTimeout(() => {
-          setTransactionStatus(TransactionStatus.IDEAL);
-          setRewardToClaim(-1);
-        }, TRANSACTION_DELAY);
       } catch (error) {
         console.error('Error during bribe and fee claim transaction:', error);
         setTransactionStatus(TransactionStatus.FAILED);

@@ -53,6 +53,7 @@ import {
 } from '../../../types/Transaction';
 import SuccessPopup from '../../common/SucessPopup';
 import useTransactionWarning from '../../../hooks/useTransactionWarning';
+import { ConnectWallet } from '../../ConnectWallet';
 
 interface SidebarProps {
   isLoading: boolean;
@@ -117,6 +118,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [isVisibleUnsafe, setVisibleUnsafe] = useState(false);
 
   const [isUnsafe, setIsUnsafe] = useState(false);
+  const [explorerLink, setExplorerlink] = useState('');
 
   const minAmountOutWei = useMemo(() => {
     if (tokenInput2 && selectedTolerance) {
@@ -282,39 +284,45 @@ const Sidebar: React.FC<SidebarProps> = ({
         labels: `${priceImpact} % price impact is ${isUnsafe ? 'unsafe' : 'safe'}`,
       },
     },
-    {
-      step: 7,
-      icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
-      descriptions: isValid
-        ? {
-            labels:
-              isTokenAllow || token1.symbol === 'ETH'
-                ? 'Allowed the contracts to access ' + token1?.symbol
-                : 'Allowance not granted for ' + token1?.symbol,
-          }
-        : {
-            labels: 'Insufficient Balance',
-          },
-      buttons:
-        !isTokenAllow && token1.symbol !== 'ETH' && isValid
-          ? {
-              label: 'Allow ' + token1?.symbol,
-              icon: LockIcon,
-              onClick: handleAllowToken1,
-              tooltip: `Click to allow ${token1.symbol} transactions`,
-              disabled: isDisabled,
-            }
-          : undefined,
-    },
-    {
-      step: 8,
-      icon: !isSwapped ? SearchIcon : SucessDepositIcon,
-      descriptions: {
-        labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
-      },
-      actionCompleted: !isSwapped,
-    },
   ];
+
+  if (address) {
+    SwapDepositData.push(
+      {
+        step: 7,
+        icon: !isTokenAllow ? RedLockIcon : UnLockIcon,
+        descriptions: isValid
+          ? {
+              labels:
+                isTokenAllow || token1.symbol === 'ETH'
+                  ? 'Allowed the contracts to access ' + token1?.symbol
+                  : 'Allowance not granted for ' + token1?.symbol,
+            }
+          : {
+              labels: 'Insufficient Balance',
+            },
+        buttons:
+          !isTokenAllow && token1.symbol !== 'ETH' && isValid
+            ? {
+                label: 'Allow ' + token1?.symbol,
+                icon: LockIcon,
+                onClick: handleAllowToken1,
+                tooltip: `Click to allow ${token1.symbol} transactions`,
+                disabled: isDisabled,
+              }
+            : undefined,
+      },
+
+      {
+        step: 8,
+        icon: !isSwapped ? SearchIcon : SucessDepositIcon,
+        descriptions: {
+          labels: isSwapped ? 'Swap confirmed' : 'Waiting for next actions...',
+        },
+        actionCompleted: !isSwapped,
+      }
+    );
+  }
 
   const SwapInstructData: StepperDataProps[] = [
     {
@@ -357,7 +365,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                 : 'Allowance not granted for ' + token1?.symbol,
           }
         : {
-            labels: 'Insufficient Balance',
+            labels: address
+              ? 'Insufficient Balance'
+              : 'Please connect your wallet',
           },
       buttons:
         !isTokenAllow && token1.symbol !== 'ETH' && isValid
@@ -465,7 +475,8 @@ const Sidebar: React.FC<SidebarProps> = ({
       };
 
       const tx = await getTransaction();
-      console.log('Swap added:', tx);
+
+      setExplorerlink(`https://testnet.blastscan.io/tx/${tx?.hash}`);
 
       setIsSwapped(true);
       setIsDisabled(false);
@@ -476,7 +487,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         setTokenInput2('');
         setTransactionStatus(TransactionStatus.IDEAL);
         setIsSwapped(false);
-      }, TRANSACTION_DELAY);
+      }, TRANSACTION_DELAY + 5000);
     } catch (error) {
       console.error('Error swapping:', error);
       setIsDisabled(false);
@@ -494,6 +505,8 @@ const Sidebar: React.FC<SidebarProps> = ({
           ) : exchangeRate > 0 && tokenInput1 && routes ? (
             <>
               <Stepper data={SwapDepositData} />
+              {!address && <ConnectWallet />}
+
               {!isSwapped &&
                 isValid &&
                 (isTokenAllow || token1.symbol === 'ETH') && (
@@ -521,7 +534,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                     )}
                   </GlobalButton>
                 )}
-              {isSwapped && <SuccessPopup message="Swapped Successfully" />}
 
               {isVisibleSlippage && (
                 <PopupScreen
@@ -563,6 +575,12 @@ const Sidebar: React.FC<SidebarProps> = ({
             <Stepper data={SwapInstructData} />
           )}
         </SidebarList>
+        {isSwapped && (
+          <SuccessPopup
+            message="Swap completed successfully"
+            explorerLink={explorerLink}
+          />
+        )}
       </SidebarInner>
     </>
   );

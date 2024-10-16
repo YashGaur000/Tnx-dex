@@ -289,8 +289,8 @@ const Deposite: React.FC<DepositProps> = ({
         amount1 && amount2
           ? {
               labels: `Using your quote for new liquidity pool deposits `,
-              token1: `${amount1} ${selectedToken1?.symbol}`,
-              token2: `${amount2} ${selectedToken2?.symbol}`,
+              token1: `${Number(amount1).toFixed(selectedToken1?.decimals)} ${selectedToken1?.symbol}`,
+              token2: `${Number(amount2).toFixed(selectedToken2?.decimals)} ${selectedToken2?.symbol}`,
             }
           : {
               labels: `Setting  quote for new liquidity pool deposits`,

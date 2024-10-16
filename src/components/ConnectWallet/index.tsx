@@ -56,7 +56,9 @@ export const ConnectWallet = () => {
         clearInterval(timerInterval);
       };
     } else {
-      navigate('/');
+      if (window.location.pathname !== '/swap') {
+        navigate('/');
+      }
     }
   }, [address]);
 
