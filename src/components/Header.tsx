@@ -89,6 +89,7 @@ const NavLink = styled.div<{ theme: DefaultTheme; isactive: string }>`
   font-size: 16px;
   padding: 4px 6px;
   border-radius: 4px;
+  cursor: pointer;
   background: ${({ isactive, theme }) =>
     isactive ? theme.colors.hover : 'transparent'};
 

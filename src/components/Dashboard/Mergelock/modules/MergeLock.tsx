@@ -50,6 +50,7 @@ const MergeLock = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const handleSelectToken = useCallback(
     (
       option: string,
@@ -58,24 +59,23 @@ const MergeLock = () => {
       fromLockDate: string,
       votingStatus: boolean
     ) => {
-      console.log('fromTokenId:', fromTokenId);
       setIsFromVotingPower(fromVotingPower);
       setVotingStatus(votingStatus);
       const fromTillDate = convertDateToTimestamp(fromLockDate);
+
       if (lockData) {
-        const lockdataEnd = lockData.end;
-        const toTillDate = convertDateToTimestamp(lockdataEnd.toString());
-        const Duration = toTillDate > fromTillDate ? toTillDate : fromTillDate;
-        const totalDuration = convertTimestampToDate(Duration);
+        const toTillDate = lockData.end.toString();
+        const greaterTillDate = Math.max(fromTillDate, Number(toTillDate));
+        const totalDuration = convertTimestampToDate(greaterTillDate);
         const formatUnlockData = getTimeDifference(totalDuration);
-        setIsFromVotingPower(fromVotingPower);
         setIsTotalDuration(formatUnlockData);
       }
+
       setIsFromTokenId(fromTokenId);
       setSelectLockToken(option);
       setIsModalOpen(false);
     },
-    [lockData, setIsFromTokenId, setIsFromVotingPower]
+    [lockData]
   );
 
   const handleInputBox = () => {

@@ -61,7 +61,8 @@ export function useVotingEscrowContract(escrowAddress: string) {
       if (!votingEscrowContract) {
         throw new Error('VotingEscrowContract not initialized');
       }
-
+      console.log('_from', _from);
+      console.log('_to', _to);
       try {
         const gasEstimate = await votingEscrowContract.estimateGas.merge(
           _from,
@@ -92,7 +93,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
           tokenId,
           value,
           {
-            gasLimit: gasEstimate,
+            gasLimit: gasEstimate.toBigInt(),
           }
         );
 

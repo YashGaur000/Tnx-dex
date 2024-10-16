@@ -67,7 +67,11 @@ const Main = () => {
           const filteredNftVal = sortNftsByUnlockDateDesc(
             formattedNftFormateData
           );
-          setNftData(filteredNftVal);
+          const sortedNftData =
+            filteredNftVal
+              ?.slice()
+              .sort((a, b) => Number(b.tokenId) - Number(a.tokenId)) || [];
+          setNftData(sortedNftData);
         } else {
           console.warn('Address is undefined');
         }
