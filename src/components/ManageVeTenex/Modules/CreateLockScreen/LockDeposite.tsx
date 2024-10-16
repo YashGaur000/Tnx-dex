@@ -21,6 +21,8 @@ import {
   TransactionStatus,
 } from '../../../../types/Transaction';
 import { useRootStore } from '../../../../store/root';
+import { useNavigate } from 'react-router-dom';
+import { showSuccessToast } from '../../../../utils/common/toastUtils';
 
 const LockDeposite: React.FC<LockDepositeProps> = ({
   setLockTokenValue,
@@ -38,7 +40,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isLocking, setIsLocking] = useState(false);
   const [isLocked, setIsLocked] = useState(false);
-
+  const navigate = useNavigate();
   const { approveAllowance: approveAllowance } = useTokenAllowance(
     LocTokenAddress as `0x${string}`,
     testErc20Abi
@@ -76,6 +78,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
       setIsLocked(true);
       setTransactionStatus(TransactionStatus.DONE);
+      void showSuccessToast(`Lock created successfully!`);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setLockTokenValue('');
@@ -86,6 +89,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
         SetlockDuration(1);
         setSuccessLock(true);
         setIsApproveLock(false);
+        navigate('/governance');
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during token lock:', error);

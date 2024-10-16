@@ -3,16 +3,31 @@ import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 import { TokenInfo } from '../../constants/tokens/type';
 export const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
 export const decodeBase64 = (base64: string): Metadata => {
-  const base64Data = (base64 || '').split(',')[1];
+  if (typeof base64 !== 'string' || !base64.includes(',')) {
+    throw new Error('Invalid base64 string');
+  }
+
+  const base64Data = base64.split(',')[1]; // Safely split the string and access the second part
+  if (!base64Data) {
+    throw new Error('Base64 data is missing');
+  }
+
   const binaryString = window.atob(base64Data);
   const len = binaryString.length;
   const bytes = new Uint8Array(len);
+
   for (let i = 0; i < len; i++) {
     bytes[i] = binaryString.charCodeAt(i);
   }
+
   const decodedString = new TextDecoder().decode(bytes);
-  const decodedStringJson = JSON.parse(decodedString) as Metadata;
-  return decodedStringJson;
+
+  try {
+    const decodedStringJson = JSON.parse(decodedString) as Metadata;
+    return decodedStringJson;
+  } catch (error) {
+    throw new Error('Failed to parse JSON from decoded string');
+  }
 };
 
 export const locktokeninfo = () => {

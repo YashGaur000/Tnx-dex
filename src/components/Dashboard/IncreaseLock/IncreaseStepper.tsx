@@ -50,7 +50,6 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   const { poke } = useVoterContract();
   const navigate = useNavigate();
 
-  // Use Zustand state
   const {
     isLoading,
     isTokenAllowed,
@@ -102,8 +101,8 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
       setTimeout(() => {
         setIsLocking(false);
         setSuccessLock(true);
-        setIsPokeDisplay(true); // Show the Poke button after increasing the lock
-        setIsLocked(true); // Mark the lock as confirmed
+        setIsPokeDisplay(true);
+        setIsLocked(true);
         setTransactionStatus(TransactionStatus.IDEAL);
       }, TRANSACTION_DELAY);
     } catch (error) {

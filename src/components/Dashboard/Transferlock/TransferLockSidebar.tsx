@@ -20,6 +20,7 @@ import WaitingIcon from '../../../../src/assets/search.png';
 import LockIconGr from '../../../../src/assets/LockSucess.svg';
 import VotingPowerIcon from '../../../../src/assets/star.svg';
 import { useVoterContract } from '../../../hooks/useVoterContract';
+import { useNavigate } from 'react-router-dom';
 
 interface TransferFromOwnerProps {
   fromOwner: Address;
@@ -28,6 +29,7 @@ interface TransferFromOwnerProps {
   setSuccessLock: (input: boolean) => void;
   setInputLock: (input: boolean) => void;
   setToAddres: (input: Address | undefined) => void;
+  handleSubmit: () => void;
 }
 
 const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
@@ -37,6 +39,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   setSuccessLock,
   setInputLock,
   setToAddres,
+  handleSubmit,
 }) => {
   const { transferFrom } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -48,13 +51,16 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   const [isLockTransfer, setIsLockTransfer] = useState<boolean>(false);
   const [isResetting, setIsResetting] = useState<boolean>(false); // Track reset state
   const [isResetDone, setIsResetDone] = useState<boolean>(false); // Track if reset was done
-
+  const navigate = useNavigate();
   const handleTransferLock = useCallback(async () => {
     try {
+      void handleSubmit();
+      if (!fromOwner && !toAddress && !tokenId) return;
+      if (fromOwner === toAddress) return;
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       setInputLock(true);
       setIsLoading(true);
-      if (!fromOwner && !toAddress && !tokenId) return;
+
       await transferFrom(fromOwner, toAddress, tokenId);
 
       setIsLockTransfer(true);
@@ -65,6 +71,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
         setInputLock(false);
         setToAddres(undefined);
         setTransactionStatus(TransactionStatus.IDEAL);
+        navigate('/governance');
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error transferring lock:', error);
@@ -90,13 +97,13 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
-        setIsResetDone(true); // Mark reset as done
-        setIsResetting(false); // Enable button after reset is done
+        setIsResetDone(true);
+        setIsResetting(false);
       }, TRANSACTION_DELAY);
     } catch (error) {
       console.error('Error during reset lock:', error);
       setTransactionStatus(TransactionStatus.FAILED);
-      setIsResetting(false); // Enable reset button in case of error
+      setIsResetting(false);
     }
   }, [tokenId, reset, setTransactionStatus]);
 
