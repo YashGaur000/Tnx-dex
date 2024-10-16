@@ -87,6 +87,10 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
           setIsModalDisable(false);
           setIsMergeLocked(true);
           setIsFromVotingPower(0);
+          if (!votingStatus) {
+            void showSuccessToast('Merge done successfully.');
+            navigate('/governance');
+          }
         }, TRANSACTION_DELAY);
       } catch (error) {
         setTransactionStatus(TransactionStatus.FAILED);
@@ -257,7 +261,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
           </GlobalButton>
         )}
 
-        {isPokeDisplay && (
+        {isPokeDisplay && votingStatus && (
           <GlobalButton
             width="30%"
             height="40px"

@@ -65,19 +65,19 @@ const AppRoutes: React.FC = () => {
               <Route path="/dashboard" element={<DashboardPage />} />
               <Route path="/tools" element={<ToolsScreen />} />
               <Route
-                path="/governance/managevetenex/extend/:tokenId"
+                path="/governance/managevetenex/extend/:encryptedTokenId/:encryptedVotingStatus"
                 element={<ExtendLock />}
               />
               <Route
-                path="/governance/managevetenex/transfer/:tokenId"
+                path="/governance/managevetenex/transfer/:encryptedTokenId/:encryptedVotingStatus"
                 element={<Transferlock />}
               />
               <Route
-                path="/governance/managevetenex/merge/:tokenId"
+                path="/governance/managevetenex/merge/:encryptedTokenId/:encryptedVotingStatus"
                 element={<MergeLock />}
               />
               <Route
-                path="/governance/managevetenex/increase/:tokenId"
+                path="/governance/managevetenex/increase/:encryptedTokenId/:encryptedVotingStatus"
                 element={<IncreaseLock />}
               />
               <Route path="/stake" element={<StakeDeposit />} />

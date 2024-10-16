@@ -46,6 +46,7 @@ const LockModel: React.FC<LockModelProps> = ({
         const formattedNftData = fetchedLocks.map((nft) => ({
           tokenId: nft.tokenId,
           metadata: decodeBase64(nft.metadata),
+          votingStatus: nft.votingStatus,
         }));
         setUserLocks(formattedNftData);
       } catch (error) {

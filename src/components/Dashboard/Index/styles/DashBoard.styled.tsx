@@ -93,6 +93,7 @@ export const DashboardNavigation = styled.p<{
   fontSize?: number;
   margin?: string;
   width?: string;
+  disabled?: boolean;
 }>`
   background: ${({ theme }) => theme.colors.title};
   font-size: ${({ fontSize }) => fontSize}px;
@@ -103,7 +104,8 @@ export const DashboardNavigation = styled.p<{
   position: relative;
   display: inline-block;
   text-decoration: none;
-  cursor: pointer;
+  cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
   &::after {
     content: '';
     position: absolute;
@@ -111,7 +113,9 @@ export const DashboardNavigation = styled.p<{
     bottom: 0;
     width: ${({ width }) => width ?? '100%'};
     height: 1px;
-    background: ${({ theme }) => theme.colors.bordercolor};
+
+    background: ${({ theme, disabled }) =>
+      disabled ? 'transparent' : theme.colors.bordercolor};
   }
 `;
 export const ViewStack = styled.p<{ theme: DefaultTheme }>`

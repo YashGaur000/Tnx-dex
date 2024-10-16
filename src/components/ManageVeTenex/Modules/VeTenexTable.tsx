@@ -17,6 +17,7 @@ import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 import {
+  encryptData,
   getTimeDifference,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
@@ -64,11 +65,26 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
-
-  const handleLockButton = (option: string, tokenId: bigint) => {
+  const handleLockButton = (
+    option: string,
+    tokenId: bigint,
+    votingStatus: boolean | undefined
+  ) => {
+    if (option) {
+      const encryptedTokenId = encryptData(tokenId.toString());
+      const voteStatus = votingStatus ? votingStatus : false;
+      const encryptedVotingStatus = encryptData(voteStatus.toString());
+      navigate(
+        `/governance/managevetenex/${option}/${encryptedTokenId}/${encryptedVotingStatus}`
+      );
+    } else {
+      console.warn('Undefined route');
+    }
+  };
+  /*  const handleLockButton = (option: string, tokenId: bigint) => {
     if (option) navigate(`/governance/managevetenex/${option}/${tokenId}`);
     else console.warn('Undefined route');
-  };
+  }; */
 
   const handleWithdraw = useCallback(
     async (tokenId: bigint) => {
@@ -163,28 +179,44 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
                         <>
                           <LockInfoAction
                             onClick={() =>
-                              handleLockButton('increase', lock.tokenId)
+                              handleLockButton(
+                                'increase',
+                                lock.tokenId,
+                                lock.votingStatus
+                              )
                             }
                           >
                             Increase
                           </LockInfoAction>
                           <LockInfoAction
                             onClick={() =>
-                              handleLockButton('extend', lock.tokenId)
+                              handleLockButton(
+                                'extend',
+                                lock.tokenId,
+                                lock.votingStatus
+                              )
                             }
                           >
                             Extend
                           </LockInfoAction>
                           <LockInfoAction
                             onClick={() =>
-                              handleLockButton('merge', lock.tokenId)
+                              handleLockButton(
+                                'merge',
+                                lock.tokenId,
+                                lock.votingStatus
+                              )
                             }
                           >
                             Merge
                           </LockInfoAction>
                           <LockInfoAction
                             onClick={() =>
-                              handleLockButton('transfer', lock.tokenId)
+                              handleLockButton(
+                                'transfer',
+                                lock.tokenId,
+                                lock.votingStatus
+                              )
                             }
                           >
                             Transfer

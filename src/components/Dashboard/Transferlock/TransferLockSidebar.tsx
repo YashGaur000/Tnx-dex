@@ -30,6 +30,7 @@ interface TransferFromOwnerProps {
   setInputLock: (input: boolean) => void;
   setToAddres: (input: Address | undefined) => void;
   handleSubmit: () => void;
+  votingStatus: boolean | string;
 }
 
 const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
@@ -40,6 +41,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   setInputLock,
   setToAddres,
   handleSubmit,
+  votingStatus,
 }) => {
   const { transferFrom } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -112,36 +114,40 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
       step: 1,
       descriptions: {
         labels: toAddress
-          ? ' wallet address is valid '
+          ? ' Wallet address is valid '
           : 'Enter wallet address',
       },
       icon: VotingPowerIcon,
     },
-    {
-      step: 2,
-      descriptions: {
-        labels: !isResetDone
-          ? 'Reset is required for lock #' + tokenId
-          : 'Reset completed',
-      },
-      icon: LockIconGr,
-      buttons: !isResetDone
-        ? {
-            label: isResetting ? 'Resett' : 'Reset',
-            onClick: handleResetLock,
-            disabled: isResetting,
-          }
-        : undefined,
-    },
+    ...(votingStatus != 'false'
+      ? [
+          {
+            step: 2,
+            descriptions: {
+              labels: !isResetDone
+                ? 'Reset is required for lock #' + tokenId
+                : 'Reset completed',
+            },
+            icon: LockIconGr,
+            buttons: !isResetDone
+              ? {
+                  label: isResetting ? 'Resett' : 'Reset',
+                  onClick: handleResetLock,
+                  disabled: isResetting,
+                }
+              : undefined,
+          },
+        ]
+      : []),
     {
       step: 3,
       descriptions: {
         labels: isLockTransfer
           ? 'Transfer completed successfully'
-          : 'waiting for next action..',
+          : 'Waiting for next action..',
       },
       icon: WaitingIcon,
-      actionCompleted: isLockTransfer,
+      actionCompleted: !isLockTransfer,
     },
   ];
 
