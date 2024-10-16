@@ -36,10 +36,11 @@ const Overlay = styled.div<{ visible: boolean }>`
 //   align-items: center;
 // `;
 
-const SuccessPopup: React.FC<{ message: string; explorerLink?: string }> = ({
-  message,
-  explorerLink,
-}) => {
+const SuccessPopup: React.FC<{
+  message: string;
+  explorerLink?: string;
+  onClose?: () => void;
+}> = ({ message, explorerLink, onClose }) => {
   const [visible, setVisible] = useState(true);
 
   // useEffect(() => {
@@ -54,16 +55,20 @@ const SuccessPopup: React.FC<{ message: string; explorerLink?: string }> = ({
   return (
     <>
       <Overlay visible={visible} />
-      <PopupScreen isvisible={visible} onClose={() => setVisible(false)}>
+      <PopupScreen
+        isvisible={visible}
+        onClose={() => {
+          setVisible(false);
+          if (onClose) onClose();
+        }}
+      >
         <div>
-          <img
-            src={PartyPopper}
-            onClick={() => {
-              if (explorerLink) window.location.href = explorerLink;
-            }}
-          />{' '}
+          <img src={PartyPopper} />{' '}
         </div>
         <label>{message}</label>
+        <a href={explorerLink} target="_blank" rel="noopener noreferrer">
+          Link
+        </a>
       </PopupScreen>
     </>
   );

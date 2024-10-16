@@ -3,6 +3,7 @@
 import { Address } from 'viem';
 import { TokenInfo } from '../../constants/tokens/type';
 import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
+import { TokenPriceData } from '../../hooks/useTokenPrice';
 
 /**
  * Finds a token by its address in the ERC20 test token list.
@@ -31,3 +32,24 @@ export const getTokenInfo = (address: string | null): TokenInfo | undefined => {
   if (!address) return undefined;
   return findTokenByAddress(address);
 };
+
+export function findTokenPriceBytokenInfo(
+  tokenPiceData: TokenPriceData[],
+  tokenInfo: TokenInfo,
+  balance: string
+): string {
+  let token = tokenPiceData.find(
+    (token) => token.id.toLowerCase() === tokenInfo.address.toLowerCase()
+  );
+  if (tokenInfo.symbol === 'ETH') {
+    token = tokenPiceData.find(
+      (token) => token.symbol.toLowerCase() === 'WETH'.toLowerCase()
+    );
+  }
+
+  const tokenPriceInUsd = token
+    ? (Number(token.pricePerUSDNew) * Number(balance)).toFixed(2)
+    : 'None';
+
+  return tokenPriceInUsd;
+}
