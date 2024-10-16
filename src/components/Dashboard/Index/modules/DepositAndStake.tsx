@@ -130,18 +130,22 @@ const DepositAndStake = ({
   };
 
   if (userPools && userPools.length === 0 && !isLoading) {
-    return (
-      <DashBoardCard>
-        <DashBoardCardData>
-          To receive emissions{' '}
-          <DashboardNavigation onClick={() => navigate('/liquidity/create')}>
-            {' '}
-            deposit and stake{' '}
-          </DashboardNavigation>{' '}
-          your liquidity first.
-        </DashBoardCardData>
-      </DashBoardCard>
-    );
+    if (!isLoading) {
+      return (
+        <DashBoardCard>
+          <DashBoardCardData>
+            To receive emissions{' '}
+            <DashboardNavigation onClick={() => navigate('/liquidity/create')}>
+              {' '}
+              deposit and stake{' '}
+            </DashboardNavigation>{' '}
+            your liquidity first.
+          </DashBoardCardData>
+        </DashBoardCard>
+      );
+    } else {
+      return <LoadingSpinner />;
+    }
   }
 
   return (

@@ -481,18 +481,18 @@ const Sidebar: React.FC<SidebarProps> = ({
       setIsSwapped(true);
       setIsDisabled(false);
       setTransactionStatus(TransactionStatus.DONE);
-
-      setTimeout(() => {
-        setTokenInput1('');
-        setTokenInput2('');
-        setTransactionStatus(TransactionStatus.IDEAL);
-        setIsSwapped(false);
-      }, TRANSACTION_DELAY + 5000);
     } catch (error) {
       console.error('Error swapping:', error);
       setIsDisabled(false);
       setTransactionStatus(TransactionStatus.IDEAL);
     }
+  };
+
+  const onClose = () => {
+    setTokenInput1('');
+    setTokenInput2('');
+    setTransactionStatus(TransactionStatus.IDEAL);
+    setIsSwapped(false);
   };
 
   return (
@@ -579,6 +579,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           <SuccessPopup
             message="Swap completed successfully"
             explorerLink={explorerLink}
+            onClose={onClose}
           />
         )}
       </SidebarInner>
