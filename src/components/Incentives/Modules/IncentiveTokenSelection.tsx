@@ -42,6 +42,7 @@ import { PublicClient } from 'viem';
 import { useNativeBalance } from '../../../hooks/useNativeBalance';
 import { useRootStore } from '../../../store/root';
 import { TransactionStatus } from '../../../types/Transaction';
+import { useTokenPrice } from '../../../hooks/useTokenPrice';
 interface IncentiveTokenSelectionProps {
   handleIncentiveFormValue: (inputValue: string) => void; // Updated to be a function
   handleTokenSymbol: (token: TokenInfo) => void;
@@ -63,6 +64,8 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
   const { address } = useAccount();
 
   const { balance: nativeBalance } = useNativeBalance(address!);
+
+  const { data: tokenPriceData } = useTokenPrice();
 
   const { transactionStatus } = useRootStore();
 
@@ -255,6 +258,7 @@ const IncentiveTokenSelection: React.FC<IncentiveTokenSelectionProps> = ({
         onSelect={handleIncentiveToken}
         account={address!}
         excludeToken1={findTokenBySymbol('ETH')}
+        tokenPriceData={tokenPriceData}
       />
     </IncentiveleftBarBox1>
   );
