@@ -22,63 +22,75 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { LockedBalance } from '../../../types/VotingEscrow';
 import { useVotingEscrowContract } from '../../../hooks/useVotingEscrowContract';
-import contractAddress from '../../../constants/contract-address/address'; // Contract addresses
-//import { Address } from 'viem';
+import contractAddress from '../../../constants/contract-address/address';
 import { useAccount } from '../../../hooks/useAccount';
 import SuccessPopup from '../../common/SucessPopup';
+import { ToastContainer } from 'react-toastify';
+
+import { Address } from 'viem';
+import { showErrorToast } from '../../../utils/common/toastUtils';
 
 const Transferlock = () => {
   const { tokenId } = useParams<{ tokenId: string }>();
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
-  const [toAddres, setToAddres] = useState<`0x${string}` | undefined>(
-    undefined
-  );
-  const [iSinputLock, setInputLock] = useState<boolean>(false);
-  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [toAddress, setToAddress] = useState<Address>();
+  const [isInputLocked, setInputLock] = useState<boolean>(false);
+  const [isSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
-  const { address } = useAccount();
-  //const [IsSetSidebarHieght, setSidebarHieght] = useState<number>(278);
+  const { address: currentAddress } = useAccount();
   const lockTokenInfo = locktokeninfo();
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (iSuccessLock) navigate('/governance');
+    if (isSuccessLock) navigate('/governance');
     const fetchLockData = async () => {
       if (tokenId) {
         try {
           const data = await getLockData(Number(tokenId));
           if (data) {
-            const LockedAmt = formatTokenAmount(Number(data.amount));
-            setLockedTENEX(Number(LockedAmt));
+            const lockedAmount = formatTokenAmount(Number(data.amount));
+            setLockedTENEX(Number(lockedAmount));
 
             const currentTime = Math.floor(Date.now() / 1000);
             const timeRemaining =
               data.end > currentTime ? data.end - currentTime : 0;
             const votingPower = data.amount * (timeRemaining / MAX_LOCK_TIME);
-            const setVotePw = convertToDecimal(Number(votingPower));
-            setTotalVotingPower(Number(setVotePw));
+            const setVotePower = convertToDecimal(Number(votingPower));
+            setTotalVotingPower(Number(setVotePower));
           }
-
           setLockData(data);
         } catch (error) {
           console.error('Error fetching lock data:', error);
-          return null;
         }
       }
     };
-
     void fetchLockData();
   }, [tokenId, getLockData]);
 
   const handleTransferAddress = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (inputValue.startsWith('0x') && inputValue.length === 42) {
-      setToAddres(inputValue as `0x${string}`);
-    } else {
-      setToAddres(undefined);
+    setToAddress(inputValue as Address);
+  };
+
+  const validateAddress = () => {
+    if (!toAddress || toAddress.length !== 42) {
+      void showErrorToast('Please enter a valid EVM wallet address.');
+      return;
+    }
+    if (toAddress.toLowerCase() === currentAddress?.toLowerCase()) {
+      void showErrorToast('You cannot transfer to your own wallet address.');
+      return;
+    }
+
+    return true;
+  };
+
+  const handleSubmit = () => {
+    if (validateAddress()) {
+      setInputLock(true);
     }
   };
 
@@ -109,11 +121,12 @@ const Transferlock = () => {
             <InputBox
               type="text"
               height="48px"
-              disabled={iSinputLock}
+              disabled={isInputLocked}
               border="1px solid #B8B8B899"
               borderradius={12}
-              value={toAddres}
-              padding="12px  24px"
+              value={toAddress}
+              placeholder="Enter recipient address"
+              padding="12px 24px"
               onChange={handleTransferAddress}
             />
           </WalletAdressConainer>
@@ -121,14 +134,16 @@ const Transferlock = () => {
 
         <TransferLockSidebar
           tokenId={Number(tokenId)}
-          toAddress={toAddres!}
-          fromOwner={address!}
+          toAddress={toAddress!}
+          fromOwner={currentAddress!}
           setInputLock={setInputLock}
           setSuccessLock={setSuccessLock}
-          setToAddres={setToAddres}
+          setToAddres={setToAddress}
+          handleSubmit={handleSubmit}
         />
       </CreateMainContainer>
-      {iSuccessLock && <SuccessPopup message="Transfer Succesfuly" />}
+      {isSuccessLock && <SuccessPopup message="Transfer Successful!" />}
+      <ToastContainer />
     </MainContainerStyle>
   );
 };

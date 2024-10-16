@@ -1,5 +1,5 @@
+import { ChangeEvent, useCallback, useState, useEffect } from 'react';
 import InformIcon from '../../../../assets/information.png';
-
 import {
   Slider,
   SliderContainer,
@@ -23,11 +23,9 @@ import {
   FormFieldContainer,
   FormRowWrapper,
 } from '../../../Liquidity/ManageLiquidity/styles/LiquidityForm.style';
-import { ChangeEvent, useCallback, useState } from 'react';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useTokenBalances } from '../../../../hooks/useTokenBalance';
 import { TokenInfo } from '../../../../constants/tokens/type';
-
 import {
   InputBoxRow,
   InputWrapper,
@@ -37,103 +35,84 @@ import {
   SwapPageIconWrapper,
   TokenSelect,
   TokenSelectAlign,
-  //TokenSelectAlignSelect,
   WalletInfo,
   WalletText,
 } from '../../../Swap/styles/SwapForm.style.';
 import { InputBox } from '../../../Swap/modules/InputBox';
-import React from 'react';
-import { LockleftSection } from '../../../Dashboard/Extendlock/styles/Extendlock.style';
 import SuccessPopup from '../../../common/SucessPopup';
 import { ERC20_TEST_TOKEN_LIST } from '../../../../constants/tokens/testnetTokens';
+import { LockleftSection } from '../../../Dashboard/Extendlock/styles/Extendlock.style';
 
 const CreatelockForm = () => {
   const lockTokenInfo: TokenInfo = ERC20_TEST_TOKEN_LIST[1];
-  const [selectedPercentage, setSelectedPercentage] = React.useState<
-    number | null
-  >(null);
+  const [selectedPercentage, setSelectedPercentage] = useState<number | null>(
+    null
+  );
   const tokenList = [lockTokenInfo];
   const { address } = useAccount();
   const { balances } = useTokenBalances(tokenList, address!);
-  const [lockDuration, SetlockDuration] = useState<number>(1);
-  const [LockTokenValue, setLockTokenValue] = useState<string>('');
-  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
-  const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
-  const [voteCalPower, setVotePower] = useState<number>(0);
+  const [lockDuration, setLockDuration] = useState<number>(1); // Slider value (1 week initially)
+  const [lockTokenValue, setLockTokenValue] = useState<string>(''); // Lock amount input
+  const [successLock, setSuccessLock] = useState<boolean>(false);
+  const [approveLock, setApproveLock] = useState<boolean>(false);
+  const [votingPower, setVotingPower] = useState<number>(0); // Calculated voting power
   const [errorColor, setErrorColor] = useState<string>('#FFFFFF');
-  const [UserCurrentBalance, setUserCurrentBalance] = useState<number>(0);
+  const [userBalance, setUserBalance] = useState<number>(0);
   const [isSliderDisabled, setIsSliderDisabled] = useState<boolean>(false);
 
-  //setUserCurrentBalance(Number(balances[lockTokenInfo?.address]));
-
-  const HandleWeeksStatus = (e: ChangeEvent<HTMLInputElement>) => {
-    if (isApproveLock) return;
-    const TotalWeeks = e.target.value;
-    SetlockDuration(Number(TotalWeeks));
-    void handleVotingPower();
-  };
-
-  const handleVotingPower = () => {
-    const votePower = (
-      (Number(LockTokenValue) * Number(lockDuration)) /
+  const calculateVotingPower = useCallback(() => {
+    if (!lockTokenValue || lockDuration < 1) {
+      setVotingPower(0);
+      return;
+    }
+    const calculatedPower = (
+      (Number(lockTokenValue) * Number(lockDuration)) /
       208
     ).toFixed(5);
+    setVotingPower(Number(calculatedPower));
+  }, [lockTokenValue, lockDuration]);
 
-    setVotePower(Number(votePower));
+  useEffect(() => {
+    calculateVotingPower();
+  }, [lockTokenValue, lockDuration, calculateVotingPower]);
+
+  const handleSliderChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const weeks = Number(e.target.value);
+    setLockDuration(weeks);
+    calculateVotingPower();
+  };
+
+  const handleLockInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (Number(value) > Number(balances[lockTokenInfo?.address])) {
+      setErrorColor('#FF0000');
+      setLockTokenValue('');
+    } else {
+      setErrorColor('#FFFFFF');
+      setLockTokenValue(value);
+    }
   };
 
   const handleSelectPercentage = useCallback(
     (percentage: number) => {
-      if (isApproveLock) return;
+      if (approveLock) return;
       setSuccessLock(false);
-      //if (!LockTokenValue ) return;
       setSelectedPercentage(percentage);
-      const walletBalance =
-        (Number(Number(balances[lockTokenInfo?.address]).toString()) *
-          percentage) /
-        100;
-      const amount = walletBalance.toFixed(5);
+      const balance = Number(balances[lockTokenInfo?.address]);
+      const amount = ((balance * percentage) / 100).toFixed(5);
       setLockTokenValue(amount);
+      setUserBalance(balance - Number(amount));
     },
-    [
-      LockTokenValue,
-      balances,
-      setLockTokenValue,
-      setSuccessLock,
-      lockTokenInfo?.address,
-    ]
+    [approveLock, balances, lockTokenInfo?.address]
   );
 
   const labels = [
     { value: 1, weeks: '1 week' },
     { value: 52, weeks: '1 year' },
-    { value: 104, weeks: '2 year' },
-    { value: 156, weeks: '3 year' },
-    { value: 208, weeks: '4 year' },
+    { value: 104, weeks: '2 years' },
+    { value: 156, weeks: '3 years' },
+    { value: 208, weeks: '4 years' },
   ];
-  const handleDurationYearClick = (vlueWeek: number) => {
-    if (!isApproveLock) return;
-    setSuccessLock(false);
-    const TotalWeeks = vlueWeek;
-    SetlockDuration(Number(TotalWeeks));
-    void handleVotingPower();
-  };
-
-  const handleLockInputData = (e: ChangeEvent<HTMLInputElement>) => {
-    setLockTokenValue(e.target.value);
-    setErrorColor('#FFFFFF');
-    if (Number(e.target.value) > Number(balances[lockTokenInfo?.address])) {
-      setErrorColor('#FF0000');
-      setLockTokenValue('');
-      return;
-    }
-
-    setLockTokenValue(e.target.value);
-    const remainingBal =
-      Number(balances[lockTokenInfo?.address]) - Number(e.target.value);
-    setUserCurrentBalance(remainingBal);
-    void handleVotingPower();
-  };
 
   return (
     <MainContainerStyle>
@@ -150,9 +129,9 @@ const CreatelockForm = () => {
                     placeholder="0"
                     width="70%"
                     padding="0px"
-                    value={LockTokenValue}
+                    value={lockTokenValue}
                     disabled={isSliderDisabled}
-                    onChange={handleLockInputData}
+                    onChange={handleLockInputChange}
                   />
                   <TokenSelect>
                     <SwapPageIconWrapper
@@ -161,7 +140,6 @@ const CreatelockForm = () => {
                       height="18px"
                       alt={lockTokenInfo?.logoURI}
                     />
-
                     <TokenSelectAlign>{lockTokenInfo?.symbol}</TokenSelectAlign>
                   </TokenSelect>
                 </InputBoxRow>
@@ -170,34 +148,35 @@ const CreatelockForm = () => {
                   <WalletInfo>
                     Wallet:
                     <WalletText>
-                      {UserCurrentBalance
-                        ? UserCurrentBalance
-                        : Number(balances[lockTokenInfo?.address])}
+                      {userBalance || Number(balances[lockTokenInfo?.address])}
                     </WalletText>
-                    <WalletText margin={8}>~$0.00</WalletText>
                   </WalletInfo>
                   <PercentageOptions>
                     <PercentageButton
                       active={selectedPercentage === 25}
                       onClick={() => handleSelectPercentage(25)}
+                      disabled={isSliderDisabled}
                     >
                       25%
                     </PercentageButton>
                     <PercentageButton
                       active={selectedPercentage === 50}
                       onClick={() => handleSelectPercentage(50)}
+                      disabled={isSliderDisabled}
                     >
                       50%
                     </PercentageButton>
                     <PercentageButton
                       active={selectedPercentage === 75}
                       onClick={() => handleSelectPercentage(75)}
+                      disabled={isSliderDisabled}
                     >
                       75%
                     </PercentageButton>
                     <PercentageButton
                       active={selectedPercentage === 100}
                       onClick={() => handleSelectPercentage(100)}
+                      disabled={isSliderDisabled}
                     >
                       MAX
                     </PercentageButton>
@@ -208,8 +187,9 @@ const CreatelockForm = () => {
           </FormFieldContainer>
 
           <LockTitle fontSize={16} lineheight={23.93}>
-            Locking your TENEX tokens for {voteCalPower} veTENEX voting power
+            Locking your TENEX tokens for {votingPower} veTENEX voting power
           </LockTitle>
+
           <LockLoaderContainer>
             <LoaderStatusWrapper fontSize={12} lineheight={17.94}>
               <LoaderStatus>{lockDuration} weeks</LoaderStatus>
@@ -221,8 +201,8 @@ const CreatelockForm = () => {
                   min="1"
                   max="208"
                   step={1}
-                  value={!isApproveLock ? lockDuration : ''}
-                  onChange={HandleWeeksStatus}
+                  value={lockDuration}
+                  onChange={handleSliderChange} // Slider handler
                   disabled={isSliderDisabled}
                 />
               </SliderContainer>
@@ -231,7 +211,9 @@ const CreatelockForm = () => {
               {labels.map(({ value, weeks }) => (
                 <WeeksLabel
                   key={value}
-                  onClick={() => handleDurationYearClick(value)}
+                  onClick={() =>
+                    !isSliderDisabled ? setLockDuration(value) : ''
+                  }
                   isdisable={isSliderDisabled}
                 >
                   {weeks}
@@ -240,19 +222,21 @@ const CreatelockForm = () => {
             </SliderDeadlineStyle>
           </LockLoaderContainer>
         </LockleftSection>
+
         <LockDeposite
-          LockTokenValue={LockTokenValue}
-          SetlockDuration={SetlockDuration}
+          LockTokenValue={lockTokenValue}
+          SetlockDuration={setLockDuration}
           setLockTokenValue={setLockTokenValue}
           LockTokenSymbol={lockTokenInfo.symbol}
           LocTokenAddress={lockTokenInfo.address}
           LockTokenDecimal={lockTokenInfo.decimals}
           lockDuration={Number(lockDuration)}
           setSuccessLock={setSuccessLock}
-          setIsApproveLock={setIsApproveLock}
+          setIsApproveLock={setApproveLock}
           setIsSliderDisabled={setIsSliderDisabled}
         />
       </CreateMainContainer>
+
       <LockScreenInstruction>
         <InformImg src={InformIcon} />
         <LockCardtitle fontSize={16}>
@@ -260,7 +244,8 @@ const CreatelockForm = () => {
           the Lock amount or extend the Lock time at any point after.
         </LockCardtitle>
       </LockScreenInstruction>
-      {iSuccessLock && <SuccessPopup message="Locked confirmed" />}
+
+      {successLock && <SuccessPopup message="Locked confirmed" />}
     </MainContainerStyle>
   );
 };

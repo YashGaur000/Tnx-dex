@@ -29,6 +29,7 @@ import {
   TransactionStatus,
 } from '../../../../types/Transaction';
 import { useRootStore } from '../../../../store/root';
+import { useNavigate } from 'react-router-dom';
 
 const ExtendStepper: React.FC<ExtendStepperProps> = ({
   tokenId,
@@ -45,7 +46,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   const [isPoke, setIsPoke] = useState(false);
   const { poke } = useVoterContract();
   const { setTransactionStatus, transactionStatus } = useRootStore();
-
+  const navigate = useNavigate();
   const handleExtend = useCallback(
     async (tokenId: number, duration: number): Promise<void> => {
       try {
@@ -61,13 +62,13 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
           setIsExtend(true);
           setIsPoke(true);
         }, TRANSACTION_DELAY);
-        await showSuccessToast(
+        void showSuccessToast(
           `Lock extended for ${duration} weeks successfully!`
         );
       } catch (error) {
         setIsExtend(false);
         setIsPoke(false);
-        await showErrorToast('Failed to extend lock. Please try again.');
+        void showErrorToast('Failed to extend lock. Please try again.');
       } finally {
         setIsExtending(false);
       }
@@ -85,12 +86,13 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setIsPoke(false);
+        navigate('/governance');
       }, TRANSACTION_DELAY);
     } catch (error) {
       setIsPoke(false);
       setTransactionStatus(TransactionStatus.FAILED);
       console.error('Error during poke action:', error);
-      await showErrorToast('Failed to poke the voting weight.');
+      void showErrorToast('Failed to poke the voting weight.');
     }
   };
 
