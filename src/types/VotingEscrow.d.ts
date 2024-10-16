@@ -41,6 +41,7 @@ export interface VotingEscrowContract extends Contract {
     operator: Address,
     overrides?: Overrides
   ): Promise<boolean>;
+  balanceOf(owner: Address): Promise<bigint>;
   transferFrom(
     owner: Address,
     address: Address,

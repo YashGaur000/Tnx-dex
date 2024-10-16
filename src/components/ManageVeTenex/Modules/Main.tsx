@@ -48,19 +48,21 @@ const Main = () => {
 
   const escrowAddress = contractAddress.VotingEscrow;
   const { fetchUserNFTs } = useVotingEscrowContract(escrowAddress);
-  const { address } = useAccount();
+  const { address: contactAddress } = useAccount();
   const totalLocked = useTotalValues(nftData);
   useEffect(() => {
     void (async function fetchData() {
       try {
         setRelayActive(false);
-        if (address) {
-          const fetchedNftVal = await fetchUserNFTs(address);
+        if (contactAddress) {
+          const fetchedNftVal = await fetchUserNFTs(contactAddress);
           const formattedNftFormateData = fetchedNftVal.map((nft) => ({
             tokenId: nft.tokenId,
             metadata: decodeBase64(nft.metadata),
             votingStatus: nft.votingStatus,
           }));
+          console.log('fetchedNftVal', fetchedNftVal);
+          if (!fetchedNftVal) return;
           /*  const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData
           ); */
@@ -79,7 +81,7 @@ const Main = () => {
         console.error('Error fetching NFT data:', error);
       }
     })();
-  }, [address, fetchUserNFTs]);
+  }, [contactAddress, fetchUserNFTs]);
 
   function handleCreateLock() {
     Navigate('/governance/create');

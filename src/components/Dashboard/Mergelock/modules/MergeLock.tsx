@@ -61,6 +61,7 @@ const MergeLock = () => {
     ) => {
       setIsFromVotingPower(fromVotingPower);
       setVotingStatus(votingStatus);
+      console.log('votingStatus:', votingStatus);
       const fromTillDate = convertDateToTimestamp(fromLockDate);
 
       if (lockData) {
