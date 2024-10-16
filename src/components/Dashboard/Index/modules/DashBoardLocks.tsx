@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import tenxLogo from '../../../../assets/Tenex.png';
 import { DashboardNavigation } from '../styles/DashBoard.styled';
+
 import {
   DashBoardLockMainContainer,
   LockContainer,
@@ -19,14 +20,36 @@ import {
 import useNftData from '../../../../hooks/useUserNFTs';
 import { Nft } from '../../../../types/VotingEscrow';
 import Pagination from '../../../common/Pagination';
-import { getTimeDifference } from '../../../../utils/common/voteTenex';
+import {
+  encryptData,
+  getTimeDifference,
+} from '../../../../utils/common/voteTenex';
+import {
+  TRANSACTION_DELAY,
+  TransactionStatus,
+} from '../../../../types/Transaction';
+import { useRootStore } from '../../../../store/root';
+import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
+import { useVoterContract } from '../../../../hooks/useVoterContract';
+import contractAddress from '../../../../constants/contract-address/address';
+import {
+  showErrorToast,
+  showSuccessToast,
+} from '../../../../utils/common/toastUtils';
+import { LoadingSpinner } from '../../../common/Loader';
 
 const DashBoardLocks = () => {
   const Navigate = useNavigate();
   const [lockData, setLockData] = useState<Nft[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [resetTknId, setResetTknId] = useState<bigint>(0n);
+  const escrowAddress = contractAddress.VotingEscrow;
+  const { withdraw } = useVotingEscrowContract(escrowAddress);
+  const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
+  const { reset } = useVoterContract();
   const itemsPerPage = 1;
   const nftData = useNftData();
+  const { setTransactionStatus } = useRootStore();
 
   useEffect(() => {
     if (nftData.length > 0) {
@@ -53,13 +76,68 @@ const DashBoardLocks = () => {
     }
   };
 
-  const handleLockButton = (option: string, tokenId: bigint) => {
+  /*  const handleLockButton = (option: string, tokenId: bigint) => {
     if (option) {
       Navigate(`/governance/managevetenex/${option}/${tokenId}`);
     } else {
       console.log('Route is undefined');
     }
+  }; */
+
+  const handleLockButton = (
+    option: string,
+    tokenId: bigint,
+    votingStatus: boolean | undefined
+  ) => {
+    if (option) {
+      const encryptedTokenId = encryptData(tokenId.toString());
+      const voteStatus = votingStatus ? votingStatus : false;
+      const encryptedVotingStatus = encryptData(voteStatus.toString());
+      Navigate(
+        `/governance/managevetenex/${option}/${encryptedTokenId}/${encryptedVotingStatus}`
+      );
+    } else {
+      console.warn('Undefined route');
+    }
   };
+
+  const handleReset = useCallback(
+    async (tokenId: bigint) => {
+      try {
+        if (!tokenId) return;
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setResetTknId(tokenId);
+
+        await reset(tokenId);
+        setResetTknId(0n);
+        setTransactionStatus(TransactionStatus.DONE);
+      } catch (error) {
+        setTransactionStatus(TransactionStatus.FAILED);
+        await showErrorToast('Failed to reset lock. Please try again.');
+      }
+    },
+    [reset, setTransactionStatus]
+  );
+  const handleWithdraw = useCallback(
+    async (tokenId: bigint) => {
+      try {
+        if (!tokenId) return;
+        setTransactionStatus(TransactionStatus.IN_PROGRESS);
+        setIsWithdrawing(tokenId);
+        await withdraw(tokenId);
+        setTimeout(() => {
+          void showSuccessToast('Withdraw lock successfully.');
+        }, TRANSACTION_DELAY);
+        setTransactionStatus(TransactionStatus.IDEAL);
+      } catch (error) {
+        setTransactionStatus(TransactionStatus.FAILED);
+        void showErrorToast('Failed to withdraw lock. Please try again.');
+      } finally {
+        setIsWithdrawing(null);
+      }
+    },
+    [withdraw, setTransactionStatus]
+  );
 
   return (
     <>
@@ -107,28 +185,44 @@ const DashBoardLocks = () => {
                       <>
                         <DashboardNavigation
                           onClick={() =>
-                            handleLockButton('increase', lock.tokenId)
+                            handleLockButton(
+                              'increase',
+                              lock.tokenId,
+                              lock.votingStatus
+                            )
                           }
                         >
                           Increase
                         </DashboardNavigation>
                         <DashboardNavigation
                           onClick={() =>
-                            handleLockButton('extend', lock.tokenId)
+                            handleLockButton(
+                              'extend',
+                              lock.tokenId,
+                              lock.votingStatus
+                            )
                           }
                         >
                           Extend
                         </DashboardNavigation>
                         <DashboardNavigation
                           onClick={() =>
-                            handleLockButton('merge', lock.tokenId)
+                            handleLockButton(
+                              'merge',
+                              lock.tokenId,
+                              lock.votingStatus
+                            )
                           }
                         >
                           Merge
                         </DashboardNavigation>
                         <DashboardNavigation
                           onClick={() =>
-                            handleLockButton('transfer', lock.tokenId)
+                            handleLockButton(
+                              'transfer',
+                              lock.tokenId,
+                              lock.votingStatus
+                            )
                           }
                         >
                           Transfer
@@ -136,21 +230,47 @@ const DashBoardLocks = () => {
                       </>
                     ) : (
                       <>
-                        {!lock.votingStatus ? (
-                          <DashboardNavigation
-                            onClick={() =>
-                              handleLockButton('transfer', lock.tokenId)
-                            }
-                          >
-                            Transfer
+                        {lock.votingStatus &&
+                          (resetTknId === lock.tokenId ? (
+                            <DashboardNavigation disabled>
+                              <span
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <LoadingSpinner width="10px" height="10px" />
+                                <span style={{ marginLeft: '5px' }}>
+                                  Resetting
+                                </span>
+                              </span>
+                            </DashboardNavigation>
+                          ) : (
+                            <DashboardNavigation
+                              onClick={() => handleReset(lock.tokenId)}
+                            >
+                              Reset
+                            </DashboardNavigation>
+                          ))}
+                        {isWithdrawing === lock.tokenId ? (
+                          <DashboardNavigation disabled>
+                            <span
+                              style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                              }}
+                            >
+                              <LoadingSpinner width="10px" height="10px" />
+                              <span style={{ marginLeft: '5px' }}>
+                                Withdrawing
+                              </span>
+                            </span>
                           </DashboardNavigation>
                         ) : (
                           <DashboardNavigation
-                            onClick={() =>
-                              handleLockButton('reset', lock.tokenId)
-                            }
+                            onClick={() => handleWithdraw(lock.tokenId)}
                           >
-                            Reset
+                            Withdraw
                           </DashboardNavigation>
                         )}
                       </>

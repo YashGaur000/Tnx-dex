@@ -37,6 +37,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   setSuccessLock,
   setAdditionalAmount,
   setIsApproveLock,
+  votingStatus,
 }) => {
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -257,7 +258,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         </GlobalButton>
       )}
 
-      {isPokeDisplay && (
+      {isPokeDisplay && votingStatus != 'false' && (
         <GlobalButton
           width="30%"
           height="40px"

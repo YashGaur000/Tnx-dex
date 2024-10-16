@@ -26,6 +26,7 @@ import {
   calculateRemainingDays,
   calVotingPower,
   convertToDecimal,
+  decryptData,
   formatTokenAmount,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
@@ -34,7 +35,6 @@ import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import SuccessPopup from '../../common/SucessPopup';
 
 const IncreaseLock = () => {
-  const { tokenId } = useParams<{ tokenId: string }>();
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [additionalAmount, setAdditionalAmount] = useState<string>('');
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
@@ -45,6 +45,17 @@ const IncreaseLock = () => {
   const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const navigate = useNavigate();
+  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+    encryptedTokenId: string;
+    encryptedVotingStatus: string;
+  }>();
+  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : '';
+  const votingStatus = encryptedVotingStatus
+    ? decryptData(encryptedVotingStatus)
+    : (false as boolean);
+  if (!tokenId) {
+    navigate('/governance');
+  }
   useEffect(() => {
     window.scrollTo(0, 0);
     const fetchLockData = async () => {
@@ -186,6 +197,7 @@ const IncreaseLock = () => {
           totalVotingPower={totalVotingPower}
           setSuccessLock={setSuccessLock}
           setIsApproveLock={setIsApproveLock}
+          votingStatus={votingStatus}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Increase Lock confirmed" />}

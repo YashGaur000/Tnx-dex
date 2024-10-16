@@ -19,13 +19,14 @@ import { DropDownContainer, DropdownTitle } from '../styles/MergeLock.style';
 import { useCallback, useEffect, useState } from 'react';
 import PopupScreen from '../../../common/PopupScreen';
 import LockModel from '../../../modal/LockModel';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useVotingPowerCalculation } from '../../../../hooks/useVotingNftData';
 import {
   calculateRemainingDays,
   convertDateToTimestamp,
   convertTimestampToDate,
   convertToDecimal,
+  decryptData,
   formatTokenAmount,
   getTimeDifference,
   locktokeninfo,
@@ -33,7 +34,13 @@ import {
 import SuccessPopup from '../../../common/SucessPopup';
 
 const MergeLock = () => {
-  const { tokenId } = useParams<{ tokenId: string }>();
+  const navigate = useNavigate();
+  const { encryptedTokenId } = useParams<{ encryptedTokenId: string }>();
+  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : '';
+
+  if (!tokenId) {
+    navigate('/governance');
+  }
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isFromTokenId, setIsFromTokenId] = useState<number>(0);
   const [isFromVotingPower, setIsFromVotingPower] = useState<number>(0);

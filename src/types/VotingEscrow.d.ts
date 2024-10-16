@@ -133,6 +133,7 @@ interface LockIncreaseProps {
   totalVotingPower: number;
   setSuccessLock: (input: boolean) => void;
   setIsApproveLock: (input: boolean) => void;
+  votingStatus: string | boolean;
 }
 export interface ExtendStepperProps {
   tokenId: number;
@@ -141,6 +142,7 @@ export interface ExtendStepperProps {
   setSuccessLock: (input: boolean) => void;
   isExtendDisable: boolean;
   onExtendClick: (input: boolean) => void;
+  votingStatus: string | boolean;
 }
 
 export interface LockModelProps {

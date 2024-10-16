@@ -38,6 +38,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
   setSuccessLock,
   isExtendDisable,
   onExtendClick,
+  votingStatus,
 }) => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { increaseUnlockTime } = useVotingEscrowContract(escrowAddress);
@@ -61,10 +62,14 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
           //setSuccessLock(true);
           setIsExtend(true);
           setIsPoke(true);
+          void showSuccessToast(
+            `Lock extended for ${duration} weeks successfully!`
+          );
         }, TRANSACTION_DELAY);
-        void showSuccessToast(
-          `Lock extended for ${duration} weeks successfully!`
-        );
+
+        if (votingStatus != 'true') {
+          void navigate('/governance');
+        }
       } catch (error) {
         setIsExtend(false);
         setIsPoke(false);
@@ -119,15 +124,17 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       },
       icon: !isExtend ? WaitingIcon : SucessDepositIcon,
       actionCompleted: !isExtend,
-      buttons: isPoke
-        ? {
-            label: 'Poke',
-            onClick: handlePoke,
-            tooltip: 'Click to Poke Lock #' + tokenId,
-            disabled:
-              !isPoke || transactionStatus === TransactionStatus.IN_PROGRESS,
-          }
-        : undefined,
+
+      buttons:
+        isPoke && votingStatus != 'false'
+          ? {
+              label: 'Poke',
+              onClick: handlePoke,
+              tooltip: 'Click to Poke Lock #' + tokenId,
+              disabled:
+                !isPoke || transactionStatus === TransactionStatus.IN_PROGRESS,
+            }
+          : undefined,
     },
   ];
 
