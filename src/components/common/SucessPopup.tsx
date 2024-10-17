@@ -67,7 +67,7 @@ const SuccessPopup: React.FC<{
         </div>
         <label>{message}</label>
         <a href={explorerLink} target="_blank" rel="noopener noreferrer">
-          Link
+          View on Explorer
         </a>
       </PopupScreen>
     </>
