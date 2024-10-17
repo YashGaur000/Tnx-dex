@@ -25,6 +25,8 @@ import { AddressZero } from '@ethersproject/constants';
 import { formatAmounts } from '../../../../utils/transaction/parseAmounts';
 import { useRootStore } from '../../../../store/root';
 import { TransactionStatus } from '../../../../types/Transaction';
+import { showErrorToast } from '../../../../utils/common/toastUtils';
+import { ToastContainer } from 'react-toastify';
 interface FormComponentProps {
   totalBalanceToken1: ethers.Numeric;
   totalBalanceToken2: ethers.Numeric;
@@ -45,12 +47,18 @@ const LiquidityForm: FC<FormComponentProps> = ({
   const [token2Value, setToken2Amount] = useState('');
   const { quoteAddLiquidity } = useRouterContract();
   const { transactionStatus } = useRootStore();
+  const { address } = useAccount();
 
   const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     let stableValue = value;
     const validInput = /^[0-9]*\.?[0-9]*$/.test(value);
     if (!validInput) return;
+
+    if (!address) {
+      void showErrorToast('Connect Wallet to continue ...');
+      return;
+    }
 
     // Check the number of decimals
     if (value.includes('.') && selectedToken1 && selectedToken2) {
@@ -247,7 +255,6 @@ const LiquidityForm: FC<FormComponentProps> = ({
 
   const tokenList = [selectedToken1, selectedToken2];
 
-  const { address } = useAccount();
   const { balance: ethBalance } = useNativeBalance(address ?? AddressZero);
   const { balances } = useTokenBalances(tokenList as TokenInfo[], address!);
 
@@ -271,6 +278,7 @@ const LiquidityForm: FC<FormComponentProps> = ({
     return (
       <ManageLiquidityFormSection>
         <FormFieldContainer>
+          <ToastContainer />
           <FormRowWrapper>
             <ImageWithTitleWrap>
               <TokenImgLiquidity src={selectedToken1.logoURI} alt="USDT logo" />
