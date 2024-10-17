@@ -130,7 +130,7 @@ const DepositAndStake = ({
   };
 
   if (userPools && userPools.length === 0 && !isLoading) {
-    if (!isLoading) {
+    if (isLoading) {
       return (
         <DashBoardCard>
           <DashBoardCardData>

@@ -134,7 +134,7 @@ export const TokenNameWrapper = styled.div`
   flex-direction: column;
   align-items: flex-start;
 `;
-export const TokenItemData = styled.p<{
+export const TokenItemData = styled.div<{
   theme: DefaultTheme;
   fontSize?: number;
 }>`
@@ -142,7 +142,9 @@ export const TokenItemData = styled.p<{
   color: ${({ theme }) => theme.colors.whiteBorder};
   font-weight: ${({ theme }) => theme.fontWeights.regular};
   font-family: ${({ theme }) => theme.fonts.main};
+  text-align: right;
 `;
+
 export const SearchWrapper = styled.div<{ theme: DefaultTheme }>`
   display: flex;
   align-items: center;

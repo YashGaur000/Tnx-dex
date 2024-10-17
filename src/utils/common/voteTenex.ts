@@ -14,6 +14,10 @@ export const decodeBase64 = (base64: string): Metadata => {
   }
 
   const base64Data = base64.split(',')[1];
+  /* if (base64Data) {
+    console.log(decodeURI(base64Data));
+  } */
+
   if (!base64Data) {
     throw new Error('Base64 data is missing');
   }

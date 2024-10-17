@@ -4,6 +4,8 @@ import { LockedBalance, VotingEscrowContract } from '../types/VotingEscrow'; //L
 import { Abi, Address } from 'viem';
 import votingEscrowAbi from '../constants/artifacts/contracts/VotingEscrow.json';
 import { useMultiCall } from './useMultiCall';
+import voterAbi from '../constants/artifacts/contracts/Voter.json';
+import contractAddresses from '../constants/contract-address/address';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function useVotingEscrowContract(escrowAddress: string) {
@@ -195,12 +197,16 @@ export function useVotingEscrowContract(escrowAddress: string) {
     async (
       owner: Address
     ): Promise<
-      { tokenId: bigint; metadata: string; votingStatus: boolean }[]
+      {
+        tokenId: bigint;
+        metadata: string;
+        votingStatus: boolean;
+        poolVoteCheck: Address | undefined;
+      }[]
     > => {
       if (!votingEscrowContract) return [];
 
       const nftCount = await getNFTCount(owner);
-
       const multicallRequests: {
         abi: Abi;
         functionName: string;
@@ -217,7 +223,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
         });
       }
 
-      if (!multicallRequests) throw new Error('Failed to fetch tokens');
+      if (!multicallRequests.length) throw new Error('Failed to fetch tokens');
 
       const tokenIdResults = await multicallClient?.multicall({
         contracts: multicallRequests,
@@ -239,41 +245,44 @@ export function useVotingEscrowContract(escrowAddress: string) {
         args: [tokenId],
         address: escrowAddress as Address,
       }));
-      const checkVoteStatus = tokenIds.map((tokenId) => ({
+
+      const checkVoteStatusRequests = tokenIds.map((tokenId) => ({
         abi: votingEscrowAbi.abi as Abi,
         functionName: 'voted',
         args: [tokenId],
         address: escrowAddress as Address,
       }));
+      const poolVoteStatusRequest = tokenIds.map((tokenId, index) => ({
+        abi: voterAbi.abi as Abi,
+        functionName: 'poolVote',
+        args: [tokenId, index],
+        address: contractAddresses.Voter,
+      }));
 
-      const voteStatus = await multicallClient?.multicall({
-        contracts: checkVoteStatus,
-      });
+      // Use Promise.all for metadata and voting status calls
+      const [metadataResults, voteStatusResults, poolVoteStatus] =
+        await Promise.all([
+          multicallClient?.multicall({ contracts: metadataRequests }),
+          multicallClient?.multicall({ contracts: checkVoteStatusRequests }),
+          multicallClient?.multicall({ contracts: poolVoteStatusRequest }),
+        ]);
 
-      const metadataResults = await multicallClient?.multicall({
-        contracts: metadataRequests,
-      });
+      if (metadataResults && voteStatusResults && poolVoteStatus) {
+        const nfts = tokenIds.map((tokenId, index) => {
+          const metadata = metadataResults[index]?.result as string;
+          const votingStatus = voteStatusResults[index]?.result as boolean;
+          const poolVoteCheck = poolVoteStatus[index]?.result as
+            | Address
+            | undefined;
+          return { tokenId, metadata, votingStatus, poolVoteCheck };
+        });
 
-      if (metadataResults && voteStatus) {
-        const nfts =
-          tokenIds.map((tokenId, index) => {
-            const metadata = metadataResults[index]?.result as string;
-            const votingStatus = voteStatus[index]?.result as boolean;
-            return { tokenId, metadata, votingStatus };
-          }) ?? [];
-        //console.log('nfts:', nfts);
         return nfts;
-      } else {
-        return [];
       }
 
-      /*  const nfts: { tokenId: bigint; metadata: string }[] =
-        metadataResults?.map((result, index) => {
-          const metadata = result.result as string;
-          return { tokenId: tokenIds[index], metadata };
-        }) ?? []; */
+      return [];
     },
-    [votingEscrowContract, multicallClient, getNFTCount]
+    [votingEscrowContract]
   );
 
   const getLockData = useCallback(
