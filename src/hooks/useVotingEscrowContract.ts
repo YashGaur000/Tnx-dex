@@ -175,21 +175,17 @@ export function useVotingEscrowContract(escrowAddress: string) {
     },
     [votingEscrowContract]
   );
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const getNFTCount = useCallback(
-    async (owner: Address): Promise<number> => {
-      if (!votingEscrowContract) return 0;
+    async (owner: Address): Promise<bigint> => {
+      if (!votingEscrowContract) return 0n;
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        const NftCount: number = (await votingEscrowContract.balanceOf(
-          owner
-        )) as number;
-
-        return Number(NftCount);
+        const NftCount = await votingEscrowContract.balanceOf(owner);
+        console.log('NftCount', NftCount);
+        return NftCount;
       } catch (error) {
         console.error('Error fetching NFT count:', error);
-        return 0;
+        return 0n;
       }
     },
     [votingEscrowContract]
@@ -204,7 +200,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
       if (!votingEscrowContract) return [];
 
       const nftCount = await getNFTCount(owner);
-
+      console.log('NftCount', nftCount);
       const multicallRequests: {
         abi: Abi;
         functionName: string;
@@ -220,13 +216,13 @@ export function useVotingEscrowContract(escrowAddress: string) {
           address: escrowAddress as Address,
         });
       }
-
+      console.log('multicallRequests', multicallRequests);
       if (!multicallRequests) throw new Error('Failed to fetch tokens');
 
       const tokenIdResults = await multicallClient?.multicall({
         contracts: multicallRequests,
       });
-
+      console.log('tokenIdResults', tokenIdResults);
       if (!tokenIdResults) throw new Error('Failed to fetch token IDs');
 
       const tokenIds: bigint[] = Array.from(
@@ -236,7 +232,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
             .map((result) => result.result as bigint)
         )
       );
-
+      console.log('tokenIds', tokenIds);
       const metadataRequests = tokenIds.map((tokenId) => ({
         abi: votingEscrowAbi.abi as Abi,
         functionName: 'tokenURI',
@@ -257,7 +253,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
       const metadataResults = await multicallClient?.multicall({
         contracts: metadataRequests,
       });
-
+      console.log('metadataResults:', metadataResults);
       if (metadataResults && voteStatus) {
         const nfts =
           tokenIds.map((tokenId, index) => {
@@ -265,7 +261,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
             const votingStatus = voteStatus[index]?.result as boolean;
             return { tokenId, metadata, votingStatus };
           }) ?? [];
-        //console.log('nfts:', nfts);
+        console.log('nftsfinal:', nfts);
         return nfts;
       } else {
         return [];

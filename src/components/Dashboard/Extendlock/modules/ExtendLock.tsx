@@ -31,15 +31,27 @@ import {
 } from '../../../Swap/styles/TransactionDeadline.style';
 import {
   convertToDecimal,
+  decryptData,
   formatTokenAmount,
 } from '../../../../utils/common/voteTenex';
 import { useEffect, useState } from 'react';
 import { useVotingPowerCalculation } from '../../../../hooks/useVotingNftData';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import SuccessPopup from '../../../common/SucessPopup';
 
 const ExtendLock = () => {
-  const { tokenId } = useParams<{ tokenId: string }>();
+  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+    encryptedTokenId: string;
+    encryptedVotingStatus: string;
+  }>();
+  const navigate = useNavigate();
+  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : '';
+  const votingStatus = encryptedVotingStatus
+    ? decryptData(encryptedVotingStatus)
+    : (false as boolean);
+  if (!tokenId) {
+    navigate('/governance');
+  }
   const [isMaxLockMode, setIsMaxLockMode] = useState<boolean>(false);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isExtendDisable, setIsExtendDisable] = useState<boolean>(true);
@@ -194,6 +206,7 @@ const ExtendLock = () => {
           setSuccessLock={setSuccessLock}
           isExtendDisable={isExtendDisable}
           onExtendClick={handleExtendClick}
+          votingStatus={votingStatus}
         />
       </CreateMainContainer>
       {iSuccessLock && <SuccessPopup message="Merge lock confirmed" />}

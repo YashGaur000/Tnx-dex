@@ -15,6 +15,7 @@ import TransferLockSidebar from './TransferLockSidebar';
 import {
   calculateRemainingDays,
   convertToDecimal,
+  decryptData,
   formatTokenAmount,
   locktokeninfo,
   MAX_LOCK_TIME,
@@ -31,7 +32,20 @@ import { Address } from 'viem';
 import { showErrorToast } from '../../../utils/common/toastUtils';
 
 const Transferlock = () => {
-  const { tokenId } = useParams<{ tokenId: string }>();
+  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+    encryptedTokenId: string;
+    encryptedVotingStatus: string;
+  }>();
+  const navigate = useNavigate();
+  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : 0;
+  const votingStatus = encryptedVotingStatus
+    ? decryptData(encryptedVotingStatus)
+    : (false as boolean);
+  if (!tokenId) {
+    navigate('/governance');
+  }
+  console.log('votingStatus', votingStatus);
+
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
   const [toAddress, setToAddress] = useState<Address>();
@@ -41,7 +55,6 @@ const Transferlock = () => {
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address: currentAddress } = useAccount();
   const lockTokenInfo = locktokeninfo();
-  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -140,6 +153,7 @@ const Transferlock = () => {
           setSuccessLock={setSuccessLock}
           setToAddres={setToAddress}
           handleSubmit={handleSubmit}
+          votingStatus={votingStatus}
         />
       </CreateMainContainer>
       {isSuccessLock && <SuccessPopup message="Transfer Successful!" />}

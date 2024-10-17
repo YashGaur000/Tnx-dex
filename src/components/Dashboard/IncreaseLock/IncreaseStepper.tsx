@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useLockStore } from '../../../store/slices/useLockStore'; // Import Zustand store
 import { StepperDataProps } from '../../../types/Stepper';
 import Stepper from '../../common/Stepper';
@@ -37,6 +37,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
   setSuccessLock,
   setAdditionalAmount,
   setIsApproveLock,
+  votingStatus,
 }) => {
   const { increaseLockAmount } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -62,6 +63,22 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
     setIsPokeDisplay,
     setIsLocked,
   } = useLockStore();
+  useEffect(() => {
+    setAdditionalAmount('');
+    setIsTokenAllowed(false);
+    setIsPokeDisplay(false);
+    setIsLocked(false);
+    setSuccessLock(false);
+    setTransactionStatus(TransactionStatus.IDEAL);
+  }, [
+    tokenId,
+    setAdditionalAmount,
+    setIsTokenAllowed,
+    setIsPokeDisplay,
+    setIsLocked,
+    setSuccessLock,
+    setTransactionStatus,
+  ]);
 
   const handleAllowToken = async () => {
     try {
@@ -241,7 +258,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         </GlobalButton>
       )}
 
-      {isPokeDisplay && (
+      {isPokeDisplay && votingStatus != 'false' && (
         <GlobalButton
           width="30%"
           height="40px"

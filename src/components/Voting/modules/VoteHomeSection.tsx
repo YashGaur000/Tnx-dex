@@ -118,15 +118,23 @@ const VoteHomeSection = () => {
 
   const handleSort = (field: SortField) => {
     const isAsc = sortField === field && sortOrder === 'asc';
+    console.log('isAsc:', isAsc);
+    console.log('field:', field);
+
+    // Update the current sort field and order
     setSortField(field);
     setSortOrder(isAsc ? 'desc' : 'asc');
 
     const sorted = [...sortedData].sort((a, b) => {
-      if (a[field] < b[field]) return isAsc ? 1 : -1;
-      if (a[field] > b[field]) return isAsc ? -1 : 1;
+      // Parse decimal values if the field is "amount", else compare as usual
+      const valA = field ? a[field] : a[field];
+      const valB = field ? b[field] : b[field];
+
+      if (valA < valB) return isAsc ? 1 : -1;
+      if (valA > valB) return isAsc ? -1 : 1;
       return 0;
     });
-
+    console.log('sorted', sorted);
     setSortedData(sorted);
   };
 

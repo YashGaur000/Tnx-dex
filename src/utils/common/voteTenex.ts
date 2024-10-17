@@ -1,13 +1,23 @@
 import { Metadata, Nft, NftAttribute } from '../../types/VotingEscrow';
 import { ERC20_TEST_TOKEN_LIST } from '../../constants/tokens/testnetTokens';
 import { TokenInfo } from '../../constants/tokens/type';
+import CryptoJS from 'crypto-js';
+import { envConfig } from '../../config';
+
 export const MAX_LOCK_TIME = 4 * 365 * 24 * 60 * 60;
+
+const SECRET_String = envConfig.wallectConnectProjectId;
+
 export const decodeBase64 = (base64: string): Metadata => {
   if (typeof base64 !== 'string' || !base64.includes(',')) {
     throw new Error('Invalid base64 string');
   }
 
-  const base64Data = base64.split(',')[1]; // Safely split the string and access the second part
+  const base64Data = base64.split(',')[1];
+  if (base64Data) {
+    console.log(decodeURI(base64Data));
+  }
+
   if (!base64Data) {
     throw new Error('Base64 data is missing');
   }
@@ -21,6 +31,7 @@ export const decodeBase64 = (base64: string): Metadata => {
   }
 
   const decodedString = new TextDecoder().decode(bytes);
+  console.log('decodedString:', decodedString);
 
   try {
     const decodedStringJson = JSON.parse(decodedString) as Metadata;
@@ -72,7 +83,7 @@ export const calculateRemainingDays = (timestamp: number): string => {
     output += `${days} day${days > 1 ? 's' : ''} `;
   }
 
-  return output.trim() || '0 days'; // Return '0 days' if all are 0
+  return output.trim() || '0 days';
 };
 
 export const convertToDecimal = (value: number): number => {
@@ -159,6 +170,7 @@ export const getTimeDifference = (targetDateString: string): string => {
   let years = targetDate.getFullYear() - currentDate.getFullYear();
   let months = targetDate.getMonth() - currentDate.getMonth();
   let days = targetDate.getDate() - currentDate.getDate();
+  const hours = Math.floor(diffTime / (1000 * 60 * 60));
 
   if (days < 0) {
     months -= 1;
@@ -176,20 +188,32 @@ export const getTimeDifference = (targetDateString: string): string => {
 
   let output = '';
 
-  if (years > 0) {
-    output += `${years} years `;
+  if (years > 1) {
+    output += `${years} years, `;
+  } else if (years != 0) {
+    output += `${years} year, `;
   }
 
-  if (months >= 0) {
-    output += `${months} months `;
+  if (months > 1) {
+    output += `${months} months, `;
+  } else if (months != 0) {
+    output += `${months} month, `;
   }
 
-  if (days >= 0) {
+  if (days > 1) {
     output += `${days} days `;
+  } else if (days !== 0) {
+    output += `${days} day `;
+  } else {
+    output += '';
   }
 
-  if (years === 0 && days === 0 && months) {
-    output += `date has passed.`;
+  if (years === 0 && days === 0 && months === 0) {
+    if (hours > 1) {
+      output += `${hours} hours `;
+    } else {
+      output += `${hours} hour `;
+    }
   }
 
   return output.trim();
@@ -265,4 +289,28 @@ export const convertWeeksToYearsMonthsDays = (weeks: number) => {
   days = totalDays;
 
   return { years, months, days };
+};
+
+export const encryptData = (data: string) => {
+  const ciphertext = CryptoJS.AES.encrypt(data, SECRET_String).toString();
+  const again = ciphertext
+    .replace('+', 'tNl78k')
+    .replace(/\//g, 'Noid34')
+    .replace('=', 'TENEX2345');
+
+  return again
+    .replace('+', 'tNl78k')
+    .replace('/', 'Noid34')
+    .replace('=', 'TENEX2345');
+};
+
+export const decryptData = (encryptedData: string) => {
+  const byteCode = encryptedData
+    .toString()
+    .replace('tNl78k', '+')
+    .replace(/Noid34/g, '/')
+    .replace('TENEX2345', '=');
+  const bytes = CryptoJS.AES.decrypt(byteCode, SECRET_String);
+
+  return bytes.toString(CryptoJS.enc.Utf8);
 };
