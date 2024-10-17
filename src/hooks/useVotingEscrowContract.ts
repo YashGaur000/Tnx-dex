@@ -239,21 +239,22 @@ export function useVotingEscrowContract(escrowAddress: string) {
         args: [tokenId],
         address: escrowAddress as Address,
       }));
+      console.log('metadataRequests:', metadataRequests);
+      const metadataResults = await multicallClient?.multicall({
+        contracts: metadataRequests,
+      });
+      console.log('metadataResultsgdfgdfgd:', metadataResults);
       const checkVoteStatus = tokenIds.map((tokenId) => ({
         abi: votingEscrowAbi.abi as Abi,
         functionName: 'voted',
         args: [tokenId],
         address: escrowAddress as Address,
       }));
-
+      console.log('checkVoteStatus:', checkVoteStatus);
       const voteStatus = await multicallClient?.multicall({
         contracts: checkVoteStatus,
       });
 
-      const metadataResults = await multicallClient?.multicall({
-        contracts: metadataRequests,
-      });
-      console.log('metadataResults:', metadataResults);
       if (metadataResults && voteStatus) {
         const nfts =
           tokenIds.map((tokenId, index) => {
