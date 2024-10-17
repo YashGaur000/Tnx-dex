@@ -181,7 +181,7 @@ const DashBoardLocks = () => {
                     TENEX locked for {formatUnlockData}
                   </Paragraph>
                   <LockStyleText>
-                    {formatUnlockData !== 'Expired' && !lock.votingStatus ? (
+                    {formatUnlockData !== 'Expired' && (
                       <>
                         <DashboardNavigation
                           onClick={() =>
@@ -227,9 +227,6 @@ const DashBoardLocks = () => {
                         >
                           Transfer
                         </DashboardNavigation>
-                      </>
-                    ) : (
-                      <>
                         {lock.votingStatus &&
                           (resetTknId === lock.tokenId ? (
                             <DashboardNavigation disabled>
@@ -252,7 +249,11 @@ const DashBoardLocks = () => {
                               Reset
                             </DashboardNavigation>
                           ))}
-                        {isWithdrawing === lock.tokenId ? (
+                      </>
+                    )}
+                    <>
+                      {formatUnlockData === 'Expired' &&
+                        (isWithdrawing === lock.tokenId ? (
                           <DashboardNavigation disabled>
                             <span
                               style={{
@@ -272,9 +273,8 @@ const DashBoardLocks = () => {
                           >
                             Withdraw
                           </DashboardNavigation>
-                        )}
-                      </>
-                    )}
+                        ))}
+                    </>
                   </LockStyleText>
                 </LockData>
               </LockContainer>

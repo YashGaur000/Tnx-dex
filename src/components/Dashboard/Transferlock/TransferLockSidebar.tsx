@@ -18,6 +18,7 @@ import contractAddress from '../../../constants/contract-address/address';
 import Stepper from '../../common/Stepper';
 import WaitingIcon from '../../../../src/assets/search.png';
 import LockIconGr from '../../../../src/assets/LockSucess.svg';
+import LockIconRed from '../../../assets/lock.png';
 import VotingPowerIcon from '../../../../src/assets/star.svg';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { useNavigate } from 'react-router-dom';
@@ -128,7 +129,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
                 ? 'Reset is required for lock #' + tokenId
                 : 'Reset completed',
             },
-            icon: LockIconGr,
+            icon: !isResetDone ? LockIconRed : LockIconGr,
             buttons: !isResetDone
               ? {
                   label: isResetting ? 'Resett' : 'Reset',
