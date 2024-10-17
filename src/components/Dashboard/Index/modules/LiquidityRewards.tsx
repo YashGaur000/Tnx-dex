@@ -136,18 +136,22 @@ const LiquidityRewards = ({
   };
 
   if (userPools && userPools.length === 0 && !isLoading) {
-    return (
-      <DashBoardCard>
-        <DashBoardCardData>
-          Start by{' '}
-          <DashboardNavigation onClick={() => navigate('/liquidity/create')}>
-            {' '}
-            depositing and staking
-          </DashboardNavigation>{' '}
-          liquidity.
-        </DashBoardCardData>
-      </DashBoardCard>
-    );
+    if (isLoading) {
+      return (
+        <DashBoardCard>
+          <DashBoardCardData>
+            Start by{' '}
+            <DashboardNavigation onClick={() => navigate('/liquidity/create')}>
+              {' '}
+              depositing and staking
+            </DashboardNavigation>{' '}
+            liquidity.
+          </DashBoardCardData>
+        </DashBoardCard>
+      );
+    } else {
+      return <LoadingSpinner />;
+    }
   }
 
   return (
