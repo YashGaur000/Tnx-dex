@@ -109,7 +109,6 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
               {filteredTokens.length} Tokens
             </HeaderleftContent>
             <HeaderRightContent>Balance</HeaderRightContent>
-            <HeaderRightContent>USD($)</HeaderRightContent>
           </HeaderTokenContent>
           <ScrollContainer>
             <TokenList>
@@ -131,26 +130,28 @@ const TokenSelectModal: React.FC<TokenSelectModalProps> = ({
                     </TokenNameWrapper>
                   </TokenItemWithAdressWrapper>
                   <TokenItemData fontSize={16}>
-                    {account && token.symbol == 'ETH' ? (
-                      <BalanceDisplay address={account} />
-                    ) : balances[token.address] > 0 ? (
-                      balances[token.address].toString()
-                    ) : (
-                      '0.0'
-                    )}
-                  </TokenItemData>
-                  <TokenItemData fontSize={16}>
-                    {account && token.symbol === 'ETH' && nativeBalance
-                      ? `~$ ${findTokenPriceBytokenInfo(
-                          tokenPriceData,
-                          token,
-                          nativeBalance?.formatted.toString()
-                        )}`
-                      : `~$ ${findTokenPriceBytokenInfo(
-                          tokenPriceData,
-                          token,
-                          balances[token.address].toString()
-                        )}`}
+                    <p>
+                      {account && token.symbol == 'ETH' ? (
+                        <BalanceDisplay address={account} />
+                      ) : balances[token.address] > 0 ? (
+                        balances[token.address].toString()
+                      ) : (
+                        '0.0'
+                      )}
+                    </p>
+                    <p>
+                      {account && token.symbol === 'ETH' && nativeBalance
+                        ? `~$ ${findTokenPriceBytokenInfo(
+                            tokenPriceData,
+                            token,
+                            nativeBalance?.formatted.toString()
+                          )}`
+                        : `~$ ${findTokenPriceBytokenInfo(
+                            tokenPriceData,
+                            token,
+                            balances[token.address].toString()
+                          )}`}
+                    </p>
                   </TokenItemData>
                 </TokenItem>
               ))}

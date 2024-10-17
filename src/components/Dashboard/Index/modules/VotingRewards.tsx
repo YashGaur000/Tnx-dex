@@ -215,11 +215,15 @@ const VotingRewards = ({ account }: { account: Address }) => {
   };
 
   if (userVotedPools?.length === 0 && !isLoading) {
-    return (
-      <DashBoardCard>
-        <DashBoardCardData>No rewards found.</DashBoardCardData>
-      </DashBoardCard>
-    );
+    if (isLoading) {
+      return (
+        <DashBoardCard>
+          <DashBoardCardData>No rewards found.</DashBoardCardData>
+        </DashBoardCard>
+      );
+    } else {
+      return <LoadingSpinner />;
+    }
   }
 
   return (
