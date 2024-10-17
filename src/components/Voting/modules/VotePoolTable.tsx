@@ -13,17 +13,17 @@ import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 
 import VoteSelectedCard from './VoteSelectedCard';
 import { LiquidityTableWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
-import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
 
 import SuccessPopup from '../../common/SucessPopup';
 import ErrorPopup from '../../common/Error/ErrorPopup';
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
+import { VoteDataType } from '../../../types/VoteData';
 type SortField = 'totalFeesUSD' | 'totalBribesUSD';
 
 interface VotePoolTableProps {
   islockPresent: boolean;
-  sortedData: LiquidityPoolNewType[];
+  sortedData: VoteDataType[];
   UserNft: Nft[];
   handleSort: (field: SortField) => void;
   handleNextPage: () => void;
@@ -42,13 +42,11 @@ const VotePoolTable: React.FC<VotePoolTableProps> = ({
   currentPage,
 }) => {
   const [selectedPoolsCount, setSelectedPoolsCount] = useState<number>(0);
-  const [VoteSelectPool, setVoteSelectPool] = useState<LiquidityPoolNewType[]>(
-    []
-  );
+  const [VoteSelectPool, setVoteSelectPool] = useState<VoteDataType[]>([]);
 
   const [isSucess, setSucess] = useState(false);
 
-  const handleSelectButton = (pool: LiquidityPoolNewType) => {
+  const handleSelectButton = (pool: VoteDataType) => {
     const isSelected = VoteSelectPool.some(
       (selectedPool) => selectedPool.id === pool.id
     );

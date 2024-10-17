@@ -19,21 +19,20 @@ import PopupScreen from '../../common/PopupScreen';
 import VoteSelectModel from './VoteSelectModel';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import VottingPowerModel from './VottingPowerModel';
-import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+
 import { Nft } from '../../../types/VotingEscrow';
 import {
   getTimeDifference,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
+import { VoteDataType } from '../../../types/VoteData';
 const lockTokenInfo = locktokeninfo();
 
 interface VoteSelectedCardProps {
   countSelectedItem: number;
-  VoteSelectPoolData: LiquidityPoolNewType[];
+  VoteSelectPoolData: VoteDataType[];
   nftData: Nft[];
-  setVoteSelectPool: React.Dispatch<
-    React.SetStateAction<LiquidityPoolNewType[]>
-  >;
+  setVoteSelectPool: React.Dispatch<React.SetStateAction<VoteDataType[]>>;
   setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
   setSucess: (input: boolean) => void;
 }

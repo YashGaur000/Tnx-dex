@@ -26,6 +26,9 @@ const SwapContainer = styled.div<{ theme: DefaultTheme }>`
 
 const SwapPage: React.FC = () => {
   useEffect(() => {
+    document.title = 'Tenex-Swap';
+  }, []);
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
