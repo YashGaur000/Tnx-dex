@@ -109,10 +109,8 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!fromTokenId) return;
       setIsModalDisable(true);
-      const transaction = await reset(BigInt(Number(toTokenId)));
-      if (!transaction) {
-        throw new Error('Transaction was canceled or failed');
-      }
+      await reset(BigInt(Number(toTokenId)));
+
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);

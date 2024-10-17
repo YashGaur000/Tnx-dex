@@ -53,9 +53,9 @@ export const LockDetails = styled.div<{ theme: DefaultTheme; width?: string }>`
     width: 80%;
   }
 
-  @media (min-width: 1025px) {
+  @media (min-width: 900px) {
     flex-direction: row;
-    width: 60%;
+    width: 40%;
   }
 `;
 

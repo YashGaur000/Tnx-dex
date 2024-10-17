@@ -46,10 +46,11 @@ const DashBoardLocks = () => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
   const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
-  const { reset } = useVoterContract();
+  const { reset, poke } = useVoterContract();
   const itemsPerPage = 4;
   const nftData = useNftData();
   const { setTransactionStatus } = useRootStore();
+  const [isPoking, setIsPoking] = useState<bigint | null>(null);
 
   useEffect(() => {
     if (nftData.length > 0) {
@@ -138,6 +139,25 @@ const DashBoardLocks = () => {
     },
     [withdraw, setTransactionStatus]
   );
+  const handlePoke = async (tokenId: bigint) => {
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      setIsPoking(tokenId);
+      await poke(tokenId);
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setIsPoking(0n);
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      setIsPoking(0n);
+      setTransactionStatus(TransactionStatus.FAILED);
+      console.error('Error during poke action:', error);
+      void showErrorToast('Failed to poke the voting weight.');
+    } finally {
+      setIsPoking(0n);
+    }
+  };
 
   return (
     <>
@@ -247,6 +267,29 @@ const DashBoardLocks = () => {
                               onClick={() => handleReset(lock.tokenId)}
                             >
                               Reset
+                            </DashboardNavigation>
+                          ))}
+
+                        {lock.votingStatus &&
+                          (isPoking === lock.tokenId ? (
+                            <DashboardNavigation disabled>
+                              <span
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <LoadingSpinner width="10px" height="10px" />
+                                <span style={{ marginLeft: '5px' }}>
+                                  Poke...
+                                </span>
+                              </span>
+                            </DashboardNavigation>
+                          ) : (
+                            <DashboardNavigation
+                              onClick={() => handlePoke(lock.tokenId)}
+                            >
+                              Poke
                             </DashboardNavigation>
                           ))}
                       </>
