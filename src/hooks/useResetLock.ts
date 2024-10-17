@@ -24,10 +24,7 @@ export const useResetLock = (
 
       setIsModalDisable(true);
 
-      const transaction = await reset(BigInt(fromTokenId));
-      if (!transaction) {
-        throw new Error('Transaction was canceled or failed');
-      }
+      await reset(BigInt(fromTokenId));
 
       setTransactionStatus(TransactionStatus.DONE);
 

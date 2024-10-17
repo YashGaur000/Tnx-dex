@@ -91,12 +91,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
       setIsResetting(true);
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!tokenId) return;
-
-      const transaction = await reset(BigInt(tokenId));
-      if (!transaction) {
-        throw new Error('Transaction was canceled or failed');
-      }
-
+      await reset(BigInt(tokenId));
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
