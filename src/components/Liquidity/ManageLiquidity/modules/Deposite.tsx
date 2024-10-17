@@ -218,6 +218,7 @@ const Deposite: React.FC<DepositProps> = ({
 
   const handleDeposit = async () => {
     try {
+      if (transactionStatus === TransactionStatus.IN_PROGRESS) return;
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const amount1InWei = parseAmounts(amount1, selectedToken1?.decimals);
       const amount2InWei = parseAmounts(amount2, selectedToken2?.decimals);

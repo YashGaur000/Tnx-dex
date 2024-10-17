@@ -253,7 +253,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
       const metadataResults = await multicallClient?.multicall({
         contracts: metadataRequests,
       });
-
+      console.log('metadataResults:', metadataResults);
       if (metadataResults && voteStatus) {
         const nfts =
           tokenIds.map((tokenId, index) => {
