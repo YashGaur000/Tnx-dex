@@ -97,14 +97,17 @@ export function useVoterContract() {
         return;
       }
       try {
-        const resetTransaction = await voterContract.reset(_tokenId);
-        return resetTransaction;
+        const tx = await voterContract.reset(_tokenId);
+        await tx.wait();
+        await showSuccessToast('Successfully reset lock #' + _tokenId);
       } catch (error) {
-        console.error('Error during reset:', error);
+        await showErrorToast(`Error:Transaction failed`);
+        console.error('Error during reset transaction:', error);
       }
     },
     [voterContract]
   );
+
   const vote = useCallback(
     async (_tokenId: number, _poolVote: Address[], _weights: number[]) => {
       if (!voterContract) {
