@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import PageLoader from '../../components/common/PageLoader';
 import React from 'react';
 const TopPairs = React.lazy(
@@ -27,6 +27,9 @@ const HeroSection = React.lazy(
   () => import('../../components/Homepage/modules/HeroSection')
 );
 function HomePage() {
+  useEffect(() => {
+    document.title = 'Tenex';
+  }, []);
   return (
     <Suspense fallback={<PageLoader />}>
       <HeroSection />

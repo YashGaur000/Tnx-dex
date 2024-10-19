@@ -5,9 +5,10 @@ import VoteBanner from './VoteBanner';
 import VotePoolTable from './VotePoolTable';
 import VotingPoolBar from './VotingPoolBar';
 import { Nft } from '../../../types/VotingEscrow';
-import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+
 import { LiquidityTableWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import PageLoader from '../../common/PageLoader';
+import { VoteDataType } from '../../../types/VoteData';
 type SortField = 'totalFeesUSD' | 'totalBribesUSD' | 'totalVolumeUSD';
 type SortOrder = 'asc' | 'desc';
 const ITEMS_PER_PAGE = 25;
@@ -15,8 +16,8 @@ const VoteHomeSection = () => {
   const nftData = useNftData();
   const [sortField, setSortField] = useState<SortField | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>('asc');
-  const [sortedData, setSortedData] = useState<LiquidityPoolNewType[]>([]);
-  const [filterData, setFilterData] = useState<LiquidityPoolNewType[]>([]);
+  const [sortedData, setSortedData] = useState<VoteDataType[]>([]);
+  const [filterData, setFilterData] = useState<VoteDataType[]>([]);
   const [UserNft, setUserNft] = useState<Nft[]>([]);
   const [islockPresent, setLockPresent] = useState<boolean>(false);
   const { voteData, Loading, error } = useVoterData();

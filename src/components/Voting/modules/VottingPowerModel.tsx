@@ -43,7 +43,7 @@ import {
 import ImpIcon from '../../../assets/Tips.svg';
 
 import { getTokenLogo } from '../../../utils/getTokenLogo';
-import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+
 import { Title } from '../styles/VotingPoolBar.style';
 
 import {
@@ -68,13 +68,13 @@ import {
   getTimeDifference,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
+import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
+import { VoteDataType } from '../../../types/VoteData';
 const lockTokenInfo = locktokeninfo();
 interface VottingPowerModelProps {
-  VoteSelectPoolData: LiquidityPoolNewType[];
+  VoteSelectPoolData: VoteDataType[];
   selectedNftData: Nft;
-  setVoteSelectPool: React.Dispatch<
-    React.SetStateAction<LiquidityPoolNewType[]>
-  >;
+  setVoteSelectPool: React.Dispatch<React.SetStateAction<VoteDataType[]>>;
   setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
   setSucess: (input: boolean) => void;
 }
@@ -103,9 +103,11 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   const [errorMessage, setErrorMessage] = useState<string>(
     'something went Wrong'
   );
+  const { getPoolFeeById } = useLiquidityStore();
   const [isDisabled, setIsDisabled] = useState(false);
   const { setTransactionStatus } = useRootStore();
   const Navigate = useNavigate();
+
   useEffect(() => {
     setInputValues(new Array(VoteSelectPoolData.length).fill(0));
   }, [VoteSelectPoolData.length]);
@@ -402,7 +404,13 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                           {data.isStable ? 'Stable' : 'Volatile'}
                         </StatsCardtitle>
 
-                        <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
+                        <LiquidityTitle fontSize={12}>
+                          {(() => {
+                            const poolFees = Number(getPoolFeeById(data.id));
+                            return poolFees ? `${poolFees}%` : '';
+                          })()}
+                        </LiquidityTitle>
+
                         <SugestImgWrapper>
                           <SuggestImg src={ImpIcon} />
                         </SugestImgWrapper>
@@ -427,7 +435,9 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
                   </LockDescriptonTitle>
                   <LiquidityTokenWrapper alignitem="flex-start">
                     <LockDescriptonTitle fontSize={12}>
-                      Total rewards ~$10,180
+                      Total rewards ~${' '}
+                      {Number(data.totalBribesUSD.toString()) +
+                        Number(data.totalFeesUSD.toString())}
                     </LockDescriptonTitle>
                     <LockDescriptonTitle fontSize={12}>
                       Voting APR 45.9%

@@ -32,7 +32,7 @@ import {
 import { ImageContainer } from '../../ManageVeTenex/Styles/ManageVetenex.style';
 import { GradientButton } from '../../common';
 import { Title } from '../styles/VotingBanner.style';
-import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+
 import { getTokenLogo } from '../../../utils/getTokenLogo';
 
 import { SelectedButtonWrapper } from '../styles/VoteSelectedCard.style';
@@ -42,12 +42,15 @@ import VoteButtonHover from './VoteButtonHover';
 
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { useLiquidityStore } from '../../../store/slices/liquiditySlice';
+import LiquidityInfo from '../../Liquidity/LiquidityHomePage/Modules/LiquidityInfo';
+import { VoteDataType } from '../../../types/VoteData';
 
 interface VotingPoolCardProps {
-  data: LiquidityPoolNewType;
+  data: VoteDataType;
 
   islock: boolean;
-  handleSelectButton: (data: LiquidityPoolNewType) => void;
+  handleSelectButton: (data: VoteDataType) => void;
   isSelectCardOpen: boolean;
 }
 
@@ -60,11 +63,14 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
   const [isHoverPopUpshow, setHoverPopUpShow] = useState(false);
 
   const navigate = useNavigate();
+  const [isHovered, setIsHovered] = useState(false);
 
+  const { getPoolFeeById } = useLiquidityStore();
   const handleIncentive = (poolId: string) => {
     navigate('/incentives?pool=' + poolId);
   };
 
+  const poolFees = Number(getPoolFeeById(data.id));
   return (
     <>
       <TableRow>
@@ -89,9 +95,19 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                     {data.isStable ? 'Stable' : 'Volatile'}
                   </StatsCardtitle>
 
-                  <LiquidityTitle fontSize={12}>{0.01} %</LiquidityTitle>
-                  <SugestImgWrapper>
+                  <LiquidityTitle fontSize={12}>
+                    {poolFees ? poolFees.toString() : ''} %
+                  </LiquidityTitle>
+                  <SugestImgWrapper
+                    onMouseEnter={() => {
+                      setIsHovered(true);
+                    }}
+                    onMouseLeave={() => setIsHovered(false)}
+                  >
                     <SuggestImg src={ImpIcon} />
+                    {isHovered && (
+                      <LiquidityInfo poolId={data.id} gaugeId={data.gauge} />
+                    )}
                   </SugestImgWrapper>
                 </TokenAmountTitle>
                 <TokenAmountTitle>

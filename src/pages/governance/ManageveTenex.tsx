@@ -7,6 +7,10 @@ const Main = React.lazy(
 );
 const ManageveTenex: React.FC = () => {
   useEffect(() => {
+    document.title = 'Tenex-governance';
+  }, []);
+
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,
