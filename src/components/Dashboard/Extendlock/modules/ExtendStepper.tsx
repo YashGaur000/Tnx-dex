@@ -52,6 +52,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
     async (tokenId: number, duration: number): Promise<void> => {
       try {
         if (!tokenId) return;
+
         onExtendClick(true);
         setIsExtending(true);
         const durationInSeconds = duration * 7 * 24 * 60 * 60;
@@ -67,7 +68,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
           );
         }, TRANSACTION_DELAY);
 
-        if (votingStatus != 'true') {
+        if (votingStatus != true) {
           void navigate('/governance');
         }
       } catch (error) {

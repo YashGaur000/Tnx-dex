@@ -35,6 +35,7 @@ import { useRootStore } from '../../../store/root';
 import { LoadingSpinner } from '../../common/Loader';
 import SucessDepositIcon from '../../../assets/gradient-party-poper.svg';
 import { useNavigate } from 'react-router-dom';
+import { calculateTimeLeft } from '../../../utils/common/voteTenex';
 
 interface IncentiveRightContent {
   InsentiveFormValue: string;
@@ -53,7 +54,9 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
   const [isGaugeBeingCreated, setIsGaugeBeingCreated] = useState(false);
   const { address } = useAccount();
   const Navigate = useNavigate();
-
+  const [epochEnd, setEpochEnd] = useState<number | null>(null);
+  const { epochVoteEnd } = useVoterContract();
+  const timestamp = Math.floor(Date.now() / 1000);
   const { gaugeAddress, bribeAddress, setGaugeAddress, setBribeAddress } =
     useIncentiveStore();
 
@@ -67,6 +70,22 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     tokenSymbol!.address,
     erc20Abi
   );
+
+  useEffect(() => {
+    const fetchEpochVoteEnd = async () => {
+      try {
+        const epochEndResult = await epochVoteEnd(timestamp);
+        const timeLeft = calculateTimeLeft(Number(epochEndResult));
+        if (timeLeft) {
+          setEpochEnd(timeLeft.days);
+        }
+      } catch (error) {
+        console.error('Error fetching epoch vote end:', error);
+      }
+    };
+
+    void fetchEpochVoteEnd();
+  }, [timestamp, epochVoteEnd]);
 
   useCheckAllowance(
     tokenSymbol!,
@@ -260,9 +279,11 @@ const IncentiveRightContent: React.FC<IncentiveRightContent> = ({
     <IncentiveleftBarBox1 height="528px" width="440px">
       <IncentivesBox2>Incentivize</IncentivesBox2>
       <IncentivesBox2Paragraph>
-        Voting and adding incentives for this epoch ends in 3 days and there
-        will be 8,984,340.1 TENEX distributed to all liquidity providers. By
-        providing an incentive, you draw more liquidity providers to this pool.
+        Voting and adding incentives for this epoch ends in{' '}
+        {epochEnd && epochEnd > 1 ? epochEnd + ' days' : epochEnd + ' day'} and
+        there will be 8,984,340.1 TENEX distributed to all liquidity providers.
+        By providing an incentive, you draw more liquidity providers to this
+        pool.
       </IncentivesBox2Paragraph>
       <Stepper
         data={InsentiveFormValue ? IncentiveData : LockInstructionData}

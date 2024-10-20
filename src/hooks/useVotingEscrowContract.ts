@@ -202,6 +202,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
         metadata: string;
         votingStatus: boolean;
         poolVoteCheck: Address | undefined;
+        lastVote: number;
       }[]
     > => {
       if (!votingEscrowContract) return [];
@@ -258,23 +259,40 @@ export function useVotingEscrowContract(escrowAddress: string) {
         args: [tokenId, index],
         address: contractAddresses.Voter,
       }));
+      const lastVoteStatusRequest = tokenIds.map((tokenId) => ({
+        abi: voterAbi.abi as Abi,
+        functionName: 'lastVoted',
+        args: [tokenId],
+        address: contractAddresses.Voter,
+      }));
 
       // Use Promise.all for metadata and voting status calls
-      const [metadataResults, voteStatusResults, poolVoteStatus] =
-        await Promise.all([
-          multicallClient?.multicall({ contracts: metadataRequests }),
-          multicallClient?.multicall({ contracts: checkVoteStatusRequests }),
-          multicallClient?.multicall({ contracts: poolVoteStatusRequest }),
-        ]);
+      const [
+        metadataResults,
+        voteStatusResults,
+        poolVoteStatus,
+        lastVoteStatus,
+      ] = await Promise.all([
+        multicallClient?.multicall({ contracts: metadataRequests }),
+        multicallClient?.multicall({ contracts: checkVoteStatusRequests }),
+        multicallClient?.multicall({ contracts: poolVoteStatusRequest }),
+        multicallClient?.multicall({ contracts: lastVoteStatusRequest }),
+      ]);
 
-      if (metadataResults && voteStatusResults && poolVoteStatus) {
+      if (
+        metadataResults &&
+        voteStatusResults &&
+        poolVoteStatus &&
+        lastVoteStatus
+      ) {
         const nfts = tokenIds.map((tokenId, index) => {
           const metadata = metadataResults[index]?.result as string;
           const votingStatus = voteStatusResults[index]?.result as boolean;
           const poolVoteCheck = poolVoteStatus[index]?.result as
             | Address
             | undefined;
-          return { tokenId, metadata, votingStatus, poolVoteCheck };
+          const lastVote = lastVoteStatus[index]?.result as number;
+          return { tokenId, metadata, votingStatus, poolVoteCheck, lastVote };
         });
 
         return nfts;

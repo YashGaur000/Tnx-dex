@@ -15,7 +15,6 @@ import TransferLockSidebar from './TransferLockSidebar';
 import {
   calculateRemainingDays,
   convertToDecimal,
-  decryptData,
   formatTokenAmount,
   locktokeninfo,
   MAX_LOCK_TIME,
@@ -30,31 +29,30 @@ import { ToastContainer } from 'react-toastify';
 
 import { Address } from 'viem';
 import { showErrorToast } from '../../../utils/common/toastUtils';
+import { useVoterContract } from '../../../hooks/useVoterContract';
 
 const Transferlock = () => {
-  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+  const { encryptedTokenId } = useParams<{
     encryptedTokenId: string;
-    encryptedVotingStatus: string;
   }>();
   const navigate = useNavigate();
-  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : 0;
-  const votingStatus = encryptedVotingStatus
-    ? decryptData(encryptedVotingStatus)
-    : (false as boolean);
+  const tokenId = encryptedTokenId ? encryptedTokenId : 0;
+
   if (!tokenId) {
     navigate('/governance');
   }
-  console.log('votingStatus', votingStatus);
 
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
   const [toAddress, setToAddress] = useState<Address>();
   const [isInputLocked, setInputLock] = useState<boolean>(false);
   const [isSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [votingStatus, setIsvotingStatus] = useState<boolean>(false);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address: currentAddress } = useAccount();
   const lockTokenInfo = locktokeninfo();
+  const { lastVote } = useVoterContract();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,6 +60,11 @@ const Transferlock = () => {
     const fetchLockData = async () => {
       if (tokenId) {
         try {
+          const checkLastVote = await lastVote(BigInt(tokenId));
+          if (Number(checkLastVote)) {
+            setIsvotingStatus(true);
+            console.log('checkLastVote:', Number(checkLastVote));
+          }
           const data = await getLockData(Number(tokenId));
           if (data) {
             const lockedAmount = formatTokenAmount(Number(data.amount));
