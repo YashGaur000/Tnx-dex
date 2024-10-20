@@ -310,6 +310,32 @@ export const decryptData = (encryptedData: string) => {
     .replace(/Noid34/g, '/')
     .replace('TENEX2345', '=');
   const bytes = CryptoJS.AES.decrypt(byteCode, SECRET_String);
-
-  return bytes.toString(CryptoJS.enc.Utf8);
+  if (!bytes) {
+    throw new Error('Failed to decrypt data or invalid key');
+  }
+  const decryptdata = bytes.toString(CryptoJS.enc.Utf8);
+  if (!decryptdata) throw new Error('Failed to decrypt data ' + decryptdata);
+  return decryptdata;
 };
+
+export function calculateTimeLeft(epochEnd: number): {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+} {
+  const currentTime = Math.floor(Date.now() / 1000);
+  const remainingTime = epochEnd - currentTime;
+
+  if (remainingTime > 0) {
+    const days = Math.floor(remainingTime / (24 * 60 * 60));
+    const hours = Math.floor((remainingTime % (24 * 60 * 60)) / (60 * 60));
+    const minutes = Math.floor((remainingTime % (60 * 60)) / 60);
+    const seconds = remainingTime % 60;
+
+    return { days, hours, minutes, seconds };
+  }
+
+  // Return 0 for all units if the remaining time is 0 or negative
+  return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+}

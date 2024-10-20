@@ -17,7 +17,6 @@ import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 import {
-  encryptData,
   getTimeDifference,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
@@ -26,7 +25,10 @@ import contractAddress from '../../../constants/contract-address/address';
 import SuccessPopup from '../../common/SucessPopup';
 import { LoadingSpinner } from '../../common/Loader';
 import { useVoterContract } from '../../../hooks/useVoterContract';
-import { showErrorToast } from '../../../utils/common/toastUtils';
+import {
+  showErrorToast,
+  showSuccessToast,
+} from '../../../utils/common/toastUtils';
 import { ToastContainer } from 'react-toastify';
 import {
   TRANSACTION_DELAY,
@@ -34,6 +36,7 @@ import {
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
 import PageLoader from '../../common/PageLoader';
+import { useAccount } from '../../../hooks/useAccount';
 
 const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   nftData,
@@ -45,7 +48,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const { setTransactionStatus } = useRootStore();
   const itemsPerPage = 5;
-
+  const { address } = useAccount();
   const sortedNftData = nftData
     ? nftData.slice().sort((a, b) => Number(b.tokenId) - Number(a.tokenId))
     : [];
@@ -54,7 +57,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const currentItems = sortedNftData.slice(firstItemIndex, lastItemIndex);
   const totalPages = Math.ceil(sortedNftData.length / itemsPerPage);
   const escrowAddress = contractAddress.VotingEscrow;
-  const { withdraw } = useVotingEscrowContract(escrowAddress);
+  const { withdraw, isApprovedOrOwner } =
+    useVotingEscrowContract(escrowAddress);
   const { reset, poke } = useVoterContract();
   const lockTokenInfo = locktokeninfo();
   const navigate = useNavigate();
@@ -72,9 +76,9 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
     votingStatus: boolean | undefined
   ) => {
     if (option) {
-      const encryptedTokenId = encryptData(tokenId.toString());
+      const encryptedTokenId = tokenId.toString();
       const voteStatus = votingStatus ? votingStatus : false;
-      const encryptedVotingStatus = encryptData(voteStatus.toString());
+      const encryptedVotingStatus = voteStatus.toString();
       navigate(
         `/governance/managevetenex/${option}/${encryptedTokenId}/${encryptedVotingStatus}`
       );
@@ -113,11 +117,16 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
 
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       setResetTknId(tokenId);
+      if (address) {
+        const resultapp = await isApprovedOrOwner(address, tokenId);
+        console.log('resultapp:', resultapp);
+      }
       await reset(tokenId);
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setResetTknId(0n);
+        void showSuccessToast('Successfully reset lock #' + tokenId);
       }, TRANSACTION_DELAY);
     } catch (error) {
       setTransactionStatus(TransactionStatus.FAILED);

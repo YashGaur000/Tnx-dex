@@ -31,12 +31,11 @@ const VoteBanner: React.FC = () => {
     setTotalVotingData(TotalVoteData);
   }, [Loading, TotalVoteData, TotalVotingData]);
 
-  // Effect for fetching epoch end time
   useEffect(() => {
     const fetchEpochVoteEnd = async () => {
       try {
         const epochEndResult = await epochVoteEnd(timestamp);
-        setEpochEnd(Number(epochEndResult)); // Convert and set epoch end
+        setEpochEnd(Number(epochEndResult));
       } catch (error) {
         console.error('Error fetching epoch vote end:', error);
       }
