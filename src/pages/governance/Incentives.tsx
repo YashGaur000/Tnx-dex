@@ -7,6 +7,9 @@ const IncentiveSection = React.lazy(
 );
 const Incentives: React.FC = () => {
   useEffect(() => {
+    document.title = 'Tenex-Incentives';
+  }, []);
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,

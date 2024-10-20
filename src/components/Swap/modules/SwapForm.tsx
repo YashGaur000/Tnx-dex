@@ -97,6 +97,7 @@ const SwapForm: React.FC = () => {
   }, [tokenInput1, selectedToken1, balances, nativeBalance]);
 
   // Helper function to update the URL
+
   const updateUrl = (fromAddress: Address, toAddress: Address) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.set('from', fromAddress);

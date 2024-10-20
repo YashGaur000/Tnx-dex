@@ -83,6 +83,7 @@ export const SugestImgWrapper = styled.div`
   overflow: visible;
   display: flex;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const TitleWrapper = styled.p<{

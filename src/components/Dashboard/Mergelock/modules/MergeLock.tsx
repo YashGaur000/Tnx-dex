@@ -26,17 +26,15 @@ import {
   convertDateToTimestamp,
   convertTimestampToDate,
   convertToDecimal,
-  decryptData,
   formatTokenAmount,
   getTimeDifference,
   locktokeninfo,
 } from '../../../../utils/common/voteTenex';
-import SuccessPopup from '../../../common/SucessPopup';
 
 const MergeLock = () => {
   const navigate = useNavigate();
   const { encryptedTokenId } = useParams<{ encryptedTokenId: string }>();
-  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : '';
+  const tokenId = encryptedTokenId ? encryptedTokenId : '';
 
   if (!tokenId) {
     navigate('/governance');
@@ -45,7 +43,6 @@ const MergeLock = () => {
   const [isFromTokenId, setIsFromTokenId] = useState<number>(0);
   const [isFromVotingPower, setIsFromVotingPower] = useState<number>(0);
   const [isTotalDuration, setIsTotalDuration] = useState<string>('');
-  const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isVotingStatus, setVotingStatus] = useState<boolean>(false);
   const [IsModalDisabled, setIsModalDisable] = useState<boolean>(false);
   const [selectLockToken, setSelectLockToken] = useState('Your locks...');
@@ -68,7 +65,7 @@ const MergeLock = () => {
     ) => {
       setIsFromVotingPower(fromVotingPower);
       setVotingStatus(votingStatus);
-      console.log('votingStatus:', votingStatus);
+      //console.log('votingStatus:', votingStatus);
       const fromTillDate = convertDateToTimestamp(fromLockDate);
 
       if (lockData) {
@@ -150,7 +147,6 @@ const MergeLock = () => {
           votingStatus={isVotingStatus}
           isTotalDuration={isTotalDuration}
           setIsModalDisable={setIsModalDisable}
-          setSuccessLock={setSuccessLock}
         />
       </CreateMainContainer>
       {isModalOpen && (
@@ -170,7 +166,6 @@ const MergeLock = () => {
           />
         </PopupScreen>
       )}
-      {iSuccessLock && <SuccessPopup message="Merge lock confirmed" />}
     </MainContainerStyle>
   );
 };

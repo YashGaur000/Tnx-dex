@@ -26,13 +26,13 @@ import {
   calculateRemainingDays,
   calVotingPower,
   convertToDecimal,
-  decryptData,
   formatTokenAmount,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
 import { useAccount } from '../../../hooks/useAccount';
 import { useTokenBalances } from '../../../hooks/useTokenBalance';
 import SuccessPopup from '../../common/SucessPopup';
+import { useVoterContract } from '../../../hooks/useVoterContract';
 
 const IncreaseLock = () => {
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
@@ -43,16 +43,14 @@ const IncreaseLock = () => {
   const [lockedOrgiTENEX, setLockedOrigTENEX] = useState<number>(0);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isApproveLock, setIsApproveLock] = useState<boolean>(false);
+  const [votingStatus, setIsvotingStatus] = useState<boolean>(false);
+  const { lastVote } = useVoterContract();
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const navigate = useNavigate();
-  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+  const { encryptedTokenId } = useParams<{
     encryptedTokenId: string;
-    encryptedVotingStatus: string;
   }>();
-  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : '';
-  const votingStatus = encryptedVotingStatus
-    ? decryptData(encryptedVotingStatus)
-    : (false as boolean);
+  const tokenId = encryptedTokenId ? encryptedTokenId : '';
   if (!tokenId) {
     navigate('/governance');
   }
@@ -61,6 +59,12 @@ const IncreaseLock = () => {
     const fetchLockData = async () => {
       if (tokenId) {
         try {
+          const checkLastVote = await lastVote(BigInt(tokenId));
+          if (Number(checkLastVote)) {
+            setIsvotingStatus(true);
+            console.log('checkLastVote:', Number(checkLastVote));
+          }
+
           const data = await getLockData(Number(tokenId));
           if (data) {
             const LockedAmt = formatTokenAmount(data.amount);
