@@ -5,12 +5,14 @@ import { LiquidityPoolNewType } from '../graphql/types/LiquidityPoolNew';
 import voterAbi from '../constants/artifacts/contracts/Voter.json';
 import contractAddress from '../constants/contract-address/address';
 import { useMultiCall } from './useMultiCall';
+import { VoteDataType } from '../types/VoteData';
 
 export interface totalVoteDataProps {
   totalFees: number;
   totalIncentive: number;
   totalRewards: number;
 }
+
 const votingAddress = contractAddress.Voter;
 
 let TotalVoteData: totalVoteDataProps = {
@@ -21,7 +23,7 @@ let TotalVoteData: totalVoteDataProps = {
 
 const useVoterData = () => {
   const multicallClient = useMultiCall();
-  const [voteData, setVoteData] = useState<LiquidityPoolNewType[]>([]);
+  const [voteData, setVoteData] = useState<VoteDataType[]>([]);
   const [LiquidityData, setLiquidityData] = useState<LiquidityPoolNewType[]>(
     []
   );
@@ -52,13 +54,14 @@ const useVoterData = () => {
         const poolResults = await multicallClient?.multicall({
           contracts: filteredpoolData,
         });
+
         if (!poolResults) throw new Error('Failed to fetch');
 
         let totalIncentiveSum = 0;
         let totalFeesSum = 0;
         let totalRewardsSum = 0;
 
-        const filteredPools = LiquidityData.filter((pool, index) => {
+        const filteredPools = LiquidityData.map((pool, index) => {
           const result = poolResults[index];
           if (
             pool &&
@@ -72,9 +75,14 @@ const useVoterData = () => {
             totalRewardsSum +=
               Number(pool.totalBribesUSD) + Number(pool.totalFeesUSD);
 
-            return poolResults[index];
+            return {
+              ...pool,
+              gauge: result.result,
+            };
           }
-        });
+          return undefined;
+        }).filter(Boolean) as VoteDataType[];
+
         TotalVoteData = {
           totalFees: totalFeesSum,
           totalIncentive: totalIncentiveSum,
