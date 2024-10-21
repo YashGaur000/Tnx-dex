@@ -127,7 +127,9 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
                     TVL
                   </StatsCardtitle>{' '}
                   <LiquidityTitle fontSize={12} textalign="right">
-                    {data.totalVolumeUSD.toString()}
+                    {Number(data.totalValueLocked) % 1 === 0
+                      ? Number(data.totalValueLocked).toFixed(2)
+                      : Number(data.totalValueLocked).toFixed(5)}
                   </LiquidityTitle>
                 </TokenAmountTitle>
               </LiquidityTokenWrapper>
@@ -136,13 +138,25 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
         </TableColumn>
         <TableColumn>
           <TableColumnWrapper height="96px">
-            <Title fontSize={14}> ~$ {data.totalFeesUSD.toString()}</Title>
+            <Title fontSize={14}>
+              {' '}
+              ~${' '}
+              {Number(data.totalFeesUSD) % 1 === 0
+                ? Number(data.totalFeesUSD).toFixed(2)
+                : Number(data.totalFeesUSD).toFixed(5)}
+            </Title>
             <LiquidityTokenWrapper>
               <LiquidityTitle fontSize={12} textalign="right">
-                {data.totalFees0.toString()} {data.token0.symbol}
+                {Number(data.totalFees0) % 1 === 0
+                  ? Number(data.totalFees0).toFixed(2)
+                  : Number(data.totalFees0).toFixed(5)}{' '}
+                {data.token0.symbol}
               </LiquidityTitle>
               <LiquidityTitle fontSize={12} textalign="right">
-                {data.totalFees1.toString()} {data.token1.symbol}
+                {Number(data.totalFees1) % 1 === 0
+                  ? Number(data.totalFees1).toFixed(2)
+                  : Number(data.totalFees1).toFixed(5)}{' '}
+                {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
           </TableColumnWrapper>
@@ -176,8 +190,14 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
           <TableColumnWrapper height="96px">
             <Title fontSize={14}>
               ~${' '}
-              {Number(data.totalBribesUSD.toString()) +
-                Number(data.totalFeesUSD.toString())}
+              {(Number(data.totalBribesUSD) + Number(data.totalFeesUSD)) % 1 ===
+              0
+                ? (
+                    Number(data.totalBribesUSD) + Number(data.totalFeesUSD)
+                  ).toFixed(2)
+                : (
+                    Number(data.totalBribesUSD) + Number(data.totalFeesUSD)
+                  ).toFixed(5)}
             </Title>
             <LiquidityTokenWrapper>
               <LiquidityTitle fontSize={12} textalign="right">

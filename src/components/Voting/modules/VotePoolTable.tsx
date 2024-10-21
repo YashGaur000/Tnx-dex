@@ -19,7 +19,7 @@ import ErrorPopup from '../../common/Error/ErrorPopup';
 import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { VoteDataType } from '../../../types/VoteData';
-type SortField = 'totalFeesUSD' | 'totalBribesUSD';
+type SortField = 'totalFeesUSD' | 'totalBribesUSD' | 'totalValueLocked';
 
 interface VotePoolTableProps {
   islockPresent: boolean;

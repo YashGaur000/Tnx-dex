@@ -109,10 +109,16 @@ const TokenDeposite = () => {
 
             <LiquidityTokenWrapper>
               <LiquidityTitle fontSize={12}>
-                {reserve0} {selectedToken1.symbol}
+                {Number(reserve0) % 1 === 0
+                  ? Number(reserve0).toFixed(2)
+                  : Number(reserve0).toFixed(5)}{' '}
+                {selectedToken1.symbol}
               </LiquidityTitle>
               <LiquidityTitle fontSize={12}>
-                {reserve1} {selectedToken2.symbol}
+                {Number(reserve1) % 1 === 0
+                  ? Number(reserve1).toFixed(2)
+                  : Number(reserve1).toFixed(5)}{' '}
+                {selectedToken2.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
           </LiquidityStyleContainer>
@@ -123,10 +129,16 @@ const TokenDeposite = () => {
             </LiquidityHeaderTitle>
             <LiquidityTokenWrapper>
               <LiquidityTitle textalign="right" fontSize={12}>
-                {balance0} {selectedToken1.symbol}
+                {Number(balance0) % 1 === 0
+                  ? Number(balance0).toFixed(2)
+                  : Number(balance0).toFixed(5)}{' '}
+                {selectedToken1.symbol}
               </LiquidityTitle>
               <LiquidityTitle textalign="right" fontSize={12}>
-                {balance1} {selectedToken2.symbol}
+                {Number(balance1) % 1 === 0
+                  ? Number(balance1).toFixed(2)
+                  : Number(balance1).toFixed(5)}{' '}
+                {selectedToken2.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
           </DepositeStyle>
