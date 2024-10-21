@@ -391,6 +391,7 @@ const Deposite: React.FC<DepositProps> = ({
           height="48px"
           margin="0px"
           onClick={() => {
+            if (transactionStatus === TransactionStatus.IN_PROGRESS) return;
             handleDeposit()
               .then(() => {
                 <SuccessPopup message="Deposit Successfully" />;
@@ -399,14 +400,16 @@ const Deposite: React.FC<DepositProps> = ({
                 console.error('Error adding liquidity:', error);
               });
           }}
-          disabled={transactionStatus === TransactionStatus.IN_PROGRESS}
+          disabled={
+            transactionStatus === TransactionStatus.IN_PROGRESS ? true : false
+          }
         >
           {transactionStatus === TransactionStatus.IN_PROGRESS ? (
             <div
               style={{
                 display: 'flex',
-                justifyContent: 'center', // Center items horizontally
-                alignItems: 'center', // Center items vertically
+                justifyContent: 'center',
+                alignItems: 'center',
                 gap: '15px',
               }}
             >

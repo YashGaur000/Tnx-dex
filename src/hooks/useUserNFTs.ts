@@ -29,12 +29,19 @@ const useNftData = () => {
             tokenId: nft.tokenId,
             metadata: decodeBase64(nft.metadata),
             votingStatus: nft.votingStatus,
+            lastVoted: nft.lastVote,
           }));
           const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData
           );
           const formattedNftData = sortNftsByUnlockDateDesc(filteredNftVal);
           setNftData(formattedNftData);
+
+          const sortedNftData =
+            filteredNftVal
+              ?.slice()
+              .sort((a, b) => Number(b.tokenId) - Number(a.tokenId)) || [];
+          setNftData(sortedNftData);
         } else {
           console.warn('Address is undefined');
         }

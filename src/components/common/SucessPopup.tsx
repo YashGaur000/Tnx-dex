@@ -36,6 +36,14 @@ const Overlay = styled.div<{ visible: boolean }>`
 //   align-items: center;
 // `;
 
+const SucessContainer = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const SucessImagewrapper = styled.div``;
 const SuccessPopup: React.FC<{
   message: string;
   explorerLink?: string;
@@ -62,13 +70,15 @@ const SuccessPopup: React.FC<{
           if (onClose) onClose();
         }}
       >
-        <div>
-          <img src={PartyPopper} />{' '}
-        </div>
-        <label>{message}</label>
-        <a href={explorerLink} target="_blank" rel="noopener noreferrer">
-          View on Explorer
-        </a>
+        <SucessContainer>
+          <SucessImagewrapper>
+            <img src={PartyPopper} />{' '}
+          </SucessImagewrapper>
+          <label>{message}</label>
+          <a href={explorerLink} target="_blank" rel="noopener noreferrer">
+            View on Explorer
+          </a>
+        </SucessContainer>
       </PopupScreen>
     </>
   );

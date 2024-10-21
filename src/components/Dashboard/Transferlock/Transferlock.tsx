@@ -49,6 +49,7 @@ const Transferlock = () => {
   const [isSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [votingStatus, setIsvotingStatus] = useState<boolean>(false);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
+  const [isValidAddress, setIsValidAddress] = useState<string>('');
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address: currentAddress } = useAccount();
   const lockTokenInfo = locktokeninfo();
@@ -88,15 +89,34 @@ const Transferlock = () => {
 
   const handleTransferAddress = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+    if (inputValue == '') {
+      setIsValidAddress('Enter wallet address.');
+    }
+    if (inputValue.length !== 42) {
+      setIsValidAddress('Wallet address is not valid.');
+    }
+    if (inputValue.toLowerCase() === currentAddress?.toLowerCase()) {
+      setIsValidAddress('You cannot transfer to your own wallet address');
+    }
+    if (
+      inputValue.length === 42 &&
+      inputValue.toLowerCase() !== currentAddress?.toLowerCase()
+    ) {
+      setIsValidAddress('Wallet Address is valid');
+    }
+
     setToAddress(inputValue as Address);
   };
 
   const validateAddress = () => {
+    setIsValidAddress('Wallet address is valid.');
     if (!toAddress || toAddress.length !== 42) {
+      setIsValidAddress('Wallet address is not valid.');
       void showErrorToast('Please enter a valid EVM wallet address.');
       return;
     }
     if (toAddress.toLowerCase() === currentAddress?.toLowerCase()) {
+      setIsValidAddress('You cannot transfer to your own wallet address');
       void showErrorToast('You cannot transfer to your own wallet address.');
       return;
     }
@@ -157,6 +177,7 @@ const Transferlock = () => {
           setToAddres={setToAddress}
           handleSubmit={handleSubmit}
           votingStatus={votingStatus}
+          isValidAddress={isValidAddress}
         />
       </CreateMainContainer>
       {isSuccessLock && <SuccessPopup message="Transfer Successful!" />}

@@ -100,7 +100,6 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
           SetlockDuration(1);
           setSuccessLock(true);
           setIsApproveLock(false);
-
           navigate('/governance');
         }
       }, TRANSACTION_DELAY);

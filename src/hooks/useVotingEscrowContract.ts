@@ -59,7 +59,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
     [votingEscrowContract]
   );
   const mergeLocks = useCallback(
-    async (_from: bigint, _to: bigint): Promise<void> => {
+    async (_from: bigint, _to: bigint) => {
       if (!votingEscrowContract) {
         throw new Error('VotingEscrowContract not initialized');
       }
@@ -73,7 +73,8 @@ export function useVotingEscrowContract(escrowAddress: string) {
         const tx = await votingEscrowContract.merge(_from, _to, {
           gasLimit: gasEstimate,
         });
-        await tx.wait();
+        const receipt = await tx.wait();
+        return receipt.transactionHash;
       } catch (error) {
         console.error('Error merging locks:', error);
         throw error;

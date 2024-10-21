@@ -287,7 +287,10 @@ const LiquidityForm: FC<FormComponentProps> = ({
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
             <LiquidityTitle fontSize={16}>
-              Available {totalBalanceToken1.toString()}
+              Available{' '}
+              {totalBalanceToken1 % 1 === 0
+                ? totalBalanceToken1.toFixed(2)
+                : totalBalanceToken1.toFixed(5)}
             </LiquidityTitle>
           </FormRowWrapper>
           <InputBoxContainer>
@@ -340,7 +343,10 @@ const LiquidityForm: FC<FormComponentProps> = ({
               </LiquidityHeaderTitle>
             </ImageWithTitleWrap>
             <LiquidityTitle fontSize={16}>
-              Available {totalBalanceToken2.toString()}
+              Available{' '}
+              {totalBalanceToken2 % 1 === 0
+                ? totalBalanceToken2.toFixed(2)
+                : totalBalanceToken2.toFixed(5)}
             </LiquidityTitle>
           </FormRowWrapper>
           <InputBoxContainer>

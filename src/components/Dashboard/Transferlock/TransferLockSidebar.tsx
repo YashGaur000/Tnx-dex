@@ -36,6 +36,7 @@ interface TransferFromOwnerProps {
   setToAddres: (input: Address | undefined) => void;
   handleSubmit: () => void;
   votingStatus: boolean | string;
+  isValidAddress: string;
 }
 
 const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
@@ -47,6 +48,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
   setToAddres,
   handleSubmit,
   votingStatus,
+  isValidAddress,
 }) => {
   const { transferFrom } = useVotingEscrowContract(
     contractAddress.VotingEscrow
@@ -100,7 +102,6 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
       if (!tokenId) return;
       const txHash = await reset(BigInt(Number(tokenId)));
 
-      // If the transaction succeeds, set the success flag to true
       if (txHash) {
         transactionSuccess = true;
       }
@@ -117,7 +118,7 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
       //console.error('Error during reset lock:', error);
       setTransactionStatus(TransactionStatus.FAILED);
       setIsResetting(false);
-      void showErrorToast('Failed to reset, please try again.');
+      await showErrorToast('Failed to reset, please try again.');
     } finally {
       setIsResetting(false);
     }
@@ -127,13 +128,11 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
     {
       step: 1,
       descriptions: {
-        labels: toAddress
-          ? ' Wallet address is valid '
-          : 'Enter wallet address',
+        labels: isValidAddress ? isValidAddress : 'Enter Wallet Address.',
       },
       icon: VotingPowerIcon,
     },
-    ...(votingStatus != 'false'
+    ...(votingStatus
       ? [
           {
             step: 2,
