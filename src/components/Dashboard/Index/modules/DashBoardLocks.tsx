@@ -44,11 +44,12 @@ const DashBoardLocks = () => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
   const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
-  const { reset, poke } = useVoterContract();
+  const { reset, poke, epochStart } = useVoterContract();
   const itemsPerPage = 4;
   const nftData = useNftData();
   const { setTransactionStatus } = useRootStore();
   const [isPoking, setIsPoking] = useState<bigint | null>(null);
+  const [epochStartTime, setEpochStartTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (nftData.length > 0) {
@@ -68,7 +69,19 @@ const DashBoardLocks = () => {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
+  useEffect(() => {
+    const fetchEpochStartTime = async () => {
+      try {
+        const timestamp = Math.floor(Date.now() / 1000);
+        const epochStartTime = await epochStart(timestamp);
+        setEpochStartTime(Number(epochStartTime));
+      } catch (error) {
+        console.error('Error fetching epoch start time:', error);
+      }
+    };
 
+    void fetchEpochStartTime();
+  }, [epochStart]);
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -269,7 +282,10 @@ const DashBoardLocks = () => {
                             </DashboardNavigation>
                           ) : (
                             <DashboardNavigation
-                              onClick={() => handleReset(lock.tokenId)}
+                              disabled={
+                                (epochStartTime ?? 0) <= (lock?.lastVoted ?? 0)
+                              }
+                              onClick={() => handleReset(lock?.tokenId ?? 0n)}
                             >
                               Reset
                             </DashboardNavigation>

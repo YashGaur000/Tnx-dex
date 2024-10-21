@@ -64,7 +64,7 @@ const Main = () => {
             poolVoteCheck: nft.poolVoteCheck,
             lastVoted: nft.lastVote,
           }));
-          console.log('formattedNftFormateData:', formattedNftFormateData);
+          //console.log('formattedNftFormateData:', formattedNftFormateData);
           if (!fetchedNftVal) return;
           /*  const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData

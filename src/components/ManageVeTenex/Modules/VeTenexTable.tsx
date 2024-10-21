@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import {
   LockItemContainer,
   LockListContainer,
@@ -36,7 +36,6 @@ import {
 } from '../../../types/Transaction';
 import { useRootStore } from '../../../store/root';
 import PageLoader from '../../common/PageLoader';
-import { useAccount } from '../../../hooks/useAccount';
 
 const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   nftData,
@@ -46,9 +45,10 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
   const [isPoking, setIsPoking] = useState<bigint | null>(null);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [epochStartTime, setEpochStartTime] = useState<number | null>(null);
   const { setTransactionStatus } = useRootStore();
   const itemsPerPage = 5;
-  const { address } = useAccount();
+
   const sortedNftData = nftData
     ? nftData.slice().sort((a, b) => Number(b.tokenId) - Number(a.tokenId))
     : [];
@@ -57,9 +57,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const currentItems = sortedNftData.slice(firstItemIndex, lastItemIndex);
   const totalPages = Math.ceil(sortedNftData.length / itemsPerPage);
   const escrowAddress = contractAddress.VotingEscrow;
-  const { withdraw, isApprovedOrOwner } =
-    useVotingEscrowContract(escrowAddress);
-  const { reset, poke } = useVoterContract();
+  const { withdraw } = useVotingEscrowContract(escrowAddress);
+  const { reset, poke, epochStart } = useVoterContract();
   const lockTokenInfo = locktokeninfo();
   const navigate = useNavigate();
 
@@ -70,6 +69,21 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+
+  useEffect(() => {
+    const fetchEpochStartTime = async () => {
+      try {
+        const timestamp = Math.floor(Date.now() / 1000); // Get current time in seconds
+        const epochStartTime = await epochStart(timestamp); // Fetch epoch start time
+        setEpochStartTime(Number(epochStartTime)); // Set state with fetched epoch start time
+      } catch (error) {
+        console.error('Error fetching epoch start time:', error);
+      }
+    };
+
+    void fetchEpochStartTime();
+  }, [epochStart]);
+
   const handleLockButton = (
     option: string,
     tokenId: bigint,
@@ -117,10 +131,10 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
 
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       setResetTknId(tokenId);
-      if (address) {
+      /*  if (address) {
         const resultapp = await isApprovedOrOwner(address, tokenId);
         console.log('resultapp:', resultapp);
-      }
+      } */
       await reset(tokenId);
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
@@ -318,7 +332,10 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
                             </LockInfoAction>
                           ) : (
                             <LockInfoAction
-                              onClick={() => handleReset(lock.tokenId)}
+                              disabled={
+                                (epochStartTime ?? 0) <= (lock?.lastVoted ?? 0)
+                              }
+                              onClick={() => handleReset(lock?.tokenId ?? 0n)}
                             >
                               Reset
                             </LockInfoAction>
