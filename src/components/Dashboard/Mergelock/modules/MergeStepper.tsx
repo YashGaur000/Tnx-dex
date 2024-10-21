@@ -73,29 +73,44 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
   );
 
   const handleMergeLock = async (fromTokenId: number, toTokenId: number) => {
+    let transHash = false;
     try {
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!fromTokenId || !toTokenId) return;
       setIsMerging(true);
       setIsModalDisable(true);
-      await mergeLocks(BigInt(fromTokenId), BigInt(toTokenId));
-      setTransactionStatus(TransactionStatus.DONE);
+      const txHas = await mergeLocks(BigInt(fromTokenId), BigInt(toTokenId));
+
+      if (txHas) {
+        transHash = true;
+        setTransactionStatus(TransactionStatus.DONE);
+        void showSuccessToast(`Merge done successfully`);
+      } else {
+        void showErrorToast('Transaction was canceled or failed.');
+      }
+
       setTimeout(() => {
-        setIsMerging(false);
-        setPokeDisplay(true);
-        setIsModalDisable(false);
-        setIsMergeLocked(true);
-        setIsFromVotingPower(0);
-        if (!votingStatus) {
-          void showSuccessToast('Merge done successfully.');
-          navigate('/governance');
+        if (transHash) {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setIsMerging(false);
+          setPokeDisplay(true);
+          setIsModalDisable(false);
+          setIsMergeLocked(true);
+          setIsFromVotingPower(0);
+
+          if (!votingStatus) {
+            navigate('/governance');
+          }
         }
       }, TRANSACTION_DELAY);
     } catch (error) {
-      setTransactionStatus(TransactionStatus.FAILED);
-      setIsMerging(false);
-      setIsModalDisable(false);
-      void showErrorToast('Transaction was canceled or failed.');
+      setTimeout(() => {
+        if (!transHash) {
+          setTransactionStatus(TransactionStatus.FAILED);
+          setIsMerging(false);
+          setIsModalDisable(false);
+        }
+      }, TRANSACTION_DELAY);
     }
   };
 
@@ -107,9 +122,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       setIsResetLocked(false);
       setIsResetting(true);
       setIsModalDisable(true);
-      const txHash = await reset(BigInt(Number(toTokenId)));
-
-      // If the transaction succeeds, set the success flag to true
+      const txHash = await reset(BigInt(Number(fromTokenId)));
       if (txHash) {
         transactionSuccess = true;
       }
@@ -119,13 +132,20 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
           setIsResetLocked(true);
           setIsResetting(false);
           void showSuccessToast('Successfully reset lock #' + toTokenId);
+        } else {
+          transactionSuccess = false;
+          setIsModalDisable(false);
+          setIsResetLocked(false);
+          setIsResetting(false);
+          void showErrorToast('Failed to reset, please try again.');
         }
       }, TRANSACTION_DELAY);
     } catch (error) {
+      transactionSuccess = false;
       setIsModalDisable(false);
       setIsResetLocked(false);
       setIsResetting(false);
-      void showErrorToast('Failed to reset, please try again.');
+      await showErrorToast('Failed to reset, please try again.');
     } finally {
       setIsModalDisable(false);
       setIsResetLocked(false);
@@ -139,6 +159,8 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
       setIsPoke(true);
       await poke(BigInt(fromTokenId));
       setTransactionStatus(TransactionStatus.DONE);
+
+      void showSuccessToast('Poked successfully.');
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setPokeDisplay(false);
@@ -147,14 +169,14 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
         setIsMerging(false);
         setIsFromVotingPower(0);
         setIsPoke(false);
-        void showSuccessToast('Poked successfully.');
+
         navigate('/governance');
       }, TRANSACTION_DELAY);
     } catch (error) {
       setIsMerging(false);
       setPokeDisplay(true);
       setTransactionStatus(TransactionStatus.FAILED);
-      void showErrorToast('Failed to poke the voting weight.');
+      await showErrorToast('Failed to poke the voting weight.');
     }
   };
 
@@ -206,7 +228,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
                   label: isResetting ? 'Resett' : 'Reset',
                   onClick: () => handleResetLock(fromTokenId),
                   tooltip: 'Click to reset Lock #' + fromTokenId,
-                  disabled: isResetting,
+                  disabled: isResetting && votingStatus,
                 }
               : undefined,
           },
