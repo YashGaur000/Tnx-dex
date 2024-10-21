@@ -106,6 +106,7 @@ export const DashboardNavigation = styled.p<{
   text-decoration: none;
   cursor: ${({ disabled }) => (disabled ? 'not-allowed' : 'pointer')};
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
+  pointer-events: ${({ disabled }) => (disabled ? 'none' : 'auto')};
   &::after {
     content: '';
     position: absolute;
@@ -115,7 +116,7 @@ export const DashboardNavigation = styled.p<{
     height: 1px;
 
     background: ${({ theme, disabled }) =>
-      disabled ? 'transparent' : theme.colors.bordercolor};
+      disabled ? theme.colors.bordercolor : theme.colors.bordercolor};
   }
 `;
 export const ViewStack = styled.p<{ theme: DefaultTheme }>`
