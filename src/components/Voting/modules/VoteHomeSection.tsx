@@ -9,7 +9,11 @@ import { Nft } from '../../../types/VotingEscrow';
 import { LiquidityTableWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityTable.style';
 import PageLoader from '../../common/PageLoader';
 import { VoteDataType } from '../../../types/VoteData';
-type SortField = 'totalFeesUSD' | 'totalBribesUSD' | 'totalVolumeUSD';
+type SortField =
+  | 'totalFeesUSD'
+  | 'totalBribesUSD'
+  | 'totalVolumeUSD'
+  | 'totalValueLocked';
 type SortOrder = 'asc' | 'desc';
 const ITEMS_PER_PAGE = 25;
 const VoteHomeSection = () => {
@@ -35,8 +39,8 @@ const VoteHomeSection = () => {
   useEffect(() => {
     if (voteData) {
       const sortedingData = voteData.sort((a, b) => {
-        const totalRewardsA = Number(a.totalVolumeUSD);
-        const totalRewardsB = Number(b.totalVolumeUSD);
+        const totalRewardsA = Number(a.totalValueLocked);
+        const totalRewardsB = Number(b.totalValueLocked);
 
         return totalRewardsA - totalRewardsB;
       });

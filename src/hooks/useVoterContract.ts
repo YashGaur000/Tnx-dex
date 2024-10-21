@@ -120,14 +120,7 @@ export function useVoterContract() {
         console.error('Voter contract instance not available');
         return;
       }
-      try {
-        const result = await voterContract.vote(_tokenId, _poolVote, _weights);
-
-        const { transactionHash } = await result.wait();
-        return transactionHash;
-      } catch (error) {
-        console.error('Error during vote transaction:', error);
-      }
+      return await voterContract.vote(_tokenId, _poolVote, _weights);
     },
     [voterContract]
   );

@@ -34,6 +34,7 @@ interface VoteSelectedCardProps {
   nftData: Nft[];
   setVoteSelectPool: React.Dispatch<React.SetStateAction<VoteDataType[]>>;
   setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
+  setExplorerlink: (link: string) => void;
   setSucess: (input: boolean) => void;
 }
 const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
@@ -42,6 +43,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   setVoteSelectPool,
   setSelectedPoolsCount,
   nftData,
+  setExplorerlink,
   setSucess,
 }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -131,6 +133,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
             setVoteSelectPool={setVoteSelectPool}
             setSelectedPoolsCount={setSelectedPoolsCount}
             setSucess={setSucess}
+            setExplorerlink={setExplorerlink}
           />
         )}
       </PopupScreen>

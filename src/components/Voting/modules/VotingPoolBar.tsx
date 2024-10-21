@@ -11,14 +11,14 @@ import {
   FilterWrapper,
   SearchBoxContainer,
 } from '../../Liquidity/LiquidityHomePage/styles/LiquidityFilter.style';
-import DropDown from '../../common/DropDown';
+// import DropDown from '../../common/DropDown';
 import { Input } from '../../common';
 import SearchIcon from '../../../assets/search-icon.png';
 import { ChangeEvent, useState } from 'react';
-interface Option {
-  id: number;
-  label: string;
-}
+// interface Option {
+//   id: number;
+//   label: string;
+// }
 
 interface VotingPoolBarProps {
   handleFilterVoteData: (item: string) => void;
@@ -32,20 +32,20 @@ const VotingPoolBar: React.FC<VotingPoolBarProps> = ({
   const [SearchInputData, setSearchInputData] = useState('');
   const ButtonData: string[] = ['Most Rewarded', 'Least Rewarded', 'All Pools'];
 
-  const options: Option[] = [
-    { id: 1, label: 'Active' },
-    { id: 2, label: 'New' },
-    { id: 3, label: 'Participant' },
-    { id: 4, label: 'Others' },
-  ];
+  // const options: Option[] = [
+  //   { id: 1, label: 'Active' },
+  //   { id: 2, label: 'New' },
+  //   { id: 3, label: 'Participant' },
+  //   { id: 4, label: 'Others' },
+  // ];
   const handleFilterClick = (item: string): void => {
     setSelectedFilter(item);
     handleFilterVoteData(item);
   };
 
-  const handleSelectOption = (option: Option): void => {
-    console.log(option);
-  };
+  // const handleSelectOption = (option: Option): void => {
+  //   console.log(option);
+  // };
 
   const handlePoolTabelSearchBox = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInputData(e.target.value);
@@ -70,9 +70,9 @@ const VotingPoolBar: React.FC<VotingPoolBarProps> = ({
           ))}
         </FilterButtonContainer>
         <FilterWithSearchStyle>
-          <div>
+          {/* <div>
             <DropDown onSelect={handleSelectOption} options={options} />
-          </div>
+          </div> */}
           <SearchBoxContainer>
             <img src={SearchIcon} alt="Search Icon" />
             <Input
