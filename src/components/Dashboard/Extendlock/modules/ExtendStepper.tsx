@@ -127,7 +127,7 @@ const ExtendStepper: React.FC<ExtendStepperProps> = ({
       actionCompleted: !isExtend,
 
       buttons:
-        isPoke && votingStatus != 'false'
+        isPoke && votingStatus
           ? {
               label: 'Poke',
               onClick: handlePoke,
