@@ -77,6 +77,7 @@ interface VottingPowerModelProps {
   setVoteSelectPool: React.Dispatch<React.SetStateAction<VoteDataType[]>>;
   setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
   setSucess: (input: boolean) => void;
+  setExplorerlink: (link: string) => void;
 }
 
 interface RPCError extends Error {
@@ -92,6 +93,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   setVoteSelectPool,
   setSelectedPoolsCount,
   setSucess,
+  setExplorerlink,
 }) => {
   const { vote } = useVoterContract();
 
@@ -99,6 +101,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
   const [inputValues, setInputValues] = useState<number[]>([]);
   const [isVoteButtonVisible, setVoteButtonVisible] = useState(false);
   const [PoolAddress, setPoolAddress] = useState<string[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>(
     'something went Wrong'
@@ -205,7 +208,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       setIsError(false);
       setSucess(false);
       setIsDisabled(true);
-
+      setLoading(true);
       const tokenId = Number(selectedNftData.tokenId);
       const isZeroWeight = inputValues.includes(0);
 
@@ -215,7 +218,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
         console.log('zero weight not Allowed');
 
         setIsDisabled(false);
-
+        setLoading(false);
         return;
       }
 
@@ -224,24 +227,29 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       if (!tokenId) {
         setIsError(true);
         setErrorMessage('Toked is Required');
+        setLoading(false);
         return;
       }
 
       if (poolAddress.length === 0) {
         setIsError(true);
         setErrorMessage('Pool Address is Required');
+        setLoading(false);
         return;
       }
 
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       const voteStart = await vote(tokenId, poolAddress, inputValues);
-      console.log(voteStart);
-
+      if (voteStart?.hash) {
+        const TransactionHash: string = voteStart?.hash;
+        setExplorerlink(`https://testnet.blastscan.io/tx/${TransactionHash}`);
+      }
       setTransactionStatus(TransactionStatus.DONE);
 
       setTimeout(() => {
         setTransactionStatus(TransactionStatus.IDEAL);
         setInputValues(new Array(VoteSelectPoolData.length).fill(0));
+        setLoading(false);
         setSucess(true);
         setIsDisabled(true);
         setVoteSelectPool([]);
@@ -249,7 +257,9 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
       }, TRANSACTION_DELAY);
 
       setIsDisabled(false);
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       setIsDisabled(false);
       handleError(error);
     }
@@ -361,6 +371,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
               height="40px"
               onClick={handleVote}
               disabled={isDisabled}
+              inProgress={isLoading}
             >
               Vote
             </GlobalButton>
@@ -371,7 +382,7 @@ const VottingPowerModel: React.FC<VottingPowerModelProps> = ({
               </LockDescriptonTitle>
               <LockHeaderTitle
                 fontSize={14}
-                style={{ color: availablePower <= 0 ? 'red' : 'inherit' }}
+                style={{ color: availablePower <= 0 ? '#f44336' : 'inherit' }}
               >
                 {availablePower > 0 ? availablePower.toFixed(2) : '0.00'}%
                 available

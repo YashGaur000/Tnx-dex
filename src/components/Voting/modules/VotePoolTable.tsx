@@ -43,7 +43,7 @@ const VotePoolTable: React.FC<VotePoolTableProps> = ({
 }) => {
   const [selectedPoolsCount, setSelectedPoolsCount] = useState<number>(0);
   const [VoteSelectPool, setVoteSelectPool] = useState<VoteDataType[]>([]);
-
+  const [explorerLink, setExplorerlink] = useState<string>('');
   const [isSucess, setSucess] = useState(false);
 
   const handleSelectButton = (pool: VoteDataType) => {
@@ -151,6 +151,7 @@ const VotePoolTable: React.FC<VotePoolTableProps> = ({
               setVoteSelectPool={setVoteSelectPool}
               setSelectedPoolsCount={setSelectedPoolsCount}
               setSucess={setSucess}
+              setExplorerlink={setExplorerlink}
             />
           )}
         </TableWrapper>
@@ -162,7 +163,9 @@ const VotePoolTable: React.FC<VotePoolTableProps> = ({
         />
       </LiquidityTableWrapper>
 
-      {isSucess && <SuccessPopup message="Vote Sucessfully" />}
+      {isSucess && (
+        <SuccessPopup message="Vote Sucessfully" explorerLink={explorerLink} />
+      )}
       {selectedPoolsCount >= 30 && (
         <ErrorPopup errorMessage="only  30 pool allowed" />
       )}

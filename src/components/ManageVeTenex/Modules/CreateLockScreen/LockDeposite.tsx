@@ -89,8 +89,8 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
         SetlockDuration(1);
         setSuccessLock(true);
         setIsApproveLock(false);
-        navigate('/governance');
       }, TRANSACTION_DELAY);
+      navigate('/governance');
     } catch (error) {
       console.error('Error during token lock:', error);
     } finally {
