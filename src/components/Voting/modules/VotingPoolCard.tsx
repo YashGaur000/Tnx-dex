@@ -151,18 +151,23 @@ const VotingPoolCard: React.FC<VotingPoolCardProps> = ({
         <TableColumn>
           <TableColumnWrapper height="96px">
             <Title fontSize={14}>
-              {'~$ ' + data.totalBribesUSD.toString()}
+              {'$ '}
+              {Number(data.totalBribesUSD) == 0
+                ? '0.00'
+                : data.totalBribesUSD.toString()}
             </Title>
             <LiquidityTokenWrapper>
-              <LiquidityTitle
-                fontSize={12}
-                textalign="right"
-                pointer="pointer"
-                textDecoration="underline"
-                onClick={() => handleIncentive(data.id)}
-              >
-                {'Add incentives'}
-              </LiquidityTitle>
+              {Number(data.totalBribesUSD) <= 0 && (
+                <LiquidityTitle
+                  fontSize={12}
+                  textalign="right"
+                  pointer="pointer"
+                  textDecoration="underline"
+                  onClick={() => handleIncentive(data.id)}
+                >
+                  {'Add incentives'}
+                </LiquidityTitle>
+              )}
             </LiquidityTokenWrapper>
           </TableColumnWrapper>
         </TableColumn>
