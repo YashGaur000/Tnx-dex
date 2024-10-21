@@ -114,7 +114,9 @@ const VoteBanner: React.FC = () => {
             <VoteInfoSubtitle>Epoch Ends in</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
-            <Title fontSize={24}>~${TotalVotingData?.totalFees}</Title>
+            <Title fontSize={24}>
+              ~${TotalVotingData?.totalFees?.toFixed(5)}
+            </Title>
             <VoteInfoSubtitle>Total Fees</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
@@ -123,13 +125,13 @@ const VoteBanner: React.FC = () => {
           </InfoItem>
           <InfoItem>
             <Title fontSize={24}>
-              ~${TotalVotingData?.totalIncentive?.toFixed(4)}
+              ~${TotalVotingData?.totalIncentive?.toFixed(5)}
             </Title>
             <VoteInfoSubtitle>Total Incentives</VoteInfoSubtitle>
           </InfoItem>
           <InfoItem>
             <Title fontSize={24}>
-              ~${TotalVotingData?.totalRewards?.toFixed(4)}
+              ~${TotalVotingData?.totalRewards?.toFixed(5)}
             </Title>
             <VoteInfoSubtitle>Total Rewards</VoteInfoSubtitle>
           </InfoItem>
