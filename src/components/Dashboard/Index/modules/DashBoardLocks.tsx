@@ -20,10 +20,7 @@ import {
 import useNftData from '../../../../hooks/useUserNFTs';
 import { Nft } from '../../../../types/VotingEscrow';
 import Pagination from '../../../common/Pagination';
-import {
-  encryptData,
-  getTimeDifference,
-} from '../../../../utils/common/voteTenex';
+import { getTimeDifference } from '../../../../utils/common/voteTenex';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -37,6 +34,7 @@ import {
   showSuccessToast,
 } from '../../../../utils/common/toastUtils';
 import { LoadingSpinner } from '../../../common/Loader';
+import { ToastContainer } from 'react-toastify';
 
 const DashBoardLocks = () => {
   const Navigate = useNavigate();
@@ -91,9 +89,9 @@ const DashBoardLocks = () => {
     votingStatus: boolean | undefined
   ) => {
     if (option) {
-      const encryptedTokenId = encryptData(tokenId.toString());
+      const encryptedTokenId = tokenId;
       const voteStatus = votingStatus ? votingStatus : false;
-      const encryptedVotingStatus = encryptData(voteStatus.toString());
+      const encryptedVotingStatus = voteStatus;
       Navigate(
         `/governance/managevetenex/${option}/${encryptedTokenId}/${encryptedVotingStatus}`
       );
@@ -110,11 +108,17 @@ const DashBoardLocks = () => {
         setResetTknId(tokenId);
 
         await reset(tokenId);
-        setResetTknId(0n);
+
         setTransactionStatus(TransactionStatus.DONE);
+        setTimeout(() => {
+          setResetTknId(0n);
+          void showSuccessToast('Successfully reset lock #' + tokenId);
+          setTransactionStatus(TransactionStatus.IDEAL);
+        }, TRANSACTION_DELAY);
       } catch (error) {
+        setResetTknId(0n);
         setTransactionStatus(TransactionStatus.FAILED);
-        await showErrorToast('Failed to reset lock. Please try again.');
+        void showErrorToast('Failed to reset lock. Please try again.');
       }
     },
     [reset, setTransactionStatus]
@@ -161,6 +165,7 @@ const DashBoardLocks = () => {
 
   return (
     <>
+      <ToastContainer />
       {currentItems.length > 0 ? (
         currentItems.map((lock, index) => {
           if (!lock.metadata) {

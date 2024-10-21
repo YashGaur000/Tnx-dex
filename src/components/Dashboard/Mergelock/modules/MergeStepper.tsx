@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { StepperDataProps } from '../../../../types/Stepper';
 import { GlobalButton } from '../../../common';
 import Stepper from '../../../common/Stepper';
@@ -14,6 +14,7 @@ import Lock from '../../../../assets/lock.png';
 import LockTime from '../../../../assets/lockTime.svg';
 import VotingPowerIconGr from '../../../../assets/star-gradient.svg';
 import LockIconGr from '../../../../assets/LockSucess.svg';
+import LockIconRed from '../../../../assets/lock.png';
 import contractAddress from '../../../../constants/contract-address/address';
 import { useVotingEscrowContract } from '../../../../hooks/useVotingEscrowContract';
 import { useRootStore } from '../../../../store/root';
@@ -39,7 +40,6 @@ interface MergeStepperProps {
   votingPower: number;
   votingStatus: boolean;
   isTotalDuration: string;
-  setSuccessLock: (input: boolean) => void;
   setIsModalDisable: (input: boolean) => void;
 }
 
@@ -72,66 +72,66 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
     isFromVotingPower + Number(convertToDecimal(votingPower))
   );
 
-  const handleMergeLock = useCallback(
-    async (fromTokenId: number, toTokenId: number) => {
-      try {
-        setTransactionStatus(TransactionStatus.IN_PROGRESS);
-        if (!fromTokenId || !toTokenId) return;
-        setIsMerging(true);
-        setIsModalDisable(true);
-        await mergeLocks(BigInt(fromTokenId), BigInt(toTokenId));
-        setTransactionStatus(TransactionStatus.DONE);
-        setTimeout(() => {
-          setIsMerging(false);
-          setPokeDisplay(true);
-          setIsModalDisable(false);
-          setIsMergeLocked(true);
-          setIsFromVotingPower(0);
-          if (!votingStatus) {
-            void showSuccessToast('Merge done successfully.');
-            navigate('/governance');
-          }
-        }, TRANSACTION_DELAY);
-      } catch (error) {
-        setTransactionStatus(TransactionStatus.FAILED);
-        setIsMerging(false);
-        setIsModalDisable(false);
-        void showErrorToast('Transaction was canceled or failed.');
-      }
-    },
-    [mergeLocks, setTransactionStatus, setIsFromVotingPower, setIsModalDisable]
-  );
-
-  const handleResetLock = useCallback(async () => {
+  const handleMergeLock = async (fromTokenId: number, toTokenId: number) => {
     try {
-      if (!votingStatus) return;
-      setIsResetting(true);
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
-      if (!fromTokenId) return;
+      if (!fromTokenId || !toTokenId) return;
+      setIsMerging(true);
       setIsModalDisable(true);
-      await reset(BigInt(Number(toTokenId)));
-
+      await mergeLocks(BigInt(fromTokenId), BigInt(toTokenId));
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
-        setTransactionStatus(TransactionStatus.IDEAL);
+        setIsMerging(false);
+        setPokeDisplay(true);
         setIsModalDisable(false);
-        setIsResetLocked(true);
-        setIsResetting(false);
-        void showSuccessToast('Reset successfully.');
+        setIsMergeLocked(true);
+        setIsFromVotingPower(0);
+        if (!votingStatus) {
+          void showSuccessToast('Merge done successfully.');
+          navigate('/governance');
+        }
       }, TRANSACTION_DELAY);
     } catch (error) {
       setTransactionStatus(TransactionStatus.FAILED);
+      setIsMerging(false);
+      setIsModalDisable(false);
+      void showErrorToast('Transaction was canceled or failed.');
+    }
+  };
+
+  const handleResetLock = async (fromTokenId: number) => {
+    let transactionSuccess = false;
+    try {
+      if (!fromTokenId) return;
+
+      setIsResetLocked(false);
+      setIsResetting(true);
+      setIsModalDisable(true);
+      const txHash = await reset(BigInt(Number(toTokenId)));
+
+      // If the transaction succeeds, set the success flag to true
+      if (txHash) {
+        transactionSuccess = true;
+      }
+      setTimeout(() => {
+        if (transactionSuccess) {
+          setIsModalDisable(false);
+          setIsResetLocked(true);
+          setIsResetting(false);
+          void showSuccessToast('Successfully reset lock #' + toTokenId);
+        }
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      setIsModalDisable(false);
       setIsResetLocked(false);
       setIsResetting(false);
       void showErrorToast('Failed to reset, please try again.');
+    } finally {
+      setIsModalDisable(false);
+      setIsResetLocked(false);
+      setIsResetting(false);
     }
-  }, [
-    fromTokenId,
-    reset,
-    setTransactionStatus,
-    setIsModalDisable,
-    votingStatus,
-  ]);
+  };
 
   const handlePoke = async () => {
     try {
@@ -187,7 +187,7 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
     {
       step: 3,
       descriptions: {
-        labels: `New estimated voting power ${totalVotingPower} veTENEX`,
+        labels: `New estimated voting power ${totalVotingPower.toFixed(1)} veTENEX`,
       },
       icon: VotingPowerIconGr,
     },
@@ -200,11 +200,11 @@ const MergeStepper: React.FC<MergeStepperProps> = ({
                 ? 'Reset lock #' + fromTokenId + ' successfully'
                 : 'Reset required for lock #' + fromTokenId,
             },
-            icon: LockIconGr,
+            icon: isResetLocked ? LockIconGr : LockIconRed,
             buttons: !isResetLocked
               ? {
                   label: isResetting ? 'Resett' : 'Reset',
-                  onClick: handleResetLock,
+                  onClick: () => handleResetLock(fromTokenId),
                   tooltip: 'Click to reset Lock #' + fromTokenId,
                   disabled: isResetting,
                 }

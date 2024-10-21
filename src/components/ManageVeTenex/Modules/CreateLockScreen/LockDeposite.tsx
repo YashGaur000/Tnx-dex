@@ -22,7 +22,11 @@ import {
 } from '../../../../types/Transaction';
 import { useRootStore } from '../../../../store/root';
 import { useNavigate } from 'react-router-dom';
-import { showSuccessToast } from '../../../../utils/common/toastUtils';
+import {
+  showErrorToast,
+  showSuccessToast,
+} from '../../../../utils/common/toastUtils';
+import { ToastContainer } from 'react-toastify';
 
 const LockDeposite: React.FC<LockDepositeProps> = ({
   setLockTokenValue,
@@ -67,6 +71,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
   };
 
   const handleLock = useCallback(async () => {
+    let transactionResult = false;
     try {
       setSuccessLock(false);
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
@@ -74,25 +79,33 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
       setIsLocking(true);
       const amountInWei = ethers.parseUnits(LockTokenValue, LockTokenDecimal);
       const durationInSeconds = lockDuration * 7 * 24 * 60 * 60;
-      await createLock(amountInWei, durationInSeconds);
+      const texnresult = await createLock(amountInWei, durationInSeconds);
 
-      setIsLocked(true);
+      if (texnresult) {
+        transactionResult = true;
+        void showSuccessToast('Successfully create token lock!');
+      }
+
       setTransactionStatus(TransactionStatus.DONE);
-      void showSuccessToast(`Lock created successfully!`);
+
       setTimeout(() => {
-        setTransactionStatus(TransactionStatus.IDEAL);
-        setLockTokenValue('');
-        setIsTokenAllowed(false);
-        setIsLocking(false);
-        setIsLocked(false);
-        setIsLoading(false);
-        SetlockDuration(1);
-        setSuccessLock(true);
-        setIsApproveLock(false);
+        if (transactionResult) {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setIsLocked(true);
+          setLockTokenValue('');
+          setIsTokenAllowed(false);
+          setIsLocking(false);
+          setIsLocked(false);
+          setIsLoading(false);
+          SetlockDuration(1);
+          setSuccessLock(true);
+          setIsApproveLock(false);
+          navigate('/governance');
+        }
       }, TRANSACTION_DELAY);
-      navigate('/governance');
     } catch (error) {
-      console.error('Error during token lock:', error);
+      void showErrorToast('Error during token lock. Please try again.');
+      //console.error('Error during token lock:', error);
     } finally {
       setIsLocking(false);
     }
@@ -168,6 +181,7 @@ const LockDeposite: React.FC<LockDepositeProps> = ({
 
   return (
     <StyledDepositContainer>
+      <ToastContainer />
       <LockHeaderTitle fontSize={24}>Lock</LockHeaderTitle>
       <Stepper data={!LockTokenValue ? LockInstructionData : LockData} />
       {isTokenAllowed && !isLocked && (

@@ -62,8 +62,9 @@ const Main = () => {
             metadata: decodeBase64(nft.metadata),
             votingStatus: nft.votingStatus,
             poolVoteCheck: nft.poolVoteCheck,
+            lastVoted: nft.lastVote,
           }));
-
+          console.log('formattedNftFormateData:', formattedNftFormateData);
           if (!fetchedNftVal) return;
           /*  const filteredNftVal = filterNftsByUnlockDate(
             formattedNftFormateData

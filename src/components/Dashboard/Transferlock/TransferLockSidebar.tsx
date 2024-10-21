@@ -22,6 +22,10 @@ import LockIconRed from '../../../assets/lock.png';
 import VotingPowerIcon from '../../../../src/assets/star.svg';
 import { useVoterContract } from '../../../hooks/useVoterContract';
 import { useNavigate } from 'react-router-dom';
+import {
+  showErrorToast,
+  showSuccessToast,
+} from '../../../utils/common/toastUtils';
 
 interface TransferFromOwnerProps {
   fromOwner: Address;
@@ -74,33 +78,47 @@ const TransferLockSidebar: React.FC<TransferFromOwnerProps> = ({
         setInputLock(false);
         setToAddres(undefined);
         setTransactionStatus(TransactionStatus.IDEAL);
+        void showSuccessToast('Successfully transfer ');
         navigate('/governance');
       }, TRANSACTION_DELAY);
     } catch (error) {
-      console.error('Error transferring lock:', error);
+      //console.error('Error transferring lock:', error);
       setTransactionStatus(TransactionStatus.FAILED);
       setInputLock(false);
+      void showErrorToast('Failed to Transfer, please try again.');
     } finally {
       setIsLoading(false);
     }
   }, [tokenId, toAddress, fromOwner, transferFrom, setTransactionStatus]);
 
   const handleResetLock = useCallback(async () => {
+    let transactionSuccess = false;
     try {
       if (!toAddress) return;
       setIsResetting(true);
       setTransactionStatus(TransactionStatus.IN_PROGRESS);
       if (!tokenId) return;
-      await reset(BigInt(tokenId));
+      const txHash = await reset(BigInt(Number(tokenId)));
+
+      // If the transaction succeeds, set the success flag to true
+      if (txHash) {
+        transactionSuccess = true;
+      }
       setTransactionStatus(TransactionStatus.DONE);
       setTimeout(() => {
-        setTransactionStatus(TransactionStatus.IDEAL);
-        setIsResetDone(true);
-        setIsResetting(false);
+        if (transactionSuccess) {
+          setTransactionStatus(TransactionStatus.IDEAL);
+          setIsResetDone(true);
+          setIsResetting(false);
+          void showSuccessToast('Successfully reset lock #' + tokenId);
+        }
       }, TRANSACTION_DELAY);
     } catch (error) {
-      console.error('Error during reset lock:', error);
+      //console.error('Error during reset lock:', error);
       setTransactionStatus(TransactionStatus.FAILED);
+      setIsResetting(false);
+      void showErrorToast('Failed to reset, please try again.');
+    } finally {
       setIsResetting(false);
     }
   }, [tokenId, reset, setTransactionStatus]);

@@ -260,7 +260,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         </GlobalButton>
       )}
 
-      {isPokeDisplay && votingStatus != 'false' && (
+      {isPokeDisplay && votingStatus && (
         <GlobalButton
           width="30%"
           height="40px"
