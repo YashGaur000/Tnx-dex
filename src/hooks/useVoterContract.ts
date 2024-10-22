@@ -97,10 +97,19 @@ export function useVoterContract() {
         return;
       }
       try {
-        const resetTransaction = await voterContract.reset(_tokenId);
-        return resetTransaction;
+        const gasEstimate = await voterContract.estimateGas.reset(_tokenId);
+
+        const tx = await voterContract.reset(_tokenId, {
+          gasLimit: gasEstimate,
+        });
+
+        const receipt = await tx.wait();
+
+        return receipt.transactionHash;
       } catch (error) {
-        console.error('Error during reset:', error);
+        console.error('Transaction failed or was canceled', error);
+
+        throw new Error('Transaction failed or was canceled');
       }
     },
     [voterContract]
@@ -115,7 +124,21 @@ export function useVoterContract() {
     },
     [voterContract]
   );
-
+  const epochStart = useCallback(
+    async (timestamp: number) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const epochStartTime = await voterContract.epochStart(timestamp);
+        return epochStartTime;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
   const epochVoteEnd = useCallback(
     async (timestamp: number) => {
       if (!voterContract) {
@@ -125,6 +148,39 @@ export function useVoterContract() {
       try {
         const epochVoteEnd = await voterContract.epochVoteEnd(timestamp);
         return epochVoteEnd;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+
+  const epochNext = useCallback(
+    async (timestamp: number) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const epochNextTime = await voterContract.epochNext(timestamp);
+        return epochNextTime;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [voterContract]
+  );
+
+  const epochVoteStart = useCallback(
+    async (timestamp: number) => {
+      if (!voterContract) {
+        console.error('Voter contract instance not available');
+        return;
+      }
+      try {
+        const epochVoteStartTime =
+          await voterContract.epochVoteStart(timestamp);
+        return epochVoteStartTime;
       } catch (error) {
         console.log(error);
       }
@@ -160,7 +216,7 @@ export function useVoterContract() {
 
         return transactionHash;
       } catch (error) {
-        console.log(error);
+        console.error('Error during  transaction:', error);
       }
     },
     [voterContract]
@@ -213,6 +269,23 @@ export function useVoterContract() {
     },
     [voterContract]
   );
+
+  const lastVote = useCallback(
+    async (tokenId: bigint): Promise<bigint> => {
+      if (!voterContract) {
+        await showErrorToast('Voter contract instance is not available.');
+        return 0n;
+      }
+      try {
+        const lockVote = await voterContract.lastVoted(tokenId);
+        return lockVote;
+      } catch (error) {
+        console.log('Error fetching lock data:', error);
+        return 0n;
+      }
+    },
+    [voterContract]
+  );
   return {
     createGauge,
     gauges,
@@ -224,5 +297,9 @@ export function useVoterContract() {
     claimFees,
     epochVoteEnd,
     poke,
+    lastVote,
+    epochStart,
+    epochNext,
+    epochVoteStart,
   };
 }

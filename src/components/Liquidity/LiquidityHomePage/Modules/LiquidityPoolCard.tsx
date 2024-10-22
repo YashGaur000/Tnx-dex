@@ -125,7 +125,9 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
                     TVL
                   </StatsCardtitle>{' '}
                   <LiquidityTitle fontSize={12} textalign="right">
-                    {Number(data.totalValueLocked).toFixed(5)}
+                    {Number(data.totalValueLocked) % 1 === 0
+                      ? Number(data.totalValueLocked).toFixed(2)
+                      : Number(data.totalValueLocked).toFixed(5)}
                   </LiquidityTitle>
                 </TokenAmountTitle>
               </LiquidityTokenWrapper>
@@ -138,15 +140,24 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
         <TableColumn>
           <TableColumnWrapper>
             <TitleWrapper fontSize={'14px'}>
-              ~$ {data.totalVolumeUSD.toString()}
+              ~${' '}
+              {Number(data.totalVolumeUSD) % 1 === 0
+                ? Number(data.totalVolumeUSD).toFixed(2)
+                : Number(data.totalVolumeUSD).toFixed(5)}
             </TitleWrapper>
             <LiquidityTokenWrapper>
               <LiquidityTitle fontSize={12} textalign="right">
                 {' '}
-                {data.totalVolume0.toString()} {data.token0.symbol}
+                {Number(data.totalVolume0) % 1 === 0
+                  ? Number(data.totalVolume0).toFixed(2)
+                  : Number(data.totalVolume0).toFixed(5)}{' '}
+                {data.token0.symbol}
               </LiquidityTitle>
               <LiquidityTitle fontSize={12} textalign="right">
-                {data.totalVolume1.toString()} {data.token1.symbol}
+                {Number(data.totalVolume0) % 1 === 0
+                  ? Number(data.totalVolume1).toFixed(2)
+                  : Number(data.totalVolume1).toFixed(5)}{' '}
+                {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
           </TableColumnWrapper>
@@ -154,15 +165,24 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
         <TableColumn>
           <TableColumnWrapper>
             <TitleWrapper fontSize={'14px'}>
-              ~$ {data.totalFeesUSD.toString()}
+              ~${' '}
+              {Number(data.totalFeesUSD) % 1 === 0
+                ? Number(data.totalFeesUSD).toFixed(2)
+                : Number(data.totalFeesUSD).toFixed(5)}
             </TitleWrapper>
 
             <LiquidityTokenWrapper>
               <LiquidityTitle fontSize={12} textalign="right">
-                {data.totalFees0.toString()} {data.token0.symbol}
+                {Number(data.totalFees0) % 1 === 0
+                  ? Number(data.totalFees0).toFixed(2)
+                  : Number(data.totalFees0).toFixed(5)}{' '}
+                {data.token0.symbol}
               </LiquidityTitle>
               <LiquidityTitle fontSize={12} textalign="right">
-                {data.totalFees1.toString()} {data.token1.symbol}
+                {Number(data.totalFees1) % 1 === 0
+                  ? Number(data.totalFees1).toFixed(2)
+                  : Number(data.totalFees1).toFixed(5)}{' '}
+                {data.token1.symbol}
               </LiquidityTitle>
             </LiquidityTokenWrapper>
           </TableColumnWrapper>
@@ -198,7 +218,10 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               lineheight="17.94px"
               textalign="right"
             >
-              {data.reserve0.toString()} {data.token0.symbol}
+              {Number(data.reserve0) % 1 === 0
+                ? Number(data.reserve0).toFixed(2)
+                : Number(data.reserve0).toFixed(5)}{' '}
+              {data.token0.symbol}
             </LiquidityTitle>
             {/* <TokenAmountTitle>{data.balanceDesc}</TokenAmountTitle> */}
             <LiquidityTitle
@@ -206,7 +229,10 @@ const LiquidityPoolCard = ({ data }: { data: LiquidityPoolNewType }) => {
               lineheight="17.94px"
               textalign="right"
             >
-              {data.reserve1.toString()} {data.token1.symbol}
+              {Number(data.reserve1) % 1 === 0
+                ? Number(data.reserve1).toFixed(2)
+                : Number(data.reserve1).toFixed(5)}{' '}
+              {data.token1.symbol}
             </LiquidityTitle>
           </LiquidityTokenWrapper>
         </TableColumn>

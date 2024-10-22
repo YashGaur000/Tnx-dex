@@ -19,22 +19,22 @@ import PopupScreen from '../../common/PopupScreen';
 import VoteSelectModel from './VoteSelectModel';
 import { PopupWrapper } from '../../Liquidity/LiquidityHomePage/styles/LiquidityHeroSection.style';
 import VottingPowerModel from './VottingPowerModel';
-import { LiquidityPoolNewType } from '../../../graphql/types/LiquidityPoolNew';
+
 import { Nft } from '../../../types/VotingEscrow';
 import {
   getTimeDifference,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
+import { VoteDataType } from '../../../types/VoteData';
 const lockTokenInfo = locktokeninfo();
 
 interface VoteSelectedCardProps {
   countSelectedItem: number;
-  VoteSelectPoolData: LiquidityPoolNewType[];
+  VoteSelectPoolData: VoteDataType[];
   nftData: Nft[];
-  setVoteSelectPool: React.Dispatch<
-    React.SetStateAction<LiquidityPoolNewType[]>
-  >;
+  setVoteSelectPool: React.Dispatch<React.SetStateAction<VoteDataType[]>>;
   setSelectedPoolsCount: React.Dispatch<React.SetStateAction<number>>;
+  setExplorerlink: (link: string) => void;
   setSucess: (input: boolean) => void;
 }
 const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
@@ -43,6 +43,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
   setVoteSelectPool,
   setSelectedPoolsCount,
   nftData,
+  setExplorerlink,
   setSucess,
 }) => {
   const [isPopupVisible, setPopupVisible] = useState(false);
@@ -132,6 +133,7 @@ const VoteSelectedCard: React.FC<VoteSelectedCardProps> = ({
             setVoteSelectPool={setVoteSelectPool}
             setSelectedPoolsCount={setSelectedPoolsCount}
             setSucess={setSucess}
+            setExplorerlink={setExplorerlink}
           />
         )}
       </PopupScreen>

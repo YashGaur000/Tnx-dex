@@ -15,7 +15,6 @@ import TransferLockSidebar from './TransferLockSidebar';
 import {
   calculateRemainingDays,
   convertToDecimal,
-  decryptData,
   formatTokenAmount,
   locktokeninfo,
   MAX_LOCK_TIME,
@@ -30,31 +29,31 @@ import { ToastContainer } from 'react-toastify';
 
 import { Address } from 'viem';
 import { showErrorToast } from '../../../utils/common/toastUtils';
+import { useVoterContract } from '../../../hooks/useVoterContract';
 
 const Transferlock = () => {
-  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+  const { encryptedTokenId } = useParams<{
     encryptedTokenId: string;
-    encryptedVotingStatus: string;
   }>();
   const navigate = useNavigate();
-  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : 0;
-  const votingStatus = encryptedVotingStatus
-    ? decryptData(encryptedVotingStatus)
-    : (false as boolean);
+  const tokenId = encryptedTokenId ? encryptedTokenId : 0;
+
   if (!tokenId) {
     navigate('/governance');
   }
-  console.log('votingStatus', votingStatus);
 
   const [lockData, setLockData] = useState<LockedBalance | null>(null);
   const [totalVotingPower, setTotalVotingPower] = useState<number>(0);
   const [toAddress, setToAddress] = useState<Address>();
   const [isInputLocked, setInputLock] = useState<boolean>(false);
   const [isSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [votingStatus, setIsvotingStatus] = useState<boolean>(false);
   const [lockedTENEX, setLockedTENEX] = useState<number>(0);
+  const [isValidAddress, setIsValidAddress] = useState<string>('');
   const { getLockData } = useVotingEscrowContract(contractAddress.VotingEscrow);
   const { address: currentAddress } = useAccount();
   const lockTokenInfo = locktokeninfo();
+  const { lastVote } = useVoterContract();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,6 +61,11 @@ const Transferlock = () => {
     const fetchLockData = async () => {
       if (tokenId) {
         try {
+          const checkLastVote = await lastVote(BigInt(tokenId));
+          if (Number(checkLastVote)) {
+            setIsvotingStatus(true);
+            console.log('checkLastVote:', Number(checkLastVote));
+          }
           const data = await getLockData(Number(tokenId));
           if (data) {
             const lockedAmount = formatTokenAmount(Number(data.amount));
@@ -85,15 +89,34 @@ const Transferlock = () => {
 
   const handleTransferAddress = (e: ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
+    if (inputValue == '') {
+      setIsValidAddress('Enter wallet address.');
+    }
+    if (inputValue.length !== 42) {
+      setIsValidAddress('Wallet address is not valid.');
+    }
+    if (inputValue.toLowerCase() === currentAddress?.toLowerCase()) {
+      setIsValidAddress('You cannot transfer to your own wallet address');
+    }
+    if (
+      inputValue.length === 42 &&
+      inputValue.toLowerCase() !== currentAddress?.toLowerCase()
+    ) {
+      setIsValidAddress('Wallet Address is valid');
+    }
+
     setToAddress(inputValue as Address);
   };
 
   const validateAddress = () => {
+    setIsValidAddress('Wallet address is valid.');
     if (!toAddress || toAddress.length !== 42) {
+      setIsValidAddress('Wallet address is not valid.');
       void showErrorToast('Please enter a valid EVM wallet address.');
       return;
     }
     if (toAddress.toLowerCase() === currentAddress?.toLowerCase()) {
+      setIsValidAddress('You cannot transfer to your own wallet address');
       void showErrorToast('You cannot transfer to your own wallet address.');
       return;
     }
@@ -154,6 +177,7 @@ const Transferlock = () => {
           setToAddres={setToAddress}
           handleSubmit={handleSubmit}
           votingStatus={votingStatus}
+          isValidAddress={isValidAddress}
         />
       </CreateMainContainer>
       {isSuccessLock && <SuccessPopup message="Transfer Successful!" />}

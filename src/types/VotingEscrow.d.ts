@@ -124,6 +124,9 @@ export interface Nft {
   tokenId: bigint;
   metadata: NftMetadata;
   votingStatus?: boolean;
+  poolVoteCheck?: Address | undefined;
+  lastVoted?: number;
+  escrowType?: string;
   setSuccessLock?: (nftData: string[]) => void;
 }
 interface LockIncreaseProps {

@@ -4,6 +4,8 @@ import { LockedBalance, VotingEscrowContract } from '../types/VotingEscrow'; //L
 import { Abi, Address } from 'viem';
 import votingEscrowAbi from '../constants/artifacts/contracts/VotingEscrow.json';
 import { useMultiCall } from './useMultiCall';
+import voterAbi from '../constants/artifacts/contracts/Voter.json';
+import contractAddresses from '../constants/contract-address/address';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
 export function useVotingEscrowContract(escrowAddress: string) {
@@ -57,7 +59,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
     [votingEscrowContract]
   );
   const mergeLocks = useCallback(
-    async (_from: bigint, _to: bigint): Promise<void> => {
+    async (_from: bigint, _to: bigint) => {
       if (!votingEscrowContract) {
         throw new Error('VotingEscrowContract not initialized');
       }
@@ -71,7 +73,8 @@ export function useVotingEscrowContract(escrowAddress: string) {
         const tx = await votingEscrowContract.merge(_from, _to, {
           gasLimit: gasEstimate,
         });
-        await tx.wait();
+        const receipt = await tx.wait();
+        return receipt.transactionHash;
       } catch (error) {
         console.error('Error merging locks:', error);
         throw error;
@@ -181,7 +184,7 @@ export function useVotingEscrowContract(escrowAddress: string) {
 
       try {
         const NftCount = await votingEscrowContract.balanceOf(owner);
-        console.log('NftCount', NftCount);
+
         return NftCount;
       } catch (error) {
         console.error('Error fetching NFT count:', error);
@@ -195,12 +198,17 @@ export function useVotingEscrowContract(escrowAddress: string) {
     async (
       owner: Address
     ): Promise<
-      { tokenId: bigint; metadata: string; votingStatus: boolean }[]
+      {
+        tokenId: bigint;
+        metadata: string;
+        votingStatus: boolean;
+        poolVoteCheck: Address | undefined;
+        lastVote: number;
+      }[]
     > => {
       if (!votingEscrowContract) return [];
 
       const nftCount = await getNFTCount(owner);
-      console.log('NftCount', nftCount);
       const multicallRequests: {
         abi: Abi;
         functionName: string;
@@ -216,13 +224,13 @@ export function useVotingEscrowContract(escrowAddress: string) {
           address: escrowAddress as Address,
         });
       }
-      console.log('multicallRequests', multicallRequests);
-      if (!multicallRequests) throw new Error('Failed to fetch tokens');
+
+      if (!multicallRequests.length) throw new Error('Failed to fetch tokens');
 
       const tokenIdResults = await multicallClient?.multicall({
         contracts: multicallRequests,
       });
-      console.log('tokenIdResults', tokenIdResults);
+
       if (!tokenIdResults) throw new Error('Failed to fetch token IDs');
 
       const tokenIds: bigint[] = Array.from(
@@ -232,49 +240,68 @@ export function useVotingEscrowContract(escrowAddress: string) {
             .map((result) => result.result as bigint)
         )
       );
-      console.log('tokenIds', tokenIds);
+
       const metadataRequests = tokenIds.map((tokenId) => ({
         abi: votingEscrowAbi.abi as Abi,
         functionName: 'tokenURI',
         args: [tokenId],
         address: escrowAddress as Address,
       }));
-      console.log('metadataRequests:', metadataRequests);
-      const metadataResults = await multicallClient?.multicall({
-        contracts: metadataRequests,
-      });
-      console.log('metadataResultsgdfgdfgd:', metadataResults);
-      const checkVoteStatus = tokenIds.map((tokenId) => ({
+
+      const checkVoteStatusRequests = tokenIds.map((tokenId) => ({
         abi: votingEscrowAbi.abi as Abi,
         functionName: 'voted',
         args: [tokenId],
         address: escrowAddress as Address,
       }));
-      console.log('checkVoteStatus:', checkVoteStatus);
-      const voteStatus = await multicallClient?.multicall({
-        contracts: checkVoteStatus,
-      });
+      const poolVoteStatusRequest = tokenIds.map((tokenId, index) => ({
+        abi: voterAbi.abi as Abi,
+        functionName: 'poolVote',
+        args: [tokenId, index],
+        address: contractAddresses.Voter,
+      }));
+      const lastVoteStatusRequest = tokenIds.map((tokenId) => ({
+        abi: voterAbi.abi as Abi,
+        functionName: 'lastVoted',
+        args: [tokenId],
+        address: contractAddresses.Voter,
+      }));
 
-      if (metadataResults && voteStatus) {
-        const nfts =
-          tokenIds.map((tokenId, index) => {
-            const metadata = metadataResults[index]?.result as string;
-            const votingStatus = voteStatus[index]?.result as boolean;
-            return { tokenId, metadata, votingStatus };
-          }) ?? [];
-        console.log('nftsfinal:', nfts);
+      // Use Promise.all for metadata and voting status calls
+      const [
+        metadataResults,
+        voteStatusResults,
+        poolVoteStatus,
+        lastVoteStatus,
+      ] = await Promise.all([
+        multicallClient?.multicall({ contracts: metadataRequests }),
+        multicallClient?.multicall({ contracts: checkVoteStatusRequests }),
+        multicallClient?.multicall({ contracts: poolVoteStatusRequest }),
+        multicallClient?.multicall({ contracts: lastVoteStatusRequest }),
+      ]);
+
+      if (
+        metadataResults &&
+        voteStatusResults &&
+        poolVoteStatus &&
+        lastVoteStatus
+      ) {
+        const nfts = tokenIds.map((tokenId, index) => {
+          const metadata = metadataResults[index]?.result as string;
+          const votingStatus = voteStatusResults[index]?.result as boolean;
+          const poolVoteCheck = poolVoteStatus[index]?.result as
+            | Address
+            | undefined;
+          const lastVote = lastVoteStatus[index]?.result as number;
+          return { tokenId, metadata, votingStatus, poolVoteCheck, lastVote };
+        });
+
         return nfts;
-      } else {
-        return [];
       }
 
-      /*  const nfts: { tokenId: bigint; metadata: string }[] =
-        metadataResults?.map((result, index) => {
-          const metadata = result.result as string;
-          return { tokenId: tokenIds[index], metadata };
-        }) ?? []; */
+      return [];
     },
-    [votingEscrowContract, multicallClient, getNFTCount]
+    [votingEscrowContract]
   );
 
   const getLockData = useCallback(

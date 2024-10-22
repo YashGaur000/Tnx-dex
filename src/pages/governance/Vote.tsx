@@ -10,6 +10,9 @@ const VoteHomeSection = React.lazy(
 
 const Vote: React.FC = () => {
   useEffect(() => {
+    document.title = 'Tenex-vote';
+  }, []);
+  useEffect(() => {
     window.scrollTo({
       top: 0,
       left: 0,

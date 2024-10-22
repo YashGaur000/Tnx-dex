@@ -20,10 +20,7 @@ import {
 import useNftData from '../../../../hooks/useUserNFTs';
 import { Nft } from '../../../../types/VotingEscrow';
 import Pagination from '../../../common/Pagination';
-import {
-  encryptData,
-  getTimeDifference,
-} from '../../../../utils/common/voteTenex';
+import { getTimeDifference } from '../../../../utils/common/voteTenex';
 import {
   TRANSACTION_DELAY,
   TransactionStatus,
@@ -37,6 +34,7 @@ import {
   showSuccessToast,
 } from '../../../../utils/common/toastUtils';
 import { LoadingSpinner } from '../../../common/Loader';
+import { ToastContainer } from 'react-toastify';
 
 const DashBoardLocks = () => {
   const Navigate = useNavigate();
@@ -46,10 +44,12 @@ const DashBoardLocks = () => {
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
   const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
-  const { reset } = useVoterContract();
+  const { reset, poke, epochStart } = useVoterContract();
   const itemsPerPage = 4;
   const nftData = useNftData();
   const { setTransactionStatus } = useRootStore();
+  const [isPoking, setIsPoking] = useState<bigint | null>(null);
+  const [epochStartTime, setEpochStartTime] = useState<number | null>(null);
 
   useEffect(() => {
     if (nftData.length > 0) {
@@ -69,7 +69,19 @@ const DashBoardLocks = () => {
       setCurrentPage((prevPage) => prevPage + 1);
     }
   };
+  useEffect(() => {
+    const fetchEpochStartTime = async () => {
+      try {
+        const timestamp = Math.floor(Date.now() / 1000);
+        const epochStartTime = await epochStart(timestamp);
+        setEpochStartTime(Number(epochStartTime));
+      } catch (error) {
+        console.error('Error fetching epoch start time:', error);
+      }
+    };
 
+    void fetchEpochStartTime();
+  }, [epochStart]);
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage((prevPage) => prevPage - 1);
@@ -90,9 +102,9 @@ const DashBoardLocks = () => {
     votingStatus: boolean | undefined
   ) => {
     if (option) {
-      const encryptedTokenId = encryptData(tokenId.toString());
+      const encryptedTokenId = tokenId;
       const voteStatus = votingStatus ? votingStatus : false;
-      const encryptedVotingStatus = encryptData(voteStatus.toString());
+      const encryptedVotingStatus = voteStatus;
       Navigate(
         `/governance/managevetenex/${option}/${encryptedTokenId}/${encryptedVotingStatus}`
       );
@@ -109,11 +121,17 @@ const DashBoardLocks = () => {
         setResetTknId(tokenId);
 
         await reset(tokenId);
-        setResetTknId(0n);
+
         setTransactionStatus(TransactionStatus.DONE);
+        setTimeout(() => {
+          setResetTknId(0n);
+          void showSuccessToast('Successfully reset lock #' + tokenId);
+          setTransactionStatus(TransactionStatus.IDEAL);
+        }, TRANSACTION_DELAY);
       } catch (error) {
+        setResetTknId(0n);
         setTransactionStatus(TransactionStatus.FAILED);
-        await showErrorToast('Failed to reset lock. Please try again.');
+        void showErrorToast('Failed to reset lock. Please try again.');
       }
     },
     [reset, setTransactionStatus]
@@ -138,9 +156,29 @@ const DashBoardLocks = () => {
     },
     [withdraw, setTransactionStatus]
   );
+  const handlePoke = async (tokenId: bigint) => {
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      setIsPoking(tokenId);
+      await poke(tokenId);
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setIsPoking(0n);
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      setIsPoking(0n);
+      setTransactionStatus(TransactionStatus.FAILED);
+      console.error('Error during poke action:', error);
+      void showErrorToast('Failed to poke the voting weight.');
+    } finally {
+      setIsPoking(0n);
+    }
+  };
 
   return (
     <>
+      <ToastContainer />
       {currentItems.length > 0 ? (
         currentItems.map((lock, index) => {
           if (!lock.metadata) {
@@ -244,9 +282,35 @@ const DashBoardLocks = () => {
                             </DashboardNavigation>
                           ) : (
                             <DashboardNavigation
-                              onClick={() => handleReset(lock.tokenId)}
+                              disabled={
+                                (epochStartTime ?? 0) <= (lock?.lastVoted ?? 0)
+                              }
+                              onClick={() => handleReset(lock?.tokenId ?? 0n)}
                             >
                               Reset
+                            </DashboardNavigation>
+                          ))}
+
+                        {lock.votingStatus &&
+                          (isPoking === lock.tokenId ? (
+                            <DashboardNavigation disabled>
+                              <span
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <LoadingSpinner width="10px" height="10px" />
+                                <span style={{ marginLeft: '5px' }}>
+                                  Poke...
+                                </span>
+                              </span>
+                            </DashboardNavigation>
+                          ) : (
+                            <DashboardNavigation
+                              onClick={() => handlePoke(lock.tokenId)}
+                            >
+                              Poke
                             </DashboardNavigation>
                           ))}
                       </>

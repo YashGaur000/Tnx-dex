@@ -31,24 +31,21 @@ import {
 } from '../../../Swap/styles/TransactionDeadline.style';
 import {
   convertToDecimal,
-  decryptData,
   formatTokenAmount,
 } from '../../../../utils/common/voteTenex';
 import { useEffect, useState } from 'react';
 import { useVotingPowerCalculation } from '../../../../hooks/useVotingNftData';
 import { useNavigate, useParams } from 'react-router-dom';
 import SuccessPopup from '../../../common/SucessPopup';
+import { useVoterContract } from '../../../../hooks/useVoterContract';
 
 const ExtendLock = () => {
-  const { encryptedTokenId, encryptedVotingStatus } = useParams<{
+  const { encryptedTokenId } = useParams<{
     encryptedTokenId: string;
-    encryptedVotingStatus: string;
   }>();
   const navigate = useNavigate();
-  const tokenId = encryptedTokenId ? decryptData(encryptedTokenId) : '';
-  const votingStatus = encryptedVotingStatus
-    ? decryptData(encryptedVotingStatus)
-    : (false as boolean);
+  const tokenId = encryptedTokenId ? encryptedTokenId : '';
+
   if (!tokenId) {
     navigate('/governance');
   }
@@ -56,7 +53,8 @@ const ExtendLock = () => {
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
   const [isExtendDisable, setIsExtendDisable] = useState<boolean>(true);
   const [isSliderDisabled, setIsSliderDisabled] = useState<boolean>(false);
-
+  const [votingStatus, setIsvotingStatus] = useState<boolean>(false);
+  const { lastVote } = useVoterContract();
   const {
     votingPower,
     lockData,
@@ -67,8 +65,29 @@ const ExtendLock = () => {
   } = useVotingPowerCalculation(tokenId);
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    const fetchlastVote = async () => {
+      try {
+        //let timestamp = Math.floor(Date.now() / 1000);
+        const checkLastVote = await lastVote(BigInt(tokenId));
+
+        //let epochStartTime = await epochStart(timestamp)
+
+        //if(Number(checkLastVote) > Number(epochStartTime)){
+
+        //}
+        if (Number(checkLastVote)) {
+          setIsvotingStatus(true);
+          console.log('checkLastVote:', Number(checkLastVote));
+        }
+      } catch (error) {
+        console.error('Error during last vote fetch:', error);
+      }
+
+      window.scrollTo(0, 0);
+    };
+
+    void fetchlastVote();
+  }, [tokenId, lastVote]);
 
   const handleToggle = () => {
     if (!isMaxLockMode) {

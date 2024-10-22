@@ -121,7 +121,9 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         setIsPokeDisplay(true);
         setIsLocked(true);
         setTransactionStatus(TransactionStatus.IDEAL);
+        void showSuccessToast('Increase Lock successfully');
       }, TRANSACTION_DELAY);
+      navigate('/governance');
     } catch (error) {
       console.error('Error increasing lock:', error);
       setIsLocked(false);
@@ -258,7 +260,7 @@ const IncreaseStepper: React.FC<LockIncreaseProps> = ({
         </GlobalButton>
       )}
 
-      {isPokeDisplay && votingStatus != 'false' && (
+      {isPokeDisplay && votingStatus && (
         <GlobalButton
           width="30%"
           height="40px"

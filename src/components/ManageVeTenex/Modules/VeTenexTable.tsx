@@ -1,4 +1,4 @@
-import React, { Suspense, useCallback, useState } from 'react';
+import React, { Suspense, useCallback, useEffect, useState } from 'react';
 import {
   LockItemContainer,
   LockListContainer,
@@ -17,7 +17,6 @@ import { Nft } from '../../../types/VotingEscrow';
 import Pagination from '../../common/Pagination';
 import { useNavigate } from 'react-router-dom';
 import {
-  encryptData,
   getTimeDifference,
   locktokeninfo,
 } from '../../../utils/common/voteTenex';
@@ -26,7 +25,10 @@ import contractAddress from '../../../constants/contract-address/address';
 import SuccessPopup from '../../common/SucessPopup';
 import { LoadingSpinner } from '../../common/Loader';
 import { useVoterContract } from '../../../hooks/useVoterContract';
-import { showErrorToast } from '../../../utils/common/toastUtils';
+import {
+  showErrorToast,
+  showSuccessToast,
+} from '../../../utils/common/toastUtils';
 import { ToastContainer } from 'react-toastify';
 import {
   TRANSACTION_DELAY,
@@ -41,7 +43,9 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [resetTknId, setResetTknId] = useState<bigint>(0n);
   const [isWithdrawing, setIsWithdrawing] = useState<bigint | null>(null);
+  const [isPoking, setIsPoking] = useState<bigint | null>(null);
   const [iSuccessLock, setSuccessLock] = useState<boolean>(false);
+  const [epochStartTime, setEpochStartTime] = useState<number | null>(null);
   const { setTransactionStatus } = useRootStore();
   const itemsPerPage = 5;
 
@@ -54,7 +58,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const totalPages = Math.ceil(sortedNftData.length / itemsPerPage);
   const escrowAddress = contractAddress.VotingEscrow;
   const { withdraw } = useVotingEscrowContract(escrowAddress);
-  const { reset } = useVoterContract();
+  const { reset, poke, epochStart } = useVoterContract();
   const lockTokenInfo = locktokeninfo();
   const navigate = useNavigate();
 
@@ -65,15 +69,30 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
   const handlePrevPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
+
+  useEffect(() => {
+    const fetchEpochStartTime = async () => {
+      try {
+        const timestamp = Math.floor(Date.now() / 1000); // Get current time in seconds
+        const epochStartTime = await epochStart(timestamp); // Fetch epoch start time
+        setEpochStartTime(Number(epochStartTime)); // Set state with fetched epoch start time
+      } catch (error) {
+        console.error('Error fetching epoch start time:', error);
+      }
+    };
+
+    void fetchEpochStartTime();
+  }, [epochStart]);
+
   const handleLockButton = (
     option: string,
     tokenId: bigint,
     votingStatus: boolean | undefined
   ) => {
     if (option) {
-      const encryptedTokenId = encryptData(tokenId.toString());
+      const encryptedTokenId = tokenId.toString();
       const voteStatus = votingStatus ? votingStatus : false;
-      const encryptedVotingStatus = encryptData(voteStatus.toString());
+      const encryptedVotingStatus = voteStatus.toString();
       navigate(
         `/governance/managevetenex/${option}/${encryptedTokenId}/${encryptedVotingStatus}`
       );
@@ -81,10 +100,6 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
       console.warn('Undefined route');
     }
   };
-  /*  const handleLockButton = (option: string, tokenId: bigint) => {
-    if (option) navigate(`/governance/managevetenex/${option}/${tokenId}`);
-    else console.warn('Undefined route');
-  }; */
 
   const handleWithdraw = useCallback(
     async (tokenId: bigint) => {
@@ -94,40 +109,67 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
         setIsWithdrawing(tokenId);
 
         await withdraw(tokenId);
+        setTransactionStatus(TransactionStatus.DONE);
         setTimeout(() => {
+          setTransactionStatus(TransactionStatus.IDEAL);
           setSuccessLock(true);
+          setIsWithdrawing(0n);
         }, TRANSACTION_DELAY);
-        setTransactionStatus(TransactionStatus.IDEAL);
       } catch (error) {
         setTransactionStatus(TransactionStatus.FAILED);
         await showErrorToast('Failed to withdraw lock. Please try again.');
       } finally {
-        setIsWithdrawing(null);
+        setIsWithdrawing(0n);
       }
     },
     [withdraw, setTransactionStatus]
   );
 
-  const handleReset = useCallback(
-    async (tokenId: bigint) => {
-      try {
-        if (!tokenId) return;
-        setTransactionStatus(TransactionStatus.IN_PROGRESS);
-        setResetTknId(tokenId);
+  const handleReset = async (tokenId: bigint) => {
+    try {
+      if (!tokenId) return;
 
-        await reset(tokenId);
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      setResetTknId(tokenId);
+      /*  if (address) {
+        const resultapp = await isApprovedOrOwner(address, tokenId);
+        console.log('resultapp:', resultapp);
+      } */
+      await reset(tokenId);
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setTransactionStatus(TransactionStatus.IDEAL);
         setResetTknId(0n);
-        setSuccessLock(true);
-        setTransactionStatus(TransactionStatus.DONE);
-      } catch (error) {
-        setTransactionStatus(TransactionStatus.FAILED);
-        await showErrorToast('Failed to reset lock. Please try again.');
-      } finally {
-        setIsWithdrawing(null);
-      }
-    },
-    [reset, setTransactionStatus]
-  );
+        void showSuccessToast('Successfully reset lock #' + tokenId);
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      setTransactionStatus(TransactionStatus.FAILED);
+      console.error('Error during reset action:', error);
+      void showErrorToast('Failed to reset lock. Please try again.');
+    } finally {
+      setResetTknId(0n);
+    }
+  };
+
+  const handlePoke = async (tokenId: bigint) => {
+    try {
+      setTransactionStatus(TransactionStatus.IN_PROGRESS);
+      setIsPoking(tokenId);
+      await poke(tokenId);
+      setTransactionStatus(TransactionStatus.DONE);
+      setTimeout(() => {
+        setIsPoking(0n);
+        setTransactionStatus(TransactionStatus.IDEAL);
+      }, TRANSACTION_DELAY);
+    } catch (error) {
+      setIsPoking(0n);
+      setTransactionStatus(TransactionStatus.FAILED);
+      console.error('Error during poke action:', error);
+      void showErrorToast('Failed to poke the voting weight.');
+    } finally {
+      setIsPoking(0n);
+    }
+  };
 
   if (!nftData) {
     return <PageLoader />;
@@ -162,7 +204,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
 
             return (
               <LockItemContainer key={index}>
-                <LockDetails width="279px">
+                <LockDetails width="200px">
                   <LockIcon>
                     <LockImg src={lockTokenInfo.logoURI} alt="Lock Icon" />
                   </LockIcon>
@@ -221,11 +263,8 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
                           >
                             Transfer
                           </LockInfoAction>
-                        </>
-                      ) : (
-                        <>
                           {lock.votingStatus &&
-                            (resetTknId === lock.tokenId ? (
+                            (isPoking === lock.tokenId ? (
                               <LockInfoAction disabled>
                                 <span
                                   style={{
@@ -235,19 +274,29 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
                                 >
                                   <LoadingSpinner width="10px" height="10px" />
                                   <span style={{ marginLeft: '5px' }}>
-                                    Resetting
+                                    Poke ...
                                   </span>
                                 </span>
                               </LockInfoAction>
                             ) : (
                               <LockInfoAction
-                                onClick={() => handleReset(lock.tokenId)}
+                                onClick={() => handlePoke(lock.tokenId)}
                               >
-                                Reset
+                                Poke
                               </LockInfoAction>
                             ))}
-                          {isWithdrawing === lock.tokenId ? (
-                            <LockInfoAction disabled>
+                        </>
+                      ) : (
+                        <>
+                          <LockInfoAction
+                            onClick={
+                              isWithdrawing === lock.tokenId
+                                ? undefined
+                                : () => handleWithdraw(lock.tokenId)
+                            }
+                            disabled={isWithdrawing === lock.tokenId}
+                          >
+                            {isWithdrawing === lock.tokenId ? (
                               <span
                                 style={{
                                   display: 'flex',
@@ -259,16 +308,39 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
                                   Withdrawing
                                 </span>
                               </span>
+                            ) : (
+                              'Withdraw'
+                            )}
+                          </LockInfoAction>
+                        </>
+                      )}
+                      <>
+                        {lock.votingStatus &&
+                          (resetTknId === lock.tokenId ? (
+                            <LockInfoAction disabled>
+                              <span
+                                style={{
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                }}
+                              >
+                                <LoadingSpinner width="10px" height="10px" />
+                                <span style={{ marginLeft: '5px' }}>
+                                  Resetting {lock.votingStatus}
+                                </span>
+                              </span>
                             </LockInfoAction>
                           ) : (
                             <LockInfoAction
-                              onClick={() => handleWithdraw(lock.tokenId)}
+                              disabled={
+                                (epochStartTime ?? 0) <= (lock?.lastVoted ?? 0)
+                              }
+                              onClick={() => handleReset(lock?.tokenId ?? 0n)}
                             >
-                              Withdraw
+                              Reset
                             </LockInfoAction>
-                          )}
-                        </>
-                      )}
+                          ))}
+                      </>
                     </LockInfoCheck>
                   </LockInfo>
                 </LockDetails>
@@ -284,7 +356,7 @@ const VeTenexTable: React.FC<{ nftData: Nft[] | null | undefined }> = ({
             );
           })
         ) : (
-          <p>No locks found.</p>
+          <p>Loading.....</p>
         )}
 
         <Pagination
