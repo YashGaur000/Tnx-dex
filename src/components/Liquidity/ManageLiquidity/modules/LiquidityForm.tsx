@@ -45,11 +45,13 @@ const LiquidityForm: FC<FormComponentProps> = ({
 }) => {
   const [token1Value, setToken1Amount] = useState('');
   const [token2Value, setToken2Amount] = useState('');
-  const { quoteAddLiquidity } = useRouterContract();
+  const { quoteAddLiquidity, getReserves } = useRouterContract();
   const { transactionStatus } = useRootStore();
   const { address } = useAccount();
 
-  const handleChangeToken1Value = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleChangeToken1Value = async (
+    event: ChangeEvent<HTMLInputElement>
+  ) => {
     const value = event.target.value;
     let stableValue = value;
     const validInput = /^[0-9]*\.?[0-9]*$/.test(value);
@@ -83,13 +85,43 @@ const LiquidityForm: FC<FormComponentProps> = ({
         setToken2Amount('');
         onTokenValueChange(0, 0, totalBalanceToken1, totalBalanceToken2);
       } else {
+        const reserves = await getReserves(
+          selectedToken1,
+          selectedToken2,
+          type
+        );
+
+        const amountBDesired =
+          (Number(value) * Number(reserves?.formatedReserveB)) /
+          Number(reserves?.formatedReserveA);
+
+        const amountADesired = value;
+
+        if (
+          Number(reserves?.formatedReserveA) < 1e-6 ||
+          Number(reserves?.formatedReserveB) < 1e-6
+        ) {
+          if (type) {
+            setToken2Amount(stableValue);
+          } else {
+            setToken2Amount(token2Value);
+          }
+          onTokenValueChange(
+            parseFloat(value),
+            type ? parseFloat(stableValue) : parseFloat(token2Value),
+            totalBalanceToken1,
+            totalBalanceToken2
+          );
+          return;
+        }
+
         quoteAddLiquidity(
           selectedToken1,
           selectedToken2,
           type,
           contractAddress.PoolFactory,
-          parseFloat(value),
-          totalBalanceToken2
+          parseFloat(amountADesired),
+          parseFloat(amountBDesired.toFixed(5))
         )
           .then((tx) => {
             if (
@@ -101,6 +133,8 @@ const LiquidityForm: FC<FormComponentProps> = ({
             ) {
               const value2 =
                 tx && formatAmounts(tx?.amountB, selectedToken2.decimals);
+              console.log(tx.amountA.toString(), tx.amountB.toString());
+
               setToken2Amount(value2 ? value2.toString() : '0');
               if (value2) {
                 onTokenValueChange(
