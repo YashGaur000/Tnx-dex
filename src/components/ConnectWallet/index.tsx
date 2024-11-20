@@ -33,6 +33,7 @@ export const ConnectWallet = () => {
 
   useEffect(() => {
     if (address) {
+      console.log('fxn is running 3', address);
       setElapsedTime(0); // Reset elapsed time
       setTransactionStatus(TransactionStatus.IDEAL);
       const disconnectTimeout = setTimeout(() => {
